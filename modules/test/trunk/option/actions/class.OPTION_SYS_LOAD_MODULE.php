@@ -90,7 +90,7 @@ class OPTION_SYS_LOAD_MODULE
             $root =& $c->parseConfig($this->B->sys, 'PHPArray');
                           
             // write config array
-            $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
+            $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));
           
             unset($c);
             unset($root);
