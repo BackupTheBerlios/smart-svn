@@ -50,7 +50,12 @@ class action_user_check_login extends action
             $this->B->session->set('user_logged_uid',    $row['uid']);
             $this->B->session->set('user_logged_login',  $login);
             $this->B->session->set('user_logged_rights', $row['rights']);
-            $this->B->session->set('user_logged_hashid', md5($this->B->sys['system']['hashid'].$login.$row['uid']));
+            // create a unique user hash id
+            $this->B->session->set('user_logged_hashid', md5( $this->B->sys['system']['hashid'] . 
+                                                              $login . 
+                                                              $row['uid'] .
+                                                              $_SERVER['HTTP_USER_AGENT'] . 
+                                                              $_SERVER['HTTP_ACCEPT_CHARSET'] ));
 
             // if login was done from the admin section
             $admin = '';

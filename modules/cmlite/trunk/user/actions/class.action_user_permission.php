@@ -68,7 +68,7 @@ class action_user_permission extends action
                     @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user');
                     exit;
                 }               
-                break; 
+                break;                
             case 'set_rights':
                 return $this->ask_set_rights ( $data['user_id'], $data['right'] );                        
                 break;  
@@ -113,7 +113,7 @@ class action_user_permission extends action
             return TRUE;
         }
         return FALSE;
-    }
+    }   
     
     /**
      * check if the logged user have rights to modify

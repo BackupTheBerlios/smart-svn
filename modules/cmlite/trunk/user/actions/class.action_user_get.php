@@ -21,9 +21,8 @@ class action_user_get extends action
      *
      * @param array $data
      * @return bool true or false on error
-     * @todo validate user $data['fields']
      */
-    function perform( $data )
+    function perform( & $data )
     {
         $this->B->$data['error'] = FALSE;
         $error                   = & $this->B->$data['error'];
@@ -57,6 +56,54 @@ class action_user_get extends action
         
         return TRUE;
     } 
+    
+    /**
+     * validate user id request
+     *
+     * @param array $data User data
+     * @return bool 
+     */     
+    function validate( & $data )
+    {
+        // CHECK SECTION
+        $admin = '';
+        if( SF_SECTION == 'admin')
+        {
+            $admin = '?admin=1';
+        }  
+        
+        if( $this->_uid_exists( $data['user_id'] ) != 1 )
+        {
+            trigger_error("No such user ID:".$data['user_id']."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.$admin);
+            exit;            
+        }   
+
+        
+        
+        return TRUE;
+    }
+    
+    /**
+     * check if uid exist
+     *
+     * @param int $uid User id
+     * @return int Number of uid's
+     */    
+    function _uid_exists( $uid )
+    {
+        $sql = '
+            SELECT
+                uid
+            FROM
+                '.$this->B->sys['db']['table_prefix'].'user_users
+            WHERE
+                uid='.(int)$uid;
+        
+        $result = $this->B->db->query($sql);
+
+        return (int)$result->numRows();    
+    }     
 }
 
 ?>

@@ -66,8 +66,12 @@ class action_user_auth extends action
         $this->B->user_logged_login  = $this->B->session->get('user_logged_login');
         $user_logged_hashid          = $this->B->session->get('user_logged_hashid');
 
-        // create hash id
-        $compare_hashid = md5($this->B->sys['system']['hashid'].$this->B->user_logged_login.$this->B->user_logged_uid);
+        // create a unique user hash id
+        $compare_hashid = md5( $this->B->sys['system']['hashid'] . 
+                               $this->B->user_logged_login . 
+                               $this->B->user_logged_uid .
+                               $_SERVER['HTTP_USER_AGENT'] . 
+                               $_SERVER['HTTP_ACCEPT_CHARSET'] );
 
         // compare the two hash id's
         if( $user_logged_hashid != $compare_hashid )

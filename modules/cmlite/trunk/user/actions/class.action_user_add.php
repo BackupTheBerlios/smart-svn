@@ -71,7 +71,7 @@ class action_user_add extends action
         // check permission to add new user
         M( MOD_USER,
            'permission',
-           array( 'action'  => 'add'));
+           array( 'action' => 'add'));
         
         // Check user data field values
         //
