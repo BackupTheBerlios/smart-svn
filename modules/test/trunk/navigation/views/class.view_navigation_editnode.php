@@ -14,19 +14,19 @@
  *
  */
  
-class view_user_edituser extends view
+class view_navigation_editnode extends view
 {
     /**
      * Default template for this view
      * @var string $template
      */
-    var $template = 'user_edituser';
+    var $template = 'navigation_editnode';
     
     /**
      * Default template folder for this view
      * @var string $template_folder
      */    
-    var $template_folder = 'modules/user/templates/';
+    var $template_folder = 'modules/navigation/templates/';
   
     /**
      * Execute the view of the template "login.tpl.php"
@@ -37,116 +37,20 @@ class view_user_edituser extends view
      */
     function perform()
     {                 
-        // if some user data has change
-        if( isset($_POST['modifyuserdata']) )
-        {
-            if(FALSE == $this->_modify_user())
-            {
-                return TRUE;
-            }
-        }     
-    
-        // prepare data array
-        $_data = array( 'error'   => 'tpl_error',
-                        'user' => $_REQUEST['user'],
-                        'result'  => 'tpl_data');
-                        
-        // get user data
-        if(FALSE == M( MOD_USER,
-                       'get',
-                       $_data ))
-        {
-            // if this user dosent exists reload the user module
-            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
-            exit;         
-        }
+         /* Contact Event call. See: modules/test/actions/class.action_test_contact.php 
+         It assign contact data to the template var $B->tpl_contact which
+         is printed out in the "templates_default/tpl.contact.php" template. */          
          
+         M( MOD_NAVIGATION, 
+            'get_node', 
+            array('node'             => $_REQUEST['node'],
+                  'title'            => 'tpl_title',
+                  'body'             => 'tpl_body',
+                  'nl2br'            => FALSE,
+                  'htmlspecialchars' => TRUE)); 
+            
         return  TRUE;
     }    
-
-    /**
-     * check form user data, rights and update user data
-     *
-     * @return bool true on success else false
-     * @access privat
-     */
-    function _modify_user()
-    {
-        if (FALSE == $this->_check_delete_user())
-        {
-            $this->_reset_old_fields_data();
-            return FALSE;
-        }        
-        if (FALSE == $this->_update_user_data())
-        {
-            $this->_reset_old_fields_data();
-            return FALSE;
-        }  
-        return TRUE;
-    }
-
-    /**
-     * delete user
-     *
-     * @return bool true on success else false
-     * @access privat
-     */    
-    function _check_delete_user()
-    {
-        if($_POST['deluser'] == "1")
-        { 
-            // check if some one try to remove his own account. 
-            // This isnt possible
-            if($this->B->logged_user == $_POST['user'])
-            {
-                $this->B->tpl_error   = 'You cant remove your own user account!';
-                return FALSE;
-            }
-            else
-            {
-                // Delete user
-                if(TRUE == M( MOD_USER,
-                              'delete',
-                              array( 'error' => 'tpl_error',
-                                     'user'  => $_POST['user'])))
-                {
-                    @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
-                    exit;   
-                }
-            }
-        }
-        return TRUE;
-    }
-
-    /**
-     * update user data
-     *
-     * @return bool true on success else false
-     * @access privat
-     */   
-    function _update_user_data()
-    {
-        // prepare user data array
-        $_data = array( 'error'   => 'tpl_error',
-                        'user' => $_REQUEST['user'],
-                        'email' => $_POST['email']);
-            
-        // update password if it isnt empty
-        if(!empty($_POST['passwd']))
-        {
-            $_data['passwd'] = $_POST['passwd'];
-        }
-            
-        // update user data
-        if(FALSE != M( MOD_USER,
-                       'update',
-                       $_data))
-        {
-            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
-            exit;
-        }   
-        return TRUE;
-    }
 
     /**
      * reset the form fields with old user data

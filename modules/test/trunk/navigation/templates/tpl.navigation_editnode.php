@@ -24,27 +24,19 @@ function deleteuser(f, mes)
       </tr>
       <?php endif; ?>
       <tr>
-        <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit User </td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10bold">Login</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top">
-          <input name="_login" type="text" id="_login" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['login'])); ?>" disabled="disabled">
-        </td>
+        <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit Navigation Node</td>
       </tr>      
       <tr>
-        <td align="left" valign="top" class="font10bold">Password</td>
+        <td align="left" valign="top" class="font10bold">Title</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="passwd" type="text" id="passwd" size="40" maxlength="255" value="<?php echo $B->form_passwd; ?>"></td>
+        <td align="left" valign="top"><input name="title" type="text" id="title" size="40" maxlength="255" value="<?php echo $B->tpl_title; ?>"></td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Email</td>
+        <td align="left" valign="top" class="font10bold">Body</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="email" type="text" id="email" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['email'])); ?>"></td>
+        <td align="left" valign="top"><textarea name="body" cols="90" rows="25" id="body"><?php echo $B->tpl_body; ?></textarea></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font9"> 
