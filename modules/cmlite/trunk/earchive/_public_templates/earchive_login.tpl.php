@@ -105,7 +105,7 @@
     <td valign="top" align="center" class="logintext"><span class="logintext"><img src="<?php echo $B->tpl_captcha_pic; ?>" border="1"></span></td>
   </tr>
   <tr>
-    <td colspan="2" align="left" valign="top" class="loginitem"><div align="center">Please enter the characters displayed in the picture in the turing key field.</div></td>
+    <td colspan="2" align="left" valign="top" class="loginitem"><div align="center">Please enter the picture numbers in the turing key field.</div></td>
     </tr>
   <tr align="center"> 
       <td width="26%" colspan="2" valign="middle"><br>
