@@ -27,26 +27,6 @@ define ( 'MOD_EARCHIVE' , 'EARCHIVE');
 // Version of this modul
 define ( 'MOD_EARCHIVE_VERSION' , '0.3');
 
-// define template event calls for this module
-// this event handler build from those variables
-// dynamic class function calls:
-// Format:
-// Class file        = class.EARCHIVE_definedvar.php
-// CLASS             = EARCHIVE_definedvar
-// CLASS Constructor = EARCHIVE_definedvar() // in php4 // __construct() in php5
-//
-// The event handler call only one class function:
-// perform( $data );
-// where $data = the third param of a event call -> $evt['data']
-//
-define ( 'EARCHIVE_LISTS',          'LISTS');          // all email lists (accounts)
-define ( 'EARCHIVE_LIST',           'LIST');           // single email list (account) 
-define ( 'EARCHIVE_LIST_MESSAGES',  'LIST_MESSAGES');  // all email list messages
-define ( 'EARCHIVE_MESSAGE',        'MESSAGE');        // single email message
-define ( 'EARCHIVE_MESSAGE_ATTACH', 'MESSAGE_ATTACH'); // all email attachements
-define ( 'EARCHIVE_ATTACH',         'ATTACH');         // single email attachement
-define ( 'EARCHIVE_SEARCH',         'SEARCH');         // searching for emails
-
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_EARCHIVE,
                                    array ( 'module'           => MOD_EARCHIVE,

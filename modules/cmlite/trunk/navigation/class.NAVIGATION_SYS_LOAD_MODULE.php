@@ -84,13 +84,14 @@ class NAVIGATION_SYS_LOAD_MODULE
                 $this->B->section = SF_BASE_DIR . '/admin/modules/navigation/templates/edit_node.tpl.php';    
                 break;
             case 'add_node':
+                /*
                 // have rights to add nav_node?
                 if(FALSE == rights::ask_access_to_add_nav_node ())
                 {
                     @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=NAVIGATION');
                     exit;
                 }    
-        
+                */
                 if(isset($_POST['addnavnode']))
                 {
                     include( SF_BASE_DIR."/admin/modules/navigation/add_node.php" ); 

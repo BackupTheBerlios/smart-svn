@@ -27,20 +27,6 @@ define ( 'MOD_NAVIGATION' , 'NAVIGATION');
 // Version of this modul
 define ( 'MOD_NAVIGATION_VERSION' , '0.1');
 
-// define template event calls for this module
-// this event handler build from those variables
-// dynamic class function calls:
-// Format:
-// Class file        = class.NAVIGATION_definedvar.php
-// CLASS             = NAVIGATION_definedvar
-// CLASS Constructor = NAVIGATION_definedvar() // in php4 // __construct() in php5
-//
-// The event handler call only one class function:
-// perform( $data );
-// where $data = the third param of a event call -> $evt['data']
-//
-define ( 'EVT_NAVIGATION_ROOT' ,        'ROOT');
-
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_NAVIGATION,
                                    array ( 'module'           => MOD_NAVIGATION,

@@ -1,13 +1,16 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
 <?php //get all available email lists and store the result in the array $B->tpl_list ?>
 <?php $B->M( MOD_EARCHIVE, 
-             EARCHIVE_LISTS, 
-             array('var' => 'tpl_list', 'fields' => array('lid','name','status'))); ?> 
+             'LISTS', 
+             array('var'    => 'tpl_list', 
+                   'fields' => array('lid','name','status'))); ?> 
 <?php //get the messages of the requested email list and store the result in the array $B->tpl_msg ?>
 <?php $B->M( MOD_EARCHIVE, 
-             EARCHIVE_LIST_MESSAGES, 
-             array('var'=>'tpl_msg', 'lid'=>(int)$_GET['lid'], 'fields'=>array('mid','lid','subject','sender','mdate'),
-                   'pager'=>array('var'=>'tpl_prevnext','limit'=>15,'delta'=>3), 'order' => 'mdate')); ?>                        
+             'LIST_MESSAGES', 
+             array('var'    => 'tpl_msg', 
+                   'lid'    => (int)$_GET['lid'], 
+                   'fields' => array('mid','lid','subject','sender','mdate'),
+                   'pager'  => array('var'=>'tpl_prevnext','limit'=>15,'delta'=>3), 'order' => 'mdate')); ?>                        
 <?php //Email obfuscation plugin function  ?>
 <?php include_once('plugins/function.mailto.php');  ?>
 

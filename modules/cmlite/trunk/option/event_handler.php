@@ -29,9 +29,6 @@ define ( 'MOD_OPTION' , 'OPTION');
 // Version of this modul
 define ( 'MOD_OPTION_VERSION' , '0.1.3');
 
-define ( 'EVT_GET_OPTIONS' ,   'GET_OPTIONS');
-define ( 'EVT_SET_OPTIONS' ,   'SET_OPTIONS');
-
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_OPTION,
                                    array ( 'module'           => MOD_OPTION,

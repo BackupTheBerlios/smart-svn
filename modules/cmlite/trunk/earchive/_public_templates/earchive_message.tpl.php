@@ -1,16 +1,23 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
 <?php //get all available email lists and store the result in the array $B->tpl_list ?>
 <?php $B->M( MOD_EARCHIVE, 
-             EARCHIVE_LISTS, 
-             array('var' => 'tpl_list', 'fields' => array('lid','name','email','description','status'))); ?> 
+             'LISTS', 
+             array('var'    => 'tpl_list', 
+                   'fields' => array('lid','name','email','description','status'))); ?> 
 <?php //get the requested message and store the result in the array $B->tpl_msg ?>
 <?php $B->M( MOD_EARCHIVE, 
-             EARCHIVE_MESSAGE, 
-             array('var'=>'tpl_msg', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('subject','sender','mdate','body','folder'))); ?>                       
+             'MESSAGE', 
+             array('var'    => 'tpl_msg', 
+                   'mid'    => (int)$_GET['mid'], 
+                   'lid'    => (int)$_GET['lid'], 
+                   'fields' => array('subject','sender','mdate','body','folder'))); ?>                       
 <?php //get the message attachments and store the result in the array $B->tpl_attach ?>
 <?php $B->M( MOD_EARCHIVE, 
-             EARCHIVE_MESSAGE_ATTACH, 
-             array('var'=>'tpl_attach', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('aid','mid','lid','file','size','type'))); ?>
+             'MESSAGE_ATTACH', 
+             array('var'    => 'tpl_attach', 
+                   'mid'    => (int)$_GET['mid'], 
+                   'lid'    => (int)$_GET['lid'], 
+                   'fields' => array('aid','mid','lid','file','size','type'))); ?>
 <?php //Email obfuscation plugin  ?>
 <?php include_once('plugins/function.mailto.php');  ?>
 

@@ -1,7 +1,7 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>   
 <?php //check login data ?>
 <?php $B->M( MOD_USER, 
-             EVT_USER_LOGIN, 
+             'USER_LOGIN', 
              array('urlvar' => $_GET['ret'], 
                    'login'  => $_POST['login_name'], 
                    'passwd' => $_POST['password'])); ?> 

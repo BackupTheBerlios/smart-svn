@@ -1,7 +1,7 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>   
 <?php //check login data ?>
 <?php $B->M( MOD_USER, 
-             EVT_USER_REGISTER, 
+             'USER_REGISTER', 
              array('register'    => $_POST['do_register'],
                    'form_var'    => 'tpl_form',
                    'error_var'   => 'tpl_error',
@@ -17,7 +17,7 @@
 
 <?php //check validation url with md5 sum variable ?>
 <?php $B->M( MOD_USER, 
-             EVT_USER_VALIDATE, 
+             'USER_VALIDATE', 
              array('error_var'   => 'tpl_v_error',
                    'success_var' => 'tpl_v_success')); ?>
 <html>

@@ -56,22 +56,22 @@ class SETUP_SYS_SETUP
             $success = TRUE;
      
             if($success == TRUE)
-                $success = $this->B->M( MOD_SYSTEM,       EVT_SETUP );
+                $success = $this->B->M( MOD_SYSTEM,       'SYS_SETUP' );
 
             if($success == TRUE)    
-                $success = $this->B->M( MOD_COMMON,       EVT_SETUP );
+                $success = $this->B->M( MOD_COMMON,       'SYS_SETUP' );
     
             if($success == TRUE)    
-                $success = $this->B->M( MOD_USER,         EVT_SETUP );
+                $success = $this->B->M( MOD_USER,         'SYS_SETUP' );
         
             if($success == TRUE)
-                $success = $this->B->M( MOD_EARCHIVE,     EVT_SETUP );
+                $success = $this->B->M( MOD_EARCHIVE,     'SYS_SETUP' );
             
             if($success == TRUE)
-                $success = $this->B->M( MOD_NAVIGATION,   EVT_SETUP );
+                $success = $this->B->M( MOD_NAVIGATION,   'SYS_SETUP' );
         
             if($success == TRUE)
-                $success = $this->B->M( MOD_OPTION,       EVT_SETUP );
+                $success = $this->B->M( MOD_OPTION,       'SYS_SETUP' );
     
             // close db connection if present
             if(is_object($this->B->db))

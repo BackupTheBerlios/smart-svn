@@ -92,7 +92,7 @@ class OPTION_SYS_LOAD_MODULE
         }     
     
         // set options of other modules
-        $this->B->B( EVT_SET_OPTIONS );
+        $this->B->B( 'SET_OPTIONS' );
  
         // if some config are modified, write the config file and reload the page
         if($this->B->_modified == TRUE)
@@ -197,7 +197,7 @@ class OPTION_SYS_LOAD_MODULE
 
          // Load options templates from other modules    
          $this->B->mod_option = array();
-         $this->B->B( EVT_GET_OPTIONS );
+         $this->B->B( 'GET_OPTIONS' );
 
          // set the base template for this module
          $this->B->module = SF_BASE_DIR . '/admin/modules/option/templates/index.tpl.php';       

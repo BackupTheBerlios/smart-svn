@@ -27,22 +27,6 @@ define ( 'MOD_USER' , 'USER');
 // Version of this modul
 define ( 'MOD_USER_VERSION' , '0.1.3');
 
-// define template event calls for this module
-// this event handler build from those variables
-// dynamic class function calls:
-// Format:
-// Class file        = class.USER_definedvar.php
-// CLASS             = USER_definedvar
-// CLASS Constructor = USER_definedvar() // in php4 // __construct() in php5
-//
-// The event handler call only one class function:
-// perform( $data );
-// where $data = the third param of a event call -> $evt['data']
-//
-define ( 'EVT_USER_LOGIN' ,        'LOGIN');
-define ( 'EVT_USER_REGISTER' ,     'REGISTER');
-define ( 'EVT_USER_VALIDATE' ,     'VALIDATE');
-
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_USER,
                                    array ( 'module'           => MOD_USER,
