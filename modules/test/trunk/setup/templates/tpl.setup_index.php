@@ -51,16 +51,19 @@ function subok(s){
       <p align="left">Please be shure that the following directories and files are writeable:</p>
       <ul>
         <li>
-          <div align="left">data/captcha</div>
+          <div align="left">/data</div>
+        </li>      
+        <li>
+          <div align="left">/data/captcha</div>
         </li>
         <li>
-          <div align="left">data/navigation</div>
+          <div align="left">/data/navigation</div>
         </li>
         <li>
-          <div align="left">data/navigation/all files</div>
+          <div align="left">/data/navigation/all files</div>
         </li>               
         <li>
-          <div align="left">logs/</div>
+          <div align="left">/logs</div>
         </li>
         </ul>      <p>
         <input type="submit" name="do_setup" value="Submit" />
