@@ -13,9 +13,6 @@
  * action_navigation_get class 
  *
  */
- 
-// tree class
-include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
 
 class action_navigation_get_node extends action
 {
@@ -27,13 +24,13 @@ class action_navigation_get_node extends action
     function perform( $data = FALSE )
     {        
         // check if a tree object exists
-        if(!is_object($this->B->tree))
+        if(!is_array($this->B->node))
         {
-            // load navigation nodes
-            $file = SF_BASE_DIR . 'data/navigation/nodes.php';     
-            
-            $this->B->tree = & new Tree($file);
-        }  
+            // load navigation nodes  
+            $node = array();
+            include ( SF_BASE_DIR . 'data/navigation/nodes.php' ); 
+            $this->B->node = & $node;     
+        }   
 
         $_result = & $this->B->$data['result'];      
 
@@ -50,7 +47,7 @@ class action_navigation_get_node extends action
             }  
         }
         
-        $_result = $this->B->tree->getAllData( $data['node'] );     
+        $_result = $this->getAllData( $data['node'] );     
 
         // format text
         if( $data['format'] == 'wikki' )
@@ -88,7 +85,32 @@ class action_navigation_get_node extends action
         }   
         
         return TRUE;
-    }        
+    }  
+    /**
+     * get all node data
+     *
+     * @param int $node_id
+     * @return array
+     */     
+    function & getAllData( $node_id )
+    {
+        // We need PEAR File to read the nodes file 
+        include_once('File.php');
+
+        $fp = & new File();
+        
+        // location of the node body (text)
+        $node_file  = SF_BASE_DIR . 'data/navigation/'.$node_id;
+
+        $result['body']      = $fp->readAll( $node_file );
+        $result['node']      = $node_id;
+        $result['title']     = $this->B->node[$node_id]['title'];
+        $result['status']    = $this->B->node[$node_id]['status'];
+        $result['order']     = $this->B->node[$node_id]['order'];
+        $result['parent_id'] = $this->B->node[$node_id]['parent_id'];
+
+        return $result;
+    }    
 }
 
 ?>
