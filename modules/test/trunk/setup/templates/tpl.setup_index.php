@@ -57,14 +57,14 @@ function subok(s){
           <div align="left">data/navigation</div>
         </li>
         <li>
+          <div align="left">data/navigation/all files</div>
+        </li>        
+        <li>
           <div align="left">data/common/config</div>
         </li>
         <li>
           <div align="left">data/common/cache</div>
         </li>        
-        <li>
-          <div align="left">data/navigation/all files</div>
-        </li>
         <li>
           <div align="left">logs/</div>
         </li>
