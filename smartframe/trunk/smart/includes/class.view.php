@@ -46,6 +46,13 @@ class view
      */
     var $template_folder = SF_TPL_FOLDER;
     
+     /**
+     * Template output buffer flag
+     * @var bool $tpl_use_buffer
+     */
+    var $tpl_use_buffer = TRUE;    
+    
+    
     /**
      * constructor php4
      *
@@ -100,15 +107,35 @@ class view
      * return errors as string
      *
      */
-    function & getTemplate()
-    {   
+    function renderTemplate()
+    {
+        // we need the global container object in this function as $B
+        // in order to access templates variables e.g. $B->tpl_test
+        // May a Template is included in this function.    
+        $B = & $this->B;
+        
         // build the whole file path to the TEMPLATE file
         $tpl = SF_BASE_DIR . $this->template_folder . 'tpl.' . $this->template . '.php';
         if ( !@file_exists( $tpl ) )
         {
             die('Template dosent exists: ' . $tpl);
         }
-        return $tpl; 
+
+
+        if( TRUE == $this->tpl_use_buffer )
+        {
+            $B->tpl_buffer_content = '';
+            ob_start();
+            
+            include( $tpl );
+
+            $B->tpl_buffer_content = ob_get_clean(); 
+        }
+        else
+        {
+            include( $tpl );
+        }
+
     }
     
     /**

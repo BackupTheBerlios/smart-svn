@@ -22,9 +22,9 @@ class action_system_trim_output extends action
      * @param string $content
      * @return string filtered content
      */  
-    function perform( & $content )
+    function perform()
     {
-        return trim( $content );  
+        $this->B->tpl_buffer_content = trim( $this->B->tpl_buffer_content );  
     }
 }
 

@@ -22,9 +22,9 @@ class action_system_email_obfuscating extends action
      * @param string $content
      * @return string filtered content
      */  
-    function perform( & $content )
+    function perform()
     {
-        return str_replace("@", " AT ", $content );   
+        $this->B->tpl_buffer_content = str_replace("@", " AT ", $this->B->tpl_buffer_content );   
     }
 }
 

@@ -165,11 +165,6 @@ class action_system_get_view extends action
      */
     function perform( $data )
     {
-        // we need the global container object in this function as $B
-        // in order to access templates variables e.g. $B->tpl_test
-        // May a Template is included in this function.
-        $B = & $this->B;
-
         // include the requested view class
         include_once( $this->_view_class_file );
         
@@ -182,7 +177,7 @@ class action_system_get_view extends action
 
         // Launch view related prepend filter chain
         $view_obj->prependFilterChain(); 
-
+        
         // perform on the view
         if( FALSE == $view_obj->perform() )
         {
@@ -193,12 +188,18 @@ class action_system_get_view extends action
         // render a template ???
         if ( SF_TEMPLATE_RENDER == $view_obj->render_template )
         {
-            // get the template
-            include( $view_obj->getTemplate() );   
+            // render the template
+            $view_obj->renderTemplate();   
         }    
-        
+       
         // Launch view related append filter chain
-        $view_obj->appendFilterChain();     
+        $view_obj->appendFilterChain();   
+        
+        // Output template buffer if present
+        if( TRUE == $view_obj->tpl_use_buffer )
+        {
+            echo $this->B->tpl_buffer_content;
+        }
 
         return TRUE;
     } 

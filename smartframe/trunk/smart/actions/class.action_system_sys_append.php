@@ -24,19 +24,15 @@ class action_system_sys_append extends action
      */
     function perform( $data )
     {
-        // get the output buffer
-        $content = ob_get_contents();
-        @ob_clean();
-
         switch( SF_SECTION )
         {
             case 'admin':
                 // run filters for the admin page
-                echo $this->_filter_admin( $content );
+                $this->_filter_admin();
                 break;
             default:
                 // run filters for the public page
-                echo $this->_filter_public( $content );
+                $this->_filter_public();
                 break;            
         } 
     }  
@@ -48,17 +44,15 @@ class action_system_sys_append extends action
      * @return string filtered page content
      * @access privat
      */    
-    function _filter_public( & $content )
+    function _filter_public()
     {
         // Manual order the filter flow 
         
         // Remove space before and after the template output
-        $content = M( MOD_SYSTEM , 'trim_output', $content );
+        M( MOD_SYSTEM , 'trim_output');
 
         // email obfuscation
-        $content = M( MOD_SYSTEM , 'email_obfuscating', $content  );  
-        
-        return $content;
+        M( MOD_SYSTEM , 'email_obfuscating');  
     }
 
     /**
@@ -68,13 +62,12 @@ class action_system_sys_append extends action
      * @return string filtered page content
      * @access privat
      */    
-    function _filter_admin( & $content )
+    function _filter_admin()
     {
         // Manual order the filter flow 
     
         // Remove space before and after the template output
-        $content = M( MOD_SYSTEM , 'trim_output', $content );
-        return $content;
+        M( MOD_SYSTEM , 'trim_output');
     }    
 }
 
