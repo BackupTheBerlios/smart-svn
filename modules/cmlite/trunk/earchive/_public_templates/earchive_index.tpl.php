@@ -124,6 +124,7 @@
                             <ul>
                               <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>/logs</strong></font></li>
                               <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/modules/common/config</font></strong></li>
+                              <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/modules/user/actions/captcha/pics</font></strong></li>
                               <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/smart/tmp/session_data</font></strong></li>
                             </ul>
                             <h3>Upgrade from version 0.1.5a:</h3>
