@@ -44,12 +44,22 @@ else
     
 if($success == TRUE)
 {
-    // include db setup
-    include_once( SF_BASE_DIR . '/admin/modules/earchive/_setup_'.$db_type.'.php' );    
+    // create db tables
+    if(@file_exist(SF_BASE_DIR . '/admin/modules/earchive/_setup_'.$_POST['dbtype'].'.php'))
+    {
+        // include sqlite setup
+        include_once( SF_BASE_DIR . '/admin/modules/earchive/_setup_'.$_POST['dbtype'].'.php' );    
+    }
+    else
+    {
+        $B->setup_error[] = 'EARCHIVE module: This db type isnt supported: ' . $_POST['dbtype'];
+        $success = FALSE;
+    }
 }
+
 // create configs info for this module
 $B->conf_val['module']['earchive']['name']     = 'Earchive';
-$B->conf_val['module']['earchive']['version']  = '0.1';
+$B->conf_val['module']['earchive']['version']  = '0.2';
 $B->conf_val['module']['earchive']['mod_type'] = 'lite';
 $B->conf_val['module']['earchive']['info']     = 'Email messages archive. Author: Armand Turpel <smart AT open-publisher.net>';     
 
