@@ -77,6 +77,12 @@ define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
  */
 define('SF_CACHE',             FALSE);
 
+/**
+ * Default dir and file mode
+ */
+define('SF_DIR_MODE',                 0775);
+define('SF_FILE_MODE',                0775);
+
 // static common util class for all modules
 include_once SF_BASE_DIR . 'modules/common/includes/class.commonUtil.php';
 

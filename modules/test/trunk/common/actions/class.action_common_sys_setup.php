@@ -37,19 +37,74 @@ class action_common_sys_setup extends action
         $this->B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
         $this->B->conf_val['module']['common']['mod_type'] = 'littlejo';
         
-        $this->B->conf_val['option']['cache']              = TRUE;
+        $this->B->conf_val['option']['cache']              = TRUE;     
 
-        if( !is_writeable( SF_BASE_DIR . 'data/common/config/' ) )
+
+        // setup directories
+        //
+        if( !is_dir( SF_BASE_DIR . 'data' ) )
+        {
+            $this->B->setup_error[] = 'This directory must exists: ' . SF_BASE_DIR . 'data';
+            return FALSE;
+        }        
+        elseif( !is_writeable( SF_BASE_DIR . 'data' ) )
+        {
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data';
+            return FALSE;
+        }
+
+        if( !is_dir(SF_BASE_DIR . 'data/common') )
+        {
+            if( !@mkdir( SF_BASE_DIR . 'data/common', SF_DIR_MODE ) ) 
+            {
+                trigger_error('Cant create dir: '.SF_BASE_DIR . 'data/common', E_USER_WARNING);
+            }
+        }
+        elseif( !is_writeable( SF_BASE_DIR . 'data/common' ) )
+        {
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common';
+            $success = FALSE;
+        }        
+
+        if( !is_dir(SF_BASE_DIR . 'data/common/config') )
+        {
+            if( !@mkdir( SF_BASE_DIR . 'data/common/config', SF_DIR_MODE ) ) 
+            {
+                trigger_error('Cant create dir: '.SF_BASE_DIR . 'data/common/config', E_USER_WARNING);
+            }
+            else
+            {
+                if( !@copy(SF_BASE_DIR . 'smart/.htaccess', SF_BASE_DIR . 'data/common/config') )
+                {
+                    trigger_error('Could not copy .htaccess to dir: '.SF_BASE_DIR . 'data/common/config', E_USER_WARNING);                
+                }
+            }
+        }
+        elseif( !is_writeable( SF_BASE_DIR . 'data/common/config' ) )
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common/config/';
             $success = FALSE;
         }
-        
-        if( !is_writeable( SF_BASE_DIR . 'data/common/cache/' ) )
+
+        if( !is_dir(SF_BASE_DIR . 'data/common/cache') )
         {
-            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common/cache/';
+            if( !@mkdir( SF_BASE_DIR . 'data/common/cache', SF_DIR_MODE ) ) 
+            {
+                trigger_error('Cant create dir: '.SF_BASE_DIR . 'data/common/cache', E_USER_WARNING);
+            }
+            else
+            {
+                if( !@copy(SF_BASE_DIR . 'smart/.htaccess', SF_BASE_DIR . 'data/common/cache') )
+                {
+                    trigger_error('Could not copy .htaccess to dir: '.SF_BASE_DIR . 'data/common/cache', E_USER_WARNING);                
+                }
+            }            
+        }
+        elseif( !is_writeable( SF_BASE_DIR . 'data/common/cache' ) )
+        {
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common/config/';
             $success = FALSE;
-        }        
+        }       
             
         // if noting is going wrong $success is still TRUE else FALSE
         // ex.: if creating db tables fails you must set this var to false
