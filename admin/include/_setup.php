@@ -48,12 +48,13 @@ if( $_POST['do_setup'] )
 
         if( count($base->tmp_error) == 0 )
         {
-            $base->tmp_config = array( 'smart.host'         => $_POST['host'],
-                                       'smart.login'        => $_POST['login'],
-                                       'smart.password'     => $_POST['password1'],
-                                       'smart.db_type'      => $_POST['db_type'],
-                                       'smart.db_name'      => $_POST['db_name'],
-                                       'smart.table_prefix' => $_POST['table_prefix'] );
+            $base->tmp_config['db.smart'] = array(
+                                       'db_host'         => $_POST['host'],
+                                       'db_user'         => $_POST['login'],
+                                       'db_passwd'       => $_POST['password'],
+                                       'db_type'         => $_POST['db_type'],
+                                       'db_name'         => $_POST['db_name'],
+                                       'db_table_prefix' => $_POST['table_prefix'] );
      
             $base->conf->setConfigValues( $base->tmp_config );
             $base->conf->writeConfigFile('config_db_connect.xml.php', 'xml', array('mode' => 'pretty'));
