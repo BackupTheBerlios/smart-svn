@@ -63,16 +63,13 @@ class user_register
                                              'login'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['login'])),
                                              'passwd'   => $this->B->db->quoteSmart(md5($data['reg_data']['passwd1'])),
                                              'rights'   => 1,
-                                             'status'   => 0));
-                
-        $this->B->$data['success_var'] = FALSE;
-        $_succ = & $this->B->$data['success_var'];
+                                             'status'   => 1));
                
         if( FALSE === ($uid = $this->B->M( MOD_USER,
                                            'add',
                                            $_data )))
         {
-            $this->_error .= $this->B->tmp_error;  
+            $this->_error .= 'Couldnt add user data';  
             return FALSE;
         }
         else
@@ -88,7 +85,7 @@ class user_register
                 $validate_msg = str_replace("(URL)", "<a href='".SF_BASE_LOCATION."/index.php?view=validate&usr_id={$ustr}'>validate</a>",$data['email_msg']);
                 $validate_msg = str_replace("(EMAIL)", "<a href='mailto:{$this->B->sys['option']['email']}'>{$this->B->sys['option']['email']}</a>",$validate_msg);
  
-                if(FALSE === @mail( $data['reg_data']['email'], $data['email_subject'], $validate_msg, $header ))
+                if(FALSE == @mail( $data['reg_data']['email'], $data['email_subject'], $validate_msg, $header ))
                 {
                     trigger_error("Email couldnt be sended to the user who want to register: {$data['reg_data']['email']}", E_USER_ERROR);
                     $this->_error .= "Unexpected error: Email couldnt be send to you!<br>Please contact the <a href='mailto:{$this->B->sys['option']['email']}'>admin</a> to validate your account.";  
