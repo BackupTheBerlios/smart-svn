@@ -1,8 +1,12 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?> 
-<?php //get all available email lists and store the result in the array $B->list ?>
+<?php 
+    //get all available email lists and store the result in the array $B->list 
+    // we use this array to build the earchive list navigation 
+?>
 <?php $B->M( MOD_EARCHIVE, 
              EARCHIVE_LISTS, 
              array('var' => 'list', 'fields' => array('lid','name','email','description','status'))); ?> 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -103,23 +107,27 @@
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
                         <td align="left" valign="top"><p class="pager">E-archive
-                            can automatically archive email messages (+ attachments)
+                            is a php script to archive email messages (+ attachments)
                             and make those accessible through a public web page.
                             It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>.
                             E-archive is a module of this framework.
-                            It is still in a test phase. So there is no garuantee
-                            that it is bug free.</p>
-                          <p class="pager">Current Version 0.1.4a</p>
+                            It is still in a test phase (alpha). So there is
+                            no garuantee that it is bug free. Possible difficulties
+                            may occure between alpha version upgrades.</p>
+                          <p class="pager">Current Version 0.1.5a</p>
                           <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios </a></p>
-                            <p class="pager"><a href="earchive-0.1.4a.zip">Or download from this server </a></p>
-                            <p class="pager">For questions and suggestions please
-                              use this <a href="http://forum.open-publisher.net" target="_blank">Forum</a>.</p>
+                            <p class="pager"><a href="earchive-0.1.5a.zip">Or download from this server </a></p>
                             <h4 class="pager">Installation:</h4>
                             <p class="pager">Transfer the unpacked archive to
                               your web server. You can even install E-archive
                               in a subdirectory. Point your navigator to this
                               directory and you should see an install menu. Follow
                               the instructions.</p>
+                            <h4 class="pager">Upgrade:</h4>
+              <p class="pager">For upgrade to version 0.1.5a you have to call the file:<br />
+                <em>http://www.foo.com/admin/modules/common/upgrade.php</em><br />
+                once.
+              After that you should delete this file.</p>
                             <h4 class="pager">Administration</h4>
                             <p class="pager">The following modules are installed:</p>
                             <ul class="pager">
@@ -189,7 +197,8 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                               </strong>through a cronjob. The other way is to
                               activate the fetch email process manually from
                               within the options menu; &quot;OPTION&gt;fetch
-                              emails&quot;. </p>
+                              emails&quot;. After download, E-archive will <strong><em>delete
+                              all emails</em></strong> from the inbox.</p>
                             <h4 class="pager">The public templates </h4>
                             <p class="pager">In templates you can define the
                               layout of the public web page. You will find the
@@ -243,7 +252,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                               group under wich the templates are grouped. To
                               create a new layout group you can copy the same
                               templates, change the groupname and save those
-                              templates in the smae public root folder. You can
+                              templates in the same public root folder. You can
                               switch to this new template group in the OPTION
                               menu.</p>                            
                             <h4 class="pager">ToDO                            </h4>

@@ -7,18 +7,18 @@ include_once ('HTTP/Download.php');
 
 //get the top requested email list attachment folder 
 $B->M( MOD_EARCHIVE, 
-             EARCHIVE_LIST, 
-             array('var' => 'tpl_list', 'lid' => (int)$_GET['lid'], 'fields' => array('folder'))); 
+       EARCHIVE_LIST, 
+       array('var' => 'tpl_list', 'lid' => (int)$_GET['lid'], 'fields' => array('folder'))); 
 
 //get the requested message attachment folder
 $B->M( MOD_EARCHIVE, 
-             EARCHIVE_MESSAGE, 
-             array('var'=>'tpl_msg', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('folder')));                        
+       EARCHIVE_MESSAGE, 
+       array('var'=>'tpl_msg', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('folder')));                        
 
 //get the attachment file name, type
 $B->M( MOD_EARCHIVE, 
-             EARCHIVE_ATTACH, 
-             array('var'=>'tpl_attach', 'aid'=>(int)$_GET['aid'], 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('file','type')));
+       EARCHIVE_ATTACH, 
+       array('var'=>'tpl_attach', 'aid'=>(int)$_GET['aid'], 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('file','type')));
 
 // send http header and content
 $params = array(

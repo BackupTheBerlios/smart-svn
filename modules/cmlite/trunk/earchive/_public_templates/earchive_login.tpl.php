@@ -10,7 +10,7 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="pragma" content="no-cache">
-<meta name="robots" content="noindex">
+<meta name="robots" content="noindex,nofollow">
 <title>Login</title>
 <meta http-equiv="Content-Type" content="<?php echo $B->sys['option']['charset']; ?>">
 <script language="JavaScript">
