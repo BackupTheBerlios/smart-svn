@@ -1,7 +1,7 @@
-++++ [http://smart.open-publisher.net/smartframe-0.5a.zip Smart without any module]
+++++ [http://smart.open-publisher.net/smartframe-0.6a.zip Smart 0.6a without any module]
 You should use this package if you want to build an application from scratch. You have to know how SMART works in details!
 
-+++ [http://smart.open-publisher.net/littlejo-0.2.zip SMART test unit "little Jo 0.2"  ]
++++ [http://smart.open-publisher.net/littlejo-0.3.zip SMART test unit "little Jo 0.3"  ]
 Use this to test the framework and to learn how it works. It contains some very simple modules, like "user" and "navigation" to manage a small web site. This site is build up on "little Jo".
 
 +++ Install of "little Jo"

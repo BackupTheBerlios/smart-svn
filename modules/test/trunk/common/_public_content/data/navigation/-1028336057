@@ -12,7 +12,7 @@ The node bodies are stored in flat files, which you can find in the /data/naviga
 In the administration interface of this module, you can edit some global options.
 * Administrator email
 * Site title and description, which you can include in the html header.
-* Public web pages template folders. This module recognize if you added a new public template folder. You can select such a folder in this module. A template folder name must be of the format: **templates_xxx** in the root folder. This give you the posibility to create more than one layout for your project.
+* Public web pages template folders. This module recognize if you added a new public template folder. You can select such a folder in this module. A template folder name must be of the format: **templates_xxx** in the root folder. This give you the posibility to create more than one layout for your project. Little Jo is delivered with 2 template folder layouts.
 * Public view folders. It works the same way as the templates folders but with view classes.
 * Cache. Here you can enable, disable and empty the cache. When creating new templates, it is  better to disable caching.
 
