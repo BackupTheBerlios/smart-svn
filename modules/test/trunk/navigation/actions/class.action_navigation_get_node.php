@@ -14,8 +14,8 @@
  *
  */
  
-// We need PEAR File to read the nodes file 
-include_once('File.php');
+// tree class
+include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
 
 class action_navigation_get_node extends action
 {
@@ -25,48 +25,51 @@ class action_navigation_get_node extends action
      * @param array $data
      */
     function perform( $data = FALSE )
-    {
+    {        
+        // check if an tree instance exists
+        if(!is_object($this->B->tree))
+        {
+            // load navigation nodes
+            $node = array();
+            include_once(SF_BASE_DIR . 'data/navigation/nodes.php');
+        
+            $this->B->tree = &Tree::createFromArray($node);
+        }  
+
+        // load data of the requested node
+        $ndata = $this->B->tree->getData( $data['node'] ); 
+      
+        // check status request
+        if( isset( $data['nstatus'] ) && ($ndata['status'] != $data['nstatus']) )
+        {
+            return FALSE;
+        }
+        else
+        {
+            $this->B->$data['title']  = $ndata['title'];
+            $this->B->$data['status'] = $ndata['status'];
+        }            
+
+        // check if cache ID exists
+        if ( M( MOD_COMMON, 
+                'cache_get',
+                array('result'     => $data['body'],
+                      'cacheID'    => SF_SECTION.$data['node'],
+                      'cacheGroup' => 'navigation'))) 
+        {
+            return TRUE;
+        }  
+
+        // We need PEAR File to read the nodes file 
+        include_once('File.php');
+
         $this->fp = new File();
         
         // location of the node body (text)
-        $node  = SF_BASE_DIR . 'data/navigation/'.$data['node'];
+        $node  = SF_BASE_DIR . 'data/navigation/'.$ndata['node'];
         
         // assign the variable with the node text
         $this->B->$data['body'] = $this->fp->readAll( $node );
-        
-        // load navigation nodes
-        $nav = array();
-        include(SF_BASE_DIR . 'data/navigation/nodes.php');
-        
-        // Look at the node id and assign the title of the requested node
-        foreach($nav as $node)
-        {
-            if($node == 0)
-            {
-                continue;
-            }
-            list($nodeID, $val) = each($node);
-            
-            // check status request
-            if( isset( $data['status'] )  && ($node[$nodeID]['status'] == $data['status']) )
-            {
-                if($data['node'] == $nodeID)
-                {
-                    $this->B->$data['title']  = $node[$nodeID]['title'];
-                    $this->B->$data['status'] = $node[$nodeID]['status'];
-                    break;
-                }
-            }
-            else
-            {
-                if($data['node'] == $nodeID)
-                {
-                    $this->B->$data['title']  = $node[$nodeID]['title'];
-                    $this->B->$data['status'] = $node[$nodeID]['status'];
-                    break;
-                }
-            }            
-        } 
         
         // format text
         if( $data['format'] == 'wikki' )
@@ -78,6 +81,11 @@ class action_navigation_get_node extends action
             }
             $this->B->$data['body'] = $this->B->wiki->transform($this->B->$data['body'], 'Xhtml');    
         }
+        
+        // save result to cache
+        M( MOD_COMMON, 
+           'cache_save',
+           array('result' => $this->B->$data['body']));          
     }   
     
     /**
@@ -88,49 +96,14 @@ class action_navigation_get_node extends action
      */    
     function validate(  $data = FALSE  )
     {
-        // validate $data['node']. no chars else than 0123456789 and - are accepted
-        if( preg_match("/[^0-9-]/", $data['node']) )
+        // validate $data['node']. no chars else than 0123456789 are accepted
+        if( preg_match("/[^0-9]/", $data['node']) )
         {
             $this->B->$data['error']  = 'Wrong node format';
             return FALSE;
         }   
         
-        // check if the requested node exsists
-        
-        // load navigation nodes
-        $nav = array();
-        include(SF_BASE_DIR . 'data/navigation/nodes.php');
-
-        foreach($nav as $node)
-        {
-            if($node == 0)
-            {
-                continue;
-            }
-            
-            list($nodeID, $val) = each($node);
-            
-            // check status request
-            if( isset( $data['status'] ) && ($node[$nodeID]['status'] == $data['status']) )
-            {
-                if($data['node'] == $nodeID)
-                {
-                    return TRUE;
-                    break;
-                }
-            }
-            else
-            {
-                if($data['node'] == $nodeID)
-                {
-                    return TRUE;
-                    break;
-                }
-            }             
-        } 
-
-        $this->B->$data['error']  = 'The requested node dosent exsists or is in drawt mode';
-        return FALSE;
+        return TRUE;
     }        
 }
 

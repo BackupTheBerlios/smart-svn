@@ -14,6 +14,9 @@
  *
  */
 
+// tree class
+include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
+
 class action_navigation_get extends action
 {
     /**
@@ -30,40 +33,51 @@ class action_navigation_get extends action
     {
         // get var name defined in the public view to store the result
         $_result = & $this->B->$data['nav']; 
-        
-        // load navigation nodes
-        $nav = array();
-        include(SF_BASE_DIR . 'data/navigation/nodes.php');
-        
-        foreach($nav as $node)
+        $_result = array();
+
+        // if node is not defined get top level nodes
+        if(!isset($data['node']))
         {
-            if($node == 0)
+            $node_id = 0;
+        }
+        else
+        {
+            $node_id = $data['node'];
+        }
+
+        // check if a tree object exists
+        if(!is_object($this->B->tree))
+        {
+            // load navigation nodes
+            $node = array();
+            include(SF_BASE_DIR . 'data/navigation/nodes.php');     
+            
+            $this->B->tree = &Tree::createFromArray($node);
+        }        
+
+
+        // get child nodes of a given node id
+        $childs = $this->B->tree->getChildren( $node_id ); 
+        
+        // fetch data of child nodes
+        foreach($childs as $id)
+        {
+            // get node data
+            $ndata = $this->B->tree->getData( $id ); 
+            
+            // check status request
+            if( isset( $data['nstatus'] ) && ($ndata['status'] != $data['nstatus']) )
             {
                 continue;
             }
-            list($nodeID, $val) = each($node);
-            
-            // check status request
-            if( isset( $data['status'] ) )
-            {
-                // only assign nodes which matchs the status
-                if ( $node[$nodeID]['status'] == $data['status'] )
-                {
-                    // assign the array with the nodes data
-                    $_result[] = array( 'node'   => $nodeID, 
-                                        'title'  => $node[$nodeID]['title'],
-                                        'status' => $node[$nodeID]['status']);
-                }
-            }
             else
-            {
-                // assign the array with all nodes
-                $_result[] = array( 'node'   => $nodeID, 
-                                    'title'  => $node[$nodeID]['title'],
-                                    'status' => $node[$nodeID]['status']);
-            
+            {            
+                // assign the array with the nodes data > ordered!
+                $_result[$ndata['order']] = array( 'node'   => $ndata['id'], 
+                                                   'title'  => $ndata['title'],
+                                                   'status' => $ndata['status']);
             }
-        }
+        }  
         
         return TRUE;
     }
