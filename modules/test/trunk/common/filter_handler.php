@@ -25,10 +25,13 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the filter module
 define( 'COMMON_FILTER' , 'common' );
 
+// Version of this module
+define ( 'FILTER_COMMON_VERSION' , '0.1');
+
 // register this filter                      
-if (FALSE == $B->register_filter( COMMON_FILTER,
-                                  array ( 'filter'         => COMMON_FILTER,
-                                          'filter_handler' => 'common_filter_handler') ))
+if (FALSE == register_filter( COMMON_FILTER,
+                              array ( 'filter'         => COMMON_FILTER,
+                                      'filter_handler' => 'common_filter_handler') ))
 {
     trigger_error( 'The module filter handler '.COMMON_FILTER.' is already registered: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
@@ -36,13 +39,11 @@ if (FALSE == $B->register_filter( COMMON_FILTER,
 // The filter handler function
 function common_filter_handler( $evt )
 {
-    global $B;
-
     // build the whole class name
-    $class_name = 'common_filter_'.$evt['code'];
+    $class_name = 'filter_common_'.$evt['code'];
     
     // check if this object was previously declared
-    if(!is_object($B->$class_name))
+    if(!is_object($GLOBALS[$class_name]))
     {
         // dynamic load of the required class
         $class_file = SF_BASE_DIR . 'modules/common/filters/class.'.$class_name.'.php';
@@ -50,16 +51,16 @@ function common_filter_handler( $evt )
         {
             include_once($class_file);
             // make instance
-            $B->$class_name = & new $class_name();
+            $GLOBALS[$class_name] = & new $class_name();
             // perform the request
-            return $B->$class_name->perform( $evt['data'] );
+            return $GLOBALS[$class_name]->perform( $evt['data'] );
         }
         return FALSE;
     }
     else
     {
         // perform the request if the requested object already exist
-        return $B->$class_name->perform( $evt['data'] );
+        return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
 }
 
