@@ -13,6 +13,9 @@
     <td><span class="style1">&nbsp;&nbsp;&nbsp;Navigation Management</span></td>
   </tr>
   <tr>
-    <td width="86%" align="left" valign="top"><?php include($B->section); ?></td>
+    <td width="86%" align="left" valign="top">
+        <?php /* ### include the module view (template) ### */ ?>
+        <?php M( MOD_SYSTEM, 'get_view', array('m' => 'navigation', 'view' => $_REQUEST['sec']) ); ?>            
+    </td>
   </tr>
 </table>
