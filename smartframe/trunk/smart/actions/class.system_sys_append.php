@@ -49,8 +49,7 @@ class system_sys_append
     function perform( $data )
     {
         // get the output buffer
-        $content = ob_get_contents();
-        ob_clean();
+        $content = ob_get_clean();
         
         switch( SF_SECTION )
         {

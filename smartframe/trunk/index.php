@@ -82,6 +82,7 @@ switch ( SF_SECTION )
         
         // add to the URLs and forms the "admin" variable.
         output_add_rewrite_var('admin', '1');
+        ob_flush();
         
         break;
         
