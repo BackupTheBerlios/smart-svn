@@ -59,7 +59,7 @@ function system_event_handler( $evt )
             {
                 if(($value['module'] != 'SYSTEM') && ($value['module'] != 'SETUP'))
                 {
-                    $B->mod_list[$key] =  $value;
+                    $B->tpl_mod_list[$key] =  $value;
                 }
             }                 
             break; 

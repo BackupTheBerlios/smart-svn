@@ -25,17 +25,12 @@ if (!defined('SF_SECURE_INCLUDE'))
 /**
  * error log types ('LOG|SHOW')
  */
-define('SF_ERROR_HANDLE',               'SHOW|LOG');
+define('SF_ERROR_HANDLE',               'LOG');
 
 /**
  * error reporting
  */
 define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
-
-/**
- * Enable Debug
- */
-//define('SF_DEBUG',                       TRUE);
 
 /**
  * Allowed output buffering.
@@ -56,7 +51,7 @@ define('SF_FILE_MODE',                   0775);
 /**
  * Default template
  */
-define('SF_DEFAULT_TEMPLATE_GROUP',      'earchive');
+define('SF_DEFAULT_TEMPLATE_GROUP',      'test');
 
 /**
  * Event types.
