@@ -32,12 +32,12 @@ include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 // Directed intercepting filter event (auto_prepend)
 $B->M( MOD_SYSTEM, 'sys_prepend' );
 
-// Broadcast init event to all registered event handlers
-$B->B( 'sys_init' );
-
 // Directed authentication event to the module handler, 
 // which takes the authentication part
 $B->M( SF_AUTH_MODULE, 'sys_authenticate' );
+
+// Broadcast init event to all registered event handlers
+$B->B( 'sys_init' );
 
 // get the public view (template)
 include( $B->M( MOD_SYSTEM, 'get_public_view') ); 

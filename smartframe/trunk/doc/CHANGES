@@ -1,6 +1,10 @@
 CHANGES
 #######
 
+1004-10-15
+-----------
+- rebuild the admin controller
+
 2004-10-11
 -----------
 - add filter handlers
