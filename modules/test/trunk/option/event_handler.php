@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_OPTION' , 'OPTION');
+define ( 'MOD_OPTION' , 'option');
 
 // Version of this modul
 define ( 'MOD_OPTION_VERSION' , '0.2');
@@ -42,7 +42,7 @@ function option_event_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'OPTION_'.$evt['code'];
+    $class_name = 'option_'.$evt['code'];
 
     // check if this object was previously declared
     if(!is_object($B->$class_name))

@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the filter module
-define( 'OPTION_FILTER' , 'OPTION' );
+define( 'OPTION_FILTER' , 'option' );
 
 // register this filter                      
 if (FALSE == $B->register_filter( OPTION_FILTER,
@@ -39,7 +39,7 @@ function option_filter_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'OPTION_FILTER_'.$evt['code'];
+    $class_name = 'option_filter_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
