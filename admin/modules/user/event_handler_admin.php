@@ -44,7 +44,7 @@ function user_event_handler( $evt )
         case EVT_AUTHENTICATE:
             $B->login = TRUE;
             include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
-            $B->auth = & new auth();  
+            $B->auth = & new auth('admin');  
             if($B->auth->is_user == FALSE)
                 include(SF_BASE_DIR.'/admin/modules/user/login.php');
             break;

@@ -12,8 +12,24 @@ body {
     color: #CCCCCC;
     font-weight: bold;
 }
+.itemnormalbold {
+    font-size: 14px;
+    font-weight: bold;
+}
+.itemnormal {font-size: 14px}
+.itemsmall {font-size: 10px}
+.itemerror {
+    font-size: 12px;
+    font-weight: bold;
+    color: #FF0000;
+}
 .font10 {font-size: 10px}
+.font10bold {
+    font-size: 10px;
+    font-weight: bold;
+}
 .font14 {font-size: 14px}
+.font9 {font-size: 9px}
 .font9bold {
     font-size: 9px;
     font-weight: bold;

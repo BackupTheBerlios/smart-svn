@@ -23,12 +23,21 @@ class auth
      *
      * @return bool 
      */
-    function auth()
+    function auth( $section )
     {        
         if(!isset($_SESSION['id_user']) || empty($_SESSION['id_user']))
         {
             $this->is_user = FALSE;
         }
+        
+        if($section == 'admin')
+        {
+            $_and = 'AND rights>1';
+        }
+        else
+        {
+            $_and = '';
+        }        
         
         $GLOBALS['B']->uid = (int) $_SESSION['id_user'];
         
@@ -39,16 +48,18 @@ class auth
                 WHERE
                     uid={$GLOBALS['B']->uid}
                 AND
-                    status=2";
+                    status=2 {$_and}";
                     
         $result = $GLOBALS['B']->dbdata->query($sql);
         
         if($GLOBALS['B']->dbdata->numRows($result) == 1)
         {
+            $GLOBALS['B']->user_rights = (int) $_SESSION['user_rights'];
             $this->is_user = TRUE;
         }
         else
         {
+            $GLOBALS['B']->user_rights = 0;
             $this->is_user = FAlSE;
         }
     }  
@@ -58,7 +69,8 @@ class auth
         $passwd = md5($passwd);
         
         $sql = "SELECT 
-                    uid
+                    uid,
+                    rights
                 FROM
                     user_users
                 WHERE
@@ -74,7 +86,8 @@ class auth
         {
             $row = $GLOBALS['B']->dbdata->getRow($result);
             $GLOBALS['B']->session->set('id_user', $row['uid']);
-            return TRUE;
+            $GLOBALS['B']->session->set('user_rights', $row['rights']);
+            return $row['rights'];
         }
         else
         {

@@ -23,6 +23,17 @@ if (!defined('SF_SECURE_INCLUDE'))
 
 // set the base template for this module
 $B->section = SF_BASE_DIR . '/admin/modules/user/templates/default.tpl.php';    
-  
+
+if(isset($_REQUEST['usr_rights']))
+{
+    $B->tmp_rights = $_REQUEST['usr_rights'];
+}
+else
+{
+    $B->tmp_rights = FALSE;
+}
+
+$B->tmp_fields = array('uid','rights','status','email','login','forename','lastname');
+$B->all_users = $B->user->get_users( $B->tmp_fields, $B->tmp_rights );  
 
 ?>

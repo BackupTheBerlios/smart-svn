@@ -26,9 +26,12 @@ $B->login = FALSE;
 // Check login data
 if(isset($_POST['login']))
 {
-    if(TRUE == $B->auth->checklogin($_POST['login_name'], $_POST['password']))
-    {        
-        @header('Location: index.php');
+    if(FALSE !== ($rights = $B->auth->checklogin($_POST['login_name'], $_POST['password'])))
+    {
+        if($rights > 1)
+            @header('Location: index.php');
+        else
+            @header('Location: ../index.php');
         exit;
     }
 }

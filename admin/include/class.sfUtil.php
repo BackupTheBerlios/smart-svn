@@ -66,7 +66,27 @@ class sfUtil
         {
             return $var;
         }
+    }
+    
+    /**
+     * Add slashes if magic_quotes are disabled
+     *
+     * @return string base location
+     */ 
+    function stripSlashes( $var )
+    {
+        $magicQuote = get_magic_quotes_gpc();
+
+        if ( $magicQuote == 0 )
+        {   
+            return $var;
+        }
+        else
+        {
+            return stripslashes($var);
+        }
     }    
+    
     /**
      * Make unique md5_string
      *
