@@ -58,13 +58,26 @@ if(!is_dir(SF_BASE_DIR . 'modules'))
     die("<b>You have to install at least one module in the /modules directory!</b>");
 }
 
-// A "common" must be loaded first
+// A "common" event handler and filter must be loaded and registered first
 //
-// include event handler of a "common" module
-include_once (SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/event_handler.php');
+$evt_common = SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/event_handler.php';
+$filter_common = SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/filter_handler.php';
 
-// include filter handler of a "common" module
-include_once (SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/filter_handler.php');
+if(file_exists( $evt_common ))
+{
+    // include event handler of a "common" module
+    include_once ( $evt_common );
+}
+else
+{
+    die ("The module event handler {$evt_common} must be installed!");
+}
+
+if(file_exists( $filter_common ))
+{
+    // include filter handler of a "common" module
+    include_once ( $filter_common );
+}
 
 // include system event handler
 include_once (SF_BASE_DIR . 'smart/event_handler.php');

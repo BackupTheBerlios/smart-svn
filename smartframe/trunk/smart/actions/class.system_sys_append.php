@@ -51,7 +51,7 @@ class system_sys_append
         // get the output buffer
         $content = ob_get_contents();
         ob_clean();
-        
+
         switch( SF_SECTION )
         {
             case 'admin':
