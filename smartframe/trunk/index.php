@@ -35,7 +35,7 @@ if(!defined( SF_RELATIVE_PATH ))
  */
 if(!defined( SF_VIEW_FOLDER ))
 {
-   define('SF_VIEW_FOLDER', 'views/'); 
+   define('SF_VIEW_FOLDER', 'views_default/'); 
 }
 
 /* #################################################### */
@@ -74,7 +74,7 @@ B( 'sys_init' );
 // if an update was done this event complete the update process
 if(isset($B->system_update_flag))
 {
-    // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_update_config.php
+    // see modules/SF_BASE_MODULE/actions/class.action_SF_BASE_MODULE_sys_update_config.php
     M( SF_BASE_MODULE, 'sys_update_config', $B->sys );
     // reload page
     @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_SECTION . '=1');

@@ -39,7 +39,7 @@ if(!defined( SF_RELATIVE_PATH ))
  */
 if(!defined( SF_VIEW_FOLDER ))
 {
-   define('SF_VIEW_FOLDER', 'views/'); 
+   define('SF_VIEW_FOLDER', 'views_default/'); 
 }
 
 /* #################################################### */
@@ -63,6 +63,12 @@ include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 // Broadcast init event to all registered module event handlers
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
+
+// if an update was done this event complete the update process
+if(isset($B->system_update_flag))
+{
+    die('An update was done. You have to reload the SMART admin interface.');   
+} 
 
 // get the public view (template)
 // see smart/actions/class.system_get_public_view.php
