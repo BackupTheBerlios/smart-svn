@@ -51,7 +51,7 @@ define('SF_COMMON_MODULE',            'common');
 /**
  * Default template group
  */
-define('SF_DEFAULT_TEMPLATE_GROUP',   'default');
+define('SF_DEFAULT_TEMPLATE_FOLDER',   'templates_default');
 
 /**
  * Template render flags
