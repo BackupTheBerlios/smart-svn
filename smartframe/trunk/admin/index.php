@@ -40,7 +40,7 @@ $B->B(EVT_INIT);
 if ( $_REQUEST['logout'] == 1 )
 {
     $B->B(EVT_LOGOUT);
-    header ( 'Location: ../index.php' );
+    header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
     exit;
 }
 

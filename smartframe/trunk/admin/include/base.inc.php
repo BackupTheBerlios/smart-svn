@@ -79,6 +79,9 @@ if(@file_exists(SF_BASE_DIR . '/admin/config/config_system.xml.php'))
 //  instance of the util class
 $B->util = new sfUtil;
 
+// Define the base location
+define('SF_BASE_LOCATION', $B->util->base_location());
+
 /* Create new object of session class */
 $B->session = & new session();
 
@@ -122,7 +125,7 @@ if ( $B->sys['info']['status'] !== TRUE )
             $_dbtype = '?dbtype='.$_GET['dbtype'];
         else
             $_dbtype = '?dbtype=mysql';
-        @header('Location: admin/index.php'.$_dbtype);
+        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php'.$_dbtype);
         exit;
     }
     // send a setup message to the handler which takes
