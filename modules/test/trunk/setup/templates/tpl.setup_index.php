@@ -66,7 +66,7 @@ function subok(s){
           <div align="left">modules/common/config</div>
         </li>
         <li>
-          <div align="left">modules/common/tmp/session_data</div>
+          <div align="left">modules/common/tmp/cache</div>
         </li>
         </ul>      <p>
         <input type="submit" name="do_setup" value="Submit" />
