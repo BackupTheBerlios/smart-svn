@@ -57,16 +57,16 @@ function subok(s){
           <div align="left">data/navigation</div>
         </li>
         <li>
+          <div align="left">data/common/config</div>
+        </li>
+        <li>
+          <div align="left">data/common/cache</div>
+        </li>        
+        <li>
           <div align="left">data/navigation/all files</div>
         </li>
         <li>
           <div align="left">logs/</div>
-        </li>
-        <li>
-          <div align="left">modules/common/config</div>
-        </li>
-        <li>
-          <div align="left">modules/common/tmp/cache</div>
         </li>
         </ul>      <p>
         <input type="submit" name="do_setup" value="Submit" />
