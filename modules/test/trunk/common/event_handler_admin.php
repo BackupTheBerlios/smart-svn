@@ -113,6 +113,6 @@ define('SF_OPTION_MODULE',               'OPTION');
 /**
  * The module (name) which should be loaded by default.
  */
-define('SF_DEFAULT_MODULE',              'ENTRY');
+define('SF_DEFAULT_MODULE',              'DEFAULT');
 
 ?>

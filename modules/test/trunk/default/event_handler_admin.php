@@ -25,11 +25,11 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_DEFAULT' , 'DEFAULT');
 
 // Version of this modul
-define ( 'MOD_ENTRY_VERSION' , '0.1');
+define ( 'MOD_DEFAULT_VERSION' , '0.1');
 
 // register this handler                       
 if (FALSE == $B->register_handler( 
-                           MOD_ENTRY,
+                           MOD_DEFAULT,
                            array ( 'module'          => MOD_DEFAULT,
                                    'event_handler'   => 'default_event_handler',
                                    'menu_visibility' => TRUE) ))
@@ -48,7 +48,17 @@ function default_event_handler( $evt )
             // set the base template for this module   
             $B->module = SF_BASE_DIR . '/admin/modules/default/templates/index.tpl.php';        
             break;             
-        case EVT_INIT:        
+        case EVT_INIT: 
+            // Check for upgrade  
+            if(MOD_DEFAULT_VERSION != (string)$B->sys['module']['default']['version'])
+            {        
+                // The module name and version
+                $B->sys['module']['default']['name']     = 'default';
+                $B->sys['module']['default']['version']  = MOD_DEFAULT_VERSION;
+                $B->sys['module']['default']['mod_type'] = 'test';
+                $B->sys['module']['default']['info']     = 'This is the default module';
+                $B->system_update_flag = TRUE; 
+            }
             break; 
         case EVT_SETUP:
             $success = TRUE;
