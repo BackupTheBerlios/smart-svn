@@ -21,13 +21,13 @@ define ('SF_SECURE_INCLUDE', 1);
 
 // Define the absolute path to the Framework base
 //
-define ('SF_BASE_DIR', dirname(dirname(__FILE__)));
+define ('SF_BASE_DIR', dirname(dirname(__FILE__)) . '/');
 
 // Define section area
 define ('SF_SECTION', 'admin');
 
 // Include the base file
-include (SF_BASE_DIR . '/admin/include/base.inc.php');
+include (SF_BASE_DIR . 'smart/includes/core.inc.php');
 
 // If setup flag is defined send a setup event to the handler which takes
 // the setup part
@@ -78,9 +78,6 @@ if(!defined( 'SF_TEMPLATE_MAIN' ) || !file_exists( SF_TEMPLATE_MAIN ))
 //  Output all templates
 include( SF_TEMPLATE_MAIN );
 
-// Send the output buffer to the client
-if (SF_OB == TRUE)
-{
-    ob_end_flush ();
-}
+ob_end_flush ();
+
 ?>

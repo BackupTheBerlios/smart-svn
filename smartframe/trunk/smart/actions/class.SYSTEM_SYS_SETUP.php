@@ -49,15 +49,15 @@ class SYSTEM_SYS_SETUP
     function perform( $data )
     {
             $success = TRUE;
-            if(!is_writeable( SF_BASE_DIR . '/admin/logs' ))
+            if(!is_writeable( SF_BASE_DIR . 'logs' ))
             {
-                trigger_error("Must be writeable: " . SF_BASE_DIR . "/admin/logs\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/logs';
+                trigger_error("Must be writeable: " . SF_BASE_DIR . "logs\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'logs';
                 $success = FALSE;
             }
 
             // the version to install
-            include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
+            include_once( SF_BASE_DIR . 'smart/includes/system_version.php' );
 
             // set name and version of the framework
             $this->B->conf_val['info']['name']    = $this->B->system_name;
