@@ -78,12 +78,12 @@ class NAVIGATION_SYS_LOAD_MODULE
         // Switch to module features
         switch($_REQUEST['mf'])
         {
-            case 'edit_nav_node':
+            case 'edit_node':
                 include( SF_BASE_DIR."/admin/modules/navigation/edit_node.php" ); 
                 // set the base template for this module feature
                 $this->B->section = SF_BASE_DIR . '/admin/modules/navigation/templates/edit_node.tpl.php';    
                 break;
-            case 'add_nav_node':
+            case 'add_node':
                 // have rights to add nav_node?
                 if(FALSE == rights::ask_access_to_add_nav_node ())
                 {
