@@ -1,6 +1,14 @@
 CHANGES
 #######
 
+2004-07-28
+--------------
+- Add restriction check to the templates and event handlers
+
+2004-07-27
+--------------
+- reorganisation of the repository. Description will follow later
+
 2004-07-25
 --------------
 - replaced adodb by PEAR DB
