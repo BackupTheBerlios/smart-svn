@@ -109,16 +109,15 @@
                             E-archive is a module of this framework.
                             It is still in a test phase. So there is no garuantee
                             that it is bug free.</p>
-                          <p class="pager">Current Version 0.1.5a</p>
-                          <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios </a></p>
-                            <p class="pager"><a href="earchive-0.1.5a.zip">Or download from this server </a></p>
+                          <p class="pager">Current Version 0.1.6a</p>
+                          <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios</a></p>
                             <h4 class="pager">Installation:</h4>
-                            <p class="pager">Transfer the unpacked archive to
+                            <p class="pager">Transfer the extracted archive to
                               your web server. You can even install E-archive
                               in a subdirectory. Point your navigator to this
-                              directory and you should see an install menu. Follow
+                              directory. You should see an install menu. Follow
                               the instructions.</p>
-                            <p class="pager"><strong>Upgrade from version 0.2.1a:</strong></p>
+                            <p class="pager"><strong>Upgrade from version 0.1.5a:</strong></p>
                             <p class="pager">This version is based on <a href="http://smart.open-publisher.net" target="_blank">smart frame</a> 0.3.2a which was designed from the ground up. To upgrade from previous e-archive versions you have to:</p>
                             <ul>
                               <li><font size="2">make backup of the whole earchive database, files and folders</font></li>
@@ -162,7 +161,7 @@
                             <h4 class="pager">The E-archiv Module</h4>
                             <p class="pager">If you activate this module in the
                               top right select menu of the administration you
-                              will see a page with all added email accounts to
+                              will see a page with all existing email accounts to
                               which E-archive has access. Here you can add, edit,
                               delete or modify  email accounts and
                               archived messages. If you add a new account
@@ -198,14 +197,20 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <li class="pager"><strong>Description - </strong>Detailed
                                 description</li>
                           </ul>
-                            <p class="pager">There are 2 ways on which E-archive
-                              can connect to one or more email boxes. One is;
-                              you have to execute, by the php interpreter, the
-                              file <strong>/admin/modules/earchive/fetch_emails/fetch_emails.php
-                              </strong>through a cronjob. The other way is to
-                              activate the fetch email process manually from
-                              within the options menu; &quot;OPTION&gt;fetch
-                              emails&quot;. </p>
+                            <p class="pager">There are 3 ways on which E-archive
+                              can connect to one or more email inboxes to download messages.</p>
+                            <ul>
+                              <li class="pager">Executing, by the php interpreter, the
+                                file <strong>modules/earchive/fetch_emails/fetch_emails.php
+                                </strong>through a cronjob. </li>
+                              <li class="pager">Activate the fetch email process manually from
+                                within the options menu; &quot;OPTION&gt;fetch
+                                emails&quot;. </li>
+                              <li class="pager">By calling the view:<br />
+                                http://www.mysite.com/index.php?view=fetch_emails&amp;passID=xxxx
+                                <br />
+                                You can set a &quot;passID&quot; value in the admin/options menu. It prevent that some one outside can activate the fetch email process.</li>
+                            </ul>                            
                             <h4 class="pager">The public templates </h4>
                             <p class="pager">In templates you can define the
                               layout of the public web page. You will find the
@@ -221,10 +226,9 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                               You have to define this name in a url request if
                               you want to load a specific template. <br />
                               Example:
-                              index.php?<strong>tpl</strong>=article
-                                <br />
-                                <strong>article</strong> is the name of the template.
-                                The complete template file name is yyy_article.tpl.php.
+                              index.php?<strong>viev</strong>=message<br />
+                                <strong>message</strong> is the name of the template.
+                                The complete template file name is yyy_message.tpl.php.
                                 index is the default template name If no template
                                 name is defined.<br />
                               E-archive is delivered with the following templates:</p>
@@ -254,12 +258,14 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <li class="pager"><strong>earchive_register.tpl.php
                                     - </strong>Here a visitor can register if
                                     this option is enabled.</li>
+                                <li class="pager"><strong>earchive_validate.tpl.php</strong> - Show user validation message</li>
+                                <li class="pager"><strong>earchive_fetch_emails.php</strong> - This template is only for internal use. Please dont delete it.</li>
                           </ul>                            
                             <p class="pager"><strong>earchive </strong>is the
                               group under wich the templates are grouped. To
-                              create a new layout group you can copy the same
+                              create a new layout group you can make copies of the same
                               templates, change the groupname and save those
-                              templates in the smae public root folder. You can
+                              templates in the same public root folder. You can
                               switch to this new template group in the OPTION
                               menu.</p>                            
                             <h4 class="pager">ToDO                            </h4>
@@ -281,7 +287,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <li class="pager">Teamwork</li>
                             </ul>                            
                             <h4 class="pager">Contact</h4>
-                            <p class="pager">Armand Turpel &lt;<a href="mailto:smart%20AT%20open-publisher.net">smart AT open-publisher.net</a>&gt; </p>
+                            <p class="pager">Armand Turpel &lt;<a href="mailto:smart@open-publisher.net">smart@open-publisher.net</a>&gt; </p>
                             <h4 class="pager">Lizenz</h4>
                             <p class="pager">GPL</p>
                             <h3 class="pager">Technical requirements</h3>
@@ -290,7 +296,6 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <li class="pager">MySql &gt; 3.23.xx</li>
                                 <li class="pager">IMAP php extension</li>
                                 <li class="pager">XML php extension</li>
-                                <li class="pager">GD php extension </li>
                             </ul></td>
                   </tr>
                 </table></td>
