@@ -1,6 +1,11 @@
 CHANGES
 #######
 
+2005-01-4
+---------
+- Event handler functions are now simple public functions
+- View classes extends from a parent view class
+
 2004-12-21
 ----------
 - Added - SMART can be included in any other project

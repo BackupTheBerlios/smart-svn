@@ -31,22 +31,6 @@ if(!defined( SF_RELATIVE_PATH ))
 }
 
 /*
- * Fixed template group. example: 'test'
- */
-if(!defined( SF_TPL_GROUP ))
-{
-   define('SF_TPL_GROUP', ''); 
-}
-
-/*
- * Template folder. example: 'test/'
- */
-if(!defined( SF_TPL_FOLDER ))
-{
-   define('SF_TPL_FOLDER', ''); 
-}
-
-/*
  * View folder. example: 'test/'
  */
 if(!defined( SF_VIEW_FOLDER ))
