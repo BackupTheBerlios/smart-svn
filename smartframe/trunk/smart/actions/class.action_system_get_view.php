@@ -47,7 +47,7 @@ class action_system_get_view extends action
         // A Template is included in this function.
         $B = & $this->B;
         
-        // Check if the requested template is passed through the $data array
+        // Check if the requested view is passed through the $data array
         // else fetch the name from an external var (gpc)
         if ( isset($data['view']) )
         {
@@ -58,7 +58,7 @@ class action_system_get_view extends action
             $view = $_REQUEST['view'];
         }
 
-        // If no view request is done load the default template
+        // If no view request is done load the default view
         if (!isset($view))
         {
             $view = 'index';
