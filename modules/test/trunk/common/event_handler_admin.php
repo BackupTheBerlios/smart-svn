@@ -27,7 +27,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_COMMON' , 'COMMON');
 
 // Version of this modul
-define ( 'MOD_COMMON_VERSION' , '0.2');
+define ( 'MOD_COMMON_VERSION' , '0.3');
 
 // register this handler                       
 if (FALSE == $B->register_handler( 
@@ -44,62 +44,32 @@ function common_event_handler( $evt )
 {
     global $B;
 
-    switch( $evt['code'] )
-    {            
-        case EVT_INIT:
-            // Check for upgrade  
-            if(MOD_COMMON_VERSION != (string)$B->sys['module']['common']['version'])
-            {
-                // set the new version num of this module
-                $B->sys['module']['common']['version']  = MOD_COMMON_VERSION;
-                $B->system_update_flag = TRUE;  
-                
-                // include here additional upgrade code
-            }
-            
-            // Assign registered module handlers template var
-            $B->tpl_mod_list = array();
-            
-            // sort handler list by name
-            ksort($B->handler_list);
-            // assign template handler list array
-            foreach ($B->handler_list as $key => $value)
-            {
-                if( $value['menu_visibility'] == TRUE )
-                {
-                    $B->tpl_mod_list[$key] =  $value;
-                }
-            }                  
-            break;               
-        case EVT_LOGOUT:  
-            break;               
-        case EVT_SETUP: 
-            // init the success var
-            $success = TRUE;
-            
-            // include here all stuff to get work this module:
-            // creating db tables
-
-            // The module name and version
-            // these array vars were saved later by the setup handler
-            // in the file /admin/config/config_system.xml.php
-            //
-            $B->conf_val['module']['common']['name']     = 'common';
-            $B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
-            $B->conf_val['module']['common']['mod_type'] = 'common';
-            $B->conf_val['module']['common']['info']     = 'This is the common modul';
-
-            if(($success == TRUE) && !is_writeable( SF_BASE_DIR . '/admin/modules/common/config' ))
-            {
-                $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/modules/common/config';
-                $success = FALSE;
-            }
-            
-            // if noting is going wrong $success is still TRUE else FALSE
-            // ex.: if creating db tables fails you must set this var to false
-            return $success;        
-            break;            
-    } 
+    // build the whole class name
+    $class_name = 'COMMON_'.$evt['code'];
+    
+    // check if this object was previously declared
+    if(!is_object($B->$class_name))
+    {
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/common/class.'.$class_name.'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$class_name = & new $class_name();
+            // perform the request
+            return $B->$class_name->perform( $evt['data'] );
+        }
+        else
+        {
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
+    }
 }
 
 /* 
