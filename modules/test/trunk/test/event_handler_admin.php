@@ -33,7 +33,7 @@ if (FALSE == $B->register_handler(
                             array ( 'module'        => MOD_TEST,
                                     'event_handler' => 'test_event_handler') ))
 {
-    trigger_error( 'The handler '.MOD_TEST.' exist: '.__FILE__.' '.__LINE__, E_TEST_ERROR  );        
+    trigger_error( 'The handler '.MOD_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
                                                                           
 // The handler function
@@ -111,39 +111,5 @@ function test_event_handler( $evt )
             break;            
     } 
 }
-
-/* 
-There must be always one leader module.
-Include and define here data, which are required by other modules.
-This means that you must define at least 3 variables: 
-- SF_AUTH_MODULE
-- SF_OPTION_MODULE
-- SF_DEFAULT_MODULE
-For detailed info of this vars see below.
-
-Furthermore if you modules require a database connection or some class instances
-or packages like PEAR, ADODB, ... you have to include those here.
-
-*/
-
-/***************************
-**** Module SET  CONFIG ****
-****************************/
-
-// ### These 3 defines MUST be declared ###
-/**
- * The module (name) which takes the authentication part.
- */
-define('SF_AUTH_MODULE',                 'TEST');
-
-/**
- * The module (name) which takes the global options part.
- */
-define('SF_OPTION_MODULE',               'OPTION');
-
-/**
- * The module (name) which should be loaded by default.
- */
-define('SF_DEFAULT_MODULE',              'ENTRY');
 
 ?>
