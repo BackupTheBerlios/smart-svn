@@ -70,10 +70,22 @@ class user_view_edituser
             $this->_modify_user();
         }     
     
-        // assign template array with user data
-        $tmp_fields = array('uid','rights','status','email','login','forename','lastname');
-        $this->B->tpl_data = $this->B->user->get_user( (int)$_REQUEST['uid'], $tmp_fields );     
-        
+        // prepare data array
+        $_data = array( 'error'   => 'tpl_error',
+                        'user_id' => (int)$_REQUEST['uid'],
+                        'result'  => 'tpl_data',
+                        'fields'  => array('uid',
+                                           'rights',
+                                           'status',
+                                           'email',
+                                           'login',
+                                           'forename',
+                                           'lastname'));
+        // get user data
+        $this->B->M( MOD_USER,
+                     'get',
+                     $_data );        
+         
         return  TRUE;
     }    
 
