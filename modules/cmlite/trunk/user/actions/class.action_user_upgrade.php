@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_upgrade class 
+ * action_user_upgrade class 
  *
  */
  
-class user_upgrade
+class action_user_upgrade extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_upgrade()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * upgarde the common module
      *

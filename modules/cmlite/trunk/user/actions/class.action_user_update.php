@@ -10,73 +10,47 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_get class 
+ * action_user_update class 
  *
  */
  
-class user_get
+class action_user_update extends action
 {
     /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_get()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
-    /**
-     * get user data
+     * update user data
      *
      * @param array $data
      * @return bool true or false on error
-     * @todo validate user $data['fields']
      */
     function perform( $data )
     {
         $this->B->$data['error'] = FALSE;
         $error                   = & $this->B->$data['error'];
 
-        $this->B->$data['result'] = FALSE;
-        $result                   = & $this->B->$data['result'];
-
+        $set = '';
         $comma = '';
-        foreach ($data['fields'] as $f)
+        
+        foreach($data['fields'] as $key => $val)
         {
-            $_fields .= $comma.$f;
+            $set .= $comma.$key.'='.$this->B->db->quoteSmart( commonUtil::addSlashes($val ) );
             $comma = ',';
         }
         
-        $sql = "
-            SELECT
-                {$_fields}
-            FROM
-                {$this->B->sys['db']['table_prefix']}user_users
+        $sql = '
+            UPDATE 
+                '.$this->B->sys['db']['table_prefix'].'user_users
+            SET
+                '.$set.'
             WHERE
-                uid={$data['user_id']}";
+                uid='.$data['user_id'];
         
-        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $result = $this->B->db->query($sql);
         
         if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             $error = 'Unexpected error';
-            return $result = FALSE;
+            return FALSE;
         } 
         
         return TRUE;

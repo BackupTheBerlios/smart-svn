@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_validate class 
+ * action_user_validate class 
  *
  */
  
-class user_validate
+class action_user_validate extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_validate()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Validate new user
      *

@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_sys_init class 
+ * action_user_sys_init class 
  *
  */
  
-class user_sys_init
+class action_user_sys_init extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_sys_init()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Check if version number has changed and perfom additional upgarde code
      *
@@ -50,7 +26,7 @@ class user_sys_init
         // Check for upgrade  
         if(MOD_USER_VERSION != (string)$this->B->sys['module']['user']['version'])
         {
-            $this->B->M(MOD_USER, 'upgrade');
+            M(MOD_USER, 'upgrade');
         
             // set the new version num of this module
             $this->B->sys['module']['user']['version'] = MOD_USER_VERSION;

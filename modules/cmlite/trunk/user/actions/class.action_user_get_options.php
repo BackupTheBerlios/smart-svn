@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_get_options class 
+ * action_user_get_options class 
  *
  */
  
-class user_get_options
+class action_user_get_options extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_get_options()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Execute view of the user module
      *

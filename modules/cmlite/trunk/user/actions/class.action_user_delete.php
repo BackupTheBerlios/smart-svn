@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_delete class 
+ * action_user_delete class 
  *
  */
  
-class user_delete
+class action_user_delete extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_delete()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * delete user
      *

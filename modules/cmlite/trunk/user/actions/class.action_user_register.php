@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_register class 
+ * action_user_register class 
  *
  */
 
-class user_register
+class action_user_register extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_register()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Set options for this module
      *
@@ -65,9 +41,9 @@ class user_register
                                              'rights'   => 1,
                                              'status'   => 1));
                
-        if( FALSE === ($uid = $this->B->M( MOD_USER,
-                                           'add',
-                                           $_data )))
+        if( FALSE === ($uid = M( MOD_USER,
+                                 'add',
+                                 $_data )))
         {
             $this->_error .= 'Couldnt add user data';  
             return FALSE;

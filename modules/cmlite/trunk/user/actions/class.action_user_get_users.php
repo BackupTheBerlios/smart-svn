@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_update class 
+ * action_user_get_users class 
  *
  */
  
-class user_update
+class action_user_get_users extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_update()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * update user data
      *
@@ -51,22 +27,32 @@ class user_update
         $this->B->$data['error'] = FALSE;
         $error                   = & $this->B->$data['error'];
 
-        $set = '';
-        $comma = '';
+        $this->B->$data['result'] = array();
+        $_result                  = & $this->B->$data['result'];
         
-        foreach($data['fields'] as $key => $val)
+        $comma = '';
+        foreach ($data['fields'] as $f)
         {
-            $set .= $comma.$key.'='.$this->B->db->quoteSmart( commonUtil::addSlashes($val ) );
+            $_fields .= $comma.$f;
             $comma = ',';
         }
         
-        $sql = '
-            UPDATE 
-                '.$this->B->sys['db']['table_prefix'].'user_users
-            SET
-                '.$set.'
-            WHERE
-                uid='.$data['user_id'];
+        if(isset($data['order']))
+        {
+            $_order = $data['order'];
+        }
+        else
+        {
+            $_order = 'rights DESC, lastname ASC';
+        }
+        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$this->B->sys['db']['table_prefix']}user_users
+            ORDER BY
+                {$_order}";
         
         $result = $this->B->db->query($sql);
         
@@ -75,7 +61,20 @@ class user_update
             trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             $error = 'Unexpected error';
             return FALSE;
-        } 
+        }        
+        
+        if(is_object($result))
+        {        
+            while($row = &$result->fetchRow( DB_FETCHMODE_ASSOC ))
+            {
+                $tmp = array();
+                foreach($data['fields'] as $f)
+                {
+                    $tmp[$f] = stripslashes($row[$f]);
+                }
+                $_result[] = $tmp;
+            }
+        }
         
         return TRUE;
     } 

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_sys_authenticate class 
+ * action_user_sys_authenticate class 
  *
  * The variables produced by the authentication process:
  *
@@ -36,32 +36,8 @@
  *
  */
  
-class user_sys_authenticate
+class action_user_sys_authenticate extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_sys_authenticate()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * User authentication
      *

@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_add class 
+ * action_user_add class 
  *
  */
  
-class user_add
+class action_user_add extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_add()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * add user
      *

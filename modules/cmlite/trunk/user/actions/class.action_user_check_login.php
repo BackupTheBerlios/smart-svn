@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_check_login class 
+ * action_user_check_login class 
  *
  */
  
-class user_check_login
+class action_user_check_login extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_check_login()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Check login data and set session vars and url forward  on success
      *

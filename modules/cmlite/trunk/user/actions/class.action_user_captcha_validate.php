@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_captcha_validate class 
+ * action_user_captcha_validate class 
  *
  */
 
@@ -19,32 +19,8 @@
 include_once( SF_BASE_DIR .'modules/user/actions/captcha/class.captcha.php' );
 
  
-class user_captcha_validate extends captcha
+class action_user_captcha_validate extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_captcha_validate()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Validate capcha public key/turing key
      *
@@ -68,9 +44,9 @@ class user_captcha_validate extends captcha
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 
 
-        $this->captcha( $captcha_privat_key, SF_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
+        $captcha = & new captcha( $captcha_privat_key, SF_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
 
-        if(FALSE == $this->check_captcha($data['public_key'], $data['turing_key']))
+        if(FALSE == $captcha->check_captcha($data['public_key'], $data['turing_key']))
         {
              $_error .= '- Wrong turing key<br /><br />'; 
              return FALSE;

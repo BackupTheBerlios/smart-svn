@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_sys_logout class 
+ * action_user_sys_logout class 
  *
  */
  
-class user_sys_logout
+class action_user_sys_logout extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_sys_logout()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * If a logout request was done
      *

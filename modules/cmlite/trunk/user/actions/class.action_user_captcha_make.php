@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_captcha_make class 
+ * action_user_captcha_make class 
  *
  */
 
@@ -19,32 +19,8 @@
 include_once( SF_BASE_DIR .'modules/user/actions/captcha/class.captcha.php' );
 
  
-class user_captcha_make extends captcha
+class action_user_captcha_make extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_captcha_make()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Create capcha picture and public key
      *
@@ -71,16 +47,16 @@ class user_captcha_make extends captcha
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 
 
-        $this->captcha( $captcha_privat_key, SF_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
+        $captcha = & new captcha( $captcha_privat_key, SF_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
    
-        $this->captcha_picture_expire = 300;
-        $this->width = 120;
-        $this->string_len = 5;
-        $this->shadow = FALSE;    
+        $captcha->captcha_picture_expire = 300;
+        $captcha->width = 120;
+        $captcha->string_len = 5;
+        $captcha->shadow = FALSE;    
 
-        $_captcha_pic = $this->make_captcha();
+        $_captcha_pic = $captcha->make_captcha();
         @chmod(SF_BASE_DIR . $_captcha_pic, SF_FILE_MODE);
-        $_public_key     = $this->public_key;
+        $_public_key     = $captcha->public_key;
 
         return TRUE;
     } 
