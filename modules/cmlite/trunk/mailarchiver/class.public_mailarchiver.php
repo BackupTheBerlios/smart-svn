@@ -300,7 +300,8 @@ class mailarchiver
      */ 
     function _pager( &$data )
     {
-        include_once('Pager_Sliding/Sliding.php');
+        // PEAR Pager class
+        include_once('Pager/Sliding.php');
         
         $sql = "
             SELECT

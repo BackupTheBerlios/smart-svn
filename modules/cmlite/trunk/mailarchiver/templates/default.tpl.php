@@ -7,10 +7,10 @@
         <td width="6%" align="left" valign="top"><a href="index.php?m=MAILARCHIVER&mf=edit_list&lid=<?php echo $list['lid']; ?>">edit</a>
         </td>
                 <td width="94%" align="left" valign="top" class="itemnormal">
-								<?php echo '<a href="index.php?m=MAILARCHIVER&mf=list_mess&lid='.$list['lid'].'">'.$list['name'].'</a>'; ?><br />
-								<?php echo $list['email']; ?>
-								<div><?php echo htmlentities($list['description']); ?></div>
-								</td>
+                                <strong><?php echo htmlentities($list['name']); ?></strong><br />
+                                <?php echo $list['email']; ?>
+                                <div><?php echo htmlentities($list['description']); ?></div>
+                                </td>
         </tr>
     </table>
         <?php endforeach; ?>
