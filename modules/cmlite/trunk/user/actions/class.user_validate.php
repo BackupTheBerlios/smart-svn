@@ -47,14 +47,93 @@ class user_validate
      */
     function perform( $data )
     {
-        if(isset($_GET['usr_id']))
-        {            
-            include( SF_BASE_DIR .'modules/user/includes/class.user.php' );
-            $user = & new user;
-            return $user->auto_validate_registered_user( $_GET['usr_id'] ));
+        $this->_delete_expired_registered_users();
+        
+        // validate md5 string
+        if(preg_match("/^[a-f0-9]{32}$/i", $data['md5_str']) == 0)
+        {
+            return FALSE;
         }
-        return FALSE;
+        
+        $sql = "
+            SELECT
+                uid
+            FROM
+                {$this->B->sys['db']['table_prefix']}user_registered
+            WHERE
+                md5_str='{$data['md5_str']}'";
+        
+        $row = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        
+        if(!isset($row['uid']))
+        {
+            return FALSE;
+        }
+        
+        $sql = '
+            UPDATE 
+                '.$this->B->sys['db']['table_prefix'].'user_users
+            SET
+                status=2
+            WHERE
+                uid='.$row['uid'];
+        
+        $this->B->db->query($sql);
+        
+        $sql = "
+            DELETE FROM 
+                {$this->B->sys['db']['table_prefix']}user_registered
+            WHERE
+                md5_str='{$data['md5_str']}'";
+        
+        $this->B->db->query($sql);
+        return TRUE;
     } 
+    /**
+     * delete_expired_registered_users
+     *
+     */    
+    function _delete_expired_registered_users()
+    {
+        $_date = date('Y-m-d H:i:s', time() - 86400);
+
+        $sql = "
+            SELECT
+                uid
+            FROM
+                {$this->B->sys['db']['table_prefix']}user_registered
+            WHERE
+                reg_date<'{$_date}'";
+        
+        $result = $this->B->db->query($sql);
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }        
+        
+        if(is_object($result))
+        {        
+            while($row = &$result->fetchRow( DB_FETCHMODE_ASSOC ))
+            {
+                $sql = "
+                    DELETE FROM 
+                        {$this->B->sys['db']['table_prefix']}user_registered
+                    WHERE
+                        uid={$row['uid']}";
+        
+                $this->B->db->query($sql);    
+                
+                $sql = "
+                    DELETE FROM 
+                        {$this->B->sys['db']['table_prefix']}user_users
+                    WHERE
+                        uid={$row['uid']}";
+        
+                $this->B->db->query($sql);                   
+            }
+        }
+    }    
 }
 
 ?>

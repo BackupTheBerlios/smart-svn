@@ -41,7 +41,7 @@ class view_validate
     }
     
     /**
-     * Execute the view of the template "group_login.tpl.php"
+     * Execute the view of the template "group_validate.tpl.php"
      *
      * @return bool true on success else false
      */
@@ -49,7 +49,7 @@ class view_validate
     {
         $this->B->tpl_is_valid = $this->B->M( MOD_USER, 
                                               'validate',
-                                              array('usr_id' => $_GET['usr_id']));
+                                              array('md5_str' => $_GET['usr_id']));
         if(TRUE === $this->B->tpl_is_valid)
         {
             $this->B->tpl_validation_message = 'Your account is now active.';
