@@ -1,27 +1,43 @@
+<?php //### Counter template. It is fetched by defining the url var tpl=counter ### ?>
+
+<?php // ##### For a better usability we place the event calls at the top of each template #### ?>
+
 <?php /* Event to get the navigation menu entries from the navigation module. 
-         See: /admin/modules/navigation/event_handler.php 
-         and /admin/modules/navigation/class.NAVIGATION_NAVIGATION_GET.php 
-     The result is in the array $B->tpl_nav. */ ?>
+         See: /admin/modules/navigation/class.NAVIGATION_GET.php 
+         The result is in the array $B->tpl_nav which is printed below as the site navigation menu. */ ?>
 <?php $B->M( MOD_NAVIGATION, 
-             EVT_NAVIGATION_GET, 
+             'GET', 
              array('var' => 'tpl_nav')); ?> 
+             
 <?PHP /* Counter 1,2,3 Event calls. 
-     See: /admin/modules/test/event_handler.php 
-     and /admin/modules/test/class.TEST_COUNTER.php  */ ?>          
+         See: admin/modules/test/class.TEST_COUNTER.php  
+         The results are printed out bellow of this template.*/ ?>          
 <?php $B->M( MOD_TEST, 
-             EVT_TEST_COUNTER, 
-             array('var' => 'tpl_counter1', 'start_counter' => 0, 'end_counter' => 200)); ?> 
+             'COUNTER', 
+             array('var'           => 'tpl_counter1', 
+                   'start_counter' => 0, 
+                   'end_counter'   => 200)); ?> 
 <?php $B->M( MOD_TEST, 
-             EVT_TEST_COUNTER, 
-             array('var' => 'tpl_counter2', 'start_counter' => 1000, 'end_counter' => 1200)); ?>
+             'COUNTER', 
+             array('var'           => 'tpl_counter2', 
+                   'start_counter' => 1000, 
+                   'end_counter'   => 1200)); ?>
 <?php $B->M( MOD_TEST, 
-             EVT_TEST_COUNTER, 
-             array('var' => 'tpl_counter3', 'start_counter' => 10000, 'end_counter' => 10200)); ?>             
+             'COUNTER', 
+             array('var'           => 'tpl_counter3', 
+                   'start_counter' => 10000, 
+                   'end_counter'   => 10200)); ?>  
+                   
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<?php /* 
+        --------------------------------------------------------------
+        Print out system variables defined in the admin options menu. 
+        --------------------------------------------------------------*/?>
 <title><?php echo $B->sys['option']['site_title']; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
+
 <style type="text/css">
 <!--
 body,td,th {
@@ -59,7 +75,11 @@ body {
             <?php endif; ?>
       </font></td>
           </tr>
-      <!-- Build the navigation -->
+          <?php /* -----------------------------------------------------------    
+                   Print out the navigation menu.                            
+                   The navigation items array $B->tpl_nav.
+                   is produced by the event call at the top of this template. 
+                   -----------------------------------------------------------*/ ?>
       <?php foreach($B->tpl_nav as $key => $val): ?>
           <tr>
             <td align="left" valign="top"><font size="2">
@@ -82,6 +102,10 @@ body {
               page is produced by the counter template (default_counter.tpl.php). </font></p>
           <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Counter
               1</strong> - produced by a event call. See: template<br />
+      <?php /* -----------------------------------------------------------
+               Print out the counter arrays defined in the event calls at
+               the top of this template. 
+               -----------------------------------------------------------*/?>
       <?php foreach($B->tpl_counter1 as $c_1): ?>
           <?php echo $c_1;  ?>, 
       <?php endforeach; ?>  

@@ -1,18 +1,28 @@
+<?php //### Contact template. It is fetched by defining the url var tpl=contact ### ?>
+
+<?php // ##### For a better usability we place the event calls at the top of each template #### ?>
+
 <?php /* Event to get the navigation menu entries from the navigation module. 
-         See: /admin/modules/navigation/event_handler.php 
-         and /admin/modules/navigation/class.NAVIGATION_NAVIGATION_GET.php 
-     The result is in the array $B->tpl_nav. */ ?>
+         See: /admin/modules/navigation/class.NAVIGATION_GET.php 
+         The result is in the array $B->tpl_nav which is printed below as the site navigation menu. */ ?>
 <?php $B->M( MOD_NAVIGATION, 
-             EVT_NAVIGATION_GET, 
+             'GET', 
              array('var' => 'tpl_nav')); ?> 
-<?php /* Contact Event call. See: /admin/modules/test/event_handler.php 
-         and /admin/modules/test/class.TEST_CONTACT.php */ ?>          
+
+<?php /* Contact Event call. See: /admin/modules/test/class.TEST_CONTACT.php 
+         It assign contact data to the template var $B->tpl_contact which
+         is printed out bellow of this template. */ ?>          
 <?php $B->M( MOD_TEST, 
-             EVT_TEST_CONTACT, 
+             'CONTACT', 
              array('var' => 'tpl_contact')); ?> 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<?php /* 
+        --------------------------------------------------------------
+        Print out system variables defined in the admin options menu. 
+        --------------------------------------------------------------*/?>
 <title><?php echo $B->sys['option']['site_title']; ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
 <style type="text/css">
@@ -52,6 +62,11 @@ body {
             <?php endif; ?>
       </font></td>
           </tr>
+          <?php /* -----------------------------------------------------------    
+                   Print out the navigation menu.                            
+                   The navigation items array $B->tpl_nav.
+                   is produced by the event call at the top of this template. 
+                   -----------------------------------------------------------*/ ?>          
       <?php foreach($B->tpl_nav as $key => $val): ?>
           <tr>
             <td align="left" valign="top"><font size="2">
@@ -75,7 +90,11 @@ body {
           <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Contact</strong> -
               produced by a event call.
               See: template<br />
-          <?php echo nl2br($B->tpl_contact);  ?>, 
+      <?php /* -----------------------------------------------------------
+               Print out the contact string defined in the event call at
+               the top of this template. 
+               -----------------------------------------------------------*/?>              
+      <?php echo nl2br($B->tpl_contact);  ?>, 
       </font></p>     
       </td>
       </tr>

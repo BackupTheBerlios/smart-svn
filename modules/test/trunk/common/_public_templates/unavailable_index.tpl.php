@@ -1,11 +1,17 @@
+?php /* 
+       Index template. It is loaded by default if no template is defined. 
+       This template is a member of the unavailable group. You can define this group
+       in the admin options menu.
+     */?>
+
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta name="robots" content="noindex">
-<meta name="description" content="<?php echo str_replace("\"","'",$B->sys['option']['site_desc']); ?>">
-<meta name="keywords" content="<?php echo str_replace("\"","'",$B->sys['option']['site_desc']); ?>">
+<?php /* 
+        --------------------------------------------------------------
+        Print out system variables defined in the admin options menu. 
+        --------------------------------------------------------------*/?>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>">
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <title><?php echo htmlspecialchars($B->sys['option']['site_title']); ?></title>
 </head>
 
