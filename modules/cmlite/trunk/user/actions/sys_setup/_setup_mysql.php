@@ -89,7 +89,9 @@ $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}use
         forename VARCHAR(50) NOT NULL,
         lastname VARCHAR(50) NOT NULL,
         email    TEXT NOT NULL,
-        PRIMARY KEY uid (uid),
+        PRIMARY KEY     (uid),
+        KEY login       (login),
+        KEY passwd      (passwd),
         KEY status      (status),
         KEY rights      (rights))";
 
