@@ -10,32 +10,24 @@
 // ----------------------------------------------------------------------
 
 /**
- * action_system_get_public_view class 
+ * action_system_get_view class 
  *
- * Load the demanded view and optionaly the related template
+ * Load the demanded view
  *
  */
  
 class action_system_get_view extends action
 {
     /**
-     * Default view folder
-     * @var string $view_folder
-     */    
-    var $view_folder = SF_VIEW_FOLDER;
-    
-    /**
      * - validate the view request
-     * - make instance of the view class
-     * - execute the view related prepend filter chain
-     * - preform on the view class
-     * - return the view object
+     * - build the whole name of the requested view classe
+     * - build the whole path to the requested view class
      *
      *
      * @param array $data
-     * @return object the requested view object
+     * @return bool
      */
-    function perform( $data )
+    function validate( & $data )
     {
         /*
          * Set public view folder.
@@ -53,35 +45,38 @@ class action_system_get_view extends action
            define('SF_TPL_FOLDER', $this->B->sys['option']['tpl']); 
         }
         
-        // we need the global container object in this function as $B
-        // in order to access templates variables e.g. $B->tpl_test
-        // A Template is included in this function.
-        $B = & $this->B;
-        
         // Check if the requested view is passed through the $data array
         // else fetch the name from an external var (gpc)
         if ( isset($data['view']) )
         {
-            $view = $data['view'];
+            $this->_view = $data['view'];
         }
         elseif ( isset($_REQUEST['view']) )
         {
-            $view = $_REQUEST['view'];
+            $this->_view = $_REQUEST['view'];
         }
 
         // If no view request is done load the default view
-        if (!isset($view))
+        if (!isset($this->_view))
         {
-            $view = 'index';
+            $this->_view = 'index';
         }
 
         // Check view request string
-        if(!preg_match("/[a-zA-Z0-9_]{1,30}/", $view))
+        if(preg_match("/[^a-zA-Z0-9_]/", $this->_view))
         {
-            die ('The requested view name "' . $view . '" has a wrong name format! Only max. 30 chars a-zA-Z0-9_ are accepted.');
-            exit;
+            // set error
+            $this->B->view_error = 'The requested view name "' . $this->_view . '" has a wrong name format! Only chars a-zA-Z0-9_ are accepted.';
+        
+            // set error view
+            $this->_view = 'error';
+            // build the whole file path to the error view class file
+            $this->_view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $this->_view . '.php';
+            
+            return TRUE;
         } 
 
+        // check if an admin view request was done
         if ($_REQUEST['admin'] == '1')
         {
             // if no view is defines call first the common module view
@@ -89,6 +84,7 @@ class action_system_get_view extends action
             {
                 $module = SF_BASE_MODULE;
             }
+            // get requested module view
             elseif ( isset($data['m']) )
             {
                 $module = $data['m'];
@@ -98,37 +94,70 @@ class action_system_get_view extends action
                 $module = $_REQUEST['m'];   
             }  
             
-            // Check view request string
-            if(!preg_match("/[a-zA-Z0-9_]{1,30}/", $module))
+            // Check module view request string
+            if(preg_match("/[^a-zA-Z0-9_]/", $module))
             {
-                die ('The requested module name "' . $module . '" has a wrong name format! Only max. 30 chars a-zA-Z0-9_ are accepted.');
-                exit;
+                // set error view
+                $this->_view = 'error';
+                // set error
+                $this->B->view_error = 'The requested module name "' . $module . '" has a wrong name format! Only chars a-zA-Z0-9_ are accepted.';
+                // build the whole file path to the error view class file
+                $this->_view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $this->_view . '.php';
+                
+                return TRUE;            
             }
             
+            // build the requested module view file path
             $this->view_folder = 'modules/' .$module. '/view/';
+            // build the name of the module view class 
+            $this->_view = $module . '_' . $this->_view;        
+            
             // build the whole file path to the module view class file
-            $view_class_file = SF_BASE_DIR . 'modules/' . $module . '/views/class.view_' .$module.'_'. $view . '.php';
-
-            $view = $module . '_' . $view;
+            $this->_view_class_file = SF_BASE_DIR . 'modules/' . $module . '/views/class.view_' . $this->_view . '.php';   
         }
         else
         {
             // build the whole file path to the view class file
-            $view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $view . '.php';
+            $this->_view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $this->_view . '.php';
         }
         
         // check if view class file exists
-        if( !@file_exists( $view_class_file ) )
+        if( !@file_exists( $this->_view_class_file ) )
         {
-            die ('The requested view dosent exists: ' . $view_class_file);
-            exit; 
-        }
+            // set error view
+            $this->_view = 'error';
+            // set error
+            $this->B->view_error = 'The requested view dosent exists: ' . $this->_view_class_file; 
+            // build the whole file path to the error view class file
+            $this->_view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $this->_view . '.php';
+            return TRUE;
+        }    
         
+        return TRUE;
+    }
+    
+    /**
+     * - make instance of the view class
+     * - launch view related auth()
+     * - execute the view related prepend filter chain
+     * - preform on the view class
+     * - execute the view related append filter chain
+     *
+     * @param array $data
+     * @return bool
+     */
+    function perform( $data )
+    {
+        // we need the global container object in this function as $B
+        // in order to access templates variables e.g. $B->tpl_test
+        // May a Template is included in this function.
+        $B = & $this->B;
+
         // include the requested view class
-        include_once( $view_class_file );
+        include_once( $this->_view_class_file );
         
         // build the requested view class name and make instance
-        $view_class = 'view_'.$view;          
+        $view_class = 'view_'.$this->_view;          
         $view_obj   = & new $view_class();
 
         // Launch view related authentication

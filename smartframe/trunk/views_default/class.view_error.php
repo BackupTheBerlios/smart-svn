@@ -30,8 +30,11 @@ class view_error extends view
      */
     function perform( & $view_obj )
     {
-        // assign template error var
-        $this->B->view_error = nl2br( $view_obj->getError() );
+        if (is_object( $view_obj ))
+        {
+            // assign template error var
+            $this->B->view_error = nl2br( $view_obj->getError() );
+        }
 
         return TRUE;
     }    

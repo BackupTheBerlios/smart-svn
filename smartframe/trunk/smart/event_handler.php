@@ -49,13 +49,24 @@ function system_event_handler( $evt )
             include_once($class_file);
             // make instance
             $GLOBALS[$class_name] = & new $class_name();
+            
+            // validate the request
+            if( FALSE == $GLOBALS[$class_name]->validate( $evt['data'] ) )
+            {
+                return FALSE;
+            }
             // perform the request
             return $GLOBALS[$class_name]->perform( $evt['data'] );
         }
-        return FALSE;
     }
     else
     {
+        // validate the request
+        if( FALSE == $GLOBALS[$class_name]->validate( $evt['data'] ) )
+        {
+            return FALSE;
+        }  
+        
         // perform the request if the requested object exists
         return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
