@@ -106,8 +106,8 @@ body {
         
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To understand
             how event calls inside the templates interact with the corresponding
-            classes of each module you have to study the templates. I recommand
-            you
+            action classes of each module you have to study the templates. I
+            recommand you
             to
             start
             with this
