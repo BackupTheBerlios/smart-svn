@@ -104,7 +104,7 @@ class mailarchiver
      */     
     function add_list( $data )
     {
-        $lid = $GLOBALS['B']->db->nextId('sequence_add_list');
+        $lid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'_seq_add_list');
 
         if (DB::isError($lid)) 
         {
@@ -203,11 +203,11 @@ class mailarchiver
      * add email message
      *
      * @param array $data associative array of list data
-     * @return bool true or false
+     * @return mixed message ID or false
      */     
     function add_message( &$data )
     {
-        $mid = $GLOBALS['B']->db->nextId('sequence_add_message');
+        $mid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'_seq_add_message');
 
         if (DB::isError($mid)) 
         {
@@ -235,14 +235,16 @@ class mailarchiver
             return $mid;
     }     
     /**
-     * add email message
+     * add email message attachment
      *
+     * @param int $mid Message ID
+     * @param int $lid List ID
      * @param array $data associative array of list data
      * @return bool true or false
      */     
     function add_attach( $mid, $lid, &$data )
     {
-        $aid = $GLOBALS['B']->db->nextId('sequence_add_attach');
+        $aid = $GLOBALS['B']->db->nextId('$GLOBALS['B']->sys['db']['table_prefix'].'_seq_add_attach');
 
         if (DB::isError($aid)) 
         {
@@ -264,5 +266,4 @@ class mailarchiver
         return $GLOBALS['B']->db->query($sql);
     }         
 }
-
 ?>

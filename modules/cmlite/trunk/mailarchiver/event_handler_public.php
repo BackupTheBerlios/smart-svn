@@ -1,8 +1,17 @@
 <?php
-
+// ----------------------------------------------------------------------
+// Smart (PHP Framework)
+// Copyright (c) 2004
+// by Armand Turpel < smart@open-publisher.net >
+// http://smart.open-publisher.net/
+// ----------------------------------------------------------------------
+// LICENSE GPL
+// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// ----------------------------------------------------------------------
 
 /**
- * Test module event handler
+ * Mailarchiver module public event handler
+ * It handles instruction calls from templates
  *
  */
 
@@ -16,7 +25,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_MAILARCHIVER' ,      'MAILARCHIVER');
 
-// define template functions of this modul
+// define template instruction calls for this module
+// see details below in function 'mailarchiver_event_handler'
+//
 define ( 'MAILARCHIVER_LISTS',          '1');
 define ( 'MAILARCHIVER_LIST',           '2');
 define ( 'MAILARCHIVER_LIST_MESSAGES',  '3');
@@ -35,33 +46,38 @@ if (FALSE == $B->register_handler(MOD_MAILARCHIVER,
 // The handler function
 function mailarchiver_event_handler( $evt )
 {
-    //global $B;
-
+    // check if a $mailarchiver instance exists
     if(!is_object($mailarchiver))
     {
-        // mailarchiver rights class
         include_once(SF_BASE_DIR.'/admin/modules/mailarchiver/class.public_mailarchiver.php');           
         $mailarchiver = & new mailarchiver;
     }
 
+    // Switch to the event code instruction
     switch( $evt["code"] )
     {            
         case MAILARCHIVER_LISTS: 
+            // get all email lists
             return $mailarchiver->get_lists( $evt['data'] );
             break;  
         case MAILARCHIVER_LIST: 
+            // get a single email list
             return $mailarchiver->get_list( $evt['data'] );
             break;   
         case MAILARCHIVER_LIST_MESSAGES: 
+            // get email list messages
             return $mailarchiver->get_messages( $evt['data'] );
             break;
         case MAILARCHIVER_MESSAGE: 
+            // get a single message
             return $mailarchiver->get_message( $evt['data'] );
             break;     
         case MAILARCHIVER_MESSAGE_ATTACH: 
+            // get email message attachments
             return $mailarchiver->get_message_attach( $evt['data'] );
             break; 
         case MAILARCHIVER_ATTACH: 
+            // get a single attachment
             return $mailarchiver->get_attach( $evt['data'] );
             break;            
     }

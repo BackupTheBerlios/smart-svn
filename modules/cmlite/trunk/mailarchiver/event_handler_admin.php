@@ -11,7 +11,7 @@
 
 
 /**
- * MAILARCHIVER module event handler
+ * MAILARCHIVER module admin event handler
  *
  */
 

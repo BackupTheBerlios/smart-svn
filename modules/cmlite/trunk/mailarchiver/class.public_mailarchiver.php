@@ -10,16 +10,31 @@
 // ----------------------------------------------------------------------
 
 /**
- * The mailarchiver class 
+ * The mailarchiver class provide methods to use by
+ * the public event handler of this module "mailarchiver".
+ *
+ * Each method is calling with a $data param which is an array
+ * that contains variables that the method needs to provide
+ * the demanded result.
+ * 
+ * $data['fields'] - names of the db table cols to fetch
+ * $data['var'] - The variable name where to store the result.
+ *                The result will be available in templates
+ *                $B->$data['var']
+ * $data['lid'] - List ID
+ * $data['mid'] - Message ID
+ * $data['aid'] - Attachment ID
+ * $data['pager']['var'] - Var name of the pager links
+ * $data['pager']['limit'] - Limit of the results
  *
  */
  
 class mailarchiver
 {
     /**
-     * get all lists
+     * get all email lists
      *
-     * @param array $fields Field names of the list db table
+     * @param array $data Col names of the lists db table and instructions
      */ 
     function get_lists( $data )
     {
@@ -69,9 +84,8 @@ class mailarchiver
     /**
      * get email list data
      *
-     * @param int $lid List id
-     * @param array $fields Field names of the list db table
-     * @return array List data 
+     * @param array $data Col names of the list db table and instructions
+     * @return array Email list data 
      */     
     function get_list( $data )
     {
@@ -101,11 +115,10 @@ class mailarchiver
     } 
 
     /**
-     * get email list data
+     * get message data
      *
-     * @param int $lid List id
-     * @param array $fields Field names of the list db table
-     * @return array List data 
+     * @param array $data Col names of the message db table and instructions
+     * @return array Message data 
      */     
     function get_message( $data )
     {
@@ -135,11 +148,10 @@ class mailarchiver
     } 
 
     /**
-     * get email list data
+     * get all list messages data
+     * (support pagination)
      *
-     * @param int $lid List id
-     * @param array $fields Field names of the list db table
-     * @return array List data 
+     * @param array $data Col names of the message db table and instructions
      */     
     function get_messages( $data )
     {
@@ -197,11 +209,9 @@ class mailarchiver
     }
 
     /**
-     * get email list data
+     * get message attachments
      *
-     * @param int $lid List id
-     * @param array $fields Field names of the list db table
-     * @return array List data 
+     * @param array $data Col names of the attach db table and instructions
      */     
     function get_message_attach( $data )
     {
@@ -249,11 +259,9 @@ class mailarchiver
     }
 
     /**
-     * get email list data
+     * get attachment data
      *
-     * @param int $lid List id
-     * @param array $fields Field names of the list db table
-     * @return array List data 
+     * @param array $data Col names of the attach db table and instructions
      */     
     function get_attach( $data )
     {
@@ -284,6 +292,12 @@ class mailarchiver
         $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     } 
 
+    /**
+     * get attachment data
+     *
+     * @param array $data Col names of the attach db table and instructions
+     * @access privat
+     */ 
     function _pager( &$data )
     {
         include_once('Pager_Sliding/Sliding.php');
@@ -305,5 +319,4 @@ class mailarchiver
         $GLOBALS['B']->$data['pager']['var'] = $links['all'];    
     }
 }
-
 ?>
