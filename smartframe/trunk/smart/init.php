@@ -9,15 +9,27 @@
 // To read the license please visit http://www.gnu.org/copyleft/gpl.html
 // ----------------------------------------------------------------------
 
-// Check if this file is included in the environement
+/**
+ * System module init
+ *
+ *
+ */
+
+// Check if this file is included in the SMART environement
 //
 if (!defined('SF_SECURE_INCLUDE'))
 {
-    die('No Permission on '. __FILE__);
+    die('No Permission on'. __FILE__);
 }
 
-// System Name and Version
-$this->B->system_name    = 'Smart Frame';
-$this->B->system_version = '0.5a';
+// Name of the module
+define( 'MOD_SYSTEM' , 'system' );
+
+// register this module                       
+if (FALSE == register_module( MOD_SYSTEM,
+                              array ( 'module' => MOD_SYSTEM) ))
+{
+    trigger_error( 'The module '.MOD_SYSTEM.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+}
 
 ?>

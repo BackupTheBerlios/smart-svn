@@ -69,24 +69,24 @@ if(!is_dir(SF_BASE_DIR . 'modules'))
     die("<b>You have to install at least one 'SF_COMMON_MODULE' module in the /modules directory!</b>");
 }
 
-// A "common" event handler and filter must be loaded and registered first
+// A "common" module must be loaded and registered first
 //
-$evt_common = SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/event_handler.php';
+$mod_common = SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/init.php';
 
-if(file_exists( $evt_common ))
+if(file_exists( $mod_common ))
 {
     // include event handler of a "common" module
-    include_once ( $evt_common );
+    include_once ( $mod_common );
 }
 else
 {
-    die ("The module event handler {$evt_common} must be installed!");
+    die ("The module /modules/{$mod_common}/init.php  must be installed!");
 }
 
-// include system event handler
-include_once (SF_BASE_DIR . 'smart/event_handler.php');
+// include system module
+include_once (SF_BASE_DIR . 'smart/init.php');
 
-// include other module handlers and filters
+// include other modules init file
 //
 $B->tmp_directory =& dir( SF_BASE_DIR . 'modules');
 while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
@@ -98,11 +98,11 @@ while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
     if ( ($B->tmp_dirname != SF_COMMON_MODULE) && @is_dir( SF_BASE_DIR . 'modules/'.$B->tmp_dirname) )
     {
         // include common handler
-        $B->tmp_evt_handler = SF_BASE_DIR . 'modules/' . $B->tmp_dirname . '/event_handler.php';
+        $B->tmp_mod_init = SF_BASE_DIR . 'modules/' . $B->tmp_dirname . '/init.php';
 
-        if ( @is_file( $B->tmp_evt_handler ) )
+        if ( @is_file( $B->tmp_mod_init ) )
         {
-            include_once $B->tmp_evt_handler;
+            include_once $B->tmp_mod_init;
         }       
     }
 }

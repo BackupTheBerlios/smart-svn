@@ -42,7 +42,7 @@ function is_handler( $target )
   * @param array $descriptor Array of identification data of the handler.
   * @param bool True on success else false
   */
-function register_handler( $target, $descriptor )
+function register_module( $target, $descriptor )
 {
     global $handler_list;
     
@@ -66,10 +66,6 @@ function register_handler( $target, $descriptor )
 function M( $target_id, $code, $data = FALSE )
 {
     global $handler_list;
-    
-    $_event_data = array( "target_id" => $target_id,
-                          "code"      => $code,
-                          "data"      => $data);  
 
     // check if such a handler is registered
     if(!isset( $handler_list[$target_id]) )
@@ -78,18 +74,47 @@ function M( $target_id, $code, $data = FALSE )
         return FALSE;
     }  
 
-    // get the function name
-    $descriptor = $handler_list[$target_id];
-
-    // check if the defined function handler exist
-    if(!function_exists($descriptor['event_handler']))
+    // build the whole class name
+    $class_name = 'action_' . $target_id . '_' . $code;
+    
+    // check if this object was previously declared
+    if(!is_object($GLOBALS[$class_name]))
     {
-        trigger_error("This handler function dosent exists: ".$descriptor['event_handler']."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-        return FALSE;
-    }
+        // path to the modules action class 
+        $class_file = SF_BASE_DIR . 'modules/' . $target_id . '/actions/class.'.$class_name.'.php';
+        // path to the system action class
+        if( $target_id == 'system' )
+        {
+            // dynamic load the required class 
+            $class_file = SF_BASE_DIR . 'smart/actions/class.'.$class_name.'.php';
+        }
 
-    // call the event handler function
-    return $descriptor['event_handler']( $_event_data );  
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $GLOBALS[$class_name] = & new $class_name();
+            
+            // validate the request
+            if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
+            {
+                return FALSE;
+            }
+            // perform the request
+            return $GLOBALS[$class_name]->perform( $data );
+        }
+    }
+    else
+    {
+        // validate the request
+        if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
+        {
+            return FALSE;
+        }  
+        
+        // perform the request if the requested object exists
+        return $GLOBALS[$class_name]->perform( $data );
+    }
 }
 
 /**
@@ -100,24 +125,53 @@ function M( $target_id, $code, $data = FALSE )
   */ 
 function B( $code, $data = FALSE )
 {
-    global $handler_list;
-    
-    $_event_data = array( "code"  => $code,
-                          "data"  => $data);  
+    global $handler_list; 
 
-    foreach( $handler_list as $descriptor )
+    foreach( $handler_list as $target_id => $val )
     {
-        // check if the defined function handler exist
-        if(!function_exists($descriptor["event_handler"]))
+        // build the whole class name
+        $class_name = 'action_' . $target_id . '_' . $code;
+    
+        // check if this object was previously declared
+        if(!is_object($GLOBALS[$class_name]))
         {
-            trigger_error("This handler function dosent exists: ".$descriptor['event_handler']."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);  
+            // path to the modules action class 
+            $class_file = SF_BASE_DIR . 'modules/' . $target_id . '/actions/class.'.$class_name.'.php';
+            // path to the system action class
+            if( $target_id == 'system' )
+            {
+                // dynamic load the required class 
+                $class_file = SF_BASE_DIR . 'smart/actions/class.'.$class_name.'.php';
+            }
+
+            if(file_exists($class_file))
+            {
+                include_once($class_file);
+                // make instance
+                $GLOBALS[$class_name] = & new $class_name();
+            
+                // validate the request
+                if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
+                {
+                    return FALSE;
+                }
+                // perform the request
+                return $GLOBALS[$class_name]->perform( $data );
+            }
         }
         else
         {
-            // call the event handler function
-            $descriptor["event_handler"]( $_event_data );
+            // validate the request
+            if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
+            {
+                return FALSE;
+            }  
+        
+            // perform the request if the requested object exists
+            return $GLOBALS[$class_name]->perform( $data );
         }
-    }   
+    }
+ 
 }   
 
 ?>
