@@ -27,8 +27,7 @@
                   select
                   all available modules from the select menu. This release is
                   only for testing purpose to demonstrate how the modules mechanism
-                  works. Alternate you can download the real working application <a href="http://e-archive.open-publisher.net" target="_blank">E-archive</a>,
-                  which is build upon SMART.</p>
+                  works.</p>
                 <p>&nbsp;</p>
                 <p>&nbsp; </p></td>
             </tr>
