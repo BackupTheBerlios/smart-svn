@@ -88,11 +88,11 @@ class user_sys_setup
                 (uid,forename,lastname,email,login,passwd,status,rights)
             VALUES
                 ('.$uid.',
-                 '.$this->B->db->quote($data['username']).',
-                 '.$this->B->db->quote($data['userlastname']).',
-                 '.$this->B->db->quote($data['useremail']).',
-                 '.$this->B->db->quote($data['userlogin']).',
-                 '.$this->B->db->quote(md5($data['userpasswd1'])).',
+                 "'.$this->B->db->escape($data['username']).'",
+                 "'.$this->B->db->escape($data['userlastname']).'",
+                 "admin@foo.com",
+                 "'.$this->B->db->escape($data['userlogin']).'",
+                 "'.$this->B->db->escape(md5($data['userpasswd1'])).'",
                  2,
                  5)';
          

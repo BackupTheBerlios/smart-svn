@@ -72,11 +72,11 @@ class user_add
                 (uid,forename,lastname,email,login,passwd,status,rights)
             VALUES
                 ('.$uid.',
-                 '.$data['user_data']['forename'].',
-                 '.$data['user_data']['lastname'].',
-                 '.$data['user_data']['email'].',
-                 '.$data['user_data']['login'].',
-                 '.$data['user_data']['passwd'].',
+                 "'.$data['user_data']['forename'].'",
+                 "'.$data['user_data']['lastname'].'",
+                 "'.$data['user_data']['email'].'",
+                 "'.$data['user_data']['login'].'",
+                 "'.$data['user_data']['passwd'].'",
                  '.$data['user_data']['status'].',
                  '.$data['user_data']['rights'].')';
          
@@ -107,7 +107,7 @@ class user_add
             WHERE
                 login='.$login;
         
-        $result = &$this->B->db->query($sql);
+        $result = $this->B->db->query($sql);
         
         return $result->numRows();    
     }    

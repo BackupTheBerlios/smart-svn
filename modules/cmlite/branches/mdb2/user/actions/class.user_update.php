@@ -56,7 +56,7 @@ class user_update
         
         foreach($data['fields'] as $key => $val)
         {
-            $set .= $comma.$key.'='.$this->B->db->escape( $val );
+            $set .= $comma.$key.'="'.$this->B->db->escape( $val ).'"';
             $comma = ',';
         }
         
