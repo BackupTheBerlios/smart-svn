@@ -54,6 +54,11 @@ define('SF_FILE_MODE',                   0775);
 define('SF_DEFAULT_TEMPLATE_GROUP',      'test');
 
 /**
+ * Default template
+ */
+define('SF_DEFAULT_MEDIA_folder',        'media');
+
+/**
  * Event types.
  */
 define('EVT_TYPE_BROADCAST',          1);

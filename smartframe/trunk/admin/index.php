@@ -60,8 +60,13 @@ else
     $B->M(SF_DEFAULT_MODULE, EVT_LOAD_MODULE);
 }
 
+if(!defined( 'SF_TEMPLATE_MAIN' ) || !file_exists( SF_TEMPLATE_MAIN ))
+{
+    die('Missing main admin template!');
+}
+
 //  Output all templates
-include(SF_BASE_DIR . '/admin/index.tpl.php');
+include( SF_TEMPLATE_MAIN );
 
 // Send the output buffer to the client
 if (SF_OB == TRUE)
