@@ -24,7 +24,7 @@ class view_node extends view
 
     /**
      * Execute the view of the template "templates_xxx/tpl.node.php"
-     * Create the template variables
+     * Create template variables
      *
      * @return bool true on success else false
      */
@@ -64,16 +64,6 @@ class view_node extends view
                  'node'   => (int)$_GET['node'],
                  'status' => 2));
 
-        // Set path to language related advertising content
-        if( SF_CLIENT_LANG == 'de')
-        {
-              $this->B->tpl_advertising = SF_BASE_DIR.'templates_smart/tpl.advertising2_de.php';
-        }
-        else 
-        {
-              $this->B->tpl_advertising = SF_BASE_DIR.'templates_smart/tpl.advertising_def.php';        
-        }
-
         return TRUE;
     }
     
@@ -99,13 +89,12 @@ class view_node extends view
         // Launch default prepended filters (before the view template is rendered)
         // 
         
-        // Directed intercepting filter event (auto_prepend)
-        // see smart/actions/class.system_sys_prepend.php
-        M( MOD_SYSTEM, 'sys_prepend' );    
+        // send http headers to prevent browser caching
+        M( MOD_COMMON, 'add_headers' );    
     }    
     
     /**
-     * prepend filter chain
+     * append filter chain
      *
      */
     function appendFilterChain()
@@ -113,10 +102,9 @@ class view_node extends view
         // Launch default appended filters (after the view template was rendered)
         // 
         
-        // Directed intercepting filter event (auto_prepend)
-        // see smart/actions/class.system_sys_prepend.php
-        M( MOD_SYSTEM, 'sys_append' );    
-    }     
+        // does email obfuscating
+        M( MOD_COMMON, 'email_obfuscating' );     
+    }    
 }
 
 ?>

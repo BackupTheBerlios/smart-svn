@@ -36,16 +36,6 @@ class view_index extends view
             $this->B->tpl_logged_user = $this->B->logged_user;
         }
         
-        // Set path to language related advertising content
-        if( SF_CLIENT_LANG == 'de')
-        {
-              $this->B->tpl_advertising = SF_BASE_DIR.'templates_smart/tpl.advertising_de.php';
-        }
-        else 
-        {
-              $this->B->tpl_advertising = SF_BASE_DIR.'templates_smart/tpl.advertising_def.php';        
-        }
-        
         return TRUE;
     } 
 
@@ -71,13 +61,12 @@ class view_index extends view
         // Launch default prepended filters (before the view template is rendered)
         // 
         
-        // Directed intercepting filter event (auto_prepend)
-        // see smart/actions/class.system_sys_prepend.php
-        M( MOD_SYSTEM, 'sys_prepend' );    
+        // send http headers to prevent browser caching
+        M( MOD_COMMON, 'add_headers' );    
     }    
     
     /**
-     * prepend filter chain
+     * append filter chain
      *
      */
     function appendFilterChain()
@@ -85,9 +74,8 @@ class view_index extends view
         // Launch default appended filters (after the view template was rendered)
         // 
         
-        // Directed intercepting filter event (auto_prepend)
-        // see smart/actions/class.system_sys_prepend.php
-        M( MOD_SYSTEM, 'sys_append' );    
+        // does email obfuscating
+        M( MOD_COMMON, 'email_obfuscating' );     
     }       
 }
 
