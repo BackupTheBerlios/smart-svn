@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * The main admin file
+ * The main admin file (admin front controller)
  *
  */
  

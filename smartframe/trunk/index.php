@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * The public main file
+ * The public main file (public front controller)
  *
  */
  
