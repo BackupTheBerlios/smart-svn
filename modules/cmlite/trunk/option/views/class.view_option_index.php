@@ -208,9 +208,10 @@ class view_option_index extends view
     function _load_public_tpl_groups()
     {
          // Load the available public templates sets from the main folder 
-         $this->B->templ = array();
+         $this->B->templatefolder = array();
          
-         $this->B->templ[] = "";
+         // the root directory
+         $this->B->templatefolder[] = "";
          
          $directory =& dir(SF_BASE_DIR);
 
@@ -220,7 +221,7 @@ class view_option_index extends view
              {
                 if(preg_match("/^templates_/", $itemname))
                 {
-                    $this->B->templ[] = $itemname . "/";
+                    $this->B->templatefolder[] = $itemname . "/";
                 }
              }
          }

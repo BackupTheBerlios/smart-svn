@@ -101,7 +101,7 @@
           <tr>
             <td width="13%" align="left" valign="top">
                <select name="tplgroup">
-                  <?php foreach($B->templ as $_tpl):  ?>
+                  <?php foreach($B->templatefolder as $_tpl):  ?>
                      <option value="<?php echo $_tpl; ?>" <?php if($_tpl==$B->sys['option']['tpl']) echo 'selected="selected"' ?>><?php echo $_tpl; ?></option>
                     <?php endforeach;  ?>
                </select>
