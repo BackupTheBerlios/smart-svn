@@ -44,11 +44,7 @@ switch($_REQUEST['mf'])
         }
         // set the base template for this module feature
         $B->section = SF_BASE_DIR . '/admin/modules/earchive/templates/addlist.tpl.php';
-        break;
-    case 'del_list':
-        // Include default
-        include( SF_BASE_DIR."/admin/modules/earchive/dellist.php" );     
-        break;      
+        break;    
     default:
         // set the base template for this module
         $B->section = SF_BASE_DIR . '/admin/modules/earchive/templates/default.tpl.php';    

@@ -22,7 +22,6 @@
 }
 -->
 </style>
-<form action="index.php?m=OPTION" method="post" name="url" id="url">
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr bgcolor="#666699">
     <td colspan="2"><span class="style1">&nbsp;&nbsp;&nbsp;Options Management</span></td>
@@ -31,46 +30,56 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-                <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+		<form action="index.php?m=OPTION" method="post" name="url" id="url">
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="optiontitle">URL of the public page </span></td>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">URL of the public page </span></td>
           </tr>
           <tr>
-            <td align="left" valign="top">                      
+            <td width="87%" align="left" valign="top">          
               <input name="site_url" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars($B->util->stripSlashes($B->sys['option']['url'])); ?>">
-&nbsp; 
+              &nbsp; 
            </td>
+            <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_url" value="update" onclick="subok(this.form.update_main_options_url);"></td>
           </tr>
-        </table>
-                <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+        </table> 
+		</form>
+		<form action="index.php?m=OPTION" method="post" name="email" id="email">
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
           </tr>
           <tr>
-            <td align="left" valign="top">
+            <td width="87%" align="left" valign="top">
               <input name="site_email" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars($B->util->stripSlashes($B->sys['option']['email'])); ?>">
-&nbsp; 
+              &nbsp; 
             </td>
+            <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_email" value="update" onclick="subok(this.form.update_main_options_email);"></td>
           </tr>
-        </table>        
-                <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+        </table>   
+		</form> 
+		<form action="index.php?m=OPTION" method="post" name="title" id="title">    
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
           </tr>
           <tr>
-            <td align="left" valign="top">  
-                                      <input name="site_title" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars($B->util->stripSlashes($B->sys['option']['site_title'])); ?>">
-<textarea name="site_desc" cols="50" rows="3" wrap="virtual"><?php echo htmlspecialchars($B->util->stripSlashes($B->sys['option']['site_desc'])); ?></textarea>
-&nbsp; 
+            <td width="87%" align="left" valign="top">  
+                <input name="site_title" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars($B->util->stripSlashes($B->sys['option']['site_title'])); ?>">
+                <textarea name="site_desc" cols="50" rows="3" wrap="virtual"><?php echo htmlspecialchars($B->util->stripSlashes($B->sys['option']['site_desc'])); ?></textarea>
+                &nbsp; 
             </td>
+            <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_title" value="update" onclick="subok(this.form.update_main_options_title);"></td>
           </tr>
-        </table>                
-                <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+        </table> 
+		</form>  
+		<form action="index.php?m=OPTION" method="post" name="charset" id="charset">              
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="optiontitle">Charset</span></td>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Charset</span></td>
           </tr>
           <tr>
-            <td align="left" valign="top">
+            <td width="37%" align="left" valign="top">
                         <select name="charset">
           <option value="iso-8859-1" <?php if($B->sys['option']['charset']=='iso-8859-1') echo 'selected="selected"' ?>>Western (iso-8859-1)</option>
           <option value="iso-8859-15" <?php if($B->sys['option']['charset']=='iso-8859-15') echo 'selected="selected"' ?>>Western (iso-8859-15)</option>
@@ -90,27 +99,35 @@
           <option value="utf-8" <?php if($B->sys['option']['charset']=='utf-8') echo 'selected="selected"' ?>>Unicode (utf-8)</option>
         </select>&nbsp; 
             </td>
+            <td width="63%" align="left" valign="top"><input type="submit" name="update_main_options_charset" value="update" onclick="subok(this.form.update_main_options_charset);"></td>
           </tr>
-        </table>        
-                <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+        </table> 
+		</form>  
+		<form action="index.php?m=OPTION" method="post" name="tpl" id="tpl">      
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="optiontitle">Public web pages templates</span></td>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web pages templates</span></td>
           </tr>
           <tr>
-            <td align="left" valign="top">
+            <td width="13%" align="left" valign="top">
                <select name="tpl">
-                             <?php foreach($B->templ as $_tpl):  ?>
-                             <option value="<?php echo $_tpl; ?>" <?php if($_tpl==$B->sys['option']['tpl']) echo 'selected="selected"' ?>><?php echo $_tpl; ?></option>
-                             <?php endforeach;  ?>
-                             </select>
-&nbsp; 
+               		<?php foreach($B->templ as $_tpl):  ?>
+                     <option value="<?php echo $_tpl; ?>" <?php if($_tpl==$B->sys['option']['tpl']) echo 'selected="selected"' ?>><?php echo $_tpl; ?></option>
+                    <?php endforeach;  ?>
+               </select>
+               &nbsp; 
             </td>
+            <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_tpl" value="update" onclick="subok(this.form.update_main_options_tpl);"></td>
+          </tr>
+		  </table> 
+		  </form>
+		  <form action="index.php?m=OPTION" method="post" name="badword" id="badword"> 
+		  <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+          <tr>
+              <td colspan="2" align="left" valign="top"><span class="optiontitle">Bad words language lists</span></td>
           </tr>
           <tr>
-              <td align="left" valign="top"><span class="optiontitle">Bad words language lists</span></td>
-          </tr>
-          <tr>
-              <td align="left" valign="top">
+              <td width="20%" align="left" valign="top">
                 <select name="bad_word_list">
                 <option value="">Select language</option>
                 <?php foreach($B->tpl_bad_word_lang as $lang): ?>
@@ -118,10 +135,11 @@
                 <?php endforeach; ?>
                 </select>
               </td>
+              <td width="80%" align="left" valign="top"><input type="submit" name="update_main_options_badwordadd" value="add" onclick="subok(this.form.update_main_options_badwordadd);"></td>
           </tr>
             <?php if(count($B->tpl_selected_lang) != 0): ?>
           <tr>
-              <td align="left" valign="top">              <table width="250" border="0" cellspacing="2" cellpadding="2">
+              <td align="left" valign="top">              <table width="100%" border="0" cellspacing="2" cellpadding="2">
                   <tr align="left" valign="top">
                       <td colspan="2" class="optiondesc">&nbsp;Selected languages</td>
                   </tr>
@@ -132,9 +150,12 @@
                   </tr>
                   <?php endforeach; ?>
               </table></td>
+              <td align="left" valign="bottom"><input type="submit" name="update_main_options_badworddel" value="delete" onclick="subok(this.form.update_main_options_badworddel);"></td>
           </tr>
           <?php endif; ?>
         </table>
+		</form>
+		<form action="index.php?m=OPTION" method="post" name="clearcache" id="clearcache">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td align="left" valign="top"><span class="optiontitle">Clean public web cache</span></td>
@@ -142,10 +163,11 @@
           <tr>
             <td align="left" valign="top">
                              &nbsp; 
-             <input name="clean_cache" type="submit" id="clean_cache" value="clean cache"></td>
+             <input name="cleancache" type="submit" id="cleancache" value="clean cache" onclick="subok(this.form.cleancache);"></td>
           </tr>
-        </table>                                
-                </td>
+        </table> 
+		</form>                             
+        </td>
         <td width="24%" align="right" valign="top"></td>
       </tr>
     </table>        
@@ -159,18 +181,7 @@
             }
         }
         ?>
-        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
-          <tr>
-            <td align="left" valign="top">&nbsp;</td>
-          </tr>
-          <tr>
-            <td align="left" valign="top">
-                             &nbsp; 
-<input name="update_main_options" type="submit" id="update_main_otions" value="Update">            </td>
-          </tr>
-        </table>                                
-                </td>
-        <td width="24%" align="right" valign="top"></td>
+    </td>
+    <td width="24%" align="right" valign="top"></td>
       </tr>
     </table>   
- </form>

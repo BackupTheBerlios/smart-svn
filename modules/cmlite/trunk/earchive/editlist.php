@@ -40,6 +40,11 @@ if($_POST['dellist'] == 1)
     if(TRUE == earchive_rights::ask_access_to_delete_list())
     {
         $B->earchive->delete_list((int)$_REQUEST['lid']);
+        
+        // delete word index of this list
+        include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');        
+        word_indexer::delete_words( 'earchive_words_crc32', 'lid', (int)$_REQUEST['lid'] );
+        
         @header('Location: index.php?m=EARCHIVE');
         exit;
     }    

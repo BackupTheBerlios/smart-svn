@@ -76,7 +76,7 @@ function earchive_event_handler( $evt )
         case EVT_SET_OPTIONS:  
             // set user options 
             // this event comes from the option module (module_loader.php)
-            if(!empty($_POST['earchive_rebuild_index']))
+            if(isset($_POST['update_earchive_options_wordindex']) && !empty($_POST['earchive_rebuild_index']))
             {
                 // the earchive class
                 include_once SF_BASE_DIR . '/admin/modules/earchive/class.earchive.php';
@@ -103,7 +103,7 @@ function earchive_event_handler( $evt )
             }
             // set user options 
             // this event comes from the option module (module_loader.php)
-            if(!empty($_POST['earchive_fetch_emails']))
+            if(isset($_POST['update_earchive_options_fetchemails']) && !empty($_POST['earchive_fetch_emails']))
             {
                 // the earchive class
                 include_once SF_BASE_DIR . '/admin/modules/earchive/fetch_emails.php';             

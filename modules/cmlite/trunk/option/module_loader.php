@@ -27,73 +27,84 @@ $B->modul_options = FALSE;
 // Show main options if no module feature is requested.
 if(!isset($_GET['mf']))
 {
-   // Empty public web cache
-   if(isset($_POST['clean_cache']))
-   {
-        include_once(SF_BASE_DIR.'/admin/lib/PEAR/Cache/Lite.php');
-                
-        $options = array(
-            'cacheDir' => SF_BASE_DIR.'/admin/tmp/cache/'
-        ); 
-            
-        $B->_cache = & new Cache_Lite($options);    
-        $B->_cache->clean();
-        unset($B->_cache);
-    }
-    elseif (isset($_POST['update_main_options']))
+    
+    // Empty public web cache
+    if(isset($_POST['cleancache']))
     {
-        // set options of other modules
-        $B->B( EVT_SET_OPTIONS );
-        
-        // set main options
+         include_once(SF_BASE_DIR.'/admin/lib/PEAR/Cache/Lite.php');
+                 
+         $options = array(
+             'cacheDir' => SF_BASE_DIR.'/admin/tmp/cache/'
+         ); 
+             
+         $B->_cache = & new Cache_Lite($options);    
+         $B->_cache->clean();
+         unset($B->_cache);
+    }
+      elseif (isset($_POST['update_main_options_url']))
+    {
         $B->sys['option']['url']        = $B->util->stripSlashes($_POST['site_url']);
-        $B->sys['option']['email']      = $B->util->stripSlashes($_POST['site_email']);
+    }
+    elseif (isset($_POST['update_main_options_email']))
+    {
+        $B->sys['option']['email']        = $B->util->stripSlashes($_POST['site_email']);
+    } 
+    elseif (isset($_POST['update_main_options_title']))
+    {
         $B->sys['option']['site_title'] = $B->util->stripSlashes($_POST['site_title']);
         $B->sys['option']['site_desc']  = $B->util->stripSlashes($_POST['site_desc']);
+    } 
+    elseif (isset($_POST['update_main_options_charset']))
+    {
         $B->sys['option']['charset']    = $B->util->stripSlashes($_POST['charset']);
+    }  
+    elseif (isset($_POST['update_main_options_tpl']))
+    {
         $B->sys['option']['tpl']        = $B->util->stripSlashes($_POST['tpl']);
-        
-        $B->conf->setConfigValues( $B->sys );
-        //  write a new file
-        $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
+    }     
+    
+    // set options of other modules
+    $B->B( EVT_SET_OPTIONS );
+ 
+    $B->conf->setConfigValues( $B->sys );
+    //  write a new file
+    $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
 
-        // insert bad word languages list
-        if(!empty($_POST['bad_word_list']))
-        {
-            // Insert bad word list in db table
-            $bad_word_file = SF_BASE_DIR.'/admin/modules/option/bad_word/stop.'.$_POST['bad_word_list'].'.sql';
-            if( TRUE == @is_file($bad_word_file) )
-            {
-                $bad_word = @file($bad_word_file);
-                $sth = $B->db->autoPrepare($B->sys['db']['table_prefix'].'bad_words', array('word','lang'),DB_AUTOQUERY_INSERT);
-                $_ins = array();
-                foreach($bad_word as $word)
-                {
-                    if(!strstr($word,"#"))
-                    {
-                        $_ins[] = array($word,$_POST['bad_word_list']);
-                    }
-                }
-                $result = &$B->db->executeMultiple($sth, $_ins);
-                if (DB::isError($result)) 
-                {
-                        trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                }                 
-            }
-            else
-            {
-                trigger_error("No ".$bad_word_file." file for this module!\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            }  
-        }
-        // delete selected bad word languages
-        if(isset($_POST['selected_lang']) && (count($_POST['selected_lang']) > 0))
-        {
-            include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
-
-            foreach($_POST['selected_lang'] as $lang)
-                word_indexer::delete_bad_words_lang( $lang );              
-        }        
-    }    
+    // insert bad word languages list
+    if(isset($_POST['update_main_options_badwordadd']) && !empty($_POST['bad_word_list']))
+    {
+         // Insert bad word list in db table
+         $bad_word_file = SF_BASE_DIR.'/admin/modules/option/bad_word/stop.'.$_POST['bad_word_list'].'.sql';
+         if( TRUE == @is_file($bad_word_file) )
+         {
+             $bad_word = @file($bad_word_file);
+             $sth = $B->db->autoPrepare($B->sys['db']['table_prefix'].'bad_words', array('word','lang'),DB_AUTOQUERY_INSERT);
+             $_ins = array();
+             foreach($bad_word as $word)
+             {
+                 if(!strstr($word,"#"))
+                 {
+                     $_ins[] = array($word,$_POST['bad_word_list']);
+                 }
+             }
+             $result = &$B->db->executeMultiple($sth, $_ins);
+             if (DB::isError($result)) 
+             {
+                 trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+             }                 
+         }
+         else
+         {
+             trigger_error("No ".$bad_word_file." file for this module!\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+         }  
+    }
+    // delete selected bad word languages
+    elseif(isset($_POST['update_main_options_badworddel']) && isset($_POST['selected_lang']) && (count($_POST['selected_lang']) > 0))
+    {
+         include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
+         foreach($_POST['selected_lang'] as $lang)
+             word_indexer::delete_bad_words_lang( $lang );              
+    }           
     
     // Load the available public templates sets from the main folder 
     $B->templ = array();

@@ -73,8 +73,11 @@ function user_event_handler( $evt )
         case EVT_SET_OPTIONS:  
             // set user options 
             // this event comes from the option module (module_loader.php)
-            $B->sys['option']['user']['allow_register'] = (bool)$_POST['userallowregister'];
-            $B->sys['option']['user']['register_type']  = $_POST['userregistertype'];
+            if(isset($_POST['update_user_options_allowreg']))
+            {
+                $B->sys['option']['user']['allow_register'] = (bool)$_POST['userallowregister'];
+                $B->sys['option']['user']['register_type']  = $_POST['userregistertype'];
+            }
             break;             
         case EVT_GET_OPTIONS:  
             // get user options template 
