@@ -244,7 +244,7 @@ class mailarchiver
      */     
     function add_attach( $mid, $lid, &$data )
     {
-        $aid = $GLOBALS['B']->db->nextId('$GLOBALS['B']->sys['db']['table_prefix'].'_seq_add_attach');
+        $aid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'_seq_add_attach');
 
         if (DB::isError($aid)) 
         {
