@@ -93,14 +93,11 @@ class earchive_delete_message
         
         $this->B->db->query($sql); 
         
-        // delete list messages word indexes
-        $sql = "
-            DELETE FROM 
-                {$this->B->sys['db']['table_prefix']}earchive_words_crc32
-            WHERE
-                mid={$data['mid']}";
-        
-        $this->B->db->query($sql);     
+        // Delete message words from the search index
+        $this->B->M( MOD_EARCHIVE, 
+                     'word_indexer', 
+                     array( 'delete_words' => TRUE,
+                            'mid'          => (int)$data['mid']));   
 
         // Delete cache data
         $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));

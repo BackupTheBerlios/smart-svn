@@ -46,23 +46,25 @@ class earchive_rebuild_words_index
      * @param array $data
      */
     function perform( $data )
-    {    
-        include_once(SF_BASE_DIR.'modules/common/includes/class.sfWordIndexer.php');
-        $word_indexer = & new word_indexer();
-                
+    {                    
         $fields = array('mid','lid','subject','body','sender');
         $result = $this->_get_all_messages( $fields );
                 
         if( FALSE !== $result )
         {
-            while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
+            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $content  = '';
                 $content .= commonUtil::stripslashes($row['sender']);
                 $content .= commonUtil::stripslashes($row['subject']);
                 $content .= commonUtil::stripslashes($row['body']);
-                    
-                $word_indexer->indexing_words( $content, 'earchive_words_crc32', array('mid' => $row['mid'], 'lid' => $row['lid']), TRUE);      
+                
+                $this->B->M( MOD_EARCHIVE, 
+                             'word_indexer', 
+                             array( 'content' => $content,
+                                    'mid'     => $row['mid'], 
+                                    'lid'     => $row['lid'], 
+                                    'rebuild' => true));      
             }
             return TRUE;
         } 

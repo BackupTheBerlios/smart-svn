@@ -16,8 +16,6 @@
 
 // the PEAR IMAP class
 include_once (SF_BASE_DIR . 'modules/common/PEAR/MAIL/IMAP.php');
-// the word indexer class
-include_once (SF_BASE_DIR . 'modules/common/includes/class.sfWordIndexer.php');
  
 class earchive_fetch_emails
 {
@@ -159,9 +157,14 @@ class earchive_fetch_emails
                 // delte message from inbox
                 $this->_msg->delete($mid);
                 
-                // indexing content
+                // prepare content for indexing
                 $_content = $this->_message_data['subject'].' '.$this->_message_data['sender'].' '.$this->_message_data['body'];
-                $this->_word_indexer->indexing_words( $_content, 'earchive_words_crc32', array('mid' => $message_id, 'lid' => $account['lid']));
+                // indexing content
+                $this->B->M( MOD_EARCHIVE, 
+                             'word_indexer', 
+                             array( 'content' => $_content,
+                                    'mid'     => $message_id, 
+                                    'lid'     => $account['lid']));   
             }
         }
     }
