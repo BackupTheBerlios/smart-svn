@@ -28,24 +28,22 @@ define ( 'MOD_TEST' , 'test');
 define ( 'MOD_TEST_VERSION' , '0.4');
 
 // register this handler                       
-if (FALSE == $B->register_handler( MOD_TEST,
-                                   array ( 'module'          => MOD_TEST,
-                                           'event_handler'   => 'test_event_handler',
-                                           'menu_visibility' => TRUE) ))
+if (FALSE == register_handler( MOD_TEST,
+                                   array ( 'module'           => MOD_TEST,
+                                           'event_handler'    => 'test_event_handler',
+                                           'menu_visibility'  => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
-}    
+}   
                                                                           
 // The handler function
 function test_event_handler( $evt )
 {
-    global $B;
-    
     // build the whole class name
-    $class_name = 'test_'.$evt['code'];
-        
+    $class_name = 'action_test_'.$evt['code'];    
+    
     // check if this object was previously declared
-    if(!is_object($B->$class_name))
+    if(!is_object($GLOBALS[$class_name]))
     {
         // dynamic load the required class
         $class_file = SF_BASE_DIR . 'modules/test/actions/class.'.$class_name.'.php';
@@ -53,17 +51,17 @@ function test_event_handler( $evt )
         {
             include_once($class_file);
             // make instance
-            $B->$class_name = & new $class_name();
+            $GLOBALS[$class_name] = & new $class_name();
             // perform the request
-            return $B->$class_name->perform( $evt['data'] );
+            return $GLOBALS[$class_name]->perform( $evt['data'] );
         }
-        return FALSE;
     }
     else
     {
         // perform the request if the requested object exists
-        return $B->$class_name->perform( $evt['data'] );
+        return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
+    return TRUE;
 }
 
 ?>
