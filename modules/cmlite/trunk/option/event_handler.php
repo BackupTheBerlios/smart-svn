@@ -30,10 +30,10 @@ define ( 'MOD_OPTION' , 'option');
 define ( 'MOD_OPTION_VERSION' , '0.1.4');
 
 // register this handler                       
-if (FALSE == $B->register_handler( MOD_OPTION,
-                                   array ( 'module'           => MOD_OPTION,
-                                           'event_handler'    => 'option_event_handler',
-                                           'menu_visibility'  => TRUE) ))
+if (FALSE == register_handler( MOD_OPTION,
+                               array ( 'module'           => MOD_OPTION,
+                                       'event_handler'    => 'option_event_handler',
+                                       'menu_visibility'  => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_OPTION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
@@ -41,13 +41,11 @@ if (FALSE == $B->register_handler( MOD_OPTION,
 // The handler function
 function option_event_handler( $evt )
 {
-    global $B;
-
     // build the whole class name
     $class_name = 'option_'.$evt['code'];
     
     // check if this object was previously declared
-    if(!is_object($B->$class_name))
+    if(!is_object($GLOBALS[$class_name]))
     {
         // dynamic load the required class
         $class_file = SF_BASE_DIR . 'modules/option/actions/class.'.$class_name.'.php';
@@ -55,15 +53,15 @@ function option_event_handler( $evt )
         {
             include_once($class_file);
             // make instance
-            $B->$class_name = & new $class_name();
+            $GLOBALS[$class_name] = & new $class_name();
             // perform the request
-            return $B->$class_name->perform( $evt['data'] );
+            return $class_name->perform( $evt['data'] );
         }
     }
     else
     {
         // perform the request if the requested object exists
-        return $B->$class_name->perform( $evt['data'] );
+        return $class_name->perform( $evt['data'] );
     }
     return TRUE;
 }
