@@ -30,8 +30,8 @@ if( $_POST['do_setup'] )
     $B->M( MOD_USER, EVT_SETUP );
     $B->M( MOD_OPTION, EVT_SETUP );
     
-    if(is_object($B->dbdata))
-        $B->dbdata->close();
+    if(is_object($B->db))
+        $B->db->close();
         
     // if there are errors
     if( count($B->setup_error) == 0 )

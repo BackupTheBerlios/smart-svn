@@ -45,7 +45,9 @@ if( count($B->setup_error) == 0 )
     
     $B->conf_val['module']['user']['name']    = 'user';
     $B->conf_val['module']['user']['version'] = '0.1';
-    $B->conf_val['module']['user']['info'] = '';    
+    $B->conf_val['module']['user']['info'] = '';  
+    
+    $B->conf_val['db']['dbtype'] = $_POST['dbtype'];
 }
 
 ?>

@@ -57,7 +57,7 @@ if( count($B->setup_error) == 0 )
             KEY status      (status),
             KEY rights      (rights))";
 
-    if( FALSE == $B->db->query($sql) )
+    if( FALSE === $B->db->query($sql) )
     {
         $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
@@ -72,7 +72,7 @@ if( count($B->setup_error) == 0 )
               VALUES 
                 ('{$forename}','{$lastename}','{$login}','{$passwd}',2,5)";
     
-    if( FALSE == $B->db->query($sql) )
+    if( FALSE === $B->db->query($sql) )
     {
         $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }   

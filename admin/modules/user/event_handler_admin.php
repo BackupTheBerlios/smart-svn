@@ -115,7 +115,7 @@ if($B->sys['info']['status'] == TRUE)
         $B->db = & new DB(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
         $B->db->turboMode();
     }
-    if($B->sys['db']['dbtype'] == 'mysql')
+    elseif($B->sys['db']['dbtype'] == 'mysql')
     {
         // Connect to the mysql database
         $B->db = & new DB($B->sys['db']['host'], $B->sys['db']['user'], $B->sys['db']['passwd'], $B->sys['db']['name']);

@@ -131,13 +131,13 @@ class DB
                                   
         if (!empty($db_name))
         {
-            $this->select_db ( $db_name );        
+            @mysql_select_db($db_name, $this->_conn);        
         }
     }
 
     function select_db ( $db_name )
     {
-        if (FALSE == @mysql_select_db($db_name, $this->_conn))
+        if (FALSE === @mysql_select_db($db_name, $this->_conn))
         {
             trigger_error("Impossible to connect to the database \n$db_name\nFILE: " . __FILE__ ."\nLINE:". __LINE__, E_USER_ERROR);        
         }    
@@ -181,7 +181,7 @@ class DB
         
         if (!$result) {
             $this->_error = 'SQL-ERROR: '.chr(10).mysql_error().chr(10).'SQL_ERROR_NO: '.chr(10).mysql_errno();
-            return false;
+            return FALSE;
         } else {
             return $result;
         }

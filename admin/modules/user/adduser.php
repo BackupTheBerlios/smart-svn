@@ -57,7 +57,7 @@ else
                          'rights'   => (int)$_POST['rights'],
                          'status'   => (int)$_POST['status']);
                   
-    if(FALSE != $B->user->add_user($B->tmp_data))
+    if(FALSE !== $B->user->add_user($B->tmp_data))
     {
         @header('Location: index.php?m=USER');
         exit;
