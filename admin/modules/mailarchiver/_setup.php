@@ -20,7 +20,7 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on'. __FILE__);
 }
 
-if( count($B->setup_error) == 0 )
+if( count($B->setup_error) == 0)
 {  
     //create sqlite dir if it dosent exist
     if(!is_dir(SF_BASE_DIR . '/data/mailarchiver'))
@@ -35,8 +35,14 @@ if( count($B->setup_error) == 0 )
         }  
     }
 
+    if(!isset($_POST['dbtype']))
+        $db_type = $B->sys['db']['dbtype'];
+    else
+        $db_type = $_POST['dbtype'];
+    
+
     // include db setup
-    include_once( SF_BASE_DIR . '/admin/modules/mailarchiver/_setup_'.$_POST['dbtype'].'.php' );    
+    include_once( SF_BASE_DIR . '/admin/modules/mailarchiver/_setup_'.$db_type.'.php' );    
     
     $B->conf_val['module']['mailarchiver']['name']    = 'mailarchiver';
     $B->conf_val['module']['mailarchiver']['version'] = '0.1';
