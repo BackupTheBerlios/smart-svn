@@ -77,9 +77,9 @@ if(isset($_POST['edituser']))
         
         if(empty($B->form_error))
         {
-            $B->tmp_data = array('forename' => $B->dbdata->escapeString($_POST['forename']),
-                                 'lastname' => $B->dbdata->escapeString($_POST['lastname']),
-                                 'email'    => $B->dbdata->escapeString($_POST['email']),
+            $B->tmp_data = array('forename' => $B->db->escapeString($_POST['forename']),
+                                 'lastname' => $B->db->escapeString($_POST['lastname']),
+                                 'email'    => $B->db->escapeString($_POST['email']),
                                  'rights'   => (int)$_POST['rights'],
                                  'status'   => (int)$_POST['status']);
             
@@ -111,11 +111,11 @@ else
 // if error restore the form fields values
 if(!empty($B->form_error))
 {
-    $B->tpl_data['forename'] = htmlentities($B->util->stripSlashes($_POST['forename']));
-    $B->tpl_data['lastname'] = htmlentities($B->util->stripSlashes($_POST['lastname']));
-    $B->tpl_data['email']    = htmlentities($B->util->stripSlashes($_POST['email']));
-    $B->tpl_data['login']    = htmlentities($B->util->stripSlashes($_POST['login']));
-    $B->tpl_data['passwd']   = htmlentities($B->util->stripSlashes($_POST['passwd']));
+    $B->tpl_data['forename'] = $B->util->htmlentities($B->util->stripSlashes($_POST['forename']));
+    $B->tpl_data['lastname'] = $B->util->htmlentities($B->util->stripSlashes($_POST['lastname']));
+    $B->tpl_data['email']    = $B->util->htmlentities($B->util->stripSlashes($_POST['email']));
+    $B->tpl_data['login']    = $B->util->htmlentities($B->util->stripSlashes($_POST['login']));
+    $B->tpl_data['passwd']   = $B->util->htmlentities($B->util->stripSlashes($_POST['passwd']));
     $B->tpl_data['rights']   = $_POST['rights'];
     $B->tpl_data['status']   = $_POST['status'];        
 }

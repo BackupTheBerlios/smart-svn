@@ -32,7 +32,7 @@ function deleteuser(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="forename" type="text" id="forename" size="40" maxlength="255" value="<?php echo htmlentities(stripslashes($B->tpl_data['forename'])); ?>">
+          <input name="forename" type="text" id="forename" size="40" maxlength="255" value="<?php echo $B->util->htmlentities(stripslashes($B->tpl_data['forename'])); ?>">
         </td>
       </tr>
       <tr>
@@ -40,7 +40,7 @@ function deleteuser(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="lastname" type="text" id="lastname" size="40" maxlength="255" value="<?php echo htmlentities(stripslashes($B->tpl_data['lastname'])); ?>">
+          <input name="lastname" type="text" id="lastname" size="40" maxlength="255" value="<?php echo $B->util->htmlentities(stripslashes($B->tpl_data['lastname'])); ?>">
         </td>
       </tr>
       <tr>
@@ -53,7 +53,7 @@ function deleteuser(f, mes)
         <td align="left" valign="top" class="font10bold">Email</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="email" type="text" id="passwd" size="40" maxlength="255" value="<?php echo htmlentities(stripslashes($B->tpl_data['email'])); ?>"></td>
+        <td align="left" valign="top"><input name="email" type="text" id="passwd" size="40" maxlength="255" value="<?php echo $B->util->htmlentities(stripslashes($B->tpl_data['email'])); ?>"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Status</td>

@@ -67,18 +67,18 @@ define('SF_DEFAULT_MODULE',              'ENTRY');
 if($B->sys['info']['status'] == TRUE)
 {
     // include DB class
-    include_once( SF_BASE_DIR . '/admin/modules/user/class.'.$B->sys['info']['dbtype'].'.php' );         
+    include_once( SF_BASE_DIR . '/admin/modules/user/class.'.$B->sys['db']['dbtype'].'.php' );         
 
-    if($B->sys['info']['dbtype'] == 'sqlite')
+    if($B->sys['db']['dbtype'] == 'sqlite')
     {
         // Connect to the main database
         $B->db = & new DB(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
         $B->db->turboMode();
     }
-    if($B->sys['info']['dbtype'] == 'mysql')
+    if($B->sys['db']['dbtype'] == 'mysql')
     {
         // Connect to the mysql database
-        $B->db = & new DB($B->sys['info']['host'],$B->sys['info']['user'],$B->sys['info']['passwd'],$B->sys['info']['table_prefix']);
+        $B->db = & new DB($B->sys['db']['host'],$B->sys['db']['user'],$B->sys['db']['passwd'],$B->sys['db']['table_prefix']);
     }    
 }
 

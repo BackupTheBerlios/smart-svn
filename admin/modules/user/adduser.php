@@ -37,11 +37,11 @@ if(
     empty($_POST['login'])||
     empty($_POST['passwd']))
 {
-    $B->form_forename = htmlentities($B->util->stripSlashes($_POST['forename']));
-    $B->form_lastname = htmlentities($B->util->stripSlashes($_POST['lastname']));
-    $B->form_email    = htmlentities($B->util->stripSlashes($_POST['email']));
-    $B->form_login    = htmlentities($B->util->stripSlashes($_POST['login']));
-    $B->form_passwd   = htmlentities($B->util->stripSlashes($_POST['passwd']));
+    $B->form_forename = $B->util->htmlentities($B->util->stripSlashes($_POST['forename']));
+    $B->form_lastname = $B->util->htmlentities($B->util->stripSlashes($_POST['lastname']));
+    $B->form_email    = $B->util->htmlentities($B->util->stripSlashes($_POST['email']));
+    $B->form_login    = $B->util->htmlentities($B->util->stripSlashes($_POST['login']));
+    $B->form_passwd   = $B->util->htmlentities($B->util->stripSlashes($_POST['passwd']));
     $B->form_rights   = $_POST['rights'];
     $B->form_status   = $_POST['status'];
     
@@ -49,10 +49,10 @@ if(
 }
 else
 {
-    $B->tmp_data = array('forename' => $B->dbdata->escapeString($_POST['forename']),
-                         'lastname' => $B->dbdata->escapeString($_POST['lastname']),
-                         'email'    => $B->dbdata->escapeString($_POST['email']),
-                         'login'    => $B->dbdata->escapeString($_POST['login']),
+    $B->tmp_data = array('forename' => $B->db->escapeString($_POST['forename']),
+                         'lastname' => $B->db->escapeString($_POST['lastname']),
+                         'email'    => $B->db->escapeString($_POST['email']),
+                         'login'    => $B->db->escapeString($_POST['login']),
                          'passwd'   => md5($_POST['passwd']),
                          'rights'   => (int)$_POST['rights'],
                          'status'   => (int)$_POST['status']);
@@ -64,11 +64,11 @@ else
     }
     else
     {
-        $B->form_forename = htmlentities($B->util->stripSlashes($_POST['forename']));
-        $B->form_lastname = htmlentities($B->util->stripSlashes($_POST['lastname']));
-        $B->form_email    = htmlentities($B->util->stripSlashes($_POST['email']));
-        $B->form_login    = htmlentities($B->util->stripSlashes($_POST['login']));
-        $B->form_passwd   = htmlentities($B->util->stripSlashes($_POST['passwd']));
+        $B->form_forename = $B->util->htmlentities($B->util->stripSlashes($_POST['forename']));
+        $B->form_lastname = $B->util->htmlentities($B->util->stripSlashes($_POST['lastname']));
+        $B->form_email    = $B->util->htmlentities($B->util->stripSlashes($_POST['email']));
+        $B->form_login    = $B->util->htmlentities($B->util->stripSlashes($_POST['login']));
+        $B->form_passwd   = $B->util->htmlentities($B->util->stripSlashes($_POST['passwd']));
         $B->form_rights   = $_POST['rights'];
         $B->form_status   = $_POST['status'];   
     

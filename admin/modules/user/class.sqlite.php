@@ -320,8 +320,8 @@ class DB
     function _setTableInfo($tablename)
     {
         $query = "SELECT type, name, tbl_name, rootpage, sql FROM sqlite_master where tbl_name = '" . $tablename . "'";
-        $this->query($query);
-        $this->_tableInfo = $this->selectRows(0);
+        $result = $this->query($query);
+        $this->_tableInfo = $this->selectRows($result, 0);
     }
 
     // }}}
@@ -579,7 +579,7 @@ class DB
     * @return   mixed
     */
     
-    function selectRows(&$result, $index01, $index02 = null, $type = null)
+    function selectRows($result, $index01, $index02 = null, $type = null)
     {
         if (isset($type)) {
             $this->setType($type);

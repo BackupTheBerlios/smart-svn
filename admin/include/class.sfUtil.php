@@ -96,6 +96,18 @@ class sfUtil
     {
         mt_srand((double) microtime()*1000000);
         return md5(str_replace(".","",$_SERVER["REMOTE_ADDR"]) + mt_rand(100000,999999)+uniqid(microtime()));    
+    } 
+    /**
+     * Get htmlentities of a string but not of a utf8 string
+     *
+     * @param string $str
+     * @return string 
+     */
+    function htmlentities(&$str)
+    {
+        if($GLOBALS['B']->sys['option']['charset'] == 'utf-8')
+            return $str;
+        return htmlentities($str);
     }    
 }
 

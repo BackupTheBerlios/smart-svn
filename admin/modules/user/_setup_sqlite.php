@@ -22,14 +22,17 @@ if (!defined('SF_SECURE_INCLUDE'))
 
 if( count($B->setup_error) == 0 )
 {
-    if(!@mkdir(SF_BASE_DIR . '/data/db_sqlite'))
+    if(!is_dir(SF_BASE_DIR . '/data/db_sqlite'))
     {
-        $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/data/db_sqlite';
+        if(!@mkdir(SF_BASE_DIR . '/data/db_sqlite'))
+        {
+            $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/data/db_sqlite';
+        }
+        elseif(!@is_writeable( SF_BASE_DIR . '/data/db_sqlite' ))
+        {
+            $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/db_sqlite';
+        }  
     }
-    elseif(!@is_writeable( SF_BASE_DIR . '/data/db_sqlite' ))
-    {
-        $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/db_sqlite';
-    }    
         
     @copy(SF_BASE_DIR . '/admin/include/.htaccess', SF_BASE_DIR . '/data/db_sqlite/.htaccess');
 
@@ -40,6 +43,17 @@ if( count($B->setup_error) == 0 )
     $B->db = & new DB(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
     $B->db->turboMode(); 
 
+    //$B->tmp_inf = $B->db->getTableInfo('user_users', 'tbl_name');
+
+    if(!empty($B->tmp_inf))
+    {
+        $sql = "DROP TABLE user_users";
+        if( FALSE == $B->db->query($sql) )
+        {
+            $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+        }
+    }
+    
     $sql = "CREATE TABLE user_users (
             uid      INTEGER NOT NULL PRIMARY KEY,
             status   TINYINT NOT NULL default 1,

@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 if( count($B->setup_error) == 0 )
 {
     // include sqlite class
-    include_once( SF_BASE_DIR . '/admin/modules/user/class.Mysql.php' );
+    include_once( SF_BASE_DIR . '/admin/modules/user/class.mysql.php' );
         
     // Set db connection data
     $B->conf_val['db']['host']         = $_POST['dbhost'];
@@ -67,10 +67,6 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
-    
-    $B->conf_val['module']['user']['name']    = 'user';
-    $B->conf_val['module']['user']['version'] = '0.1';
-    $B->conf_val['module']['user']['info'] = '';
 }
 
 ?>

@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Admin</title>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->charset; ?>" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
 <link href="media/<?php echo $B->sys['option']['css_folder']; ?>/main.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
@@ -11,8 +11,8 @@
     font-weight: bold;
 }
 .style6 {
-	font-size: 24px;
-	color: #0033CC;
+    font-size: 24px;
+    color: #0033CC;
 }
 -->
 </style>
