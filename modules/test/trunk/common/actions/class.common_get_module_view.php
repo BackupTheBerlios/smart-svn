@@ -21,6 +21,16 @@ class common_get_module_view
      * @var object $B
      */
     var $B;
+    /**
+     * Module name
+     * @var string $module
+     */
+    var $_module;
+    /**
+     * Template name
+     * @var string $_tpl
+     */
+    var $_tpl;   
     
     /**
      * constructor
@@ -39,6 +49,62 @@ class common_get_module_view
     {
         $this->B = & $GLOBALS['B'];
     }
+
+    /**
+     * Validate request variables
+     *
+     * @param array $data
+     * @return bool true on success or false on error
+     */
+    function validate( & $data )
+    {
+        // init error string
+        $this->B->tpl_error = FALSE;
+        
+        // check if the request is coming from the data array
+        if( isset($data['m']) && isset($data['tpl']) )
+        {
+            $this->_module = $data['m'];
+            $this->_tpl    = $data['tpl'];
+        }
+        else
+        {
+            // set default if no request
+            if( !isset( $_REQUEST['m'] ) )
+            {
+                $this->_module = SF_DEFAULT_MODULE;   
+            }
+            // ckeck on allowed chars
+            elseif(preg_match("/[a-z]+/", $_REQUEST['m']))
+            {
+                $this->_module = $_REQUEST['m'];   
+            }
+            // set error string
+            else
+            {
+                $this->B->tpl_error = 'Wrong module name format: m=' . $_REQUEST['m'];
+                return FALSE;
+            }
+            
+            // set default if no request
+            if( !isset( $_REQUEST['tpl'] ) )
+            {
+                $this->_tpl = 'index';   
+            }    
+            // ckeck on allowed chars
+            elseif(preg_match("/[a-z_]+/", $_REQUEST['tpl']))
+            {
+                $this->_tpl = $_REQUEST['tpl'];
+            }
+            // set error string
+            else
+            {
+                $this->B->tpl_error = 'Wrong template name format: tpl=' . $_REQUEST['tpl'];
+                return FALSE;
+            }        
+        }  
+        return TRUE;
+    }
     
     /**
      * - check if the main admin template exists
@@ -46,59 +112,43 @@ class common_get_module_view
      *
      *
      * @param array $data
-     * @return string
+     * @return string whole path to the template
      */
-    function perform( $data )
+    function perform( & $data )
     {
-        if(preg_match("/[a-z]+/", $_REQUEST['m']))
+        // validate module name and template name request
+        if (FALSE == $this->validate( $data ))
         {
-            $module = $_REQUEST['m'];
-        }
-        else
-        {
-            $module = SF_DEFAULT_MODULE;
+            return SF_BASE_DIR . 'error.tpl.php';
         }
         
-        if(preg_match("/[a-z_]+/", $_REQUEST['tpl']))
-        {
-            $tpl = $_REQUEST['tpl'];
-        }
-        else
-        {
-            $tpl = FALSE;
-        }        
-    
         // get module view
-        if( isset( $_REQUEST['m'] ) && ( FALSE != $tpl ) )
-        {
-            // path to the main admin template
-            $template_file = SF_BASE_DIR . 'modules/' . $module . '/templates/' . $tpl . '.tpl.php';        
-            // build the whole file path to the view class file
-            $view_class_file = SF_BASE_DIR . 'modules/' . $module . '/view/class.'.$module.'_view_' . $tpl . '.php';
-
-        }
-        // get default module view
-        else
-        {
-            // path to the main admin template
-            $template_file = SF_BASE_DIR . 'modules/' . $module . '/templates/index.tpl.php';        
-            // build the whole file path to the view class file
-            $view_class_file = SF_BASE_DIR . 'modules/' . $module . '/view/class.'.$module.'_view_index.php';        
-            $tpl = 'index';
-        }
+        // path to the requested template
+        $template_file = SF_BASE_DIR . 'modules/' . $this->_module . '/templates/' . $this->_tpl . '.tpl.php';        
+        
+        // build the whole file path to the view class file
+        $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.'.$this->_module.'_view_' . $this->_tpl . '.php';
         
         // include view class file of the requested template
         if( @file_exists( $view_class_file ) )
         {
             include_once( $view_class_file );
             
-            $view_class = $module . '_view_' . $tpl;
+            $view_class = $this->_module . '_view_' . $this->_tpl;
             
             $view = & new $view_class();
+
             if( FALSE == $view->perform() )
             {
-                // on error set the error template as default
                 $template_file = SF_BASE_DIR . 'error.tpl.php';
+                
+                if (!@file_exists( $template_file ))
+                {            
+                    // if no error template exists
+                    die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
+                }            
+                // on error set the error template as default
+                return SF_BASE_DIR . 'error.tpl.php';
             }
         }
             
@@ -110,9 +160,11 @@ class common_get_module_view
             
             if (!@file_exists( $template_file ))
             {            
-                // on error
+                // if no error template exists
                 die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
-            }
+            }    
+            // on error set the error template as default
+            return $template_file;
         }
 
         return $template_file;
