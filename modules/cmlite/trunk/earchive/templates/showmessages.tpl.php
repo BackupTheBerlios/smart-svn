@@ -1,4 +1,4 @@
-<form action="index.php?m=EARCHIVE&mf=show_mess&lid=<?php echo $B->tpl_list['lid']; ?>" method="post" name="delete">
+<form action="index.php?m=EARCHIVE&mf=show_mess&lid=<?php echo $B->tpl_list['lid']; ?>&pageID=<?php echo $_REQUEST['pageID'] ?>" method="post" name="delete">
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="89%" align="left" valign="top">
