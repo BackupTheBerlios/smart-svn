@@ -67,7 +67,37 @@ class action_navigation_update_node extends action
                   'type'     => 'PHPArray') );
         
         return TRUE;
-    }     
+    }   
+    
+    /**
+     * validate the parameters passed in the data array
+     *
+     * @param array $data
+     * @return bool
+     */    
+    function validate(  $data = FALSE  )
+    {
+        // validate $data['title']. Must contains data
+        if( empty( $data['title'] ) )
+        {   
+            $this->B->$data['error'] = 'Title field is empty!!!';
+            return FALSE;
+        }        
+        // validate $data['status']. it should be "drawt" or "publish"
+        if( !preg_match("/drawt|publish/", $data['status']) )
+        {
+            $this->B->$data['error'] = 'Hey, dont hack !!!';        
+            return FALSE;
+        }
+        // validate $data['node']. no chars else than 0123456789 and - are accepted
+        if( preg_match("/[^0-9-]/", $data['node']) )
+        {
+            $this->B->$data['error'] = 'Hey, dont hack !!!';        
+            return FALSE;
+        }     
+        
+        return TRUE;
+    }    
 }
 
 ?>

@@ -4,11 +4,11 @@
     <?php foreach($B->tpl_nodes as $node): ?>
     <table width="100%"  border="0" cellspacing="6" cellpadding="6">
       <tr>
-        <td width="7%" align="left" valign="top" class="itemnormal"><font size="2">
+        <td width="10%" align="left" valign="top" class="itemnormal"><font size="2">
 		<?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&dir=up&node='.$node['node'].'">up</a>'; ?>
 		<?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&dir=down&node='.$node['node'].'">down</a>'; ?>
 		</font></td>
-          <td width="93%" align="left" valign="top" class="itemnormal">
+          <td width="90%" align="left" valign="top" class="itemnormal">
               <?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&sec=editnode&node='.$node['node'].'">'.$node['title'].'</a>'; ?></td>
       </tr>
     </table>

@@ -14,7 +14,7 @@
  *
  */
  
-// PEAR File
+// We need PEAR File to read the nodes file 
 include_once('File.php');
 
 class action_navigation_get_node extends action
@@ -61,7 +61,24 @@ class action_navigation_get_node extends action
         {
             $this->B->$data['body'] = nl2br($this->B->$data['body']);
         }      
-    }     
+    }   
+    
+    /**
+     * validate the parameters passed in the data array
+     *
+     * @param array $data
+     * @return bool
+     */    
+    function validate(  $data = FALSE  )
+    {
+        // validate $data['node']. no chars else than 0123456789 and - are accepted
+        if( preg_match("/[^0-9-]/", $data['node']) )
+        {
+            return FALSE;
+        }     
+        
+        return TRUE;
+    }        
 }
 
 ?>

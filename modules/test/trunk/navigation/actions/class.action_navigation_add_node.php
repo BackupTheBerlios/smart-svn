@@ -58,6 +58,24 @@ class action_navigation_add_node extends action
                   'type'     => 'PHPArray') );
         
         return TRUE;
+    }  
+    
+    /**
+     * validate the parameters passed in the data array
+     *
+     * @param array $data
+     * @return bool
+     */    
+    function validate(  $data = FALSE  )
+    {
+        // validate $data['title']. Must contains data
+        if( empty( $data['title'] ) )
+        {   
+            $this->B->$data['error'] = 'Title field is empty!!!';
+            return FALSE;
+        }            
+        
+        return TRUE;
     }     
 }
 

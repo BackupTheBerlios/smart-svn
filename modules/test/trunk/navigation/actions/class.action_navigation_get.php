@@ -20,13 +20,14 @@ class action_navigation_get extends action
      * Fill up an array with navigation elements
      *
      * Structure of the $data array:
-     * $data['var']           - array name where to store navigation array
+     * $data['nav'] - name of the navigation array
      *
      * @param array $data
+     * @return bool
      */
     function perform( $data = FALSE )
     {
-        // get var name defined in the public template to store the result
+        // get var name defined in the public view to store the result
         $_result = & $this->B->$data['nav']; 
         
         // load navigation nodes
@@ -36,12 +37,14 @@ class action_navigation_get extends action
         foreach($nav as $node)
         {
             list($nodeID, $val) = each($node);
+            // assign the array with the nodes data
             $_result[] = array('node'   => $nodeID, 
                                'title'  => $node[$nodeID]['title'],
                                'status' => $node[$nodeID]['status']);
         }
-    }  
-    
+        
+        return TRUE;
+    }   
 }
 
 ?>

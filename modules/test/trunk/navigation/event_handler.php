@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_NAVIGATION' , 'navigation');
 
 // Version of this module
-define ( 'MOD_NAVIGATION_VERSION' , '0.2');
+define ( 'MOD_NAVIGATION_VERSION' , '0.1');
 
 // register this handler                       
 if (FALSE == register_handler( MOD_NAVIGATION,
