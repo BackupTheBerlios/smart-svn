@@ -35,7 +35,7 @@ if(!defined( SF_RELATIVE_PATH ))
  */
 if(!defined( SF_VIEW_FOLDER ))
 {
-   define('SF_VIEW_FOLDER', 'view/'); 
+   define('SF_VIEW_FOLDER', 'views/'); 
 }
 
 /* #################################################### */
