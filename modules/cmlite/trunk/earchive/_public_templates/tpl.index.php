@@ -67,16 +67,14 @@
     <td align="left" valign="top"><table width="760"  border="0" cellspacing="2" cellpadding="2">
         <tr>
           <td width="19%" align="center" valign="top" class="vline">
-          <?php /* ### include the navigation menu view (template) ### */ ?>
-          <?php // perform the view class and return its object
-                $view = $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')); 
-                include( $view->getTemplate() );
+          <?php // include the navigation menu view (template)
+                M( MOD_SYSTEM, 'get_view', array('view' => 'navigation')); 
           ?>
           </td>
           <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
               <tr>
                 <td align="left" valign="top"><p class="pager">E-archive is a php script which is able to fetch email messages (+ attachments) from email inbox accounts and make those accessible through a public web page. It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>. E-archive is a module of this framework. </p>
-                  <p class="pager">Current Version 0.2.2b</p>
+                  <p class="pager">Current Version 0.2.3b</p>
                   <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&release_id=4177" target="_blank">Download E-archive from the project page at Berlios</a></p>
                   <h3>Installation:</h3>
                   <p class="pager">Transfer the extracted archive to your web server. You can even install E-archive in a subdirectory. Point your navigator to this directory. You should see an install menu. Follow the instructions.</p>

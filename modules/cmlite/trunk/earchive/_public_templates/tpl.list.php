@@ -1,4 +1,4 @@
-<?php /* search Template. See also /view/class.view_search.php */ ?>
+<?php /* list Template. See also /view/class.view_list.php */ ?>
 
 <?php /* Only allow calling this template from whithin the application */ ?>
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?> 
@@ -12,6 +12,13 @@
 <title><?php echo htmlspecialchars($B->sys['option']['site_title']); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
 <link href="<?php echo SF_RELATIVE_PATH; ?>media/earchive.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript" type="text/JavaScript">
+function go(x){
+    if(x != ""){
+    window.location.href = x;
+    }
+}
+</script>
 </head>
 
 <body>
@@ -40,17 +47,26 @@
                         <td width="26%" align="left" valign="middle">
                             <?php //show register link if allowed  ?>
                             <?php if( ($B->is_logged == FALSE) && ($B->sys['option']['user']['allow_register'] == TRUE) ): ?>
-                            <a href="index.php?view=register" class="topbarlink">register</a>
+                            <a href="<?php echo SF_CONTROLLER; ?>?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                             <?php if( $B->is_logged == TRUE ): ?>
                             &nbsp;&nbsp;<a href="<?php echo SF_CONTROLLER; ?>?logout=1" class="topbarlink">logout</a>
                             <?php endif; ?>             
                         </td>
-                        <td width="10%" align="left" valign="top">&nbsp;</td>
-                        <form name="esearch" id="esearch" method="post" action="<?php echo SF_CONTROLLER; ?>?view=search">
-                            <td width="50%" align="right" valign="middle">
-                                <input name="search" type="text" value="<?php if(!empty($_POST['search'])) echo htmlspecialchars(stripslashes($_POST['search'])); else echo "search"; ?>" size="25" maxlength="128" class="searchform" /></td>
-                        </form>
+                       <form name="mode" id="mode" method="post" action="">
+                        <td width="30%" align="right" valign="middle">
+                          <font color="#99CCFF" size="1">view &gt; 
+                          </font>
+                          <select name="mode" class="searchform" onChange="go('<?php echo SF_CONTROLLER; ?>?view=list&lid=<?php echo $_REQUEST['lid']; ?>&mode='+this.form.mode.options[this.form.mode.options.selectedIndex].value)">
+                          <option value="flat" <?php echo $B->tpl_select_flat; ?>>Flat</option>
+                          <option value="tree" <?php echo $B->tpl_select_tree; ?>>Tree</option>
+                          </select>
+                        </td>
+                       </form>
+                       <form name="esearch" id="esearch" method="post" action="<?php echo SF_CONTROLLER; ?>?view=search">
+                         <td width="30%" align="right" valign="middle">
+                           <input name="search" type="text" value="<?php if($_POST['search']) echo htmlspecialchars(stripslashes($_POST['search'])); else echo "search"; ?>" size="25" maxlength="128" class="searchform" /></td>
+                       </form>
                     </tr>
                 </table></td>
             </tr>
@@ -61,30 +77,63 @@
         <td height="249" align="left" valign="top"><table width="760"  border="0" cellspacing="2" cellpadding="2">
             <tr>
                 <td width="19%" align="center" valign="top" class="vline">
-                  <?php /* ### include the navigation menu view (template) ### */ ?>
-                  <?php // perform the view class and return its object
-                        $view = $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')); 
-                        include( $view->getTemplate() );
+                  <?php // include the navigation menu view (template)
+                        M( MOD_SYSTEM, 'get_view', array('view' => 'navigation')); 
                   ?>
                 </td>
-                <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
+                <td width="81%" align="left" valign="top">
+                <table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
-                        <td align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">                     
+                        <td align="left" valign="top">
+                           <table width="100%"  border="0" cellspacing="0" cellpadding="0">
+                            <?php //show top pager links  ?>
+                            <?php if(!empty($B->tpl_prevnext)): ?>
                             <tr>
                                 <td align="left" valign="top">
-                                  <?php //show messages from the search result  ?>
+                                  <div class='pager'><?php echo $B->tpl_prevnext; ?></div>                              </td>
+                            </tr>
+                            <tr>
+                                <td align="left" valign="top">
+                                  <hr/>
+                                </td>
+                            </tr>  
+                            <?php endif; ?>
+                            <tr>
+                                <td align="left" valign="top">
+                                  <?php //show messages  ?>
                                   <?php if (count($B->tpl_msg) > 0): ?>
                                     <?php foreach($B->tpl_msg as $msg): ?>
+                                      <?php if( ($B->tpl_mode=='tree') && ($msg['level'] == 1) ): ?>
+                                      <table width="100%">
+                                      <tr><td width="4%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="96%" align="left" valign="top">
+                                      <?php endif; ?>
                                       <div class='msgdate'>DATE: <?php echo $msg['mdate']; ?></div>
                                       <div class='msgfrom'>FROM: <?php echo $msg['sender']; ?></div>
-                                      <a href="<?php echo SF_CONTROLLER; ?>?view=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
-                                      <div class='msgfrom'>E_archive: <a href="<?php echo SF_CONTROLLER; ?>?view=list&lid=<?php echo $msg['list_id']; ?>"><?php echo $msg['list_name']; ?></a></div>
+                                      <a href="<?php echo SF_CONTROLLER; ?>?view=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>&mode=<?php echo $_REQUEST['mode']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
                                       <br />
+                                      <br />
+                                     <?php if( ($B->tpl_mode=='tree') && ($msg['level'] == 1) ): ?>
+                                      </td></tr>
+                                  </table>
+                                      <?php endif; ?>                                      
                                     <?php endforeach; ?>
                                   <?php else: ?>
-                                      <div class='pager'>Search result 0</div>
+                                      <div class='pager'>Currently no messages available</div>
                                   <?php endif; ?>                               </td>
                             </tr>
+                            <?php //show down pager links  ?>
+                            <?php if(!empty($B->tpl_prevnext)): ?>
+                            <tr>
+                                <td align="left" valign="top">
+                                  <hr/>
+                                </td>
+                            </tr>                               
+                            <tr>
+                                <td align="left" valign="top">
+                                  <div class='pager'><?php echo $B->tpl_prevnext; ?></div>
+                                </td>
+                            </tr>
+                            <?php endif; ?>
                         </table></td>
                     </tr>
                 </table></td>
