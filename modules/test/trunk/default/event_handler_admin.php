@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Entry module event handler
+ * Default module event handler
  *
  */
 
@@ -25,14 +25,13 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_DEFAULT' , 'DEFAULT');
 
 // Version of this modul
-define ( 'MOD_DEFAULT_VERSION' , '0.1');
+define ( 'MOD_DEFAULT_VERSION' , '0.2');
 
 // register this handler                       
-if (FALSE == $B->register_handler( 
-                           MOD_DEFAULT,
-                           array ( 'module'          => MOD_DEFAULT,
-                                   'event_handler'   => 'default_event_handler',
-                                   'menu_visibility' => TRUE) ))
+if (FALSE == $B->register_handler( MOD_DEFAULT,
+                                   array ( 'module'          => MOD_DEFAULT,
+                                           'event_handler'   => 'default_event_handler',
+                                           'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_DEFAULT.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
@@ -42,34 +41,31 @@ function default_event_handler( $evt )
 {
     global $B;
 
-    switch( $evt["code"] )
+    // build the whole class name
+    $class_name = 'DEFAULT_'.$evt['code'];
+    
+    // check if this object was previously declared
+    if(!is_object($B->$class_name))
     {
-        case EVT_LOAD_MODULE:
-            // set the base template for this module   
-            $B->module = SF_BASE_DIR . '/admin/modules/default/templates/index.tpl.php';        
-            break;             
-        case EVT_INIT: 
-            // Check for upgrade  
-            if(MOD_DEFAULT_VERSION != (string)$B->sys['module']['default']['version'])
-            {        
-                // The module name and version
-                $B->sys['module']['default']['name']     = 'default';
-                $B->sys['module']['default']['version']  = MOD_DEFAULT_VERSION;
-                $B->sys['module']['default']['mod_type'] = 'test';
-                $B->sys['module']['default']['info']     = 'This is the default module';
-                $B->system_update_flag = TRUE; 
-            }
-            break; 
-        case EVT_SETUP:
-            $success = TRUE;
-            // The module name and version
-            $B->conf_val['module']['default']['name']     = 'default';
-            $B->conf_val['module']['default']['version']  = MOD_DEFAULT_VERSION;
-            $B->conf_val['module']['default']['mod_type'] = 'test';
-            $B->conf_val['module']['default']['info']     = 'This is the default module';
-        
-            return $success;
-            break;                  
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/default/class.'.$class_name.'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$class_name = & new $class_name();
+            // perform the request
+            return $B->$class_name->perform( $evt['data'] );
+        }
+        else
+        {
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
     }
 }
 
