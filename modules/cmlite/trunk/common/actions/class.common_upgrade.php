@@ -72,6 +72,20 @@ class common_upgrade
             // set cache lifetime value
             $this->B->sys['cache']['lifetime']  = 3600;
         }
+        // version prior to 0.5.1
+        if(version_compare( (string)$this->B->sys['module']['common']['version'], '0.5.1' , '<') == 1)
+        {
+            // The PEAR cache db table. 
+            $sql = "DROP TABLE {$this->B->sys['db']['table_prefix']}cache";      
+        
+            $result = $this->B->db->query($sql);
+
+            if (DB::isError($result))
+            {
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                return FALSE;
+            }  
+        }
                
         return TRUE;
     } 
