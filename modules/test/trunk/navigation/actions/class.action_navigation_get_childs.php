@@ -67,7 +67,7 @@ class action_navigation_get_childs extends action
         // validate $data['status']. "publish" or "drawt" are accepted
         if( isset($data['status']) && ( ($data['status'] < 0) || ($data['status'] > 2) ) )
         {
-            trigger_error("Wrong 'status' variable: ".$data['status']." Only 'publish' or 'drawt' are accepted.\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error("Wrong 'status' variable: ".$data['status']." Only 2 = 'publish' or 1 = 'drawt' are accepted.\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }     
         
