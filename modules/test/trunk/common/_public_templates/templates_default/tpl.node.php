@@ -37,7 +37,13 @@ body {
   <tr>
     <td align="left" valign="top" bgcolor="#66CCFF"><table width="100%" border="0" cellspacing="4" cellpadding="4">
       <tr>
-        <td><font color="#000099" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>SMART</strong></font><font size="4" face="Verdana, Arial, Helvetica, sans-serif"> <font size="3">PHP Framework - <strong>Test</strong></font></font></td>
+        <td width="53%"><font color="#000099" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>SMART</strong></font><font size="4" face="Verdana, Arial, Helvetica, sans-serif"> <font size="3">PHP Framework - <strong>Test</strong></font></font></td>
+        <td width="47%" align="right" valign="middle"> <font size="2">
+          <!-- Show user name if a user is logged -->
+          <?php if(isset($B->tpl_logged_user)): ?>
+      User: <strong><?php echo $B->tpl_logged_user; ?></strong> is logged
+      <?php endif; ?>
+        </font></td>
       </tr>
     </table></td>
   </tr>

@@ -37,7 +37,14 @@ body {
   <tr>
     <td align="left" valign="top" bgcolor="#66CCFF"><table width="100%" border="0" cellspacing="4" cellpadding="4">
       <tr>
-        <td><font color="#000099" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>SMART</strong></font><font size="4" face="Verdana, Arial, Helvetica, sans-serif"> <font size="3">PHP Framework - <strong>Test</strong></font></font></td>
+        <td width="53%"><font color="#000099" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>SMART</strong></font><font size="4" face="Verdana, Arial, Helvetica, sans-serif"> <font size="3">PHP Framework - <strong>Test</strong></font></font></td>
+        <td width="47%" align="right" valign="middle">
+		<font size="2">
+			<!-- Show user name if a user is logged -->
+		    <?php if(isset($B->tpl_logged_user)): ?>
+		    User: <strong><?php echo $B->tpl_logged_user; ?></strong> is logged
+	        <?php endif; ?>
+		</font></td>
       </tr>
     </table></td>
   </tr>
@@ -54,7 +61,7 @@ body {
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This package comes with a couple of simple modules to show you how SMART works. </font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The following modules are installed:</font></p>
         <ul>
-          <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">common - </font></strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">It is always required. It includes the base libraries, which are common to all other modules. E.g. PEAR, Session class, .... The event handler of this module define some base variables, such as, which module takes the authentication part, which module is loaded by default when switching to the admin area. Furthermore this module provide the top admin template. Any templates of other modules are included (subtemplates) in this template.</font></li>
+          <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">common - </font></strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">It is always required. It includes the base libraries, which are common to all other modules. E.g. PEAR, Session class, .... The event handler of this module define some base variables, such as, which module takes the authentication part, which module is loaded by default when switching to the admin area. Furthermore this module provide the top admin template. Any admin templates of other modules are included (subtemplates) in this template.</font></li>
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>default</strong> - this module is loaded by default. It only provide a welcome screen.</font></li>
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>navigation - </strong>It enable you to create and manage simple navigation nodes for a site.</font></li>
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>option</strong> - here you can controle some global options</font></li>
