@@ -61,7 +61,7 @@ class option_view_index
         // if some config are modified, write the config file and reload the page
         if($this->B->_modified == TRUE)
         {
-            $this->B->M( MOD_COMMON, 'sys_update_config' );    
+            $this->B->M( MOD_COMMON, 'sys_update_config', $this->B->sys );    
             @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=option');
             exit;
         }

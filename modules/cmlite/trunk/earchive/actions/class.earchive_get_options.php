@@ -48,7 +48,7 @@ class earchive_get_options
      */
     function perform( $data )
     {      
-        $this->B->mod_option[] = $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'earchive', 'tpl' => 'option') );
+        $this->B->mod_option[] = $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'earchive', 'view' => 'option') );
     } 
 }
 
