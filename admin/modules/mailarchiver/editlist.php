@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * edit user data script
+ * edit email list data script
  *
  */
 
@@ -21,7 +21,7 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on '. __FILE__);
 }
 
-// check if the user of this request have rights to modify this user data
+// check user rights to access the list
 if(FALSE == mailarchiver_rights::ask_access_to_list())
 {
     @header('Location: index.php');
