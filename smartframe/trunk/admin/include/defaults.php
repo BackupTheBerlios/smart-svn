@@ -35,7 +35,7 @@ define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
 /**
  * Enable Debug
  */
-define('SF_DEBUG',                       TRUE);
+//define('SF_DEBUG',                       TRUE);
 
 /**
  * Allowed output buffering.
@@ -45,7 +45,7 @@ define('SF_OB',                          TRUE);
 /**
  * Allowed output compression if available.
  */
-define('SF_OB_GZHANDLER',                FALSE); //'ob_gzhandler'
+define('SF_OB_GZHANDLER',                'ob_gzhandler'); //'ob_gzhandler' or FALSE
 
 /**
  * Default dir and file mode

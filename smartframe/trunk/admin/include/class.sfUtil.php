@@ -23,12 +23,19 @@ class sfUtil
      */
     function base_location()
     {
-        $base_dirname = dirname($_SERVER['PHP_SELF']);
-        if(preg_match("/(.*)(\/|\\\\)$/", $base_dirname, $match))
+        if(SF_SECTION == 'admin')
         {
-            $base_dirname = $match[1];
+            $base_dirname = dirname(dirname($_SERVER['PHP_SELF']));
         }
-    
+        elseif(SF_SECTION == 'public')
+        {
+            $base_dirname = dirname($_SERVER['PHP_SELF']);
+        }
+        else
+        {
+            $base_dirname = '';
+        }
+
         // Build the http protocol referrer
         //
         if(preg_match("/^http([s]?)/i", $_SERVER['SCRIPT_URI'], $tmp))
