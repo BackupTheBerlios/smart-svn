@@ -25,6 +25,7 @@ define ( 'MOD_TEST' , 'TEST');
 
 // define a handler function which can be used from within a template
 define ( 'EVT_TEST_COUNTER' ,      'TEST_COUNTER');
+define ( 'EVT_TEST_CONTACT' ,      'TEST_CONTACT');
 
 
 // register this handler                       
@@ -58,7 +59,14 @@ function test_event_handler( $evt )
             // assign counter vars
             for($i=$evt['data']['start_counter'];$i<=$evt['data']['end_counter'];$i++)
                 $_result[] = $i;
-            break;               
+            break;  
+        case EVT_TEST_CONTACT: 
+            // get var name defined in the public template to store the result
+            $_result = & $GLOBALS['B']->$evt['data']['var']; 
+            
+            $_result  = "\nBuster Keaton\n41, Rue Tivoli,\nParis, France\n\n";
+            $_result .= "Email: {$B->sys['option']['email']}"; 
+        break;
     }
 }
 
