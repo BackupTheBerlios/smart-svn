@@ -122,6 +122,12 @@ define('SF_DEFAULT_MODULE',              'ENTRY');
  */
 define('SF_MEDIA_FOLDER',                'modules/common/media');
 
+/**
+ * The main admin template. All subtemplates from other modules are included here
+ */
+define('SF_TEMPLATE_MAIN',               SF_BASE_DIR . '/admin/modules/common/templates/index.tpl.php');
+
+
 // get os related separator to set include path
 if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
     $tmp_separator = ';';
