@@ -120,8 +120,8 @@ class auth
         if($result->numRows() == 1)
         {
             $row = $result->fetchRow( DB_FETCHMODE_ASSOC );
-            $GLOBALS['B']->session->set('id_user',       $row['uid']);
-            $GLOBALS['B']->session->set('user_rights',   $row['rights']);
+            $GLOBALS['B']->session->set('logged_id_user',       $row['uid']);
+            $GLOBALS['B']->session->set('logged_user_rights',   $row['rights']);
             return $row['rights'];
         }
         else

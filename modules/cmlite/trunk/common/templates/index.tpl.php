@@ -45,7 +45,7 @@ function subok(s){
           </table></td>
           <td width="15%" align="right" valign="top" class="font10"><a href="index.php">The public page</a></td>
           <td width="39%" align="right" valign="middle">
-		  <?php if($B->tpl_isLogged != FALSE): ?>
+      <?php if($B->is_logged != FALSE): ?>
             <form action="index.php" method="post">
                 <select name="m" onChange="go('index.php?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
                  <option value="">The Modules</option>
@@ -54,10 +54,10 @@ function subok(s){
                  <?php endforeach; ?>
                 </select>
           </form>
-		  <?php endif; ?>&nbsp;
+      <?php endif; ?>&nbsp;
           </td>
           <td width="7%" align="right" valign="top">
-          <?php if($B->tpl_isLogged != FALSE): ?>
+          <?php if($B->is_logged != FALSE): ?>
             <a href="index.php?logout=1&admin=1" class="font14">Logout</a>
           <?php endif; ?>&nbsp;
           </td>

@@ -239,7 +239,7 @@ class user
     }
     
     /**
-     * auto_validate_registered_user
+     * auto_validate_registered_user                   ########USED
      *
      * @param string $md5_str Md5 string
      */
@@ -290,7 +290,7 @@ class user
     }    
 
     /**
-     * delete_expired_registered_users
+     * delete_expired_registered_users                ########USED
      *
      */    
     function delete_expired_registered_users()

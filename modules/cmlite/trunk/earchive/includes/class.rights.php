@@ -34,7 +34,7 @@ class earchive_rights
      */
     function ask_access_to_list ()
     {       
-        if( ($GLOBALS['B']->auth->user_rights > 3) )
+        if( ($GLOBALS['B']->logged_user_rights > 3) )
         {
             return TRUE;
         }
@@ -49,7 +49,7 @@ class earchive_rights
      */
     function ask_access_to_delete_list ()
     {       
-        if( ($GLOBALS['B']->auth->user_rights == 5) )
+        if( ($GLOBALS['B']->logged_user_rights == 5) )
         {
             return TRUE;
         }

@@ -32,7 +32,7 @@ class rights
      */
     function is_logged_user ( $uid )
     {
-        if($GLOBALS['B']->auth->id_user == (int) $uid)
+        if($GLOBALS['B']->logged_id_user == (int) $uid)
             return TRUE;
         return FALSE;
     }
@@ -45,7 +45,7 @@ class rights
      */
     function ask_access_to_add_user ()
     {       
-        if( ($GLOBALS['B']->auth->user_rights > 3) )
+        if( ($GLOBALS['B']->logged_user_rights > 3) )
         {
             return TRUE;
         }
@@ -67,13 +67,13 @@ class rights
         $fields = array('rights');
         $data = $GLOBALS['B']->user->get_user($uid, $fields);
 
-        if( ($GLOBALS['B']->auth->user_rights == 4) )
+        if( ($GLOBALS['B']->logged_user_rights == 4) )
         {
             if($data['rights'] < 4)
                 return TRUE;
             return FALSE;
         }
-        elseif( ($GLOBALS['B']->auth->user_rights == 5) )
+        elseif( ($GLOBALS['B']->logged_user_rights == 5) )
         {
             return TRUE;
         }
@@ -90,11 +90,11 @@ class rights
      */     
     function ask_set_rights ( $uid, $new_rights )
     {
-        if( ($GLOBALS['B']->auth->user_rights == 5) )
+        if( ($GLOBALS['B']->logged_user_rights == 5) )
         {
             return TRUE;
         } 
-        if( ($GLOBALS['B']->auth->user_rights == 4) )
+        if( ($GLOBALS['B']->logged_user_rights == 4) )
         {
             $fields = array('rights');
             $data = $GLOBALS['B']->user->get_user($uid, $fields);     
@@ -116,16 +116,16 @@ class rights
      */     
     function ask_set_status ( $uid )
     {
-        if( ($GLOBALS['B']->auth->user_rights == 5) )
+        if( ($GLOBALS['B']->logged_user_rights == 5) )
         {
             return TRUE;
         } 
-        if( ($GLOBALS['B']->auth->user_rights == 4) )
+        if( ($GLOBALS['B']->logged_user_rights == 4) )
         {
             $fields = array('rights');
             $data = $GLOBALS['B']->user->get_user($uid, $fields);     
             
-            if( $data['rights'] >= $GLOBALS['B']->auth->user_rights )
+            if( $data['rights'] >= $GLOBALS['B']->logged_user_rights )
                 return FALSE;
             else
                 return TRUE;

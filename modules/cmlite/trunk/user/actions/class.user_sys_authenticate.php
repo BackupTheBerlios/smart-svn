@@ -41,31 +41,84 @@ class user_sys_authenticate
     }
     
     /**
-     * Perform on admin requests for this module
+     * User authentication
      *
      * @param array $data
      */
     function perform( $data )
     {    
-        include_once(SF_BASE_DIR.'modules/user/includes/class.auth.php');
-        
-        $this->B->auth = & new auth( SF_SECTION );  
-        
-        $this->B->is_logged = $this->B->auth->isLogged();
-        
-        if( (SF_SECTION == 'admin') && (FALSE == $this->B->is_logged) )
+        $this->_auth( SF_SECTION );  
+       
+        if( (SF_SECTION == 'admin') && (FALSE == $this->_is_logged) )
         {
             $_REQUEST['view'] = 'login';
             $_REQUEST['m']    = SF_AUTH_MODULE;
-            
-            $this->B->tpl_isLogged = FALSE;
+
+            $this->B->is_logged = FALSE;
+            return FALSE;
         }
         else
         {
-            $this->B->tpl_isLogged = $this->B->is_logged;
+            $this->B->is_logged = $this->_is_logged;
+
         }
-        return TRUE;
     } 
+    
+    /**
+     * User authentication
+     *
+     * @param string $section Section area "admin" or "public"
+     */    
+    function _auth( $section )
+    {
+        if(!isset($_SESSION['logged_id_user']) || empty($_SESSION['logged_id_user']))
+        {
+            $this->_is_logged = FALSE;
+        }
+        
+        if($section == 'admin')
+        {
+            $_and = 'AND rights>1';
+        }
+        else
+        {
+            $_and = '';
+        }        
+        
+        $id_user = (int) $_SESSION['logged_id_user'];
+        
+        $sql = "SELECT
+                    uid,
+                    forename,
+                    lastname,
+                    login
+                FROM
+                    {$this->B->sys['db']['table_prefix']}user_users
+                WHERE
+                    uid={$id_user}
+                AND
+                    status=2 {$_and}";
+        
+        $result = $this->B->db->query( $sql );
+        
+        if($result->numRows() == 1)
+        {
+            $this->B->logged_user_rights = (int) $_SESSION['logged_user_rights'];
+            $this->B->logged_id_user     = (int) $_SESSION['logged_id_user'];
+            $this->_is_logged  = TRUE;
+            
+            $row = &$result->fetchRow( DB_FETCHMODE_ASSOC );
+            
+            $this->B->logged_user_forename = stripslashes($row['forename']);
+            $this->B->logged_user_lastname = stripslashes($row['lastname']);
+            $this->B->logged_user_login    = stripslashes($row['login']);  
+        }
+        else
+        {
+            $this->B->logged_user_rights = 0;
+            $this->_is_logged            = FAlSE;
+        }    
+    }
 }
 
 ?>

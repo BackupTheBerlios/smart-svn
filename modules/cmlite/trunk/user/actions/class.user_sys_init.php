@@ -55,28 +55,7 @@ class user_sys_init
             $this->B->system_update_flag = TRUE;  
                 
             // include here additional upgrade code
-        }
- 
-        $dsn = $this->B->sys['option']['db_type'].'://'.$this->B->sys['option']['db_user'].':'.$this->B->sys['option']['db_passwd'].'@'.$this->B->sys['option']['db_host'].'/'.$this->B->sys['option']['db_database'];
-        
-        $this->B->liveuserConfig = array(
-            'login'             => array('username' => 'handle', 'password' => 'passwd', 'remember' => 'remember'),
-            'logout'            => array('trigger' => 'logout'),
-            'cookie'            => array('name' => 'loginInfo', 'path' => '', 'domain' => '', 'lifetime' => 30),
-            'authContainers'    => array(0 => array(
-                                                'type' => 'DB',
-                                                'dsn'  => $dsn,
-                                                'authTable'     => $this->B->sys['option']['db_table_prefix'].'user_users',
-                                                'loginTimeout' => 0,
-                                                'expireTime'   => 3600,
-                                                'idleTime'     => 1800,
-                                                'allowDuplicateHandles'  => false,
-                                                'passwordEncryptionMode' => 'MD5'
-                                               )),
-            'permContainer'     => array('type'   => 'DB_Simple',        
-                                         'dsn'    => $dsn,
-                                         'prefix' => $this->B->sys['option']['db_table_prefix'].'user_')
-        );        
+        }       
     }    
 }
 

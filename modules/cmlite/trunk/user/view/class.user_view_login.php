@@ -52,16 +52,15 @@ class user_view_login
         // Check login data
         if(isset($_POST['login']))
         {
-            include_once(SF_BASE_DIR.'modules/user/actions/includes/class.auth.php');
-            if(FALSE !== ($rights = $this->B->auth->checklogin($_POST['login_name'], $_POST['password'])))
-            {
-                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
-                exit;
-            }
+            $this->B->M( MOD_USER, 
+                         'check_login',
+                         array( 'login'       => $_POST['login_name'],
+                                'passwd'      => $_POST['password'],
+                                'forward_url' => $_REQUEST['url']));
         }
             
         return TRUE;
-    }    
+    }   
 }
 
 ?>
