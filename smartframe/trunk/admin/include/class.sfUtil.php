@@ -36,6 +36,8 @@ class sfUtil
             $base_dirname = '';
         }
 
+        $base_dirname = str_replace("\\", "/", $base_dirname);
+
         // Build the http protocol referrer
         //
         if(preg_match("/^http([s]?)/i", $_SERVER['SCRIPT_URI'], $tmp))
@@ -54,7 +56,13 @@ class sfUtil
         {
             $http = 'http://';
         }    
-        return $http . $_SERVER['HTTP_HOST'] . $base_dirname;
+        
+        $location = $http . $_SERVER['HTTP_HOST'] . $base_dirname;
+        
+        if(@preg_match("/.+\/$/", $location))
+            $location = substr($location, 0, strlen($location)-1);
+
+        return $location;
     }
     /**
      * Add slashes if magic_quotes are disabled
