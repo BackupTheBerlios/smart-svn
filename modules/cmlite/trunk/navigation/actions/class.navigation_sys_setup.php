@@ -14,55 +14,33 @@
  *
  */
  
-class navigation_sys_setup
+class navigation_sys_setup extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function navigation_sys_setup()
-    {
-        $this->__construct();
-    }
 
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
     
     /**
      * Do setup for this module
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( & $data )
     {    
         $success = TRUE;
   
         //create captcha_pics dir if it dosent exist
-        if(!is_writeable( SF_BASE_DIR . 'modules/navigation/attach' ))
+        if(!is_writeable( SF_BASE_DIR . 'data/navigation' ))
         {
-            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/navigation/attach';
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/navigation';
             $success = FALSE;
         }  
     
         if($success == TRUE)
         {
             // create db tables
-            if(file_exists(SF_BASE_DIR . 'modules/navigation/includes/_setup_'.$_POST['dbtype'].'.php'))
+            if(file_exists(SF_BASE_DIR . 'modules/navigation/sys_setup/_setup_'.$_POST['dbtype'].'.php'))
             {
                 // include mysql setup
-                include_once( SF_BASE_DIR . 'modules/navigation/includes/_setup_'.$_POST['dbtype'].'.php' );    
+                include_once( SF_BASE_DIR . 'modules/navigation/sys_setup/_setup_'.$_POST['dbtype'].'.php' );    
             }
             else
             {
@@ -71,10 +49,9 @@ class navigation_sys_setup
             }
         }
     
-        $this->B->conf_val['module']['user']['name']     = 'navigation';
-        $this->B->conf_val['module']['user']['version']  = MOD_NAVIGATION_VERSION;
-        $this->B->conf_val['module']['user']['mod_type'] = 'lite';
-        $this->B->conf_val['module']['user']['info']     = 'Navigation module. Author: Armand Turpel <smart AT open-publisher.net>';  
+        $this->B->conf_val['module']['navigation']['name']     = 'navigation';
+        $this->B->conf_val['module']['navigation']['version']  = MOD_NAVIGATION_VERSION;
+        $this->B->conf_val['module']['navigation']['mod_type'] = 'cms';
 
         return $success;
     }
