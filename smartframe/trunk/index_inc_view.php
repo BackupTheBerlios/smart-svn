@@ -35,7 +35,7 @@ if(!defined( SF_RELATIVE_PATH ))
 }
 
 /*
- * Force to use the template folder, independed of the sys config settings.
+ * Force to use the views folder, independed of the sys config settings.
  */
 /*
 if(!defined( SF_VIEW_FOLDER ))
@@ -45,7 +45,7 @@ if(!defined( SF_VIEW_FOLDER ))
 */
 
 /*
- * Force to use the view folder, independed of the sys config settings.
+ * Force to use the templates folder, independed of the sys config settings.
  */
 /*
 if(!defined( SF_TPL_FOLDER ))
