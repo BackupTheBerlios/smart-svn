@@ -49,10 +49,10 @@ class action_user_captcha_validate extends action
         if(FALSE == $captcha->check_captcha($data['public_key'], $data['turing_key']))
         {
              $_error .= '- Wrong turing key<br /><br />'; 
-             return SF_NO_VALID_ACTION;
+             return FALSE;
         }
 
-        return SF_IS_VALID_ACTION;
+        return TRUE;
     } 
 }
 

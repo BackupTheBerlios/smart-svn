@@ -51,9 +51,9 @@ class view_user_edituser extends view
                         'result'  => 'tpl_data');
                         
         // get user data
-        if(FALSE == M( MOD_USER,
-                       'get',
-                       $_data ))
+        if(SF_NO_VALID_ACTION == M( MOD_USER,
+                                    'get',
+                                    $_data ))
         {
             // if this user dosent exists reload the user module
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
@@ -104,10 +104,10 @@ class view_user_edituser extends view
             else
             {
                 // Delete user
-                if(TRUE == M( MOD_USER,
-                              'delete',
-                              array( 'error' => 'tpl_error',
-                                     'user'  => urldecode($_POST['user']))))
+                if(SF_IS_VALID_ACTION == M( MOD_USER,
+                                            'delete',
+                                            array( 'error' => 'tpl_error',
+                                                   'user'  => urldecode($_POST['user']))))
                 {
                     @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
                     exit;   
@@ -137,9 +137,9 @@ class view_user_edituser extends view
         }
             
         // update user data
-        if(FALSE != M( MOD_USER,
-                       'update',
-                       $_data))
+        if(SF_IS_VALID_ACTION = M( MOD_USER,
+                                   'update',
+                                   $_data))
         {
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
             exit;
