@@ -10,10 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * Public test module event handler
+ * Admin NAVIGATION module event handler
+ *
  */
 
-// Check if this file is included in the environement
+// Check if this file is included in the Smart environement
 //
 if (!defined('SF_SECURE_INCLUDE'))
 {
@@ -21,39 +22,37 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_TEST' , 'TEST');
+define ( 'MOD_NAVIGATION' , 'NAVIGATION');
 
-// define classes which reacts on event calls from within a template through
+// Version of this modul
+define ( 'MOD_NAVIGATION_VERSION' , '0.2');
+
+// define classes which reacts on event calls from inside a template through
 // the event handler class.
-define ( 'EVT_TEST_COUNTER' ,      'COUNTER');
-define ( 'EVT_TEST_CONTACT' ,      'CONTACT');
-
+define ( 'EVT_NAVIGATION_GET' ,      'NAVIGATION_GET');
 
 // register this handler                       
-if (FALSE == $B->register_handler(MOD_TEST,
-                           array ( 'module'        => MOD_TEST,
-                                   'event_handler' => 'test_event_handler') ))
+if (FALSE == $B->register_handler( MOD_NAVIGATION,
+                                   array ( 'module'          => MOD_NAVIGATION,
+                                           'event_handler'   => 'navigation_event_handler',
+                                           'menu_visibility' => FALSE) ))
 {
-    trigger_error( 'The handler '.MOD_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
-} 
-
-/**
-  * The handler function
-  *
-  * @param $evt array
-  */
-function test_event_handler( $evt )
+    trigger_error( 'The handler '.MOD_NAVIGATION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+}    
+                                                                          
+// The handler function
+function navigation_event_handler( $evt )
 {
     global $B;
-    
+
     // build the whole class name
-    $class_name = 'TEST_'.$evt['code'];
+    $class_name = 'NAVIGATION_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/test/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . '/admin/modules/navigation/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
