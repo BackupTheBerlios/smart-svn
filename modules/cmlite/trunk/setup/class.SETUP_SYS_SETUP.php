@@ -66,6 +66,9 @@ class SETUP_SYS_SETUP
         
             if($success == TRUE)
                 $success = $this->B->M( MOD_EARCHIVE,     EVT_SETUP );
+            
+            if($success == TRUE)
+                $success = $this->B->M( MOD_NAVIGATION,   EVT_SETUP );
         
             if($success == TRUE)
                 $success = $this->B->M( MOD_OPTION,       EVT_SETUP );

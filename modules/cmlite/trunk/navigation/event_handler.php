@@ -1,0 +1,90 @@
+<?php
+// ----------------------------------------------------------------------
+// Smart (PHP Framework)
+// Copyright (c) 2004
+// by Armand Turpel < smart@open-publisher.net >
+// http://smart.open-publisher.net/
+// ----------------------------------------------------------------------
+// LICENSE GPL
+// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// ----------------------------------------------------------------------
+
+/**
+ * Admin navigation module event handler
+ *
+ */
+
+// Check if this file is included in the Smart environement
+//
+if (!defined('SF_SECURE_INCLUDE'))
+{
+    die('No Permission on ' . __FILE__);
+}
+
+// Name of the event handler
+define ( 'MOD_NAVIGATION' , 'NAVIGATION');
+
+// Version of this modul
+define ( 'MOD_NAVIGATION_VERSION' , '0.1');
+
+// define template event calls for this module
+// this event handler build from those variables
+// dynamic class function calls:
+// Format:
+// Class file        = class.NAVIGATION_definedvar.php
+// CLASS             = NAVIGATION_definedvar
+// CLASS Constructor = NAVIGATION_definedvar() // in php4 // __construct() in php5
+//
+// The event handler call only one class function:
+// perform( $data );
+// where $data = the third param of a event call -> $evt['data']
+//
+define ( 'EVT_NAVIGATION_ROOT' ,        'ROOT');
+
+// register this handler                       
+if (FALSE == $B->register_handler( MOD_NAVIGATION,
+                                   array ( 'module'           => MOD_NAVIGATION,
+                                           'event_handler'    => 'navigation_event_handler',
+                                           'menu_visibility'  => TRUE) ))
+{
+    trigger_error( 'The handler '.MOD_NAVIGATION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+}    
+                                                                          
+// The handler function
+function navigation_event_handler( $evt )
+{
+    global $B;
+
+    // build the whole class name
+    $class_name = MOD_NAVIGATION.'_'.$evt['code'];
+    
+    // check if this object was previously declared
+    if(!is_object($B->$class_name))
+    {
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/navigation/class.'.$class_name.'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$class_name = & new $class_name();
+            // perform the request
+            return $B->$class_name->perform( $evt['data'] );
+        }
+        else
+        {
+            if( SF_DEBUG == TRUE )
+            {
+                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
+            }        
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
+    }
+}
+
+?>
