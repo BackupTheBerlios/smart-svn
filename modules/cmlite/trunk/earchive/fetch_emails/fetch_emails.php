@@ -24,44 +24,17 @@ define ('SF_SECURE_INCLUDE', 1);
 define ('SF_BASE_DIR', dirname(dirname(dirname(dirname(__FILE__)))) . '/');
 
 
-// just a dirty workaround class to load 
-// config.php variables
-class workaround
-{
-    function workaround()
-    {
-    }
-}
+// Include the base file
+include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
-// load the config file and open the view to fetch emails
-class connect
-{
-    function connect()
-    {
-        $this->B = & $GLOBALS['B'];
-        
-        // include system config array $this->B->sys
-        if(file_exists(SF_BASE_DIR . 'modules/common/config/config.php'))
-            include_once( SF_BASE_DIR . 'modules/common/config/config.php' );  
+// Broadcast init event to all registered module event handlers
+// see modules/xxx/actions/class.xxx_sys_init.php
+$B->B( 'sys_init' );
 
-        // if setup was done
-        if($this->B->sys['info']['status'] == TRUE)
-        {
-            $url = "{$this->B->sys['option']['url']}/index.php?view=fetch_emails&passID={$this->B->sys['option']['passID']}";
-            $handle = fopen( $url, "r" );
-            fclose($handle);
-        }
-        else
-        {
-            exit;
-        }    
-  }
-}
+// fetch emails
+$B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
 
-
-
-$B = new workaround();
-$connect = new connect();
+exit;
 
 
 ?>
