@@ -124,7 +124,7 @@ function subok(s){
       <tr>
         <td align="left" valign="top"><span class="normal">Tables Prefix :</span></td>
         <td align="left" valign="top">
-          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($this->B->form_tableprefix)) echo 'smart_';else echo $B->form_tableprefix; ?>"/>
+          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($this->B->form_tableprefix)) echo 'smart_';else echo $this->B->form_tableprefix; ?>"/>
         </td>
       </tr>
     </table>
