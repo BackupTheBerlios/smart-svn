@@ -28,7 +28,7 @@ class view_error extends view
      * @param object $view_obj Object of the view from which the error occurs
      * @return bool true 
      */
-    function perform( & $view_obj )
+    function perform( $view_obj = FALSE )
     {
         if (is_object( $view_obj ))
         {
