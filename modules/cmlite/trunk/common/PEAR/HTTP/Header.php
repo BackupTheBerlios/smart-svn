@@ -13,7 +13,7 @@
 // |          Michael Wallner <mike@php.net>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: Header.php,v 1.22 2004/07/19 09:27:50 mike Exp $
+// $Id: Header.php,v 1.24 2004/07/28 14:26:30 mike Exp $
 
 require_once 'HTTP.php';
 
@@ -101,7 +101,7 @@ define('HTTP_HEADER_STATUS_SERVER_ERROR',5);
  * @category    HTTP
  * @license     PHP License
  * @access      public
- * @version     $Revision: 1.22 $
+ * @version     $Revision: 1.24 $
  */
 class HTTP_Header extends HTTP
 {
@@ -373,9 +373,11 @@ class HTTP_Header extends HTTP
             }
         }
         
-        $purl = parse_url($url);
-        $url .= (isset($purl['query']) ? '&' : '?') . implode('&', $qs);
-        
+        if ($qstr = implode('&', $qs)) {
+            $purl = parse_url($url);
+            $url .= (isset($purl['query']) ? '&' : '?') . $qstr;
+        }
+
         parent::redirect($url);
     }
 

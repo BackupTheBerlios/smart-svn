@@ -11,7 +11,7 @@
 // | Copyright (c) 2003-2004 Michael Wallner <mike@iworks.at>             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Download.php,v 1.34 2004/07/19 15:45:05 mike Exp $
+// $Id: Download.php,v 1.45 2004/08/31 11:40:51 mike Exp $
 
 /**
  * Manage HTTP Downloads.
@@ -93,7 +93,7 @@ define('HTTP_DOWNLOAD_E_INVALID_ARCHIVE_TYPE',  -9);
  * if you want to send already gzipped data!
  * 
  * @access   public
- * @version  $Revision: 1.34 $
+ * @version  $Revision: 1.45 $
  */
 class HTTP_Download
 {
@@ -166,9 +166,10 @@ class HTTP_Download
     var $headers   = array(
         'Content-Type'  => 'application/x-octetstream',
         'Pragma'        => 'cache',
-        'Cache-Control' => 'public',
+        'Cache-Control' => 'public, must-revalidate, max-age=0',
         'Accept-Ranges' => 'bytes',
-        'Connection'    => 'close'
+        'Connection'    => 'close',
+        'X-Sent-By'     => 'PEAR::HTTP::Download'
     );
  
     /**
@@ -186,10 +187,26 @@ class HTTP_Download
      * @var     string
      */
     var $etag = '';
+    
+    /**
+     * Buffer Size
+     * 
+     * @access  protected
+     * @var     int
+     */
+    var $bufferSize = 2097152;
+    
+    /**
+     * Throttle Delay
+     * 
+     * @access  protected
+     * @var     int
+     */
+    var $throttleDelay = 0;
     // }}}
     
     // {{{ constructor
-	/**
+    /**
      * Constructor
      *
      * Set supplied parameters.
@@ -208,6 +225,8 @@ class HTTP_Download
      *                  o 'lastmodified'        => unix timestamp
      *                  o 'contenttype'         => content type of download
      *                  o 'contentdisposition'  => content disposition
+     *                  o 'buffersize'          => amount of bytes to buffer
+     *                  o 'throttledelay'       => amount of secs to sleep
      * 
      * <br />
      * 'Content-Disposition' is not HTTP compliant, but most browsers 
@@ -248,7 +267,7 @@ class HTTP_Download
      */
     function setParams($params)
     {
-        foreach($params as $param => $value){
+        foreach((array) $params as $param => $value){
             if (!method_exists($this, 'set' . $param)) {
                 return PEAR::raiseError(
                     "Method 'set$param' doesn't exist.",
@@ -393,9 +412,65 @@ class HTTP_Download
     }
     
     /**
+     * Set Size of Buffer
+     * 
+     * The amount of bytes specified as buffer size is the maximum amount
+     * of data read at once from resources or files.  The default size is 2M
+     * (2097152 bytes).  Be aware that if you enable gzip compression and
+     * you set a very low buffer size that the actual file size may grow
+     * due to added gzip headers for each sent chunk of the specified size.
+     * 
+     * Returns PEAR_Error (HTTP_DOWNLOAD_E_INVALID_PARAM) if $size is not
+     * greater than 0 bytes.
+     * 
+     * @access  public
+     * @return  mixed   Returns true on success or PEAR_Error on failure.
+     * @param   int     $bytes Amount of bytes to use as buffer.
+     */
+    function setBufferSize($bytes = 2097152)
+    {
+        if (0 >= (int) $bytes) {
+            return PEAR::raiseError(
+                'Buffer size must be greater than 0 bytes ('. $bytes .' given)',
+                HTTP_DOWNLOAD_E_INVALID_PARAM);
+        }
+        $this->bufferSize = (int) $bytes;
+        return true;
+    }
+    
+    /**
+     * Set Throttle Delay
+     * 
+     * Set the amount of seconds to sleep after each chunck that has been
+     * sent.  One can implement some sort of throttle through adjusting the
+     * buffer size and the throttle delay.  With the following settings
+     * HTTP_Download will sleep a second after each 25 K of data sent.
+     * 
+     * <code>
+     *  Array(
+     *      'throttledelay' => 1,
+     *      'buffersize'    => 1024 * 25,
+     *  )
+     * </code>
+     * 
+     * Just be aware that if gzipp'ing is enabled, decreasing the chunk size 
+     * too much leads to proportionally increased network traffic due to added
+     * gzip header and bottom bytes around each chunk.
+     * 
+     * @access  public
+     * @return  void
+     * @param   int     $seconds    Amount of seconds to sleep after each 
+     *                              chunk that has been sent.
+     */
+    function setThrottleDelay($seconds = 0)
+    {
+        $this->throttleDelay = abs((int) $seconds);
+    }
+    
+    /**
      * Set "Last-Modified"
      *
-     * This is usually determined by filemtime($file) in HTTP_Download::setFile()
+     * This is usually determined by filemtime() in HTTP_Download::setFile()
      * If you set raw data for download with HTTP_Download::setData() and you
      * want do send an appropiate "Last-Modified" header, you should call this
      * method.
@@ -430,10 +505,8 @@ class HTTP_Download
      * );
      * </code>
      */
-    function setContentDisposition(
-        $disposition = HTTP_DOWNLOAD_ATTACHMENT, 
-        $file_name = null
-    )
+    function setContentDisposition( $disposition    = HTTP_DOWNLOAD_ATTACHMENT, 
+                                    $file_name      = null)
     {
         $cd = $disposition;
         if (isset($file_name)) {
@@ -516,8 +589,10 @@ class HTTP_Download
      * 
      * @access  public
      * @return  mixed   Returns true on success or PEAR_Error on failure.
+     * @param   bool    $autoSetContentDisposition Whether to set the
+     *                  Content-Disposition header if it isn't already.
      */
-    function send()
+    function send($autoSetContentDisposition = true)
     {
         if (headers_sent()) {
             return PEAR::raiseError(
@@ -526,7 +601,10 @@ class HTTP_Download
             );
         }
 
-        if (!isset($this->headers['Content-Disposition'])) {
+        set_time_limit(0);
+        
+        if ($autoSetContentDisposition && 
+            !isset($this->headers['Content-Disposition'])) {
             $this->setContentDisposition();
         }
         
@@ -562,14 +640,13 @@ class HTTP_Download
             }
         }
 
-        if (true !== $e = $this->sendChunks($chunks)) {
+        if (PEAR::isError($e = $this->sendChunks($chunks))) {
             ob_end_clean();
             $this->HTTP->sendStatusCode(416);
             return $e;
         }
         
-        $this->sendHeaders();
-        
+        ob_end_flush();
         return true;
     }    
 
@@ -627,7 +704,11 @@ class HTTP_Download
      * @param   string  $add_path   path that should be prepended to the files
      * @param   string  $strip_path path that should be stripped from the files
      */
-    function sendArchive($name, $files, $type = HTTP_DOWNLOAD_TGZ, $add_path = '', $strip_path = '')
+    function sendArchive(   $name, 
+                            $files, 
+                            $type       = HTTP_DOWNLOAD_TGZ, 
+                            $add_path   = '', 
+                            $strip_path = '')
     {
         require_once 'System.php';
         
@@ -667,8 +748,10 @@ class HTTP_Download
         }
         
         if ($type == HTTP_DOWNLOAD_ZIP) {
-            if (!$arc->create($files, array('add_path' => $add_path, 'remove_path' => $strip_path))) {
-                return PEAR::raiseError('Archive createon failed.');
+            $options = array(   'add_path' => $add_path, 
+                                'remove_path' => $strip_path);
+            if (!$arc->create($files, $options)) {
+                return PEAR::raiseError('Archive creation failed.');
             }
         } else {
             if (!$e = $arc->createModify($files, $add_path, $strip_path)) {
@@ -723,9 +806,9 @@ class HTTP_Download
         $cType = $this->headers['Content-Type'];
         $this->headers['Content-Type'] =
             'multipart/byteranges; boundary=' . $bound;
-
+        $this->sendHeaders();
         foreach ($chunks as $chunk){
-            if (true !== $e = $this->sendChunk($chunk, $cType, $bound)) {
+            if (PEAR::isError($e = $this->sendChunk($chunk, $cType, $bound))) {
                 return $e;
             }
         }
@@ -754,24 +837,37 @@ class HTTP_Download
             );
         }
         
-        $range  = $offset . '-' . $lastbyte . '/' . $this->size;
+        $range = $offset . '-' . $lastbyte . '/' . $this->size;
         
         if (isset($cType, $bound)) {
             echo    "\n--$bound\n",
                     "Content-Type: $cType\n",
                     "Content-Range: $range\n\n";
-        } elseif ($this->isRangeRequest()) {
-            $this->headers['Content-Range'] = $range;
+        } else {
+            if ($this->isRangeRequest()) {
+                $this->headers['Content-Range'] = $range;
+            }
+            $this->sendHeaders();
         }
 
         if ($this->data) {
             echo substr($this->data, $offset, $length);
         } else {
-            if (!$this->handle) {
+            if (!is_resource($this->handle)) {
                 $this->handle = fopen($this->file, 'rb');
             }
             fseek($this->handle, $offset);
-            echo fread($this->handle, $length);
+            while (($length -= $this->bufferSize) > 0) {
+                echo fread($this->handle, $this->bufferSize);
+                ob_flush();
+                if ($this->throttleDelay) {
+                    sleep($this->throttleDelay);
+                }
+            }
+            if ($length) {
+                echo fread($this->handle, $this->bufferSize + $length);
+                ob_flush();
+            }
         }
         return true;
     }
@@ -835,7 +931,8 @@ class HTTP_Download
     {
         return (
             (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) &&
-            $this->lastModified === $_SERVER['HTTP_IF_MODIFIED_SINCE']) ||
+            $this->lastModified === array_shift(explode(';', 
+                $_SERVER['HTTP_IF_MODIFIED_SINCE']))) ||
             (isset($_SERVER['HTTP_IF_NONE_MATCH']) &&
             $this->compareAsterisk('HTTP_IF_NONE_MATCH', $this->etag))
         );
@@ -854,7 +951,8 @@ class HTTP_Download
             return false;
         }
         if (isset($_SERVER['HTTP_IF_UNMODIFIED_SINCE']) && 
-            $_SERVER['HTTP_IF_UNMODIFIED_SINCE'] !== $this->lastModified) {
+            array_shift(explode(';', $_SERVER['HTTP_IF_UNMODIFIED_SINCE'])) !== 
+                $this->lastModified) {
             return false;
         }
         return true;
@@ -890,6 +988,7 @@ class HTTP_Download
             $this->HTTP->setHeader($header, $value);
         }
         $this->HTTP->sendHeaders();
+        ob_flush();
     }
     // }}}
 }

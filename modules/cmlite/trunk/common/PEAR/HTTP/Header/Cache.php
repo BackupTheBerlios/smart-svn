@@ -12,7 +12,7 @@
 // |          Michael Wallner <mike@php.net>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: Cache.php,v 1.12 2004/07/15 12:55:18 mike Exp $
+// $Id: Cache.php,v 1.20 2004/11/10 15:55:01 mike Exp $
 
 require_once 'HTTP/Header.php';
 
@@ -40,7 +40,7 @@ require_once 'HTTP/Header.php';
  * @category    HTTP
  * @license     PHP License
  * @access      public
- * @version     $Revision: 1.12 $
+ * @version     $Revision: 1.20 $
  */
 class HTTP_Header_Cache extends HTTP_Header
 {
@@ -58,11 +58,14 @@ class HTTP_Header_Cache extends HTTP_Header
     {
         parent::HTTP_Header();
         $this->setHeader('Pragma', 'cache');
-        $this->setHeader('Cache-Control', 'public');
         $this->setHeader('Last-Modified', $this->getCacheStart());
+        $this->setHeader('Cache-Control', 'private, must-revalidate, max-age=0');
         
-        if ($expires && !$this->isOlderThan($expires, $unit)) {
-            $this->exitIfCached();
+        if ($expires) {
+            if (!$this->isOlderThan($expires, $unit)) {
+                $this->exitCached();
+            }
+            $this->setHeader('Last-Modified', time());
         }
     }
 
@@ -77,8 +80,9 @@ class HTTP_Header_Cache extends HTTP_Header
      */
     function getCacheStart()
     {
-        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
-            return strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']);
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && !$this->isPost()) {
+            return strtotime(array_shift(explode(';', 
+                $_SERVER['HTTP_IF_MODIFIED_SINCE'])));
         }
         return time();
     }
@@ -115,14 +119,11 @@ class HTTP_Header_Cache extends HTTP_Header
      */
     function isOlderThan($time = 0, $unit = 'seconds')
     {
-        static $cacheStart;
-        
+        if (!isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) || $this->isPost()) {
+            return true;
+        }
         if (!$time) {
             return false;
-        }
-        
-        if (!isset($cacheStart)) {
-            $cacheStart = $this->getCacheStart();
         }
         
         switch (strtolower($unit))
@@ -145,15 +146,15 @@ class HTTP_Header_Cache extends HTTP_Header
             case 'minute':
             case 'minutes':
                 $time *= 60;
-            default:
-                $time += $cacheStart;
         }
         
-        return $time < time();
+        return (time() - $this->getCacheStart()) > $time;
     }
 
     /**
      * Is Cached
+     * 
+     * Check whether we can consider to be cached on the client side.
      * 
      * @access  public
      * @return  bool    Whether the page/resource is considered to be cached.
@@ -161,28 +162,61 @@ class HTTP_Header_Cache extends HTTP_Header
      */
     function isCached($lastModified = 0)
     {
-        if (!isset($_SERVER['HTTP_IF_MODIFIED_SINCE'])) {
+        if ($this->isPost()) {
             return false;
         }
-        if (!$lastModified) {
+        if (isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) && !$lastModified) {
             return true;
         }
-        return $lastModified < $this->getCacheStart();
+        if (!$seconds = time() - $lastModified) {
+            return false;
+        }
+        return !$this->isOlderThan($seconds);
+    }
+    
+    /**
+     * Is Post
+     * 
+     * Check if request method is "POST".
+     * 
+     * @access  public
+     * @return  bool
+     */
+    function isPost()
+    {
+        return  isset($_SERVER['REQUEST_METHOD']) and
+            'POST' == $_SERVER['REQUEST_METHOD'];
     }
     
     /**
      * Exit If Cached
      * 
+     * Exit with "HTTP 304 Not Modified" if we consider to be cached.
+     * 
+     * @access  public
+     * @return  void
+     * @param   int     $lastModified Unix timestamp of last modification.
+     */
+    function exitIfCached($lastModified = 0)
+    {
+        if ($this->isCached($lastModified)) {
+            $this->exitCached();
+        }
+    }
+    
+    /**
+     * Exit Cached
+     * 
+     * Exit with "HTTP 304 Not Modified".
+     * 
      * @access  public
      * @return  void
      */
-    function exitIfCached()
+    function exitCached()
     {
-        if ($this->isCached()) {
-            $this->sendHeaders();
-            $this->sendStatusCode(304);
-            exit;
-        }
+        $this->sendHeaders();
+        $this->sendStatusCode(304);
+        exit;
     }
     
     /**

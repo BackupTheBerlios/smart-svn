@@ -1,122 +1,137 @@
 <?php
 
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/3_0.txt                                   |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Author: Richard York <rich_y@php.net>                                |
-// +----------------------------------------------------------------------+
-//
-// $Id
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+//\\\       \\\\\\\\|                                                      \\
+//\\\ @@    @@\\\\\\| Mail_IMAP                                            \\
+//\\ @@@@  @@@@\\\\\|______________________________________________________\\
+//\\\@@@@| @@@@\\\\\|                                                      \\
+//\\\ @@ |\\@@\\\\\\|(c) Copyright 2004 Richard York, All rights Reserved  \\
+//\\\\  ||   \\\\\\\|______________________________________________________\\
+//\\\\  \\_   \\\\\\|Redistribution and use in source and binary forms,    \\
+//\\\\\        \\\\\|with or without modification, are permitted provided  \\
+//\\\\\  ----  \@@@@|that the following conditions are met:                \\
+//@@@@@\       \@@@@|                                                      \\
+//@@@@@@\     \@@@@@| o Redistributions of source code must retain the     \\
+//\\\\\\\\\\\\\\\\\\|  above copyright notice, this list of conditions and \\
+//    the following disclaimer.                                            \\
+//  o Redistributions in binary form must reproduce the above copyright    \\
+//    notice, this list of conditions and the following disclaimer in the  \\
+//    documentation and/or other materials provided with the distribution. \\
+//  o The names of the authors may not be used to endorse or promote       \\
+//    products derived from this software without specific prior written   \\
+//    permission.                                                          \\
+//                                                                         \\
+//  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS    \\
+//  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT      \\
+//  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR  \\
+//  A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT   \\
+//  OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,  \\
+//  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT       \\
+//  LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,  \\
+//  DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY  \\
+//  THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT    \\
+//  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  \\
+//  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.   \\
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
-require_once 'PEAR.php';
+require_once 'PEAR/ErrorStack.php';
 
-// {{{ constants
-// {{{ Mail_IMAP::connect action options
-define('MAIL_IMAP_GET_INFO',        5);
-define('MAIL_IMAP_NO_INFO',         6);
-// }}}
-// {{{ Mail_IMAP::getBody action options
-define('MAIL_IMAP_BODY',            0);
-define('MAIL_IMAP_LITERAL',         1);
-define('MAIL_IMAP_LITERAL_DECODE',  2);
-// }}}
-// {{{ Mail_IMAP::setFlags action options
-define('MAIL_IMAP_SET_FLAGS',       3);
-define('MAIL_IMAP_CLEAR_FLAGS',     4);
-// }}}
-// {{{ Mail_IMAP::Mail_IMAP error reporting options
-define('MAIL_IMAP_E_DEBUG',         100);
-// }}}
-// }}}
+define('MAIL_IMAP_BODY',                                0);
+define('MAIL_IMAP_LITERAL',                             1);
+define('MAIL_IMAP_LITERAL_DECODE',                      2);
+
+define('MAIL_IMAP_ERROR',                               1);
+define('MAIL_IMAP_ERROR_ARGUMENT_REQUIRES_ARRAY',       2);
+define('MAIL_IMAP_ERROR_INVALID_OPTION',                3);
+define('MAIL_IMAP_ERROR_INVALID_PID',                   4);
+define('MAIL_IMAP_ERROR_INVALID_ACTION',                5);
+
+define('MAIL_IMAP_NOTICE',                              100);
+define('MAIL_IMAP_NOTICE_FALLBACK_PID',                 102);
+
+define('MAIL_IMAP_FATAL',                               200);
 
 /**
-* <p>Mail_IMAP provides a simplified backend for working with the c-client (IMAP) extension.
-* It serves as an OO wrapper for commonly used c-client functions.
-* It provides structure and header parsing as well as body retrieval.</p>
-* <p>This package requires the c-client extension.  To download the latest version of
-* the c-client extension goto: http://www.php.net/imap.</p>
+* Mail_IMAP provides a flexible API for connecting to and retrieving
+* mail from mailboxes using the IMAP, POP3 or NNTP mail protocols.
+* Connection to a mailbox is acheived through the c-client extension
+* to PHP (http://www.php.net/imap). Meaning installation of the
+* c-client extension is required to use Mail_IMAP.
 *
-* <b>PEAR PREREQUISITES:</p>
-*   <ul>
-*       <li>Net_URL (Required if you will be using a URI abstraction to connect.)</li>
-*   </ul>
+* Mail_IMAP can be used to retrieve the contents of a mailbox,
+* whereas it may serve as the backend for a webmail application or
+* mailing list manager.
 *
-* <b>Known Bugs:</b>
-*   <p>Potential bugs may arise from the detection of certain multipart/* messages.
-*   Application parses and adjusts for anomalies in multipart/mixed,
-*   multipart/related and multipart/alternative messages.  Bugs may arise from
-*   untested and unincluded multipart message types, multipart/parallel,
-*   multipart/report, multipart/signed and multipart/digest.</p>
-*   <p>Have been told about a float conversion when passing a pid like 2.10 to
-*   array_search, have not yet reproduced.</p>
-*   <p>CID handling is not tested or yet perfected, some bugs may rise up there.</p>
+* Since Mail_IMAP is an abstracted object, it allows for complete
+* customization of the UI for any application.
 *
-* <b>What to do when a message bombs on Mail_IMAP:</b>
-* <ol>
-*   <li>File a bug report at http://pear.php.net/bugs</li>
-*   <li>Mail a copy of the message preserving the structure as you now see it
-*       e.g. don't send as an attachment of another message to
-*       demo@smilingsouls.net.</li>
-*   <li>Include "Mail_IMAP", the MIME type and a short summary of what's wrong in
-*       the subject line, for instance if bombing on a multipart/related message,
-*       include that MIME type, if you aren't sure what MIME type the message is,
-*       don't worry about it :). Altering the subject line is important, otherwise
-*       I may think the message is spam and delete it.</li>
-* </ol>
+* By default Mail_IMAP parses and retrieves information about
+* multipart message in a threaded fashion similar to MS Outlook, e.g.
+* only top level attachments are retrieved initially, then when message
+* part id and message id are passed to Mail_IMAP, it retrieves
+* attachments and information relevant to that message part.
+* {@link getParts} can be supplied an argument to turn off threading,
+* whereas all parts are retrieved at once.
 *
-* <b>Having trouble finding the example files?</b>
-*   Examples are located in the PEAR install directory under /docs/Mail_IMAP/examples
+* Mail_IMAP also, by default retrieves the alternative message parts
+* of multipart messages. This is most useful for debugging
+* applications that send out multipart mailers where both a text/html
+* and alterntaive text/plain part are included. This can also be
+* turned off by supplying an additional argument to {@link getParts}.
 *
-* <b>Extended documentation available at:</b>
-*   http://www.spicypeanut.net
+* Mail_IMAP always searches for a text/html part to display as the primary
+* part. This can be reversed so that it always looks for a text/plain part
+* initially by supplying the necessary arguments to {@link getParts},
+* and {@link getBody}.
 *
-* <b>The following URL will *sometimes* have a more recent version of IMAP.php than PEAR:</b>
-*   <p>http://www.spicypeanut.net/index.html?content=373
-*   This is where I post my working copy of Mail_IMAP between releases, use at your
-*   own risk (any API changes made there may not make it into the official release).</p>
+* Extended documentation available at:
+*   http://www.smilingsouls.net
+*
+* PLEASE REPORT BUGS FOLLOWING THE GUIDELINES AT:
+*   http://www.smilingsouls.net
 *
 * @author       Richard York <rich_y@php.net>
 * @category     Mail
 * @package      Mail_IMAP
-* @license      PHP
-* @version      1.1.0
+* @license      BSD
+* @version      2.0.0alpha1RC5
 * @copyright    (c) Copyright 2004, Richard York, All Rights Reserved.
 * @since        PHP 4.2.0
+* @since        C-Client 2001
+* @tutorial     http://www.smilingsouls.net
 *
-* @example      examples/IMAP.inbox.php
+* @example      docs/examples/IMAP.inbox.php
 *   Mail_IMAP Inbox
 *
-* @example      examples/IMAP.message.php
+* @example      docs/examples/IMAP.message_viewer.php
 *   Mail_IMAP Message
 *
-* @example      examples/IMAP.connection_wizard.php
+* @example      docs/examples/IMAP.part_viewer.php
+*   Mail_IMAP Message
+*
+* @example      docs/examples/IMAP.connection_wizard.php
 *   Mail_IMAP Connection Wizard
 *
-* @example      examples/IMAP.connection_wizard_example.php
+* @example      docs/examples/IMAP.connection_wizard_example.php
 *   Mail_IMAP Connection Wizard
 *
-* @todo imap_mail_copy
-* @todo imap_mail_move
 */
 
-// {{{ class Mail_IMAP
 class Mail_IMAP {
 
-    // {{{ properties
+    /**
+     * Contains an instance of the PEAR_ErrorStack class
+     * @var     resource $mailbox
+     * @access  public
+     */
+    var $error;
+
     /**
      * Contains the imap resource stream.
      * @var     resource $mailbox
      * @access  public
+     * @see     Mail_IMAP
+     * @see     open
      */
     var $mailbox;
 
@@ -124,244 +139,145 @@ class Mail_IMAP {
      * Contains information about the current mailbox.
      * @var     array $mailboxInfo
      * @access  public
+     * @see     connect
+     * @see     getMailboxInfo
      */
-    var $mailboxInfo;
+    var $mailboxInfo = array();
 
     /**
      * Set flags for various imap_* functions.
      *
      * Use associative indices to indicate the imap_* function to set flags for,
      *  create the indice omitting the 'imap_' portion of the function name.
-     *  see: Mail_IMAP::setOptions for more information.
+     *  see: {@link setOptions} for more information.
      *
      * @var     array $option
      * @access  public
+     * @see     setOptions
      */
-    var $option;
+    var $option = array();
+
+    /**
+     * Contains various information returned by {@link imap_fetchstructure}.
+     * Object returned by imap_fetchstructure stored in $this->structure['obj'].
+     *
+     * @var     array $_structure
+     * @access  public
+     * @see     _declareParts
+     */
+    var $structure = array();
+
+    /**
+     * Contains various information about a message, separates inline parts from
+     * attachments and contains the default part id for each message.
+     *
+     * @var     array $msg
+     * @access  public
+     */
+    var $msg = array();
+
+    /**
+     * (array)(mixed) Associative array containing information
+     * gathered by {@link imap_headerinfo} or
+     * {@link imap_rfc822_parse_headers}.
+     *
+     * @var    header array $header
+     * @see     getHeaders
+     */
+
+    var $header = array();
 
     /**
      * (string) contains the various possible data types.
      * @var     array $_dataTypes
      * @access  private
      */
-    var $_dataTypes = array('text', 'multipart', 'message', 'application', 'audio', 'image', 'video', 'other');
+    var $_dataTypes = array('text',
+                            'multipart',
+                            'message',
+                            'application',
+                            'audio',
+                            'image',
+                            'video',
+                            'other');
 
     /**
      * (string) Contains the various possible encoding types.
      * @var     array $_encodingTypes
      * @access  private
      */
-    var $_encodingTypes = array('7bit', '8bit', 'binary', 'base64', 'quoted-printable', 'other');
-
-    // --------------------------ALL MESSAGE PARTS-----------------------------
-    /**
-     * (object) Contains the object returned by {@link imap_fetchstructure}.
-     * @var     array $_structure
-     * @access  private
-     */
-    var $_structure;
+    var $_encodingTypes = array('7bit',
+                                '8bit',
+                                'binary',
+                                'base64',
+                                'quoted-printable',
+                                'other');
 
     /**
-     * (str) Contains all of the part ids for a given message.
-     * @var     array $_pid
-     * @access  private
+     * (string) Contains the fields searched for and added to inline and attachment part
+     * arrays. These are the 'in' and 'at' associative indices of the $msg member variable.
+     * @var    array $fields
+     * @access public
      */
-    var $_pid;
+    var $fields = array('fname',
+                        'pid',
+                        'ftype',
+                        'fsize',
+                        'has_at',
+                        'charset',
+                        'cid');
 
-    /**
-     * (string) Contains all of the part mime types for a given message.
-     * @var     array $_ftype
-     * @access  private
-     */
-    var $_ftype;
-
-    /**
-     * (int) Contains the file size in bytes for message parts.
-     * @var     array $_fsize
-     * @access  private
-     */
-    var $_fsize;
-
-    /**
-     * (str) Contains the original file name for a message part (if any).
-     * @var     array $_fname
-     * @access  private
-     */
-    var $_fname;
-
-    /**
-     * (string) Contains the part disposition inline | attachment.
-     * @var     array $_disposition
-     * @access  private
-     */
-    var $_disposition;
-
-    /**
-     * (str) Contains the part encoding.
-     * @var     array $_encoding
-     * @access  private
-     */
-    var $_encoding;
-
-    /**
-     * (str) Contains the part id for multipart/related (if any).
-     * @var     array $_inlineId
-     * @access  private
-     */
-    var $_inlineId;
-
-    /**
-     * (bool) Determines whether the current part has attachments.
-     * @var     array $_hasAttachments
-     * @access  private
-     */
-    var $_hasAttachments;
-
-    /**
-     * (str) contains the default PID.
-     * @var     array $defaultPid
-     * @access  public
-     */
-    var $defaultPid;
-
-    // --------------------------INLINE MESSAGE PARTS-----------------------------
-    /**
-     * (str) Inline part id.
-     * @var     array $inPid
-     * @access  public
-     */
-    var $inPid;
-
-    /**
-     * (str) Inline part MIME type.
-     * @var     array $inFtype
-     * @access  public
-     */
-    var $inFtype;
-
-    /**
-     * (int) Inline file size of the part in bytes.
-     * @var     array $inFsize
-     * @access  public
-     */
-    var $inFsize;
-
-    /**
-     * (int) Inline file name of the part, if any.
-     * @var     array $inFname
-     * @access  public
-     */
-    var $inFname;
-
-    /**
-     * (bool) Inline part has attachments?
-     * @var     array $inHasAttach
-     * @access  public
-     */
-    var $inHasAttach;
-
-    /**
-     * (str) Inline CID for multipart/related.
-     * @var     array $inInlineId
-     * @access  public
-     */
-    var $inInlineId;
-
-    // --------------------------ATTACHMENT MESSAGE PARTS-----------------------------
-    /**
-     * (str) Attachment part id.
-     * @var     array $attachPid
-     * @access  public
-     */
-    var $attachPid;
-
-    /**
-     * (str) Attachment MIME type.
-     * @var     array $attachFtype
-     * @access  public
-     */
-    var $attachFtype;
-
-    /**
-     * (int) Attachment file size in bytes.
-     * @var     array $attachFsize
-     * @access  public
-     */
-    var $attachFsize;
-
-    /**
-     * (str) Attachment original file name (if any, if not file name is empty string).
-     * @var     array $attachFname
-     * @access  public
-     */
-    var $attachFname;
-
-    /**
-     * (bool) Attachment has attachments?
-     * @var     array $attachHasAttach
-     * @access  public
-     */
-    var $attachHasAttach;
-
-    // -------------------------- MESSAGE HEADERS -----------------------------
-    /**
-     * (str) Contains raw message headers fetched from {@link imap_fetchbody}
-     * or {@link imap_fetchheader} depending on which message part is being retrieved.
-     * @var     array $rawHeaders
-     * @access  public
-     */
-    var $rawHeaders;
-
-    /**
-     * (array)(mixed) Associative array containing information gathered by {@link imap_headerinfo}
-     * or {@link imap_rfc822_parse_headers}.
-     * @var    header array $header
-     */
-    var $header;
-    // }}}
-
-    // {{{ constructor
     /**
     * Constructor. Optionally set the IMAP resource stream.
     *
-    * If IMAP connection arguments are not supplied, returns NULL.  Accepts
-    * a URI abstraction of the standard imap_open connection argument
-    * (see {@link connect}) or the imap resource indicator.
+    * If IMAP connection arguments are not supplied, returns null.  Accepts a URI
+    * abstraction of the standard imap_open connection argument (see {@link connect})
+    * or the imap resource indicator.
     *
-    * @param     string         $connect  (optional) server URL to connect to
-    * @param     int            $options  (optional) options see imap_open (DEPRECATED, use $this->option['open'] instead)
-    * @param     int            $error_reporting
-    *   (optional), one of E_ALL or 0, tells Mail_IMAP to report more about the messages it is
-    *   parsing and where hacks are being used, such as fallback PIDs. This level of
-    *   error reporting can become annoying, to turn it off, set to 0.
+    * If the optional flags argument of imap_open needs to be set, then {@link connect}
+    * should be called after either setting the {@link $option} member variable or
+    * calling {@link setOptions}.
     *
+    * Since Mail_IMAP 2.0.0 creates an instance of PEAR_ErrorStack.
+    *  $options argument became $get_info argument see {@link connect}.
+    *
+    * @param     string         $connection  (optional) server URI | imap resource identifier
+    * @param     int            $action
+    *
+    * @tutorial http://www.smilingsouls.net/?content=Mail_IMAP/Mail_IMAP
     * @access    public
-    * @return    BOOL|NULL|PEAR_Error
+    * @return    BOOL|null|PEAR_Error
     * @see       connect
     * @see       imap_open
     */
-    function Mail_IMAP($connection = NULL, $options = NULL, $error_reporting = E_ALL)
+    function Mail_IMAP($connection = null, $get_info = true)
     {
-        if (!defined('MAIL_IMAP_ERROR_REPORTING')) {
-            define('MAIL_IMAP_ERROR_REPORTING', $error_reporting);
-        }
+        $this->error = new PEAR_ErrorStack('Mail_IMAP');
 
-        if (is_resource($connection)) {
+        if (!empty($connection) && is_resource($connection)) {
             if (get_resource_type($connection) == 'imap') {
                 $this->mailbox = $connection;
-                $ret = TRUE;
             } else {
-                $ret = PEAR::raiseError('Mail_IMAP::Mail_IMAP: Supplied resource is not a valid IMAP stream.');
+                $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Invalid imap resource passed to constructor.');
             }
         } else {
-            $ret = ($connection == NULL)? NULL : Mail_IMAP::connect($connection, $options);
+            $this->connect($connection, $get_info);
         }
-
-        return $ret;
     }
-    // }}}
 
-    // {{{ connect()
+    function errorTemplate()
+    {
+        return array(
+            // Generic Error
+            MAIL_IMAP_ERROR => '%message%',
+            MAIL_IMAP_ERROR_ARGUMENT_REQUIRES_ARRAY => 'Argument \'%arg%\' must be an array.',
+            MAIL_IMAP_ERROR_INVALID_OPTION => 'Indice \'%indice%\' for argument \'%arg%\' is not a valid option.',
+            MAIL_IMAP_ERROR_INVALID_PID => 'Supplied part id \'%pid%\' is not valid.',
+            MAIL_IMAP_ERROR_INVALID_ACTION => 'Action \'%action%\' is not a valid action for the \'%arg%\' argument.',
+            MAIL_IMAP_NOTICE_FALLBACK_PID => 'Fallback PID used. A fallback PID is used in the event that Mail_IMAP is not able to find a valid text/plain or text/html message part. The MIME type for the fallback pid is %ftype%'
+        );
+    }
+
     /**
     * Wrapper method for {@link imap_open}.  Accepts a URI abstraction in
     * the following format: imap://user:pass@mail.example.com:143/INBOX#notls
@@ -372,110 +288,73 @@ class Mail_IMAP {
     * number is optional, however, leaving it off could lead to a serious
     * degradation in preformance.
     *
-    * Examples of a well-formed connection argument:
+    * Since Mail_IMAP 2.0.0 the $options argument became the $get_info argument.
+    * constants for action were removed and the argument is now a BOOL toggle.
     *
-    * For IMAP:        imap://user:pass@mail.example.com:143/INBOX
-    *
-    * For IMAP SSL:    imaps://user:pass@example.com:993/INBOX
-    *
-    * For POP3:        pop3://user:pass@mail.example.com:110/INBOX
-    *
-    * For POP3 SSL:    pop3s://user:pass@mail.example.com:993/INBOX
-    *
-    * For NNTP:        nntp://user:pass@mail.example.com:119/comp.test
-    *
-    * For 'notls' OR 'novalidate-cert' append to the URL as an anchor.
-    * For 'tls' use secure protocol and add the 'tls' option to the anchor.
-    *
-    * Examples:
-    *
-    * For notls:       imap://user:pass@mail.example.com:143/INBOX#notls
-    *
-    * For tls:         imaps://user:pass@mail.example.com:143/INBOX#tls
-    *
-    * tls no-validate: imaps://user:pass@mail.example.com:143/INBOX#tls/novalidate-cert
-    *
-    * ssl no-validate: imaps://user:pass@mail.example.com:143/INBOX#novalidate-cert
-    *
-    * If the username is an email address or contains invalid URL characters,
-    * urlencode the username portion of the string before passing it.
-    *
-    * Use the IMAP.connection_wizard_example.php file to automatically detect
-    * the correct URI to pass to this function.  This file is located in the
-    * examples directory.
-    *
-    * @param    string           $connect   server URL
-    * @param    int              (optional) options (DEPRECATED, use $this->option['open'] instead)
-    *   As of Mail_IMAP 1.1.0 the $options argument accepts an action for
-    *   retrieving various mailbox information. If set to MAIL_IMAP_GET_INFO (the default action)
-    *   Mail_IMAP::connect will make a call to {@link getMailboxInfo}. If set to MAIL_IMAP_NO_INFO
-    *   this call will not be made. In the upcoming Mail_IMAP 2.0.0 release the $options argument
-    *   will be no longer specify optional flags for {@link imap_open} and will server
-    *   exclusively as an action toggle for {@link getMailboxInfo}.
-    *
-    * @return   PEAR_Error|TRUE
+    * @param    string           $uri   server URI
+    * @param    bool             $get_info
+    *   (optional) true by default. If true, make a call to {@link getMailboxInfo}
+    *   if false do not call {@link getMailboxInfo}
+    * @return   BOOL
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/connect
     * @access   public
     * @see      imap_open
-    * @see      debug
-    * @see      getMailboxInfo
     */
-    function connect($connect, $options = NULL)
+    function connect($uri, $get_info = true)
     {
         if (!class_exists('Net_URL')) {
             if (!@include_once('Net/URL.php')) {
-                return PEAR::raiseError('Mail_IMAP::connect: Inclusion of Net_URL not successful.');
+                $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Inclusion of Net_URL not successful.');
+                return false;
             }
         }
 
-        if (isset($this->option['open'])) {
-            $options = $this->option['open'];
+        $opt = (isset($this->option['open']))? $this->option['open'] : null;
+
+        $net_url =& new Net_URL($uri);
+
+        $uri  = '{'.$net_url->host;
+
+        if (!empty($net_url->port)) {
+            $uri .= ':'.$net_url->port;
         }
 
-        $url =& new Net_URL($connect);
+        $secure   = ('tls' == substr($net_url->anchor, 0, 3))? '' : '/ssl';
+        $uri .= ('s' == (substr($net_url->protocol, -1)))? '/'.substr($net_url->protocol, 0, 4).$secure : '/'.$net_url->protocol;
 
-        $connect  = '{'.$url->host;
-
-        if (!empty($url->port)) {
-            $connect .= ':'.$url->port;
+        if (!empty($net_url->anchor)) {
+            $uri .= '/'.$net_url->anchor;
         }
 
-        $secure   = ('tls' == substr($url->anchor, 0, 3))? '' : '/ssl';
-        $connect .= ('s' == (substr($url->protocol, -1)))? '/'.substr($url->protocol, 0, 4).$secure : '/'.$url->protocol;
+        $uri .= '}';
 
-        if (!empty($url->anchor)) {
-            $connect .= '/'.$url->anchor;
-        }
-
-        $connect .= '}';
-
-        $this->mailboxInfo['host']   = $connect;
+        $this->mailboxInfo['Mail_IMAP']['version'] = 'Mail_IMAP 2.0.0 alpha 1 RC 5';
+        $this->mailboxInfo['host'] = $uri;
 
         // Trim off the leading slash '/'
-        if (!empty($url->path)) {
-            $this->mailboxInfo['folder'] = substr($url->path, 1, (strlen($url->path) - 1));
-            $connect .= $this->mailboxInfo['folder'];
+        if (!empty($net_url->path)) {
+            $this->mailboxInfo['folder'] = substr($net_url->path, 1, (strlen($net_url->path) - 1));
+            $uri .= $this->mailboxInfo['folder'];
         }
 
-        $this->mailboxInfo['user']   = urldecode($url->user);
+        $this->mailboxInfo['user'] = urldecode($net_url->user);
 
-        $ret = (FALSE === ($this->mailbox = @imap_open($connect, urldecode($url->user), $url->pass, $options)))? PEAR::raiseError('Mail_IMAP::connect: Unable to build a connection to the specified mail server.') : TRUE;
+        if (false === ($this->mailbox = @imap_open($uri, urldecode($net_url->user), $net_url->pass, $opt))) {
+            $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Unable to build a connection to the specified mail server.');
+            $ret = false;
+        } else {
+            $ret = true;
+        }
 
         // get mailbox info
-        if ($options != MAIL_IMAP_NO_INFO) {
-            Mail_IMAP::getMailboxInfo(FALSE);
-        }
-
-        // Do debugger
-        if ((isset($_GET['dump_mid'])) && (MAIL_IMAP_ERROR_REPORTING == E_ALL || MAIL_IMAP_ERROR_REPORTING == MAIL_IMAP_E_DEBUG)) {
-            Mail_IMAP::debug($_GET['dump_mid']);
+        if ($get_info == true) {
+            $this->getMailboxInfo(false);
         }
 
         return $ret;
     }
-    // }}}
 
-    // {{{ getMailboxInfo()
-    /**
+    /*
     * Adds to the {@link $mailboxInfo} member variable information about the current
     * mailbox from {@link imap_mailboxmsginfo}.
     *
@@ -483,87 +362,83 @@ class Mail_IMAP {
     *
     * @param    string           $connect   server URL
     * @param    bool             $get_info
-    *   (optional) TRUE by default. If TRUE, make a call to {@link getMailboxInfo}
-    *   if FALSE do not call {@link getMailboxInfo}
+    *   (optional) true by default. If true, make a call to {@link getMailboxInfo}
+    *   if false do not call {@link getMailboxInfo}
     *
-    * @return   PEAR_Error|TRUE
+    * @return   VOID|Array
     * @access   public
     * @see      imap_open
     */
-    function getMailboxInfo($ret = TRUE)
+    function getMailboxInfo($ret = true)
     {
-        // It's possible that this function has already been called by Mail_IMAP::connect
+        // It's possible that this function has already been called by $this->connect
         // If so, the 'Mailbox' indice will already exist and the user just wants
         // the contents of the mailboxInfo member variable.
         if (!isset($this->mailboxInfo['Mailbox'])) {
             $this->mailboxInfo = @array_merge($this->mailboxInfo, get_object_vars(imap_mailboxmsginfo($this->mailbox)));
         }
 
-        if ($ret == TRUE) {
+        if ($ret) {
             return $this->mailboxInfo;
+        } else {
+            return true;
         }
     }
-    // }}}
 
-    // {{{ setOptions()
     /**
     * Set the $option member variable, which is used to specify optional imap_* function
     * arguments (labeled in the manual as flags or options e.g. FT_UID, OP_READONLY, etc).
     *
-    * Example:
+    * <b>Example:</b>
+    * <code>
     *    $msg->setOptions(array('body', 'fetchbody', 'fetchheader'), 'FT_UID');
+    * </code>
     *
     * This results in imap_body, imap_fetchbody and imap_fetchheader being passed the FT_UID
     * option in the flags/options argument where ever these are called on by Mail_IMAP.
     *
-    * Note: this method only sets arguments labeled as flags/options.
+    * Note: this method only sets optional imap_* arguments labeled as flags/options.
     *
-    * @param    array          $option_set - function names to pass the arugument to
+    * @param    array          $options - function names to pass the arugument to
     * @param    string         $constant   - constant name to pass.
-    * @return   PEAR_Error|TRUE
+    * @return   PEAR_Error|true
     * @access   public
     * @see      $option
     */
-    function setOptions($option_set, $constant)
+    function setOptions($options, $constant)
     {
-        if (is_array($option_set) && !empty($option_set)) {
-            foreach ($option_set as $value) {
+        if (is_array($options) && !empty($options)) {
+            foreach ($options as $value) {
                 if (!$this->option[$value] = @constant($constant)) {
-                    return PEAR::raiseError('Mail_IMAP::setOptions: The constant: '.$constant.' is not defined!');
+                    $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'The constant: '.$constant.' is not defined!');
                 }
             }
         } else {
-            return PEAR::raiseError('Mail_IMAP::setOptions: The first argument must be an array.');
+            $this->error->push(MAIL_IMAP_ERROR_ARGUMENT_REQUIRES_ARRAY, 'error', array('arg' => '$options'));
+            return false;
         }
-
-        return TRUE;
+        return true;
     }
-    // }}}
 
-    // {{{ close()
     /**
     * Wrapper method for {@link imap_close}.  Close the IMAP resource stream.
     *
-    * @param    int           $options    (optional) sets the second argument of imap_close (DEPRECATED, use $this->option['close'] instead)
-    * @return   PEAR_Error|TRUE
+    * @return   BOOL
     * @access   public
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/close
     * @see      imap_close
     */
-    function close($options = NULL)
+    function close()
     {
-        if (isset($this->option['close'])) {
-            $options = $this->option['close'];
-        }
-
-        return (@imap_close($this->mailbox, $options))? TRUE : PEAR::raiseError('Mail_IMAP::close: Unable to close the connection to the mail server.');
+        $opt = (isset($this->option['close']))? $this->option['close'] : null;
+        return @imap_close($this->mailbox, $opt);
     }
-    // }}}
 
-    // {{{ messageCount()
     /**
     * Wrapper method for {@link imap_num_msg}.
     *
     * @return   int mailbox message count
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/messageCount
     * @access   public
     * @see      imap_num_msg
     */
@@ -571,9 +446,7 @@ class Mail_IMAP {
     {
         return @imap_num_msg($this->mailbox);
     }
-    // }}}
 
-    // {{{ _declareParts()
     /**
     * Gather message information returned by {@link imap_fetchstructure} and recursively iterate
     * through each parts array.  Concatenate part numbers in the following format `1.1`
@@ -588,20 +461,21 @@ class Mail_IMAP {
     * @param    bool          $is_sub_part  recursive
     * @param    bool          $skip_part    recursive
     * @return   mixed
-    * @access   private
+    * @access   protected
     * @see      imap_fetchstructure
     * @see      imap_fetchbody
     */
-    function _declareParts(&$mid, $sub_part = NULL, $sub_pid = NULL, $n = 0, $is_sub_part = FALSE, $skip_part = FALSE)
+    function _declareParts(&$mid, $sub_part = null, $sub_pid = null, $n = 0, $is_sub_part = false, $skip_part = false)
     {
         if (!is_array($sub_part)) {
-            $this->_structure[$mid] = (isset($this->option['fetchstructure']))? @imap_fetchstructure($this->mailbox, $mid, $this->option['fetchstructure']) : @imap_fetchstructure($this->mailbox, $mid);
+            $opt = (isset($this->option['fetchstructure']))? $this->option['fetchstructure'] : null;
+            $this->structure[$mid]['obj'] = @imap_fetchstructure($this->mailbox, $mid, $opt);
         }
 
-        if (isset($this->_structure[$mid]->parts) || is_array($sub_part)) {
+        if (isset($this->structure[$mid]['obj']->parts) || is_array($sub_part)) {
 
-            if ($is_sub_part == FALSE) {
-                $parts = $this->_structure[$mid]->parts;
+            if (!$is_sub_part) {
+                $parts = $this->structure[$mid]['obj']->parts;
             } else {
                 $parts = $sub_part;
                 $n++;
@@ -615,97 +489,107 @@ class Mail_IMAP {
                 //
                 // Have noticed the existence of several other multipart/* types of messages
                 // but have yet had the opportunity to test on those.
-                $ftype        = (empty($parts[$p]->type))?    $this->_dataTypes[0].'/'.strtolower($parts[$p]->subtype) : $this->_dataTypes[$parts[$p]->type].'/'.strtolower($parts[$p]->subtype);
-                $skip_next    = ($ftype == 'message/rfc822')? TRUE : FALSE;
+                $ftype        = (empty($parts[$p]->type))?
+                    $this->_dataTypes[0].'/'.strtolower($parts[$p]->subtype) : $this->_dataTypes[$parts[$p]->type].'/'.strtolower($parts[$p]->subtype);
 
-                if ($ftype == 'multipart/mixed' || $skip_part == TRUE && $ftype == 'multipart/alternative' || $ftype == 'multipart/related' && count($parts) == 1) {
+                $skip_next    = ($ftype == 'message/rfc822')? true : false;
+
+                if ( $ftype == 'multipart/mixed' ||
+                     $skip_part == true && $ftype == 'multipart/alternative' ||
+                     $ftype == 'multipart/related' && count($parts) == 1
+                   ) {
+
                     $n--;
-                    $skipped = TRUE;
+                    $skipped = true;
                 } else {
 
-                    $skipped = FALSE;
+                    $skipped = false;
 
-                    $this->_pid[$mid][$n] = ($is_sub_part == FALSE)? (string) "$i" : (string) "$sub_pid.$i";
+                    $this->structure[$mid]['pid'][$n] = ($is_sub_part == false)? (string) "$i" : (string) "$sub_pid.$i";
 
-                    $this->_ftype[$mid][$n]     = $ftype;
-                    $this->_encoding[$mid][$n]  = (empty($parts[$p]->encoding))? $this->_encodingTypes[0] : $this->_encodingTypes[$parts[$p]->encoding];
-                    $this->_fsize[$mid][$n]     = (!isset($parts[$p]->bytes) || empty($parts[$p]->bytes))? 0 : $parts[$p]->bytes;
+                    $this->structure[$mid]['ftype'][$n]     = $ftype;
+                    $this->structure[$mid]['encoding'][$n]  = (empty($parts[$p]->encoding))? $this->_encodingTypes[0] : $this->_encodingTypes[$parts[$p]->encoding];
+                    $this->structure[$mid]['fsize'][$n]     = (!isset($parts[$p]->bytes) || empty($parts[$p]->bytes))? 0 : $parts[$p]->bytes;
+
+                    // Get extra parameters.
+                    if ($parts[$p]->ifparameters) {
+                         foreach ($parts[$p]->parameters as $param) {
+                             $this->structure[$mid][strtolower($param->attribute)][$n] = strtolower($param->value);
+                        }
+                    }
 
                     // Force inline disposition if none is present
-                    if ($parts[$p]->ifdisposition == TRUE) {
-
-                        $this->_disposition[$mid][$n] = strtolower($parts[$p]->disposition);
-
-                        if ($parts[$p]->ifdparameters == TRUE) {
-
-                            $params = $parts[$p]->dparameters;
-
-                            foreach ($params as $param) {
-
+                    if ($parts[$p]->ifdisposition) {
+                        $this->structure[$mid]['disposition'][$n] = strtolower($parts[$p]->disposition);
+                        if ($parts[$p]->ifdparameters) {
+                            foreach ($parts[$p]->dparameters as $param) {
                                 if (strtolower($param->attribute) == 'filename') {
-                                    $this->_fname[$mid][$n] = $param->value;
+                                    $this->structure[$mid]['fname'][$n] = $param->value;
                                     break;
                                 }
                             }
                         }
-
                     } else {
-                        $this->_disposition[$mid][$n] = 'inline';
+                        $this->structure[$mid]['disposition'][$n] = 'inline';
                     }
 
-                    if ($parts[$p]->ifid == TRUE) {
-                        $this->_inlineId[$mid][$n] = $parts[$p]->id;
+                    if ($parts[$p]->ifid) {
+                        $this->structure[$mid]['cid'][$n] = $parts[$p]->id;
                     }
                 }
 
                 if (isset($parts[$p]->parts) && is_array($parts[$p]->parts)) {
-                    if ($skipped == FALSE) {
-                        $this->_hasAttachments[$mid][$n] = TRUE;
+                    if (!$skipped) {
+                        $this->structure[$mid]['has_at'][$n] = true;
                     }
 
-                    $n = Mail_IMAP::_declareParts($mid, $parts[$p]->parts, $this->_pid[$mid][$n], $n, TRUE, $skip_next);
+                    $n = $this->_declareParts($mid, $parts[$p]->parts, $this->structure[$mid]['pid'][$n], $n, true, $skip_next);
 
-                } else if ($skipped == FALSE) {
-                    $this->_hasAttachments[$mid][$n] = FALSE;
+                } else if (!$skipped) {
+                    $this->structure[$mid]['has_at'][$n] = false;
                 }
             }
 
-            if ($is_sub_part == TRUE) {
+            if ($is_sub_part) {
                 return $n;
             }
 
          } else {
-
              // $parts is not an array... message is flat
-            $this->_pid[$mid][0] = 1;
+            $this->structure[$mid]['pid'][0] = 1;
 
-            if (empty($this->_structure[$mid]->type)) {
-                $this->_structure[$mid]->type        = (int) 0;
+            if (empty($this->structure[$mid]['obj']->type)) {
+                $this->structure[$mid]['obj']->type = (int) 0;
             }
 
-            if (isset($this->_structure[$mid]->subtype)) {
-                $this->_ftype[$mid][0]               = $this->_dataTypes[$this->_structure[$mid]->type].'/'.strtolower($this->_structure[$mid]->subtype);
+            if (isset($this->structure[$mid]['obj']->subtype)) {
+                $this->structure[$mid]['ftype'][0] = $this->_dataTypes[$this->structure[$mid]['obj']->type].'/'.strtolower($this->structure[$mid]['obj']->subtype);
             }
 
-            if (empty($this->_structure[$mid]->encoding)) {
-                $this->_structure[$mid]->encoding    = (int) 0;
+            if (empty($this->structure[$mid]['obj']->encoding)) {
+                $this->structure[$mid]['obj']->encoding = (int) 0;
             }
 
-            $this->_encoding[$mid][0]                = $this->_encodingTypes[$this->_structure[$mid]->encoding];
+            $this->structure[$mid]['encoding'][0] = $this->_encodingTypes[$this->structure[$mid]['obj']->encoding];
 
-            if (isset($this->_structure[$mid]->bytes)) {
-                $this->_fsize[$mid][0]               = strtolower($this->_structure[$mid]->bytes);
+            if (isset($this->structure[$mid]['obj']->bytes)) {
+                $this->structure[$mid]['fsize'][0] = strtolower($this->structure[$mid]['obj']->bytes);
             }
 
-            $this->_disposition[$mid][0]             = 'inline';
-            $this->_hasAttachments[$mid][0]          = FALSE;
+            $this->structure[$mid]['disposition'][0]    = 'inline';
+            $this->structure[$mid]['has_at'][0] = false;
+
+            // Go through the parameters, if any
+            if (isset($this->structure[$mid]['obj']->ifparameters) && $this->structure[$mid]['obj']->ifparameters) {
+                foreach ($this->structure[$mid]['obj']->parameters as $param) {
+                    $this->structure[$mid][strtolower($param->attribute)][0] = $param->value;
+                }
+            }
         }
 
         return;
     }
-    // }}}
 
-    // {{{ _checkIfParsed()
     /**
     * Checks if the part has been parsed, if not calls on _declareParts to
     * parse the message.
@@ -713,84 +597,102 @@ class Mail_IMAP {
     * @param    int          &$mid         message id
     * @param    bool         $checkPid
     * @return   void
-    * @access   private
+    * @access   protected
     */
-    function _checkIfParsed(&$mid, $checkPid = TRUE)
+    function _checkIfParsed(&$mid, $checkPid = true, $get_mime = 'text/html')
     {
-        if (!isset($this->_pid[$mid])) {
-           Mail_IMAP::_declareParts($mid);
+        if (!isset($this->structure[$mid]['pid'])) {
+           $this->_declareParts($mid);
         }
 
-        if ($checkPid == TRUE && !isset($this->defaultPid[$mid])) {
-           Mail_IMAP::getDefaultPid($mid);
+        if ($checkPid == true && !isset($this->msg[$mid]['pid'])) {
+           $this->_getDefaultPid($mid, $get_mime);
         }
         return;
     }
-    // }}}
 
-    // {{{ getParts()
     /**
-    * sets up member variables containing inline parts and attachments for a specific part
-    * in member variable arrays beginning with 'in' and 'attach'.
-    * If inline parts are present, sets {@link $inPid}, {@link $inFtype}, {@link $inFsize},
-    * {@link $inHasAttach}, {@link $inInlineId} (if an inline CID is specified).
-    * If attachments are present, sets, {@link $attachPid}, {@link $attachFsize}, {@link $attachHasAttach},
-    * {@link $attachFname} (if a filename is present, empty string otherwise).
-    *
-    * Typically the text/html part is displayed by default by a message viewer, this part is
-    * excluded from the inline member variable arrays thourgh $excludeMime by default.  If
-    * $getInline is TRUE the text/plain alternative part will be returned in the inline array
-    * and may be included as an attachment.  Useful for mail developement/debugging of multipart
-    * messages.
+    * sets up member variables containing inline parts and attachments for a specific
+    * part in member variable arrays beginning with 'in' and 'attach'. If inline parts
+    * are present, sets {@link $inPid}, {@link $inFtype}, {@link $inFsize},
+    * {@link $inHasAttach}, {@link $inInlineId} (if an inline CID is specified). If
+    * attachments are present, sets, {@link $attachPid}, {@link $attachFsize},
+    * {@link $attachHasAttach}, {@link $attachFname} (if a filename is present, empty
+    * string otherwise).
     *
     * @param    int           &$mid         message id
     * @param    int           &$pid         part id
-    * @param    string        $MIME
-    *       (optional) values: text/plain|text/html, the part MIME type that will be
-    *       retrieved by default.
+    * @param    bool          $ret
+    *   false by default, if true returns the contents of the $in* and $attach* arrays.
+    *   If false method returns BOOL.
     *
-    * @param    bool          $getAlternative
-    *       (optional) include the plain/text alternative part in the created inline parts
-    *       array if $MIME is text/html, if $MIME is text/plain, include the text/html
-    *       alternative part.
+    * @param    string        $args         (optional)
+    *   Associative array containing optional extra arguments. The following are the
+    *   possible indices.
     *
-    * @param    bool          $retrieve_all
-    *       (optional) Instead of just finding parts relative to this part, get *all* parts
-    *       using this option *all* sub parts are included in the $in* and $attach* variables.
+    *       $args['get_mime'] STRING
+    *           Values: text/plain|text/html, text/html by default. The MIME type for
+    *           the part to be displayed by default for each level of nesting.
     *
-    * @return   bool
+    *       $agrs['get_alternative'] BOOL
+    *           If true, includes the alternative part of a multipart/alternative
+    *           message in the $in* array. If veiwing text/html part by default this
+    *           places the text/plain part in the $in* (inline attachment array).
+    *
+    *       $args['retrieve_all'] BOOL
+    *           If true, gets all the message parts at once, this option will index
+    *           the entire message in the $in* and $attach* member variables regardless
+    *           of nesting (method indexes parts relevant to the current level of
+    *           nesting by default).
+    *
+    * @return   BOOL|Array
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/getParts
     * @access   public
     * @since    PHP 4.2.0
     */
-    function getParts(&$mid, &$pid, $MIME = 'text/html', $getAlternative = TRUE, $retrieve_all = FALSE)
+    function getParts(&$mid, $pid = '0', $ret = false, $args = array())
     {
-        Mail_IMAP::_checkIfParsed($mid);
+        if (!isset($args['get_mime'])) {
+            $args['get_mime'] = 'text/html';
+        }
 
-        if (count($this->_pid[$mid]) == 1) {
-            return TRUE;
+        if (!isset($args['get_alternative'])) {
+            $args['get_alternative'] = true;
+        }
+
+        $this->_checkIfParsed($mid, true, $args['get_mime']);
+
+        if ($pid == '0') {
+            $pid = $this->msg[$mid]['pid'];
+        }
+
+        if (count($this->structure[$mid]['pid']) == 1 && !isset($this->structure[$mid]['fallback'][0])) {
+            return true;
         }
 
         // retrieve key for this part, so that the information may be accessed
-        if (FALSE !== ($i = array_search((string) $pid, $this->_pid[$mid]))) {
-            if ($retrieve_all == TRUE) {
-                Mail_IMAP::_scanMultipart($mid, $pid, $i, $MIME, 'add', 'none', 2, $getAlternative);
+        if (false !== ($i = array_search((string) $pid, $this->structure[$mid]['pid']))) {
+            if (isset($args['retrieve_all']) && $args['retrieve_all'] == true) {
+                $this->_scanMultipart($mid, $pid, $i, $args['get_mime'], 'add', 'none', 2, $args['get_alternative']);
             } else {
-                if ($pid == $this->defaultPid[$mid]) {
-                    Mail_IMAP::_scanMultipart($mid, $pid, $i, $MIME, 'add', 'top', 2, $getAlternative);
-                } else if ($this->_ftype[$mid][$i] == 'message/rfc822') {
-                    Mail_IMAP::_scanMultipart($mid, $pid, $i, $MIME, 'add', 'all', 1, $getAlternative);
+                if ($pid == $this->msg[$mid]['pid']) {
+                    $this->_scanMultipart($mid, $pid, $i, $args['get_mime'], 'add', 'top', 2, $args['get_alternative']);
+                } else if ($this->structure[$mid]['ftype'][$i] == 'message/rfc822') {
+                    $this->_scanMultipart($mid, $pid, $i, $args['get_mime'], 'add', 'all', 1, $args['get_alternative']);
                 }
             }
         } else {
-            PEAR::raiseError('Mail_IMAP::getParts: Unable to retrieve a valid part id from the pid passed.', null, PEAR_ERROR_TRIGGER, E_USER_WARNING, 'mid: '.$mid.' pid: '.$pid);
-            return FALSE;
+            $this->error->push(MAIL_IMAP_ERROR_INVALID_PID, 'error', array('pid' => $pid));
+            return false;
         }
 
-        return TRUE;
+        if ($ret == true) {
+            return $this->msg[$mid];
+        } else {
+            return true;
+        }
     }
-    // }}}
 
-    // {{{ _scanMultipart()
     /**
     * Finds message parts relevant to the message part currently being displayed or
     * looks through a message and determines which is the best body to display.
@@ -800,16 +702,16 @@ class Mail_IMAP {
     * @param    int           $i            offset indice correlating to the pid
     * @param    str           $MIME         one of text/plain or text/html the default MIME to retrieve.
     * @param    str           $action       one of add|get
-    * @param    str           $lookAt       one of all|multipart|top|none
-    * @param    int           $pidAdd       determines the level of nesting.
-    * @param    bool          $getAlternative
+    * @param    str           $look_for     one of all|multipart|top|none
+    * @param    int           $pid_add      determines the level of nesting.
+    * @param    bool          $get_alternative
     *   Determines whether the program retrieves the alternative part in a
     *   multipart/alternative message.
     *
-    * @return   string|FALSE
+    * @return   string|false
     * @access   private
     */
-    function _scanMultipart(&$mid, &$pid, &$i, $MIME, $action = 'add', $lookAt = 'all', $pidAdd = 1, $getAlternative = TRUE)
+    function _scanMultipart(&$mid, &$pid, &$i, $MIME, $action = 'add', $look_for = 'all', $pid_add = 1, $get_alternative = true)
     {
         // Find subparts, create variables
         // Create inline parts first, and attachments second
@@ -820,8 +722,7 @@ class Mail_IMAP {
 
         // If this part is message/rfc822 get subparts that begin with this part id
         // Skip multipart/alternative message part
-        // Find the displayable message, get plain/text part if $getInline is TRUE
-
+        // Find the displayable message, get text/plain part if $getInline is true
         if ($action == 'add') {
 
            $excludeMIME = $MIME;
@@ -830,14 +731,13 @@ class Mail_IMAP {
            $a           = 0;
 
         } else if ($action == 'get') {
-
-           $excludeMIME = NULL;
+           $excludeMIME = null;
         }
 
         $pid_len      = strlen($pid);
         $this_nesting = count(explode('.', $pid));
 
-        foreach ($this->_pid[$mid] as $p => $id) {
+        foreach ($this->structure[$mid]['pid'] as $p => $id) {
 
             // To look at the next level of nesting one needs to determine at which level
             // of nesting the program currently resides, this needs to be independent of the
@@ -847,112 +747,96 @@ class Mail_IMAP {
             // To accomplish this we'll explode the part id on the dot to get a count of the
             // nesting, then compare the string with the next level in.
 
-            $nesting = count(explode('.', $this->_pid[$mid][$p]));
+            $nesting = count(explode('.', $this->structure[$mid]['pid'][$p]));
 
-            switch ($lookAt) {
+            switch ($look_for) {
                 case 'all':
                 {
-                    $condition = (($nesting == ($this_nesting + 1)) && $pid == substr($this->_pid[$mid][$p], 0, $pid_len));
+                    $condition = (($nesting == ($this_nesting + 1)) && $pid == substr($this->structure[$mid]['pid'][$p], 0, $pid_len));
                     break;
                 }
                 case 'multipart':
                 {
-                    $condition = (($nesting == ($this_nesting + 1)) && ($pid == substr($this->_pid[$mid][$p], 0)));
+                    $condition = (($nesting == ($this_nesting + 1)) && ($pid == substr($this->structure[$mid]['pid'][$p], 0)));
                     break;
                 }
                 // Used if *all* parts are being retrieved
                 case 'none':
                 {
-                    $condition = TRUE;
+                    $condition = true;
                     break;
                 }
                 // To gaurantee a top-level part, detect whether a period appears in the pid string
                 case 'top':
                 default:
                 {
-                    if (Mail_IMAP::_isMultipartRelated($mid)) {
-                        $condition = (!strstr($this->_pid[$mid][$p], '.') || ($nesting == 2) && substr($this->defaultPid[$mid], 0, 1) == substr($this->_pid[$mid][$p], 0, 1));
+                    if ($this->_isMultipartRelated($mid)) {
+                        $condition = (!stristr($this->structure[$mid]['pid'][$p], '.') || ($nesting == 2) && substr($this->msg[$mid]['pid'], 0, 1) == substr($this->structure[$mid]['pid'][$p], 0, 1));
                     } else {
-                        $condition = (!strstr($this->_pid[$mid][$p], '.'));
+                        $condition = (!stristr($this->structure[$mid]['pid'][$p], '.'));
                     }
                 }
             }
 
-            if ($condition == TRUE) {
-
-                if ($this->_ftype[$mid][$p] == 'multipart/alternative') {
-
-                    foreach ($this->_pid[$mid] as $mp => $mpid) {
-
+            if ($condition == true) {
+                if ($this->structure[$mid]['ftype'][$p] == 'multipart/alternative') {
+                    foreach ($this->structure[$mid]['pid'] as $mp => $mpid) {
                         // Part must begin with last matching part id and be two levels in
+                        $sub_nesting = count(explode('.', $this->structure[$mid]['pid'][$p]));
 
-                        $sub_nesting = count(explode('.', $this->_pid[$mid][$p]));
-
-                        if (( $this->_ftype[$mid][$mp] == $MIME &&
-                              $getAlternative == TRUE &&
-                              ($sub_nesting == ($this_nesting + $pidAdd)) &&
-                              ($pid == substr($this->_pid[$mid][$mp], 0, strlen($this->_pid[$mid][$p])))
+                        if (( $this->structure[$mid]['ftype'][$mp] == $MIME &&
+                              $get_alternative == true &&
+                              ($sub_nesting == ($this_nesting + $pid_add)) &&
+                              ($pid == substr($this->structure[$mid]['pid'][$mp], 0, strlen($this->structure[$mid]['pid'][$p])))
                            )) {
 
                             if ($action == 'add') {
-
-                                 Mail_IMAP::_addInlinePart($in, $mid, $mp);
+                                 $this->_addPart($in, $mid, $mp, 'in');
                                  break;
-
-                            } else if ($action == 'get' && !isset($this->_fname[$mid][$mp]) && empty($this->_fname[$mid][$mp])) {
-
-                                return $this->_pid[$mid][$mp];
-
+                            } else if ($action == 'get' && !isset($this->structure[$mid]['fname'][$mp]) && empty($this->structure[$mid]['fname'][$mp])) {
+                                return $this->structure[$mid]['pid'][$mp];
                             }
 
-                        } else if ($this->_ftype[$mid][$mp] == 'multipart/alternative' && $action == 'get') {
+                        } else if ($this->structure[$mid]['ftype'][$mp] == 'multipart/alternative' && $action == 'get') {
 
                             // Need to match this PID to next level in
-                            $pid          = (string) $this->_pid[$mid][$mp];
+                            $pid          = (string) $this->structure[$mid]['pid'][$mp];
                             $pid_len      = strlen($pid);
                             $this_nesting = count(explode('.', $pid));
-                            $pidAdd       = 2;
+                            $pid_add       = 2;
                             continue;
                         }
                     }
-
-                } else if ($this->_disposition[$mid][$p] == 'inline' && $this->_ftype[$mid][$p] != 'multipart/related') {
-
+                } else if ($this->structure[$mid]['disposition'][$p] == 'inline' && $this->structure[$mid]['ftype'][$p] != 'multipart/related') {
                     if (( $action == 'add' &&
-                          $this->_ftype[$mid][$p] != $excludeMIME &&
-                          $pid != $this->_pid[$mid][$p]
+                          $this->structure[$mid]['ftype'][$p] != $excludeMIME &&
+                          $pid != $this->structure[$mid]['pid'][$p]
                        ) || (
                           $action == 'add' &&
-                          $this->_ftype[$mid][$p] == $excludeMIME &&
-                          isset($this->_fname[$mid][$p]) &&
-                          $pid != $this->_pid[$mid][$p]
+                          $this->structure[$mid]['ftype'][$p] == $excludeMIME &&
+                          isset($this->structure[$mid]['fname'][$p]) &&
+                          $pid != $this->structure[$mid]['pid'][$p]
+                       ) || (
+                          $action == 'add' && isset($this->structure[$mid]['fallback'][0])
                        )) {
 
-                        Mail_IMAP::_addInlinePart($in, $mid, $p);
+                        $this->_addPart($in, $mid, $p, 'in');
 
-                    } else if ($action == 'get' && $this->_ftype[$mid][$p] == $MIME && !isset($this->_fname[$mid][$p])) {
-
-                        return $this->_pid[$mid][$p];
+                    } else if ($action == 'get' && $this->structure[$mid]['ftype'][$p] == $MIME && !isset($this->structure[$mid]['fname'][$p])) {
+                        return $this->structure[$mid]['pid'][$p];
                     }
-
-                } else if ($action == 'add' && $this->_disposition[$mid][$p] == 'attachment') {
-
-                    Mail_IMAP::_addAttachment($a, $mid, $p);
-
+                } else if ($action == 'add' && $this->structure[$mid]['disposition'][$p] == 'attachment') {
+                    $this->_addPart($a, $mid, $p, 'at');
                 }
-
             }
-
         }
 
-        return FALSE;
+        return false;
     }
-    // }}}
 
-    // {{{ _isMultipartRelated()
     /**
     * Determines whether a message contains a multipart/related part.
-    * Only called on by Mail_IMAP::_scanMultipart
+    * Only called on by $this->_scanMultipart
     *
     * @return   BOOL
     * @access   private
@@ -960,12 +844,103 @@ class Mail_IMAP {
     */
     function _isMultipartRelated($mid)
     {
-        $ret = Mail_IMAP::extractMIME($mid, 'multipart/related');
-        return (!empty($ret) && is_array($ret) && count($ret) >= 1)? TRUE : FALSE;
+        $ret = $this->extractMIME($mid, array('multipart/related'));
+        return (!empty($ret) && is_array($ret) && count($ret) >= 1)? true : false;
     }
-    // }}}
 
-    // {{{ unsetParts()
+    /**
+    * Looks to see if this part has any inline parts associated with it.
+    * It looks up the message tree for parts with CID entries and
+    * indexes those entries, whereas an algorithm may be ran to replace
+    * inline CIDs with a part viewer.
+    *
+    * @param   int      &$mid          message id
+    * @param   string   &$pid          part id
+    * @param   array    $secureMIME    array of acceptable CID MIME types.
+    *
+    * The $secureMIME argument allows you to limit the types of files allowed
+    * in a multipart/related message, for instance, to prevent a browser from
+    * automatically initiating download of a part that could contain potentially
+    * malicious code.
+    *
+    * Suggested MIME types:
+    * text/plain, text/html, text/css, image/jpeg, image/pjpeg, image/gif
+    * image/png,  image/x-png, application/xml, application/xhtml+xml,
+    * text/xml
+    *
+    * MIME types are not limited by default.
+    *
+    * @return  array|false
+    *    On success returns an array of parts associated with the current message,
+    *    including the cid of the part, the part id and the MIME type.
+    *
+    * @access  public
+    */
+    function getRelatedParts(&$mid, &$pid, $secureMIME = array())
+    {
+        // Check to see if this part has already been parsed
+        $this->_checkIfParsed($mid);
+
+        // Message has a PID of 1.1.2
+        // Cid parts are located at the prior level of nesting at 1.x
+        // From the supplied PID, go back one level of nesting.
+        // Compare the first number of the supplied PID against the current PID.
+        // Look for a cid entry in the structure array.
+        // Index the PID and CID of the part.
+        //
+        // Supplied pid must correspond to a text/html part.
+        if (!empty($secureMIME) && is_array($secureMIME)) {
+            $this->error->push(MAIL_IMAP_ERROR_ARGUMENT_REQUIRES_ARRAY, 'error', array('arg' => '$secureMIME', 'actual_value' => $secureMIME));
+            return false;
+        }
+
+        $related = array();
+
+        if (isset($this->structure[$mid]['pid']) && is_array($this->structure[$mid]['pid'])) {
+            if (strlen($pid) > 1) {
+                $nesting = count(explode('.', $pid));
+                $compare = substr($pid, 0, -4);
+                foreach ($this->structure[$mid]['pid'] as $i => $rpid) {
+                    // This level of nesting is one above the message part
+                    // The beginning of the pid string of the related part matches that of the
+                    // beginning of the pid supplied
+                    if (count(explode('.', $rpid)) == ($nesting - 1) && substr($rpid, 0, -2) == $compare) {
+                        $this->_getCIDs($mid, $i, $secureMIME, $related);
+                    }
+                }
+            } else if (strlen($pid) == 1) {
+                // If the pid is in the first level of nesting, odds are the related parts are in the
+                // sub level of nesting.
+                foreach ($this->structure[$mid]['pid'] as $i => $rpid) {
+                    // The part is one level under and the first number matches that
+                    // of its parent part.
+                    if (count(explode('.', $rpid)) == 2 && substr($rpid, 0, 1) == $pid) {
+                        $this->_getCIDs($mid, $i, $secureMIME, $related);
+                    }
+                }
+            }
+        } else {
+            $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Message structure does not exist.');
+        }
+        return (count($related) >= 1)? $related : false;
+    }
+
+    /**
+    * Helper function for getRelatedParts
+    *
+    * @return void
+    * @access private
+    * @see    getRelatedParts
+    */
+    function _getCIDs(&$mid, &$i, &$secureMIME, &$related)
+    {
+        if ((isset($this->structure[$mid]['cid'][$i])) && (empty($secureMIME) || is_array($secureMIME) && in_array($this->structure[$mid]['ftype'][$i], $secureMIME))) {
+            $related['cid'][] = $this->structure[$mid]['cid'][$i];
+            $related['pid'][] = $this->structure[$mid]['pid'][$i];
+            $related['ftype'][] = $this->structure[$mid]['ftype'][$i];
+        }
+    }
+
     /**
     * Destroys variables set by {@link getParts} and _declareParts.
     *
@@ -976,112 +951,48 @@ class Mail_IMAP {
     */
     function unsetParts(&$mid)
     {
-        unset($this->inPid[$mid]);
-        unset($this->inFtype[$mid]);
-        unset($this->inFsize[$mid]);
-        unset($this->inHasAttach[$mid]);
-        unset($this->inInlineId[$mid]);
-
-        unset($this->attachPid[$mid]);
-        unset($this->attachFtype[$mid]);
-        unset($this->attachFsize[$mid]);
-        unset($this->attachFname[$mid]);
-        unset($this->attachHasAttach[$mid]);
-
-        unset($this->_structure[$mid]);
-        unset($this->_pid[$mid]);
-        unset($this->_disposition[$mid]);
-        unset($this->_encoding[$mid]);
-        unset($this->_ftype[$mid]);
-        unset($this->_fsize[$mid]);
-        unset($this->_fname[$mid]);
-        unset($this->_inlineId[$mid]);
-        unset($this->_hasAttachments[$mid]);
-
+        unset($this->msg[$mid]);
+        unset($this->structure[$mid]);
         return;
     }
-    // }}}
 
-    // {{{ _addInlinePart()
     /**
-    * Adds information to the member variable inline parts arrays.
+    * Adds information to the member variable inline part 'in' and attachment 'at' arrays.
     *
-    * @param    int     &$in   offset inline counter
+    * @param    int     &$n   offset part counter
     * @param    int     &$mid  message id
     * @param    int     &$i    offset structure reference counter
     * @return   void
     * @access   private
     */
-    function _addInlinePart(&$in, &$mid, &$i)
+    function _addPart(&$n, &$mid, &$i, $part)
     {
-        $this->inFname[$mid][$in] = (isset($this->_fname[$mid][$i]) && !empty($this->_fname[$mid][$i]))? $this->_fname[$mid][$i] : '';
-
-        $this->inPid[$mid][$in]            = $this->_pid[$mid][$i];
-        $this->inFtype[$mid][$in]          = $this->_ftype[$mid][$i];
-        $this->inFsize[$mid][$in]          = $this->_fsize[$mid][$i];
-        $this->inHasAttach[$mid][$in]      = $this->_hasAttachments[$mid][$i];
-
-        if (isset($this->_inlineId[$mid][$i])) {
-            $this->inInlineId[$mid][$in]   = $this->_inlineId[$mid][$i];
+        foreach ($this->fields as $field) {
+            if (isset($this->structure[$mid][$field][$i]) && !empty($this->structure[$mid][$field][$i])) {
+                $this->msg[$mid][$part][$field][$n] = $this->structure[$mid][$field][$i];
+            }
         }
-
-        $in++;
-
+        $n++;
         return;
     }
-    // }}}
 
-    // {{{ _addAttachment()
-    /**
-    * Adds information to the member variable attachment parts arrays.
-    *
-    * @param    int     &$a    offset attachment counter
-    * @param    int     &$mid  message id
-    * @param    int     &$i    offset structure reference counter
-    * @return   void
-    * @access   private
-    */
-    function _addAttachment(&$a, &$mid, &$i)
-    {
-        if (!isset($this->_fname[$mid][$i])) {
-            $this->_fname[$mid][$i] = '';
-        }
-
-        $this->attachPid[$mid][$a]         = $this->_pid[$mid][$i];
-        $this->attachFtype[$mid][$a]       = $this->_ftype[$mid][$i];
-        $this->attachFsize[$mid][$a]       = $this->_fsize[$mid][$i];
-        $this->attachFname[$mid][$a]       = $this->_fname[$mid][$i];
-        $this->attachHasAttach[$mid][$a]   = $this->_hasAttachments[$mid][$i];
-
-        $a++;
-
-        return;
-    }
-    // }}}
-
-    // {{{ getRawMessage()
     /**
     * Returns entire unparsed message body.  See {@link imap_body} for options.
     *
     * @param    int     &$mid      message id
-    * @param    int     $options   flags       (DEPRECATED, use $this->option['body'] instead)
-    * @return   void
+    * @return   string|null
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/getRawMessage
     * @access   public
     * @see      imap_body
     */
-    function getRawMessage(&$mid, $options = NULL)
+    function getRawMessage(&$mid)
     {
-        if (isset($this->option['body'])) {
-            $options = $this->option['body'];
-        }
-
-        return imap_body($this->mailbox, $mid, $options);
+        $opt = (isset($this->option['body']))? $this->option['body'] : null;
+        return imap_body($this->mailbox, $mid, $opt);
     }
-    // }}}
 
-    // {{{ getBody()
     /**
-    * Searches parts array set in Mail_IMAP::_declareParts() for a displayable message.
+    * Searches parts array set in $this->_declareParts() for a displayable message.
     * If the part id passed is message/rfc822 looks in subparts for a displayable body.
     * Attempts to return a text/html inline message part by default. And will
     * automatically attempt to find a text/plain part if a text/html part could
@@ -1092,7 +1003,7 @@ class Mail_IMAP {
     * file name, if any, empty string otherwise.  And 'message', which contains the
     * message body itself which is returned decoded from base64 or quoted-printable if
     * either of those encoding types are specified, returns untouched otherwise.
-    * Returns FALSE on failure.
+    * Returns false on failure.
     *
     * @param    int     &$mid                    message id
     * @param    string  $pid                     part id
@@ -1111,82 +1022,80 @@ class Mail_IMAP {
     *      (optional) one of text/plain or text/html, allows the specification of the default
     *      part to return from multipart messages, text/html by default.
     *
-    * @param    int     $options
-    *      (optional) allows the specification of the forth argument of imap_fetchbody
-    *      (DEPRECATED, use $this->option['fetchbody'] instead)
+    * @param    int     $attempt
+    *      (optional) used internally by getBody to track attempts at finding the
+    *      right part to display for the body of the message.
     *
-    * @return   array|string|FALSE
+    * @return   array|string|false
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/getBody
     * @access   public
     * @see      imap_fetchbody
-    * @see      Mail_IMAP::getParts
+    * @see      $this->getParts
     * @since    PHP 4.2.0
     */
-    function getBody(&$mid, $pid = '1', $action = 0, $getPart = 'text/html', $options = NULL, $attempt = 1)
+    function getBody(&$mid, $pid = '1', $action = 0, $get_mime = 'text/html', $attempt = 1)
     {
-        if (isset($this->option['fetchbody'])) {
-            $options = $this->option['fetchbody'];
-        }
+        $options = (isset($this->option['fetchbody']))? $this->option['fetchbody'] : null;
 
         if ($action == MAIL_IMAP_LITERAL) {
-            return ($options == NULL)? imap_fetchbody($this->mailbox, $mid, $pid) : imap_fetchbody($this->mailbox, $mid, $pid, $options);
+            return @imap_fetchbody($this->mailbox, $mid, $pid, $options);
         }
 
-        Mail_IMAP::_checkIfParsed($mid);
+        $this->_checkIfParsed($mid, true, $get_mime);
 
-        if (FALSE !== ($i = array_search((string) $pid, $this->_pid[$mid]))) {
+        if (false !== ($i = array_search((string) $pid, $this->structure[$mid]['pid']))) {
             if ($action == MAIL_IMAP_LITERAL_DECODE) {
-                $msg_body = imap_fetchbody($this->mailbox, $mid, $pid, $options);
-                return Mail_IMAP::_decodeMessage($msg_body, $this->_encoding[$mid][$i]);
+                $msg_body = @imap_fetchbody($this->mailbox, $mid, $pid, $options);
+                return $this->_decodeMessage($msg_body, $this->structure[$mid]['encoding'][$i]);
             }
 
             // If this is an attachment, and the part is message/rfc822 update the pid to the subpart
             // If this is an attachment, and the part is multipart/alternative update the pid to the subpart
-            if ($this->_ftype[$mid][$i] == 'message/rfc822' || $this->_ftype[$mid][$i] == 'multipart/related' || $this->_ftype[$mid][$i] == 'multipart/alternative') {
+            if ($this->structure[$mid]['ftype'][$i] == 'message/rfc822' || $this->structure[$mid]['ftype'][$i] == 'multipart/related' || $this->structure[$mid]['ftype'][$i] == 'multipart/alternative') {
 
-                $new_pid = ($this->_ftype[$mid][$i] == 'message/rfc822' || $this->_ftype[$mid][$i] == 'multipart/related')? Mail_IMAP::_scanMultipart($mid, $pid, $i, $getPart, 'get', 'all', 1) : Mail_IMAP::_scanMultipart($mid, $pid, $i, $getPart, 'get', 'multipart', 1);
+                $new_pid = ($this->structure[$mid]['ftype'][$i] == 'message/rfc822' || $this->structure[$mid]['ftype'][$i] == 'multipart/related')? $this->_scanMultipart($mid, $pid, $i, $get_mime, 'get', 'all', 1) : $this->_scanMultipart($mid, $pid, $i, $get_mime, 'get', 'multipart', 1);
 
                 // if a new pid for text/html couldn't be found, try again, this time look for text/plain
-                switch(TRUE) {
+                switch(true) {
                     case (!empty($new_pid)):                             $pid = $new_pid; break;
-                    case (empty($new_pid) && $getPart == 'text/html'):   return ($attempt == 1)? Mail_IMAP::getBody($mid, $pid, $action, 'text/plain', $options, 2) : FALSE;
-                    case (empty($new_pid) && $getPart == 'text/plain'):  return ($attempt == 1)? Mail_IMAP::getBody($mid, $pid, $action, 'text/html', $options, 2) : FALSE;
+                    case (empty($new_pid) && $get_mime == 'text/html'):   return ($attempt == 1)? $this->getBody($mid, $pid, $action, 'text/plain', 2) : false;
+                    case (empty($new_pid) && $get_mime == 'text/plain'):  return ($attempt == 1)? $this->getBody($mid, $pid, $action, 'text/html', 2) : false;
                 }
             }
 
             // Update the key for the new pid
             if (!empty($new_pid)) {
-                if (FALSE === ($i = array_search((string) $pid, $this->_pid[$mid]))) {
+                if (false === ($i = array_search((string) $pid, $this->structure[$mid]['pid']))) {
                     // Something's afoot!
-                    PEAR::raiseError('Mail_IMAP::getBody: Unable to find a suitable replacement part ID for: '.$pid.'. Message: '.$mid.' may be poorly formed, corrupted, or not supported by the Mail_IMAP parser.', NULL, PEAR_ERROR_TRIGGER, E_USER_WARNING);
-                    return FALSE;
+                    $this->error->push(MAIL_IMAP_ERROR, 'error', array('mid' => $mid, 'pid' => $pid), 'Unable to find a suitable replacement part ID. Message: may be poorly formed, corrupted, or not supported by the Mail_IMAP parser.');
+                    return false;
                 }
             }
 
             $msg_body = imap_fetchbody($this->mailbox, $mid, $pid, $options);
 
-            if ($msg_body == NULL) {
-                PEAR::raiseError('Mail_IMAP::getBody: Message body was NULL for pid: '.$pid.', is not a valid part number.', NULL, PEAR_ERROR_TRIGGER, E_USER_NOTICE);
-                return FALSE;
+            if ($msg_body == null) {
+                $this->error->push(MAIL_IMAP_ERROR, 'error', array('mid' => $mid, 'pid' => $pid), 'Message body is null.');
+                return false;
             }
 
             // Decode message.
             // Because the body returned may not correspond with the original PID, return
             // an array which also contains the MIME type and original file name, if any.
-            $body['message'] = Mail_IMAP::_decodeMessage($msg_body, $this->_encoding[$mid][$i]);
-            $body['ftype']   = $this->_ftype[$mid][$i];
-            $body['fname']   = (isset($this->_fname[$mid][$i]))? $this->_fname[$mid][$i] : '';
+            $body['message'] = $this->_decodeMessage($msg_body, $this->structure[$mid]['encoding'][$i], $this->structure[$mid]['charset'][$i]);
+            $body['ftype']   = $this->structure[$mid]['ftype'][$i];
+            $body['fname']   = (isset($this->structure[$mid]['fname'][$i]))? $this->structure[$mid]['fname'][$i] : '';
+            $body['charset'] = $this->structure[$mid]['charset'][$i];
 
             return $body;
         } else {
-            PEAR::raiseError('Mail_IMAP::getBody: Unable to retrieve message body, invalid part id: '.$pid, NULL, PEAR_ERROR_TRIGGER, E_USER_WARNING);
-            return FALSE;
+            $this->error->push(MAIL_IMAP_ERROR_INVALID_PID, 'error', array('pid' => $pid));
+            return false;
         }
 
-        return FALSE;
+        return false;
     }
-    // }}}
 
-    // {{{ _decodeMessage()
     /**
     * Decode a string from quoted-printable or base64 encoding.  If
     * neither of those encoding types are specified, returns string
@@ -1197,45 +1106,49 @@ class Mail_IMAP {
     * @return   string
     * @access   private
     */
-    function _decodeMessage(&$body, &$encoding)
+    function _decodeMessage(&$body, &$encoding, &$charset)
     {
         switch ($encoding) {
-            case 'quoted-printable':  return imap_qprint($body);
+            case 'quoted-printable':
+                return ($charset == 'utf-8')? utf8_decode(imap_utf8(imap_qprint($body))) : imap_qprint($body);
             case 'base64':            return imap_base64($body);
             default:                  return $body;
         }
     }
-    // }}}
 
-    // {{{ getDefaultPid()
     /**
-    * Searches structure defined in Mail_IMAP::_declareParts for the top-level default message.
+    * Searches structure defined in $this->_declareParts for the top-level default message.
     * Attempts to find a text/html default part, if no text/html part is found,
     * automatically attempts to find a text/plain part. Returns the part id for the default
-    * top level message part on success. Returns FALSE on failure.
+    * top level message part on success. Returns false on failure.
     *
     * @param    int     &$mid           message id
     * @param    string  $getPart
     *     (optional) default MIME type to look for, one of text/html or text/plain
     *     text/html by default.
+    * @param    int     $attempt
+    *     (optional) Used internally by _getDefaultPid to track the method's attempt
+    *     at retrieving the correct default part to display.
+    *
     * @return   string
-    * @access   public
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/_getDefaultPid
+    * @access   private
     */
-    function getDefaultPid(&$mid, $getPart = 'text/html', $attempt = 1)
+    function _getDefaultPid(&$mid, $get_mime = 'text/html', $attempt = 1)
     {
         // Check to see if this part has already been parsed
-        Mail_IMAP::_checkIfParsed($mid, FALSE);
+        $this->_checkIfParsed($mid, false);
 
         // Look for a text/html message part
         // If no text/html message part was found look for a text/plain message part
-        $part = ($getPart == 'text/html')? array('text/html', 'text/plain') : array('text/plain', 'text/html');
+        $part = ($get_mime == 'text/html')? array('text/html', 'text/plain') : array('text/plain', 'text/html');
 
         foreach ($part as $mime) {
-            if (0 !== count($msg_part = @array_keys($this->_ftype[$mid], $mime))) {
+            if (0 !== count($msg_part = @array_keys($this->structure[$mid]['ftype'], $mime))) {
                 foreach ($msg_part as $i) {
-                    if ($this->_disposition[$mid][$i] == 'inline' && !strstr($this->_pid[$mid][$i], '.')) {
-                        $this->defaultPid[$mid] = $this->_pid[$mid][$i];
-                        return $this->_pid[$mid][$i];
+                    if ($this->structure[$mid]['disposition'][$i] == 'inline' && !stristr($this->structure[$mid]['pid'][$i], '.')) {
+                        $this->msg[$mid]['pid'] = $this->structure[$mid]['pid'][$i];
+                        return $this->structure[$mid]['pid'][$i];
                     }
                 }
             }
@@ -1246,48 +1159,49 @@ class Mail_IMAP {
         $mp_nesting = 1;
         $pid_len    = 1;
 
-        foreach ($this->_pid[$mid] as $p => $id) {
-            $nesting = count(explode('.', $this->_pid[$mid][$p]));
+        foreach ($this->structure[$mid]['pid'] as $p => $id) {
+            $nesting = count(explode('.', $this->structure[$mid]['pid'][$p]));
 
             if (!isset($mpid)) {
-                if ($nesting == 1 && $this->_ftype[$mid][$p] == 'multipart/related') {
+                if ($nesting == 1 && isset($this->structure[$mid]['ftype'][$p]) && $this->structure[$mid]['ftype'][$p] == 'multipart/related') {
                     $mp_nesting = 2;
                     $pid_len    = 3;
                     continue;
                 }
-                if ($nesting == $mp_nesting && $this->_ftype[$mid][$p] == 'multipart/alternative') {
-                    $mpid = $this->_pid[$mid][$p];
+                if ($nesting == $mp_nesting && isset($this->structure[$mid]['ftype'][$p]) && $this->structure[$mid]['ftype'][$p] == 'multipart/alternative') {
+                    $mpid = $this->structure[$mid]['pid'][$p];
                     continue;
                 }
             }
 
-            if (isset($mpid) && $nesting == ($mp_nesting + 1) && $this->_ftype[$mid][$p] == $getPart && $mpid == substr($this->_pid[$mid][$p], 0, $pid_len)) {
-                $this->defaultPid[$mid] = $this->_pid[$mid][$p];
-                return $this->_pid[$mid][$p];
+            if (isset($mpid) && $nesting == ($mp_nesting + 1) && $this->structure[$mid]['ftype'][$p] == $get_mime && $mpid == substr($this->structure[$mid]['pid'][$p], 0, $pid_len)) {
+                $this->msg[$mid]['pid'] = $this->structure[$mid]['pid'][$p];
+                return $this->structure[$mid]['pid'][$p];
             }
         }
 
         // if a text/html part was not found, call on the function again
         // and look for text/plain
         // if the application was unable to find a text/plain part
-        switch ($getPart) {
-            case 'text/html':  $ret = ($attempt == 1)? Mail_IMAP::getDefaultPid($mid, 'text/plain', 2) : FALSE;
-            case 'text/plain': $ret = ($attempt == 1)? Mail_IMAP::getDefaultPid($mid, 'text/html', 2) : FALSE;
-            default:           $ret = FALSE;
+        switch ($get_mime) {
+            case 'text/html':  $rtn = ($attempt == 1)? $this->_getDefaultPid($mid, 'text/plain', 2) : false;
+            case 'text/plain': $rtn = ($attempt == 1)? $this->_getDefaultPid($mid, 'text/html', 2)  : false;
+            default:           $rtn = false;
         }
 
-        if ($ret == FALSE && MAIL_IMAP_ERROR_REPORTING == E_ALL && $attempt == 2) {
-            PEAR::raiseError('Mail_IMAP::getDefaultPid: Fallback pid used for mid: '.$mid, NULL, PEAR_ERROR_TRIGGER, E_USER_NOTICE);
+        if ($rtn == false && $attempt == 2) {
+            if (isset($this->structure[$mid]['ftype'][0])) {
+                $this->structure[$mid]['fallback'][0] = true;
+            } else {
+                $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Message contains no MIME types.');
+            }
         }
 
-        $this->defaultPid[$mid] = ($ret == FALSE)? 1 : $ret;
+        $this->msg[$mid]['pid'] = ($rtn == false)? 1 : $rtn;
 
-        return $this->defaultPid[$mid];
+        return $this->msg[$mid]['pid'];
     }
 
-    // }}}
-
-    // {{{ extractMIME()
     /**
     * Searches all message parts for the specified MIME type.  Use {@link getBody}
     * with $action option MAIL_IMAP_LITERAL_DECODE to view MIME type parts retrieved.
@@ -1295,94 +1209,123 @@ class Mail_IMAP {
     * with no action specified.
     *
     * Returns an array of part ids on success.
-    * Returns FALSE if MIME couldn't be found, or on failure.
+    * Returns false if MIME couldn't be found, or on failure.
     *
     * @param    int           &$mid           message id
     * @param    string|array  $MIME           mime type to extract
-    * @return   array|FALSE
+    * @return   array|false
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/extractMIME
     * @access   public
     */
-    function extractMIME(&$mid, $MIME)
+    function extractMIME(&$mid, $MIMEs)
     {
-        Mail_IMAP::_checkIfParsed($mid);
+        $this->_checkIfParsed($mid);
 
-        if (is_array($this->_ftype[$mid])) {
-            if (!is_array($MIME)) {
-                if (0 !== count($pids = array_keys($this->_ftype[$mid], $MIME))) {
-                    foreach ($pids as $i) {
-                        $rtn[] = $this->_pid[$mid][$i];
+        if (is_array($this->structure[$mid]['ftype'])) {
+            if (is_array($MIMEs)) {
+                foreach ($MIMEs as $MIME) {
+                    if (0 !== count($keys = array_keys($this->structure[$mid]['ftype'], $MIME))) {
+                        foreach ($keys as $key) {
+                            $rtn[] = $this->structure[$mid]['pid'][$key];
+                        }
                     }
-                } else {
-                    $rtn = FALSE;
                 }
             } else {
-                foreach ($MIME as $mtype) {
-                    if (0 !== count($pids = array_keys($this->_ftype[$mid], $mtype))) {
-                        foreach ($pids as $i) {
-                            $rtn[] = $this->_pid[$mid][$i];
-                        }
-                    } else {
-                        $rtn = FALSE;
-                    }
-                }
+                $this->error->push(MAIL_IMAP_ERROR_ARGUMENT_REQUIRES_ARRAY, 'error', array('arg' => '$MIMEs', 'actual_value' => $MIMEs));
             }
         } else {
-            $rtn = FALSE;
+            $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Member variable $this->structure[\'ftype\'] is not an array');
         }
 
-        return $rtn;
+        return (isset($rtn))? $rtn : false;
     }
-    // }}}
 
-    // {{{ getRawHeaders()
     /**
     * Set member variable {@link $rawHeaders} to contain Raw Header information
-    * for a part.  Returns default header part id on success, returns FALSE on failure.
+    * for a part.  Returns default header part id on success, returns false on failure.
     *
     * @param    int     &$mid          message_id
-    * @param    string  $pid           part id
-    * @param    int     $options       flags/options for imap_fetchbody
-    * @param    bool    $rtn           return the raw headers (returns the headers by default)
-    * @return   string|FALSE
+    * @param    string  $pid           (optional) part id to retrieve headers for
+    * @param    bool    $rtn
+    *   Decides what to return. One of true|false|return_pid
+    *   If true return the raw headers (returns the headers by default)
+    *
+    * @return   string|false
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/getRawHeaders
     * @access   public
     * @see      imap_fetchbody
     * @see      getHeaders
     */
-    function getRawHeaders(&$mid, $pid = '0', $options = NULL, $rtn = TRUE)
+    function getRawHeaders(&$mid, $pid = '0', $rtn = true, $pid_check = false)
     {
-        if (FALSE !== ($pid = Mail_IMAP::_defaultHeaderPid($mid, $pid))) {
-            if ($pid == '0') {
-                $this->rawHeaders[$mid] = (isset($this->option['fetchheader']))? imap_fetchheader($this->mailbox, $mid, $this->option['fetchheader']) : imap_fetchheader($this->mailbox, $mid);
-            } else {
-                if (isset($this->option['fetchbody'])) {
-                    $options = $this->option['fetchbody'];
-                }
-                $this->rawHeaders[$mid] = imap_fetchbody($this->mailbox, $mid, $pid, $options);
-            }
+        $this->_checkIfParsed($mid);
 
-            return ($rtn == TRUE)? $this->rawHeaders[$mid] : $pid;
+        if ($pid == $this->msg[$mid]['pid']) {
+            $pid = '0';
+        }
+
+        if ($pid != '0') {
+            if (false === ($pid = $this->_defaultHeaderPid($mid, $pid))) {
+                $this->error->push(MAIL_IMAP_ERROR_INVALID_PID, 'error', array('pid' => $pid));
+                return false;
+            }
+        }
+
+        if ($pid == '0' && $pid_check == true) {
+            return true;
+        } else if ($pid_check == true) {
+            // This variable was $ret, I suspect it was an error
+            // Change might have adverse effects though.
+            // $ret = true;
+        }
+
+        if ($pid == '0') {
+            $opt = (isset($this->option['fetchheader']))? $this->option['fetchheader'] : null;
+            $raw_headers = @imap_fetchheader($this->mailbox, $mid, $opt);
         } else {
-            PEAR::raiseError('Mail_IMAP::getRawHeaders: Unable to retrieve headers, invalid part id: '.$pid, NULL, PEAR_ERROR_TRIGGER, E_USER_WARNING);
-            return FALSE;
+            $opt = (isset($this->option['fetchbody']))? $this->option['fetchbody'] : null;
+            $raw_headers = @imap_fetchbody($this->mailbox, $mid, $pid, $opt);
+        }
+
+        if ($rtn == true) {
+            return $raw_headers;
+        } else {
+            $this->header[$mid]['raw'] = $raw_headers;
+            return true;
         }
     }
-    // }}}
 
-    // {{{ getHeaders()
     /**
-    * Set member variable containing header information.  Creates an array containing associative indices
-    * referring to various header information.  Use {@link var_dump} or {@link print_r} on the {@link $header}
-    * member variable to view information gathered by this function.
+    * Set member variable containing header information.  Creates an array containing
+    * associative indices referring to various header information.  Use {@link var_dump}
+    * or {@link print_r} on the {@link $header} member variable to view information
+    * gathered by this function.
     *
-    * Returns header information on success and FALSE on failure.
+    * If $ret is true, returns array containing header information on success and false
+    * on failure.
+    *
+    * If $ret is false, adds the header information to the $header member variable
+    * and returns BOOL.
     *
     * @param    int     &$mid           message id
-    * @param    string  &$pid           part id
-    * @param    int     $from_length    (optional) from length for imap_headerinfo
-    * @param    int     $subject_length (optional) subject length for imap_headerinfo
-    * @param    string  $default_host   (optional) default host for imap_headerinfo & imap_rfc822_parse_headers
-    * @param    int     $options        (optional) flags/options for imap_fetchbody (DEPRECATED, use $this->option['fetchbody'])
+    * @param    string  &$pid           (optional) part id to retrieve headers for.
+    * @param    bool    $rtn
+    *   (optional) If true return the headers, if false, assign to $header member variable.
+    *
+    * @param    array   $args
+    *   (optional) Associative array containing extra arguments.
+    *
+    *       $args['from_length'] int
+    *           From field length for imap_headerinfo.
+    *
+    *       $args['subject_length'] int
+    *           Subject field length for imap_headerinfo
+    *
+    *       $args['default_host'] string
+    *           Default host for imap_headerinfo & imap_rfc822_parse_headers
+    *
     * @return   Array|BOOL
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/getHeaders
     * @access   public
     * @see      getParts
     * @see      imap_fetchheader
@@ -1390,22 +1333,41 @@ class Mail_IMAP {
     * @see      imap_headerinfo
     * @see      imap_rfc822_parse_headers
     */
-    function getHeaders(&$mid, $pid = '0', $from_length = 1024, $subject_length = 1024, $default_host = NULL, $options = NULL)
+    function getHeaders(&$mid, $pid = '0', $rtn = false, $args = array())
     {
-        if (FALSE === ($hpid = Mail_IMAP::getRawHeaders($mid, $pid, $options, FALSE))) {
-            return FALSE;
+        $this->_checkIfParsed($mid);
+
+        if ($pid == $this->msg[$mid]['pid']) {
+            $pid = '0';
         }
 
-        // $default_host contains the host information for addresses where it is not
-        // present.  Specify it or attempt to use SERVER_NAME
-        if ($default_host == NULL && isset($_SERVER['SERVER_NAME']) && !empty($_SERVER['SERVER_NAME'])) {
-            $default_host = $_SERVER['SERVER_NAME'];
-        } else if ($default_host == NULL) {
-            $default_host = 'UNSPECIFIED-HOST-NAME';
+        if ($pid !== '0') {
+            if (false === ($raw_headers = $this->getRawHeaders($mid, $pid, true, true))) {
+                return false;
+            }
+
+            if ($raw_headers == true) {
+                $pid = '0';
+            }
+        }
+
+        if (!isset($args['from_length'])) {
+            $args['from_length'] = 1024;
+        }
+
+        if (!isset($args['subject_length'])) {
+            $args['subject_length'] = 1024;
+        }
+
+        if (!isset($args['default_host'])) {
+            $args['default_host'] = null;
         }
 
         // Parse the headers
-        $header_info = ($hpid == '0')? imap_headerinfo($this->mailbox, $mid, $from_length, $subject_length, $default_host) : imap_rfc822_parse_headers($this->rawHeaders[$mid], $default_host);
+        $header_info = ($pid === '0')?
+                imap_headerinfo($this->mailbox, $mid, $args['from_length'], $args['subject_length'], $args['default_host'])
+            :
+                imap_rfc822_parse_headers($raw_headers, $args['default_host']);
 
         // Since individual member variable creation might create extra overhead,
         // and having individual variables referencing this data and the original
@@ -1414,15 +1376,16 @@ class Mail_IMAP {
         // and destroy the original object after copying.
 
         if (!is_object($header_info)) {
-            PEAR::raiseError('Mail_IMAP::getHeaders: Unable to retrieve header object, invalid part id: '.$pid, NULL, PEAR_ERROR_TRIGGER, E_USER_WARNING);
-            return FALSE;
+            $this->error->push(MAIL_IMAP_ERROR_INVALID_PID, 'error', array('pid' => $pid));
+            return false;
         }
 
         $headers = get_object_vars($header_info);
 
         foreach ($headers as $key => $value) {
             if (!is_object($value) && !is_array($value)) {
-                $this->header[$mid][$key] = $value;
+                // Decode all the headers using utf8_decode(imap_utf8())
+                $this->header[$mid][$key] = utf8_decode(imap_utf8($value));
             }
         }
 
@@ -1440,74 +1403,87 @@ class Mail_IMAP {
 
         for ($i = 0; $i < count($line); $i++) {
             if (isset($header_info->$line[$i])) {
-                Mail_IMAP::_parseHeaderLine($mid, $header_info->$line[$i], $line[$i]);
+                $this->_parseHeaderLine($mid, $header_info->$line[$i], $line[$i]);
             }
         }
 
         // All possible information has been copied, destroy original object
         unset($header_info);
 
-        return $this->header[$mid];
+        if ($rtn = true) {
+            return $this->header[$mid];
+        } else {
+            return false;
+        }
     }
-    // }}}
 
-    // {{{ _parseHeaderLine()
     /**
     * Parse header information from the given line and add it to the {@link $header}
     * array.  This function is only used by {@link getRawHeaders}.
     *
     * @param     string   &$line
     * @param     string   $name
-    * @return    void
+    * @return    array
     * @access    private
+    * @tutorial  http://www.smilingsouls.net/index.php?content=Mail_IMAP/_parseHeaderLine
     */
     function _parseHeaderLine(&$mid, &$line, $name) {
         if (isset($line) && count($line) >= 1) {
             $i = 0;
             foreach ($line as $object) {
+                if (isset($object->adl)) {
+                    $this->header[$mid][$name.'_adl'][$i] = $object->adl;
+                }
+                if (isset($object->mailbox)) {
+                    $this->header[$mid][$name.'_mailbox'][$i] = $object->mailbox;
+                }
                 if (isset($object->personal)) {
                     $this->header[$mid][$name.'_personal'][$i] = $object->personal;
                 }
-
+                if (isset($object->host)) {
+                    $this->header[$mid][$name.'_host'][$i] = $object->host;
+                }
                 if (isset($object->mailbox) && isset($object->host)) {
                     $this->header[$mid][$name][$i] = $object->mailbox.'@'.$object->host;
                 }
                 $i++;
             }
+            // Return the full lines "toaddress", "fromaddress", "ccaddress"... etc
+            if (isset(${$name."address"})) {
+                $this->header[$mid][$name.'address'][$i] = ${$name."address"};
+            }
         }
-        return;
     }
-    // }}}
 
-    // {{{ _defaultHeaderPid()
     /**
     * Finds and returns a default part id for headers and matches any sub message part to
-    * the appropriate headers.  Returns FALSE on failure and may return a value that
+    * the appropriate headers.  Returns false on failure and may return a value that
     * evaluates to false, use the '===' operator for testing this function's return value.
     *
     * @param    int     &$mid            message id
     * @param    string  $pid             part id
-    * @return   string|FALSE
+    * @return   string|false
     * @access   private
     * @see      getHeaders
     * @see      getRawHeaders
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/_defaultHeaderPid
     */
     function _defaultHeaderPid(&$mid, $pid)
     {
         // pid is modified in this function, so don't pass by reference (will create a logic error)
-        Mail_IMAP::_checkIfParsed($mid);
+        $this->_checkIfParsed($mid);
 
         // retrieve key for this part, so that the information may be accessed
-        if (FALSE !== ($i = array_search((string) $pid, $this->_pid[$mid]))) {
+        if (false !== ($i = array_search((string) $pid, $this->structure[$mid]['pid']))) {
 
             // If this part is message/rfc822 display headers for this part
-            if ($this->_ftype[$mid][$i] == 'message/rfc822') {
+            if ($this->structure[$mid]['ftype'][$i] == 'message/rfc822') {
 
-                $ret = (string) $pid.'.0';
+                $rtn = (string) $pid.'.0';
 
-            } else if ($pid == $this->defaultPid[$mid]) {
+            } else if ($pid == $this->msg[$mid]['pid']) {
 
-                $ret = (string) '0';
+                $rtn = (string) '0';
 
             } else {
 
@@ -1515,61 +1491,52 @@ class Mail_IMAP {
                 $this_nesting = count(explode('.', $pid));
 
                 // Deeper searching may be required, go back to this part's parent.
-                if (!strstr($pid, '.') || ($this_nesting - 1) == 1) {
-
-                    $ret = (string) '0';
-
+                if (!stristr($pid, '.') || ($this_nesting - 1) == 1) {
+                    $rtn = (string) '0';
                 } else if ($this_nesting > 2) {
-
                     // Look at previous parts until a message/rfc822 part is found.
                     for ($pos = $this_nesting - 1; $pos > 0; $pos -= 1) {
 
-                        foreach ($this->_pid[$mid] as $p => $aid) {
+                        foreach ($this->structure[$mid]['pid'] as $p => $aid) {
 
-                            $nesting = count(explode('.', $this->_pid[$mid][$p]));
+                            $nesting = count(explode('.', $this->structure[$mid]['pid'][$p]));
 
-                            if ($nesting == $pos && ($this->_ftype[$mid][$p] == 'message/rfc822' || $this->_ftype[$mid][$p] == 'multipart/related')) {
+                            if ($nesting == $pos && ($this->structure[$mid]['ftype'][$p] == 'message/rfc822' || $this->structure[$mid]['ftype'][$p] == 'multipart/related')) {
                                 // Break iteration and return!
-                                return (string) $this->_pid[$mid][$p].'.0';
+                                return (string) $this->structure[$mid]['pid'][$p].'.0';
                             }
                         }
                     }
 
-                    $ret = ($pid_len == 3)? (string) '0' : FALSE;
+                    $rtn = ($pid_len == 3)? (string) '0' : false;
 
                 } else {
-                    $ret = FALSE;
+                    $rtn = false;
                 }
             }
-
-            return $ret;
-
+            return $rtn;
         } else {
             // Something's afoot!
-            PEAR::raiseError('Mail_IMAP::_defaultHeaderPid: Unable to retrieve headers, invalid part id: '.$pid, NULL, PEAR_ERROR_TRIGGER, E_USER_WARNING);
-            return FALSE;
+            $this->error->push(MAIL_IMAP_ERROR_INVALID_PID, 'error', array('pid' => $pid));
+            return false;
         }
     }
-    // }}}
 
-    // {{{ unsetHeaders()
     /**
     * Destroys variables set by {@link getHeaders}.
     *
     * @param    int     &$mid            message id
     * @return   void
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/unsetHeaders
     * @access   public
     * @see      getHeaders
     */
     function unsetHeaders(&$mid)
     {
-        unset($this->rawHeaders[$mid]);
         unset($this->header[$mid]);
         return;
     }
-    // }}}
 
-    // {{{ convertBytes()
     /**
     * Converts an integer containing the number of bytes in a file to one of Bytes, Kilobytes,
     * Megabytes, or Gigabytes, appending the unit of measurement.
@@ -1578,28 +1545,28 @@ class Mail_IMAP {
     *
     * @param    int     $bytes
     * @return   string
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/convertBytes
     * @access   public
     * @static
     */
     function convertBytes($bytes)
     {
-        switch (TRUE) {
+        switch (true) {
             case ($bytes < pow(2,10)):                             return $bytes.' Bytes';
             case ($bytes >= pow(2,10) && $bytes < pow(2,20)):      return round($bytes / pow(2,10), 0).' KB';
             case ($bytes >= pow(2,20) && $bytes < pow(2,30)):      return round($bytes / pow(2,20), 1).' MB';
             case ($bytes > pow(2,30)):                             return round($bytes / pow(2,30), 2).' GB';
         }
     }
-    // }}}
 
-    // {{{ delete()
     /**
     * Wrapper function for {@link imap_delete}.  Sets the marked for deletion flag.  Note: POP3
     * mailboxes do not remember flag settings between connections, for POP3 mailboxes
     * this function should be used in addtion to {@link expunge}.
     *
     * @param    int     &$mid   message id
-    * @return   TRUE|PEAR_Error
+    * @return   BOOL
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/delete
     * @access   public
     * @see      imap_delete
     * @see      expunge
@@ -1607,82 +1574,122 @@ class Mail_IMAP {
     function delete(&$mid, $separator = "<br />\n")
     {
         if (!is_array($mid)) {
-            return (imap_delete($this->mailbox, $mid))? TRUE : PEAR::raiseError('Mail_IMAP::delete: Unable to mark message: '.$mid.' for deletion.');
+            if (!@imap_delete($this->mailbox, $mid)) {
+                $this->error->push(MAIL_IMAP_ERROR, 'error', array('mid' => $mid), 'Unable to mark message for deletion.');
+                $rtn = false;
+            } else {
+                $rtn = true;
+            }
         } else {
             foreach ($mid as $id) {
-                if (!imap_delete($this->mailbox, $id)) {
-                    $stack[] = 'Mail_IMAP::delete: Unable to mark message: '.$id."for deletion.";
+                if (!@imap_delete($this->mailbox, $id)) {
+                    $this->error->push(MAIL_IMAP_ERROR, 'error', array('mid' => $id), 'Unable to mark message for deletion.');
+                    $rtn = false;
                 }
             }
-            return (isset($stack) && is_array($stack))? PEAR::raiseError(implode($separator, $stack)) : TRUE;
+            $rtn = true;
         }
-    }
-    // }}}
 
-    // {{{ expunge()
+        return $rtn;
+    }
+
     /**
     * Wrapper function for {@link imap_expunge}.  Expunges messages marked for deletion.
     *
-    * @return   TRUE|PEAR_Error
+    * @return   BOOL
+    * @tutorial http://www.smilingsouls.net/index.php?content=Mail_IMAP/expunge
     * @access   public
     * @see      imap_expunge
     * @see      delete
     */
     function expunge()
     {
-        return (imap_expunge($this->mailbox))? TRUE : PEAR::raiseError('Mail_IMAP::expunge: Unable to expunge mailbox.');
+        if (imap_expunge($this->mailbox)) {
+            return true;
+        } else {
+            $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Unable to expunge mailbox.');
+            return false;
+        }
     }
-    // }}}
 
-    // {{{ errors()
     /**
     * Wrapper function for {@link imap_errors}.  Implodes the array returned by imap_errors,
     * (if any) and returns the error text.
     *
-    * @param    string    $seperator     Characters to seperate each error message. '<br />\n' by default.
-    * @return   string|FALSE
+    * @param    bool      $handler
+    *   How to handle the imap error stack, true by default. If true adds the errors
+    *   to the PEAR_ErrorStack object. If false, returns the imap error stack.
+    *
+    * @param    string    $seperator
+    *   (optional) Characters to seperate each error message. "<br />\n" by default.
+    *
+    * @return   bool|string
     * @access   public
     * @see      imap_errors
     * @see      alerts
     */
-    function errors($seperator = "<br />\n")
+    function errors($handler = true, $seperator = "<br />\n")
     {
         $errors = imap_errors();
-        return (is_array($errors) && !empty($errors))? implode($seperator, $errors) : FALSE;
-    }
-    // }}}
 
-    // {{{ alerts()
+        if (empty($errors)) {
+            return false;
+        }
+
+        if ($handler) {
+            foreach ($errors as $error) {
+                $this->error->push(MAIL_IMAP_ERROR, 'error', null, $error);
+            }
+            return true;
+        }
+        return implode($seperator, $errors);
+    }
+
     /**
     * Wrapper function for {@link imap_alerts}.  Implodes the array returned by imap_alerts,
     * (if any) and returns the text.
     *
+    * @param    bool      $handler
+    *   How to handle the imap error stack, true by default. If true adds the alerts
+    *   to the PEAR_ErrorStack object. If false, returns the imap alert stack.
+    *
     * @param    string    $seperator     Characters to seperate each alert message. '<br />\n' by default.
-    * @return   string|FALSE
+    * @return   bool|string
     * @access   public
     * @see      imap_alerts
     * @see      errors
     */
-    function alerts($seperator = "<br />\n")
+    function alerts($handler = true, $seperator = "<br />\n")
     {
         $alerts = imap_alerts();
-        return (is_array($alerts) && !empty($alerts))? implode($seperator, $alerts) : FALSE;
-    }
-    // }}}
 
-    // {{{ getQuota()
+        if (empty($alerts)) {
+            return false;
+        }
+
+        if ($handler) {
+            foreach ($alerts as $alert) {
+                $this->error->push(MAIL_IMAP_ERROR, 'notice', null, $alert);
+            }
+            return true;
+        }
+        return implode($seperator, $alerts);
+    }
+
     /**
     * Retreives information about the current mailbox's quota.  Rounds up quota sizes and
     * appends the unit of measurment.  Returns information in a multi-dimensional associative
     * array.
     *
     * @param    string   $folder    Folder to retrieve quota for.
-    * @return   array|PEAR_Error
-    * @throws   Quota not available on this server.  Remedy: none.
+    * @param    BOOL     $rtn
+    *   (optional) true by default, if true return the quota if false merge quota
+    *   information into the $mailboxInfo member variable.
+    * @return   array|false
     * @access   public
     * @see      imap_get_quotaroot
     */
-    function getQuota($folder = NULL)
+    function getQuota($folder = null, $rtn = true)
     {
         if (empty($folder) && !isset($this->mailboxInfo['folder'])) {
             $folder = 'INBOX';
@@ -1690,25 +1697,31 @@ class Mail_IMAP {
             $folder = $this->mailboxInfo['folder'];
         }
 
-        $quota = @imap_get_quotaroot($this->mailbox, $folder);
+        $q = @imap_get_quotaroot($this->mailbox, $folder);
 
         // STORAGE Values are returned in KB
         // Convert back to bytes first
         // Then round these to the simpliest unit of measurement
-        if (isset($quota['STORAGE']['usage']) && isset($quota['STORAGE']['limit'])) {
-            $rtn['STORAGE']['usage'] = Mail_IMAP::convertBytes($quota['STORAGE']['usage'] * 1024);
-            $rtn['STORAGE']['limit'] = Mail_IMAP::convertBytes($quota['STORAGE']['limit'] * 1024);
+        if (isset($q['STORAGE']['usage']) && isset($q['STORAGE']['limit'])) {
+            $q['STORAGE']['usage'] = $this->convertBytes($q['STORAGE']['usage'] * 1024);
+            $q['STORAGE']['limit'] = $this->convertBytes($q['STORAGE']['limit'] * 1024);
         }
-        if (isset($quota['MESSAGE']['usage']) && isset($quota['MESSAGE']['limit'])) {
-            $rtn['MESSAGE']['usage'] = Mail_IMAP::convertBytes($quota['MESSAGE']['usage']);
-            $rtn['MESSAGE']['limit'] = Mail_IMAP::convertBytes($quota['MESSAGE']['limit']);
+        if (isset($q['MESSAGE']['usage']) && isset($q['MESSAGE']['limit'])) {
+            $q['MESSAGE']['usage'] = $this->convertBytes($q['MESSAGE']['usage']);
+            $q['MESSAGE']['limit'] = $this->convertBytes($q['MESSAGE']['limit']);
         }
 
-        return (empty($quota['STORAGE']['usage']) && empty($quota['STORAGE']['limit']))? PEAR::raiseError('Mail_IMAP::getQuota: Quota not available for this server.') : $rtn;
+        if (empty($q['STORAGE']['usage']) && empty($q['STORAGE']['limit'])) {
+           $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Quota not available for this server.');
+           return false;
+        } else if ($rtn) {
+            return $q;
+        } else {
+            $this->mailboxInfo = array_merge($this->mailboxInfo, $q);
+            return true;
+        }
     }
-    // }}}
 
-    // {{{ setFlags()
     /**
     * Wrapper function for {@link imap_setflag_full}.  Sets various message flags.
     * Accepts an array of message ids and an array of flags to be set.
@@ -1720,138 +1733,77 @@ class Mail_IMAP {
     *
     * @param    array  $mids        Array of message ids to set flags on.
     * @param    array  $flags       Array of flags to set on messages.
-    * @param    int    $action      Flag operation toggle one of MAIL_IMAP_SET_FLAGS (default) or
-    *                               MAIL_IMAP_CLEAR_FLAGS.
+    * @param    int    $action      Flag operation toggle one of set|clear
     * @param    int    $options
     *   (optional) sets the forth argument of {@link imap_setflag_full} or {@imap_clearflag_full}.
     *
-    * @return   BOOL|PEAR_Error
+    * @return   BOOL
     * @throws   Message IDs and Flags are to be supplied as arrays.  Remedy: place message ids
     *           and flags in arrays.
     * @access   public
     * @see      imap_setflag_full
     * @see      imap_clearflag_full
     */
-    function setFlags($mids, $flags, $action = 3, $options = NULL)
+    function setFlags($mids, $flags, $action = 'set')
     {
-        if (is_array($mids) && is_array($flags)) {
-            if ($action == MAIL_IMAP_SET_FLAGS) {
-
-                if (isset($this->option['setflag_full'])) {
-                    $options = $this->option['setflag_full'];
-                }
-
-                return @imap_setflag_full($this->mailbox, implode(',', $mids), implode(' ', $flags), $options);
-            } else {
-
-                if (isset($this->option['clearflag_full'])) {
-                    $options = $this->option['clearflag_full'];
-                }
-
-                return @imap_clearflag_full($this->mailbox, implode(',', $mids), implode(' ', $flags), $options);
-            }
-        } else {
-            return PEAR::raiseError('Mail_IMAP::setFlags: First and second arguments must be arrays.');
+        if (!is_array($mids)) {
+            $this->error->push(MAIL_IMAP_ERROR_ARGUMENT_REQUIRES_ARRAY, 'error', array('arg' => '$mids'));
+            return false;
         }
+        if (!is_array($flags)) {
+            $this->error->push(MAIL_IMAP_ERROR_ARGUMENT_REQUIRES_ARRAY, 'error', array('arg' => '$flags'));
+            return false;
+        }
+        switch ($action) {
+            case 'set':
+                $func = 'imap_setflag_full';
+                break;
+            case 'clear':
+                $func = 'imap_clearflag_full';
+                break;
+            default:
+                $this->error->push(MAIL_IMAP_ERROR_INVALID_ACTION, 'error', array('action' => $action, 'arg' => '$action'));
+                return false;
+        }
+        $opt = (isset($this->option[$action.'flag_full']))? $this->option[$action.'flag_full'] : null;
+        return @$func($this->mailbox, implode(',', $mids), implode(' ', $flags), $opt);
     }
-    // }}}
 
-    // {{{ debug()
-    /**
-    * Dumps various information about a message for debugging. Mail_IMAP::debug
-    * is called automatically from Mail_IMAP::connect if $_GET['dump_mid'] isset
-    * and MAIL_IMAP_ERROR_REPORTING == E_ALL || MAIL_IMAP_E_DEBUG.
-    *
-    * $_GET['dump_pid'] - var_dump the $this->_pid[$mid] variable.
-    * $_GET['dump_structure'] - var_dump the structure returned by imap_fetchstructure.
-    * $_GET['test_pid'] - output the body returned by imap_fetchbody.
-    *
-    * Calling on the debugger exits script execution after debugging operations
-    * have been completed.
-    *
-    * @param    int  $mid         $mid to debug
-    * @return   void
-    * @access   public
-    */
-    function debug($mid = 0)
-    {
-        Mail_IMAP::_checkIfParsed($mid);
-
-        if (isset($_GET['dump_cid'])) {
-            Mail_IMAP::dump($this->_inlineId[$mid]);
-        }
-        if (isset($_GET['dump_pid'])) {
-            Mail_IMAP::dump($this->_pid[$mid]);
-        }
-        if (isset($_GET['dump_ftype'])) {
-            Mail_IMAP::dump($this->_ftype[$mid]);
-        }
-        if (isset($_GET['dump_structure'])) {
-            Mail_IMAP::dump(imap_fetchstructure($this->mailbox, $mid, NULL));
-        }
-        if (isset($_GET['test_pid'])) {
-            echo imap_fetchbody($this->mailbox, $mid, $_GET['test_pid'], NULL);
-        }
-        if (isset($_GET['dump_mb_list'])) {
-            Mail_IMAP::dump(Mail_IMAP::getMailboxes());
-        }
-        if (isset($_GET['dump_mb_info'])) {
-            Mail_IMAP::dump($this->mailboxInfo);
-        }
-
-        // Skip everything else in debug mode
-        exit;
-    }
-    // }}}
-
-    // {{{ dump()
-    /**
-    * Calls on var_dump and outputs with HTML <pre> tags.
-    *
-    * @param    mixed  $thing         $thing to dump.
-    * @return   void
-    * @access   public
-    */
-    function dump(&$thing)
-    {
-        echo "<pre>\n";
-        var_dump($thing);
-        echo "</pre><br />\n";
-    }
-    // }}}
-
-    // {{{ getMailboxes()
     /**
     * Wrapper method for imap_list.  Calling on this function will return a list of mailboxes.
-    * This method receives the host argument automatically via Mail_IMAP::connect in the
+    * This method receives the host argument automatically via $this->connect in the
     * $this->mailboxInfo['host'] variable if a connection URI is used.
     *
     * @param    string  (optional) host name.
-    * @return   array   list of mailboxes on the current server.
+    * @return   array|false   list of mailboxes on the current server.
     * @access   public
     * @see      imap_list
     */
-    function getMailboxes($host = NULL, $pattern = '*')
+    function getMailboxes($host = null, $pattern = '*', $rtn = true)
     {
         if (empty($host) && !isset($this->mailboxInfo['host'])) {
-            return PEAR::raiseError('Mail_IMAP::getMailboxes: Supplied host is not valid!');
+            $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Supplied host is not valid!');
+            return false;
         } else if (empty($host) && isset($this->mailboxInfo['host'])) {
             $host = $this->mailboxInfo['host'];
         }
 
         if ($list = @imap_list($this->mailbox, $host, $pattern)) {
             if (is_array($list)) {
-                foreach ($list as $val) {
-                    $ret[] = str_replace($host, '', imap_utf7_decode($val));
+                foreach ($list as $key => $val) {
+                   $mb[$key] = str_replace($host, '', imap_utf7_decode($val));
                 }
             }
         } else {
-            $ret = PEAR::raiseError('Mail_IMAP::getMailboxes: Cannot fetch mailbox names.');
+            $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Cannot fetch mailbox names.');
+            return false;
         }
 
-        return $ret;
+        if ($rtn) {
+           return $mb;
+        } else {
+            $this->mailboxInfo = array_merge($this->mailboxInfo, $mb);
+        }
     }
-    // }}}
 }
-// }}}
 ?>
