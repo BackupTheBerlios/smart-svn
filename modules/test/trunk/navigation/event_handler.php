@@ -29,7 +29,7 @@ define ( 'MOD_NAVIGATION_VERSION' , '0.2');
 
 // define classes which reacts on event calls from inside a template through
 // the event handler class.
-define ( 'EVT_NAVIGATION_GET' ,      'NAVIGATION_GET');
+define ( 'EVT_NAVIGATION_GET' ,      'GET');
 
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_NAVIGATION,
