@@ -1,4 +1,5 @@
 ++++ Smart 1.0a / Little Jo 0.7
+# Smart - changed license from gpl to lgpl (GNU LESSER GENERAL PUBLIC LICENSE)
 # Smart/Little Jo - fixed E_NOTICE messages
 # Smart - deleted class.util.php. This should be part of a common module: see Little Jo
 # Smart - Changed public error view mechanism
