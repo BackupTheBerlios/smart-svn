@@ -104,9 +104,17 @@ body {
                 ----------------------------------------------------------------------------------------*/ ?>
         <font face="Verdana, Arial, Helvetica, sans-serif"><h3><?php echo $B->tpl_welcome_string;  ?></h3></font>
         
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To understand
+            how event calls inside the templates interact with the corresponding
+            classes of each module you have to study the templates. I recommand
+            you
+            to
+            start
+            with this
+            template 'default_index.tpl.php'.</font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This page is produced by
-            the index template (default_index.tpl.php). </font></p>
-          <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If no
+              the index template (default_index.tpl.php). </font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If no
           $_REQUEST 'tpl' var is definded this template is loaded by default.</font></p></td>
       </tr>
     </table></td>
