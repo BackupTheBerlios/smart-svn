@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_view_option class 
+ * earchive_set_options class 
  *
  */
  
-class earchive_view_option
+class earchive_set_options
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class earchive_view_option
      * constructor
      *
      */
-    function earchive_view_option()
+    function earchive_set_options()
     {
         $this->__construct();
     }
@@ -41,12 +41,21 @@ class earchive_view_option
     }
     
     /**
-     * Control the options template of earchive
+     * Set options for this module
      *
      * @param array $data
      */
     function perform( $data )
     {    
+        // set the passID to external fetching emails 
+        if(isset($_POST['update_earchive_options_passID']))
+        {
+            if(!preg_match("/[^a-zA-Z0-9]+/", $_POST['passID']))
+            {
+                $this->B->sys['module']['earchive']['passID'] = $_POST['passID'];
+                $this->B->_modified = TRUE;
+            }
+        }    
         // Rebuild the words index of all messages 
         if(isset($_POST['earchive_rebuild_index']))
         {
@@ -56,9 +65,7 @@ class earchive_view_option
         if(isset($_POST['earchive_fetch_emails']))
         {
             $this->B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
-        }   
-        
-        return TRUE;
+        }  
     } 
 }
 

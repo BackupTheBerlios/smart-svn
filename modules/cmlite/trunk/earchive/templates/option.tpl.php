@@ -4,6 +4,19 @@
   </tr>
   <tr>
     <td>
+  <form action="index.php?admin=1&m=option" method="post" name="pass-id" id="pass-id">
+  <table width="100%"  border="0" cellspacing="2" cellpadding="2">
+    <tr>
+      <td colspan="2" align="left" valign="middle" class="optiontitle">passID to external fetching emails</td>
+    </tr>
+    <tr>
+      <td width="4%" align="left" valign="top"  class="optiondesc"><input name="passID" type="text" value="<?php echo $B->sys['module']['earchive']['passID']; ?>" size="32" maxlength="32">
+      </td>
+      <td width="96%" align="left" valign="top"  class="optiondesc"><input type="submit" name="update_earchive_options_passID" value="update" onclick="subok(this.form.update_earchive_options_passID);">
+      </td>
+    </tr>
+  </table>
+  </form>
   <form action="index.php?admin=1&m=option" method="post" name="wordindex" id="wordindex">
   <table width="100%"  border="0" cellspacing="2" cellpadding="2">
       <tr>
