@@ -330,6 +330,168 @@ class earchive
         }
 
         return $result;
+    }
+    
+    /**
+     * get all list messages data
+     * (support pagination)
+     *
+     * @param array $data Col names of the message db table and instructions
+     */     
+    function get_messages( $var, $lid, $fields, $pager_var, $limit = 20 )
+    {
+        $comma   = '';
+        $_fields = '';
+        foreach ($fields as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
+        }
+        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
+            WHERE
+                lid={$lid} 
+            ORDER BY mdate DESC";
+
+        if(empty($_GET['pageID']) || ($_GET['pageID']==1))
+            $page = 0;
+        else
+            $page = ($_GET['pageID'] - 1) * $limit;
+            
+        $result = $GLOBALS['B']->db->limitQuery($sql,$page,$limit);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
+
+        // get var name to store the result
+        $GLOBALS['B']->$var = array();
+        $_result            = & $GLOBALS['B']->$var;
+
+        if(is_object($result))
+        {
+            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+            {
+                $tmp = array();
+                foreach($fields as $f)
+                {
+                    $tmp[$f] = stripslashes($row[$f]);
+                }
+                $_result[] = $tmp;
+            }
+        }
+        $this->_pager( $lid, $limit, $pager_var );
+    } 
+    
+    /**
+     * delete message and all related data
+     *
+     * @param int $mid message id
+     */
+    function delete_message( $mid )
+    {
+        // get attachments folder
+        $fields = array('folder');
+        $data = $this->get_message( $mid, $fields );
+        $path = SF_BASE_DIR.'/data/earchive/'.$data['folder'];
+        
+        if(!empty($data['folder']) && @is_dir($path))
+        {   
+            // delete attachements folder for this list
+            $GLOBALS['B']->util->delete_dir_tree( $path );
+        }
+        
+        // delete list messages
+        $sql = "
+            DELETE FROM 
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
+            WHERE
+                mid={$mid}";
+        
+        $GLOBALS['B']->db->query($sql);    
+        
+        // delete list messages
+        $sql = "
+            DELETE FROM 
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach
+            WHERE
+                mid={$mid}";
+        
+        $GLOBALS['B']->db->query($sql); 
+        
+        // delete list messages word indexes
+        $sql = "
+            DELETE FROM 
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_words_crc32
+            WHERE
+                mid={$mid}";
+        
+        $GLOBALS['B']->db->query($sql);     
+    }
+    /**
+     * get message data
+     *
+     * @param int $mid message id
+     * @param array $fields Name of fields to fetch
+     * @return array Message data 
+     */     
+    function get_message( $mid, $fields )
+    {        
+        $comma   = '';
+        $_fields = '';
+        foreach ($fields as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
+        }
+        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
+            WHERE
+                mid={$data['mid']}";
+
+        return $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+    }     
+    /**
+     * build the pager links
+     *
+     * @param int $lid list id
+     * @param int $limit limit of items to show
+     * @param string $pager_var Variable name to store pager links
+     * @access privat
+     */ 
+    function _pager( $lid, $limit = 20, $pager_var )
+    {
+        // PEAR Pager class
+        include_once(SF_BASE_DIR.'/admin/lib/PEAR/Pager/Sliding.php');
+        
+        $sql = "
+            SELECT
+                count(lid) AS num_rows
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
+            WHERE
+                lid={$lid}";        
+
+        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+
+        $params['totalItems'] = $_result['num_rows'];
+        
+        $params['perPage']    = $limit;
+
+        $params['delta']      = 2;
+            
+        $pager = &new Pager_Sliding($params);
+        $links = $pager->getLinks();
+        $GLOBALS['B']->$pager_var = $links['all'];    
     }    
 }
 ?>

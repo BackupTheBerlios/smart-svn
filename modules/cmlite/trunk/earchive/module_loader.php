@@ -44,7 +44,31 @@ switch($_REQUEST['mf'])
         }
         // set the base template for this module feature
         $B->section = SF_BASE_DIR . '/admin/modules/earchive/templates/addlist.tpl.php';
-        break;    
+        break;  
+    case 'show_mess':
+        // Delete messages on demande
+        if(isset($_POST['deletemess']))
+        {
+            if(count($_POST['mid']) > 0)
+            {
+                foreach($_POST['mid'] as $mid)
+                {
+                    $B->earchive->delete_message( $mid );
+                }
+            }
+        }
+        
+        // get list name and id
+        $fields = array('lid','name');
+        $B->tpl_list = $B->earchive->get_list( (int)$_GET['lid'], $fields );
+
+        // get list messages
+        $fields = array('mid', 'subject', 'sender', 'mdate');
+        $B->earchive->get_messages( 'tpl_messages', (int)$_GET['lid'], $fields, 'tpl_messages_pager');
+        
+        // set the base template for this module feature
+        $B->section = SF_BASE_DIR . '/admin/modules/earchive/templates/showmessages.tpl.php';
+        break;         
     default:
         // set the base template for this module
         $B->section = SF_BASE_DIR . '/admin/modules/earchive/templates/default.tpl.php';    

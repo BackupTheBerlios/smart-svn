@@ -7,7 +7,7 @@
         <td width="6%" align="left" valign="top"><a href="index.php?m=EARCHIVE&mf=edit_list&lid=<?php echo $list['lid']; ?>">edit</a>
         </td>
         <td width="94%" align="left" valign="top" class="itemnormal">
-           <strong><?php echo htmlentities($list['name']); ?></strong><br />
+           <a href="index.php?m=EARCHIVE&mf=show_mess&lid=<?php echo $list['lid']; ?>"><strong><?php echo htmlentities($list['name']); ?></strong></a><br />
            <?php echo $list['email']; ?>
            <div><?php echo htmlentities($list['description']); ?></div>
         </td>
