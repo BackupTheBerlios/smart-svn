@@ -4,15 +4,16 @@ function deleteuser(f, mes)
       check = confirm(mes);
         if(check == true)
         {
-            f.deluser.value=1;
+            f.deluser.value="1";
         with(f){
         submit();
         }
         }
 }
 </script>
-<form name="deluser" method="post" action="index.php?m=USER&mf=edit_usr">
+<form name="edituser" method="post" action="index.php?admin=1&m=user&sec=edituser">
 <input name="uid" type="hidden" value="<?php echo $B->tpl_data['uid']; ?>">
+<input name="modifyuserdata" type="hidden" value="true">
 <input name="rights_orig" type="hidden" value="<?php echo $B->tpl_data['rights']; ?>">
 <input name="status_orig" type="hidden" value="<?php echo $B->tpl_data['status']; ?>">
 <input name="deluser" type="hidden" value="0">
@@ -53,7 +54,7 @@ function deleteuser(f, mes)
         <td align="left" valign="top" class="font10bold">Email</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="email" type="text" id="passwd" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['email'])); ?>"></td>
+        <td align="left" valign="top"><input name="email" type="text" id="email" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['email'])); ?>"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Status</td>
@@ -81,11 +82,11 @@ function deleteuser(f, mes)
         </select></td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="edituser" type="submit" id="adduser" value="Submit"></td>
+        <td align="left" valign="top"><input name="edituser" type="submit" id="edituser" value="Submit"></td>
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?m=USER">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?admin=1&m=user">back</a></td>
   </tr>
 </table>
 </form>

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Admin SETUP module event handler
+ * Admin USER module event handler
  *
  */
 
@@ -22,16 +22,16 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_USER' , 'USER');
+define ( 'MOD_USER' , 'user');
 
-// Version of this modul
-define ( 'MOD_USER_VERSION' , '0.1.3');
+// Version of this module
+define ( 'MOD_USER_VERSION' , '0.4');
 
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_USER,
-                                   array ( 'module'           => MOD_USER,
-                                           'event_handler'    => 'user_event_handler',
-                                           'menu_visibility'  => TRUE) ))
+                                   array ( 'module'          => MOD_USER,
+                                           'event_handler'   => 'user_event_handler',
+                                           'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
@@ -40,15 +40,15 @@ if (FALSE == $B->register_handler( MOD_USER,
 function user_event_handler( $evt )
 {
     global $B;
-
-    // build the whole class name
-    $class_name = 'USER_'.$evt['code'];
     
+    // build the whole class name
+    $class_name = 'user_'.$evt['code'];
+        
     // check if this object was previously declared
     if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/user/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . 'modules/user/actions/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
@@ -57,14 +57,7 @@ function user_event_handler( $evt )
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
         }
-        else
-        {
-            if( SF_DEBUG == TRUE )
-            {
-                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
-            }        
-            return FALSE;
-        } 
+        return FALSE;
     }
     else
     {

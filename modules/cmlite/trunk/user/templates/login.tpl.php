@@ -1,11 +1,3 @@
-<html>
-<head>
-<meta http-equiv="expires" content="0">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="pragma" content="no-cache">
-<meta name="robots" content="noindex">
-<title>Login</title>
-<meta http-equiv="Content-Type" content="{$charset}">
 <script language="JavaScript">
    function subok(s){
       s.value = "wait ...";
@@ -59,9 +51,8 @@
 }
 -->
 </style>
-</head>
-<body bgcolor="#FFFFFF" text="#000000" class="loginbody">
-<form name="form1" method="post" action="index.php">
+<br />
+<form name="form1" method="post" action="index.php?admin=1">
   <table width="32%" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
     <tr align="center" valign="middle">
       <td colspan="2" class="logintitle">Admin Login</td>
@@ -93,5 +84,3 @@
     </tr>
 </table>
 </form>
-</body>
-</html>

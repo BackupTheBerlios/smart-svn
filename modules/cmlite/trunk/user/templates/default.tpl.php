@@ -14,7 +14,7 @@
                 <?php endif; ?>
                 </td>
                 <td width="60%" align="left" valign="top" class="itemnormal">
-                 <?php echo '<a href="index.php?m=USER&mf=edit_usr&uid='.$usr['uid'].'">'.$usr['lastname'].' '.$usr['forename'].'</a> (<a href="mailto:'.$usr['email'].'">'.$usr['login'].'</a>)'; ?></td>
+                 <?php echo '<a href="index.php?admin=1&m=user&sec=edituser&uid='.$usr['uid'].'">'.$usr['lastname'].' '.$usr['forename'].'</a> (<a href="mailto:'.$usr['email'].'">'.$usr['login'].'</a>)'; ?></td>
                 <td width="38%" align="left" valign="top" class="itemsmall">
                  <?php if($usr['rights']==1): ?>
                  Registered
@@ -32,6 +32,6 @@
     </table>
         <?php endforeach; ?>
 </td>
-    <td width="11%" align="center" valign="top" class="itemnormal"><a href="index.php?m=USER&mf=add_usr">add user </a></td>
+    <td width="11%" align="center" valign="top" class="itemnormal"><a href="index.php?admin=1&m=user&sec=adduser">add user </a></td>
   </tr>
 </table>
