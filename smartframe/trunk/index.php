@@ -87,7 +87,13 @@ B( 'sys_init' );
 if(isset($B->system_update_flag))
 {
     // see modules/SF_BASE_MODULE/actions/class.action_SF_BASE_MODULE_sys_update_config.php
-    M( SF_BASE_MODULE, 'sys_update_config', $B->sys );
+    M( SF_BASE_MODULE, 
+       'sys_update_config', 
+       array( 'data'     => $B->sys,
+              'file'     => SF_BASE_DIR . 'modules/'.SF_BASE_MODULE.'/config/config.php',
+              'var_name' => 'this->B->sys',
+              'type'     => 'PHPArray') );
+              
     // reload page
     @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_SECTION . '=1');
     exit;    
