@@ -13,6 +13,8 @@
  * action_navigation_update_node class 
  *
  */
+// tree class
+include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
 
 class action_navigation_delete_node extends action
 {
@@ -23,58 +25,49 @@ class action_navigation_delete_node extends action
      */
     function perform( $data = FALSE )
     {
-        // Update navigation node body
-        if (FALSE == @unlink (SF_BASE_DIR . 'data/navigation/'.$data['node']))
+        // check if an tree instance exists
+        if(!is_object($this->B->tree))
         {
-            $this->B->$data['error'] = 'Could not delete node file: '.SF_BASE_DIR . 'data/navigation/'.$data['node'];
+            // load navigation nodes
+            $node = array();
+            include_once(SF_BASE_DIR . 'data/navigation/nodes.php');
+        
+            $this->B->tree = &Tree::createFromArray($node);
+        }  
+        
+        $ndata = $this->B->tree->getData( $data['node'] );
+
+        // Update navigation node body
+        if (FALSE == @unlink (SF_BASE_DIR . 'data/navigation/'.$ndata['node']))
+        {
+            $this->B->$data['error'] = 'Could not delete node file: '.SF_BASE_DIR . 'data/navigation/'.$ndata['node'];
             return FALSE;
         }
-        
-        // load navigation node titles
-        $nav = array();
-        include(SF_BASE_DIR . 'data/navigation/nodes.php');
-        
-        // init loop var
-        $x = 0;
-        
-        // Look at the node id and assign the new title
-        foreach($nav as $node)
-        {
-            if($node == 0)
-            {
-                $x++;
-                continue;
-            }
-            
-            list($id, $val) = each($node);
 
-            if($data['node'] == $id)
-            {
-                unset($nav[$x]);
-                break;
-            }
-            $x++;
-        } 
-        
-        // reorder the nodes array
-        $x = 0;
-        $tmp = array();
-        $tmp[0] = 0;
-        
-        foreach($nav as $node)
+        // get parent id of the node to reorder
+        $parent_id = $this->B->tree->getParentID($data['node']);
+
+        $ids = $this->B->tree->getChildren( $parent_id );
+        $_order = 1;
+        foreach($ids as $id)
         {
-            $tmp[$x] = $node;
-            $x++;
-        }
-        $nav = $tmp;
+            $tndata = $this->B->tree->getData( $id ); 
+            if($ndata['order'] < $tndata['order'])
+            {
+                $tndata['order']--;
+                $this->B->tree->setData( $tndata['id'], $tndata );
+            }
+        }  
+        
+        $this->B->tree->removeNode( $data['node'] );
         
         // Update navigation node title
         // see modules/common/actions/class.action_common_sys_update_config.php
         M( SF_BASE_MODULE, 
            'sys_update_config', 
-           array( 'data'     => $nav,
+           array( 'data'     => $this->B->tree->data,
                   'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
-                  'var_name' => 'nav',
+                  'var_name' => 'node',
                   'type'     => 'PHPArray') );
         
         return TRUE;

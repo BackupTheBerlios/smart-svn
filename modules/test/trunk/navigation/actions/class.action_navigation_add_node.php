@@ -16,6 +16,8 @@
 
 // PEAR File
 include_once('File.php');
+// tree class
+include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
 
 class action_navigation_add_node extends action
 {
@@ -26,40 +28,25 @@ class action_navigation_add_node extends action
      */
     function perform( $data = FALSE )
     {
-        $fp = new File();
-        
-        // make node id
-        $node_id = commonUtil::unique_crc32();    
-    
-        // Add navigation node body
-        $node_body  = SF_BASE_DIR . 'data/navigation/'.$node_id; 
-        if (!is_int($fp->write  ( $node_body, $data['body'], FILE_MODE_WRITE )))
+        // check if a tree object exists
+        if(!is_object($this->B->tree))
         {
-            $this->B->$data['error'] = 'Could not write file: '.$node_body;
-            return FALSE;
-        }
-        $fp->unlock ( $node, FILE_MODE_WRITE );        
-
-        // load exsisting navigation nodes
-        $nav = array();
-        $nav[0] = 0;
-        include(SF_BASE_DIR . 'data/navigation/nodes.php');
-
-        // replace single and double quotes
-        $search_array = array('\'','"');
-        $replace_array = array('&#039;','&quot;');
+            // load navigation nodes
+            $file = SF_BASE_DIR . 'data/navigation/nodes.php';     
+            
+            $this->B->tree = & new Tree($file);
+        } 
         
-        // add new node
-        $nav[][$node_id] = array('title'  => str_replace ( $search_array, $replace_array, commonUtil::stripSlashes_special($data['title'])),
-                                 'status' => 'drawt');
+        // add node to the array
+        $this->B->tree->addNode( $data );
 
         // Update navigation node config file
         // see modules/common/actions/class.action_common_sys_update_config.php
         M( SF_BASE_MODULE, 
            'sys_update_config', 
-           array( 'data'     => $nav,
+           array( 'data'     => $this->B->tree->node,
                   'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
-                  'var_name' => 'nav',
+                  'var_name' => 'node',
                   'type'     => 'PHPArray') );
         
         return TRUE;

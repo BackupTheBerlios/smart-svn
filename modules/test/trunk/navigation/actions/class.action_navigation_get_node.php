@@ -26,51 +26,29 @@ class action_navigation_get_node extends action
      */
     function perform( $data = FALSE )
     {        
-        // check if an tree instance exists
+        // check if a tree object exists
         if(!is_object($this->B->tree))
         {
             // load navigation nodes
-            $node = array();
-            include_once(SF_BASE_DIR . 'data/navigation/nodes.php');
-        
-            $this->B->tree = &Tree::createFromArray($node);
+            $file = SF_BASE_DIR . 'data/navigation/nodes.php';     
+            
+            $this->B->tree = & new Tree($file);
         }  
 
-        // load data of the requested node
-        $ndata = $this->B->tree->getData( $data['node'] ); 
-      
-        // check status request
-        if( isset( $data['nstatus'] ) && ($ndata['status'] != $data['nstatus']) )
-        {
-            return FALSE;
-        }
-        else
-        {
-            $this->B->$data['title']  = $ndata['title'];
-            $this->B->$data['status'] = $ndata['status'];
-        }            
+        $_result = & $this->B->$data['result'];      
 
         // check if cache ID exists
         if ( M( MOD_COMMON, 
                 'cache_get',
-                array('result'     => $data['body'],
+                array('result'     => $data['result'],
                       'cacheID'    => SF_SECTION.$data['node'],
                       'cacheGroup' => 'navigation'))) 
         {
             return TRUE;
         }  
 
-        // We need PEAR File to read the nodes file 
-        include_once('File.php');
+        $_result = $this->B->tree->getAllData( $data['node'] );     
 
-        $this->fp = new File();
-        
-        // location of the node body (text)
-        $node  = SF_BASE_DIR . 'data/navigation/'.$ndata['node'];
-        
-        // assign the variable with the node text
-        $this->B->$data['body'] = $this->fp->readAll( $node );
-        
         // format text
         if( $data['format'] == 'wikki' )
         {
@@ -79,13 +57,14 @@ class action_navigation_get_node extends action
                 include_once(SF_BASE_DIR . 'modules/common/PEAR/Text/Wiki.php');
                 $this->B->wiki = & new Text_Wiki();
             }
-            $this->B->$data['body'] = $this->B->wiki->transform($this->B->$data['body'], 'Xhtml');    
+            $_result['body'] = $this->B->wiki->transform($_result['body'], 'Xhtml');    
         }
-        
+
         // save result to cache
         M( MOD_COMMON, 
            'cache_save',
-           array('result' => $this->B->$data['body']));          
+           array('result' => $_result));  
+
     }   
     
     /**
@@ -97,7 +76,7 @@ class action_navigation_get_node extends action
     function validate(  $data = FALSE  )
     {
         // validate $data['node']. no chars else than 0123456789 are accepted
-        if( preg_match("/[^0-9]/", $data['node']) )
+        if( preg_match("/[^0-9-]/", $data['node']) )
         {
             $this->B->$data['error']  = 'Wrong node format';
             return FALSE;

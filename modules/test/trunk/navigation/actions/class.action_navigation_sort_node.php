@@ -29,87 +29,23 @@ class action_navigation_sort_node extends action
         if(!is_object($this->B->tree))
         {
             // load navigation nodes
-            $node = array();
-            include(SF_BASE_DIR . 'data/navigation/nodes.php');     
+            $file = SF_BASE_DIR . 'data/navigation/nodes.php';     
             
-            $this->B->tree = &Tree::createFromArray($node);
+            $this->B->tree = & new Tree($file);
         }        
 
-        $ndata = $this->B->tree->getData( $data['node'] ); 
-        
-        $parent_id = $this->B->tree->getParentID($data['node']);
-        
-        $ids = $this->B->tree->getChildren( $parent_id );
-            
-       // move up
-        if( $data['dir'] == 'up' )
+        // get node data
+        if ( TRUE == $this->B->tree->changeNodeOrder( $data ) )
         {
-            $new_order_num = $ndata['order']-1;
-            foreach($ids as $id)
-            {
-                $tndata = $this->B->tree->getData( $id ); 
-                if($tndata['order'] == $new_order_num)
-                {
-                    $tndata['order'] = $tndata['order']+1;
-                    $tndata['parent_id'] = $parent_id;
-                    $node_id = $tndata['id'];
-                    $ndata['order']  = $new_order_num;
-                    $ndata['parent_id'] = $parent_id;
-                    $found = TRUE;
-                    break;
-                }
-            }
-            
-            if(isset($found))
-            {
-                $this->B->tree->setData( $data['node'], $ndata ); 
-                $this->B->tree->setData( $node_id, $tndata ); 
-
-                // Update navigation node title
-                // see modules/common/actions/class.action_common_sys_update_config.php
-                M( SF_BASE_MODULE, 
-                   'sys_update_config', 
-                   array( 'data'     => $this->B->tree->data,
-                          'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
-                          'var_name' => 'node',
-                          'type'     => 'PHPArray') );
-            }          
+            // Update navigation node title
+            // see modules/common/actions/class.action_common_sys_update_config.php
+            M( SF_BASE_MODULE, 
+               'sys_update_config', 
+               array( 'data'     => $this->B->tree->node,
+                      'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
+                      'var_name' => 'node',
+                      'type'     => 'PHPArray') );    
         }
-        // move down
-        elseif( $data['dir'] == 'down' )
-        {
-            $new_order_num = $ndata['order']+1;
-            foreach($ids as $id)
-            {
-                $tndata = $this->B->tree->getData( $id ); 
-                if($tndata['order'] == $new_order_num)
-                {
-                    $tndata['order'] = $tndata['order']-1;
-                    $tndata['parent_id'] = $parent_id;
-                    $node_id = $tndata['id'];
-                    $ndata['order']  = $new_order_num;
-                    $ndata['parent_id'] = $parent_id;
-                    $found = TRUE;
-                    break;
-                }
-            }
-            
-            if(isset($found))
-            {
-                $this->B->tree->setData( $data['node'], $ndata ); 
-                $this->B->tree->setData( $node_id, $tndata ); 
-
-                // Update navigation node title
-                // see modules/common/actions/class.action_common_sys_update_config.php
-                M( SF_BASE_MODULE, 
-                   'sys_update_config', 
-                   array( 'data'     => $this->B->tree->data,
-                          'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
-                          'var_name' => 'node',
-                          'type'     => 'PHPArray') );
-            }     
-        }       
-        
         return TRUE;
     }  
     

@@ -39,10 +39,11 @@ class view_navigation_addnode extends view
         {
             if ( TRUE == M( MOD_NAVIGATION, 
                             'add_node', 
-                            array('title'  => commonUtil::stripSlashes($_POST['title']),
-                                  'body'   => commonUtil::stripSlashes($_POST['body']),
-                                  'status' => $_POST['status'],
-                                  'error'  => 'tpl_error')) )
+                            array('title'     => commonUtil::stripSlashes($_POST['title']),
+                                  'body'      => commonUtil::stripSlashes($_POST['body']),
+                                  'status'    => 1,
+                                  'parent_id' => (int)$_REQUEST['node'],
+                                  'error'     => 'tpl_error')) )
             {  
                 // on success switch to the main navigation page
                 @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation');

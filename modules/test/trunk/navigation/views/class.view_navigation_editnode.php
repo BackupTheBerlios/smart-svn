@@ -58,10 +58,10 @@ class view_navigation_editnode extends view
             
             if ( TRUE == M( MOD_NAVIGATION, 
                             'update_node', 
-                            array('node'   => $_REQUEST['node'],
+                            array('node'   => (int)$_REQUEST['node'],
                                   'title'  => $_POST['title'],
                                   'body'   => $_POST['body'],
-                                  'status' => $_POST['status'],
+                                  'status' => (int)$_POST['status'],
                                   'error'  => 'tpl_error')) )
             {  
                 // on success switch to the main navigation page
@@ -79,10 +79,9 @@ class view_navigation_editnode extends view
         // get navigation node         
         M( MOD_NAVIGATION, 
            'get_node', 
-           array('node'    => $_REQUEST['node'],
-                 'title'   => 'tpl_title',
-                 'body'    => 'tpl_body',
-                 'status'  => 'tpl_status')); 
+           array('node'   => $_REQUEST['node'],
+                 'result' => 'tpl_node',
+                 'status' => 'tpl_status')); 
 
         return  TRUE;
     }    

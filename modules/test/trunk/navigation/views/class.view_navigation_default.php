@@ -46,8 +46,8 @@ class view_navigation_default extends view
         
         // assign the template array $B->tpl_nodes with navigation nodes
         M( MOD_NAVIGATION, 
-           'get', 
-           array('nav' => 'tpl_nodes'));
+           'get_childs', 
+           array('result' => 'tpl_nodes'));
            
         return TRUE;
     }   

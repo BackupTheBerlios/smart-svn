@@ -32,7 +32,7 @@ class action_navigation_get_childs extends action
     function perform( $data = FALSE )
     {
         // get var name defined in the public view to store the result
-        $_result = & $this->B->$data['nav']; 
+        $_result = & $this->B->$data['result']; 
         $_result = array();
 
         // if node is not defined get top level nodes
