@@ -1,25 +1,6 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>   
 <?php //check login data ?>
-<?php $B->M( MOD_USER, 
-             'USER_REGISTER', 
-             array('register'    => $_POST['do_register'],
-                   'form_var'    => 'tpl_form',
-                   'error_var'   => 'tpl_error',
-                   'success_var' => 'tpl_success',
-                   'email_subject' => 'Your Smartframe registration',
-                   'email_msg'     => 'You have to click on the link below to activate your account:<br /><br />(URL)<br /><br />Please contact the administrator on problems: (EMAIL).',
-                   'reg_data' => array('login'    => $_POST['login'], 
-                                       'passwd1'  => $_POST['passwd1'],
-                                       'passwd2'  => $_POST['passwd2'],
-                                       'forename' => $_POST['forename'],
-                                       'lastname' => $_POST['lastname'],
-                                       'email'    => $_POST['email']))); ?> 
 
-<?php //check validation url with md5 sum variable ?>
-<?php $B->M( MOD_USER, 
-             'USER_VALIDATE', 
-             array('error_var'   => 'tpl_v_error',
-                   'success_var' => 'tpl_v_success')); ?>
 <html>
 <head>
 <meta http-equiv="expires" content="0">
@@ -83,7 +64,7 @@
 </style>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" class="registerbody">
-<form name="form1" method="post" action="index.php?tpl=register">
+<form name="form1" method="post" action="index.php?view=register&url=<?php echo $_GET['url'] ?>">
   <table width="400" border="0" align="center" cellpadding="2" cellspacing="0" class="register">
     <?php if(isset($B->tpl_v_error) || isset($B->tpl_v_success)): ?>
         <tr align="center" valign="middle">
@@ -175,9 +156,9 @@
        <td align="left" valign="top" class="registeritem">
            Turing Key<br>
                      <input type="text" name="captcha_turing_key" value="" maxlength="5" size="40">
-                     <input type="hidden" name="captcha_public_key" value="<?php echo $B->captcha_public_key; ?>" maxlength="5" size="40">
+                     <input type="hidden" name="captcha_public_key" value="<?php echo $B->tpl_public_key; ?>" maxlength="5" size="40">
              </td>
-       <td align="left" valign="top" class="registeritem"><span class="logintext"><img src="<?php echo $B->captcha_turing_picture; ?>" border="1"></span></td>
+       <td align="left" valign="top" class="registeritem"><span class="logintext"><img src="<?php echo $B->tpl_captcha_pic; ?>" border="1"></span></td>
      </tr>
      <tr align="center">
        <td colspan="2" valign="top" class="registeritem">Please enter the characters displayed in the picture . </td>

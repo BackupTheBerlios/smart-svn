@@ -41,7 +41,7 @@ class view_register
     }
     
     /**
-     * Execute the view of the template "group_login.tpl.php"
+     * Execute the view of the template "group_register.tpl.php"
      *
      * @return bool true on success else false
      */

@@ -69,7 +69,7 @@
 </head>
 <body bgcolor="#FFFFFF" text="#000000" class="loginbody">
 <form name="form1" method="post" action="index.php?view=login&url=<?php echo $_GET['url']; ?>">
-  <table width="32%" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
+  <table width="350" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
     <tr align="center" valign="middle">
       <td colspan="2" class="logintitle">Login</td>
     </tr>
@@ -82,17 +82,31 @@
   <tr> 
       <td width="26%" valign="top" align="left" class="loginitem">
             Login<br>
-            <input type="text" name="login_name" maxlength="1000" size="25"></td>
-      <td width="74%" valign="top" align="left"> 
-    </td>
+            <input type="text" name="login_name" maxlength="1000" size="25" value="<?php echo htmlentities($B->tpl_form['login_name']); ?>"></td>
+      <td width="74%" valign="top" align="center">
+      <?php if ($B->tpl_error !== FALSE):  ?>  
+        <span class="loginerror">
+                <?php echo $B->tpl_error; ?>
+        </span>        <?php endif; ?>	   
+      </td>
   </tr>
   <tr> 
       <td width="26%" valign="top" align="left" class="loginitem">
             Passwd<br>
             <input type="password" name="password" size="25" maxlength="100"></td>
-      <td width="74%" valign="top" align="center" class="logintext">
-    </td>
+      <td width="74%" valign="middle" align="center" class="loginitem"><a href="index.php?view=forgot_password&url=<?php echo $_GET['url']; ?>">forgot password
+      </a> </td>
   </tr>
+  <tr>
+    <td valign="top" align="left" class="loginitem">Turing Key<br>
+      <input type="text" name="captcha_turing_key" value="" maxlength="5" size="25">
+      <input type="hidden" name="captcha_public_key" value="<?php echo $B->tpl_public_key; ?>" maxlength="5" size="40">
+</td>
+    <td valign="top" align="center" class="logintext"><span class="logintext"><img src="<?php echo $B->tpl_captcha_pic; ?>" border="1"></span></td>
+  </tr>
+  <tr>
+    <td colspan="2" align="left" valign="top" class="loginitem"><div align="center">Please enter the characters displayed in the picture in the turing key field.</div></td>
+    </tr>
   <tr align="center"> 
       <td width="26%" colspan="2" valign="middle"><br>
         <input type="submit" name="login" value="login" onclick="subok(this.form.login);" class="loginbutton">
@@ -100,9 +114,10 @@
     </tr>
   <tr align="left">
     <td colspan="2" valign="middle" class="loginitem">
-            <?php if($B->sys['option']['user']['allow_register'] == TRUE): ?>
-                <a href="index.php?tpl=register">not yet registered?</a>
-                <?php endif; ?></td>
+      <?php if($B->sys['option']['user']['allow_register'] == TRUE): ?>
+         <a href="index.php?view=register&url=<?php echo $_GET['url']; ?>">not yet registered?</a>
+      <?php endif; ?>
+    </td>
   </tr>
 </table>
 </form>
