@@ -41,6 +41,10 @@ class action_navigation_get_node extends action
         // Look at the node id and assign the title of the requested node
         foreach($nav as $node)
         {
+            if($node == 0)
+            {
+                continue;
+            }
             list($nodeID, $val) = each($node);
             
             // check status request
@@ -94,6 +98,11 @@ class action_navigation_get_node extends action
 
         foreach($nav as $node)
         {
+            if($node == 0)
+            {
+                continue;
+            }
+            
             list($nodeID, $val) = each($node);
             
             // check status request

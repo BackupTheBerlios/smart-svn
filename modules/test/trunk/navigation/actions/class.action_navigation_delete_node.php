@@ -35,11 +35,17 @@ class action_navigation_delete_node extends action
         include(SF_BASE_DIR . 'data/navigation/nodes.php');
         
         // init loop var
-        $x = 1;
+        $x = 0;
         
         // Look at the node id and assign the new title
         foreach($nav as $node)
         {
+            if($node == 0)
+            {
+                $x++;
+                continue;
+            }
+            
             list($id, $val) = each($node);
 
             if($data['node'] == $id)
@@ -51,8 +57,10 @@ class action_navigation_delete_node extends action
         } 
         
         // reorder the nodes array
-        $x = 1;
+        $x = 0;
         $tmp = array();
+        $tmp[0] = 0;
+        
         foreach($nav as $node)
         {
             $tmp[$x] = $node;
