@@ -51,8 +51,12 @@ class Text_Wiki_Parse_Strong extends Text_Wiki_Parse {
     * 
     */
     
-    var $regex =  "/\*\*(.*?)\*\*/";
+    // original
+    // var $regex =  "/\*\*(.*?)\*\*/";
     
+    // alternatives:
+    // var $regex = "/\*\*(()|[^\n]*)\*\*/U";
+    var $regex = "/\*\*(()|.*)\*\*/U";
     
     /**
     * 

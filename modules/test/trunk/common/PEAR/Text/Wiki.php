@@ -12,7 +12,7 @@
 * 
 * @license LGPL
 * 
-* @version $Id: Wiki.php,v 1.28 2005/02/22 19:12:57 pmjones Exp $
+* @version $Id: Wiki.php,v 1.29 2005/02/24 17:26:29 pmjones Exp $
 * 
 */
 
@@ -40,9 +40,15 @@ require_once 'Text/Wiki/Render.php';
 * 
 * @package Text_Wiki
 * 
+<<<<<<< Wiki.php
+* @version 0.25.0
+*
+* @license LGPL
+=======
 * @author Paul M. Jones <pmjones@php.net>
 * 
 * @version @package_version@
+>>>>>>> 1.28
 * 
 */
 
@@ -92,6 +98,7 @@ class Text_Wiki {
         'Italic',
         'Tt',
         'Superscript',
+        'Subscript',
         'Revise',
         'Tighten'
     );

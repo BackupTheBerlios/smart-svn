@@ -4,6 +4,11 @@
 * 
 * Baseline rule class for extension into a "real" parser component.
 * 
+<<<<<<< Parse.php
+* Text_Wiki_Parse_* classes do not stand on their own; they are called by a
+* Text_Wiki object, typcially in the transform() method. Each rule class
+* performs two separate activities: parse and process.
+=======
 * @category Text
 * 
 * @package Text_Wiki
@@ -21,6 +26,7 @@
 * Text_Wiki_Rule classes do not stand on their own; they are called by a
 * Text_Wiki object, typcially in the transform() method. Each rule class
 * performs three main activities: parse, process, and render.
+>>>>>>> 1.4
 * 
 * The parse() method takes a regex and applies it to the whole block of
 * source text at one time. Each match is sent as $matches to the
