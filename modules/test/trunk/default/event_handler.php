@@ -28,10 +28,10 @@ define ( 'MOD_DEFAULT' , 'default');
 define ( 'MOD_DEFAULT_VERSION' , '0.2');
 
 // register this handler                       
-if (FALSE == $B->register_handler( MOD_DEFAULT,
-                                   array ( 'module'          => MOD_DEFAULT,
-                                           'event_handler'   => 'default_event_handler',
-                                           'menu_visibility' => TRUE) ))
+if (FALSE == register_handler( MOD_ENTRY,
+                               array ( 'module'          => MOD_DEFAULT,
+                                       'event_handler'   => 'default_event_handler',
+                                       'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_DEFAULT.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
@@ -39,31 +39,29 @@ if (FALSE == $B->register_handler( MOD_DEFAULT,
 // The handler function
 function default_event_handler( $evt )
 {
-    global $B;
-
     // build the whole class name
-    $class_name = 'default_'.$evt['code'];
-
+    $class_name = 'action_default_'.$evt['code'];
+    
     // check if this object was previously declared
-    if(!is_object($B->$class_name))
+    if(!is_object($GLOBALS[$class_name]))
     {
-        // dynamic load the required action class
+        // dynamic load the required class
         $class_file = SF_BASE_DIR . 'modules/default/actions/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
             // make instance
-            $B->$class_name = & new $class_name();
+            $GLOBALS[$class_name] = & new $class_name();
             // perform the request
-            return $B->$class_name->perform( $evt['data'] );
-        }       
-        return FALSE;
+            return $GLOBALS[$class_name]->perform( $evt['data'] );
+        }
     }
     else
     {
         // perform the request if the requested object exists
-        return $B->$class_name->perform( $evt['data'] );
+        return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
+    return TRUE;
 }
 
 ?>

@@ -10,42 +10,18 @@
 // ----------------------------------------------------------------------
 
 /**
- * default_sys_init class 
+ * action_default_sys_init class 
  *
  */
  
-class default_sys_init
+class action_default_sys_init extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function default_sys_init()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Check if version number has changed and perfom additional upgarde code
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {
         // Check for upgrade  
         if(MOD_DEFAULT_VERSION != (string)$this->B->sys['module']['default']['version'])

@@ -10,42 +10,18 @@
 // ----------------------------------------------------------------------
 
 /**
- * default_sys_setup class 
+ * action_default_sys_setup class 
  *
  */
  
-class default_sys_setup
-{
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function default_sys_setup()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
+class action_default_sys_setup extends action
+{ 
     /**
      * Do setup for this module
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {            
         $success = TRUE;
         // The module name and version
