@@ -24,9 +24,15 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'SF_EVT_HANDLER_USER' , 'user');
 
 // register this handler                       
-$base->event->register_handler( SF_EVT_HANDLER_USER,
-                                array ( "module"        => SF_EVT_HANDLER_USER,
-                                        "event_handler" => "user_event_handler") );
+if (FALSE == $base->event->register_handler( 
+                            SF_EVT_HANDLER_USER,
+                            array ( 'module'        => SF_EVT_HANDLER_USER,
+                                    'event_handler' => 'user_event_handler') ))
+{
+    patErrorManager::raiseError( 'handler',
+                                 'Handler exist', 
+                                 'The handler '.SF_EVT_HANDLER_USER.' exist: '.__FILE__.' '.__LINE__  );        
+}    
                                         
                                         
                                         

@@ -26,9 +26,15 @@ if (!defined('SF_SECURE_INCLUDE'))
 define( 'SF_EVT_HANDLER_SYSTEM' , 'system' );
 
 // register this handler                       
-$base->event->register_handler( SF_EVT_HANDLER_SYSTEM,
-                                array ( "module"        => SF_EVT_HANDLER_SYSTEM,
-                                        "event_handler" => "system_event_handler") );
+if (FALSE == $base->event->register_handler( 
+                           SF_EVT_HANDLER_SYSTEM,
+                           array ( 'module'        => SF_EVT_HANDLER_SYSTEM,
+                                   'event_handler' => 'system_event_handler') ))
+{
+    patErrorManager::raiseError( 'handler',
+                                 'Handler exist', 
+                                 'The handler '.SF_EVT_HANDLER_SYSTEM.' exist on '.__FILE__.' '.__LINE__  );        
+}
 
 // The handler function
 function system_event_handler( $evt )

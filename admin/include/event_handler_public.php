@@ -18,23 +18,29 @@
 //
 if (!defined('SF_SECURE_INCLUDE'))
 {
-    die('No Permission on'. __FILE__);
+    die('No Permission on '. __FILE__);
 }
 
 // Name of the event handler
 define ( 'SF_EVT_HANDLER_SYSTEM' , 'system' );
 
 // register this handler                       
-$base->event->register_handler( SF_EVT_HANDLER_SYSTEM,
-                                array ( "module"        => SF_EVT_HANDLER_SYSTEM,
-                                        "event_handler" => "system_event_handler") );
+if (FALSE == $base->event->register_handler( 
+                           SF_EVT_HANDLER_SYSTEM,
+                           array ( 'module'        => SF_EVT_HANDLER_SYSTEM,
+                                   'event_handler' => 'system_event_handler') ))
+{
+    patErrorManager::raiseError( 'handler',
+                                 'Handler exist', 
+                                 'The handler '.SF_EVT_HANDLER_SYSTEM.' exist: '.__FILE__.' '.__LINE__  );        
+}
 
 // The handler function
 function system_event_handler( $evt )
 {
     global $base;
 
-    switch( $evt["code"] )
+    switch( $evt['code'] )
     {            
         case SF_EVT_INIT:
             //include(BASE_DIR.'/admin/include/_init_system.php');          

@@ -17,9 +17,16 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'SF_EVT_HANDLER_TEST' , 'test');
 
 // register this handler                       
-$base->event->register_handler( SF_EVT_HANDLER_TEST,
-                                array ( "module"        => SF_EVT_HANDLER_TEST,
-                                        "event_handler" => "test_event_handler") );
+if (FALSE == $base->event->register_handler( 
+                           SF_EVT_HANDLER_TEST,
+                           array ( 'module'        => SF_EVT_HANDLER_TEST,
+                                   'event_handler' => 'test_event_handler') ))
+{
+    patErrorManager::raiseError( 'handler',
+                                 'Handler exist', 
+                                 'The handler '.SF_EVT_HANDLER_TEST.' exist: '.__FILE__.' '.__LINE__  );        
+}
+
 // The handler function
 function test_event_handler( $evt )
 {
