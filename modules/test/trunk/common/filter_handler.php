@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the filter module
-define( 'COMMON_FILTER' , 'COMMON' );
+define( 'COMMON_FILTER' , 'common' );
 
 // register this filter                      
 if (FALSE == $B->register_filter( COMMON_FILTER,
@@ -39,7 +39,7 @@ function common_filter_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'COMMON_FILTER_'.$evt['code'];
+    $class_name = 'common_filter_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))

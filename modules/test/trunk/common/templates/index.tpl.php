@@ -61,7 +61,10 @@ function subok(s){
           </table></td>
   </tr>
   <tr>
-    <td width="20%" align="left" valign="top"><?php include( $B->module ); ?></td>
+    <td width="20%" align="left" valign="top">
+        <?php /* ### include the navigation menu view (template) ### */ ?>
+        <?php include( $B->M( MOD_COMMON, 'GET_MODULE_VIEW' ) ); ?>
+    </td>
   </tr>
   <tr>
       <td align="left" valign="top" bgcolor="#3399CC"><table width="100%"  border="0" cellspacing="2" cellpadding="2">

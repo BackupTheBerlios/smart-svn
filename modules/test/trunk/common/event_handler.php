@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_COMMON' , 'COMMON');
+define ( 'MOD_COMMON' , 'common');
 
 // Version of this modul
 define ( 'MOD_COMMON_VERSION' , '0.3');
@@ -43,7 +43,7 @@ function common_event_handler( $evt )
 {
     global $B;
 
-    $class_name = 'COMMON_'.$evt['code'];
+    $class_name = 'common_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
@@ -86,12 +86,12 @@ define('SF_BASE_MODULE',      MOD_COMMON); // required
 /**
  * The module (name) which takes the global options part.
  */
-define('SF_OPTION_MODULE',    'OPTION'); // required
+define('SF_OPTION_MODULE',    'option'); // required
 
 /**
  * The module (name) which should be loaded by default.
  */
-define('SF_DEFAULT_MODULE',   'DEFAULT'); // required
+define('SF_DEFAULT_MODULE',   'default'); // required
 
 /**
  * The main admin template. All subtemplates from other modules are included here // required
