@@ -43,6 +43,35 @@ if(!isset($_GET['mf']))
         $B->conf->setConfigValues( $B->sys );
         //  write a new file
         $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
+
+        // insert bad word languages list
+        if(!empty($_POST['bad_word_list']))
+        {
+            // Insert bad word list in db table
+            $bad_word_file = SF_BASE_DIR.'/admin/modules/option/bad_word/stop.'.$_POST['bad_word_list'].'.sql';
+            if( TRUE == @is_file($bad_word_file) )
+            {
+                $bad_word = implode("", @file($bad_word_file));
+                $bad_word = str_replace('bad_words', $B->sys['db']['table_prefix'].'bad_words', $bad_word);
+                $result = $B->db->query($bad_word); 
+                if (DB::isError($result)) 
+                {
+                    trigger_error($result->getMessage()."\n\nSQL: ".$bad_word."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                }           
+            }
+            else
+            {
+                trigger_error("No ".$bad_word_file." file for this module!\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            }  
+        }
+        // delete selected bad word languages
+        if(isset($_POST['selected_lang']) && (count($_POST['selected_lang']) > 0))
+        {
+            include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
+
+            foreach($_POST['selected_lang'] as $lang)
+                word_indexer::delete_bad_words_lang( $lang );              
+        }        
     }    
     
     // Load the available public templates sets from the main folder 
@@ -62,6 +91,39 @@ if(!isset($_GET['mf']))
     }
 
     $directory->close();
+
+    include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
+
+    // get actif bad words languages
+    $B->tpl_selected_lang = word_indexer::get_bad_words_lang();
+
+    // Get available language bad word list
+    //
+    $directory =& dir(SF_BASE_DIR.'/admin/modules/option/bad_word');
+
+    $B->tpl_bad_word_lang = array();
+
+    while (false != ($filename = $directory->read()))
+    {
+        if ( ( $filename == "." ) || ( $filename == ".." ) )
+        {
+            continue;
+        }            
+        // Test filename
+        //
+        if(TRUE == @is_file(SF_BASE_DIR.'/admin/modules/option/bad_word/'.$filename))
+        {
+            // Extract language from file name
+            if(preg_match("/^stop\.([^\.]+)/", $filename, $tmp))
+            {
+                // Check if language is installed
+                if(FALSE == in_array($tmp[1], $B->tpl_selected_lang))
+                {
+                    $B->tpl_bad_word_lang[] = $tmp[1];
+                }
+            }
+        }  
+    }
 
     // Load options templates from other modules    
     $B->mod_option = array();

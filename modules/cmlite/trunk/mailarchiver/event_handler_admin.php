@@ -72,7 +72,16 @@ function mailarchiver_event_handler( $evt )
             }       
             break; 
         case EVT_LOGOUT:  
+            break; 
+        case EVT_SET_OPTIONS:  
+            // set user options 
+            // this event comes from the option module (module_loader.php)
             break;             
+        case EVT_GET_OPTIONS:  
+            // get mailarchiver options template 
+            // to include in the option module
+            $B->mod_option[] = SF_BASE_DIR.'/admin/modules/mailarchiver/templates/option.tpl.php';
+            break;                
         case EVT_SETUP:       
             if( count($base->tmp_error) == 0 )
             {

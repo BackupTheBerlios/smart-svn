@@ -43,8 +43,8 @@ function subok(s){
         <td width="19%" align="left" valign="top"><span class="normal">Database Type:</span></td>
         <td width="81%" align="left" valign="top">
           <select name="dbtype" id="dbtype"  onChange="go('index.php?dbtype='+this.form.dbtype.options[this.form.dbtype.options.selectedIndex].value)">
-            <option value="sqlite" <?php if(!isset($_REQUEST['dbtype']) || ($_REQUEST['dbtype']=='sqlite')) echo 'selected'; ?>>Sqlite</option>
-            <option value="mysql" <?php if($_REQUEST['dbtype'] == 'mysql') echo 'selected'; ?>>MySql</option>
+            <option value="mysql" <?php if(!isset($_REQUEST['dbtype']) || ($_REQUEST['dbtype']=='mysql')) echo 'selected="selected"'; ?>>MySql</option>
+            <option value="sqlite" <?php if($_REQUEST['dbtype'] == 'sqlite') echo 'selected="selected"'; ?>>Sqlite</option>
           </select>
 </td>
       </tr>
@@ -71,7 +71,7 @@ function subok(s){
         </td>
       </tr>
     </table>
-    <?php if($_REQUEST['dbtype'] == 'mysql'): ?>    
+    <?php if(!isset($_REQUEST['dbtype']) || ($_REQUEST['dbtype'] == 'mysql')): ?>    
     <table width="90%"  border="0" cellspacing="4" cellpadding="2">
       <tr bgcolor="#CCCCCC">
         <td colspan="2" align="left" valign="top"><span class="subtitle">&nbsp;Database conect data</span></td>

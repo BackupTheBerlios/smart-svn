@@ -7,7 +7,7 @@
 }
 .optiondesc {
 	font-size: 10px;
-	color: #dddddd;
+	color: #333333;
 	font-weight: bold;
 }
 .optiontitle {
@@ -106,6 +106,34 @@
 &nbsp; 
             </td>
           </tr>
+          <tr>
+              <td align="left" valign="top"><span class="optiontitle">Bad words language lists</span></td>
+          </tr>
+          <tr>
+              <td align="left" valign="top">
+				<select name="bad_word_list">
+				<option value="">Select language</option>
+				<?php foreach($B->tpl_bad_word_lang as $lang): ?>
+          		    <option value="<?php echo $lang ?>"><?php echo $lang ?></option>
+				<?php endforeach; ?>
+                </select>
+			  </td>
+          </tr>
+			<?php if(count($B->tpl_selected_lang) != 0): ?>
+          <tr>
+              <td align="left" valign="top">			  <table width="250" border="0" cellspacing="2" cellpadding="2">
+                  <tr align="left" valign="top">
+                      <td colspan="2" class="optiondesc">&nbsp;Selected languages</td>
+                  </tr>
+				<?php foreach($B->tpl_selected_lang as $sel_lang): ?>
+                  <tr>
+                      <td width="14" align="left" valign="middle" class="optiondesc">&nbsp;</td>
+                      <td width="222" align="left" valign="top" class="optiondesc"><input name="selected_lang[]" type="checkbox" value="<?php echo $sel_lang; ?>"> <?php echo $sel_lang; ?></td>
+                  </tr>
+				  <?php endforeach; ?>
+              </table></td>
+          </tr>
+		  <?php endif; ?>
         </table>		
 		<?php 
 		// include otions templates of other modules
