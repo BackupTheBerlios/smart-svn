@@ -86,7 +86,7 @@ switch ( SF_SECTION )
         // get the admin view (template)
         // see smart/actions/class.system_get_admin_view.php
         include( $B->M( MOD_SYSTEM, 'get_admin_view') ); 
-   
+  
         break;
         
     default:

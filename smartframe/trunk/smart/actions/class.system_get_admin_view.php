@@ -50,6 +50,8 @@ class system_get_admin_view
      */
     function perform( $data )
     {
+        $this->B->tpl_error = FALSE;
+        
         // path to the main admin template
         $template_file = SF_BASE_DIR . 'modules/' .SF_COMMON_MODULE. '/templates/index.tpl.php';
         // build the whole file path to the view class file
@@ -68,6 +70,10 @@ class system_get_admin_view
                 // on error set the error template as default
                 $template_file = SF_BASE_DIR . 'error.tpl.php';
             }
+            
+            $this->B->tpl_error = "Class function perform() in file: \n\n{$view_class_file}\n\nreturn FALSE !!!";
+            // on error set the error template as default
+            return SF_BASE_DIR . 'error.tpl.php';
         }
             
         // check if the requested template exist
