@@ -88,7 +88,16 @@ $B->M( SF_AUTH_MODULE, 'sys_authenticate' );
 
 // get the public view (template)
 // see smart/actions/class.system_get_public_view.php
-include( $B->M( MOD_SYSTEM, 'get_public_view') );  
+if (SF_TEMPLATE_ENGINE == TRUE)
+{
+    include( $B->M( MOD_SYSTEM, 'get_public_view') );
+}
+else
+{
+    // if an other template engine take effect only
+    // execute the specific view class
+    $B->M( MOD_SYSTEM, 'get_public_view')
+} 
 
 // Send the output buffer to the client
 @ob_end_flush();
