@@ -57,7 +57,7 @@ if ( (int)$_REQUEST['logout'] == 1 )
     exit;
 }
 
-// get the admin view (template)
+// proceed the admin view and return the admin template
 include( $B->M( MOD_SYSTEM, 'get_admin_view') ); 
 
 ob_end_flush ();
