@@ -28,7 +28,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_USER' , 'USER');
 
 // Version of this modul
-define ( 'MOD_USER_VERSION' , '0.1');
+define ( 'MOD_USER_VERSION' , '0.1.1');
 
 // register this handler                       
 if (FALSE == $B->register_handler( 
