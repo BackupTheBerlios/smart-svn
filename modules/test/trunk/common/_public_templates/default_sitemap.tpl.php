@@ -1,12 +1,5 @@
 <?php /*### Sitemap template. It is loaded by defining the url var tpl=sitemap ### */ ?>
 
-<?php /* Event to get the navigation menu entries from the navigation module. 
-         See: /admin/modules/navigation/actions/class.NAVIGATION_GET.php 
-         The result is in the array $B->tpl_nav which is printed below as the site navigation menu. */ ?>
-<?php $B->M( MOD_NAVIGATION, 
-             'GET', 
-             array('var' => 'tpl_nav')); ?> 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>

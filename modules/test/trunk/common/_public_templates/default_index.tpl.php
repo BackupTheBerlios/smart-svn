@@ -1,25 +1,5 @@
 <?php /* ### Index template. It is loaded by default if no template is defined. ### */ ?>
 
-<?php /* A simple event call directed to the test module. It is a trivial example, but
-         it show you how the following event call interact with the corresponding
-         action class "class.TEST_PRINT.php" of the test module.
-         See: /admin/modules/test/actions/class.TEST_PRINT.php
-         
-         A welcome string is passed to the perform($data) function of this class
-         and this function assign the welcome string to the template 
-         var $B->tpl_welcome_string. Bellow in this template, the template var is printed out.
-      */ ?>
-<?php $B->M( MOD_TEST, 
-             'PRINT', 
-             array('var'    => 'tpl_welcome_string',
-                   'string' => 'Welcome to the SMART Framework test page!')); ?> 
-
-<?php /* Event to get the navigation menu entries from the navigation module action class. 
-         See: /admin/modules/navigation/actions/class.NAVIGATION_GET.php 
-         The result is in the array $B->tpl_nav. */ ?>
-<?php $B->M( MOD_NAVIGATION, 
-             'GET', 
-             array('var' => 'tpl_nav')); ?>
              
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -120,33 +100,76 @@ body {
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version
               0.2.2a</em></font></p>
         <ul>
-          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Clean
-                  up directory structure</font></li>
+          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Rebuild
+              the directory structure</font>
+            <ul>
+              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">admin
+                  </font>
+                <ul>
+                  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">index.php
+                      (Admin Front Controller)</font></li>
+                </ul>
+              </li>
+              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">doc</font></li>
+              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">logs</font></li>
+              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">modules</font>
+                <ul>
+                      <li>xxx
+                          <ul>
+                            <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">actions</font></li>
+                              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">filters</font></li>
+                              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">templates
+                                                    (admin templates)</font></li>
+                              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">event_handler.php</font></li>
+                              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">filter_handler.php</font></li>
+                          </ul>
+                      </li>
+                </ul>
+              </li>
+              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">smart
+                  ( core framework )</font>
+                <ul>
+                  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">actions</font></li>
+                  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">filters</font></li>
+                  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">includes
+                      ( core files)</font></li>
+                  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">event_handler.php</font></li>
+                  <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">filter_handler.php</font></li>
+                </ul>
+                </li>
+              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">index.php (Public Front Controller)</font></li>
+              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">default_xxx.tpl.php
+                  (public template)</font></li>
+              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">default_yyy.tpl.php</font></li>
+            </ul>
+          </li>
           <li><font size="2">Add filter handlers. Those handlers works in the
-              same way as the event handlers but independ from those:<br />
-              <br />
-              $B-&gt;F ( MODULE , FILTER ACTION , ADDITIONAL ACTION DATA )<br />
-              <br />
-              Each module and the core system can provide such a filter handler.<br />
-              Those filter handlers can be called from anywhere of the system.</font></li>
+                              same way as the event handlers but independ from those:<br />
+                <br />
+                $B-&gt;F ( MODULE , FILTER ACTION , ADDITIONAL ACTION DATA )<br />
+                <br />
+                Each module and the core system can provide such a filter handler.<br />
+                Those filter handlers can be called from anywhere of the system.</font></li>
           <li><font size="2">Add prepend and append event calls to the public
-              front controller before and after the application logic. Those
-              event calls are calling system filter events with some filter actions.<br />
-              <br />
-              Example of filter actions of the test package:
-              <br />
-              <strong><br />
-              Prepend</strong><br />
-              - add headers<br />
-              - detecting spam bots<br />
-              - do logging<br />
-              <br />
-              <strong>Append
-              <br />
-              -</strong> trim spaces of the output<br />
-              - obfuscating email adresses
+                  front controller before and after the application logic. Those
+                  filter events are calling some filter
+                  actions.<br />
+                <br />
+                Example of filter actions of the test package:
+                <br />
+                <strong><br />
+                Prepend</strong><br />
+                - add headers<br />
+                - detecting spam bots<br />
+                - do logging<br />
+                <br />
+                <strong>Append
+                <br />
+                -</strong> trim spaces of the output<br />
+                - obfuscating email adresses
               </font></li>
-        </ul></td>
+        </ul>
+        </td>
       </tr>
     </table></td>
   </tr>

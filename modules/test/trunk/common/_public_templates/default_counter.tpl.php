@@ -1,30 +1,4 @@
 <?php /*### Counter template. It is loaded by defining the url var tpl=counter ### */ ?>
-
-<?php /* Event to get the navigation menu entries from the navigation module action class. 
-         See: /admin/modules/navigation/actions/class.NAVIGATION_GET.php 
-         The result is in the array $B->tpl_nav which is printed bellow as the site navigation menu. */ ?>
-<?php $B->M( MOD_NAVIGATION, 
-             'GET', 
-             array('var' => 'tpl_nav')); ?> 
-             
-<?PHP /* Counter 1,2,3 Event calls. 
-         See: admin/modules/test/actions/class.TEST_COUNTER.php  
-         The results are printed out bellow in this template.*/ ?>          
-<?php $B->M( MOD_TEST, 
-             'COUNTER', 
-             array('var'           => 'tpl_counter1', 
-                   'start_counter' => 0, 
-                   'end_counter'   => 200)); ?> 
-<?php $B->M( MOD_TEST, 
-             'COUNTER', 
-             array('var'           => 'tpl_counter2', 
-                   'start_counter' => 1000, 
-                   'end_counter'   => 1200)); ?>
-<?php $B->M( MOD_TEST, 
-             'COUNTER', 
-             array('var'           => 'tpl_counter3', 
-                   'start_counter' => 10000, 
-                   'end_counter'   => 10200)); ?>  
                    
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
