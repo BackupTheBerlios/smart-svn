@@ -147,14 +147,20 @@ class user_view_edituser
                                                     'user_id' => (int) $_POST['uid']));  
             if(TRUE == $_is_logged_user)
             {
-                $this->B->form_error   = 'You can remove your own user account!';
+                $this->B->tpl_error   = 'You can remove your own user account!';
                 return FALSE;
             }
             else
             {
-                $this->B->user->delete_user( (int) $_POST['uid'] );
-                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user');
-                exit;          
+                // Delete user
+                if(TRUE == $this->B->M( MOD_USER,
+                                        'delete',
+                                        array( 'error'   => 'tpl_error',
+                                               'user_id' => (int) $_POST['uid'])))
+                {
+                    @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user');
+                    exit;   
+                }
             }
         }
         return TRUE;
@@ -174,7 +180,7 @@ class user_view_edituser
             empty($_POST['lastname'])||
             empty($_POST['email']))
         {        
-            $this->B->form_error = 'You have fill out all fields!';
+            $this->B->tpl_error = 'You have fill out all fields!';
             return FALSE;
         }  
         return TRUE;
@@ -197,7 +203,7 @@ class user_view_edituser
                                                    'user_id' => (int) $_POST['uid']));  
             if(TRUE == $_is_logged_user)
             {
-                $this->B->form_error   = 'You can not change your own rights or status!';
+                $this->B->tpl_error   = 'You can not change your own rights or status!';
                 return FALSE;
             }        
         }
@@ -223,7 +229,7 @@ class user_view_edituser
                                                
             if(FALSE == $_success)
             {
-                $this->B->form_error = 'You can not change to this rights level!'; 
+                $this->B->tpl_error = 'You can not change to this rights level!'; 
                 return FALSE;
             }
         }  
@@ -248,7 +254,7 @@ class user_view_edituser
            
            if(FALSE == $_success)
            {
-              $this->B->form_error = 'You can not change status of this user!';
+              $this->B->tpl_error = 'You can not change status of this user!';
               return FALSE;
            }
         } 
@@ -284,7 +290,7 @@ class user_view_edituser
         }
         else
         {
-            $this->B->form_error = 'This login exist. Chose a other one!';
+            $this->B->tpl_error = 'This login exist. Chose a other one!';
             return FALSE;
         }    
         return TRUE;
