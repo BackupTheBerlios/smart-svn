@@ -49,10 +49,10 @@ define('SF_FILE_MODE',                0775);
 define('SF_COMMON_MODULE',            'common');
 
 /**
- * Default template group
+ * Default templates and views folder
  */
 define('SF_DEFAULT_TEMPLATE_FOLDER',   'templates_default');
-
+define('SF_DEFAULT_VIEW_FOLDER',       'views_default');
 /**
  * Template render flags
  */
