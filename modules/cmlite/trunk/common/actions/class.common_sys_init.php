@@ -90,9 +90,10 @@ class common_sys_init
             
             // include session class
             include_once( SF_BASE_DIR . 'modules/common/includes/class.session.php' ); 
-
+            @ob_start();
             /* Create new object of session class */
-            $this->B->session = & new session();             
+            $this->B->session = & new session();  
+            @ob_end_flush();             
         }
         // else launch setup
         else
