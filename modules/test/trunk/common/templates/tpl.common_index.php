@@ -41,7 +41,7 @@ function subok(s){
               <td align="left" valign="top"><span class="style4"><span class="font10"><?php echo $B->sys['info']['name']; echo ' '.$B->sys['info']['version']; ?></span></span></td>
             </tr>
             <tr>
-              <td align="left" valign="top" class="style6">Little Jo <font size="2"><strong>v0.5 - admin interface</strong></font></td>
+              <td align="left" valign="top" class="style6">Little Jo <font size="2"><strong>v0.6 - admin interface</strong></font></td>
             </tr>
           </table></td>
           <td width="15%" align="right" valign="top" class="font10"><a href="<?php echo SF_CONTROLLER; ?>">The public page</a></td>
@@ -67,7 +67,7 @@ function subok(s){
   </tr>
   <tr>
     <td width="20%" align="left" valign="top">
-	<?php endif; ?>
+  <?php endif; ?>
         <?php /* ### include the module view (template) ### */ ?>
         <?php
               if(empty($_REQUEST['m']))
@@ -76,7 +76,7 @@ function subok(s){
               }
               M( MOD_SYSTEM, 'get_view', array('m' => $_REQUEST['m'], 'view' => 'index') );         
         ?>
-	<?php if(!isset($_REQUEST['nodecoration'])): ?>	
+  <?php if(!isset($_REQUEST['nodecoration'])): ?> 
     </td>
   </tr>
   <tr>
