@@ -96,11 +96,11 @@ function M( $target_id, $code, $data = FALSE )
         // path to the system action class if the target was the system module
         if( $target_id == 'system' )
         {
-            // dynamic load the required class 
+            // dynamic load of the required class 
             $class_file = SF_BASE_DIR . 'smart/actions/class.'.$class_name.'.php';
         }
 
-        if(file_exists($class_file))
+        if(@file_exists($class_file))
         {
             include_once($class_file);
             // make instance of the module action class
@@ -131,6 +131,49 @@ function M( $target_id, $code, $data = FALSE )
 }
 
 /**
+  * Return a module action class object
+  *
+  * @param string $target_id Name of the module.  
+  * @param array $code Name of the module action class.
+  * @return mixed FALSE if requested module action class dosent exist or module action object
+  */ 
+function & M_OBJ( $target_id, $code )
+{
+    global $module_list;
+
+    // check if such a module is registered
+    if(!isset( $module_list[$target_id]) )
+    {
+        trigger_error("This module isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        return FALSE;
+    }  
+
+    // build the whole module action class name
+    $class_name = 'action_' . $target_id . '_' . $code;
+    
+    // path to the modules action class 
+    $class_file = SF_BASE_DIR . 'modules/' . $target_id . '/actions/class.'.$class_name.'.php';
+    // path to the system action class if the target was the system module
+    if( $target_id == 'system' )
+    {
+        // dynamic load of the required class 
+        $class_file = SF_BASE_DIR . 'smart/actions/class.'.$class_name.'.php';
+    }
+
+    if(@file_exists($class_file))
+    {
+        include_once($class_file);
+        // make instance of the module action class
+        return new $class_name();
+    }
+    else
+    {
+        trigger_error("Module class dosent exists: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
+        return FALSE;
+    }
+}
+
+/**
   * Send a broadcast event (to all modules and the system)
   *
   * @param array $code Message id to send to all modules.
@@ -157,7 +200,7 @@ function B( $code, $data = FALSE )
                 $class_file = SF_BASE_DIR . 'smart/actions/class.'.$class_name.'.php';
             }
 
-            if(file_exists($class_file))
+            if(@file_exists($class_file))
             {
                 include_once($class_file);
                 // make instance
