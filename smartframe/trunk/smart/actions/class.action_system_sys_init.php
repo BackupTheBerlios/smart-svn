@@ -24,18 +24,18 @@ class action_system_sys_init extends action
      */  
     function perform( $data )
     {
-            include_once(SF_BASE_DIR.'smart/includes/system_version.php');           
+        include_once(SF_BASE_DIR.'smart/includes/system_version.php');           
 
-            // Check for upgrade  
-            if($this->B->system_version != (string)$this->B->sys['info']['version'])
-            {
-                $this->B->sys['info']['name']    = $this->B->system_name;
-                $this->B->sys['info']['version'] = $this->B->system_version;
-                $this->B->system_update_flag = TRUE;  
+        // Check for upgrade  
+        if($this->B->system_version != (string)$this->B->sys['info']['version'])
+        {
+            $this->B->sys['info']['name']    = $this->B->system_name;
+            $this->B->sys['info']['version'] = $this->B->system_version;
+            $this->B->system_update_flag = TRUE;  
                 
-                // include additional upgrade code here
-            }   
-            return TRUE;
+            // include additional upgrade code here
+        }   
+        return SF_IS_VALID_ACTION;
     }
 }
 

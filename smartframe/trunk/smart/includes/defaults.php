@@ -58,7 +58,7 @@ define('SF_TEMPLATE_RENDER_NONE',     FALSE);
  */
 define('SF_NO_MODULE',                1000);
 define('SF_NO_ACTION',                1001);
-define('SF_NO_VALID_ACTION'           1002);
-define('SF_IS_VALID_ACTION'           1003);
+define('SF_NO_VALID_ACTION',          1002);
+define('SF_IS_VALID_ACTION',          1003);
 
 ?>

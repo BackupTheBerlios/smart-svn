@@ -24,12 +24,13 @@ class action_system_sys_setup extends action
      */  
     function perform( $data )
     {
-        $success = TRUE;
+        $success = SF_IS_VALID_ACTION;
+        
         if(!is_writeable( SF_BASE_DIR . 'logs' ))
         {
             trigger_error("Must be writeable: " . SF_BASE_DIR . "logs\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'logs';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }
 
         // the version to install

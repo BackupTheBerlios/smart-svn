@@ -42,7 +42,7 @@ class action_system_module_names extends action
             }
         }
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }    
 }
 

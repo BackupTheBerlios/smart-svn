@@ -132,7 +132,7 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
             }
             
             // validate the request
-            if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
+            if( SF_NO_VALID_ACTION == $GLOBALS[$class_name]->validate( $data ) )
             {
                 return SF_NO_VALID_ACTION;
             }
@@ -148,7 +148,7 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
     else
     {        
         // validate the request
-        if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
+        if( SF_NO_VALID_ACTION == $GLOBALS[$class_name]->validate( $data ) )
         {
             return SF_NO_VALID_ACTION;
         }  
@@ -261,7 +261,7 @@ function B( $code, $data = FALSE, $constructor_param = FALSE, $instance = FALSE 
                 }
                 
                 // validate the request
-                if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
+                if( SF_NO_VALID_ACTION == $GLOBALS[$class_name]->validate( $data ) )
                 {
                     trigger_error("Validation fails on: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);               
                     continue;
@@ -274,7 +274,7 @@ function B( $code, $data = FALSE, $constructor_param = FALSE, $instance = FALSE 
         else
         {            
             // validate the request
-            if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
+            if( SF_NO_VALID_ACTION == $GLOBALS[$class_name]->validate( $data ) )
             {
                 trigger_error("Validation fails on: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);                           
                 continue;

@@ -25,7 +25,7 @@ class action_system_sys_logout extends action
     {            
         // include here additional clean up code. 
 
-        
+        return SF_IS_VALID_ACTION;
     }    
 }
 

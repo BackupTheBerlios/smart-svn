@@ -66,19 +66,14 @@ class action_system_get_view extends action
         // Check view request string
         if(preg_match("/[^a-zA-Z0-9_]/", $this->_view))
         {
-            // set error
-            $this->B->view_error = 'The requested view name "' . $this->_view . '" has a wrong name format! Only chars a-zA-Z0-9_ are accepted.';
-        
-            // set error view
-            $this->_view = 'error';
-            // build the whole file path to the error view class file
-            $this->_view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $this->_view . '.php';
-            
-            return TRUE;
+            // set error;
+            $this->_error( array(array('View' => 'The requested view name "' . $this->_view . '" has a wrong name format! Only chars a-zA-Z0-9_ are accepted.')) );
+
+            return SF_IS_VALID_ACTION;
         } 
 
         // check if an admin view request was done
-        if (SF_SECTION == 'admin')
+        if ( (SF_SECTION == 'admin') && !isset($data['internal']) )
         {
             // if no view is defines call first the common module view
             if( empty($data['view']) )
@@ -97,15 +92,10 @@ class action_system_get_view extends action
             
             // Check module view request string
             if(preg_match("/[^a-zA-Z0-9_]/", $module))
-            {
-                // set error view
-                $this->_view = 'error';
-                // set error
-                $this->B->view_error = 'The requested module name "' . $module . '" has a wrong name format! Only chars a-zA-Z0-9_ are accepted.';
-                // build the whole file path to the error view class file
-                $this->_view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $this->_view . '.php';
-                
-                return TRUE;            
+            { 
+                $this->_error( array(array('Module' => 'The requested module name "' . $module . '" has a wrong name format! Only chars a-zA-Z0-9_ are accepted.')) );
+
+                return SF_IS_VALID_ACTION;            
             }
             
             // build the requested module view file path
@@ -125,21 +115,10 @@ class action_system_get_view extends action
         // check if view class file exists
         if( !@file_exists( $this->_view_class_file ) )
         {
-            // Stop if there are circular errors
-            if($this->B->circular_no_error_view_counter++ == 1)
-            {
-                die('Circular no_error_view in : ' . __FILE__);
-            } 
-            
-            M( MOD_SYSTEM, 
-              'get_view',
-              array( 'view'  => 'error',
-                     'error' => array('View' => 'The requested view dosent exists: ' . $this->_view_class_file)) );
-                  
-             exit;        
+            $this->_error( array(array('View' => 'The requested view dosent exists: ' . $this->_view_class_file)) );
         }    
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
     
     /**
@@ -193,8 +172,28 @@ class action_system_get_view extends action
             echo $this->B->tpl_buffer_content;
         }
 
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
+    /**
+     * Launch error view if an error in the validate function of this class occurs
+     *
+     * @param array $data
+     * @return bool
+     */    
+    function _error( $data )
+    {
+        // get error view
+        // This happen when a module or view dosent exists
+        // 'internal' = Flag to prevent the reload of the admin section view again 
+        //
+        M( MOD_SYSTEM, 
+          'get_view',
+          array( 'view'     => 'error',
+                 'internal' => TRUE, 
+                 'error'    => $data ) );
+                  
+        exit;      
+    }
 }
 
 ?>
