@@ -86,7 +86,7 @@ class user_register extends user
             {
                 $ustr = $this->add_registered_user_data( $uid ); 
                     
-                $validate_msg = str_replace("(URL)", "<a href='".SF_BASE_LOCATION."/index.php?view=register&md5_str={$ustr}'>validate</a>",$data['email_msg']);
+                $validate_msg = str_replace("(URL)", "<a href='".SF_BASE_LOCATION."/index.php?view=validate&usr_id={$ustr}'>validate</a>",$data['email_msg']);
                 $validate_msg = str_replace("(EMAIL)", "<a href='mailto:{$this->B->sys['option']['email']}'>{$this->B->sys['option']['email']}</a>",$validate_msg);
  
                 if(FALSE === @mail( $data['reg_data']['email'], $data['email_subject'], $validate_msg, $header ))

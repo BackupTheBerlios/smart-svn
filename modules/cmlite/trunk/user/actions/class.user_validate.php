@@ -41,32 +41,19 @@ class user_validate
     }
     
     /**
-     * Set options for this module
+     * Validate new user
      *
      * @param array $data
      */
     function perform( $data )
     {
-        if(isset($_GET['md5_str']))
-        {
-            $_succ = &$this->B->$data['success_var'];
-            $_succ = NULL;
-            
-            // get var name to store the result
-            $_error = &$this->B->$data['error_var'];
-            $_error = NULL;
-            
+        if(isset($_GET['usr_id']))
+        {            
             include( SF_BASE_DIR .'modules/user/includes/class.user.php' );
             $user = & new user;
-            if(FALSE === $user->auto_validate_registered_user( $_GET['md5_str'] ))
-            {
-                $_error = TRUE;          
-            }
-            else
-            {
-                $_succ = TRUE;   
-            }
+            return $user->auto_validate_registered_user( $_GET['usr_id'] ));
         }
+        return FALSE;
     } 
 }
 
