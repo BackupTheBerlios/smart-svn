@@ -10,6 +10,11 @@
 // ----------------------------------------------------------------------
 
 /*
+ * The Front Controller
+ *
+ */
+
+/*
  * Front Controller File Name
  */
 if(!defined( SF_CONTROLLER ))
