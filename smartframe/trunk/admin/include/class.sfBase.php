@@ -55,9 +55,9 @@ class sfBase
       * Send a directed event (to a module or to the system)
       *
       * @param string $target_id Name of the handler.  
-      * @param array $code Message id to send to all registered handler.
+      * @param array $code Message id to send to the registered handler.
       * @param mixed $data Additional data (optional).
-      * @return mixed FALSE if handler dosent exist
+      * @return mixed FALSE if handler dosent exist or isnt defined
       */ 
     function M( $target_id, $code, $data = FALSE )
     {
@@ -66,10 +66,22 @@ class sfBase
                         "data"      => $data);  
         
         // check if such a handler exist
-        if(empty($this->handler_list[$target_id]))
+        if(!isset($this->handler_list[$target_id]))
+        {
+            trigger_error("This handler function isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
-            
+        }  
+        
+        // get the function name
         $descriptor = $this->handler_list[$target_id];
+        
+        // check if the defined function handler exist
+        if(!function_exists($descriptor['event_handler']))
+        {
+            trigger_error("This handler function dosent exists: ".$descriptor['event_handler']."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;        
+        }
+        
         // call the event handler function
         return $descriptor['event_handler']($_event);  
     }    
@@ -86,6 +98,11 @@ class sfBase
                         "data"      => $data);  
         foreach( $this->handler_list as $descriptor )
         {
+            // check if the defined function handler exist
+            if(!function_exists($descriptor["event_handler"]))
+            {
+                trigger_error("This handler function dosent exists: ".$descriptor['event_handler']."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);      
+            }        
             // call the event handler function
             $descriptor["event_handler"]($_event);
         }   
