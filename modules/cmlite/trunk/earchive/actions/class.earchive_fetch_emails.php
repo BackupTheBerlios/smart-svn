@@ -75,6 +75,7 @@ class earchive_fetch_emails
             // loop through the email accounts
             foreach ($this->B->all_lists as $account)
             {
+
                 if (!$this->_msg->connect($account['emailserver']))
                 {
                     $_error  = $this->_msg->alerts()."\n";
@@ -82,13 +83,12 @@ class earchive_fetch_emails
                     trigger_error("Unable to build a connection to: ".$account['emailserver']."\n\n".$_error, E_USER_ERROR);
                     continue; // on error next list
                 }
-
-                $this->_fetch_messages( $account );    
                 
-                $this->_msg->expunge();                   
-            } 
+                $this->_fetch_messages( $account );      
+                $this->_msg->expunge();             
+            }            
             // Close the stream
-            $this->_msg->close();               
+            $this->_msg->close();             
         }
     }
     /**
