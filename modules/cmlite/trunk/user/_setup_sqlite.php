@@ -46,7 +46,7 @@ if( count($B->setup_error) == 0 )
 
     $B->dsn = array('phptype'  => 'sqlite',
                     'database' => $db_file,
-                    'mode'     => SF_FILE_MODE);
+                    'mode'     => '"'.SF_FILE_MODE.'"');
 
     $B->dboptions = array('debug'       => 2,
                           'portability' => DB_PORTABILITY_ALL);
@@ -122,6 +122,13 @@ if( count($B->setup_error) == 0 )
         $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }    
 
+    $result = $B->db->createSequence('user_seq_add_user');
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
+
     // create table if it dosent exist
     $sql = "CREATE TABLE user_registered (
             uid      INTEGER NOT NULL default 0,
@@ -141,7 +148,7 @@ if( count($B->setup_error) == 0 )
     $login     = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslogin']));
     $passwd    = $B->db->quoteSmart(md5($_POST['syspassword1']));
 
-    $uid = $B->db->nextId($B->conf_val['db']['table_prefix'].'user_seq_add_user');
+    $uid = $B->db->nextId('user_seq_add_user');
 
     if (DB::isError($uid)) 
     {

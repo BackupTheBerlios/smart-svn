@@ -139,6 +139,13 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
+
+    $result = $B->db->createSequence('earchive_seq_add_list');
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
     
     // create table if it dosent exist
     $sql = "CREATE TABLE earchive_messages (
@@ -176,6 +183,13 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
+
+    $result = $B->db->createSequence('earchive_seq_add_message');
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
 
     // create table if it dosent exist
     $sql = "CREATE TABLE earchive_attach (
@@ -222,6 +236,13 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
+
+    $result = $B->db->createSequence('earchive_seq_add_attach');
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
     
     $sql = "CREATE TABLE earchive_words_crc32 (
               word int(11) NOT NULL default 0,
