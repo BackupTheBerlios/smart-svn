@@ -69,7 +69,7 @@ class action_common_permission extends action
      * @return bool
      */
     function _ask_access ()
-    {       
+    {      
         if( ($this->B->user_logged_rights > 1) )
         {
             return TRUE;

@@ -29,7 +29,6 @@ class session
             session_name($session_name); 
         }
         
-        session_save_path ( SF_BASE_DIR . 'modules/common/tmp/session_data' );
         session_start();
     }
 

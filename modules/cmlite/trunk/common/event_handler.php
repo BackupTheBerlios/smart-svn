@@ -102,7 +102,7 @@ define('SF_OPTION_MODULE',    'option'); // required
 /**
  * The module (name) which should be loaded by default.
  */
-define('SF_DEFAULT_MODULE',   'default'); // required
+define('SF_DEFAULT_MODULE',   'entry'); // required
 
 /**
  * The main admin template. All module views are included in this template // required

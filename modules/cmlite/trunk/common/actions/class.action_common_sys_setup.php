@@ -35,8 +35,7 @@ class action_common_sys_setup extends action
         //
         $this->B->conf_val['module']['common']['name']     = 'common';
         $this->B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
-        $this->B->conf_val['module']['common']['mod_type'] = 'cmlite';
-        $this->B->conf_val['module']['common']['info']     = 'This is the common modul';
+        $this->B->conf_val['module']['common']['mod_type'] = 'openpublisher';
 
         if(!is_writeable( SF_BASE_DIR . 'modules/common/config' ))
         {
@@ -49,13 +48,6 @@ class action_common_sys_setup extends action
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/cache';
             $success = FALSE;
         }
-
-        // check if session folder is writeable
-        if(!is_writeable( SF_BASE_DIR . 'modules/common/tmp/session_data' ))
-        {
-            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/session_data';
-            $success = FALSE;
-        } 
 
         // create bad_words table for mysql
         if($_POST['dbtype'] == 'mysql')
