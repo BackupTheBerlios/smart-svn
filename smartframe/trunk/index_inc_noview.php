@@ -56,13 +56,4 @@ include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
 
-// Directed authentication event to the module handler, 
-// which takes the authentication part
-// The variable SF_AUTH_MODULE must be declared in the "common"
-// module event_handler.php file
-M( SF_AUTH_MODULE, 'sys_authenticate' );
-
-// Send the output buffer to the client
-@ob_end_flush();
-
 ?>

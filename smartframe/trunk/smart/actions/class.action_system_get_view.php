@@ -96,7 +96,7 @@ class action_system_get_view extends action
             
             $this->view_folder = 'modules/' .$module. '/view/';
             // build the whole file path to the module view class file
-            $view_class_file = SF_BASE_DIR . 'modules/' . $module . '/view/class.view_' .$module.'_'. $view . '.php';
+            $view_class_file = SF_BASE_DIR . 'modules/' . $module . '/views/class.view_' .$module.'_'. $view . '.php';
 
             $view = $module . '_' . $view;
         }
