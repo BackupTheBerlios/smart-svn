@@ -13,8 +13,11 @@
  * EARCHIVE_EARCHIVE_MESSAGE class 
  *
  */
+
+// earchive common class
+include_once(SF_BASE_DIR.'/admin/modules/earchive/class.common.php');   
  
-class EARCHIVE_MESSAGE
+class EARCHIVE_MESSAGE extends earchive_common
 {
     /**
      * Global system instance
@@ -48,7 +51,7 @@ class EARCHIVE_MESSAGE
     function perform( $data )
     {    
         // check if message belongs to a restricted list
-        $this->get_list( array('lid' => (int)$data['lid'], 'fields' => array('status')) );
+        $this->list_auth( (int)$data['lid'] );
         
         $comma   = '';
         $_fields = '';
