@@ -26,26 +26,23 @@
 class sfErrorHandler
 {
    /**
-    * constructor
+    * constructor php4
     * set php error handler callback function
     */
     function sfErrorHandler()
     {
+        $this->__construct();    
+    }
+    
+   /**
+    * constructor php5
+    * set php error handler callback function
+    */    
+    function __construct()
+    {
         set_error_handler(array( &$this, '_php_error_handler' ));
     }
 
-   /**
-    * error handler (from patErrorManager)
-    *
-    * @param    object      error object
-    */
-    function &sfDebug( &$error )
-    {
-        $err  = patErrorManager::translateErrorLevel( $error->getLevel() )."\n";
-        $err .= $error->getMessage()."\n".$error->getInfo();
-        
-        $this->_log( &$err, 'SF:' );
-    }
    /**
     * php error handler
     *
@@ -81,7 +78,7 @@ class sfErrorHandler
         $err .= "PHP_ERROR_LINE: " . $errline . "\n";
         $err .= "PHP_ERROR_MESSAGE: " . $errstr . "\n";
 
-        $this->_log( $err, 'PHP:' );
+        $this->_log( $err );
     }   
     
    /**
@@ -91,15 +88,12 @@ class sfErrorHandler
     * @param string $error_base
     * @access privat
     */     
-    function _log( &$error, $error_base )
+    function _log( &$error )
     {
-        global $base;
-        
         // Log this error to file
         if(strstr(SF_ERROR_HANDLE, 'LOG'))
         {
-            $base->error_log = &Log::singleton('file', SF_BASE_DIR . '/admin/logs/error.log', $error_base);
-            $base->error_log->log($error, LOG_INFO);
+            error_log($error."\n\n", 3, SF_BASE_DIR . '/admin/logs/error.log');
         }  
         // Print this error
         if(strstr(SF_ERROR_HANDLE, 'SHOW'))

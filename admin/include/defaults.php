@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 /**
  * error log types ('LOG|SHOW|DIE|MAIL')
  */
-define('SF_ERROR_HANDLE',               'LOG|SHOW');
+define('SF_ERROR_HANDLE',               'SHOW');
 
 /**
  * error reporting
@@ -38,28 +38,20 @@ define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
 define('SF_DEBUG',                       TRUE);
 
 /**
- * Enable Xdebug profiler
- */
-define('XDEBUG_PROFILER',                TRUE);
-
-/**
- * Show runtime messages like time execution and 
- * memory usage (only on php >= 4.3.2).
- * Unset this definition for a public release
- *
- */
-define('SF_RUNTIME',                     TRUE);
-
-/**
  * Allowed output buffering.
  */
-define('SF_OB',                          TRUE);
+define('SF_OB',                          FALSE);
 
 /**
  * Allowed output compression if available.
  */
 define('SF_OB_GZHANDLER',                "ob_gzhandler");
 
+/**
+ * Default dir and file mode
+ */
+define('SF_DIR_MODE',                    0755);
+define('SF_FILE_MODE',                   0755);
 
 /**
  * The module (name) which takes the authentication part.

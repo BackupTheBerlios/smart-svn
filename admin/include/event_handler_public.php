@@ -42,11 +42,10 @@ function system_event_handler( $evt )
 
     switch( $evt['code'] )
     {            
-        case SF_EVT_INIT:
-            //include(BASE_DIR.'/admin/include/_init_system.php');          
+        case SF_EVT_INIT:                     
             break; 
         case SF_EVT_LOGOUT:  
-            break;             
+            break;               
     }
 }
 

@@ -44,16 +44,14 @@ function system_event_handler( $evt )
     switch( $evt["code"] )
     {            
         case SF_EVT_INIT:
-            include_once(SF_BASE_DIR.'/admin/include/_init_system.php');          
+            include_once(SF_BASE_DIR.'/admin/include/init_admin.php');          
             break; 
         case SF_EVT_LOGOUT:  
             break;    
         case SF_EVT_SETUP:         
             include_once(SF_BASE_DIR.'/admin/include/_setup.php');          
             break;             
-        case SF_EVT_SETUP_FINISH:   
-            $base->conf_rel_info->setConfigValue( 'info.status', 'ready' );
-            $base->conf_rel_info->writeConfigFile('config_release_info.xml', 'xml', array('mode' => 'pretty'));          
+        case SF_EVT_SETUP_FINISH: 
             break;                
     }
 }

@@ -32,16 +32,6 @@ if ( SF_OB == TRUE )
     ob_start( SF_OB_GZHANDLER ); 
 }
 
-// The base object
-include_once( SF_BASE_DIR . '/admin/include/class.sfObject.php' );
-$base = & new sfObject;
-if ( SF_DEBUG == TRUE ) $base->register( 'base', __FILE__, __LINE__);//remove
-
-// include pear db
-include_once( 'DB.php' );
-
-// include Log class
-include_once( SF_BASE_DIR . '/admin/lib/PEAR/Log/Log.php' );
 
 // include sfSecureGPC
 include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
@@ -49,58 +39,35 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
 // include sfErrorHandler
 include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
 
-// include patConfiguration
-include_once( SF_BASE_DIR . '/admin/lib/patConfiguration/include/patConfiguration.php' );
-
-// include patErrorManager
-include_once( SF_BASE_DIR . '/admin/lib/patError/patErrorManager.php' );
-
 // include event class
 include_once( SF_BASE_DIR . '/admin/include/class.sfEvent.php' );
 
+// include sqlite class
+include_once( SF_BASE_DIR . '/admin/include/SPSQLite.class.php' );
+
 // include patTemplate
-include_once( SF_BASE_DIR . '/admin/lib/patTemplate/patTemplate.php' );
+include_once( SF_BASE_DIR . '/admin/lib/Savant/Savant.php' );
 
 // Load the util class
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
 
+// The base object
+include_once( SF_BASE_DIR . '/admin/include/class.sfObject.php' );
+$base = & new sfObject;
+
 // set error handler
 $base->errorHandler   =  new sfErrorHandler();
-if ( SF_DEBUG == TRUE ) $base->register( 'errorHandler', __FILE__, __LINE__);//remove    
-patErrorManager::setErrorHandling( E_ALL , 'callback', array( $base->errorHandler, 'sfDebug' ) );
 
 //  instance of the util class
-$base->util = new sfUtil();
-if( SF_DEBUG == TRUE ) $base->register( 'util', __FILE__, __LINE__);
+$base->util = new sfUtil;
 
 /*
  * The base location to Smart
  */    
 define('SF_BASE_LOCATION', $base->util->base_location());
 
-// pat configurator instance    
-$base->conf = new patConfiguration (array(
-                                    'configDir'     => SF_BASE_DIR . '/admin/config',
-                                    'cacheDir'      => SF_BASE_DIR . '/admin/config/cache',
-                                    'errorHandling' => 'trigger_error',
-                                    'includeDir'    => SF_BASE_DIR . '/admin/include',
-                                    'encoding'      => 'iso-8859-1'));                          
-if( SF_DEBUG == TRUE ) $base->register( 'conf', __FILE__, __LINE__);
-
-//  parse release info file
-$base->conf->loadCachedConfig( 'config_release_info.xml' );
-
-// get system status
-$base->system_status = $base->conf->getConfigValue('info.status');
-
-// Check if db connect data file is present
-if ( !is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php') )
-{
-    $base->tmp_no_db_connect_file = TRUE;
-}
-
 // Check if setup was done
-if ( isset($base->tmp_no_db_connect_file) || ($base->system_status != 'ready') )
+if ( is_file(SF_BASE_DIR . '/db_sqlite/options_db') )
 {
     // redirect to setup
     if (SF_SECTION != 'admin')
@@ -114,20 +81,24 @@ if ( isset($base->tmp_no_db_connect_file) || ($base->system_status != 'ready') )
     exit;          
 }
 
-//  instance of patTemplate
-$base->tpl = new patTemplate();
-if ( SF_DEBUG == TRUE ) $base->register( 'tpl', __FILE__, __LINE__);//remove
-
-// set templates root dir
-$base->tpl->setRoot( SF_BASE_DIR  );
-
-// set cache directory
-$base->tpl->useTemplateCache( 'File', array('cacheFolder' => SF_BASE_DIR . '/admin/tmp/cache_' . SF_SECTION,
-                                            'lifetime'    => 'auto' ));
+// create the db resource and connect to the database
+if (!$base->dbconn_system = sqlite_popen(SF_BASE_DIR . '/admin/db_sqlite/smart_system.db.php', 0666, $sqliteerror))
+{
+    trigger_error($sqliteerror . "\nFILE: " . __FILE__ . "\nLINE:" . __LINE__, E_USER_ERROR);
+}
+/*
+// create the db resource and connect to the database
+if (!$base->dbconn_data = sqlite_popen(SF_BASE_DIR . '/admin/db_sqlite/smart_data.db.php', 0666, $sqliteerror))
+{
+    trigger_error($sqliteerror . "\nFILE: " . __FILE__ . "\nLINE:" . __LINE__, E_USER_ERROR);
+}
+*/
+// Savant instance
+$savant_conf = array('template_path' => SF_BASE_DIR);
+$base->tpl = & new Savant2($savant_conf);
 
 // Event class instance
 $base->event = & new sfEvent;
-if ( SF_DEBUG == TRUE ) $base->register( 'event', __FILE__, __LINE__);//remove
 
 // Register all handlers
 //
@@ -161,29 +132,18 @@ unset($base->tmp_evt_handler);
 // Check if option handler is installed (required)
 if ( FALSE == $base->event->is_handler(SF_OPTION_MODULE) )
 {
-    patErrorManager::raiseError( "EventHandler", 'Missing handler', SF_OPTION_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__ );
+    trigger_error("Missing handler ".SF_OPTION_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__,  E_USER_ERROR);
 }
 
 // Check if user authentication handler is installed (required)
 if ( FALSE == $base->event->is_handler(SF_AUTH_MODULE) )
 {
-    patErrorManager::raiseError( "EventHandler", 'Missing handler', SF_AUTH_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__ );
+    trigger_error("Missing handler" . SF_AUTH_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__,  E_USER_ERROR);
 }
 
 //
-// Load base options
+// Load base options -> option module
 //
-$base->event->directed_run( SF_OPTION_MODULE, SF_EVT_LOAD_INIT_OPTION );
-
-// set db resource
-$base->dsn = $base->db_data['db_type'].'://'.$base->db_data['db_user'].':'.$base->db_data['db_passwd'].'@'.$base->db_data['db_host'].'/'.$base->db_data['db_name'].'';
-
-// db instance and connect
-$base->db = & DB::connect($base->dsn);
-if (DB::isError($base->db)) 
-{
-    patErrorManager::raiseError( "db:connect", $base->db->getMessage(), "File: ".__FILE__."\nLine: ".__LINE__ );
-}
-unset($base->dsn);
+$base->event->directed( SF_OPTION_MODULE, SF_EVT_LOAD_INIT_OPTION );
 
 ?>

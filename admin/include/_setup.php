@@ -9,6 +9,10 @@
 // To read the license please visit http://www.gnu.org/copyleft/gpl.html
 // ----------------------------------------------------------------------
 
+/**
+ * check db connection and write db connect config file config_db_connect.xml.php
+ *
+ */
 // Check if this file is included in the environement
 //
 if (!defined('SF_SECURE_INCLUDE'))
@@ -33,10 +37,9 @@ if(!is_writeable( SF_BASE_DIR . '/admin/tmp/cache_public/' ))
     $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_public/';
 }
 
-// Do setup 
-if( $_POST['do_setup'] && (count($base->tmp_error, COUNT_RECURSIVE) == 0) )
+// Do setup if no error
+if( $_POST['do_setup'] && (count($base->tmp_error) == 0) )
 {
-
     if( empty($_POST['host']) )
     {
         $base->tmp_error[]['error'] = 'Host field is empty!';
@@ -54,8 +57,29 @@ if( $_POST['do_setup'] && (count($base->tmp_error, COUNT_RECURSIVE) == 0) )
         $base->tmp_error[]['error'] = 'DB name field is empty!';
     }
   
-    if( count($base->tmp_error, COUNT_RECURSIVE) == 0 )
+    // proceed if no error
+    if( count($base->tmp_error) == 0 )
     {
+        // create directory for the ##SQLITE## database
+        if($_POST['db_type'] == 'sqlite')
+        {
+            $sqlite_dir = SF_BASE_DIR . '/admin/db_sqlite';
+            if(FALSE == $base->dir->is_dir( $sqlite_dir ))
+            {
+                if(FALSE == $base->dir->mkdir( $sqlite_dir, 0770 ))
+                {
+                    patErrorManager::raiseError( "Sqlite", 'Cant create directory', $base->dir->error."\nFILE: ".__FILE__."\nLINE: ".__LINE__);
+                }
+            }
+            // protect this directory
+            if(FALSE == $base->dir->copy( SF_BASE_DIR . '/admin/include/.htaccess', $sqlite_dir . '/.htaccess'))
+            {
+                    patErrorManager::raiseError( "Sqlite", 'Cant protect db_sqlite directory through .htaccess', $base->dir->error."\nFILE: ".__FILE__."\nLINE: ".__LINE__ );            
+            }
+            // db name with absolute path
+            $_POST['db_name'] = $sqlite_dir . '/' . $_POST['db_name'];
+        }
+        
         // set db resource
         $base->dsn = $_POST['db_type'].'://'.$_POST['login'].':'.$_POST['password'].'@'.$_POST['host'].'/'.$_POST['db_name'];
 
@@ -63,11 +87,13 @@ if( $_POST['do_setup'] && (count($base->tmp_error, COUNT_RECURSIVE) == 0) )
         $base->db = & DB::connect($base->dsn);
         if (DB::isError($base->db)) 
         {
-            $base->tmp_error[]['error'] = $base->db->getMessage();
+            $base->tmp_error[]['error'] = $base->db->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         }        
 
-        if( count($base->tmp_error, COUNT_RECURSIVE) == 0 )
-        {
+        // proceed if no error
+        if( count($base->tmp_error) == 0 )
+        {      
+            // write db config file
             $base->tmp_config['db.smart'] = array(
                                        'db_host'         => $_POST['host'],
                                        'db_user'         => $_POST['login'],
@@ -78,7 +104,7 @@ if( $_POST['do_setup'] && (count($base->tmp_error, COUNT_RECURSIVE) == 0) )
      
             $base->conf->setConfigValues( $base->tmp_config );
             $base->conf->writeConfigFile('config_db_connect.xml.php', 'xml', array('mode' => 'pretty'));
-            
+            // prefix for creating tables
             $base->tmp_table_prefix = $_POST['table_prefix'];
         }
     }
