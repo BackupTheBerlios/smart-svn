@@ -59,7 +59,7 @@ $B->util = & new Util;
 // Define the base location
 define('SF_BASE_LOCATION', $B->util->base_location());
 
-// Register all common handlers and filter handlers
+// Register all modules
 //
 
 // check if the modules directory exists
@@ -75,7 +75,7 @@ $mod_common = SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/init.php';
 
 if(file_exists( $mod_common ))
 {
-    // include event handler of a "common" module
+    // include module init file of the common module
     include_once ( $mod_common );
 }
 else
@@ -97,7 +97,7 @@ while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
     }            
     if ( ($B->tmp_dirname != SF_COMMON_MODULE) && @is_dir( SF_BASE_DIR . 'modules/'.$B->tmp_dirname) )
     {
-        // include common handler
+        // include module init file
         $B->tmp_mod_init = SF_BASE_DIR . 'modules/' . $B->tmp_dirname . '/init.php';
 
         if ( @is_file( $B->tmp_mod_init ) )
@@ -108,7 +108,6 @@ while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
 }
 
 $B->tmp_directory->close();
-unset($B->tmp_evt_handler);
 unset($B->tmp_directory);
 
 ?>
