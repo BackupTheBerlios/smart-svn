@@ -72,17 +72,8 @@ class earchive_sys_setup
     
         if($success == TRUE)
         {
-            // create db tables
-            if(file_exists(SF_BASE_DIR . 'modules/earchive/actions/sys_setup/_setup_'.$_POST['dbtype'].'.php'))
-            {
-                // include sqlite setup
-                include_once( SF_BASE_DIR . 'modules/earchive/actions/sys_setup/_setup_'.$_POST['dbtype'].'.php' );    
-            }
-            else
-            {
-                $this->B->setup_error[] = 'EARCHIVE module: This db type isnt supported: ' . $_POST['dbtype'];
-                $success = FALSE;
-            }
+            // cretae mysql tables
+            $success = $this->_create_mysql_tables();    
         }
 
         // create configs info for this module
@@ -93,6 +84,96 @@ class earchive_sys_setup
 
         return $success;
     } 
+    
+    /**
+     * Create mysql tables
+     *
+     * @access privat
+     */    
+    function _create_mysql_tables()
+    {
+        $success = TRUE;
+        
+        // create table if it dosent exist
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_lists (
+                lid         INT(11) NOT NULL auto_increment,
+                status      TINYINT NOT NULL default 1,
+                name        VARCHAR(255) NOT NULL default '',
+                description TEXT NOT NULL  default '',
+                email       TEXT NOT NULL default '',
+                emailserver TEXT NOT NULL default '',
+                folder      CHAR(32) NOT NULL,
+                PRIMARY KEY     (lid),
+                KEY status      (status))";
+
+        $result = $this->B->db->query($sql);
+
+        if (DB::isError($result))
+        {
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            $success = FALSE;
+        }
+   
+        // create table if it dosent exist
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_messages (
+                mid      INT(11) NOT NULL auto_increment,
+                lid      INT(11) NOT NULL,
+                subject  TEXT NOT NULL  default '',
+                sender   TEXT NOT NULL  default '',
+                mdate    DATETIME default '0000-00-00 00:00:00' NOT NULL,
+                body     MEDIUMTEXT default '' NOT NULL,
+                folder   VARCHAR(32) default '' NOT NULL,
+                PRIMARY KEY     (mid),
+                KEY lid         (lid),
+                KEY mdate       (mdate))";
+
+        $result = $this->B->db->query($sql);
+
+        if (DB::isError($result))
+        {
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            $success = FALSE;
+        }
+
+        // create table if it dosent exist
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_attach (
+                aid      INT(11) NOT NULL auto_increment,
+                mid      INT(11) NOT NULL,
+                lid      INT(11) NOT NULL,
+                file     TEXT NOT NULL  default '',
+                size     INT(11) NOT NULL,
+                type     VARCHAR(200) NOT NULL  default '',
+                PRIMARY KEY     (aid),
+                KEY mid         (mid),
+                KEY lid         (lid))";
+
+        $result = $this->B->db->query($sql);
+
+        if (DB::isError($result))
+        {
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            $success = FALSE;
+        }
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_words_crc32 (
+                word int(11) NOT NULL default 0,
+                mid  int(11) NOT NULL default 0,
+                lid  int(11) NOT NULL default 0)";
+    
+        $result = $this->B->db->query($sql);
+
+        if (DB::isError($result))
+        {
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            $success = FALSE;
+        }
+    
+        return $success;  
+    }
 }
 
 ?>
