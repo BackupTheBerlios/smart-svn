@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * The public main file (public front controller)
+ * Public Front Controller
  *
  */
  
@@ -32,12 +32,12 @@ include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 // Directed intercepting filter event (auto_prepend)
 $B->M( MOD_SYSTEM, 'SYS_PREPEND' );
 
+// Broadcast init event to all registered event handlers
+$B->B( 'SYS_INIT' );
+
 // Directed authentication event to the module handler, 
 // which takes the authentication part
 $B->M( SF_AUTH_MODULE, 'SYS_AUTHENTICATE' );
-
-// Broadcast init event to all registered event handlers
-$B->B( 'SYS_INIT' );
 
 // get the public view (template)
 include( $B->M( MOD_SYSTEM, 'GET_PUBLIC_VIEW') ); 
