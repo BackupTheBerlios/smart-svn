@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_sitemap class of the template "/xxx_sitemap.tpl.php"
+ * view_navigation class of the template "/xxx_navigation.tpl.php"
  *
  */
  
-class view_sitemap
+class view_navigation
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class view_sitemap
      * constructor
      *
      */
-    function view_sitemap()
+    function view_navigation()
     {
         $this->__construct();
     }
@@ -41,13 +41,20 @@ class view_sitemap
     }
     
     /**
-     * Execute the view of the template "/xxx_sitemap.tpl.php"
+     * Execute the view of the template "/xxx_contact.tpl.php"
      * create the template variables
      *
      * @return bool true on success else false
      */
     function perform()
     {
+         /* Event to get the navigation menu entries from the navigation module action class. 
+         See: modules/navigation/actions/class.NAVIGATION_GET.php 
+         The result is in the array $B->tpl_nav which is included as the site navigation menu. */
+         $this->B->M( MOD_NAVIGATION, 
+                      'GET', 
+                      array('var' => 'tpl_nav'));
+        
         return TRUE;
     }    
 }

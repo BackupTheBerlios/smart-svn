@@ -48,13 +48,6 @@ class view_contact
      */
     function perform()
     {
-         /* Event to get the navigation menu entries from the navigation module action class. 
-         See: modules/navigation/actions/class.NAVIGATION_GET.php 
-         The result is in the array $B->tpl_nav which is printed in "/xxx_contact.tpl.php" as the site navigation menu. */
-         $this->B->M( MOD_NAVIGATION, 
-                      'GET', 
-                      array('var' => 'tpl_nav'));
-
          /* Contact Event call. See: modules/test/actions/class.TEST_CONTACT.php 
          It assign contact data to the template var $B->tpl_contact which
          is printed out in the "/xxx_contact.tpl.php" template. */          

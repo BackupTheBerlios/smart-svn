@@ -48,13 +48,6 @@ class view_counter
      */
     function perform()
     {
-         /* Event to get the navigation menu entries from the navigation module action class. 
-         See: modules/navigation/actions/class.NAVIGATION_GET.php 
-         The result is in the array $B->tpl_nav which is printed in "/xxx_counter.tpl.php" as the site navigation menu. */
-         $this->B->M( MOD_NAVIGATION, 
-                      'GET', 
-                      array('var' => 'tpl_nav')); 
-             
          /* Counter 1,2,3 Event calls. 
          See: modules/test/actions/class.TEST_COUNTER.php  
          The results are printed out in the template "/xxx_counter.tpl.php" .*/          
