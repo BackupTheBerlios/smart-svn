@@ -27,6 +27,9 @@ if( $_POST['do_setup'] )
 {
     // Send a setup message to all registered handlers
     $success = $B->M( MOD_SYSTEM,           EVT_SETUP );
+
+    if($success == TRUE)    
+        $success = $B->M( MOD_COMMON,       EVT_SETUP );
     
     if($success == TRUE)    
         $success = $B->M( MOD_USER,         EVT_SETUP );
