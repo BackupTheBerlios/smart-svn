@@ -11,7 +11,7 @@
 
 /**
  * Setup of the system
- *
+ * 
  */
 // Check if this file is included in the environement
 //
