@@ -122,7 +122,7 @@ if($B->sys['info']['status'] == TRUE)
                     'hostspec' => $B->sys['db']['host'],
                     'database' => $B->sys['db']['name']);
 
-    $B->dboptions = array('debug'       => 2,
+    $B->dboptions = array('debug'       => 0,
                           'portability' => DB_PORTABILITY_ALL);
     
     $B->db =& DB::connect($B->dsn, $B->dboptions);
