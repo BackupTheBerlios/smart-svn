@@ -3,8 +3,10 @@ README
 
 This is the alpha version of a php framework.
 
-You should read the doc system_howto if you want to know
-how Smart works internaly.
+You should download the smart framework with some test modules
+to learn how it works. The job of the raw framework is to
+manage modules based on a event handler mechanism. So without
+modules nothing will happen.
 
 Please visite the Smart project site:
 http://smart.open-publisher.net

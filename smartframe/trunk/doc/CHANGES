@@ -1,6 +1,10 @@
 CHANGES
 #######
 
+2004-09-22
+------------
+- removed the lib and config folder. (should be included in a module)
+
 2004-09-9
 ------------
 - removed session class. (should be included in a module)
