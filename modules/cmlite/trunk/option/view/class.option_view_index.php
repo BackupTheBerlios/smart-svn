@@ -14,7 +14,7 @@
  *
  */
 
-include_once(SF_BASE_DIR.'modules/common/class.sfWordIndexer.php');
+include_once(SF_BASE_DIR.'modules/common/includes/class.sfWordIndexer.php');
 
 class option_view_index
 {
