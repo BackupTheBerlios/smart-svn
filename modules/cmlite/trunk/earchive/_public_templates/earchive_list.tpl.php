@@ -12,6 +12,13 @@
 <title><?php echo htmlspecialchars($B->sys['option']['site_title']); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
 <link href="media/earchive.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript" type="text/JavaScript">
+function go(x){
+    if(x != ""){
+    window.location.href = x;
+    }
+}
+</script>
 </head>
 
 <body>
@@ -44,11 +51,19 @@
                             <?php endif; ?>
                             <?php if( $B->is_logged == TRUE ): ?>
                             &nbsp;&nbsp;<a href="index.php?logout=1" class="topbarlink">logout</a>
-                            <?php endif; ?>							
+                            <?php endif; ?>             
                         </td>
-                        <td width="10%" align="left" valign="top">&nbsp;</td>
+						<form name="mode" id="mode" method="post" action="">
+                        <td width="30%" align="right" valign="middle">
+                          <font color="#99CCFF" size="1">view &gt; 
+                          </font>
+                          <select name="mode" class="searchform" onChange="go('index.php?view=list&lid=<?php echo $_REQUEST['lid']; ?>&mode='+this.form.mode.options[this.form.mode.options.selectedIndex].value)">
+                          <option value="flat" <?php echo $B->tpl_select_flat; ?>>Flat</option>
+                          <option value="tree" <?php echo $B->tpl_select_tree; ?>>Tree</option>
+                          </select>
+                        </td></form>
                         <form name="esearch" id="esearch" method="post" action="index.php?view=search">
-                            <td width="50%" align="right" valign="middle">
+                            <td width="30%" align="right" valign="middle">
                                 <input name="search" type="text" value="<?php if($_POST['search']) echo htmlspecialchars(stripslashes($_POST['search'])); else echo "search"; ?>" size="25" maxlength="128" class="searchform" /></td>
                         </form>
                     </tr>
@@ -103,7 +118,8 @@
                             </tr>                       
                         <?php endif; ?>     
                     </table></td>
-                <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
+                <td width="81%" align="left" valign="top">
+				<table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
                         <td align="left" valign="top">
                            <table width="100%"  border="0" cellspacing="0" cellpadding="0">
@@ -124,10 +140,19 @@
                                   <?php //show messages  ?>
                                   <?php if (count($B->tpl_msg) > 0): ?>
                                     <?php foreach($B->tpl_msg as $msg): ?>
+                                      <?php if( ($B->tpl_mode=='tree') && ($msg['level'] == 1) ): ?>
+                                      <table width="100%">
+                                      <tr><td width="4%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td width="96%" align="left" valign="top">
+                                      <?php endif; ?>
                                       <div class='msgdate'>DATE: <?php echo $msg['mdate']; ?></div>
                                       <div class='msgfrom'>FROM: <?php echo $msg['sender']; ?></div>
                                       <a href="index.php?view=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
-                                      <br /><br />
+                                      <br />
+                                      <br />
+                                     <?php if( ($B->tpl_mode=='tree') && ($msg['level'] == 1) ): ?>
+                                      </td></tr>
+                                  </table>
+                                      <?php endif; ?>                                      
                                     <?php endforeach; ?>
                                   <?php else: ?>
                                       <div class='pager'>Currently no messages available</div>

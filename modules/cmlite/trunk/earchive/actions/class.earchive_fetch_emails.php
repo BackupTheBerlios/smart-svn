@@ -167,7 +167,7 @@ class earchive_fetch_emails
                 $this->_msg->unsetParts($mid);
                 $this->_msg->unsetHeaders($mid);                
                 // delte message from inbox
-                //$this->_msg->delete($mid);
+                $this->_msg->delete($mid);
                 
                 // prepare content for indexing
                 $_content = $this->_message_data['subject'].' '.$this->_message_data['sender'].' '.$this->_message_data['body'];
@@ -304,8 +304,10 @@ class earchive_fetch_emails
             $this->_message_data['sender'] = "&lt; no sender &gt;";
         }
 
+        // get message_id
         $this->_message_data['message_id']  = md5($this->_msg->header[$mid]['message_id']);
 
+        // check if this message is related to a previous message (reply)
         if(!empty($this->_msg->header[$mid]['references']))
         {
             $chunk = preg_split("/[[:blank:]]/", $this->_msg->header[$mid]['references']);
@@ -313,6 +315,13 @@ class earchive_fetch_emails
             {
                 $this->_message_data['root_id']    = md5($chunk[0]);
                 $this->_message_data['parent_id']  = md5(end($chunk));
+                
+                // check if this parent message is in db table
+                if($this->_check_parent( $this->_message_data['parent_id'] ) == 0)
+                {
+                    $this->_message_data['root_id']    = '';
+                    $this->_message_data['parent_id']  = '';                
+                }
             }
         }
         
@@ -375,7 +384,28 @@ class earchive_fetch_emails
         }
 
         return $input;
-    }      
+    } 
+    
+    /**
+     * Check if a parent message exist
+     *
+     * @param $parent_id
+     * @return int Number of parents 0 or 1
+     */      
+    function _check_parent( &$parent_id )
+    {
+        $sql = "
+            SELECT
+                mid
+            FROM
+                {$this->B->sys['db']['table_prefix']}earchive_messages
+            WHERE
+                message_id='{$parent_id}' LIMIT 1";  
+        
+        $result = $this->B->db->query( $sql );
+        
+        return $result->numRows();
+    }
 }
 
 ?>

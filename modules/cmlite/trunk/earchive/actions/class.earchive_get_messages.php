@@ -49,7 +49,7 @@ class earchive_get_messages
     function perform( & $data )
     {
         // get var name to store the result
-        $_result       = & $this->B->$data['var'];
+        $this->_result       = & $this->B->$data['var'];
         
         if(empty($data['lid']) || empty($data['var']))
         {
@@ -71,8 +71,18 @@ class earchive_get_messages
             $data['pager']['limit'] = 15;
         }        
 
+        $_where = '';
+        if( $data['mode'] == 'tree' )
+        {
+            $_where = " AND root_id='' ";
+            if( !isset($data['fields']['root_id']) )
+            {
+                $_fields .= ',message_id ';   
+            }
+        }
+
         // build pager links
-        $this->_pager( $data['lid'], $data['pager'] );
+        $this->_pager( $data['lid'], $data['pager'], $_where );
         
         $sql = "
             SELECT
@@ -81,15 +91,13 @@ class earchive_get_messages
                 {$this->B->sys['db']['table_prefix']}earchive_messages
             WHERE
                 lid={$data['lid']} 
+                {$_where}
             {$order}";
 
         if(empty($_GET['pageID']) || ($_GET['pageID']==1))
             $page = 0;
         else
             $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
-        
-        // create cache ID
-        //$cacheID = $this->B->cache->generateID($sql.(string)$page);
 
         // check if cache ID exists
         if ($this->B->M( MOD_COMMON, 'cache_get',
@@ -101,7 +109,7 @@ class earchive_get_messages
         }
 
         // init result array
-        $_result = array();
+        $this->_result = array();
                         
         $result = $this->B->db->limitQuery( $sql, $page, $data['pager']['limit'] );
         
@@ -119,12 +127,21 @@ class earchive_get_messages
                 {
                     $tmp[$f] = stripslashes($row[$f]);
                 }
-                $_result[] = $tmp;
+                
+                $tmp['level'] = 0;
+                
+                $this->_result[] = $tmp;
+                
+                if( $data['mode'] == 'tree' )
+                {
+                    $this->_get_childs( $data, $_fields, $row['message_id'] );
+                } 
             }
         }
+        
         // save result to cache
         $this->B->M( MOD_COMMON, 'cache_save',
-                     array('result' => $_result));
+                     array('result' => $this->_result));
                      
         return TRUE;     
     } 
@@ -137,7 +154,7 @@ class earchive_get_messages
      * @param string $pager_var Variable name to store pager links
      * @access privat
      */ 
-    function _pager( $lid, & $data )
+    function _pager( $lid, & $data, &$_where )
     {
         // get var name to store the result
         $_result       = & $this->B->$data['var'];
@@ -145,7 +162,7 @@ class earchive_get_messages
         // check if cache ID exists
         if ($this->B->M( MOD_COMMON, 'cache_get',
                          array('result'     => $data['var'],
-                               'cacheID'    => SF_SECTION.$lid.$_GET['pageID'],
+                               'cacheID'    => SF_SECTION.$lid.$_GET['mode'].$_GET['pageID'],
                                'cacheGroup' => 'earchive'))) 
         {
             return TRUE;
@@ -157,7 +174,7 @@ class earchive_get_messages
             FROM
                 {$this->B->sys['db']['table_prefix']}earchive_messages
             WHERE
-                lid={$lid}";  
+                lid={$lid} {$_where}";  
         
         $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
         
@@ -182,7 +199,45 @@ class earchive_get_messages
         // save result to cache
         $this->B->M( MOD_COMMON, 'cache_save',
                      array('result' => $links['all']));
-    }     
+    } 
+    /**
+     * get childrens of a message_id
+     *
+     * @param array $data
+     * @param string $_fields
+     * @param string $message_id 
+     * @access privat
+     */    
+    function _get_childs( &$data, &$_fields, $message_id )
+    {
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$this->B->sys['db']['table_prefix']}earchive_messages
+            WHERE
+                root_id='{$message_id}' 
+            ORDER BY mdate ASC";
+            
+        $result = $this->B->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }            
+        
+        while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+        {
+            $tmp = array();
+            foreach($data['fields'] as $f)
+            {
+                $tmp[$f] = stripslashes($row[$f]);
+            }
+            $tmp['level'] = 1;   
+            $this->_result[] = $tmp;
+        }        
+    }
 }
 
 ?>
