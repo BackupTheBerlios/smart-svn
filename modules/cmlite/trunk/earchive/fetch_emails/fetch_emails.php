@@ -88,7 +88,7 @@ if(count($lists) > 0)
                 $x = 0;
                 $comma = '';
                 $from = '';
-                
+                // get the from string
                 foreach($msg->header[$mid]['from_personal'] as $f)
                 {
                     if($msg->header[$mid]['from_personal'] != $msg->header[$mid]['reply_to_personal'] && !empty($msg->header[$mid]['reply_to_personal']))
@@ -102,9 +102,10 @@ if(count($lists) > 0)
                     $comma = ', ';
                     $x++;
                 }
-                
+                // decode from string
                 $from = $B->util->decodeEmailHeader($from);
-                                
+                
+                // decode subject string                
                 $subject =$B->util->decodeEmailHeader($msg->header[$mid]['subject']);
                 
                 $subject = str_replace("<","&lt;",$subject);
