@@ -52,7 +52,16 @@ class SYSTEM_GET_PUBLIC_VIEW
      */
     function perform( $data )
     {
-        $tpl = $_REQUEST['tpl'];
+        // Check if the reuested template is internal defined
+        // else fetch the name from an external var (gpc)
+        if( isset($data['tpl']) )
+        {
+            $tpl = $data['tpl'];
+        }
+        else
+        {
+            $tpl = $_REQUEST['tpl'];
+        }
     
         // If no template request is done load the default template
         if (!isset($tpl))
