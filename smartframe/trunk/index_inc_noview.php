@@ -19,7 +19,7 @@
  */
 
 /*
- * Front Controller File Name
+ * Front Controller File Name (this file)
  */
 if(!defined( SF_CONTROLLER ))
 {
