@@ -10,36 +10,24 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_view_edituser class of the template "login.tpl.php"
+ * view_user_edituser class of the template "tpl.user_edituser.php"
  *
  */
  
-class user_view_edituser
+class view_user_edituser extends view
 {
     /**
-     * Global system instance
-     * @var object $B
+     * Default template for this view
+     * @var string $template
      */
-    var $B;
+    var $template = 'user_edituser';
     
     /**
-     * constructor
-     *
-     */
-    function user_view_edituser()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
+     * Default template folder for this view
+     * @var string $template_folder
+     */    
+    var $template_folder = 'modules/user/templates/';
+  
     /**
      * Execute the view of the template "login.tpl.php"
      * 
@@ -50,10 +38,10 @@ class user_view_edituser
     function perform()
     {           
         // check permission to modify user data
-        $this->B->F( USER_FILTER,
-                     'permission',
-                     array( 'action'  => 'modify',
-                            'user_id' => (int)$_REQUEST['uid']));
+        F( USER_FILTER,
+           'permission',
+           array( 'action'  => 'modify',
+                  'user_id' => (int)$_REQUEST['uid']));
         
         // if some user data has change
         if( isset($_POST['modifyuserdata']) )
@@ -76,9 +64,9 @@ class user_view_edituser
                                            'forename',
                                            'lastname'));
         // get user data
-        $this->B->M( MOD_USER,
-                     'get',
-                     $_data );        
+        M( MOD_USER,
+           'get',
+           $_data );        
          
         return  TRUE;
     }    
@@ -135,10 +123,10 @@ class user_view_edituser
         if($_POST['deluser'] == "1")
         {
             // check permission
-            $_is_logged_user = $this->B->F( USER_FILTER,
-                                            'permission',
-                                             array( 'action'  => 'is_logged_user',
-                                                    'user_id' => (int) $_POST['uid']));  
+            $_is_logged_user = F( USER_FILTER,
+                                  'permission',
+                                  array( 'action'  => 'is_logged_user',
+                                         'user_id' => (int) $_POST['uid']));  
             if(TRUE == $_is_logged_user)
             {
                 $this->B->tpl_error   = 'You can remove your own user account!';
@@ -147,10 +135,10 @@ class user_view_edituser
             else
             {
                 // Delete user
-                if(TRUE == $this->B->M( MOD_USER,
-                                        'delete',
-                                        array( 'error'   => 'tpl_error',
-                                               'user_id' => (int) $_POST['uid'])))
+                if(TRUE == M( MOD_USER,
+                              'delete',
+                              array( 'error'   => 'tpl_error',
+                                     'user_id' => (int) $_POST['uid'])))
                 {
                     @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
                     exit;   
@@ -191,10 +179,10 @@ class user_view_edituser
         if( ($_POST['rights_orig'] != (int)$_POST['rights']) || ($_POST['status_orig'] != (int)$_POST['status']) )    
         {
             // check permission
-            $_is_logged_user = $this->B->F( USER_FILTER,
-                                            'permission',
-                                            array( 'action'  => 'is_logged_user',
-                                                   'user_id' => (int) $_POST['uid']));  
+            $_is_logged_user = F( USER_FILTER,
+                                  'permission',
+                                  array( 'action'  => 'is_logged_user',
+                                         'user_id' => (int) $_POST['uid']));  
             if(TRUE == $_is_logged_user)
             {
                 $this->B->tpl_error   = 'You can not change your own rights or status!';
@@ -215,11 +203,11 @@ class user_view_edituser
         if( $_POST['rights_orig'] != (int)$_POST['rights'] )
         {
             // check permission
-            $_success = $this->B->F( USER_FILTER,
-                                     'permission',
-                                     array( 'action'        => 'set_rights',
-                                            'user_id'       => (int) $_POST['uid'],
-                                            'right'         => (int)$_POST['rights'])); 
+            $_success = F( USER_FILTER,
+                           'permission',
+                           array( 'action'  => 'set_rights',
+                                  'user_id' => (int) $_POST['uid'],
+                                  'right'   => (int)$_POST['rights'])); 
                                                
             if(FALSE == $_success)
             {
@@ -241,10 +229,10 @@ class user_view_edituser
         if( $_POST['status_orig'] != (int)$_POST['status'] )
         {
             // check permission
-            $_success = $this->B->F( USER_FILTER,
-                                     'permission',
-                                     array( 'action'        => 'set_status',
-                                            'user_id'       => (int) $_POST['uid'])); 
+            $_success = F( USER_FILTER,
+                           'permission',
+                           array( 'action'  => 'set_status',
+                                  'user_id' => (int) $_POST['uid'])); 
            
            if(FALSE == $_success)
            {
@@ -279,9 +267,9 @@ class user_view_edituser
         }
             
         // update user data
-        if(FALSE != $this->B->M( MOD_USER,
-                                 'update',
-                                 $_data))
+        if(FALSE != M( MOD_USER,
+                       'update',
+                       $_data))
         {
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
             exit;
@@ -304,6 +292,42 @@ class user_view_edituser
         $this->B->tpl_data['rights']   = $_POST['rights'];
         $this->B->tpl_data['status']   = $_POST['status'];            
     }
+    
+    /**
+     * disable prepend filter chain by overloading the methode of the parent class
+     *
+     */
+    function prependFilterChain()
+    { 
+        // do nothing
+    }  
+    
+    /**
+     * disable append filter chain by overloading the methode of the parent class
+     *
+     */
+    function appendFilterChain()
+    { 
+        // do nothing
+    } 
+    
+    /**
+     * disable authentication by overloading the methode of the parent class
+     *
+     */
+    function auth()
+    {  
+        // do nothing
+    }  
+    
+    /**
+     * disable logout by overloading the methode of the parent class
+     *
+     */
+    function logout()
+    { 
+        // do nothing
+    }        
 }
 
 ?>

@@ -10,36 +10,24 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_view_option class 
+ * view_user_option class 
  *
  */
  
-class user_view_option
+class view_user_option extends view
 {
-    /**
-     * Global system instance
-     * @var object $B
+     /**
+     * Default template for this view
+     * @var string $template
      */
-    var $B;
+    var $template = 'user_option';
     
-    /**
-     * constructor
-     *
-     */
-    function user_view_option()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
+     /**
+     * Default template folder for this view
+     * @var string $template_folder
+     */    
+    var $template_folder = 'modules/user/templates/';
+  
     /**
      * Set options for this module
      *
@@ -58,6 +46,42 @@ class user_view_option
         
         return TRUE;
     } 
+    
+    /**
+     * disable prepend filter chain by overloading the methode of the parent class
+     *
+     */
+    function prependFilterChain()
+    { 
+        // do nothing
+    }  
+    
+    /**
+     * disable append filter chain by overloading the methode of the parent class
+     *
+     */
+    function appendFilterChain()
+    { 
+        // do nothing
+    } 
+    
+    /**
+     * disable authentication by overloading the methode of the parent class
+     *
+     */
+    function auth()
+    {  
+        // do nothing
+    }  
+    
+    /**
+     * disable logout by overloading the methode of the parent class
+     *
+     */
+    function logout()
+    { 
+        // do nothing
+    }      
 }
 
 ?>
