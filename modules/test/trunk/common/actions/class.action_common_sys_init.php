@@ -24,7 +24,10 @@ class action_common_sys_init extends action
      * @param array $data
      */
     function perform( $data )
-    {   
+    {  
+        // get data of the client browser
+        $this->_get_client_data();
+        
         // get os related separator to set include path
         if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
             $tmp_separator = ';';
@@ -82,6 +85,19 @@ class action_common_sys_init extends action
                 
             // include here additional upgrade code
         }
+    }   
+    /**
+     * get data of the client browser
+     *
+     */    
+    function _get_client_data()
+    {
+        // assign browser language
+        if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE']))
+        {
+            @preg_match_all('/([a-z]*)/',$_SERVER['HTTP_ACCEPT_LANGUAGE'], $lang, PREG_SET_ORDER);
+            define( 'SF_CLIENT_LANG', $lang[0][1]);
+        }    
     }    
 }
 

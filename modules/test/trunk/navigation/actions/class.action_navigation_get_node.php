@@ -65,7 +65,8 @@ class action_navigation_get_node extends action
                                  'gopher://',
                                  'news://',
                                  'mailto:',
-                                 './');
+                                 './',
+                                 '?');
                 $this->B->wiki->setParseConf('Url', 'schemes', $options);                
                 
                 $this->B->wiki->setRenderConf('Xhtml', 'url', array('target'       => '_self',
@@ -73,7 +74,7 @@ class action_navigation_get_node extends action
                                                                     'css_footnote' => 'smart',
                                                                     'css_descr'    => 'smart',
                                                                     'css_img'      => 'smart'));
-                $this->B->wiki->setRenderConf('Xhtml', 'image', array('base'     => './',
+                $this->B->wiki->setRenderConf('Xhtml', 'image', array('base'     => SF_RELATIVE_PATH,
                                                                       'css'      => 'smart',
                                                                       'css_link' => 'smart'));
                 $this->B->wiki->setRenderConf('Xhtml', 'list', array( 'css_ol'    => 'smart',
