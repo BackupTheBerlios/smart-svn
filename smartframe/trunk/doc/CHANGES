@@ -1,6 +1,12 @@
 CHANGES
 #######
 
+2004-12-21
+----------
+- Added - SMART can be included in any other project
+- Added 'index_mini_noview.php' and 'index_mini_view.php'
+- removed session class from the core framework. We dont need it here.
+
 2004-11-23
 ----------
 - added session class in the base framework. Session must be started before the output buffer starts.
