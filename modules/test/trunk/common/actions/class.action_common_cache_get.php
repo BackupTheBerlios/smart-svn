@@ -20,6 +20,7 @@ class action_common_cache_get extends action
      * Get cache result
      *
      * @param array $data
+     * @return bool False if cache is disabled, True if enabled
      */
     function perform( & $data )
     {
