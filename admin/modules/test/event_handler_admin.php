@@ -22,9 +22,7 @@ if (FALSE == $base->event->register_handler(
                            array ( 'module'        => SF_EVT_HANDLER_TEST,
                                    'event_handler' => 'test_event_handler') ))
 {
-    patErrorManager::raiseError( 'handler',
-                                 'Handler exist', 
-                                 'The handler '.SF_EVT_HANDLER_TEST.' exist: '.__FILE__.' '.__LINE__  );        
+    trigger_error( 'The handler '.SF_EVT_HANDLER_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
 // The handler function
@@ -36,12 +34,11 @@ function test_event_handler( $evt )
     {
         case SF_EVT_LOAD_MODULE:
             // set the base template for this module
-            $base->tpl->readTemplatesFromInput(  "admin/modules/test/templates/index.tpl.html" );    
+            $base->tpl->assign( 'module', SF_BASE_DIR . "/admin/modules/test/templates/index.tpl.php" );    
             // Assign module handler name
-            $base->tpl->addVar( 'module', 'this_module', EVT_HANDLER_TEST );         
+            $base->tpl->assign( 'this_module', SF_EVT_HANDLER_TEST );         
             break;             
         case SF_EVT_INIT:    
-            $base->tpl->addModuleDir( 'Function', SF_BASE_DIR . '/admin/modules/test/Function' );
             break; 
         case SF_EVT_LOGOUT:  
             break;             
