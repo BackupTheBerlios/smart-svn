@@ -71,9 +71,7 @@ class earchive_fetch_emails
                             'fields' => array('lid','emailserver','folder')));        
 
         if(count($this->B->all_lists) > 0)
-        {
-            $this->_word_indexer = & new word_indexer(); 
-            
+        {            
             // loop through the email accounts
             foreach ($this->B->all_lists as $account)
             {
