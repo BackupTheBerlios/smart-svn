@@ -15,10 +15,10 @@
  */
 
 // the user class
-include_once (SF_BASE_DIR . '/admin/modules/earchive/class.earchive.php');
+include_once (SF_BASE_DIR . 'modules/earchive/includes/class.earchive.php');
 
 // the PEAR IMAP class
-include_once (SF_BASE_DIR . '/admin/modules/common/PEAR/MAIL/IMAP.php');
+include_once (SF_BASE_DIR . 'modules/common/PEAR/MAIL/IMAP.php');
 
 // Set up class, initiate a mailbox connection
 $msg =& new Mail_IMAP();
@@ -27,11 +27,11 @@ $msg =& new Mail_IMAP();
 $this->B->earchive = & new earchive;
 
 // word indexer class
-include_once(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php');
+include_once(SF_BASE_DIR.'modules/earchive/includes/class.sfWordIndexer.php');
 $word_indexer = & new word_indexer();
 
 // earchive util class
-include_once(SF_BASE_DIR.'/admin/modules/earchive/class.util.php');
+include_once(SF_BASE_DIR.'modules/earchive/includes/class.util.php');
 
 $this->B->e_util = & new earchiveUtil;
 
