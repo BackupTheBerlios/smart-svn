@@ -40,12 +40,12 @@ define('SF_DEBUG',                       TRUE);
 /**
  * Allowed output buffering.
  */
-define('SF_OB',                          FALSE);
+define('SF_OB',                          TRUE);
 
 /**
  * Allowed output compression if available.
  */
-define('SF_OB_GZHANDLER',                "");//"ob_gzhandler"
+define('SF_OB_GZHANDLER',                FALSE); //'ob_gzhandler'
 
 /**
  * Default dir and file mode

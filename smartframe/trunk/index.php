@@ -29,6 +29,9 @@ define('SF_SECTION', 'public');
 // Include the base file
 include( SF_BASE_DIR . "/admin/include/base.inc.php" );
 
+// Send a authentication message to the event handlers which takes the authentication part
+$B->M( SF_AUTH_MODULE, EVT_AUTHENTICATE );
+
 // Send a init message to all registered event handlers
 $B->B( SF_EVT_INIT );
 
