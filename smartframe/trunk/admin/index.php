@@ -66,13 +66,8 @@ else
     $B->M(SF_DEFAULT_MODULE, 'SYS_LOAD_MODULE');
 }
 
-if(!defined( 'SF_TEMPLATE_MAIN' ) || !file_exists( SF_TEMPLATE_MAIN ))
-{
-    die('Missing main admin template!');
-}
-
-//  Output all templates
-include( SF_TEMPLATE_MAIN );
+// get the admin view (template)
+include( $B->M( MOD_SYSTEM, 'GET_ADMIN_VIEW') ); 
 
 ob_end_flush ();
 
