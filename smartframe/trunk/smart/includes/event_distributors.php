@@ -160,9 +160,10 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
   *
   * @param string $target_id Name of the module.  
   * @param array $code Name of the module action class.
+  * @param mixed $constructor_param Parameters passed to the action class constructor (optional).
   * @return mixed null if requested module action class dosent exist or module action object
   */ 
-function & M_OBJ( $target_id, $code )
+function & M_OBJ( $target_id, $code, $constructor_param = FALSE )
 {
     global $sf_module_list;
 
@@ -192,10 +193,14 @@ function & M_OBJ( $target_id, $code )
     {
         include_once($class_file);
         // make instance of the module action class
-        return new $class_name();
+        return new $class_name( $constructor_param );
     }
     else
     {
+        if(SF_DEBUG == TRUE)
+        {
+            trigger_error("This class dosent exists: ".$class_file."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }    
         return NULL;
     }
 }
