@@ -36,17 +36,7 @@ class action_system_get_view extends action
      * @return object the requested view object
      */
     function perform( $data )
-    {
-        // if an update was done this event complete the update process
-        if(isset($this->B->system_update_flag))
-        {echo "wsss";exit;
-            // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_update_config.php
-            M( SF_BASE_MODULE, 'sys_update_config', $this->B );
-            // reload admin section
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
-            exit;    
-        }   
-        
+    {       
        /**
         * Set template folder
         */

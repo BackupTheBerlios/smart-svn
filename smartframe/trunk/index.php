@@ -71,6 +71,16 @@ else
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
 
+// if an update was done this event complete the update process
+if(isset($B->system_update_flag))
+{
+    // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_update_config.php
+    M( SF_BASE_MODULE, 'sys_update_config', $B->sys );
+    // reload page
+    @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_SECTION . '=1');
+    exit;    
+}  
+
 // Directed system event to execute the demanded view
 // see: smart/actions/class.system_get_view.php
 M( MOD_SYSTEM, 'get_view' );
