@@ -37,18 +37,6 @@ include_once( SF_BASE_DIR . 'smart/includes/class.base.php' );
 // create base container instance
 $B = & new Base;
 
-// include session class
-include_once( SF_BASE_DIR . 'smart/includes/class.session.php' ); 
-
-// check if session folder is writeable
-if(!is_writeable( SF_BASE_DIR . 'smart/tmp/session_data' ))
-{
-    die('<b>Must be writeable: ' . SF_BASE_DIR . 'smart/tmp/session_data</b>');
-} 
-
-/* Create new object of session class */
-$B->session = & new session(); 
-
 // Start output buffering
 //
 @ob_start(); 
