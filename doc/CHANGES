@@ -1,6 +1,10 @@
 CHANGES
 #######
 
+2004-07-19
+--------------
+- The test modules use adodb
+
 2004-07-12
 --------------
 - Removed completely any template engine since

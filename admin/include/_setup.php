@@ -31,6 +31,11 @@ if(!is_writeable( SF_BASE_DIR . '/admin/logs' ))
     $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/logs';
 }
 
+if(!is_writeable( SF_BASE_DIR . '/admin/tmp' ))
+{
+    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp';
+}
+
 // the version to install
 include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
 

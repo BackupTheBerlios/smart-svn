@@ -108,8 +108,11 @@ if($B->sys['info']['status'] == TRUE)
 {
     // include DB class
     include_once( SF_BASE_DIR . '/admin/modules/user/adodb/adodb.inc.php');
-
+    
+    $ADODB_CACHE_DIR = SF_BASE_DIR . '/admin/tmp/ADODB_cache';
+    
     $B->conn = ADONewConnection( $B->sys['db']['dbtype'] );
+    
     if($B->sys['db']['dbtype'] == 'sqlite')
     {
         $B->sys['db']['host'] = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';

@@ -21,6 +21,26 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on ' . __FILE__);
 }
 
+if(!isset($_GET['mf']))
+{
+    $B->templ = array();
+    $directory =& dir(SF_BASE_DIR);
+
+    while (false != ($dirname = $directory->read()))
+    {
+        if (FALSE == is_dir(SF_BASE_DIR . '/' . $dirname))
+        {
+            if(preg_match("/(^[^_]*).*\.tpl\.php$/", $dirname, $tmp))
+            {
+                if(!in_array($tmp[1], $B->templ))
+                    $B->templ[] = $tmp[1];
+            }
+        }
+    }
+
+    $directory->close();
+}
+
 // set the base template for this module
 $B->module = SF_BASE_DIR . '/admin/modules/option/templates/index.tpl.php';    
 

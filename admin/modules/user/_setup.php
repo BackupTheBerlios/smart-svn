@@ -41,7 +41,17 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
 if( count($B->setup_error) == 0 )
 {
     // include adodb
-    include_once( SF_BASE_DIR . '/admin/modules/user/adodb/adodb.inc.php' );    
+    include_once( SF_BASE_DIR . '/admin/modules/user/adodb/adodb.inc.php' ); 
+
+    if(!is_dir( SF_BASE_DIR . '/admin/tmp/ADODB_cache' ))
+    {
+        if(!@mkdir( SF_BASE_DIR . '/admin/tmp/ADODB_cache' ))
+        {
+            $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/admin/tmp/ADODB_cache';
+        }
+    }
+    
+    $ADODB_CACHE_DIR = SF_BASE_DIR . '/admin/tmp/ADODB_cache';
     
     // include sqlite setup
     include_once( SF_BASE_DIR . '/admin/modules/user/_setup_'.$_POST['dbtype'].'.php' );    

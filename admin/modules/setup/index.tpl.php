@@ -67,9 +67,6 @@ function subok(s){
           <option value="iso-8859-14">Celtic (iso-8859-14)</option>
           <option value="iso-8859-16">Romanian (iso-8859-16)</option>
           <option value="utf-8">Unicode (utf-8)</option>
-          <option value="GB2312">Chinese simplified (GB2312)</option>
-          <option value="Big5">Chinese traditional (Big5)</option>
-          <option value="EUC-JP">Japanese (EUC-JP)</option>
         </select>
         </td>
       </tr>
