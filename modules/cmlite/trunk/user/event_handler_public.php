@@ -162,20 +162,24 @@ function user_event_handler( $evt )
                         if(FALSE === @mail($evt['data']['reg_data']['email'],$evt['data']['email_subject'],$validate_msg,$header))
                         {
                             trigger_error("Email couldnt be sended to registered user: {$evt['data']['reg_data']['email']}", E_USER_ERROR);
+                            $_succ   = FALSE;
                         }
-                        $_succ = TRUE;
+                        else
+                        {
+                            $_succ = TRUE;
+                        }
                     }
                 }
                 
                 if($_error !== FALSE)
                 {
-                    $_tpl = &$GLOBALS['B']->$evt['data']['var'];
-                    $_tpl = array();
+                    $_form = &$GLOBALS['B']->$evt['data']['form_var'];
+                    $_form = array();
                     
-                    $_tpl['forename'] = $B->util->stripslashes($evt['data']['reg_data']['forename']); 
-                    $_tpl['lastname'] = $B->util->stripslashes($evt['data']['reg_data']['lastname']); 
-                    $_tpl['login']    = $B->util->stripslashes($evt['data']['reg_data']['login']); 
-                    $_tpl['email']    = $B->util->stripslashes($evt['data']['reg_data']['email']); 
+                    $_form['forename'] = $B->util->stripslashes($evt['data']['reg_data']['forename']); 
+                    $_form['lastname'] = $B->util->stripslashes($evt['data']['reg_data']['lastname']); 
+                    $_form['login']    = $B->util->stripslashes($evt['data']['reg_data']['login']); 
+                    $_form['email']    = $B->util->stripslashes($evt['data']['reg_data']['email']); 
                 }                
             }
             break;             
