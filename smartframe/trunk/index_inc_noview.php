@@ -23,7 +23,7 @@
  */
 if(!defined( SF_CONTROLLER ))
 {
-   define('SF_CONTROLLER', 'index_noview.php'); 
+   define('SF_CONTROLLER', 'index_inc_noview.php'); 
 }
 
 /*
@@ -54,13 +54,13 @@ include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
 // Broadcast init event to all registered module event handlers
 // see modules/xxx/actions/class.xxx_sys_init.php
-$B->B( 'sys_init' );
+B( 'sys_init' );
 
 // Directed authentication event to the module handler, 
 // which takes the authentication part
 // The variable SF_AUTH_MODULE must be declared in the "common"
 // module event_handler.php file
-$B->M( SF_AUTH_MODULE, 'sys_authenticate' );
+M( SF_AUTH_MODULE, 'sys_authenticate' );
 
 // Send the output buffer to the client
 @ob_end_flush();

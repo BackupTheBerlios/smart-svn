@@ -23,7 +23,7 @@
  */
 if(!defined( SF_CONTROLLER ))
 {
-   define('SF_CONTROLLER', 'index_mini_view.php'); 
+   define('SF_CONTROLLER', 'index_inc_view.php'); 
 }
 
 /*
@@ -78,26 +78,11 @@ include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
 // Broadcast init event to all registered module event handlers
 // see modules/xxx/actions/class.xxx_sys_init.php
-$B->B( 'sys_init' );
-
-// Directed authentication event to the module handler, 
-// which takes the authentication part
-// The variable SF_AUTH_MODULE must be declared in the "common"
-// module event_handler.php file
-$B->M( SF_AUTH_MODULE, 'sys_authenticate' );
+B( 'sys_init' );
 
 // get the public view (template)
 // see smart/actions/class.system_get_public_view.php
-if (SF_TEMPLATE_ENGINE == TRUE)
-{
-    include( $B->M( MOD_SYSTEM, 'get_public_view') );
-}
-else
-{
-    // if an other template engine take effect only
-    // execute the specific view class
-    $B->M( MOD_SYSTEM, 'get_public_view')
-} 
+M( MOD_SYSTEM, 'get_view') );
 
 // Send the output buffer to the client
 @ob_end_flush();
