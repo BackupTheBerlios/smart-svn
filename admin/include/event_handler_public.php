@@ -32,7 +32,7 @@ if (FALSE == $base->event->register_handler(
 {
     patErrorManager::raiseError( 'handler',
                                  'Handler exist', 
-                                 'The handler '.SF_EVT_HANDLER_SYSTEM.' exist: '.__FILE__.' '.__LINE__  );        
+                                 'The handler '.SF_EVT_HANDLER_SYSTEM.' exist on '.__FILE__.' '.__LINE__  );        
 }
 
 // The handler function

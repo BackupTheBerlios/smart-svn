@@ -30,7 +30,7 @@ define('SF_SECTION', 'public');
 include( SF_BASE_DIR . "/admin/include/base.inc.php" );
 
 // Send a init message to all registered event handlers
-$base->event->broadcast_run( SF_EVT_INIT );
+$base->event->broadcast( SF_EVT_INIT );
 
 // If no template request is done load the default template
 if(!isset($_REQUEST['tpl']))
@@ -41,15 +41,12 @@ else
 {
     if(FALSE === ($base->tmp_tpl = sfSecureGPC::get( $_REQUEST['tpl'], 'string' )))
     {
-        patErrorManager::raiseError( 'GPC', 'Wrong string Value', "VAR: tpl\nVALUE: ".$_REQUEST['tpl']."\nFILE: ".__FILE__."\nLINE:".__LINE__  );    
+        trigger_error( "VAR: tpl\nVALUE: ".$_REQUEST['tpl']."\nFILE: ".__FILE__."\nLINE:".__LINE__  );    
     }
 }
 
-// set the base template for this module
-$base->tpl->readTemplatesFromInput(  "{$base->tpl_folder}/{$base->tmp_tpl}.tpl.html" );    
-
 //  Output all templates
-$base->tpl->displayParsedTemplate();
+$base->tpl->display ('/templates_public/' . $base->tmp_tpl . '.tpl.php');
 
 // Send the output buffer to the client
 if( OB == TRUE)

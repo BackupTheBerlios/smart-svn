@@ -43,7 +43,7 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
 include_once( SF_BASE_DIR . '/admin/include/class.sfEvent.php' );
 
 // include sqlite class
-include_once( SF_BASE_DIR . '/admin/include/SPSQLite.class.php' );
+//include_once( SF_BASE_DIR . '/admin/include/SPSQLite.class.php' );
 
 // include patTemplate
 include_once( SF_BASE_DIR . '/admin/lib/Savant/Savant.php' );

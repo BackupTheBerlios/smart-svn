@@ -22,9 +22,7 @@ if (FALSE == $base->event->register_handler(
                            array ( 'module'        => SF_EVT_HANDLER_TEST,
                                    'event_handler' => 'test_event_handler') ))
 {
-    patErrorManager::raiseError( 'handler',
-                                 'Handler exist', 
-                                 'The handler '.SF_EVT_HANDLER_TEST.' exist: '.__FILE__.' '.__LINE__  );        
+    trigger_error( 'The handler '.SF_EVT_HANDLER_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
 // The handler function
@@ -35,8 +33,7 @@ function test_event_handler( $evt )
     switch( $evt["code"] )
     {          
         case SF_EVT_INIT: 
-            $base->tpl->addModuleDir( 'Function', SF_BASE_DIR . '/admin/modules/test/Function' );        
-            break;           
+             break;           
     }
 }
 
