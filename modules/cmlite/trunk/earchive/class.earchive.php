@@ -49,7 +49,7 @@ class earchive
 
         if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage(), E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
         
         $data = array();
@@ -220,7 +220,7 @@ class earchive
 
         if (DB::isError($mid)) 
         {
-            trigger_error($result->getMessage(), E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
         
         $sql = '
@@ -275,7 +275,7 @@ class earchive
         return $GLOBALS['B']->db->query($sql);
     }  
     /**
-     * get all lists
+     * get all messages
      *
      * @param array $fields Field names of the list db table
      * @return array Lists data 
@@ -299,7 +299,7 @@ class earchive
 
         if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage(), E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
 
         return $result;

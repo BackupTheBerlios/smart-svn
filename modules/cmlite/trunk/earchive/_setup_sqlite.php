@@ -29,15 +29,17 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     if($result->numRows() == 1)
     {
         $sql = "DROP TABLE earchive_lists";
-        if ( FALSE === $B->conn->Execute($sql))
+        $result = $B->db->query($sql);
+        
+        if (DB::isError($result))
         {
-            $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+            $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         }
     }
     
@@ -47,7 +49,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     if($result->numRows() == 1)
@@ -57,7 +59,7 @@ if( count($B->setup_error) == 0 )
 
         if (DB::isError($result))
         {
-            $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         }
     }
     
@@ -67,7 +69,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     if($result->numRows() == 1)
@@ -77,7 +79,7 @@ if( count($B->setup_error) == 0 )
 
         if (DB::isError($result))
         {
-            $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         }
     }    
 
@@ -87,7 +89,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     if($result->numRows() == 1)
@@ -97,7 +99,7 @@ if( count($B->setup_error) == 0 )
 
         if (DB::isError($result))
         {
-            $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         }
     } 
     
@@ -115,7 +117,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // create index
@@ -125,7 +127,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // create index
@@ -135,7 +137,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
     
     // create table if it dosent exist
@@ -152,7 +154,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // create index
@@ -162,7 +164,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // create index
@@ -172,7 +174,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
 
     // create table if it dosent exist
@@ -188,7 +190,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
 
     // create index
@@ -198,7 +200,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // create index
@@ -208,7 +210,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
 
     // create index
@@ -218,7 +220,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
     
     $sql = "CREATE TABLE earchive_words_crc32 (
@@ -230,7 +232,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }    
     unset($sql);
 }

@@ -10,14 +10,14 @@
 // ----------------------------------------------------------------------
 
 /**
- * Setup of the user module
+ * MySql setup of the user module
  */
 
 // Check if this file is included in the environement
 //
 if (!defined('SF_SECURE_INCLUDE'))
 {
-    die('No Permission on'. __FILE__);
+    die('No Permission on '. __FILE__);
 }
 
 
@@ -39,7 +39,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
     
     // create table if it dosent exist
@@ -58,7 +58,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // create table if it dosent exist
@@ -77,7 +77,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_words_crc32 (
@@ -89,7 +89,7 @@ if( count($B->setup_error) == 0 )
 
     if (DB::isError($result))
     {
-        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
     
     unset($sql);

@@ -89,6 +89,8 @@ if(count($lists) > 0)
                 $comma = '';
                 $from = '';
                 
+                echo "<pre>";print_r($msg->header[$mid]);echo "</pre>";
+                
                 // check if header from_personal is available
                 if(is_array($msg->header[$mid]['from_personal']))
                 {
