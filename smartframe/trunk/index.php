@@ -70,7 +70,7 @@ define('SF_BASE_DIR', dirname(__FILE__) . '/');
 include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
 // Define section area
-if ( isset($_REQUEST['admin']) )
+if ( isset($_REQUEST[ SF_ADMIN_CODE ]) )
 {
     define('SF_SECTION', 'admin');  
 }

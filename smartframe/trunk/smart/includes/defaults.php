@@ -38,6 +38,11 @@ define('SF_ERROR_REPORTING',          E_ALL ^ E_NOTICE);
 define('SF_DEBUG',                    TRUE);
 
 /**
+ * String to access the admin views
+ */
+define('SF_ADMIN_CODE',               'admin');
+
+/**
  * The common module name. This module is required!
  */
 define('SF_COMMON_MODULE',            'common');
