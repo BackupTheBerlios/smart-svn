@@ -3,7 +3,7 @@
 <head>
 <title>Admin</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
-<link href="media/main.css" rel="stylesheet" type="text/css" />
+<link href="media/default/main.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {
@@ -43,22 +43,21 @@ function subok(s){
           </table></td>
           <td width="15%" align="right" valign="top" class="font10"><a href="../index.php">The public page</a></td>
           <td width="39%" align="right" valign="middle">
-          <?php if($B->login != FALSE){ ?>
-          <form name="form1" id="form1" method="post" action="">
-                        <form action="index.php" method="post">
-            <select name="m" onChange="go('index.php?m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
-                        <option value="">Registered module handlers</option>
-                        <?php foreach($B->mod_list as $h): ?>
-                            <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
-                        <?php endforeach; ?>
-            </select>
+          <?php if($B->login != FALSE): ?>
+            <form action="index.php" method="post">
+                <select name="m" onChange="go('index.php?m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
+                 <option value="">Registered module handlers</option>
+                 <?php foreach($B->mod_list as $h): ?>
+                    <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
+                 <?php endforeach; ?>
+                </select>
           </form>
-          <?php } ?>
+          <?php endif; ?>
           </td>
           <td width="7%" align="right" valign="top">
-          <?php if($B->login != FALSE){ ?>
-          <a href="index.php?logout=1" class="font14">Logout</a>
-          <?php } ?>
+          <?php if($B->login != FALSE): ?>
+            <a href="index.php?logout=1" class="font14">Logout</a>
+          <?php endif; ?>
           </td>
         </tr>
           </table></td>
