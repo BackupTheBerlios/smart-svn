@@ -1,7 +1,7 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>   
 <?php //check login data ?>
 <?php $B->M( MOD_USER, 
-             EVT_REGISTER, 
+             EVT_USER_REGISTER, 
              array('register'    => $_POST['do_register'],
                    'var'         => 'tpl',
                    'error_var'   => 'error',
@@ -15,7 +15,7 @@
                                        'lastname' => $_POST['lastname'],
                                        'email'    => $_POST['email']))); ?> 
 <?php $B->M( MOD_USER, 
-             EVT_VALIDATE, 
+             EVT_USER_VALIDATE, 
              array('error_var'   => 'v_error',
                    'error_msg'   => 'A unexpected error occured during your account validation. Please contact the administrator (EMAIL) or try again.',
                    'success_var' => 'v_success',

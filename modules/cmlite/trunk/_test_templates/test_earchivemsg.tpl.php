@@ -25,22 +25,22 @@ body {
     color: #333333;
 }
 .style4 {
-	font-size: 18px;
-	color: #CC0000;
-	font-weight: bold;
+    font-size: 18px;
+    color: #CC0000;
+    font-weight: bold;
 }
 .style5 {
   font-size: 14px;
-	color: #3366CC;
-	font-weight: bold;
+    color: #3366CC;
+    font-weight: bold;
 }
 .status {
   font-size: 10px;
-	color: #000000;
+    color: #000000;
 }
 .listdesc {
   font-size: 12px;
-	color: #000000;
+    color: #000000;
 }
 -->
 </style>
@@ -52,7 +52,7 @@ body {
 <?php //get the requested message ?>
 <?php $B->M( MOD_MAILARCHIVER, 
              MAILARCHIVER_MESSAGE, 
-             array('var'=>'msg', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('subject','sender','mdate','body','folder'))); ?> 						 
+             array('var'=>'msg', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('subject','sender','mdate','body','folder'))); ?>                       
 <?php //get the message attachments ?>
 <?php $B->M( MOD_MAILARCHIVER, 
              MAILARCHIVER_MESSAGE_ATTACH, 
@@ -69,28 +69,28 @@ body {
           <p align="right" class="style2"> <a href="index.php?tpl=earchivelist&lid=<?php echo $_GET['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>">Back</a></p>
           <p class="style4">Mail archiver</p>
           <p class="listdesc">Message of list: "<?php echo $B->list['name']; ?>"</p>
-					<?php if (count($B->msg) > 0): ?>
+                    <?php if (count($B->msg) > 0): ?>
                   <div class='status'>DATE: <?php echo $B->msg['mdate']; ?></div>
-									<div class='status'>FROM: <?php echo htmlentities($B->msg['sender']); ?></div>
-							    <div class="style5"><?php echo $B->msg['subject']; ?></div>
-									<div class="style2"><?php echo $B->msg['body']; ?></div>
-					<?php endif; ?>
-					<br /><br />
+                  <div class='status'>FROM: <?php echo $B->msg['sender']; ?></div>
+                  <div class="style5"><?php echo $B->msg['subject']; ?></div>
+                  <div class="style2"><?php echo $B->msg['body']; ?></div>
+                    <?php endif; ?>
+                    <br /><br />
           <p class="style5">
-					_______________________<br />
-					Attachments of this message:</p>
-					<?php if (count($B->attach) > 0): ?>
-					    <?php foreach($B->attach as $attach): ?>
-							    <a href="index.php?tpl=earchiveattach&aid=<?php echo $attach['aid']; ?>&mid=<?php echo $attach['mid']; ?>&lid=<?php echo $attach['lid']; ?>" class="style2"><?php echo stripslashes($attach['file']); ?></a>
-									<div class='status'>Type: <?php echo $attach['type']; ?></div>
-									<div class='status'>Size: <?php echo $attach['size']; ?></div>
-									<br />
-					    <?php endforeach; ?>
-							<div class='listdesc'><?php echo $B->prevnext; ?></div>
-					<?php else: ?>
-					    <div class='listdesc'>No attachments for this message</div>
-					    <?php endif; ?>					
-					</td>
+                    _______________________<br />
+                    Attachments of this message:</p>
+                    <?php if (count($B->attach) > 0): ?>
+                        <?php foreach($B->attach as $attach): ?>
+                                <a href="index.php?tpl=earchiveattach&aid=<?php echo $attach['aid']; ?>&mid=<?php echo $attach['mid']; ?>&lid=<?php echo $attach['lid']; ?>" class="style2"><?php echo stripslashes($attach['file']); ?></a>
+                                    <div class='status'>Type: <?php echo $attach['type']; ?></div>
+                                    <div class='status'>Size: <?php echo $attach['size']; ?></div>
+                                    <br />
+                        <?php endforeach; ?>
+                            <div class='listdesc'><?php echo $B->prevnext; ?></div>
+                    <?php else: ?>
+                        <div class='listdesc'>No attachments for this message</div>
+                        <?php endif; ?>                 
+                    </td>
       </tr>
     </table></td>
   </tr>

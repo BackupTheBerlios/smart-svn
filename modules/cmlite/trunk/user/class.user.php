@@ -124,7 +124,7 @@ class user
                 '.$GLOBALS['B']->sys['db']['table_prefix'].'user_users
                 (uid,forename,lastname,email,login,passwd,status,rights)
             VALUES
-                ('.$data['uid'].',
+                ('.$uid.',
                  '.$data['forename'].',
                  '.$data['lastname'].',
                  '.$data['email'].',
@@ -203,6 +203,7 @@ class user
                 login='.$login;
         
         $result = &$GLOBALS['B']->db->query($sql);
+        
         return $result->numRows();    
     }
     
@@ -215,14 +216,16 @@ class user
     function add_registered_user_data( $uid )
     {
         $md5_str = $GLOBALS['B']->util->unique_md5_str();
+        $_time   = date("Y-m-d H:i:s", time()); 
         
         $sql = '
             INSERT INTO 
                 '.$GLOBALS['B']->sys['db']['table_prefix'].'user_registered
-                (uid,md5_str)
+                (uid,md5_str,reg_date)
             VALUES
                 ('.$uid.',
-                 "'.$md5_str.'")';
+                 "'.$md5_str.'",
+                 "'.$_time.'")';
         
         $res = $GLOBALS['B']->db->query($sql);
 
@@ -245,7 +248,7 @@ class user
         $this->delete_expired_registered_users();
         
         // validate md5 string
-        if(!preg_match("/^[a-f0-9]{32}$/i", $md5_str) > 0)
+        if(preg_match("/^[a-f0-9]{32}$/i", $md5_str) == 0)
         {
             return FALSE;
         }
@@ -298,7 +301,7 @@ class user
             FROM
                 {$GLOBALS['B']->sys['db']['table_prefix']}user_registered
             WHERE
-                reg_date<'{$md5_str}'";
+                reg_date<'{$_date}'";
         
         $result = $GLOBALS['B']->db->query($sql);
         

@@ -23,7 +23,10 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_USER' , 'USER');
 
-define ( 'EVT_CHECK_LOGIN' ,        100);
+define ( 'EVT_USER_LOGIN' ,        'USER_0');
+define ( 'EVT_USER_REGISTER' ,     'USER_1');
+define ( 'EVT_USER_VALIDATE' ,     'USER_2');
+
 
 // register this handler                       
 if (FALSE == $B->register_handler(MOD_USER,
@@ -44,7 +47,7 @@ function user_event_handler( $evt )
             include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
             $B->auth = & new auth( SF_SECTION );  
             break;
-        case EVT_LOGIN:
+        case EVT_USER_LOGIN:
             if(!empty($evt['data']['login']) && !empty($evt['data']['passwd']))
             {
                 include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
@@ -56,7 +59,7 @@ function user_event_handler( $evt )
                 }
             }
             break;  
-        case EVT_REGISTER:
+        case EVT_USER_REGISTER:
             if($B->sys['option']['user']['allow_register'] == FALSE)
             {
                 return;
@@ -85,7 +88,7 @@ function user_event_handler( $evt )
             $captcha->shadow = FALSE;    
 
             $B->captcha_turing_picture = $captcha->make_captcha();
-            @chmod(SF_BASE_DIR . '/' . $B->captcha_turing_picture, SF_FILE_MOD);
+            @chmod(SF_BASE_DIR . '/' . $B->captcha_turing_picture, SF_FILE_MODE);
             $B->captcha_public_key     = $captcha->public_key;
 
             if($evt['data']['register'] != FALSE)
@@ -130,11 +133,11 @@ function user_event_handler( $evt )
                     $user = & new user;
                 
                     $data = array();
-                    $data['forename'] = $evt['data']['reg_data']['forename'];
-                    $data['lastname'] = $evt['data']['reg_data']['lastname'];
-                    $data['login']    = $evt['data']['reg_data']['login'];
-                    $data['passwd']   = md5($evt['data']['reg_data']['passwd1']);
-                    $data['email']    = $evt['data']['reg_data']['email'];
+                    $data['forename'] = $B->db->quoteSmart($B->util->stripSlashes($evt['data']['reg_data']['forename']));
+                    $data['lastname'] = $B->db->quoteSmart($B->util->stripSlashes($evt['data']['reg_data']['lastname']));
+                    $data['login']    = $B->db->quoteSmart($B->util->stripSlashes($evt['data']['reg_data']['login']));
+                    $data['passwd']   = $B->db->quoteSmart(md5($B->util->stripSlashes($evt['data']['reg_data']['passwd1'])));
+                    $data['email']    = $B->db->quoteSmart($B->util->stripSlashes($evt['data']['reg_data']['email']));
                     $data['status']   = 0;
                     $data['rights']   = 1;
                     
@@ -176,7 +179,7 @@ function user_event_handler( $evt )
                 }                
             }
             break;             
-        case EVT_VALIDATE:
+        case EVT_USER_VALIDATE:
             if(isset($_GET['md5_str']))
             {
                 $_succ = &$GLOBALS['B']->$evt['data']['success_var'];
@@ -188,7 +191,7 @@ function user_event_handler( $evt )
                 
                 include( SF_BASE_DIR .'/admin/modules/user/class.user.php' );
                 $user = & new user;
-                if(FALSE === $user->auto_validate_registered_user( $md5_str ))
+                if(FALSE === $user->auto_validate_registered_user( $_GET['md5_str'] ))
                 {
                     $_error = str_replace("(EMAIL)", "<a href='mailto:{$B->sys['option']['email']}'>{$B->sys['option']['email']}</a>",$_error);              
                 }

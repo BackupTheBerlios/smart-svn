@@ -70,7 +70,7 @@ if( count($B->setup_error) == 0 )
             passwd   CHAR(32) NOT NULL,
             forename VARCHAR(50) NOT NULL,
             lastname VARCHAR(50) NOT NULL,
-            email    VARCHAR(300) NOT NULL,
+            email    TEXT NOT NULL,
             PRIMARY KEY     (uid),
             KEY status      (status),
             KEY rights      (rights))";

@@ -83,7 +83,7 @@ if( count($B->setup_error) == 0 )
             passwd   CHAR(32) NOT NULL,
             forename VARCHAR(50) NOT NULL,
             lastname VARCHAR(50) NOT NULL,
-            email    VARCHAR(300) NOT NULL default '',
+            email    TEXT NOT NULL default '',
             desc     TEXT NOT NULL default '')";
 
     $result = $B->db->query($sql);
