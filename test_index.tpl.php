@@ -47,7 +47,7 @@ body {
           <p class="style3">The core system includes some useful base classes. It also registers the event handlers of the modules. </p>
           <p class="style3">&nbsp;</p>
           <p class="style3"><strong>The main admin file </strong> admin/index.php. </p>
-          <p class="style3">It produces a user authentication event, a init event, a possible logout event and a event to load the demanded module. </p>          <p class="style3">&nbsp;</p>          <p class="style2">&nbsp;</p></td>
+          <p class="style3">It produces a user authentication event, a init event, a possible logout event and an event to load the demanded module. </p>          <p class="style3">&nbsp;</p>          <p class="style2">&nbsp;</p></td>
       </tr>
     </table></td>
   </tr>

@@ -3,7 +3,7 @@
 <head>
 <title>Admin</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
-<link href="media/<?php echo $B->sys['option']['css_folder']; ?>/main.css" rel="stylesheet" type="text/css" />
+<link href="media/main.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {
