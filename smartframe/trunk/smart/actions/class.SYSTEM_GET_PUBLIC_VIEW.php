@@ -44,6 +44,7 @@ class SYSTEM_GET_PUBLIC_VIEW
      * - validate the template request
      * - build the whole path to the requested template
      * - return the template path
+     * - load a template view class if present
      *
      *
      * @param array $data
@@ -57,23 +58,57 @@ class SYSTEM_GET_PUBLIC_VIEW
         if (!isset($tpl))
         {
             $tpl = 'index';
+            // build the whole requested template file path
+            $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $tpl . '.tpl.php';           
         }
-        elseif(!preg_match("/[a-z_]{1,30}/", $tpl))
+        // error if the template name has a wrong format
+        elseif(preg_match("/[^a-z_]{1,30}/", $tpl))
         {
-            trigger_error( "WRONG VAR FORMAT: tpl\nVALUE: " . $_REQUEST['tpl'] . "\nFILE: " . __FILE__ . "\nLINE:" . __LINE__  );    
-        }   
+            $this->B->tpl_error = 'The requested template name "' . $tpl . '" has a wrong name format! Only chars a-z and underscores _ are accepted.';
+            
+            $tpl = 'error';  
+            
+            // build the whole requested template file path
+            $template_file = SF_BASE_DIR . 'error.tpl.php';
+        } 
+        else
+        {
+            // build the whole requested template file path
+            $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $tpl . '.tpl.php';
+        }
 
-        // build the whole requested template file path
-        $this->B->template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $tpl . '.tpl.php';
+        // build the whole file path to the view class file
+        $view_class_file = SF_BASE_DIR . 'view/class.view_' . $tpl . '.php';
 
+        // include view class file of the requested template
+        if( @file_exists( $view_class_file ) )
+        {
+            include_once( $view_class_file );
+            
+            $view_class = 'view_'.$tpl;
+            
+            $view = & new $view_class();
+            if( FALSE == $view->perform() )
+            {
+                // on error set the error template as default
+                $template_file = SF_BASE_DIR . 'error.tpl.php';
+            }
+        }
+            
         // check if the requested template exist
-        if (!@file_exists( $this->B->template_file ))
+        if (!@file_exists( $template_file ))
         {
-            // on error
-            die ("The requested template file '{$B->template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
+            $this->B->tpl_error = 'The requested template "' .$template_file. '" dosent exists!';
+            $template_file = SF_BASE_DIR . 'error.tpl.php';
+            
+            if (!@file_exists( $template_file ))
+            {            
+                // on error
+                die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
+            }
         }
-        
-        return $this->B->template_file;
+
+        return $template_file;
     }    
 }
 
