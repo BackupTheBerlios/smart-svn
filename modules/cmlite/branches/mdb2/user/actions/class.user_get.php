@@ -49,11 +49,8 @@ class user_get
      */
     function perform( $data )
     {
-        $this->B->$data['error'] = FALSE;
-        $error                   = & $this->B->$data['error'];
-
         $this->B->$data['result'] = FALSE;
-        $_result                  = & $this->B->$data['result'];
+        $result                   = & $this->B->$data['result'];
 
         $comma = '';
         foreach ($data['fields'] as $f)
@@ -70,16 +67,13 @@ class user_get
             WHERE
                 uid={$data['user_id']}";
         
-        $result = $this->B->db->query($sql);
+        $result = $this->B->db->queryRow( $sql, array(), MDB2_FETCHMODE_ASSOC );
         
         if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            $error = 'Unexpected error';
-            return $_result = FALSE;
+            return FALSE;
         } 
-
-        $_result = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
         
         return TRUE;
     } 

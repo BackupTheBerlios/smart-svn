@@ -72,9 +72,7 @@ class earchive_get_list
             WHERE
                 lid={$data['lid']}";
         
-        $_result = $this->B->db->query($sql);
-        
-        $result = $_result->fetchRow( MDB2_FETCHMODE_ASSOC );
+        $result = $this->B->db->queryRow( $sql, array(), MDB2_FETCHMODE_ASSOC );
 
         if (MDB2::isError($result)) 
         {

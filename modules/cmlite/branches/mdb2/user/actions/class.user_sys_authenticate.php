@@ -121,19 +121,17 @@ class user_sys_authenticate
                 AND
                     status=2 {$_and}";
         
-        $result = $this->B->db->query( $sql );
+        $result = $this->B->db->queryRow( $sql, array(), MDB2_FETCHMODE_ASSOC );
         
-        if($result->numRows() == 1)
+        if($result['uid'] > 0)
         {
             $this->B->logged_user_rights = (int) $_SESSION['logged_user_rights'];
             $this->B->logged_id_user     = (int) $_SESSION['logged_id_user'];
             $this->_is_logged  = TRUE;
             
-            $row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC );
-            
-            $this->B->logged_user_forename = stripslashes($row['forename']);
-            $this->B->logged_user_lastname = stripslashes($row['lastname']);
-            $this->B->logged_user_login    = stripslashes($row['login']);  
+            $this->B->logged_user_forename = stripslashes($result['forename']);
+            $this->B->logged_user_lastname = stripslashes($result['lastname']);
+            $this->B->logged_user_login    = stripslashes($result['login']);  
         }
         else
         {

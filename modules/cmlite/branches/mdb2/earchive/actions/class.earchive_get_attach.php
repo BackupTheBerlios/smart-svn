@@ -69,15 +69,13 @@ class earchive_get_attach
 
         // get var name to store the result
         $this->B->$data['var'] = array();
-        $_result               = & $this->B->$data['var'];
+        $result                = & $this->B->$data['var'];
 
-        $result = $this->B->db->query($sql);
-
-        $_result = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
+        $result = $this->B->db->queryRow( $sql, array(), MDB2_FETCHMODE_ASSOC );
         
-        if (MDB2::isError($_result)) 
+        if (MDB2::isError($result)) 
         {
-            trigger_error($_result->getMessage()."\n\nINFO: ".$_result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }        
     }
