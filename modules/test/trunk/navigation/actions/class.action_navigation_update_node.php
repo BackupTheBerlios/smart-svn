@@ -52,6 +52,12 @@ class action_navigation_update_node extends action
         // Look at the node id and assign the new title
         foreach($nav as $node)
         {
+            if($node == 0)
+            {
+                $x++;
+                continue;
+            }
+            
             list($id, $val) = each($node);
             if($data['node'] == $id)
             {
