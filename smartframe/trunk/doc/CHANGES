@@ -1,7 +1,11 @@
 CHANGES
 #######
 
-1004-10-17
+2004-10-19
+-----------
+- removed output compression since there are some confusions with append filters
+
+2004-10-17
 -----------
 - rebuild the admin and public front controller to one front controller
 - added view class for each template.
