@@ -28,7 +28,9 @@ function go(x){
         <tr>
           <td width="15%" align="left" valign="top"><span class="style4"><span class="font10">PHP Framework</span></span></td>
           <td width="14%" align="right" valign="top" class="font10"><a href="../index.php">The public page</a></td>
-          <td width="64%" align="right" valign="middle"><form name="form1" id="form1" method="post" action="">
+          <td width="64%" align="right" valign="middle">
+          <?php if($B->login != FALSE){ ?>
+          <form name="form1" id="form1" method="post" action="">
             <span class="headerdesc">Select a module:</span>
                         <form action="index.php" method="post">
             <select name="m" onChange="go('index.php?m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
@@ -37,8 +39,14 @@ function go(x){
                             <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
                         <?php endforeach; ?>
             </select>
-          </form></td>
-          <td width="7%" align="right" valign="top"><a href="index.php?logout=1" class="font14">Logout</a></td>
+          </form>
+          <?php } ?>
+          </td>
+          <td width="7%" align="right" valign="top">
+          <?php if($B->login != FALSE){ ?>
+          <a href="index.php?logout=1" class="font14">Logout</a>
+          <?php } ?>
+          </td>
         </tr>
           </table></td>
   </tr>

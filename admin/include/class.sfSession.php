@@ -38,11 +38,6 @@ class session
             session_name($session_name); 
         }
 
-        // Start session if not done now
-        //
-        if (!isset($_SESSION))
-            session_start();
-
         // Test on HTTP_SESSION_VARS
         //
         if (array_key_exists('HTTP_SESSION_VARS', $GLOBALS)) {
@@ -103,7 +98,8 @@ class session
             return false;
 
         $_SESSION[$name] = $value;
-        if ($this->global_scope) {
+        if ($this->global_scope) 
+        {
             $GLOBALS[$name] = $value;
             session_register($name);
         }
@@ -123,7 +119,8 @@ class session
         if (empty($name))
             return false;
 
-        if ($this->global_scope) {
+        if ($this->global_scope) 
+        {
             unset($GLOBALS[$name]);
             session_unregister($name);
         }
@@ -164,18 +161,34 @@ class session
      */
     function destroy()
     {
+        $CookieInfo = session_get_cookie_params();
+        
+        if ( (empty($CookieInfo['domain'])) && (empty($CookieInfo['secure'])) ) 
+        {
+            setcookie(session_name(), '', time()-36000, $CookieInfo['path']);
+        } 
+        elseif (empty($CookieInfo['secure'])) 
+        {
+            setcookie(session_name(), '', time()-36000, $CookieInfo['path'], $CookieInfo['domain']);
+        } 
+        else 
+        {
+            setcookie(session_name(), '', time()-36000, $CookieInfo['path'], $CookieInfo['domain'], $CookieInfo['secure']);
+        }    
         session_unset();
         session_destroy();
     } 
 
     /* Open session, if you have your own db connection
        code, put it in here! */
-    function _open($path, $name) {
+    function _open($path, $name) 
+    {
         return TRUE;
     }
 
     /* Close session */
-    function _close() {
+    function _close() 
+    {
         /* This is used for a manual call of the
            session gc function */
         $this->_gc(0);
@@ -183,34 +196,43 @@ class session
     }
 
     /* Read session data from database */
-    function _read($ses_id) {
+    function _read($ses_id) 
+    {
         $session_sql = "SELECT * FROM " . $this->ses_table
                      . " WHERE ses_id = '$ses_id'";
         $session_res = $this->_B->dbsession->query($session_sql);
-        if (!$session_res) {
+        if (!$session_res) 
+        {
             return '';
         }
 
         $session_num = $this->_B->dbsession->numRows($session_res);
-        if ($session_num > 0) {
+        if ($session_num > 0) 
+        {
             $session_row = $this->_B->dbsession->getRow($session_res);
             $ses_data = $session_row["ses_value"];
             return $ses_data;
-        } else {
+        } 
+        else 
+        {
             return '';
         }
     }
 
     /* Write new data to database */
-    function _write($ses_id, $data) {
+    function _write($ses_id, $data) 
+    {
         $session_sql = "UPDATE " . $this->ses_table
                      . " SET ses_time='" . time()
                      . "', ses_value='$data' WHERE ses_id='$ses_id'";
         $session_res = $this->_B->dbsession->query($session_sql);
-        if (!$session_res) {
+        
+        if (!$session_res) 
+        {
             return FALSE;
         }
-        if ($this->_B->dbsession->affectedRows()) {
+        if ($this->_B->dbsession->affectedRows()) 
+        {
             return TRUE;
         }
 
@@ -219,27 +241,36 @@ class session
                      . " VALUES ('$ses_id', '" . time()
                      . "', '" . time() . "', '$data')";
         $session_res = $this->_B->dbsession->query($session_sql);
-        if (!$session_res) {    
+        
+        if (!$session_res) 
+        {    
             return FALSE;
-        }         else {
+        }         
+        else 
+        {
             return TRUE;
         }
     }
 
     /* Destroy session record in database */
-    function _destroy($ses_id) {
+    function _destroy($ses_id) 
+    {
         $session_sql = "DELETE FROM " . $this->ses_table
-                     . " WHERE ses_id = '$ses_id'";
+                     . " WHERE ses_id='$ses_id'";
         $session_res = $this->_B->dbsession->query($session_sql);
-        if (!$session_res) {
+        if (!$session_res) 
+        {
             return FALSE;
-        }         else {
+        }         
+        else 
+        {
             return TRUE;
         }
     }
 
     /* Garbage collection, deletes old sessions */
-    function _gc($life) {
+    function _gc($life) 
+    {
         $ses_life = strtotime("-5 minutes");
 
         $session_sql = "DELETE FROM " . $this->ses_table
@@ -247,9 +278,12 @@ class session
         $session_res = $this->_B->dbsession->query($session_sql);
 
 
-        if (!$session_res) {
+        if (!$session_res) 
+        {
             return FALSE;
-        }         else {
+        }         
+        else 
+        {
             return TRUE;
         }
     }

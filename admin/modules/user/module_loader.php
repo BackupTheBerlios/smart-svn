@@ -45,7 +45,7 @@ switch($_REQUEST['mf'])
         break;
     case 'del_usr':
     
-        break;
+        break;      
     default:
         // Include default
         include( SF_BASE_DIR."/admin/modules/user/default.php" );

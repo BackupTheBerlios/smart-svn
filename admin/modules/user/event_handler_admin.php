@@ -42,8 +42,11 @@ function user_event_handler( $evt )
     switch( $evt["code"] )
     {
         case EVT_AUTHENTICATE:
-            // Include authentication script
-            include(SF_BASE_DIR.'/admin/modules/user/auth.php');         
+            $B->login = TRUE;
+            include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
+            $B->auth = & new auth();  
+            if($B->auth->is_user == FALSE)
+                include(SF_BASE_DIR.'/admin/modules/user/login.php');
             break;
         case EVT_LOAD_MODULE:
             // Include authentication script
@@ -52,8 +55,11 @@ function user_event_handler( $evt )
         case EVT_INIT:
             // Include authentication script
             include(SF_BASE_DIR.'/admin/modules/user/init.php');          
-            break; 
+            break;               
         case EVT_LOGOUT:  
+            $B->session->destroy();
+            @header('Location: index.php');
+            exit;
             break;  
         case EVT_SETUP:       
             if( count($base->tmp_error) == 0 )
