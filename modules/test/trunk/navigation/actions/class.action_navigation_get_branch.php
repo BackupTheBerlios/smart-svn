@@ -68,8 +68,16 @@ class action_navigation_get_branch extends action
         // validate $data['node']. no chars else than 0123456789 and - are accepted
         if( preg_match("/[^0-9-]/", $data['node']) )
         {
+            $this->B->$data['error']  = 'Wrong node format';
             return FALSE;
         }     
+        
+        // check if node exists
+        if(!file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
+        {
+            $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
+            return FALSE;            
+        }
         
         return TRUE;
     } 

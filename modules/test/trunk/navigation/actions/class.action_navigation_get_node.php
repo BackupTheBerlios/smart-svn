@@ -134,7 +134,13 @@ class action_navigation_get_node extends action
         {
             $this->B->$data['error']  = 'Wrong node format';
             return FALSE;
-        }   
+        } 
+        
+        if(!file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
+        {
+            $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
+            return FALSE;            
+        }
         
         return TRUE;
     }  
