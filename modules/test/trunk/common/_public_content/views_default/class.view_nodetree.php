@@ -36,17 +36,6 @@ class view_nodetree extends view
             // assign a template variable with the name of the logged user.
             $this->B->tpl_logged_user = $this->B->logged_user;
         }
-        
-        // It assign navigation node template array $B->tpl_node
-        // with data of the node defined in $_GET['node'] with status 2=public
-        // the text body is formated by PEAR's text_wikki
-        M( MOD_NAVIGATION, 
-           'get_node', 
-           array('node'   => (int)$_GET['node'],
-                 'error'  => 'tpl_error',
-                 'result' => 'tpl_node',
-                 'status' => 2,
-                 'format' => 'wikki' )); 
 
         // get navigation node sitemap         
         M( MOD_NAVIGATION, 
