@@ -52,7 +52,7 @@ class earchive_rebuild_words_index
                 
         if( FALSE !== $result )
         {
-            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+            while($row = $result->fetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $content  = '';
                 $content .= commonUtil::stripslashes($row['sender']);

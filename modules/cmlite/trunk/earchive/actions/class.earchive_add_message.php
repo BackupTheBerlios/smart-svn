@@ -47,21 +47,12 @@ class earchive_add_message
      */
     function perform( & $data )
     { 
-        $mid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_seq_add_message');
-
-        if (DB::isError($mid)) 
-        {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            return FALSE;
-        }
-        
         $sql = '
             INSERT INTO 
                 '.$this->B->sys['db']['table_prefix'].'earchive_messages
-                (mid,lid,sender,subject,mdate,body,folder)
+                (lid,sender,subject,mdate,body,folder)
             VALUES
-                ('.$mid.',
-                 '.$data['lid'].',
+                ('.$data['lid'].',
                  '.$data['sender'].',
                  '.$data['subject'].',
                  '.$data['mdate'].',
@@ -76,7 +67,11 @@ class earchive_add_message
             return FALSE;
         }   
         
-        return $mid;
+        $sql = 'SELECT LAST_INSERT_ID() AS mid';
+        
+        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+       
+        return $result['mid'];
     }  
 }
 

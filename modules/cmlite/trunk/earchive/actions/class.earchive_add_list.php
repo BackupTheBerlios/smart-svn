@@ -41,7 +41,7 @@ class earchive_add_list
     }
     
     /**
-     * add list data in db table
+     * add list data in db table and create data folder
      *
      * @param array $data
      */
@@ -55,22 +55,13 @@ class earchive_add_list
             trigger_error("Cannot create list messages attachment folder! Contact the administrator.\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }
-
-        $lid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_seq_add_list');
-
-        if (DB::isError($lid)) 
-        {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            return FALSE;
-        }
         
         $sql = '
             INSERT INTO 
                 '.$this->B->sys['db']['table_prefix'].'earchive_lists
-                (lid,name,email,emailserver,description,folder,status)
+                (name,email,emailserver,description,folder,status)
             VALUES
-                ('.$lid.',
-                 '.$data['name'].',
+                ('.$data['name'].',
                  '.$data['email'].',
                  '.$data['emailserver'].',
                  '.$data['description'].',

@@ -89,12 +89,14 @@ class earchive_delete_attach
                     {$this->B->sys['db']['table_prefix']}earchive_attach 
                 WHERE 
                     aid={$data['aid']}";
-        $result = $this->B->db->query($sql);   
-            
-        $row = $result->FetchRow( DB_FETCHMODE_ASSOC );
+        
+        $row = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
         
         // delete attachment file
-        @unlink($path.'/'.$row['file']); 
+        if(!@unlink($path.'/'.$row['file']))
+        {
+            trigger_error("Can't unlink file: ".$path.'/'.$row['file']."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);        
+        }
         
         // delete attach db entry
         $sql = "
@@ -104,6 +106,11 @@ class earchive_delete_attach
                     aid={$data['aid']}";  
         
         $result = $this->B->db->query($sql);
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }        
     
         return TRUE;
     }  

@@ -41,7 +41,7 @@ class earchive_get_attach
     }
     
     /**
-     * Get a message from an email list
+     * Get a message attachment 
      *
      * @param array $data
      */

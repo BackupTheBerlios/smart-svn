@@ -41,7 +41,8 @@ class earchive_get_messages
     }
     
     /**
-     * Assign array with messages data of a list
+     * Assign array with messages data of a list.
+     * use cache.
      *
      * @param array $data
      */

@@ -82,7 +82,12 @@ class earchive_delete_message
             WHERE
                 mid={$data['mid']}";
         
-        $this->B->db->query($sql);    
+        $result = $this->B->db->query($sql);    
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }         
         
         // delete list messages
         $sql = "
@@ -91,7 +96,12 @@ class earchive_delete_message
             WHERE
                 mid={$data['mid']}";
         
-        $this->B->db->query($sql); 
+        $result = $this->B->db->query($sql); 
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }         
         
         // Delete message words from the search index
         $this->B->M( MOD_EARCHIVE, 

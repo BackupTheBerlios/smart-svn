@@ -76,20 +76,12 @@ class earchive_add_attach
      */     
     function _add_attach( $mid, $lid, &$data )
     {
-        $aid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_seq_add_attach');
-
-        if (DB::isError($aid)) 
-        {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-        }
-        
         $sql = '
             INSERT INTO 
                 '.$this->B->sys['db']['table_prefix'].'earchive_attach
-                (aid,mid,lid,file,size,type)
+                (mid,lid,file,size,type)
             VALUES
-                ('.$aid.',
-                 '.$mid.',
+                ('.$mid.',
                  '.$lid.',
                  '.$data['file'].',
                  '.$data['size'].',

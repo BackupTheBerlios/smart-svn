@@ -87,6 +87,9 @@ class earchive_update_message
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }     
+
+        // Delete cache data
+        $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
         
         return TRUE;
     }

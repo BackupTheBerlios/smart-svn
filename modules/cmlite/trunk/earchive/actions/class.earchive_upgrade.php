@@ -81,7 +81,8 @@ class earchive_upgrade
                         {$this->B->sys['db']['table_prefix']}earchive_messages 
                     CHANGE mid mid INT(11) NOT NULL auto_increment,
                     DROP INDEX mid,
-                    ADD PRIMARY KEY (mid)";      
+                    ADD PRIMARY KEY (mid),
+                    ADD KEY mdate   (mdate)";      
         
             $result = $this->B->db->query($sql);
 

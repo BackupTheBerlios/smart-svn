@@ -184,9 +184,10 @@ class earchive_word_indexer
                     {$_insert_string}";
 
             $result = $this->B->db->query( $sql );
+            
             if (DB::isError($result)) 
             {
-                    trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }
         }
     }
@@ -202,7 +203,12 @@ class earchive_word_indexer
             DELETE FROM  
                 {$this->B->sys['db']['table_prefix']}earchive_words_crc32";
                 
-        $this->B->db->query($sql);         
+        $result = $this->B->db->query($sql);  
+            
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }        
     }
 
     /**
@@ -220,7 +226,12 @@ class earchive_word_indexer
             WHERE 
                 {$row_name}={$row_value}";
                 
-        $this->B->db->query($sql);         
+        $result = $this->B->db->query($sql); 
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }         
     }     
 }
 
