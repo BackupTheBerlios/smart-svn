@@ -52,10 +52,11 @@ body {
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>The
             process of creating a page:</strong></font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If
-              no <strong>tpl</strong> (template) url var is defined the default template is 'index'
-            -&gt; see: 'default_index.tpl.php'. But before parsing this template,
-            smart is looking if there is a 'class.view_index.php' class
-            file in the <strong>/view</strong> folder. If so, smart make an
+              no <strong>tpl</strong> (template) url var is defined the default
+              template is 'index' -&gt; see: 'default_index.tpl.php'. But before
+              parsing this template, Smart is looking if there is a 'class.view_index.php'
+              class
+            file in the <strong>/view</strong> folder. If so, Smart make an
             instance of this class and execute the perform() function of this
             class. In this function you have to assign all the variables, which
             are used in this template. The goal of those view classes is to optain
@@ -67,6 +68,7 @@ body {
              each module should
               provide a couple of action classes, which perform on the event
             requests.</font></p>
+        <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="media/view.gif" width="542" height="338" /></font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>The
               format of the template and the corresponting view class files.<br />
             </strong><br />
