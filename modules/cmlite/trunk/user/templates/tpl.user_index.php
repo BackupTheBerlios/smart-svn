@@ -20,7 +20,7 @@
   <tr>
     <td width="86%" colspan="2" align="left" valign="top">
         <?php /* ### include the module view (template) ### */ ?>
-        <?php include( $B->M( MOD_COMMON, 'get_module_view', array('m' => 'user', 'view' => $_REQUEST['sec']) ) ); ?>        
+        <?php M( MOD_SYSTEM, 'get_view', array('m' => 'user', 'view' => $_REQUEST['sec']) ); ?>        
     </td>
   </tr>
 </table>

@@ -152,12 +152,12 @@ class user_filter_permission
             return TRUE;
         
         // get user rights
-        $this->B->M( MOD_USER,
-                     'get',
-                     array( 'error'   => 'tmp_error',
-                            'result'  => 'tmp_data',
-                            'user_id' => $uid,
-                            'fields'  => array('rights') ));
+        M( MOD_USER,
+           'get',
+           array( 'error'   => 'tmp_error',
+                  'result'  => 'tmp_data',
+                  'user_id' => $uid,
+                  'fields'  => array('rights') ));
 
         $rights = $this->B->tmp_data['rights'];
         $this->B->tmp_data['rights'] = NULL;
@@ -194,12 +194,12 @@ class user_filter_permission
         if( ($this->B->logged_user_rights == 4) )
         {
             // get user rights
-            $this->B->M( MOD_USER,
-                         'get',
-                         array( 'error'   => 'tmp_error',
-                                'result'  => 'tmp_data',
-                                'user_id' => $uid,
-                                'fields'  => array('rights') ));     
+            M( MOD_USER,
+               'get',
+               array( 'error'   => 'tmp_error',
+                      'result'  => 'tmp_data',
+                      'user_id' => $uid,
+                      'fields'  => array('rights') ));     
 
             $rights = $this->B->tmp_data['rights'];
             $this->B->tmp_data['rights'] = NULL;
@@ -228,12 +228,12 @@ class user_filter_permission
         if( ($this->B->logged_user_rights == 4) )
         {
             // get user rights
-            $this->B->M( MOD_USER,
-                         'get',
-                         array( 'error'   => 'tmp_error',
-                                'result'  => 'tmp_data',
-                                'user_id' => $uid,
-                                'fields'  => array('rights') ));
+            M( MOD_USER,
+               'get',
+               array( 'error'   => 'tmp_error',
+                      'result'  => 'tmp_data',
+                      'user_id' => $uid,
+                      'fields'  => array('rights') ));
                                 
             $rights = $this->B->tmp_data['rights'];
             $this->B->tmp_data['rights'] = NULL;
