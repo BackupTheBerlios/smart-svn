@@ -101,6 +101,13 @@ function earchive_event_handler( $evt )
                     }
                 }                
             }
+            // set user options 
+            // this event comes from the option module (module_loader.php)
+            if(!empty($_POST['earchive_fetch_emails']))
+            {
+                // the earchive class
+                include_once SF_BASE_DIR . '/admin/modules/earchive/fetch_emails.php';             
+            }            
             break;             
         case EVT_GET_OPTIONS:  
             // get earchive options template 
