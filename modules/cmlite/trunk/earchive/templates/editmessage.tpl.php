@@ -54,7 +54,7 @@ function deleteuser(f, mes)
               this message:</strong> (delete on check)<br />
             <?php if (count($B->tpl_attach) > 0): ?>
             <?php foreach($B->tpl_attach as $attach): ?>
-            <input name="aid[]" type="checkbox" value="<?php echo $attach['aid']; ?>">&nbsp;<a href="index.php?tpl=attach&aid=<?php echo $attach['aid']; ?>&mid=<?php echo $attach['mid']; ?>&lid=<?php echo $attach['lid']; ?>"><?php echo stripslashes($attach['file']); ?></a>
+            <input name="aid[]" type="checkbox" value="<?php echo $attach['aid']; ?>">&nbsp;<?php echo stripslashes($attach['file']); ?>
             <div>Type: <?php echo $attach['type']; ?></div>
             <div>Size: <?php echo $attach['size']; ?></div>
             <br />
