@@ -1,4 +1,8 @@
+++++ Smart 0.9a / Little Jo 0.6
+# (Smart) The third argument of M(MOD_SYSTEM, 'get_view', $xxx) is passed to view classes. It's available in view classes: $this->view_data . (suggested by P. Gapi``&#324;``ski)
+# (Little Jo) added navigation media manager
+
 ++++ Smart 0.8a / Little Jo 0.5
-- (Smart) fixed parse error in index_inc_view.php (P. Gapinski)
-- (Little Jo) fixed relative paths in public templates
-- modified smart public templates and set it to default
+# (Smart) fixed parse error in index_inc_view.php (P. Gapi``&#324;``ski)
+# (Little Jo) fixed relative paths in public templates
+# modified smart public templates and set it to default
