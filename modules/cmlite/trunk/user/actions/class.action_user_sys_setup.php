@@ -72,8 +72,7 @@ class action_user_sys_setup extends action
     
             $this->B->conf_val['module']['user']['name']     = 'user';
             $this->B->conf_val['module']['user']['version']  = MOD_USER_VERSION;
-            $this->B->conf_val['module']['user']['mod_type'] = 'lite';
-            $this->B->conf_val['module']['user']['info']     = 'This is leader module of this module group. Author: Armand Turpel <smart AT open-publisher.net>';  
+            $this->B->conf_val['module']['user']['mod_type'] = 'openpublisher';
         
             $this->B->conf_val['db']['dbtype'] = $_POST['dbtype'];
     
