@@ -56,7 +56,7 @@
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?m=earchive">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?m=EARCHIVE">back</a></td>
   </tr>
 </table>
 </form>

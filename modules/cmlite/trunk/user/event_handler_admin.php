@@ -64,9 +64,6 @@ function user_event_handler( $evt )
             // Check for upgrade  
             if(MOD_USER_VERSION != (string)$B->sys['module']['user']['version'])
                 include(SF_BASE_DIR.'/admin/modules/user/upgrade.php');
-                        
-            // Name of this module set
-            $B->tpl_mod_set_name = 'CM-Lite';
             break;               
         case EVT_LOGOUT:  
             $B->session->destroy();
@@ -92,9 +89,9 @@ function user_event_handler( $evt )
     } 
 }
 
-/**********************************
-**** Module SET CM-LITE CONFIG ****
-**********************************/
+/***************************
+**** Module SET  CONFIG ****
+****************************/
 
 // ### These 3 defines MUST be declared ###
 /**
