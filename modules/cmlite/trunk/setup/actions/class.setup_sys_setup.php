@@ -53,19 +53,19 @@ class setup_sys_setup
         $success = TRUE;
      
         if($success == TRUE)
-            $success = $this->B->M( MOD_SYSTEM,       'sys_setup' );
+            $success = M( MOD_SYSTEM,       'sys_setup' );
     
         if($success == TRUE)    
-            $success = $this->B->M( MOD_USER,         'sys_setup' );
+            $success = M( MOD_USER,         'sys_setup' );
             
         if($success == TRUE)    
-            $success = $this->B->M( MOD_COMMON,       'sys_setup' );            
+            $success = M( MOD_COMMON,       'sys_setup' );            
         
         if($success == TRUE)
-            $success = $this->B->M( MOD_EARCHIVE,     'sys_setup' );
+            $success = M( MOD_EARCHIVE,     'sys_setup' );
 
         if($success == TRUE)
-            $success = $this->B->M( MOD_OPTION,       'sys_setup' );
+            $success = M( MOD_OPTION,       'sys_setup' );
     
         // close db connection if present
         if(is_object($this->B->db))
@@ -78,7 +78,7 @@ class setup_sys_setup
             $this->B->conf_val['option']['tpl'] = 'earchive';    
             $this->B->conf_val['info']['status'] = TRUE;
                 
-            $this->B->M( MOD_COMMON, 'sys_update_config', $this->B->conf_val ); 
+            M( MOD_COMMON, 'sys_update_config', $this->B->conf_val ); 
                 
             @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
             exit;  

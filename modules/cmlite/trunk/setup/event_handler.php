@@ -55,13 +55,13 @@ function setup_event_handler( $evt )
             // make instance
             $GLOBALS[$class_name] = & new $class_name();
             // perform the request
-            return $class_name->perform( $evt['data'] );
+            return $GLOBALS[$class_name]->perform( $evt['data'] );
         }
     }
     else
     {
         // perform the request if the requested object exists
-        return $class_name->perform( $evt['data'] );
+        return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
     return TRUE;
 }

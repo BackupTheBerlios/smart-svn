@@ -10,36 +10,25 @@
 // ----------------------------------------------------------------------
 
 /**
- * setup_view_index class 
+ * view_setup_index class 
  *
  */
  
-class setup_view_index
+class view_setup_index extends view
 {
-    /**
-     * Global system instance
-     * @var object $B
+     /**
+     * Default template for this view
+     * @var string $template
      */
-    var $B;
+    var $template = 'setup_index';
     
-    /**
-     * constructor
-     *
-     */
-    function setup_view_index()
-    {
-        $this->__construct();
-    }
+     /**
+     * Default template folder for this view
+     * @var string $template_folder
+     */    
+    var $template_folder = 'modules/setup/templates/';
+    
 
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Do setup for this module
      *
@@ -50,7 +39,7 @@ class setup_view_index
         // launch setup
         if( $_POST['do_setup'] )
         {
-            if( FALSE == $this->B->M(MOD_SETUP, 'sys_setup') )
+            if( FALSE == M(MOD_SETUP, 'sys_setup') )
             {
                 $this->B->form_host        = htmlspecialchars(commonUtil::stripSlashes($_POST['dbhost']));
                 $this->B->form_user        = htmlspecialchars(commonUtil::stripSlashes($_POST['dbuser']));
