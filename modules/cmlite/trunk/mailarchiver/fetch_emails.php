@@ -10,7 +10,8 @@
 // ----------------------------------------------------------------------
 
 /**
- * module loader of the user module
+ * fetch emails from email accounts.
+ * This script should be executed by a cronjob
  */
 
 /*
@@ -143,7 +144,9 @@ foreach ($lists as $account)
             // Clean up left over variables
             $msg->unsetParts($mid);
             $msg->unsetHeaders($mid);
-        }    
+            $msg->delete($mid);
+        } 
+        $msg->expunge();
     }
 }
 // Close the stream

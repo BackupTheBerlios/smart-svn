@@ -17,7 +17,16 @@
  */
  
 class auth
-{   
+{ 
+    /*
+     * User rights
+     */
+    var $user_rights = FALSE;
+    /*
+     * User flag 
+     */    
+    var $is_user = FALSE;
+    
     /**
      * authentication constructor
      *

@@ -96,6 +96,12 @@ class mailarchiver
             $_fields .= $comma.$f;
             $comma = ',';
         }
+
+        // status field required
+        if(!strstr($_fields, 'status'))
+        {
+            $_fields .= ',status';
+        }
         
         $sql = "
             SELECT
@@ -112,6 +118,12 @@ class mailarchiver
         $_result                    = & $GLOBALS['B']->$data['var'];
 
         $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        
+        // check if authentication required
+        if($_result['status'] == 3)
+        {
+            $this->_auth();
+        }
     } 
 
     /**
@@ -122,6 +134,9 @@ class mailarchiver
      */     
     function get_message( $data )
     {
+        // check if message belongs to a restricted list
+        $this->get_list( array('lid' => (int)$data['lid'], 'fields' => array('status')) );
+        
         $comma   = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
@@ -155,6 +170,9 @@ class mailarchiver
      */     
     function get_messages( $data )
     {
+        // check if message belongs to a restricted list
+        $this->get_list( array('lid' => (int)$data['lid'], 'fields' => array('status')) );
+    
         $comma   = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
@@ -215,6 +233,9 @@ class mailarchiver
      */     
     function get_message_attach( $data )
     {
+        // check if message belongs to a restricted list
+        $this->get_list( array('lid' => (int)$data['lid'], 'fields' => array('status')) );
+    
         $comma   = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
@@ -265,6 +286,9 @@ class mailarchiver
      */     
     function get_attach( $data )
     {
+        // check if message belongs to a restricted list
+        $this->get_list( array('lid' => (int)$data['lid'], 'fields' => array('status')) );
+    
         $comma   = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
@@ -318,6 +342,25 @@ class mailarchiver
         $pager = &new Pager_Sliding($params);
         $links = $pager->getLinks();
         $GLOBALS['B']->$data['pager']['var'] = $links['all'];    
+    }
+
+    /**
+     * check if user is registered
+     *
+     * @access privat
+     */     
+    function _auth()
+    {
+        if( $GLOBALS['B']->auth->is_user !== FALSE )
+        {
+            return TRUE;
+        }
+        else
+        {
+            $query = base64_encode($GLOBALS['B']->util->getQueryString());
+            @header('Location: index.php?tpl=login&ret='.$query);
+            exit;
+        }
     }
 }
 ?>

@@ -23,6 +23,8 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_USER' , 'USER');
 
+define ( 'EVT_CHECK_LOGIN' ,        100);
+
 // register this handler                       
 if (FALSE == $B->register_handler(MOD_USER,
                            array ( 'module'        => MOD_USER,
@@ -39,7 +41,21 @@ function user_event_handler( $evt )
     switch( $evt['code'] )
     {
         case EVT_AUTHENTICATE:
+            include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
+            $B->auth = & new auth( SF_SECTION );  
             break;
+        case EVT_CHECK_LOGIN:
+            if(!empty($evt['data']['login']) && !empty($evt['data']['passwd']))
+            {
+                include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
+                if(FALSE !== auth::checklogin($evt['data']['login'], $evt['data']['passwd']))
+                {
+                    $query = base64_decode($evt['data']['urlvar']);
+                    @header('Location: index.php'.$query);
+                    exit;                
+                }
+            }
+            break;            
         case EVT_INIT:        
             break;           
     }
