@@ -76,15 +76,13 @@ class earchive_view_showmessages
                             'var'    => 'tpl_list',
                             'fields' => array('lid','name')));
 
-
         // assign template vars with message data
         $this->B->M( MOD_EARCHIVE, 
                      'get_messages', 
-                     array( 'lid'       => (int)$_REQUEST['lid'], 
-                            'var'       => 'tpl_messages',
-                            'pager_var' => 'tpl_messages_pager',
-                            'limit'     => '20',
-                            'fields'    => array('mid', 'lid', 'subject', 'sender', 'mdate')));
+                     array( 'lid'    => (int)$_REQUEST['lid'], 
+                            'var'    => 'tpl_messages',
+                            'pager'  => array('var' => 'tpl_messages_pager', 'limit' => 20, 'delta' => 3),
+                            'fields' => array('mid', 'lid', 'subject', 'sender', 'mdate')));
 
         return TRUE;
     }    

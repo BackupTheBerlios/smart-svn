@@ -47,8 +47,11 @@ class earchive_view_default
      */
     function perform()
     {
-        $this->B->tmp_fields = array('lid','status','email','name','description');
-        $this->B->all_lists = $this->B->earchive->get_lists( $this->B->tmp_fields );
+        // get all available lists
+        $this->B->M( MOD_EARCHIVE, 
+                     'get_lists', 
+                     array( 'var'    => 'all_lists', 
+                            'fields' => array('lid','status','email','name','description')));        
         
         return TRUE;
     }    

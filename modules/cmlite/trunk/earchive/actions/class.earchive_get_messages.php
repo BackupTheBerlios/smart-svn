@@ -61,6 +61,18 @@ class earchive_get_messages
             $comma = ',';
         }
         
+        $order = ''; 
+        
+        if( !empty($data['order']) )
+        {
+            $order = "ORDER BY {$data['order']}";
+        }
+
+        if( !empty($data['pager']['limit']) )
+        {
+            $data['pager']['limit'] = 15;
+        }        
+        
         $sql = "
             SELECT
                 {$_fields}
@@ -68,14 +80,14 @@ class earchive_get_messages
                 {$this->B->sys['db']['table_prefix']}earchive_messages
             WHERE
                 lid={$data['lid']} 
-            ORDER BY mdate DESC";
+            {$order}";
 
         if(empty($_GET['pageID']) || ($_GET['pageID']==1))
             $page = 0;
         else
-            $page = ($_GET['pageID'] - 1) * $data['limit'];
+            $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
             
-        $result = $this->B->db->limitQuery( $sql, $page, $data['limit'] );
+        $result = $this->B->db->limitQuery( $sql, $page, $data['pager']['limit'] );
 
         if (DB::isError($result)) 
         {
@@ -98,7 +110,8 @@ class earchive_get_messages
                 $_result[] = $tmp;
             }
         }
-        $this->_pager( $data['lid'], $data['limit'], $data['pager_var'] );
+        $this->_pager( $data['lid'], $data['pager'] );
+        
         return TRUE;     
     } 
     
@@ -110,7 +123,7 @@ class earchive_get_messages
      * @param string $pager_var Variable name to store pager links
      * @access privat
      */ 
-    function _pager( $lid, $limit = 20, $pager_var )
+    function _pager( $lid, & $data )
     {
         // PEAR Pager class
         include_once(SF_BASE_DIR.'modules/common/PEAR/Pager/Sliding.php');
@@ -127,13 +140,18 @@ class earchive_get_messages
 
         $params['totalItems'] = $_result['num_rows'];
         
-        $params['perPage']    = $limit;
+        if( empty($data['delta']) )
+        {
+            $data['delta'] = 3;
+        }        
+        
+        $params['perPage']    = $data['limit'];
 
-        $params['delta']      = 2;
+        $params['delta']      = $data['delta'];
             
-        $pager = &new Pager_Sliding($params);
+        $pager = & new Pager_Sliding($params);
         $links = $pager->getLinks();
-        $this->B->$pager_var = $links['all'];    
+        $this->B->$data['var'] = $links['all'];    
     }     
 }
 
