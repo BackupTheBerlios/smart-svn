@@ -63,7 +63,15 @@ if(!is_dir(SF_BASE_DIR . 'modules'))
     die("<b>You have to install at least one module in the /smart/modules directory!</b>");
 }
 
-// include module handlers and filters
+// A "common" must be loaded first after the system handlers
+//
+// include event handler of a "common" module
+include_once (SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/event_handler.php');
+
+// include filter handler of a "common" module
+include_once (SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/filter_handler.php');
+
+// include other module handlers and filters
 //
 $B->tmp_directory =& dir( SF_BASE_DIR . 'modules');
 while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
@@ -72,7 +80,7 @@ while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
     {
         continue;
     }            
-    if ( @is_dir( SF_BASE_DIR . 'modules/'.$B->tmp_dirname) )
+    if ( ($B->tmp_dirname != SF_COMMON_MODULE) && @is_dir( SF_BASE_DIR . 'modules/'.$B->tmp_dirname) )
     {
         // include common handler
         $B->tmp_evt_handler = SF_BASE_DIR . 'modules/' . $B->tmp_dirname . '/event_handler.php';
