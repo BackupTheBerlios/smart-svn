@@ -73,12 +73,14 @@ class user
             WHERE
                 uid={$uid}";
         
+        $result = $GLOBALS['B']->dbdata->query($sql);
+        
         return $GLOBALS['B']->dbdata->getRow($result);
     } 
     
     function add_user( $data )
     {
-        if($this->login_exists($login) > 0)
+        if($this->login_exists($data['login']) > 0)
         {
             return FALSE;
         }
@@ -101,6 +103,11 @@ class user
 
     function update_user( $uid, $data )
     {
+        if($this->login_exists($data['login']) > 0)
+        {
+            return FALSE;
+        }
+        
         $set = '';
         $comma = '';
         
@@ -142,6 +149,7 @@ class user
             WHERE
                 login='{$login}'";
         
+        $result = $GLOBALS['B']->dbdata->query($sql);
         return $GLOBALS['B']->dbdata->numRows($result);    
     }
 }

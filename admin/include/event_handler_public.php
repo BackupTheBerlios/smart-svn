@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_SYSTEM' , 'system' );
+define ( 'MOD_SYSTEM' , 'SYSTEM' );
 
 // register this handler                       
 if (FALSE == $B->register_handler(MOD_SYSTEM,

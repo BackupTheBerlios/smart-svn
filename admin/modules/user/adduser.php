@@ -57,9 +57,23 @@ else
                          'rights'   => (int)$_POST['rights'],
                          'status'   => (int)$_POST['status']);
                   
-    $B->tmp_uid = $B->user->add_user($B->tmp_data);
-    @header('Location: index.php?m=USER');
-    exit;
+    if(FALSE != $B->user->add_user($B->tmp_data))
+    {
+        @header('Location: index.php?m=USER');
+        exit;
+    }
+    else
+    {
+        $B->form_forename = htmlentities($B->util->stripSlashes($_POST['forename']));
+        $B->form_lastname = htmlentities($B->util->stripSlashes($_POST['lastname']));
+        $B->form_email    = htmlentities($B->util->stripSlashes($_POST['email']));
+        $B->form_login    = htmlentities($B->util->stripSlashes($_POST['login']));
+        $B->form_passwd   = htmlentities($B->util->stripSlashes($_POST['passwd']));
+        $B->form_rights   = $_POST['rights'];
+        $B->form_status   = $_POST['status'];   
+    
+        $B->form_error = 'This login exist. Chose a other one!';
+    }
 }
 
 ?>

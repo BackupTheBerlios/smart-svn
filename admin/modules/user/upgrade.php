@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Init script of the user module
+ * Upgrade script of the user module
  */
 
 // Check if this file is included in the Smart environement

@@ -20,7 +20,7 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on'. __FILE__);
 }
 
-// set the base template for this module
+// the user class
 include_once SF_BASE_DIR . '/admin/modules/user/class.user.php';
 
 //User Class instance
@@ -29,15 +29,16 @@ $B->user = & new user;
 // set the base template for this module
 $B->module = SF_BASE_DIR . '/admin/modules/user/templates/index.tpl.php'; 
 
-// Assign module handler name
+// Assign template var : module handler name
 $B->this_module = EVT_HANDLER_USER;    
 
 // Switch to module features
 switch($_REQUEST['mf'])
 {
     case 'edit_usr':
-        // Include default
-        include( SF_BASE_DIR."/admin/modules/user/edituser.php" );     
+        include( SF_BASE_DIR."/admin/modules/user/edituser.php" ); 
+        // set the base template for this module feature
+        $B->section = SF_BASE_DIR . '/admin/modules/user/templates/edituser.tpl.php';    
         break;
     case 'add_usr':
         if(isset($_POST['adduser']))

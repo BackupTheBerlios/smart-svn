@@ -10,6 +10,10 @@
     color: #CCCCFF;
     font-weight: bold;
 }
+.style6 {
+	font-size: 24px;
+	color: #0033CC;
+}
 -->
 </style>
 <script language="JavaScript" type="text/JavaScript">
@@ -17,6 +21,9 @@ function go(x){
     if(x != ""){
     window.location.href = x;
     }
+}
+function subok(s){
+    s.value = "... wait";
 }
 </script>
 </head>
@@ -26,12 +33,18 @@ function go(x){
   <tr>
     <td align="center" valign="middle" bgcolor="#3399CC">      <table width="100%"  border="0" cellspacing="2" cellpadding="2">
         <tr>
-          <td width="15%" align="left" valign="top"><span class="style4"><span class="font10">PHP Framework</span></span></td>
-          <td width="14%" align="right" valign="top" class="font10"><a href="../index.php">The public page</a></td>
-          <td width="64%" align="right" valign="middle">
+          <td width="39%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td align="left" valign="top"><span class="style4"><span class="font10"><?php echo $B->sys['info']['name']; echo ' '.$B->sys['info']['version']; ?></span></span></td>
+            </tr>
+            <tr>
+              <td align="left" valign="top" class="style6"><?php echo $B->tpl_mod_set_name; ?></td>
+            </tr>
+          </table></td>
+          <td width="15%" align="right" valign="top" class="font10"><a href="../index.php">The public page</a></td>
+          <td width="39%" align="right" valign="middle">
           <?php if($B->login != FALSE){ ?>
           <form name="form1" id="form1" method="post" action="">
-            <span class="headerdesc">Select a module:</span>
                         <form action="index.php" method="post">
             <select name="m" onChange="go('index.php?m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
                         <option value="">Registered module handlers</option>

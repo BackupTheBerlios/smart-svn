@@ -11,9 +11,10 @@
 
 /**
  * Admin user module event handler
+ *
  * This is also the main module of this set of modules
- * This means that here you must include all stuff
- * to get work the module set.
+ * This means that here you must include all stuff (classes functions defines) 
+ * to get work the module set. (See below)
  */
 
 // Check if this file is included in the Smart environement
@@ -34,15 +35,13 @@ if (FALSE == $B->register_handler(
 {
     trigger_error( 'The handler '.MOD_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
-                                        
-                                        
-                                        
+                                                                          
 // The handler function
 function user_event_handler( $evt )
 {
     global $B;
 
-    switch( $evt["code"] )
+    switch( $evt['code'] )
     {
         case EVT_AUTHENTICATE:
             $B->login = TRUE;
@@ -52,12 +51,17 @@ function user_event_handler( $evt )
                 include(SF_BASE_DIR.'/admin/modules/user/login.php');
             break;
         case EVT_LOAD_MODULE:
-            // Include authentication script
+            // Load a module feature
             include(SF_BASE_DIR.'/admin/modules/user/module_loader.php');          
             break;             
         case EVT_INIT:
-            // Include authentication script
-            include(SF_BASE_DIR.'/admin/modules/user/init.php');          
+            // Check for upgrade
+            include(SF_BASE_DIR.'/admin/modules/user/module_version.php');  
+            if(version_compare($B->tmp_module_version, $B->sys['module']['user']['version']) != 0 )
+                include(SF_BASE_DIR.'/admin/modules/user/upgrade.php');
+            
+            // Name of this module set
+            $B->tpl_mod_set_name = 'CM-Lite';
             break;               
         case EVT_LOGOUT:  
             $B->session->destroy();
@@ -73,7 +77,9 @@ function user_event_handler( $evt )
     } 
 }
 
-// Include all necessairy stuff to get work the module set
+/**********************************
+**** Module SET CM-LITE CONFIG ****
+**********************************/
 
 // ### These 3 defines MUST be declared ###
 /**
