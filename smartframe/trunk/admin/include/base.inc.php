@@ -121,13 +121,19 @@ if ( $B->sys['info']['status'] !== TRUE )
         if(isset($_GET['dbtype']))
             $_dbtype = '?dbtype='.$_GET['dbtype'];
         else
-            $_dbtype = '?dbtype=sqlite';
+            $_dbtype = '?dbtype=mysql';
         @header('Location: admin/index.php'.$_dbtype);
         exit;
     }
     // send a setup message to the handler which takes
     // the setup part
-    $B->M( MOD_SETUP, EVT_SETUP );
+    if(FALSE === $B->M( MOD_SETUP, EVT_SETUP ))
+    {
+        die("It seems that there are no modules available.<br />
+             Min. required modules:<br />
+             - admin/modules/setup<br />
+             - admin/modules/user");
+    }
 }
 
 ?>
