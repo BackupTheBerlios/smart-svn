@@ -26,21 +26,22 @@ class action_navigation_delete_node extends action
         // Update navigation node body
         if (FALSE == @unlink (SF_BASE_DIR . 'data/navigation/'.$data['node']))
         {
-            $data['error'] = 'Could not delete node file: '.SF_BASE_DIR . 'data/navigation/'.$data['node'];
+            $this->B->$data['error'] = 'Could not delete node file: '.SF_BASE_DIR . 'data/navigation/'.$data['node'];
             return FALSE;
         }
         
         // load navigation node titles
         $nav = array();
-        include(SF_BASE_DIR . 'modules/navigation/_nav_data/nav_data.php');
+        include(SF_BASE_DIR . 'data/navigation/nodes.php');
         
         // init loop var
-        $x = 0;
+        $x = 1;
         
         // Look at the node id and assign the new title
         foreach($nav as $node)
         {
             list($id, $val) = each($node);
+
             if($data['node'] == $id)
             {
                 unset($nav[$x]);
@@ -49,12 +50,22 @@ class action_navigation_delete_node extends action
             $x++;
         } 
         
+        // reorder the nodes array
+        $x = 1;
+        $tmp = array();
+        foreach($nav as $node)
+        {
+            $tmp[$x] = $node;
+            $x++;
+        }
+        $nav = $tmp;
+        
         // Update navigation node title
         // see modules/common/actions/class.action_common_sys_update_config.php
         M( SF_BASE_MODULE, 
            'sys_update_config', 
            array( 'data'     => $nav,
-                  'file'     => SF_BASE_DIR . 'modules/navigation/_nav_data/nav_data.php',
+                  'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
                   'var_name' => 'nav',
                   'type'     => 'PHPArray') );
         

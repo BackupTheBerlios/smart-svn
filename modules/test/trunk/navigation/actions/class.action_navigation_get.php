@@ -37,6 +37,10 @@ class action_navigation_get extends action
         
         foreach($nav as $node)
         {
+            if($node == 0)
+            {
+                continue;
+            }
             list($nodeID, $val) = each($node);
             
             // check status request

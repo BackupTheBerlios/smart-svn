@@ -42,6 +42,7 @@ class action_navigation_add_node extends action
 
         // load exsisting navigation nodes
         $nav = array();
+        $nav[0] = 0;
         include(SF_BASE_DIR . 'data/navigation/nodes.php');
 
         // replace single and double quotes

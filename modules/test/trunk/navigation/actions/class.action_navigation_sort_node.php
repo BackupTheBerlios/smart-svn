@@ -28,11 +28,16 @@ class action_navigation_sort_node extends action
         include(SF_BASE_DIR . 'data/navigation/nodes.php');
         
         // init loop var
-        $x = 0;
+        $x = 1;
         
         // Look at the node id to move
         foreach($nav as $node)
         {
+            if($node == 0)
+            {
+                continue;
+            }
+            
             list($id, $val) = each($node);
             
             if($data['node'] == $id)
@@ -40,9 +45,13 @@ class action_navigation_sort_node extends action
                 // move up
                 if( ($data['dir'] == 'up') && isset($nav[$x-1]) )
                 {
-                    $tmp = $nav[$x-1];
-                    $nav[$x-1] = $nav[$x];
+                    $prev_id = $x-1;
+                    if($prev_id != 0)
+                    {
+                    $tmp = $nav[$prev_id];
+                    $nav[$prev_id] = $nav[$x];
                     $nav[$x] = $tmp;
+                    }
                 }
                 // move down
                 elseif( ($data['dir'] == 'down') && isset($nav[$x+1]) )
@@ -55,6 +64,8 @@ class action_navigation_sort_node extends action
             }
             $x++;
         } 
+        
+        //$nav['0'] = 0;
         
         // Update navigation nodes config file
         // see modules/common/actions/class.action_common_sys_update_config.php
