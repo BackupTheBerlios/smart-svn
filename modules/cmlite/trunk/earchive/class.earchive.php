@@ -287,9 +287,9 @@ class earchive
                 ('.$aid.',
                  '.$mid.',
                  '.$lid.',
-                 "'.$data['file'].'",
-                 "'.$data['size'].'",
-                 "'.$data['type'].'")';
+                 '.$data['file'].',
+                 '.$data['size'].',
+                 '.$data['type'].')';
 
         $result = $GLOBALS['B']->db->query($sql);
         

@@ -19,7 +19,8 @@
         <tr>
           <td width="76%" align="left" valign="top"><table width="100%"  border="0" cellspacing="6" cellpadding="6">
             <tr>
-              <td align="left" valign="top">This is the entry page of CM-LITE. </td>
+              <td align="left" valign="top"><p>This is the entry page of CM-Lite. In the top right corner you can select all available modules from the select menu. This release is still in a pre alpha stage. You should use it only for testing purpose.</p>
+                  <p>&nbsp; </p></td>
             </tr>
           </table></td>
         </tr>

@@ -49,7 +49,7 @@ function option_event_handler( $evt )
             $B->conf_val['module']['option']['version'] = MOD_OPTION_VERSION;
             $B->conf_val['module']['option']['info']    = '';
             // Set some options
-            $B->conf_val['option']['tpl'] = 'test';
+            $B->conf_val['option']['tpl'] = SF_DEFAULT_TEMPLATE_GROUP;
             $B->conf_val['option']['url'] = '../index.php';
             $B->conf_val['option']['site_title'] = 'Site title';
             $B->conf_val['option']['site_desc'] = 'My first site';
