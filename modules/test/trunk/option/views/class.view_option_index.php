@@ -101,7 +101,24 @@ class view_option_index extends view
         {
             $this->B->sys['option']['view'] = $_POST['viewgroup'];
             $this->B->_modified = TRUE;
-        }         
+        }    
+        elseif (isset($_POST['update_main_options_cache_enabled']))
+        {
+            if(isset($_POST['cacheenabled']))
+            {
+                $this->B->sys['option']['cache'] = TRUE; 
+            }
+            else
+            {
+                $this->B->sys['option']['cache'] = FALSE; 
+            }
+            $this->B->_modified = TRUE;
+        }   
+        elseif (isset($_POST['update_main_options_cache_delete']))
+        {
+            M(MOD_COMMON, 'cache_delete');
+            $this->B->_modified = TRUE;
+        }          
     }
 
     /**

@@ -77,7 +77,7 @@ class action_common_cache_get extends action
     function validate( & $data )
     {
         // disable cache by returning false
-        if ( SF_CACHE == FALSE )
+        if ( $this->B->sys['option']['cache'] != TRUE )
         {
             return FALSE;
         }

@@ -98,7 +98,35 @@
             <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_view" value="update" onclick="subok(this.form.update_main_options_view);"></td>
           </tr>
       </table>
-    </form>                     
+    </form>  
+    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_view" id="_view">      
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+          <tr>
+            <td height="26" colspan="2" align="left" valign="top"><span class="optiontitle">Cache enabled</span></td>
+          </tr>
+          <tr>
+            <td width="13%" align="left" valign="top">
+               <input name="cacheenabled" type="checkbox" value="true" <?php if($this->B->sys['option']['cache']==TRUE) echo 'checked="checked"'; ?>>&nbsp; 
+               
+               
+               </td>
+            <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_cache_enabled" value="update" onclick="subok(this.form.update_main_options_cache_enabled);"></td>
+          </tr>
+      </table>
+    </form>      
+    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_view" id="_view">      
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+          <tr>
+            <td height="26" colspan="2" align="left" valign="top"><span class="optiontitle">Cache delete</span></td>
+          </tr>
+          <tr>
+            <td width="13%" align="left" valign="top">&nbsp;
+               
+               </td>
+            <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_cache_delete" value="delete" onclick="subok(this.form.update_main_options_cache_delete);"></td>
+          </tr>
+      </table>
+    </form>     	  	                   
         </td>
         <td width="24%" align="right" valign="top"></td>
       </tr>
