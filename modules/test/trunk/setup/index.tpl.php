@@ -28,6 +28,12 @@ function subok(s){
 </script>
 </head>
 <body>
+<!-- Display setup errors -->
+<?php if(count($B->setup_error) > 0): ?>
+    <?php foreach($B->setup_error as $error): ?>
+        <?php echo $error; ?><br><br>
+    <?php endforeach; ?>
+<?php endif; ?>
 <form name="setup" id="setup" method="post" action="index.php">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>

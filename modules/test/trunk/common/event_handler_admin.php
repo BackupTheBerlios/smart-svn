@@ -88,6 +88,12 @@ function common_event_handler( $evt )
             $B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
             $B->conf_val['module']['common']['mod_type'] = 'common';
             $B->conf_val['module']['common']['info']     = 'This is the common modul';
+
+            if(($success == TRUE) && !is_writeable( SF_BASE_DIR . '/admin/modules/common/config' ))
+            {
+                $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/modules/common/config';
+                $success = FALSE;
+            }
             
             // if noting is going wrong $success is still TRUE else FALSE
             // ex.: if creating db tables fails you must set this var to false
