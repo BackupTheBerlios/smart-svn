@@ -1,3 +1,9 @@
+<?php
+/*
+This is the index template. It is loaded by default if no other
+template request was done.
+*/
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -20,23 +26,27 @@
   are declared in the public event handler <strong>/admin/modules/test/event_handler_public.php</strong>.</font></p>
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Counter function <strong>EVT_TEST_COUNTER</strong>:</font></p>
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
-<!-- Call the counter function of the test module defined in /admin/modules/test/event_handler_public.php -->
-<!-- The function assign numbers to a defined array -->
-<!-- The function is called indirectly through the class function $B->M() -->
-<!-- This class function accepts 3 arguments -->
-<!-- The arguments:
-                   MOD_TEST -  The module where the really funtion is declared. 
-				               This variable is declared in the 
-							   /admin/modules/test/event_handler_public.php file 
-				  EVT_TEST_COUNTER - This is the funtionality to execute. Defined in the
-				                     /admin/modules/test/event_handler_public.php file 
-	              array() - This array can contains additional data which may is required by the specific function
-				            'var' - the array variable to store the result. You will find the result in $B->counter
-				            'start_counter' - the num where the counter is starting
-							'end_counter' - the num where the cuonter ends
--->				   
+<!-- 
+The next php instruction call the counter function of the test module 
+defined in /admin/modules/test/event_handler_public.php 
+The function assign numbers to a defined array
+The function is called indirectly through the base class function $B->M() defined in /admin/include/class.sfBase.php
+This class function accepts 3 arguments 
+The arguments:
+MOD_TEST -  The module where the really funtion is declared. 
+            This variable is declared in the 
+            /admin/modules/test/event_handler_public.php file 
+            
+EVT_TEST_COUNTER - This is the funtionality to execute. Defined in the
+                   /admin/modules/test/event_handler_public.php file 
+                   
+array() - This array can contains additional data which may is required by the specific function
+          'var' - the array variable to store the result. You will find the result in $B->counter
+          'start_counter' - the num where the counter is starting
+          'end_counter' - the num where the cuonter ends
+-->          
 <?php $B->M( MOD_TEST, 
-			 EVT_TEST_COUNTER, 
+       EVT_TEST_COUNTER, 
              array('var' => 'counter', 'start_counter' => 0, 'end_counter' => 200)); ?> 
 </font></p>
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>
