@@ -80,6 +80,26 @@ if( count($B->setup_error) == 0 )
             $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         }
     }    
+
+    // delete the user_users table if it exist
+    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='mailarchiver_words_crc32'";
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
+
+    if($result->numRows() == 1)
+    {
+        $sql = "DROP TABLE mailarchiver_words_crc32";
+        $result = $B->db->query($sql);
+
+        if (DB::isError($result))
+        {
+            $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        }
+    } 
     
     // create the user_users table
     $sql = "CREATE TABLE mailarchiver_lists (
@@ -169,7 +189,18 @@ if( count($B->setup_error) == 0 )
     if (DB::isError($result))
     {
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-    }     
+    } 
+    
+    $sql = "CREATE TABLE mailarchiver_words_crc32 (
+              word int(11) NOT NULL default 0,
+              mid  int(11) NOT NULL default 0)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }    
     unset($sql);
 }
 
