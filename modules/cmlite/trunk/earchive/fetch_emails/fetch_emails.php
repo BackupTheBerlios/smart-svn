@@ -89,22 +89,15 @@ if(count($lists) > 0)
                 $comma = '';
                 $from = '';
                 
-                echo "<pre>";print_r($msg->header[$mid]);echo "</pre>";
+                //echo "<pre>";print_r($msg->header[$mid]);echo "</pre>";
                 
                 // check if header from_personal is available
-                if(is_array($msg->header[$mid]['from_personal']))
+                if(!empty($msg->header[$mid]['from_personal'][0]))
                 {
                     // get the from string
                     foreach($msg->header[$mid]['from_personal'] as $f)
                     {
-                        if($msg->header[$mid]['from_personal'] != $msg->header[$mid]['reply_to_personal'] && !empty($msg->header[$mid]['reply_to_personal']))
-                        {
-                            $from .= $comma.$msg->header[$mid]['reply_to_personal'][$x].' &lt;'.$msg->header[$mid]['reply_to'][$x].'&gt;' ;
-                        }
-                        else
-                        {
-                            $from .= $comma.$msg->header[$mid]['from_personal'][$x].' &lt;'.$msg->header[$mid]['from'][$x].'&gt;' ;
-                        }
+                        $from .= $comma.$msg->header[$mid]['from_personal'][$x].' &lt;'.$msg->header[$mid]['from'][$x].'&gt;' ;
                         $comma = ', ';
                         $x++;
                     }
@@ -114,14 +107,7 @@ if(count($lists) > 0)
                 else
                 {
                     // get from address
-                    if(($msg->header[$mid]['fromaddress'] != $msg->header[$mid]['reply_toaddress']) && !empty($msg->header[$mid]['reply_toaddress']))
-                    {
-                        $from = $B->util->decodeEmailHeader($msg->header[$mid]['reply_toaddress']);
-                    }
-                    else
-                    {
-                        $from = $B->util->decodeEmailHeader($msg->header[$mid]['fromaddress']);
-                    }  
+                    $from = $B->util->decodeEmailHeader($msg->header[$mid]['fromaddress']).' '.$msg->header[$mid]['senderaddress'];
                     $from = str_replace("<","&lt;",$from);
                     $from = str_replace(">","&gt;",$from);
                 }
