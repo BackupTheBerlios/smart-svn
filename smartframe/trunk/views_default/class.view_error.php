@@ -43,9 +43,19 @@ class view_error extends view
             {
                 $this->B->tpl_error = array('unexpected Error' => 'Check log file');
             }
+            // Stop if there are circular errors
+            if($this->B->circular_error_counter++ == 1)
+            {
+                die('Circular error in : ' . __FILE__);
+            }            
         }
         else
         {
+            // Stop if there are circular errors
+            if($this->B->circular_error_counter++ == 1)
+            {
+                die('Circular error in : ' . __FILE__);
+            }
             // In non debug mode, load index view on error
             trigger_error( var_dump($this->view_data) , E_USER_WARNING);
             M( MOD_SYSTEM, 'get_view', array('view' => 'index'));  

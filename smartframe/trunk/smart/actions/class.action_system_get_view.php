@@ -141,13 +141,18 @@ class action_system_get_view extends action
         // check if view class file exists
         if( !@file_exists( $this->_view_class_file ) )
         {
-            // set error view
-            $this->_view = 'error';
-            // set error
-            $this->B->view_error = 'The requested view dosent exists: ' . $this->_view_class_file; 
-            // build the whole file path to the error view class file
-            $this->_view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $this->_view . '.php';
-            return TRUE;
+            // Stop if there are circular errors
+            if($this->B->circular_no_error_view_counter++ == 1)
+            {
+                die('Circular no_error_view in : ' . __FILE__);
+            } 
+            
+            M( MOD_SYSTEM, 
+              'get_view',
+              array( 'view'  => 'error',
+                     'error' => array('View' => 'The requested view dosent exists: ' . $this->_view_class_file)) );
+                  
+             exit;        
         }    
         
         return TRUE;
