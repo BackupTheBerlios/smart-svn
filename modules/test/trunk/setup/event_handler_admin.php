@@ -24,88 +24,50 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_SETUP' , 'SETUP');
 
 // Version of this modul
-define ( 'MOD_SETUP_VERSION' , '0.1');
+define ( 'MOD_SETUP_VERSION' , '0.2');
 
 // register this handler                       
-if (FALSE == $B->register_handler( 
-                            MOD_SETUP,
-                            array ( 'module'          => MOD_SETUP,
-                                    'event_handler'   => 'setup_event_handler',
-                                    'menu_visibility' => FALSE) ))
+if (FALSE == $B->register_handler( MOD_SETUP,
+                                   array ( 'module'          => MOD_SETUP,
+                                           'event_handler'   => 'setup_event_handler',
+                                           'menu_visibility' => FALSE) ))
 {
     trigger_error( 'The handler '.MOD_SETUP.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
                                         
                                         
                                         
-// The handler function
+// The setup handler function
 function setup_event_handler( $evt )
 {
     global $B;
 
-    switch( $evt["code"] )
+    // build the whole class name
+    $class_name = 'SETUP_'.$evt['code'];
+    
+    // check if this object was previously declared
+    if(!is_object($B->$class_name))
     {
-        case EVT_SETUP:
-            $B->conf_val = array();
-            // Init error array
-            $B->setup_error = array();
-
-            // launch setup
-            if( $_POST['do_setup'] )
-            {
-                // Send a setup message to the system handler
-                $success = $B->M( MOD_SYSTEM,           EVT_SETUP );
-  
-                // Send a setup message to the common handler
-                if($success == TRUE)    
-                    $success = $B->M( MOD_COMMON,        EVT_SETUP );
-    
-                // Send a setup message to the entry handler
-                if($success == TRUE)    
-                    $success = $B->M( MOD_DEFAULT,       EVT_SETUP );
-    
-                // Send a setup message to the test handler
-                if($success == TRUE)
-                    $success = $B->M( MOD_TEST,         EVT_SETUP );
-    
-                // Send a setup message to the option handler
-                if($success == TRUE)
-                    $success = $B->M( MOD_OPTION,       EVT_SETUP );
-        
-                // check on errors before proceed
-                if( $success == TRUE )
-                {   
-                    // write the system config file
-                    $B->conf_val['info']['status'] = TRUE;
-        
-                    // include PEAR Config class
-                    include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
-
-                    $c = new Config();
-                    $root =& $c->parseConfig($B->conf_val, 'PHPArray');
-                    
-                    // write config array
-                    $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
-        
-                    @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
-                    exit;  
-                }
-            }
-
-            // Include the setup template
-            include(  SF_BASE_DIR . '/admin/modules/setup/index.tpl.php' ); 
-
-            // Send the output buffer to the client
-            if( SF_OB == TRUE)
-            {
-                ob_end_flush();
-            }
-
-            // Basta
-            exit;
-            break;        
-    } 
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/setup/class.'.$class_name.'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$class_name = & new $class_name();
+            // perform the request
+            return $B->$class_name->perform( $evt['data'] );
+        }
+        else
+        {
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
+    }
 }
-
 
 ?>
