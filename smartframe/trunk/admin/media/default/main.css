@@ -34,3 +34,10 @@ body {
     font-size: 9px;
     font-weight: bold;
 }
+.font12bold {
+	font-size: 12px;
+	font-weight: bold;
+}
+.font12 {
+	font-size: 12px;
+}
