@@ -38,7 +38,25 @@ $base = & new sfObject;
 if( SF_DEBUG == TRUE )
     $base->register( 'base', __FILE__, __LINE__);
 
-// The base object
+// include pear db
+include_once( 'DB.php' );
+
+// include Log class
+include_once( SF_BASE_DIR . '/admin/lib/PEAR/Log/Log.php' );
+
+// include sfErrorHandler
+include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
+
+// include patErrorManager
+include_once( SF_BASE_DIR . '/admin/lib/patError/patErrorManager.php' );
+
+// set error handler
+$base->errorHandler   =  new sfErrorHandler();
+if( SF_DEBUG == TRUE )
+    $base->register( 'errorHandler', __FILE__, __LINE__);
+patErrorManager::setErrorHandling( E_ALL , 'callback', array( $base->errorHandler, 'sfDebug' ) );
+
+// The util object
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
 $base->util = & new sfUtil;
 if( SF_DEBUG == TRUE )
@@ -64,19 +82,12 @@ if(!@is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php'))
     exit;          
 }
 
-// include pear db
-include_once( 'DB.php' );
 // include event class
 include_once( SF_BASE_DIR . '/admin/include/class.sfEvent.php' );
-// include patErrorManager
-include_once( SF_BASE_DIR . '/admin/lib/patError/patErrorManager.php' );
 // include patTemplate
 include_once( SF_BASE_DIR . '/admin/lib/patTemplate/patTemplate.php' );
 // include patConfiguration
 include_once( SF_BASE_DIR . '/admin/lib/patConfiguration/include/patConfiguration.php' );
-
-// set error handling
-patErrorManager::setErrorHandling( SF_ERROR_REPORTING, 'echo' );
 
 // pat configurator instance    
 $base->conf = new patConfiguration;
@@ -118,10 +129,10 @@ $base->dsn = $base->db_data['db_type'].'://'.$base->db_data['db_user'].':'.$base
 $base->db = & DB::connect($base->dsn);
 if (DB::isError($base->db)) 
 {
-    patErrorManager::raiseError( 111, $base->db->getMessage() );
+    patErrorManager::raiseError( "db:connect", $base->db->getMessage(), "File: ".__FILE__."\nLine: ".__LINE__ );
 }
 unset($base->dsn);
-    
+
 //  instance of patTemplate
 $base->tpl = new patTemplate();
 if( SF_DEBUG == TRUE )

@@ -23,9 +23,14 @@ if (!defined('SF_SECURE_INCLUDE'))
 
 
 /**
+ * error log types ('LOG|SHOW|DIE|MAIL')
+ */
+define('SF_ERROR_HANDLE',               'LOG|SHOW');
+
+/**
  * error reporting
  */
-define('SF_ERROR_REPORTING',             E_ALL);
+define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
 
 /**
  * Enable Debug
