@@ -35,27 +35,11 @@ if(!defined( SF_RELATIVE_PATH ))
 }
 
 /*
- * Fixed template group.
- */
-if(!defined( SF_TPL_GROUP ))
-{
-   define('SF_TPL_GROUP', ''); 
-}
-
-/*
- * Template folder.
- */
-if(!defined( SF_TPL_FOLDER ))
-{
-   define('SF_TPL_FOLDER', ''); 
-}
-
-/*
  * View folder.
  */
 if(!defined( SF_VIEW_FOLDER ))
 {
-   define('SF_VIEW_FOLDER', 'view/'); 
+   define('SF_VIEW_FOLDER', 'views/'); 
 }
 
 /* #################################################### */
