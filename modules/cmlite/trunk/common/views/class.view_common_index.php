@@ -35,9 +35,12 @@ class view_common_index extends view
      */
     function perform()
     {    
-        // check permission to access earchive (editor or admin privilegs required)
-        if( FALSE == F( MOD_EARCHIVE, 'permission', array('action' => 'access')))
+        // check permission to access the admin interface 
+        if( FALSE == M( MOD_COMMON, 'permission', array('action' => 'access')))
         {
+            // destroy session
+            $this->B->session->destroy(); 
+            
             // switch to the login view of the user module
             $_REQUEST['m']   = 'user';
             $_REQUEST['sec'] = 'login';    
@@ -56,7 +59,7 @@ class view_common_index extends view
         // which takes the authentication part
         // The variable SF_AUTH_MODULE must be declared in the "common"
         // module event_handler.php file
-        M( SF_AUTH_MODULE, 'sys_authenticate' );
+        M( SF_AUTH_MODULE, 'auth' );
     }
     
     /**

@@ -21,9 +21,11 @@ class action_user_check_login extends action
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( & $data )
     {    
-        $passwd = md5($data['passwd']);
+        // get login and password in sql conform format
+        $passwd = $this->B->db->quoteSmart( md5($data['passwd']) );
+        $login  = $this->B->db->quoteSmart( $data['login']       );
         
         $sql = "SELECT 
                     uid,
@@ -31,9 +33,9 @@ class action_user_check_login extends action
                 FROM
                     {$this->B->sys['db']['table_prefix']}user_users
                 WHERE
-                    login='{$data['login']}'
+                    login={$login}
                 AND
-                    passwd='{$passwd}'
+                    passwd={$passwd}
                 AND
                     status=2";
         
@@ -42,15 +44,21 @@ class action_user_check_login extends action
         if($result->numRows() == 1)
         {
             $row = $result->fetchRow( DB_FETCHMODE_ASSOC );
-            $this->B->session->set('logged_id_user',       $row['uid']);
-            $this->B->session->set('logged_user_rights',   $row['rights']);
+            
+            // set session data
+            $this->B->session->set('user_logged_uid',    $row['uid']);
+            $this->B->session->set('user_logged_login',  $login);
+            $this->B->session->set('user_logged_rights', $row['rights']);
+            $this->B->session->set('user_logged_hashid', md5($this->B->sys['system']['hashid'].$login.$row['uid']));
 
+            // if login was done from the admin section
             $admin = '';
             if( SF_SECTION == 'admin')
             {
                 $admin = '?admin=1';
             }
             
+            // add additional query
             $query = '';
             if(isset($data['forward_urlvar']))
             {
@@ -67,9 +75,30 @@ class action_user_check_login extends action
         }
         else
         {
-            return FAlSE;
+            return FALSE;
         }  
     } 
+
+    /**
+     * Validate data before passed to the perform methode
+     *
+     * @param array $data
+     */    
+    function validate( & $data )
+    {
+        if( @preg_match("/[^a-zA-Z0-9]/", $data['login']) )
+        {
+            $this->B->$data['error'] = 'Login entry is not correct! Only 3-30 chars a-zA-Z0-9 are accepted.';
+            return FALSE;        
+        }
+        if( @preg_match("/[^a-zA-Z0-9]/", $data['passwd']) )
+        {
+            $this->B->$data['error'] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9 are accepted.';
+            return FALSE;        
+        }  
+        
+        return TRUE;
+    }
 }
 
 ?>

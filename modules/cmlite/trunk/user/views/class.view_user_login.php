@@ -57,11 +57,16 @@ class view_user_login extends view
                 return TRUE;
             }
             
-            M( MOD_USER, 
-               'check_login',
-               array( 'login'       => $_POST['login_name'],
-                      'passwd'      => $_POST['password'],
-                      'forward_url' => $_REQUEST['url']));
+            // check login data
+            if(FALSE == M( MOD_USER, 
+                           'check_login',
+                           array( 'login'       => commonUtil::stripSlashes($_POST['login_name']),
+                                  'passwd'      => commonUtil::stripSlashes($_POST['password']),
+                                  'forward_url' => $_REQUEST['url'],
+                                  'error'       => 'tpl_error')))
+            {
+                $this->_reset_form_data();
+            }
         }
             
         return TRUE;

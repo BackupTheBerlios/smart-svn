@@ -42,23 +42,20 @@
  *
  */
  
-class filter_earchive_permission extends action
+class action_common_permission extends action
 {
     /**
      * Check user permission to execute user edit (modify) operations
      *
      * @return bool true on success else false
      */
-    function perform( $data )
+    function perform( & $data )
     {
         switch($data['action'])
         {
             case 'access':
-                return $this->ask_access_to_list ();                        
-                break;  
-            case 'delete':
-                return $this->ask_access_to_delete_list ();                        
-                break;                                
+                return $this->_ask_access ();                        
+                break;                                 
             default:
                 return FALSE;
         }   
@@ -71,29 +68,14 @@ class filter_earchive_permission extends action
      *
      * @return bool
      */
-    function ask_access_to_list ()
+    function _ask_access ()
     {       
-        if( ($this->B->logged_user_rights > 3) )
+        if( ($this->B->user_logged_rights > 1) )
         {
             return TRUE;
         }
         return FALSE;
-    }
-    
-    /**
-     * check rights to delete a list
-     * 5 (administrator required)
-     *
-     * @return bool
-     */
-    function ask_access_to_delete_list ()
-    {       
-        if( ($this->B->logged_user_rights == 5) )
-        {
-            return TRUE;
-        }
-        return FALSE;
-    }       
+    }      
 }
 
 ?>

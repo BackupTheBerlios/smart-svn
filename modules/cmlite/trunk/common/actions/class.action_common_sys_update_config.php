@@ -20,17 +20,21 @@ class action_common_sys_update_config extends action
      * Control the main setup process
      *
      * @param array $data
+     * $data['data'] Data (array or ...) to store
+     * $data['file'] File to store
+     * $data['var_name'] Name of the data array or ...
+     * $data['type'] Data type
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {                 
         // include PEAR Config class
         include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
 
         $c = new Config();
-        $root =& $c->parseConfig( $data, 'PHPArray' );
+        $root =& $c->parseConfig( $data['data'], $data['type'] );
 
         // save the modified config array
-        $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));  
+        $c->writeConfig( $data['file'], $data['type'], array('name' => $data['var_name']) );  
     }    
 }
 

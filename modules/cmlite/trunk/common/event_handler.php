@@ -10,7 +10,9 @@
 // ----------------------------------------------------------------------
 
 /**
- * common module event handler
+ * Admin COMMON module event handler
+ * This module does some init proccess and include 
+ * external static libraries needed by other modules
  *
  */
 
@@ -24,8 +26,8 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_COMMON' , 'common');
 
-// Version of this module
-define ( 'MOD_COMMON_VERSION' , '0.5.3');
+// Version of this modul
+define ( 'MOD_COMMON_VERSION' , '0.3');
 
 // register this handler                       
 if (FALSE == register_handler( MOD_COMMON,
@@ -52,17 +54,30 @@ function common_event_handler( $evt )
             include_once($class_file);
             // make instance
             $GLOBALS[$class_name] = & new $class_name();
+            
+            // validate the request
+            if( FALSE == $GLOBALS[$class_name]->validate( $evt['data'] ) )
+            {
+                return FALSE;
+            }
             // perform the request
             return $GLOBALS[$class_name]->perform( $evt['data'] );
         }
     }
     else
     {
+        // validate the request
+        if( FALSE == $GLOBALS[$class_name]->validate( $evt['data'] ) )
+        {
+            return FALSE;
+        }  
+        
         // perform the request if the requested object exists
         return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
     return TRUE;
 }
+
 
 /***************************
 **** Module SET  CONFIG ****
@@ -72,29 +87,39 @@ function common_event_handler( $evt )
 /**
  * The module (name) which takes the authentication part.
  */
-define('SF_AUTH_MODULE',                 'user');
+define('SF_AUTH_MODULE',      'user'); // required
 
 /**
  * The module which play a base role required for all other modules.
  */
-define('SF_BASE_MODULE',                 MOD_COMMON);
+define('SF_BASE_MODULE',      MOD_COMMON); // required
 
 /**
  * The module (name) which takes the global options part.
  */
-define('SF_OPTION_MODULE',               'option');
+define('SF_OPTION_MODULE',    'option'); // required
 
 /**
  * The module (name) which should be loaded by default.
  */
-define('SF_DEFAULT_MODULE',              'entry');
+define('SF_DEFAULT_MODULE',   'default'); // required
+
+/**
+ * The main admin template. All module views are included in this template // required
+ */
+define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . 'modules/common/templates/index.tpl.php');
 
 /**
  * Media folder of this module set. (css, layout images, javascript)
  */
-define('SF_MEDIA_FOLDER',                'modules/common/media');
+define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
 
-// common util class for all modules
+/**
+ * Get get_magic_quotes_gpc
+ */
+define('SF_MAGIC_QUOTES_GPC', get_magic_quotes_gpc());
+
+// static common util class for all modules
 include_once SF_BASE_DIR . 'modules/common/includes/class.commonUtil.php';
 
 ?>

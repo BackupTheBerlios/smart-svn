@@ -23,9 +23,7 @@ class commonUtil
      */ 
     function addSlashes( $var )
     {
-        $magicQuote = get_magic_quotes_gpc();
-
-        if ( $magicQuote == 0 )
+        if ( SF_MAGIC_QUOTES_GPC == 0 )
         {   
             return addslashes($var);
         }
@@ -42,9 +40,7 @@ class commonUtil
      */ 
     function stripSlashes( $var )
     {
-        $magicQuote = get_magic_quotes_gpc();
-
-        if ( $magicQuote == 0 )
+        if ( SF_MAGIC_QUOTES_GPC == 0 )
         {   
             return $var;
         }
