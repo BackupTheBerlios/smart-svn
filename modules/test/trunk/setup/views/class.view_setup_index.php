@@ -87,6 +87,21 @@ class view_setup_index extends view
         }
         
         return TRUE;
+    }  
+    
+    /**
+     * prepend filter chain
+     *
+     */
+    function prependFilterChain()
+    {
+        // check if setup was done. If so, we dont need to launch
+        // the setup process once again.
+        if( $this->B->sys['info']['status'] )
+        {
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
+            exit;          
+        }
     }    
 }
 
