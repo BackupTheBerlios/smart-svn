@@ -25,14 +25,13 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_OPTION' , 'OPTION');
 
 // Version of this modul
-define ( 'MOD_OPTION_VERSION' , '0.1');
+define ( 'MOD_OPTION_VERSION' , '0.2');
 
 // register this handler                       
-if (FALSE == $B->register_handler( 
-                           MOD_OPTION,
-                           array ( 'module'          => MOD_OPTION,
-                                   'event_handler'   => 'option_event_handler',
-                                   'menu_visibility' => TRUE) ))
+if (FALSE == $B->register_handler( MOD_OPTION,
+                                   array ( 'module'          => MOD_OPTION,
+                                           'event_handler'   => 'option_event_handler',
+                                           'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_OPTION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
@@ -42,35 +41,31 @@ function option_event_handler( $evt )
 {
     global $B;
 
-    switch( $evt['code'] )
+    // build the whole class name
+    $class_name = 'OPTION_'.$evt['code'];
+    
+    // check if this object was previously declared
+    if(!is_object($B->$class_name))
     {
-        case EVT_SETUP:
-            $success = TRUE;
-            // The module name and version
-            $B->conf_val['module']['option']['name']     = 'option';
-            $B->conf_val['module']['option']['version']  = MOD_OPTION_VERSION;
-            $B->conf_val['module']['option']['mod_type'] = 'test';
-            $B->conf_val['module']['option']['info']     = '';
-            // Set some options
-            $B->conf_val['option']['tpl'] = SF_DEFAULT_TEMPLATE_GROUP;
-            $B->conf_val['option']['url'] = SF_BASE_LOCATION;
-            $B->conf_val['option']['site_title'] = 'Site title';
-            $B->conf_val['option']['site_desc'] = 'My first site';
-            $B->conf_val['option']['email'] = 'admin@foo.com';
-            $B->conf_val['option']['charset'] = 'iso-8859-1';
-        
-            return $success;
-            break;      
-        case EVT_LOAD_MODULE:
-            include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           
-            break;             
-        case EVT_INIT: 
-            // check for install or upgrade
-            if (MOD_OPTION_VERSION != $B->sys['module']['option']['version'])
-            {
-                // 
-            }         
-            break;             
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/option/class.'.$class_name.'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$class_name = & new $class_name();
+            // perform the request
+            return $B->$class_name->perform( $evt['data'] );
+        }
+        else
+        {
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
     }
 }
 
