@@ -43,7 +43,7 @@ $B->B( 'sys_init' );
 // Directed intercepting filter event (auto_prepend)
 // see smart/actions/class.system_sys_prepend.php
 $B->M( MOD_SYSTEM, 'sys_prepend' );
-
+ 
 // Directed authentication event to the module handler, 
 // which takes the authentication part
 // The variable SF_AUTH_MODULE must be declared in the "common"
@@ -77,7 +77,7 @@ switch ( SF_SECTION )
         if(isset($B->system_update_flag))
         {
             // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_update_config.php
-            $B->M( SF_BASE_MODULE, 'sys_update_config' );
+            $B->M( SF_BASE_MODULE, 'sys_update_config', $B->sys );
             // reload admin section
             @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
             exit;    
@@ -91,7 +91,7 @@ switch ( SF_SECTION )
         
     default:
         // get the public view (template)
-        // see smart/actions/class.system_get_admin_view.php
+        // see smart/actions/class.system_get_public_view.php
         include( $B->M( MOD_SYSTEM, 'get_public_view') ); 
       
         break;

@@ -1,6 +1,10 @@
 CHANGES
 #######
 
+2004-11-8
+----------
+- view class can return an other view template than the original value
+
 2004-10-19
 -----------
 - removed output compression since there are some confusions with append filters
