@@ -1,6 +1,14 @@
 CHANGES
 #######
 
+2004-07-12
+--------------
+- Removed completely any template engine since
+  the framework is a template engine.
+- Rewrote the base system.
+- The test modules are based on sqlite. Not yet finish
+- Moved setup folder to the module folder. Setup is a module
+
 2004-06-29
 --------------
 - Deleted pattools  (A. Turpel)

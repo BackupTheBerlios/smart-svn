@@ -1,30 +1,31 @@
 How the event handler mechanism works?
 ------------------------------------------------
 
-The file /admin/include/base.inc.php include from line 60-80 a system event handler 
+The file /admin/include/base.inc.php include from a system event handler 
 and the module event handlers, where each handler register it self by calling the method 
-"register_handler" of the event class. 
+"register_handler" of the base class. 
 
 Take a look at the event handler, for example 
 /admin/modules/user/event_handler_admin.php to see how registering is done.
 
-define ( 'SF_EVT_HANDLER_USER' , 'user');
+define ( 'MOD_USER' , 'USER);
 This is the name of the handler. If you send from anyway a directed event to this 
-handler you have to use 'SF_EVT_HANDLER_USER.
+handler you have to use 'MOD_USER.
 
+                    
+if (FALSE == $B->register_handler( 
+                            MOD_USER,
+                            array ( 'module'        => MOD_USER,
+                                      'event_handler' => 'user_event_handler') ))
 
 Here this event handler is registered so that the event distributor class know that 
 this handler exists.                
-$base->event->register_handler( SF_EVT_HANDLER_USER,
-               array ( "module"        => SF_EVT_HANDLER_USER, 
-                         "name"          => 'User',
-                         "event_handler" => "user_event_handler") ); // name of the function
 
 
 function user_event_handler( $evt )
 Followed by the event handler function it self.
 This function and those of other modules are NEVER called directly but always 
-through the methods of the event class.
+through the methods of the base class.
 
 Lets take an example:
 Edit the /admin/index.php script. This is the main file of the admin section.
@@ -32,55 +33,51 @@ Edit the /admin/index.php script. This is the main file of the admin section.
 include( SF_BASE_DIR."/admin/include/base.inc.php" );
 It includes the base init script. It include the pat classes, register event handlers ,....
 
-$base->event->directed_run( SF_AUTH_MODULE, SF_EVT_AUTHENTICATE );
+$B->M( SF_AUTH_MODULE, EVT_AUTHENTICATE );
 This method of the event class sends an event to the handler of the module, which 
 takes the authentication part (user module). Variables passed to this method are defined
-in /admin/defaults.php. The method directed_run is calling the call-back (event handler) 
+in /admin/defaults.php. The method M is calling the call-back (event handler) 
 function of the module “user”. 
 
-$base->event->broadcast_run( SF_EVT_INIT );
-Here a init event is send to all handlers and a module should check if it is installed and if 
-not run an install or upgrade procedure.
+$B->B( EVT_INIT );
+Here a init event is send to all handlers, A module should check if it is installed or if 
+to run an install or upgrade procedure.
 
-$base->event->broadcast_run( SF_EVT_LOGOUT );
+$bB->B( EVT_LOGOUT );
 Logout event is sent to all handlers. May doing clean ups ....
 
 // check if the demanded module (handler) is registered else load default module
-if( TRUE == $base->event->is_handler ($_REQUEST['m']) )
+if( TRUE == $B->is_handler ($_REQUEST['m']) )
 {
-    $base->event->directed_run ( $_REQUEST['m'], SF_EVT_LOAD_MODULE );
+    $B->M( $_REQUEST['m'], EVT_LOAD_MODULE );
 }
 else
 {
-    $base->event->directed_run ( SF_DEFAULT_MODULE, SF_EVT_LOAD_MODULE );
+    $B->M( SF_DEFAULT_MODULE, EVT_LOAD_MODULE );
 }
 
-
-
-Currently, in this demo all handler react not really on this events. You have to 
-include some functionality depended of what the modules should do.
 
 Even communications between modules can be done through such handlers.
 You have to know the name of the handlers and which events they can handle
 
 Current event handlers are:
 
-SF_EVT_HANDLER_USER > user module
+MOD_USER > user module
     events > 
-                SF_EVT_AUTHENTICATE 
-                SF_EVT_LOAD_MODULE
-                SF_EVT_INIT
-                SF_EVT_LOGOUT
-                SF_EVT_SETUP
+                EVT_AUTHENTICATE 
+                EVT_LOAD_MODULE
+                EVT_INIT
+                EVT_LOGOUT
+                EVT_SETUP
 
-SF_EVT_HANDLER_ENTRY > entry module
+MOD_ENTRY > entry module
     events > 
-                SF_EVT_LOAD_MODULE
-                SF_EVT_INIT
-                SF_EVT_LOGOUT
+                EVT_LOAD_MODULE
+                EVT_INIT
+                EVT_LOGOUT
 
-SF_EVT_HANDLER_TEST > test module
+MOD_TEST > test module
     events > 
-                SF_EVT_LOAD_MODULE
-                SF_EVT_INIT
-                SF_EVT_LOGOUT
+                EVT_LOAD_MODULE
+                EVT_INIT
+                EVT_LOGOUT

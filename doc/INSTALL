@@ -1,9 +1,9 @@
 Smart PHP Framework install instructions
 ---------------------------------------------
 
-Currently only mysql is supported.
+The extension mod_sqlite must be enabled in php.ini to get work the modules
+which comes with this package. In php5 this is a default setting.
 
-First create a database.
 
 Point your browser to the location where you extracted Smart.
 If nothing is going wrong you can see a setup page.
