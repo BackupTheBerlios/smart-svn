@@ -1,6 +1,12 @@
 CHANGES
 #######
 
+2004-10-04
+-----------
+- Second argument of event call functions are strings. This facilitate the creation
+  of plug and play module action classes.
+- minor changes
+
 2004-09-24
 ------------
 - replaced the "switch" "case" statements in event handler functions
