@@ -17,49 +17,49 @@
 /*
  * Secure include of files from this script
  */
-define('SF_SECURE_INCLUDE', 1);
+define ('SF_SECURE_INCLUDE', 1);
 
 // Define the absolute path to the Framework base
 //
-define('SF_BASE_DIR', dirname(dirname(__FILE__)));
+define ('SF_BASE_DIR', dirname(dirname(__FILE__)));
 
 // Define section area
 define ('SF_SECTION', 'admin');
 
 // Include the base file
-include( SF_BASE_DIR."/admin/include/base.inc.php" );
+include (SF_BASE_DIR . '/admin/include/base.inc.php');
 
 // send an authentication message to the handler which takes
 // the authentication part
-$base->event->directed_run( SF_AUTH_MODULE, SF_EVT_AUTHENTICATE );
+//$base->event->directed ( SF_AUTH_MODULE, SF_EVT_AUTHENTICATE );
 
 // Send a init message to all registered handlers
-$base->event->broadcast_run( SF_EVT_INIT );
+$base->event->broadcast (SF_EVT_INIT);
 
 // Logout
 if ( $_REQUEST['logout'] == 1 )
 {
-    $base->event->broadcast_run( SF_EVT_LOGOUT );
-    header('Location: ../index.php');
+    $base->event->broadcast (SF_EVT_LOGOUT);
+    header ( 'Location: ../index.php' );
     exit;
 }
 
 // check if the demanded module (handler) is registered else load default module
-if( TRUE == $base->event->is_handler ($_REQUEST['m']) )
+if ( TRUE == $base->event->is_handler ($_REQUEST['m']))
 {
-    $base->event->directed_run ( $_REQUEST['m'], SF_EVT_LOAD_MODULE );
+    $base->event->directed ($_REQUEST['m'], SF_EVT_LOAD_MODULE);
 }
 else
 {
-    $base->event->directed_run ( SF_DEFAULT_MODULE, SF_EVT_LOAD_MODULE );
+    $base->event->directed (SF_DEFAULT_MODULE, SF_EVT_LOAD_MODULE);
 }
 
 //  Output all templates
-$base->tpl->displayParsedTemplate();
+$base->tpl->display ('/admin/index.tpl.php');
 
 // Send the output buffer to the client
-if( SF_OB == TRUE)
+if (SF_OB == TRUE)
 {
-    ob_end_flush();
+    ob_end_flush ();
 }
 ?>
