@@ -98,7 +98,7 @@ class common_sys_init
         // else launch setup
         else
         {
-            // switch to the admin section if we comes from the public section
+            // switch to the admin section if we come from the public section
             if(SF_SECTION == 'public')
             {
                 @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
@@ -106,7 +106,7 @@ class common_sys_init
             }
            
             // launch setup screen
-            include( $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'setup', 'view' => 'index')) ); 
+            M( MOD_SYSTEM, 'get_view', array('m' => 'setup', 'view' => 'index')); 
             
             // Send the output buffer to the client
             ob_end_flush();
@@ -117,7 +117,7 @@ class common_sys_init
         if(MOD_COMMON_VERSION != (string)$this->B->sys['module']['common']['version'])
         {                
              // include here additional upgrade code
-            $this->B->M( MOD_COMMON, 'upgrade' );        
+            M( MOD_COMMON, 'upgrade' );        
         
             // set the new version num of this module
             $this->B->sys['module']['common']['version']  = MOD_COMMON_VERSION;
@@ -126,14 +126,16 @@ class common_sys_init
      
         if( SF_SECTION == 'admin')
         {
+            global $handler_list;
+            
             // sort handler array by name
-            ksort($this->B->handler_list);
+            ksort($handler_list);
         
             // assign template handler names array
             // this array is used to build the modul select form of the admin menu
             $this->B->tpl_mod_list = array();    
-            
-            foreach ($this->B->handler_list as $key => $value)
+
+            foreach ($handler_list as $key => $value)
             {
                 if( $value['menu_visibility'] == TRUE )
                 {

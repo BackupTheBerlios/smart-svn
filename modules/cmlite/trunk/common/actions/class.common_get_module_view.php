@@ -132,41 +132,53 @@ class common_get_module_view
             return SF_BASE_DIR . 'error.tpl.php';
         }
 
-        // path to the requested module template
-        $template_file = SF_BASE_DIR . 'modules/' . $this->_module . '/templates/' . $this->_view . '.tpl.php';        
-       
         // build the whole file path to the module view class file
-        $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.'.$this->_module.'_view_' . $this->_view . '.php';
+        $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.view_' .$this->_module.'_'. $this->_view . '.php';
       
-        // include module view class file
-        if( @file_exists( $view_class_file ) )
-        {  
-            include_once( $view_class_file );
-            
-            $view_class = $this->_module . '_view_' . $this->_view;
-            
-            // instance of the module view class
-            $view = & new $view_class();
+        // build the whole file path to the view class file
+        //$view_class_file = SF_BASE_DIR . $this->view_folder . 'class.view_' . $view . '.php';
 
-            if( FALSE == $view->perform( $data ) )
-            {
-                $this->B->tpl_error = "Class function perform() in file: \n\n{$view_class_file}\n\nreturn FALSE !!!";
-
-                // on error set the error template as default
-                return SF_BASE_DIR . 'error.tpl.php';
-            }
-        }
-          
-        // check if the requested template exist
-        if (!@file_exists( $template_file ))
+        // check if view class file exists
+        if( !@file_exists( $view_class_file ) )
         {
-            $this->B->tpl_error = "The requested template \n\n{$template_file} \n\ndosent exists!";
-              
-            // on error set the error template as default
-            return SF_BASE_DIR . 'error.tpl.php';
+            die ('The requested view dosent exists: ' . $view_class_file);
+            exit; 
+        }
+        
+        // include the requested view class
+        include_once( $view_class_file );
+        
+        // build the requested view class name and make instance
+        $view_class = 'view_'.$this->_module.'_'.$this->_view;          
+        $view_obj   = & new $view_class();
+
+        // Launch view related authentication
+        $view_obj->auth(); 
+
+        // Launch view related logout
+        $view_obj->logout(); 
+
+        // Launch view related prepend filter chain
+        $view_obj->prependFilterChain(); 
+
+        // perform on the view
+        if( FALSE == $view_obj->perform() )
+        {
+            // if error get the error view object
+            $view_obj = $this->_error_view( $view_obj );
         }
 
-        return $template_file;
+        // render a template ???
+        if ( SF_TEMPLATE_RENDER == $view_obj->render_template )
+        {
+            // get the public template
+            include( $view_obj->getTemplate() );   
+        }    
+        
+        // Launch view related append filter chain
+        $view_obj->appendFilterChain();     
+
+        return true;
     }    
 }
 
