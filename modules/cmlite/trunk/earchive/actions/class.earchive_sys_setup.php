@@ -117,16 +117,24 @@ class earchive_sys_setup
    
         // create table if it dosent exist
         $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_messages (
-                mid      INT(11) NOT NULL auto_increment,
-                lid      INT(11) NOT NULL,
-                subject  TEXT NOT NULL  default '',
-                sender   TEXT NOT NULL  default '',
-                mdate    DATETIME default '0000-00-00 00:00:00' NOT NULL,
-                body     MEDIUMTEXT default '' NOT NULL,
-                folder   VARCHAR(32) default '' NOT NULL,
+                mid        INT(11) NOT NULL auto_increment,
+                lid        INT(11) NOT NULL,
+                message_id VARCHAR(255) NOT NULL default '',
+                root_id    VARCHAR(255) NOT NULL default '',
+                parent_id  VARCHAR(255) NOT NULL default '',            
+                subject    TEXT NOT NULL  default '',
+                sender     TEXT NOT NULL  default '',
+                mdate      DATETIME default '0000-00-00 00:00:00' NOT NULL,
+                body       MEDIUMTEXT default '' NOT NULL,
+                enc_type   VARCHAR(50) NOT NULL default '',                
+                folder     VARCHAR(32) default '' NOT NULL,
+                header     MEDIUMTEXT NOT NULL default '',                 
                 PRIMARY KEY     (mid),
                 KEY lid         (lid),
-                KEY mdate       (mdate))";
+                KEY mdate       (mdate),
+                KEY message_id  (message_id),
+                KEY root_id     (root_id),
+                KEY parent_id   (parent_id))";
 
         $result = $this->B->db->query($sql);
 

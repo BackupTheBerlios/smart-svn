@@ -229,10 +229,12 @@ class earchive_fetch_emails
 
                 if ($body['ftype'] == 'text/html')
                 {
+                    $this->_message_data['ftype'] = 'text/html';
                     $this->_message_data['body'] .= $body['message'];
                 }
                 elseif ($body['ftype'] == 'text/plain')
                 {
+                    $this->_message_data['ftype'] = 'text/plain';
                     $body['message'] = str_replace("<","&lt;",$body['message']);
                     $body['message'] = str_replace(">","&gt;",$body['message']);
                     $this->_message_data['body'] .= nl2br($this->_html_activate_links($body['message']));
@@ -254,13 +256,16 @@ class earchive_fetch_emails
 
             if ($body['ftype'] == 'text/html')
             {
+                $this->_message_data['ftype'] = 'text/html';
                 $this->_message_data['body'] .= $body['message'];
             }
             elseif ($body['ftype'] == 'text/plain')
             {
+                $this->_message_data['ftype'] = 'text/plain';
                 $body['message'] = str_replace("<","&lt;",$body['message']);
                 $body['message'] = str_replace(">","&gt;", $body['message']);
                 $this->_message_data['body'] .= nl2br($this->_html_activate_links($body['message']));
+                
             }
             else
             {

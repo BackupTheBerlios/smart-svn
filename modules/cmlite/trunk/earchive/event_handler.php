@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_EARCHIVE' , 'earchive');
 
 // Version of this modul
-define ( 'MOD_EARCHIVE_VERSION' , '0.4.2');
+define ( 'MOD_EARCHIVE_VERSION' , '0.4.3');
 
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_EARCHIVE,
