@@ -62,7 +62,7 @@ function subok(s){
   </tr>
   <tr>
     <td width="20%" align="left" valign="top">
-        <?php /* ### include the module view ### */ ?>
+        <?php /* ### include the module view (template) ### */ ?>
         <?php include( $B->M( MOD_COMMON, 'get_module_view' ) ); ?>
     </td>
   </tr>

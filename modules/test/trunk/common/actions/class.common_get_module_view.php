@@ -12,6 +12,12 @@
 /**
  * common_get_module_view class 
  *
+ * - this class validate the requested module name and template name.
+ * - make an instance of the requested module view
+ * - execute the perform function of this class
+ * - return the requested module template
+ *
+ * - on error the error template is returned
  */
  
 class common_get_module_view
@@ -19,16 +25,19 @@ class common_get_module_view
     /**
      * Global system instance
      * @var object $B
+     * @access privat
      */
     var $B;
     /**
      * Module name
      * @var string $module
+     * @access privat
      */
     var $_module;
     /**
      * Template name
      * @var string $_tpl
+     * @access privat
      */
     var $_tpl;   
     
@@ -107,35 +116,39 @@ class common_get_module_view
     }
     
     /**
-     * - check if the main admin template exists
-     * - return the template path
+     * - proceed the requested module view
+     * - return the requested module template
+     * - on error return the error template 
      *
+     * This function can receive the requested module name
+     * and template name from the GPC arrays ($_REQUEST) OR
+     * from the $data array e.g. $data['m'] $data['tpl']
      *
      * @param array $data
      * @return string whole path to the template
      */
     function perform( & $data )
     {
-        // validate module name and template name request
+        // validate module name and template name requests
         if (FALSE == $this->validate( $data ))
         {
             return SF_BASE_DIR . 'error.tpl.php';
         }
         
-        // get module view
-        // path to the requested template
+        // path to the requested module template
         $template_file = SF_BASE_DIR . 'modules/' . $this->_module . '/templates/' . $this->_tpl . '.tpl.php';        
         
-        // build the whole file path to the view class file
+        // build the whole file path to the module view class file
         $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.'.$this->_module.'_view_' . $this->_tpl . '.php';
         
-        // include view class file of the requested template
+        // include module view class file
         if( @file_exists( $view_class_file ) )
         {
             include_once( $view_class_file );
             
             $view_class = $this->_module . '_view_' . $this->_tpl;
             
+            // instance of the module view class
             $view = & new $view_class();
 
             if( FALSE == $view->perform() )
