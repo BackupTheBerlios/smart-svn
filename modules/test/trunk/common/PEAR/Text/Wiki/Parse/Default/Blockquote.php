@@ -4,17 +4,33 @@
 * 
 * Parse for block-quoted text.
 * 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Blockquote.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parse for block-quoted text.
+* 
 * Find source text marked as a blockquote, identified by any number of
 * greater-than signs '>' at the start of the line, followed by a space,
 * and then the quote text; each '>' indicates an additional level of
 * quoting.
 * 
-* $Id: Blockquote.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
+* @category Text
 * 
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Blockquote extends Text_Wiki_Parse {

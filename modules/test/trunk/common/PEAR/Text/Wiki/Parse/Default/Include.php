@@ -1,6 +1,20 @@
 <?php
-// $Id: Include.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
 
+/**
+* 
+* Includes the contents of another PHP script into the source text.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Include.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
 
 /**
 * 
@@ -16,10 +30,12 @@
 * occur if the embedded output has <script> or other similar tags.  Be
 * careful.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Include extends Text_Wiki_Parse {

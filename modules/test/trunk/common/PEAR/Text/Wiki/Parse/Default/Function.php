@@ -1,6 +1,32 @@
 <?php
 
-// $Id: Function.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
+/**
+* 
+* Parses for an API function documentation block.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Function.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for an API function documentation block.
+*
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+*/
 
 class Text_Wiki_Parse_Function extends Text_Wiki_Parse {
 

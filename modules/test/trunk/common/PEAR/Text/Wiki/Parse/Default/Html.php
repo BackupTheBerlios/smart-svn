@@ -1,17 +1,35 @@
 <?php
-// $Id: Html.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
-
 
 /**
+* 
+* Parses for blocks of HTML code.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Html.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for blocks of HTML code.
 * 
 * This class implements a Text_Wiki_Parse to find source text marked as
 * HTML to be redndred as-is.  The block start is marked by <html> on its
 * own line, and the block end is marked by </html> on its own line.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Html extends Text_Wiki_Parse {

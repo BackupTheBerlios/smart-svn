@@ -1,5 +1,35 @@
 <?php
 
+/**
+* 
+* Base rendering class for parsed and tokenized text.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Render.php,v 1.5 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Base rendering class for parsed and tokenized text.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+*/
+
 class Text_Wiki_Render {
     
     

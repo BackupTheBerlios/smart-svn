@@ -1,17 +1,35 @@
 <?php
-// $Id: Paragraph.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
-
 
 /**
+* 
+* Parses for paragraph blocks.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Paragraph.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for paragraph blocks.
 * 
 * This class implements a Text_Wiki rule to find sections of the source
 * text that are paragraphs.  A para is any line not starting with a token
 * delimiter, followed by two newlines.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Paragraph extends Text_Wiki_Parse {

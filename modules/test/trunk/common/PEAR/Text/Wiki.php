@@ -8,11 +8,11 @@
 * 
 * @package Text_Wiki
 * 
-* @author Paul M. Jones <pmjones@ciaweb.net>
+* @author Paul M. Jones <pmjones@php.net>
 * 
 * @license LGPL
 * 
-* @version $Id: Wiki.php,v 1.27 2005/02/01 16:56:56 pmjones Exp $
+* @version $Id: Wiki.php,v 1.28 2005/02/22 19:12:57 pmjones Exp $
 * 
 */
 
@@ -40,7 +40,9 @@ require_once 'Text/Wiki/Render.php';
 * 
 * @package Text_Wiki
 * 
-* @version 0.25.0 beta
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @version @package_version@
 * 
 */
 

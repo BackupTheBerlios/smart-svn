@@ -1,8 +1,24 @@
 <?php
-// $Id: Heading.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
-
 
 /**
+* 
+* Parses for heading text.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Heading.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for heading text.
 * 
 * This class implements a Text_Wiki_Parse to find source text marked to
 * be a heading element, as defined by text on a line by itself prefixed
@@ -10,10 +26,12 @@
 * the source, but is prefixed and suffixed with delimited tokens marking
 * the start and end of the heading.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Heading extends Text_Wiki_Parse {

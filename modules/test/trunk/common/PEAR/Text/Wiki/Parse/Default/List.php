@@ -1,8 +1,24 @@
 <?php
-// $Id: List.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
-
 
 /**
+* 
+* Parses for bulleted and numbered lists.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: List.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for bulleted and numbered lists.
 * 
 * This class implements a Text_Wiki_Parse to find source text marked as
 * a bulleted or numbered list.  In short, if a line starts with '* ' then
@@ -12,10 +28,12 @@
 * separated by blank lines to improve readability.  Using a non-* non-#
 * non-whitespace character at the beginning of a line ends the list.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_List extends Text_Wiki_Parse {

@@ -1,8 +1,24 @@
 <?php
-// $Id: Code.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
-
 
 /**
+* 
+* Parses for text marked as a code example block.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Code.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for text marked as a code example block.
 * 
 * This class implements a Text_Wiki_Parse to find sections marked as code
 * examples.  Blocks are marked as the string <code> on a line by itself,
@@ -11,10 +27,12 @@
 * native PHP highlight_string() function to colorize it, then surrounded
 * with <pre>...</pre> tags when rendered as XHTML.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Code extends Text_Wiki_Parse {

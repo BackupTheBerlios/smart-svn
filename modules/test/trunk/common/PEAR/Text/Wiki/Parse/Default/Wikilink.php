@@ -3,6 +3,22 @@
 /**
 * 
 * Parse for links to wiki pages.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Wikilink.php,v 1.4 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parse for links to wiki pages.
 *
 * Wiki page names are typically in StudlyCapsStyle made of
 * WordsSmashedTogether.
@@ -18,16 +34,19 @@
 * 
 * 'anchor' => a named anchor on the target wiki page.
 * 
-* $Id: Wikilink.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
-*
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Wikilink extends Text_Wiki_Parse {
     
+    var $conf = array (
+    	'ext_chars' => false
+    );
     
     /**
     * 
@@ -46,22 +65,36 @@ class Text_Wiki_Parse_Wikilink extends Text_Wiki_Parse {
     {
         parent::Text_Wiki_Parse($obj);
         
-        // allows numbers as "lowercase letters" in the regex
+        if ($this->getConf('ext_chars')) {
+        	// use an extended character set; this should
+        	// allow for umlauts and so on.  taken from the
+        	// Tavi project defaults.php file.
+			$upper = "A-Z\xc0-\xde";
+			$lower = "a-z0-9\xdf-\xfe";
+			$either = "A-Za-z0-9\xc0-\xfe";
+		} else {
+			// the default character set, should be fine
+			// for most purposes.
+			$upper = "A-Z";
+			$lower = "a-z0-9";
+			$either = "A-Za-z0-9";
+		}
+		
+        // build the regular expression for finding WikiPage names.
         $this->regex =
-            "(!?" .                 // START WikiPage pattern (1)
-            "[A-Z]" .             // 1 upper
-            "[A-Za-z0-9]*" .     // 0+ alpha or digit
-            "[a-z0-9]+" .         // 1+ lower or digit
-            "[A-Z]" .             // 1 upper
-            "[A-Za-z0-9]*" .     // 0+ or more alpha or digit
-            ")" .                 // END WikiPage pattern (/1)
-            "((\#" .             // START Anchor pattern (2)(3)
-            "[A-Za-z]" .         // 1 alpha
-            "(" .                 // start sub pattern (4)
-            "[-A-Za-z0-9_:.]*" . // 0+ dash, alpha, digit, underscore, colon, dot
-            "[-A-Za-z0-9_]" .     // 1 dash, alpha, digit, or underscore
-            ")?)?)";             // end subpatterns (/4)(/3)(/2)
-        
+            "(!?" .            // START WikiPage pattern (1)
+            "[$upper]" .       // 1 upper
+            "[$either]*" .     // 0+ alpha or digit
+            "[$lower]+" .      // 1+ lower or digit
+            "[$upper]" .       // 1 upper
+            "[$either]*" .     // 0+ or more alpha or digit
+            ")" .              // END WikiPage pattern (/1)
+            "((\#" .           // START Anchor pattern (2)(3)
+            "[$either]" .      // 1 alpha
+            "(" .              // start sub pattern (4)
+            "[-_$either:.]*" . // 0+ dash, alpha, digit, underscore, colon, dot
+            "[-_$either]" .    // 1 dash, alpha, digit, or underscore
+            ")?)?)";           // end subpatterns (/4)(/3)(/2)
     }
     
     
@@ -86,7 +119,13 @@ class Text_Wiki_Parse_Wikilink extends Text_Wiki_Parse {
         );
         
         // standalone wiki links
-        $tmp_regex = '/(^|[^A-Za-z0-9\-_])' . $this->regex . '/';
+        if ($this->getConf('ext_chars')) {
+			$either = "A-Za-z0-9\xc0-\xfe";
+		} else {
+			$either = "A-Za-z0-9";
+		}
+		
+        $tmp_regex = '/(^|[^$either\-_])' . $this->regex . '/';
         $this->wiki->source = preg_replace_callback(
             $tmp_regex,
             array(&$this, 'process'),

@@ -1,8 +1,24 @@
 <?php
-// $Id: Table.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
-
 
 /**
+* 
+* Parses for table markup.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Table.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for table markup.
 * 
 * This class implements a Text_Wiki_Parse to find source text marked as a
 * set of table rows, where a line start and ends with double-pipes (||)
@@ -10,10 +26,12 @@
 * sequential lines (no blank lines between them) -- a blank line
 * indicates the beginning of a new table.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Table extends Text_Wiki_Parse {

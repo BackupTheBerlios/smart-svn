@@ -1,18 +1,36 @@
 <?php
-// $Id: Delimiter.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
-
 
 /**
+* 
+* Parses for Text_Wiki delimiter characters already in the source text.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Delimiter.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for Text_Wiki delimiter characters already in the source text.
 * 
 * This class implements a Text_Wiki_Parse to find instances of the delimiter
 * character already embedded in the source text; it extracts them and replaces
 * them with a delimited token, then renders them as the delimiter itself
 * when the target format is XHTML.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Delimiter extends Text_Wiki_Parse {

@@ -1,6 +1,20 @@
 <?php
-// $Id: Prefilter.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
 
+/**
+* 
+* "Pre-filter" the source text.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Prefilter.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
 
 /**
 * 
@@ -11,10 +25,12 @@
 * to the top and end of the source text, compress 3 or more newlines to
 * 2 newlines.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Prefilter extends Text_Wiki_Parse {

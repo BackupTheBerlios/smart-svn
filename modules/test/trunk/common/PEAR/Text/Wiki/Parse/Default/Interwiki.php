@@ -1,17 +1,35 @@
 <?php
-// $Id: Interwiki.php,v 1.2 2005/02/01 03:47:37 pmjones Exp $
-
 
 /**
+* 
+* Parses for interwiki links.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Interwiki.php,v 1.4 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
+
+/**
+* 
+* Parses for interwiki links.
 * 
 * This class implements a Text_Wiki_Parse to find source text marked as
 * an Interwiki link.  See the regex for a detailed explanation of the
 * text matching procedure; e.g., "InterWikiName:PageName".
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Interwiki extends Text_Wiki_Parse {

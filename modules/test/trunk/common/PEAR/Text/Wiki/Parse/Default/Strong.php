@@ -1,8 +1,25 @@
 <?php
-// $Id: Strong.php,v 1.1 2005/01/31 15:46:52 pmjones Exp $
+
+/**
+* 
+* Parses for strongly-emphasized text.
+* 
+* @category Text
+* 
+* @package Text_Wiki
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
+* @license LGPL
+* 
+* @version $Id: Strong.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* 
+*/
 
 
 /**
+* 
+* Parses for strongly-emphasized text.
 * 
 * This class implements a Text_Wiki_Parse to find source text marked for
 * strong emphasis (bold) as defined by text surrounded by three
@@ -10,10 +27,12 @@
 * starting and ending instances of three single-quotes are replaced with
 * tokens.
 *
-* @author Paul M. Jones <pmjones@ciaweb.net>
-*
+* @category Text
+* 
 * @package Text_Wiki
-*
+* 
+* @author Paul M. Jones <pmjones@php.net>
+* 
 */
 
 class Text_Wiki_Parse_Strong extends Text_Wiki_Parse {
