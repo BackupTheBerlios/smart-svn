@@ -79,8 +79,9 @@ body {
         <ul>
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">added
               view class for each template. </font></li>
-          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">modify
-              the admin front controller</font></li>
+          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">rebuild
+              the admin and public front controller to one front controller (deleted
+              the /admin folder)</font></li>
         </ul>        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version
                 <strong>0.2.2a</strong></em></font></p>
         <ul>

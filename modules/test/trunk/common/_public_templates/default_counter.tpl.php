@@ -42,25 +42,25 @@ body {
            <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('tpl' => 'navigation')) ); ?>
         </td>
         <td width="85%" align="left" valign="top"><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This
-              page is produced by the counter template (default_counter.tpl.php). </font></p>
+              page is produced by the counter template <strong>default_counter.tpl.php</strong>              and the corresponding view class <strong>view/class.view_counter.php</strong>. </font></p>
           <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Counter
-              1</strong> - produced by a event call. See: template<br />
-      <?php /* -----------------------------------------------------------
+            1</strong> -</font><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><br />
+              <?php /* -----------------------------------------------------------
                Print out the counter arrays defined in the event calls at
                the top of this template. 
                -----------------------------------------------------------*/?>
-      <?php foreach($B->tpl_counter1 as $c_1): ?>
-          <?php echo $c_1;  ?>, 
-      <?php endforeach; ?>  
-      </font></p>
-     <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Counter
-              2</strong> - produced by a event call. See: template<br />
+              <?php foreach($B->tpl_counter1 as $c_1): ?>
+              <?php echo $c_1;  ?>,
+              <?php endforeach; ?>  
+            </font></p>
+          <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Counter
+              2</strong> - <br />
       <?php foreach($B->tpl_counter2 as $c_2): ?>
           <?php echo $c_2;  ?>, 
       <?php endforeach; ?>  
       </font></p> 
               <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Counter
-              3</strong> - produced by a event call. See: template<br />
+              3</strong> - <br />
       <?php foreach($B->tpl_counter3 as $c_3): ?>
           <?php echo $c_3;  ?>, 
       <?php endforeach; ?>  

@@ -41,10 +41,8 @@ body {
             <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('tpl' => 'navigation')) ); ?>
         </td>
         <td width="85%" align="left" valign="top"><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This
-              page is produced by the counter template (default_contact.tpl.php). </font></p>
-          <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Contact</strong> -
-              produced by a event call.
-              See: template<br />
+              page is produced by the counter template <strong>default_contact.tpl.php</strong>              and the corresponding view class <strong>view/class.view_contact.php</strong>. </font></p>
+          <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Contact</strong> -              <br />
       <?php /* -----------------------------------------------------------
                Print out the contact string defined in the event call at
                the top of this template. 
