@@ -10,15 +10,15 @@
 // ----------------------------------------------------------------------
 
 /**
- * DEFAULT_SYS_INIT class 
+ * COMMON_SYS_FINSH_UPDATE class 
  *
  */
  
-class DEFAULT_SYS_INIT
+class COMMON_SYS_FINSH_UPDATE
 {
     /**
      * Global system instance
-     * @var object $B
+     * @var object $this->B
      */
     var $B;
     
@@ -26,7 +26,7 @@ class DEFAULT_SYS_INIT
      * constructor
      *
      */
-    function DEFAULT_SYS_INIT()
+    function COMMON_SYS_FINSH_UPDATE()
     {
         $this->__construct();
     }
@@ -41,22 +41,20 @@ class DEFAULT_SYS_INIT
     }
     
     /**
-     * Check if version number has changed and perfom additional upgarde code
+     * Control the main setup process
      *
      * @param array $data
      */
     function perform( $data )
-    {
-        // Check for upgrade  
-        if(MOD_DEFAULT_VERSION != (string)$this->B->sys['module']['default']['version'])
-        {        
-            // The module name and version
-            $this->B->sys['module']['default']['name']     = 'default';
-            $this->B->sys['module']['default']['version']  = MOD_DEFAULT_VERSION;
-            $this->B->sys['module']['default']['mod_type'] = 'test';
-            $this->B->sys['module']['default']['info']     = 'This is the default module';
-            $this->B->system_update_flag = TRUE; 
-        }
+    {                 
+        // include PEAR Config class
+        include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
+
+        $c = new Config();
+        $root =& $c->parseConfig($this->B->sys, 'PHPArray');
+
+        // save the modified config array
+        $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));  
     }    
 }
 

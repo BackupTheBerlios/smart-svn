@@ -67,19 +67,6 @@ function common_event_handler( $evt )
     }
 }
 
-/* 
-Include and define here data, which are required by other modules.
-This means that you must define at least these variables: 
-- SF_AUTH_MODULE
-- SF_OPTION_MODULE
-- SF_DEFAULT_MODULE
-- SF_TEMPLATE_MAIN
-For detailed info of this vars see bellow.
-
-Furthermore if you modules require a database connection or some class instances
-or packages like PEAR, ADODB, ... you have to include those here.
-
-*/
 
 /***************************
 **** Module SET  CONFIG ****
@@ -115,40 +102,5 @@ define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . 'modules/common/templates/index.tpl
  * Media folder of this module set. (css, layout images, javascript)
  */
 define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
-
-// get os related separator to set include path
-if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
-    $tmp_separator = ';';
-else
-    $tmp_separator = ':';
-
-// set include path to the PEAR packages
-ini_set( 'include_path', SF_BASE_DIR . 'modules/common/PEAR' . $tmp_separator . ini_get('include_path') );
-unset($tmp_separator); 
-
-// init system config array
-$B->sys = array();
-
-// include system config array
-if(file_exists(SF_BASE_DIR . 'modules/common/config/config.php'))
-    include_once( SF_BASE_DIR . 'modules/common/config/config.php' );  
-
-// if setup was done
-if($B->sys['info']['status'] == TRUE)
-{ 
-    // here you may create db connection and start a session.
-    // .... things, which are required by all other modules
-    
-}
-// Set setup flag if setup wasnt done
-else
-{
-    if(SF_SECTION == 'public')
-    {
-        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
-        exit;  
-    }
-    define('_DO_SETUP', TRUE);
-}
 
 ?>
