@@ -86,7 +86,7 @@ class SETUP_SYS_SETUP
                 $root =& $c->parseConfig($this->B->conf_val, 'PHPArray');
                     
                 // write config array
-                $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
+                $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));
         
                 @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
                 exit;  
