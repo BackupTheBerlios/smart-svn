@@ -53,11 +53,11 @@ define('SF_BASE_LOCATION', $B->util->base_location());
 
 // Register all common handlers and filter handlers
 //
-// register system event handler
-include_once (SF_BASE_DIR . '/admin/include/event_handler.php');
+// include system event handler
+include_once (SF_BASE_DIR . '/admin/event_handler.php');
 
-// register system filter handler
-include_once (SF_BASE_DIR . '/admin/include/filter_handler.php');
+// include system filter handler
+include_once (SF_BASE_DIR . '/admin/filter_handler.php');
 
 // check if the modules directory exists
 if(!is_dir(SF_BASE_DIR . '/admin/modules'))
