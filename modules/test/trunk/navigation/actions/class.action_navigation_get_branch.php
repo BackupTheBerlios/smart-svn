@@ -76,7 +76,11 @@ class action_navigation_get_branch extends action
      */    
     function validate(  $data = FALSE  )
     {
-   
+        // validate $data['node']. no chars else than 0123456789 and - are accepted
+        if( preg_match("/[^0-9-]/", $data['node']) )
+        {
+            return FALSE;
+        }     
         
         return TRUE;
     } 
