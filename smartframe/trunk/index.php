@@ -27,7 +27,7 @@ define('SF_BASE_DIR', dirname(__FILE__));
 define('SF_SECTION', 'public');
 
 // Include the base file
-include( SF_BASE_DIR . "/admin/include/base.inc.php" );
+include( SF_BASE_DIR . '/admin/include/base.inc.php' );
 
 // Directed intercepting filter event (auto_prepend)
 $B->M( MOD_SYSTEM, 'SYS_PREPEND' );
