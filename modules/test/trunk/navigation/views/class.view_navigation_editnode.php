@@ -84,7 +84,7 @@ class view_navigation_editnode extends view
                  'body'             => 'tpl_body',
                  'status'           => 'tpl_status',
                  'nl2br'            => FALSE,
-                 'htmlspecialchars' => TRUE)); 
+                 'htmlspecialchars' => FALSE)); 
 
         return  TRUE;
     }    
@@ -96,7 +96,7 @@ class view_navigation_editnode extends view
      */       
     function _reset_old_fields_data()
     {
-        $this->B->tpl_title = htmlspecialchars(commonUtil::stripSlashes($_POST['title']));
+        $this->B->tpl_title = str_replace ( "'", "&#039;",commonUtil::stripSlashes($_POST['title']));
         $this->B->tpl_body  = commonUtil::stripSlashes($_POST['body']);
     }     
 }
