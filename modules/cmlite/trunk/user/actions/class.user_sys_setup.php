@@ -73,19 +73,19 @@ class user_sys_setup
         if( $success == TRUE )
         {
             //create captcha_pics dir if it dosent exist
-            if(!is_writeable( SF_BASE_DIR . 'modules/user/captcha/pics' ))
+            if(!is_writeable( SF_BASE_DIR . 'modules/user/actions/captcha/pics' ))
             {
-                $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/user/captcha/pics';
+                $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/user/actions/captcha/pics';
                 $success = FALSE;
             }  
     
             if($success == TRUE)
             {
                 // create db tables
-                if(file_exists(SF_BASE_DIR . 'modules/user/includes/_setup_'.$_POST['dbtype'].'.php'))
+                if(file_exists(SF_BASE_DIR . 'modules/user/actions/sys_setup/_setup_'.$_POST['dbtype'].'.php'))
                 {
                     // include mysql setup
-                    include_once( SF_BASE_DIR . 'modules/user/includes/_setup_'.$_POST['dbtype'].'.php' );    
+                    include_once( SF_BASE_DIR . 'modules/user/actions/sys_setup/_setup_'.$_POST['dbtype'].'.php' );    
                 }
                 else
                 {

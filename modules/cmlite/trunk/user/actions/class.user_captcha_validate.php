@@ -16,7 +16,7 @@
 
 // captcha class
 //
-include_once( SF_BASE_DIR .'modules/user/captcha/class.captcha.php' );
+include_once( SF_BASE_DIR .'modules/user/actions/captcha/class.captcha.php' );
 
  
 class user_captcha_validate extends captcha
@@ -60,10 +60,10 @@ class user_captcha_validate extends captcha
         $captcha_privat_key = md5(implode('',file(SF_BASE_DIR.'modules/common/config/config.php')));
         
         // The ttf font to create turing chars images
-        $captcha_ttf_font = SF_BASE_DIR .'modules/user/captcha/ttf_font/activa.ttf';
+        $captcha_ttf_font = SF_BASE_DIR .'modules/user/actions/captcha/ttf_font/activa.ttf';
     
         // Relative folder of captcha pictures
-        $captcha_pictures_folder = 'modules/user/captcha/pics';
+        $captcha_pictures_folder = 'modules/user/actions/captcha/pics';
     
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 
