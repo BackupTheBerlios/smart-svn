@@ -106,13 +106,13 @@
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
                         <td align="left" valign="top"><p class="pager">E-archive
-                            can automatically archive email messages (+ attachments)
+                            can archive email messages (+ attachments)
                             and make those accessible through a public web page.
                             It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>.
                             E-archive is a module of this framework.
                             It is still in a test phase. So there is no garuantee
                             that it is bug free.</p>
-                          <p class="pager">Current Version 0.1.7a</p>
+                          <p class="pager">Current Version 0.1.8a</p>
                           <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios</a></p>
                             <h3>Installation:</h3>
                             <p class="pager">Transfer the extracted archive to
@@ -184,7 +184,7 @@
                                   Short description of the account</li>
                                 <li class="pager"><strong> Email Account/Server
                                     data - </strong>Here you must enter the access
-                                    data to connect to an existing email account.
+                                    data to connect to an existing email account inbox.
                                     The
                                     format is straightforward. If you make mistakes
                                     here it wont work.<br />
@@ -207,7 +207,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <li class="pager"><strong>Description - </strong>Detailed
                                 description</li>
                           </ul>
-                            <p class="pager">There are 3 ways on which E-archive
+                            <p class="pager">There are 2 ways on which E-archive
                               can connect to one or more email inboxes to download messages.</p>
                             <ul>
                               <li class="pager">Executing, by the php interpreter, the
@@ -216,10 +216,6 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                               <li class="pager">Activate the fetch email process manually from
                                 within the options menu; &quot;OPTION&gt;fetch
                                 emails&quot;. </li>
-                              <li class="pager">By calling the view:<br />
-                                http://www.mysite.com/index.php?view=fetch_emails&amp;passID=xxxx
-                                <br />
-                                You can set a &quot;passID&quot; value in the admin/options menu. It prevent that some one outside can activate the fetch email process.</li>
                             </ul>                            
                             <h3>The public templates </h3>
                             <p class="pager">In templates you can define the
@@ -269,7 +265,6 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                     - </strong>Here a visitor can register if
                                     this option is enabled.</li>
                                 <li class="pager"><strong>earchive_validate.tpl.php</strong> - Show user validation message</li>
-                                <li class="pager"><strong>earchive_fetch_emails.php</strong> - This template is only for internal use. Please dont delete it.</li>
                           </ul>                            
                             <p class="pager"><strong>earchive </strong>is the
                               group under wich the templates are grouped. To
@@ -277,7 +272,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                               templates, change the groupname and save those
                               templates in the same public root folder. You can
                               switch to this new template group in the OPTION
-                              menu.</p>                            
+                              menu. If you make change on the templates delivered with this package your should place the modified templates under a other group. Else you delete your modifications when upgrade to a new earchive release.</p>                            
                             <h3>ToDO</h3>
                             <ul>
                                 <li class="pager">Add a template if a visitor
@@ -289,9 +284,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                             <p class="pager">Please contact me if you have interests
                               to get involved in this project. Requirements:</p>
                             <ul>
-                                <li class="pager"> PHP knowledge.</li>
-                                <li class="pager">Experience with different database
-                                  types would be great.</li>
+                                <li class="pager"> PHP knowledge</li>
                                 <li class="pager">Experience with           
                                 Subversion </li>
                                 <li class="pager">Teamwork</li>
