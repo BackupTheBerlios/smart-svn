@@ -54,12 +54,12 @@ class setup_sys_setup
      
         if($success == TRUE)
             $success = $this->B->M( MOD_SYSTEM,       'sys_setup' );
-
-        if($success == TRUE)    
-            $success = $this->B->M( MOD_COMMON,       'sys_setup' );
     
         if($success == TRUE)    
             $success = $this->B->M( MOD_USER,         'sys_setup' );
+            
+        if($success == TRUE)    
+            $success = $this->B->M( MOD_COMMON,       'sys_setup' );            
         
         if($success == TRUE)
             $success = $this->B->M( MOD_EARCHIVE,     'sys_setup' );

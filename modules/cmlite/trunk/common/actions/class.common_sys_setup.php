@@ -92,7 +92,7 @@ class common_sys_setup
                       id          char(32) NOT NULL DEFAULT '',
                       cachegroup  varchar(127) NOT NULL DEFAULT '',
                       cachedata   blob NOT NULL DEFAULT '',
-                      userdata    varchar(255) NOT NULL DEFAUL '',
+                      userdata    varchar(255) NOT NULL DEFAULT '',
                       expires     int(9) NOT NULL DEFAULT 0,
                       changed     timestamp(14) NOT NULL,
                       index (expires),
