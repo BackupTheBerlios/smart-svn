@@ -96,7 +96,7 @@ class earchive_view_editlist
             }
             else
             {
-                // add new user
+                // list form data
                 $this->B->tmp_data = array(
                               'name'        => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['name'])),
                               'emailserver' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
