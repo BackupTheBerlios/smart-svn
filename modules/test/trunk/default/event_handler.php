@@ -56,15 +56,8 @@ function default_event_handler( $evt )
             $B->$class_name = & new $class_name();
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
-        }
-        else
-        {
-            if( SF_DEBUG == TRUE )
-            {
-                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
-            }        
-            return FALSE;
-        } 
+        }       
+        return FALSE;
     }
     else
     {
