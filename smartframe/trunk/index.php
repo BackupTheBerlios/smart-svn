@@ -73,7 +73,7 @@ if ( $_REQUEST['logout'] == '1' )
 switch ( SF_SECTION )
 {
     case 'admin':  
-        // if an update was done this event finish the update process
+        // if an update was done this event complete the update process
         if(isset($B->system_update_flag))
         {
             // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_update_config.php
