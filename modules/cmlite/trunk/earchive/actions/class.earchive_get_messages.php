@@ -47,14 +47,6 @@ class earchive_get_messages
      */
     function perform( & $data )
     {
-        // Include cache and create instance
-        if(!is_object($this->B->cache))
-        {
-            include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache.php');            
-            $this->B->cache = new Cache('db', array('dsn'         => $this->B->dsn,
-                                                    'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
-        }
-        
         // get var name to store the result
         $_result       = & $this->B->$data['var'];
         
@@ -101,10 +93,13 @@ class earchive_get_messages
             $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
         
         // create cache ID
-        $cacheID = $this->B->cache->generateID($sql.(string)$page);
+        //$cacheID = $this->B->cache->generateID($sql.(string)$page);
 
         // check if cache ID exists
-        if ($_result = $this->B->cache->get($cacheID, 'earchive_get_messages')) 
+        if ($this->B->M( MOD_COMMON, 'cache_get',
+                         array('result'     => $data['var'],
+                               'cacheID'    => $sql.(string)$page,
+                               'cacheGroup' => 'earchive_get_messages'))) 
         {
             return TRUE;
         }
@@ -132,8 +127,9 @@ class earchive_get_messages
             }
         }
         // save result to cache
-        $this->B->cache->save($cacheID, $_result, $this->B->sys['cache']['lifetime'], 'earchive_get_messages');
-       
+        $this->B->M( MOD_COMMON, 'cache_save',
+                     array('result' => $_result));
+                     
         return TRUE;     
     } 
     
@@ -149,14 +145,14 @@ class earchive_get_messages
     {
         // get var name to store the result
         $_result       = & $this->B->$data['var'];
-               
-        // create cache ID
-        $cacheID = $this->B->cache->generateID($lid.$_GET['pageID']);
-        
+
         // check if cache ID exists
-        if ($_result = $this->B->cache->get($cacheID, 'earchive_get_messages')) 
+        if ($this->B->M( MOD_COMMON, 'cache_get',
+                         array('result'     => $data['var'],
+                               'cacheID'    => $lid.$_GET['pageID'],
+                               'cacheGroup' => 'earchive_get_messages'))) 
         {
-            return TRUE;                 
+            return TRUE;
         }
 
         $sql = "
@@ -187,9 +183,10 @@ class earchive_get_messages
         $pager = & new Pager_Sliding($params);
         $links = $pager->getLinks();
         $_result = $links['all'];  
-        
+
         // save result to cache
-        $this->B->cache->save($cacheID, $links['all'], $this->B->sys['cache']['lifetime'], 'earchive_get_messages');         
+        $this->B->M( MOD_COMMON, 'cache_save',
+                     array('result' => $links['all']));
     }     
 }
 
