@@ -99,9 +99,9 @@
                  </td>
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
-                        <td align="left" valign="top"><p class="pager">E-archive ist ein Verwaltungssystem mit dem man den Inhalt von Email Konten archivieren kann, inklusiv Attachments. Die Basis die das Ganze tr&auml;gt besteht aus einem Framework (<a href="http://smart.open-publisher.net">SMART</a>). E-archive ist nichts weiter als ein Modul dieses Frameworks. Zur Zeit befindet sich das Framework wie auch das E-archive Modul noch in einer Testphase die nicht abgeschlossen ist. Bis zur ersten stabilen Version werden u.a. im Optionsmenu einige Um&auml;nderungen durchgef&uuml;hrt sowie Caching-Features eingebaut. </p>
+                        <td align="left" valign="top"><p class="pager">E-archive ist ein Verwaltungssystem mit dem man den Inhalt von Email Konten archivieren kann, inklusiv Attachments. Die Basis die das Ganze tr&auml;gt besteht aus einem Framework (<a href="http://smart.open-publisher.net">SMART</a>). E-archive ist nichts weiter als ein Modul dieses Frameworks. Zur Zeit befindet sich das Framework wie auch das E-archive Modul noch in einer Testphase die nicht abgeschlossen ist.</p>
                             <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios </a></p>
-                            <p class="pager"><a href="earchive-0.1a.zip">Or download from this server </a> </p>
+                            <p class="pager"><a href="earchive-0.1.4a.zip">Or download from this server </a> </p>
                             <h4 class="pager">Installation:</h4>
                             <p class="pager">Nachdem das komprimierte Archiv ausgepackt wurde, muss der Inhalt des Hauptordners per ftp auf den Server hochgeladen werden. Dabei kann man E-archiv auch in ein Unterordner kopieren. Danach im Webbrowser den Ordner aufrufen wo sich das Ganze befindet. Es sollte nun ein Installationsmenu erscheinen.</p>
                             <h4 class="pager">Administration</h4>
