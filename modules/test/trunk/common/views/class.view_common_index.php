@@ -35,8 +35,39 @@ class view_common_index extends view
      */
     function perform()
     {
+        // check permission to access the admin interface
+        if( FALSE == $this->B->_is_logged )
+        {
+            // switch to the login view of the user module
+            $_REQUEST['m']   = 'user';
+            $_REQUEST['sec'] = 'login';    
+        }    
         return TRUE;
-    }    
+    }  
+    
+    /**
+     * authentication
+     *
+     */
+    function auth()
+    {
+        // Directed authentication event to the module handler, 
+        // which takes the authentication part
+        // The variable SF_AUTH_MODULE must be declared in the "common"
+        // module event_handler.php file
+        M( SF_AUTH_MODULE, 'auth' );
+    }
+    
+    /**
+     * prepend filter chain
+     *
+     */
+    function prependFilterChain()
+    {
+        // Directed intercepting filter event (auto_prepend)
+        // see smart/actions/class.system_sys_prepend.php
+        M( MOD_SYSTEM, 'sys_prepend' );    
+    }        
 }
 
 ?>

@@ -34,7 +34,7 @@ function subok(s){
         <?php echo $error; ?><br><br>
     <?php endforeach; ?>
 <?php endif; ?>
-<form name="setup" id="setup" method="post" action="<?php echo SF_CONTROLLER; ?>">
+<form name="setup" id="setup" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&view=setup">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">Smart Frame Setup </span></td>
@@ -44,13 +44,11 @@ function subok(s){
   </tr>
   <tr>
     <td align="center" valign="top"><p align="left">This template is loaded from the <strong>setup</strong>        module: </p>
-      <p align="left">File <strong>'modules/setup/templates/index.tpl.php'</strong>. </p>
+      <p align="left">File <strong>'modules/setup/templates/tpl.setup_index.php'</strong>. </p>
       <p align="left">In most cases you will find here a database setup form
             (creating db tables) and a form to create an administrator user account. After submit
             this form the setup module will send setup event calls to all other modules. Each
             module is responsible for its own setup proceedure. </p>
-      <p align="left">Example:<br />
-        See: /modules/test/actions/class.test_sys_setup.php</p>
       <p>
         <input type="submit" name="do_setup" value="Submit" />
       </p></td>

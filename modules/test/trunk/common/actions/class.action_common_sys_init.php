@@ -47,7 +47,13 @@ class action_common_sys_init extends action
         { 
             // here you may create db connection and start a session.
             // .... things, which are required by all other modules
-    
+            
+            // include session class
+            include_once( SF_BASE_DIR . 'modules/common/includes/class.session.php' ); 
+            @ob_start();
+            /* Create new object of session class */
+            $this->B->session = & new session();  
+            @ob_end_flush();              
         }
         // else launch setup
         else

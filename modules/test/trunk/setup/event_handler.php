@@ -30,7 +30,7 @@ define ( 'MOD_SETUP_VERSION' , '0.2');
 if (FALSE == register_handler( MOD_SETUP,
                                    array ( 'module'           => MOD_SETUP,
                                            'event_handler'    => 'setup_event_handler',
-                                           'menu_visibility'  => TRUE) ))
+                                           'menu_visibility'  => FALSE) ))
 {
     trigger_error( 'The handler '.MOD_SETUP.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }   

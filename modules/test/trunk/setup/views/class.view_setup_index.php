@@ -34,7 +34,7 @@ class view_setup_index extends view
      *
      * @return bool true on success else false
      */
-    function perform()
+    function perform( $data = FALSE )
     {
         $this->B->conf_val = array();
         // Init error array
@@ -61,6 +61,10 @@ class view_setup_index extends view
             // Send a setup message to the option handler
             if($success == TRUE)
                 $success = M( MOD_OPTION,       'sys_setup' );
+                
+            // Send a setup message to the option handler
+            if($success == TRUE)
+                $success = M( MOD_USER,         'sys_setup' );                
 
             // check on errors before proceed
             if( $success == TRUE )

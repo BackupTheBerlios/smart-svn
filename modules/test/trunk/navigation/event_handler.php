@@ -31,7 +31,7 @@ define ( 'MOD_NAVIGATION_VERSION' , '0.2');
 if (FALSE == register_handler( MOD_NAVIGATION,
                                array ( 'module'          => MOD_NAVIGATION,
                                        'event_handler'   => 'navigation_event_handler',
-                                       'menu_visibility' => TRUE) ))
+                                       'menu_visibility' => FALSE) ))
 {
     trigger_error( 'The handler '.MOD_NAVIGATION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
