@@ -56,10 +56,4 @@ include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
 
-// if an update was done this event complete the update process
-if(isset($B->system_update_flag))
-{
-    die('An update was done. You have to reload the SMART admin interface.');   
-} 
-
 ?>

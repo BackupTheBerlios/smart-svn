@@ -112,7 +112,6 @@ function M( $target_id, $code, $data = FALSE )
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
             {
-                trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
                 return FALSE;
             }
             // perform on the request
@@ -128,7 +127,6 @@ function M( $target_id, $code, $data = FALSE )
         // validate the request
         if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
         {
-            trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
             return FALSE;
         }  
         
@@ -215,7 +213,6 @@ function B( $code, $data = FALSE )
                 // validate the request
                 if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
                 {
-                    trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
                     continue;
                 }
                 // perform the request
@@ -227,7 +224,6 @@ function B( $code, $data = FALSE )
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
             {
-                trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
                 continue;
             }  
         

@@ -88,6 +88,6 @@ B( 'sys_init' );
 M( MOD_SYSTEM, 'get_view' );
 
 // Send the output buffer to the client
-while( ob_get_level() ) @ob_end_flush() ;
+@ob_end_flush();
 
 ?>

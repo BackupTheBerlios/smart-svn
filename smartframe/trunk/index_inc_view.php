@@ -79,12 +79,6 @@ define('SF_SECTION', 'public');
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
 
-// you have to reload the admin section to launch the update process
-if(isset($B->system_update_flag))
-{
-    die('An update was done. You have to reload the SMART admin interface.');   
-} 
-
 // get the public view (template)
 // see smart/actions/class.system_get_view.php
 M( MOD_SYSTEM, 'get_view');
