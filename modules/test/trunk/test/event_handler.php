@@ -48,7 +48,7 @@ function test_event_handler( $evt )
     if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/test/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . '/admin/modules/test/actions/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
@@ -57,14 +57,7 @@ function test_event_handler( $evt )
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
         }
-        else
-        {
-            if( SF_DEBUG == TRUE )
-            {
-                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
-            }        
-            return FALSE;
-        }  
+        return FALSE;
     }
     else
     {
