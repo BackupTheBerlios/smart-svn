@@ -6,10 +6,6 @@ This is a very pre alpha version of a php framework.
 The framework has a module structured concept based on a event distributor class
 and some event handlers functions (call-back). See EVENT_HANDLER_DOC. 
 
-Currently I'm working on a module set based on sqlite, which comes with this package.
-
-MySql is not yet supported, so dont select it in setup.
-
 
 Armand Turpel
 smart@open-publisher.net
