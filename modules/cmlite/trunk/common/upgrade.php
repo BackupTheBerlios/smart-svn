@@ -74,6 +74,9 @@ if($B->system_version == '0.1.5a' && @file_exists(SF_BASE_DIR . '/admin/config/c
     $util = & new commonUtil;
     $util->delete_dir_tree( SF_BASE_DIR . '/admin/config' );
     $util->delete_dir_tree( SF_BASE_DIR . '/admin/lib' );
+    $util->delete_dir_tree( SF_BASE_DIR . '/admin/media' );
+    $util->delete_dir_tree( SF_BASE_DIR . '/admin/tmp' );
+    @unlink(SF_BASE_DIR . '/admin/index.tpl.php');
     
     @header('Location: ../../index.php');
     exit; 

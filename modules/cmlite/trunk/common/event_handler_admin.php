@@ -53,7 +53,12 @@ function common_event_handler( $evt )
                 // set the new version num of this module
                 $B->sys['module']['common']['version']  = MOD_COMMON_VERSION;
                 $B->system_update_flag = TRUE;  
-                
+
+                if(($success == TRUE) && !is_writeable( SF_BASE_DIR . '/admin/modules/common/tmp/session_data' ))
+                {
+                    die('Must be writeable: ' . SF_BASE_DIR . '/admin/modules/common/tmp/session_data');
+                    $success = FALSE;
+                } 
                 // include here additional upgrade code
             }
             
@@ -111,7 +116,7 @@ function common_event_handler( $evt )
             include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
 
             $c = new Config();
-            $root =& $c->parseConfig($B->conf_val, 'PHPArray');
+            $root =& $c->parseConfig($B->sys, 'PHPArray');
             $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
         
             @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
