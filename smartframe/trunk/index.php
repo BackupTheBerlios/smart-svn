@@ -56,7 +56,15 @@ if ( $_REQUEST['logout'] == '1' )
     // each module can do clean ups before logout
     // see modules/xxx/actions/class.xxx_sys_logout.php
     $B->B('sys_logout');
-    header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
+    
+    if (SF_SECTION == 'admin')
+    {
+        header ( 'Location: '.SF_BASE_LOCATION.'/index.php?admin=1' );
+    }
+    else
+    {
+        header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
+    }
     exit;
 }
 
