@@ -71,6 +71,7 @@ define('EVT_DEBUG',                   6);
 define('EVT_SETUP',                   7);
 define('EVT_LOAD_INIT_OPTION',        8);
 define('EVT_SETUP_FINISH',            9);
+define('EVT_GET_OPTIONS',             10);
 
 
 ?>
