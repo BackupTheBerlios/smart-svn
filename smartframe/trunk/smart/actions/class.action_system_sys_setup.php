@@ -38,6 +38,11 @@ class action_system_sys_setup extends action
         // set name and version of the framework
         $this->B->conf_val['info']['name']    = $this->B->system_name;
         $this->B->conf_val['info']['version'] = $this->B->system_version;
+        
+        // create a unique hash id
+        mt_srand((double) microtime()*1000000);
+        $this->B->conf_val['system']['hashid'] = md5(str_replace(".","",$_SERVER["REMOTE_ADDR"]) + mt_rand(100000,999999)+uniqid(microtime()));            
+        
         return $success;
     }
 }
