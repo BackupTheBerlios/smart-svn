@@ -29,37 +29,33 @@ define ('SF_SECTION', 'admin');
 // Include the base file
 include (SF_BASE_DIR . 'smart/includes/core.inc.php');
 
-// If setup flag is defined send a setup event to the handler which takes
-// the setup part
-if( defined( '_DO_SETUP' ) )
-{
-    if( FALSE == $B->M( MOD_SETUP, 'SYS_SETUP' ) )
-    {
-        die("SETUP module is missing or not registered !!!");
-    }
-}  
-
-// send an authentication message to the handler which takes
-// the authentication part
-$B->M( SF_AUTH_MODULE, 'SYS_AUTHENTICATE' );
-
 // Send a init message to all registered handlers
 $B->B('SYS_INIT');
 
 // if an update was done this event must be called to finish the update process
 if(isset($B->system_update_flag))
 {
-    $B->M( SF_BASE_MODULE, 'SYS_UPDATE' );
+    $B->M( SF_BASE_MODULE, 'SYS_FINSH_UPDATE' );
+    // reload admin section
+    @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
+    exit;    
 }
 
+// send an authentication event to the handler which takes
+// the authentication part
+$B->M( SF_AUTH_MODULE, 'SYS_AUTHENTICATE' );
+
 // Logout
-if ( $_REQUEST['logout'] == 1 )
+if ( (int)$_REQUEST['logout'] == 1 )
 {
+    // each module can do clean ups before logout
     $B->B('SYS_LOGOUT');
     header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
     exit;
 }
 
+// Run the application logic of an admin module
+//
 // check if the demanded module (handler) is registered else load default module
 if ( TRUE == $B->is_handler ($_REQUEST['m']))
 {

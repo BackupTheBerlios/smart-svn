@@ -17,7 +17,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // System Name and Version
-$GLOBALS['B']->system_name    = 'Smart Frame';
-$GLOBALS['B']->system_version = '0.2.2a';
+$this->B->system_name    = 'Smart Frame';
+$this->B->system_version = '0.2.2a';
 
 ?>

@@ -50,11 +50,6 @@ define('SF_BASE_LOCATION', $B->util->base_location());
 
 // Register all common handlers and filter handlers
 //
-// include system event handler
-include_once (SF_BASE_DIR . 'smart/event_handler.php');
-
-// include system filter handler
-include_once (SF_BASE_DIR . 'smart/filter_handler.php');
 
 // check if the modules directory exists
 if(!is_dir(SF_BASE_DIR . 'modules'))
@@ -63,13 +58,19 @@ if(!is_dir(SF_BASE_DIR . 'modules'))
     die("<b>You have to install at least one module in the /smart/modules directory!</b>");
 }
 
-// A "common" must be loaded first after the system handlers
+// A "common" must be loaded first
 //
 // include event handler of a "common" module
 include_once (SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/event_handler.php');
 
 // include filter handler of a "common" module
 include_once (SF_BASE_DIR . 'modules/' . SF_COMMON_MODULE . '/filter_handler.php');
+
+// include system event handler
+include_once (SF_BASE_DIR . 'smart/event_handler.php');
+
+// include system filter handler
+include_once (SF_BASE_DIR . 'smart/filter_handler.php');
 
 // include other module handlers and filters
 //

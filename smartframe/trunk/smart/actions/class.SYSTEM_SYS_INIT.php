@@ -48,7 +48,7 @@ class SYSTEM_SYS_INIT
      */  
     function perform( $data )
     {   
-            include_once(SF_BASE_DIR.'/admin/include/system_version.php');           
+            include_once(SF_BASE_DIR.'smart/includes/system_version.php');           
             // Check for upgrade  
             if($this->B->system_version != (string)$this->B->sys['info']['version'])
             {
