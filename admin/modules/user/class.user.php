@@ -98,7 +98,9 @@ class user
                  '{$data['status']}',
                  '{$data['rights']}')";
         
-        $result = $GLOBALS['B']->dbdata->query($sql);
+        $GLOBALS['B']->dbdata->query($sql);
+        
+        return TRUE;
     } 
 
     function update_user( $uid, $data )
@@ -126,6 +128,8 @@ class user
                 uid={$uid}";
         
         $GLOBALS['B']->dbdata->query($sql);
+        
+        return TRUE;
     } 
 
     function delete_user( $uid )

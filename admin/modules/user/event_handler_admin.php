@@ -55,11 +55,14 @@ function user_event_handler( $evt )
             include(SF_BASE_DIR.'/admin/modules/user/module_loader.php');          
             break;             
         case EVT_INIT:
-            // Check for upgrade
-            include(SF_BASE_DIR.'/admin/modules/user/module_version.php');  
+            // System Name and Version
+            $B->tmp_module_name    = 'User';
+            $B->tmp_module_version = '0.1';
+        
+            // Check for upgrade  
             if(version_compare($B->tmp_module_version, $B->sys['module']['user']['version']) != 0 )
                 include(SF_BASE_DIR.'/admin/modules/user/upgrade.php');
-            
+                        
             // Name of this module set
             $B->tpl_mod_set_name = 'CM-Lite';
             break;               
@@ -100,6 +103,9 @@ define('SF_DEFAULT_MODULE',              'ENTRY');
 
 // include sqlite class
 include_once( SF_BASE_DIR . '/admin/modules/user/class.Sqlite.php' );
+
+// User rights class
+include(SF_BASE_DIR.'/admin/modules/user/class.rights.php');          
 
 // class instance of sqlite if setup is done
 if($B->sys['info']['status'] == TRUE)

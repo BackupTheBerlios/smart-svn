@@ -54,13 +54,14 @@ class auth
         
         if($GLOBALS['B']->dbdata->numRows($result) == 1)
         {
-            $GLOBALS['B']->user_rights = (int) $_SESSION['user_rights'];
-            $this->is_user = TRUE;
+            $this->user_rights = (int) $_SESSION['user_rights'];
+            $this->id_user     = (int) $_SESSION['id_user'];
+            $this->is_user     = TRUE;
         }
         else
         {
             $GLOBALS['B']->user_rights = 0;
-            $this->is_user = FAlSE;
+            $this->is_user             = FAlSE;
         }
     }  
     
