@@ -97,7 +97,7 @@ class action_navigation_update_node extends action
         // Add navigation node body
         $node_body  = SF_BASE_DIR . 'data/navigation/'.$data['node']; 
         
-        if (!is_int($fp->write  ( $node_body, $data['body'], FILE_MODE_WRITE )))
+        if (!is_int($fp->write  ( $node_body, commonUtil::stripSlashes( $data['body'] ), FILE_MODE_WRITE )))
         {
             $this->B->$data['error'] = 'Could not write file: '.$node_body;
             return FALSE;
@@ -105,7 +105,7 @@ class action_navigation_update_node extends action
         
         $fp->unlock ( $node_body, FILE_MODE_WRITE );      
         
-        $this->B->node[$data['node']]['title']     = $data['title'];
+        $this->B->node[$data['node']]['title']     = commonUtil::stripSlashes( $data['title'] );
         $this->B->node[$data['node']]['status']    = $data['status'];
         
         if($this->B->node[$data['node']]['parent_id'] != $data['parent_id'])
