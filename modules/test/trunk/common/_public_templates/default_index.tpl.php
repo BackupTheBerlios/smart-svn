@@ -114,7 +114,39 @@ body {
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This page is produced by
               the index template (default_index.tpl.php). </font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If no
-          $_REQUEST 'tpl' var is definded this template is loaded by default.</font></p></td>
+          $_REQUEST 'tpl' var is definded this template is loaded by default.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Whats
+            new:</strong></font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version
+              0.2.2a</em></font></p>
+        <ul>
+          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Clean
+                  up directory structure</font></li>
+          <li><font size="2">Add filter handlers. Those handlers works in the
+              same way as the event handlers but independ from those:<br />
+              <br />
+              $B-&gt;F ( MODULE , FILTER ACTION , ADDITIONAL ACTION DATA )<br />
+              <br />
+              Each module and the core system can provide such a filter handler.<br />
+              Those filter handlers can be called from anywhere of the system.</font></li>
+          <li><font size="2">Add prepend and append event calls to the public
+              front controller before and after the application logic. Those
+              event calls are calling system filter events with some filter actions.<br />
+              <br />
+              Example of filter actions of the test package:
+              <br />
+              <strong><br />
+              Prepend</strong><br />
+              - add headers<br />
+              - detecting spam bots<br />
+              - do logging<br />
+              <br />
+              <strong>Append
+              <br />
+              -</strong> trim spaces of the output<br />
+              - obfuscating email adresses
+              </font></li>
+        </ul></td>
       </tr>
     </table></td>
   </tr>
