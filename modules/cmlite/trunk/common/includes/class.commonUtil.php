@@ -100,7 +100,7 @@ class commonUtil
                 }
                 if ( @is_dir( $dir . '/' . $file ) )
                 {
-                    $this->delete_dir_tree( $dir . '/' . $file );
+                    commonUtil::delete_dir_tree( $dir . '/' . $file );
                 }
                 else
                 {
