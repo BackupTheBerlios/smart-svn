@@ -52,11 +52,11 @@ body {
 <?php //get the requested message ?>
 <?php $B->M( MOD_MAILARCHIVER, 
              MAILARCHIVER_MESSAGE, 
-             array('var'=>'msg', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('subject','sender','mdate','body','folder'))); ?> 						 
+             array('var'=>'msg', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('mid','subject','sender','mdate','body','folder'))); ?> 						 
 <?php //get the message attachments ?>
 <?php $B->M( MOD_MAILARCHIVER, 
              MAILARCHIVER_MESSAGE_ATTACH, 
-             array('var'=>'attach', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('file','size','type'))); ?>
+             array('var'=>'attach', 'mid'=>(int)$_GET['mid'], 'lid'=>(int)$_GET['lid'], 'fields'=>array('aid','mid','lid','file','size','type'))); ?>
 <body>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -81,7 +81,7 @@ body {
 					Attachments of this message:</p>
 					<?php if (count($B->attach) > 0): ?>
 					    <?php foreach($B->attach as $attach): ?>
-							    <a href="data/mailarchiver/<?php echo $B->list['folder']; ?>/<?php echo $B->msg['folder']; ?>/<?php echo $attach['file']; ?>" target="_blank" class="style2"><?php echo $attach['file']; ?></a>
+							    <a href="index.php?tpl=earchiveattach&aid=<?php echo $attach['aid']; ?>&mid=<?php echo $attach['mid']; ?>&lid=<?php echo $attach['lid']; ?>" class="style2"><?php echo $attach['file']; ?></a>
 									<div class='status'>Type: <?php echo $attach['type']; ?></div>
 									<div class='status'>Size: <?php echo $attach['size']; ?></div>
 									<br />
