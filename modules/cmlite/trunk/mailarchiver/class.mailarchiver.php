@@ -217,11 +217,10 @@ class mailarchiver
         $sql = '
             INSERT INTO 
                 '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_messages
-                (mid,lid,mes_id,sender,subject,mdate,body,folder)
+                (mid,lid,sender,subject,mdate,body,folder)
             VALUES
                 ('.$mid.',
                  '.$data['lid'].',
-                 '.$data['mes_id'].',
                  '.$data['sender'].',
                  '.$data['subject'].',
                  '.$data['mdate'].',
