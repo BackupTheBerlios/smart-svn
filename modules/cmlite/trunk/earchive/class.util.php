@@ -17,31 +17,6 @@
 class earchiveUtil
 {
     /**
-     * Returns the correct link for the back/pages/next links
-     *
-     * @return string Url
-     */
-    function getQueryString()
-    {
-        // Sort out query string to prevent messy urls
-        $querystring = array();
-        $qs = array();
-        if (!empty($_SERVER['QUERY_STRING'])) {
-            $qs = explode('&', str_replace('&amp;', '&', $_SERVER['QUERY_STRING']));
-            for ($i=0, $cnt=count($qs); $i<$cnt; $i++) {
-                list($name, $value) = explode('=', $qs[$i]);
-                $qs[$name] = $value;
-                unset($qs[$i]);
-            }
-        }
-
-        foreach ($qs as $name => $value) {
-            $querystring[] = $name . '=' . $value;
-        }
-
-        return '?' . implode('&', $querystring);
-    } 
-    /**
      * Convert links and emails in a text in html tags
      *
      * @return string Converted text
