@@ -156,35 +156,21 @@ class word_indexer
         
         // Split content text string in words
         $_content = $this->_split_words( $content );
-        
-        $_insert_string = array();
+
+        $_insert_string = '';
         $_comma = '';
-    
-        $_ins = '';
-        $row_name = array();
-        $row_name[] = 'word';
-        foreach($row as $key => $val)
-        {
-            $_ins .= ','.$val;
-            $row_name[] = $key;
-        }
     
         // Build the INSERT string
         foreach( $_content as $value )
         {
-            $_tmp = array();
-            $_tmp[] = $GLOBALS['B']->db->quoteSmart(crc32($value));
-            foreach($row as $key => $val)
-                $_tmp[] =  $val;
-            $_insert_string[] = $_tmp;
+            $_insert_string .= $_comma.'('.crc32($value).','.$row['mid'].','.$row['lid'].') ';
+            $_comma = ',';
         }
         
         // If insert string is not empty insert the words in the table
         //
         if(!empty($_insert_string))
         {
-            $sth = $GLOBALS['B']->db->autoPrepare($GLOBALS['B']->sys['db']['table_prefix'].$db_table, $row_name, DB_AUTOQUERY_INSERT);
-            
             if($rebuild == FALSE)
             {
                 list($row_n, $row_v) = each($row);
@@ -192,7 +178,15 @@ class word_indexer
                 $this->delete_words( $db_table, $row_n, $row_v );
             }
 
-            $result = &$GLOBALS['B']->db->executeMultiple($sth, $_insert_string);
+            // Insert new content
+            $sql = "
+                INSERT DELAYED INTO 
+                    {$GLOBALS['B']->sys['db']['table_prefix']}$db_table
+                    (word, mid, lid)
+                VALUES 
+                    {$_insert_string}";
+
+            $result = $GLOBALS['B']->db->query( $sql );
             if (DB::isError($result)) 
             {
                     trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);

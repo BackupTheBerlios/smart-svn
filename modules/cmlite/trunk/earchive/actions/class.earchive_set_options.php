@@ -55,10 +55,10 @@ class earchive_set_options
         // fetch messages from email accounts 
         if(isset($_POST['earchive_fetch_emails']))
         {
-            // Delete cache data
-            $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
-            
             $this->B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
+            
+            // Delete cache data
+            $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));            
         }          
     } 
 }

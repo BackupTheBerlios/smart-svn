@@ -48,35 +48,11 @@ class common_upgrade
      */
     function perform( $data )
     {
-        // version prior to 0.5
-        if(version_compare( (string)$this->B->sys['module']['common']['version'], '0.5' , '<') == 1)
-        {
-            // The PEAR cache db table. 
-            $sql = "CREATE TABLE {$this->B->sys['db']['table_prefix']}cache (
-                      id          char(32) NOT NULL DEFAULT '',
-                      cachegroup  varchar(127) NOT NULL DEFAULT '',
-                      cachedata   blob NOT NULL DEFAULT '',
-                      userdata    varchar(255) NOT NULL DEFAULT '',
-                      expires     int(9) NOT NULL DEFAULT 0,
-                      changed     timestamp(14) NOT NULL,
-                      index (expires),
-                      primary key (id, cachegroup))";      
-        
-            $result = $this->B->db->query($sql);
-
-            if (DB::isError($result))
-            {
-                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                return FALSE;
-            }  
-            // set cache lifetime value
-            $this->B->sys['cache']['lifetime']  = 3600;
-        }
         // version prior to 0.5.1
         if(version_compare( (string)$this->B->sys['module']['common']['version'], '0.5.1' , '<') == 1)
         {
             // The PEAR cache db table. 
-            $sql = "DROP TABLE {$this->B->sys['db']['table_prefix']}cache";      
+            $sql = "DROP TABLE IF EXISTS {$this->B->sys['db']['table_prefix']}cache";      
         
             $result = $this->B->db->query($sql);
 

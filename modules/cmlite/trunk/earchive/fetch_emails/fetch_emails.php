@@ -31,11 +31,11 @@ include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 // see modules/xxx/actions/class.xxx_sys_init.php
 $B->B( 'sys_init' );
 
-// Delete cache data
-$B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
-
 // fetch emails
 $B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
+
+// Delete cache data
+$B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
 
 exit;
 

@@ -89,11 +89,10 @@ class earchive_fetch_emails
 
                 $this->_fetch_messages( $account );    
                 
-                $this->_msg->expunge();   
-            
-                // Close the stream
-                $this->_msg->close();                   
+                $this->_msg->expunge();                   
             } 
+            // Close the stream
+            $this->_msg->close();               
         }
     }
     /**
