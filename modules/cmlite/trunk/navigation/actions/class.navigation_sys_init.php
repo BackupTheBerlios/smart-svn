@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * navigation_sys_init class 
+ * action_navigation_sys_init class 
  *
  */
  
-class navigation_sys_init extends action
+class action_navigation_sys_init extends action
 {
     /**
      * Check if version number has changed and perfom additional upgarde code

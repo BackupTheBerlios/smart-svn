@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * navigation_sys_setup class 
+ * action_navigation_sys_setup class 
  *
  */
  
-class navigation_sys_setup extends action
+class action_navigation_sys_setup extends action
 {
 
     
