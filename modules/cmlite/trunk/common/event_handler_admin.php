@@ -103,6 +103,13 @@ function common_event_handler( $evt )
                 $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/session';
                 $success = FALSE;
             }            
+
+            if(!is_writeable( SF_BASE_DIR . '/admin/modules/common/config' ))
+            {
+                trigger_error("Must be writeable: " . SF_BASE_DIR . "/admin/config\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/modules/common/config';
+                $success = FALSE;
+            }
             
             // if noting is going wrong $success is still TRUE else FALSE
             // ex.: if creating db tables fails you must set this var to false
