@@ -109,18 +109,34 @@
                             E-archive is a module of this framework.
                             It is still in a test phase. So there is no garuantee
                             that it is bug free.</p>
-                          <p class="pager">Current Version 0.1.4a</p>
+                          <p class="pager">Current Version 0.1.5a</p>
                           <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios </a></p>
-                            <p class="pager"><a href="earchive-0.1.4a.zip">Or download from this server </a></p>
-                            <p class="pager">For questions and suggestions please
-                              use this <a href="http://forum.open-publisher.net" target="_blank">Forum</a>.</p>
+                            <p class="pager"><a href="earchive-0.1.5a.zip">Or download from this server </a></p>
                             <h4 class="pager">Installation:</h4>
                             <p class="pager">Transfer the unpacked archive to
                               your web server. You can even install E-archive
                               in a subdirectory. Point your navigator to this
                               directory and you should see an install menu. Follow
                               the instructions.</p>
-                            <h4 class="pager">Administration</h4>
+                            <p class="pager"><strong>Upgrade from version 0.2.1a:</strong></p>
+                            <p class="pager">This version is based on <a href="http://smart.open-publisher.net" target="_blank">smart frame</a> 0.3.2a which was designed from the ground up. To upgrade from previous e-archive versions you have to:</p>
+                            <ul>
+                              <li><font size="2">make backup of the whole earchive database, files and folders</font></li>
+                              <li><font size="2">transfert the extracted archive to you webspace where the previous earchive version is.</font></li>
+                              <li><font size="2">copy the file from the folder:<br />
+                                /admin/modules/common/config/config.php
+                                    <br />
+                                    to the folder:<br />
+                                    modules/comon/config
+</font></li>
+                              <li><font size="2">change in all your templates the second parameter of the event call functions:<br />
+                                ACTION to 'action' ; so lowercase strings. If you use the original earchive templates you dont have to change anything.
+                              </font></li>
+                              <li><font size="2">point your browser to earchive. Check out if every thing is ok and proceed to the next step.</font></li>
+                              <li><font size="2">delete the following folders:<br />
+                              <strong>/admin</strong><br />
+                                <strong>/plugins</strong>                              </font></li>
+                          </ul>                            <h4 class="pager">Administration</h4>
                             <p class="pager">The following modules are installed:</p>
                             <ul class="pager">
                                 <li><strong>USER</strong> - User management.
@@ -276,7 +292,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <li class="pager">XML php extension</li>
                                 <li class="pager">GD php extension </li>
                             </ul></td>
-                    </tr>
+                  </tr>
                 </table></td>
             </tr>
         </table></td>
