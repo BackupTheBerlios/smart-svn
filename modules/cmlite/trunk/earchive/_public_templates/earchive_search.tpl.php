@@ -1,19 +1,19 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
 <?php //get all available email lists and store the result in the array $B->tpl_list ?>
 <?php $B->M( MOD_EARCHIVE, 
-             'LISTS', 
-             array('var'    => 'tpl_list', 
-                   'fields' => array('lid','name','status'))); ?> 
+             'get_lists', 
+             array( 'var'    => 'tpl_list', 
+                    'fields' => array('lid','name','email','description','status'))); ?> 
 <?php //get the messages of the searching result and store the result in the array $B->tpl_msg ?>
 <?php $B->M( MOD_EARCHIVE, 
-             'SEARCH', 
-             array('var'      => 'tpl_msg', 
-                   'search'   => $_REQUEST['search'], 
-                   'bool'     => 'and', 
-                   'order'    => 'mdate desc', 
-                   'limit'    => 100, 
-                   'fields'   => array('mid','lid','subject','sender','mdate'),
-                   'get_list' => TRUE)); ?>                        
+             'search', 
+             array( 'var'      => 'tpl_msg', 
+                    'search'   => $_REQUEST['search'], 
+                    'bool'     => 'and', 
+                    'order'    => 'mdate desc', 
+                    'limit'    => 100, 
+                    'fields'   => array('mid','lid','subject','sender','mdate'),
+                    'get_list' => TRUE)); ?>                        
 <?php //Email obfuscation plugin  ?>
 <?php include_once('plugins/function.mailto.php');  ?>
 
@@ -83,7 +83,7 @@
                         </td>
                     </tr>
                     <tr>
-                      <td align="left" valign="top" class="leftnavlinks"><a href="admin/index.php">Admin</a></td>
+                      <td align="left" valign="top" class="leftnavlinks"><a href="index.php?admin=1">Admin</a></td>
                     </tr>
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks">&nbsp;</td>

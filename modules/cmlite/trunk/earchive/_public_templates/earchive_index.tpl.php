@@ -2,7 +2,7 @@
 <?php //get all available email lists and store the result in the array $B->tpl_list ?>
 <?php $B->M( MOD_EARCHIVE, 
              'get_lists', 
-             array( 'var' => 'tpl_list', 
+             array( 'var'    => 'tpl_list', 
                     'fields' => array('lid','name','email','description','status'))); ?> 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

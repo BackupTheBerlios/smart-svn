@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * EARCHIVE_SEARCH class 
+ * earchive_search class 
  *
  */
  
-class EARCHIVE_SEARCH
+class earchive_search
 {
     /**
      * Global system instance
@@ -50,7 +50,7 @@ class EARCHIVE_SEARCH
      * constructor
      *
      */
-    function EARCHIVE_SEARCH()
+    function earchive_search()
     {
         $this->__construct();
     }
