@@ -61,7 +61,10 @@ class TEST_SYS_LOAD_MODULE
         // these vars were included in template index.tpl.php of this module
         //
         $this->B->tpl_test_title      = "Test module";
-        $this->B->tpl_test_intro_text = "This module does currently nothing else than print out this text, some array variables and evaluate form data.";
+        $this->B->tpl_test_intro_text = "This module does currently nothing else than
+                                         print out this text, some array variables, 
+                                         evaluate form data and it provide a couple of
+                                         public template action classes (see: public templates).";
             
         // assign an template array with numbers
         $this->B->tpl_test_counter = array();
