@@ -128,54 +128,7 @@
             <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_view" value="update" onclick="subok(this.form.update_main_options_view);"></td>
           </tr>
       </table>
-    </form>      
-    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_cache_clean" id="_cache_clean">    
-        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
-          <tr>
-            <td colspan="2" align="left" valign="top"><span class="optiontitle">Empty  Cache</span></td>
-          </tr>
-          <tr>
-            <td width="2%" align="left" valign="top">&nbsp;
-            </td>
-            <td width="98%" align="left" valign="top"><input type="submit" name="update_clean_cache" value="empty cache" onclick="subok(this.form.update_clean_cache);">
-            </td>
-          </tr>
-        </table>
-    </form>
-      <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="badword" id="badword"> 
-      <table width="100%"  border="0" cellspacing="4" cellpadding="4">
-          <tr>
-              <td colspan="2" align="left" valign="top"><span class="optiontitle">Bad words language lists</span></td>
-          </tr>
-          <tr>
-              <td width="20%" align="left" valign="top">
-                <select name="bad_word_list">
-                <option value="">Select language</option>
-                <?php foreach($B->tpl_bad_word_lang as $lang): ?>
-                    <option value="<?php echo $lang ?>"><?php echo $lang ?></option>
-                <?php endforeach; ?>
-                </select>
-              </td>
-              <td width="80%" align="left" valign="top"><input type="submit" name="update_main_options_badwordadd" value="add" onclick="subok(this.form.update_main_options_badwordadd);"></td>
-          </tr>
-            <?php if(count($B->tpl_selected_lang) != 0): ?>
-          <tr>
-              <td align="left" valign="top">              <table width="100%" border="0" cellspacing="2" cellpadding="2">
-                  <tr align="left" valign="top">
-                      <td colspan="2" class="optiondesc">&nbsp;Selected languages</td>
-                  </tr>
-                <?php foreach($B->tpl_selected_lang as $sel_lang): ?>
-                  <tr>
-                      <td width="14" align="left" valign="middle" class="optiondesc">&nbsp;</td>
-                      <td width="222" align="left" valign="top" class="optiondesc"><input name="selected_lang[]" type="checkbox" value="<?php echo $sel_lang; ?>"> <?php echo $sel_lang; ?></td>
-                  </tr>
-                  <?php endforeach; ?>
-              </table></td>
-              <td align="left" valign="bottom"><input type="submit" name="update_main_options_badworddel" value="delete" onclick="subok(this.form.update_main_options_badworddel);"></td>
-          </tr>
-          <?php endif; ?>
-        </table>
-        </form>                         
+    </form>                     
         </td>
         <td width="24%" align="right" valign="top"></td>
       </tr>
