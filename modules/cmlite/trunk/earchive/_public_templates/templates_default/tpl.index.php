@@ -73,8 +73,8 @@
           </td>
           <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
               <tr>
-                <td align="left" valign="top"><p class="pager">E-archive is a php script which is able to fetch email messages (+ attachments) from email inbox accounts and make those accessible through a public web page. It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>. E-archive is a module of this framework. </p>
-                  <p class="pager">Current Version 0.2.3b</p>
+                <td align="left" valign="top"><p class="pager">E-archive is a php script which is able to fetch email messages (+ attachments) from email inbox accounts and make those accessible through a public web page. It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>. E-archive is a module of this framework. <font color="#990000" size="2">E-archive isnt bug free. Some emails arent correctly recognized.</font></p>
+                  <p class="pager">Current Version 0.2.4b</p>
                   <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&release_id=4177" target="_blank">Download E-archive from the project page at Berlios</a></p>
                   <h3>Installation:</h3>
                   <p class="pager">Transfer the extracted archive to your web server. You can even install E-archive in a subdirectory. Point your navigator to this directory. You should see an install menu. Follow the instructions.</p>
@@ -126,29 +126,32 @@
                     <li class="pager">Manually: Activate the fetch email process manually from within the options menu; &quot;OPTION&gt;fetch emails&quot;. </li>
                   </ul>
                   <h3>The public templates </h3>
-                  <p class="pager">In templates you can define the layout of the public web page. You will find the templates in the root folder of a E-archive installation. The template file names are of the following format:<br />
-                    <strong>xxx_yyy.tpl.php <br />
-                    </strong>where <strong>xxx</strong> stay for the template group. That means; you can define more layout groups for the same web project. E-archive recognize if there are more groups and you can switch between them in the OPTION menu of the administration. <strong>yyy</strong> stay for the template name. You have to define this name in a url request if you want to load a specific template. <br />
+                  <p class="pager">In templates you can define the layout of the public web page. You have the choice to store templates in a separated template folder or in the root folder. The name of the template folders must always begin with &quot;templates_&quot;. E-archive is delivered with a &quot;templates_default&quot; folder. If you make changes on this templates, it is recommanded to store them in an other folder. To facilitate the work with tools like Dreamwever on templates, which makes references to the media_xxx folder you can store them temporary in the root folder. You can switch between existing templates folders from within the admin option menu. The template file names are of the following format:<br />
+                    <strong>tpl.yyy.php <br />
+                    </strong>You have to define this name in a url request if you want to load a specific template. <br />
                     Example: index.php?<strong>viev</strong>=message<br />
-                    <strong>message</strong> is the name of the template. The complete template file name is yyy_message.tpl.php. index is the default template name If no template name is defined.<br />
-                    E-archive is delivered with the following templates:</p>
+                    <strong>message</strong> is the name of the template. The complete template file name is tpl.message.php. index is the default template name If no template name is defined.<br />
+                  E-archive is delivered with the following templates:</p>
                   <ul>
-                    <li class="pager"><strong>earchive_index.tpl.php</strong> - Layout of the main entry page. This index template is loaded by default and must be present.</li>
-                    <li class="pager"><strong>earchive_list.tpl.php - </strong>This layout show the subjects of the archived emails, sorted by date.</li>
-                    <li class="pager"><strong>earchive_message.tpl.php - </strong>The layout to show a single whole email message + attachements.</li>
-                    <li class="pager"><strong>earchive_search.tpl.php - </strong>Layout of a search result.</li>
-                    <li class="pager"><strong>earchive_attach.tpl.php - </strong>This isnt a really layout but a template which sends http headers to the visitor navigator to download a specific attachement.</li>
-                    <li class="pager"><strong>earchive_login.tpl.php - </strong>This layout becomes active if a visitor will access web content, which is reserved for registered users. The template name must be always <strong>login</strong>.</li>
-                    <li class="pager"><strong>earchive_register.tpl.php - </strong>Here a visitor can register if this option is enabled.</li>
+                    <li class="pager"><strong>tpl.index.php</strong> - Layout of the main entry page. This index template is loaded by default and must be present.</li>
+                    <li class="pager"><strong>tpl.list.php - </strong>This layout show the subjects of the archived emails, sorted by date.</li>
+                    <li class="pager"><strong>tpl.message.php - </strong>The layout to show a single whole email message + attachements.</li>
+                    <li class="pager"><strong>tpl.search.php - </strong>Layout of a search result.</li>
+                    <li class="pager"><strong>tpl.login.php - </strong>This layout becomes active if a visitor will access web content, which is reserved for registered users. The template name must be always <strong>login</strong>.</li>
+                    <li class="pager"><strong>tpl.register.php - </strong>Here a visitor can register if this option is enabled.</li>
                     <li class="pager"><strong>earchive_validate.tpl.php</strong> - Show user validation message</li>
                   </ul>
-                  <p class="pager"><strong>earchive </strong>is the group under wich the templates are grouped. To create a new layout group you can make copies of the same templates, change the groupname and save those templates in the same public root folder. You can switch to this new template group in the OPTION menu. If you make change on the templates delivered with this package your should place the modified templates under an other group. Else you will delete your modifications when upgrade to a new earchive release.</p>
+                  <p class="pager">Before a template is parsed the script load a view class fron the view_xxx folder. The job of such a class is to fetch the data from the modules and store them in templates variables. If you need additional data in your templates you have to assign the related variables here. A template variable is always a member of the instance $B of the base container class. e.g. In a view class you have to assign a template variable as following: $this-&gt;B-&gt;test = &quot;123&quot;. And in templates as: echo $B-&gt;test.</p>
                   <h3>ToDO</h3>
                   <ul>
                     <li class="pager">Add a template where a visitor can retrive forgotten account data.</li>
                     <li class="pager">Allow deleting messages older than a given date</li>
                     <li class="pager">Including advance searching strategies</li>
                   </ul>
+				  <h3>Bugs</h3>
+                  <p class="pager">The format of some emails isnt recognized correctly so that its body is empty. Hope that i can find the time to correct this. Any help on this issue is welcome. (The email fetching process is done in the following class:<br />
+                    modules/earchive/actions/class.action_earchive_fetch_emails.php
+                  )</p>
                   <h3>Get involved</h3>
                   <p class="pager">Requirements:</p>
                   <ul>
