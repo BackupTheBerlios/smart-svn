@@ -94,7 +94,7 @@ class SETUP_SYS_SETUP
         }
 
         // Include the setup template
-        include(  SF_BASE_DIR . '/admin/modules/setup/index.tpl.php' ); 
+        include(  SF_BASE_DIR . '/admin/modules/setup/templates/index.tpl.php' ); 
 
         // Send the output buffer to the client
         if( SF_OB == TRUE)
