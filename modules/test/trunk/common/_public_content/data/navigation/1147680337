@@ -1,4 +1,4 @@
-Download of "little Jo" [http://smart.open-publisher.net/littlejo-0.1.zip littlejo-0.1.zip]
+Download of "little Jo" [http://smart.open-publisher.net/littlejo-0.2.zip littlejo-0.2.zip]
 
 +++ Install
 Extract the archive to a web directory of your choice. 
@@ -17,5 +17,5 @@ password: admin**
 
 Thats it.
 
-+++ One word to the navigation module. 
++++ One word on the navigation module. 
 To format the navigation body text you have to use Paul M. Jones (thanks for this job!) [http://wiki.ciaweb.net/yawiki/index.php?area=Text_Wiki&page=WikiRules text_wikki markup rules].

@@ -4,7 +4,7 @@ Action classes are parts of a module and reside in /modules/xxx/actions folder. 
 **class.action_xxx_yyy.php**
 where xxx stands for the module name and yyy stands for the action name.
 
-The module event handler, which loads and instantinate the required action class execute its validate() methode and if successfull its perform() methode. 
+The event distributor, which loads and instantinate the required action class execute its validate() methode and if successfull its perform() methode. 
 
 +++ How to create a new action class?
 

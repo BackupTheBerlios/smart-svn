@@ -5,7 +5,7 @@ A request is always related to how data should be represented (the view). A view
 
 Let's look at Smart's processing of requests in more detail:
 
-* initialisation of the system and registration of the modules event handler functions. see: /smart/includes/core.inc.php
+* initialisation of the system and registration of the modules. see: /smart/includes/core.inc.php
 * Make instance of the requested **view** class. see: /views_default
 * Execute the authentication methode of this view class. Each view can have its own authentication
 * Execute the prepend methode of this view class. Here you can include filters, such as spam filters or what ever you want.
@@ -14,8 +14,7 @@ Let's look at Smart's processing of requests in more detail:
 * Execute the append methode of this view class. Here you can include filters which performs on the rendered template.
 * Output the result
 
-
-An other variable,which the contropller can handle is the **admin** variable. If this variable is defined, the controller knows that he have to load the views from a defined module.
+An other variable,which the contropller can handle is the **admin** variable. If this variable is defined, the controller knows that he have to load the views of the administration interface from a defined module.
 **index.php?admin=1&m=test**
 Here the controller loads the view from the module "test".
 
