@@ -69,11 +69,21 @@ class earchive_view_editmessage
             }
             else
             {
+                // delete attachments ?
+                if(count($_POST['aid'] > 0))
+                {
+                    foreach ($_POST['aid'] as $aid)
+                    {
+                        $this->B->M( MOD_EARCHIVE, 
+                                     'delete_attach', 
+                                     array( 'mid'    => (int)$_REQUEST['mid'], 
+                                            'aid'    => (int)$aid));
+                    }
+                }
         
-                // add new user
+                // update message data
                 $tmp_data = array('subject'     => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['subject'])),
                                   'body'        => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['body'])));
-        
 
                 if(TRUE === $this->B->M( MOD_EARCHIVE, 
                                          'update_message', 

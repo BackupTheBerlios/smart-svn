@@ -47,6 +47,13 @@ class earchive_view_showmessages
      */
     function perform()
     {
+        // check user rights to access the list
+        if(FALSE == $this->B->earchive_rights->ask_access_to_list())
+        {
+            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=earchive');
+            exit;
+        }
+        
         // Delete messages on demande
         if(isset($_POST['deletemess']))
         {
@@ -54,19 +61,31 @@ class earchive_view_showmessages
             {
                 foreach($_POST['mid'] as $mid)
                 {
-                    $this->B->earchive->delete_message( $mid );
+                    // assign template vars with list data
+                    $this->B->M( MOD_EARCHIVE, 
+                                 'delete_message', 
+                                 array( 'mid'    => (int) $mid));
                 }
             }
         }
-        
-        // get list name and id
-        $fields = array('lid','name');
-        $this->B->tpl_list = $this->B->earchive->get_list( (int)$_GET['lid'], $fields );
 
-        // get list messages
-        $fields = array('mid', 'lid', 'subject', 'sender', 'mdate');
-        $this->B->earchive->get_messages( 'tpl_messages', (int)$_GET['lid'], $fields, 'tpl_messages_pager');
-        
+        // assign template vars with list data
+        $this->B->M( MOD_EARCHIVE, 
+                     'get_list', 
+                     array( 'lid'    => (int)$_REQUEST['lid'], 
+                            'var'    => 'tpl_list',
+                            'fields' => array('lid','name')));
+
+
+        // assign template vars with message data
+        $this->B->M( MOD_EARCHIVE, 
+                     'get_messages', 
+                     array( 'lid'       => (int)$_REQUEST['lid'], 
+                            'var'       => 'tpl_messages',
+                            'pager_var' => 'tpl_messages_pager',
+                            'limit'     => '20',
+                            'fields'    => array('mid', 'lid', 'subject', 'sender', 'mdate')));
+
         return TRUE;
     }    
 }
