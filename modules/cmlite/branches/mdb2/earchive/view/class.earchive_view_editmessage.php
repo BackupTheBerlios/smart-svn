@@ -75,8 +75,8 @@ class earchive_view_editmessage
                 }
         
                 // update message data
-                $tmp_data = array('subject'     => $this->B->db->quote(commonUtil::stripSlashes($_POST['subject'])),
-                                  'body'        => $this->B->db->quote(commonUtil::stripSlashes($_POST['body'])));
+                $tmp_data = array('subject' => $this->B->db->escape(commonUtil::stripSlashes($_POST['subject'])),
+                                  'body'    => $this->B->db->escape(commonUtil::stripSlashes($_POST['body'])));
 
                 if(TRUE === $this->B->M( MOD_EARCHIVE, 
                                          'update_message', 

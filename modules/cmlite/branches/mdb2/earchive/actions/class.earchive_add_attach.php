@@ -76,7 +76,7 @@ class earchive_add_attach
      */     
     function _add_attach( $mid, $lid, &$data )
     {
-        $aid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_seq_add_attach');
+        $aid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_attach');
 
         if (MDB2::isError($aid)) 
         {
@@ -91,9 +91,9 @@ class earchive_add_attach
                 ('.$aid.',
                  '.$mid.',
                  '.$lid.',
-                 '.$data['file'].',
-                 '.$data['size'].',
-                 '.$data['type'].')';
+                 "'.$data['file'].'",
+                 "'.$data['size'].'",
+                 "'.$data['type'].'")';
 
         $result = $this->B->db->query($sql);
         

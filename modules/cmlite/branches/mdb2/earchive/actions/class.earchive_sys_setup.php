@@ -132,7 +132,7 @@ class earchive_sys_setup
         }        
 
         // create sequence table earchive_seq_list
-        $result = $this->B->dbmanager->createSequence( $this->B->conf_val['db']['table_prefix'] . 'earchive_list' );
+        $result = $this->B->dbmanager->createSequence( $this->B->conf_val['db']['table_prefix'] . 'earchive_lists' );
 
         if (MDB2::isError($result)) 
         {
@@ -189,7 +189,7 @@ class earchive_sys_setup
         }
         
         // create sequence table earchive_seq_message
-        $result = $this->B->dbmanager->createSequence( $this->B->conf_val['db']['table_prefix'] . 'earchive_message' );
+        $result = $this->B->dbmanager->createSequence( $this->B->conf_val['db']['table_prefix'] . 'earchive_messages' );
 
         if (MDB2::isError($result)) 
         {

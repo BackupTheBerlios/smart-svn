@@ -238,7 +238,7 @@ class word_indexer
 
         $res = $GLOBALS['B']->db->query($sql);                
 
-        while($result = &$res->fetchRow( MDB2_FETCHMODE_ASSOC ))
+        while($result = $res->fetchRow( MDB2_FETCHMODE_ASSOC ))
         {
             $this->bad_word_array[stripslashes($result['word'])] = TRUE;
         }
@@ -260,7 +260,7 @@ class word_indexer
 
         $res = $GLOBALS['B']->db->query($sql);                
 
-        while($result = &$res->FetchRow( MDB2_FETCHMODE_ASSOC ))
+        while($result = $res->fetchRow( MDB2_FETCHMODE_ASSOC ))
         {
             $selected_lang[] = $result['lang'];
         }

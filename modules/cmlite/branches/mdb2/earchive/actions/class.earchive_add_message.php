@@ -47,7 +47,7 @@ class earchive_add_message
      */
     function perform( & $data )
     { 
-        $mid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_seq_add_message');
+        $mid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_messages');
 
         if (MDB2::isError($mid)) 
         {
@@ -62,11 +62,11 @@ class earchive_add_message
             VALUES
                 ('.$mid.',
                  '.$data['lid'].',
-                 '.$data['sender'].',
-                 '.$data['subject'].',
-                 '.$data['mdate'].',
-                 '.$data['body'].',
-                 '.$data['folder'].')';
+                 "'.$data['sender'].'",
+                 "'.$data['subject'].'",
+                 "'.$data['mdate'].'",
+                 "'.$data['body'].'",
+                 "'.$data['folder'].'")';
 
         $result = $this->B->db->query($sql);
         

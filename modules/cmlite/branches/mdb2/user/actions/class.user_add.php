@@ -57,7 +57,7 @@ class user_add
             return FALSE;
         }
 
-        $uid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'user_seq_add_user');
+        $uid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'user_users');
 
         if (MDB2::isError($uid)) 
         {

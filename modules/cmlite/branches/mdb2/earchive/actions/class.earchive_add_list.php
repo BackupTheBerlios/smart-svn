@@ -56,7 +56,7 @@ class earchive_add_list
             return FALSE;
         }
 
-        $lid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_seq_add_list');
+        $lid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_lists');
 
         if (MDB2::isError($lid)) 
         {
@@ -70,10 +70,10 @@ class earchive_add_list
                 (lid,name,email,emailserver,description,folder,status)
             VALUES
                 ('.$lid.',
-                 '.$data['name'].',
-                 '.$data['email'].',
-                 '.$data['emailserver'].',
-                 '.$data['description'].',
+                 "'.$data['name'].'",
+                 "'.$data['email'].'",
+                 "'.$data['emailserver'].'",
+                 "'.$data['description'].'",
                  "'.$list_folder.'",
                  '.$data['status'].')';
 

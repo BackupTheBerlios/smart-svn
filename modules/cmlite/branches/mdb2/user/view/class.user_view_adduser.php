@@ -73,11 +73,11 @@ class user_view_adduser
             }            
 
             $_data = array( 'error'     => 'tpl_error',
-                            'user_data' => array('forename' => $this->B->db->quote(commonUtil::stripSlashes($_POST['forename'])),
-                                                 'lastname' => $this->B->db->quote(commonUtil::stripSlashes($_POST['lastname'])),
-                                                 'email'    => $this->B->db->quote(commonUtil::stripSlashes($_POST['email'])),
-                                                 'login'    => $this->B->db->quote(commonUtil::stripSlashes($_POST['login'])),
-                                                 'passwd'   => $this->B->db->quote(md5($_POST['passwd'])),
+                            'user_data' => array('forename' => $this->B->db->escape(commonUtil::stripSlashes($_POST['forename'])),
+                                                 'lastname' => $this->B->db->escape(commonUtil::stripSlashes($_POST['lastname'])),
+                                                 'email'    => $this->B->db->escape(commonUtil::stripSlashes($_POST['email'])),
+                                                 'login'    => $this->B->db->escape(commonUtil::stripSlashes($_POST['login'])),
+                                                 'passwd'   => $this->B->db->escape(md5($_POST['passwd'])),
                                                  'rights'   => 1,
                                                  'status'   => 1));
             

@@ -140,11 +140,16 @@ class earchive_get_messages
                 lid={$lid}";        
 
         $result = $this->B->db->query( $sql );
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
         
         //$_result = $this->B->db->getRow( $sql, NULL, array(), NULL,  DB_FETCHMODE_ASSOC );
 
-        $_result = $result->fetchRow( DB_FETCHMODE_ASSOC );
-
+        $_result = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
+ 
         $params['totalItems'] = $_result['num_rows'];
         
         if( empty($data['delta']) )

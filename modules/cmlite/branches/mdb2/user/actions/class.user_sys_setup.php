@@ -73,7 +73,7 @@ class user_sys_setup
      */    
     function _create_user( $data )
     {
-        $uid = $this->B->db->nextId($this->B->conf_val['db']['table_prefix'].'user_seq_users');
+        $uid = $this->B->db->nextId($this->B->conf_val['db']['table_prefix'].'user_users');
 
         if (MDB2::isError($uid)) 
         {
