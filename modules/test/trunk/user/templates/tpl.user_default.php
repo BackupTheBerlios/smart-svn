@@ -5,7 +5,7 @@
     <table width="100%"  border="0" cellspacing="6" cellpadding="6">
       <tr>
           <td width="60%" align="left" valign="top" class="itemnormal">
-              <?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=user&sec=edituser&user='.$usr['user'].'">'.$usr['user'].'</a>'; ?></td>
+              <?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=user&sec=edituser&user='.urlencode($usr['user']).'">'.$usr['user'].'</a>'; ?></td>
            <td width="38%" align="left" valign="top" class="itemsmall">
               <?php echo $usr['role']; ?>
            </td>

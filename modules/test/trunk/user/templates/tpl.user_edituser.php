@@ -31,7 +31,7 @@ function deleteuser(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="_login" type="text" id="_login" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['login'])); ?>" disabled="disabled">
+          <input name="_login" type="text" id="_login" size="40" maxlength="255" value="<?php echo $B->tpl_data['login']; ?>" disabled="disabled">
         </td>
       </tr>      
       <tr>
@@ -44,7 +44,7 @@ function deleteuser(f, mes)
         <td align="left" valign="top" class="font10bold">Email</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="email" type="text" id="email" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['email'])); ?>"></td>
+        <td align="left" valign="top"><input name="email" type="text" id="email" size="40" maxlength="255" value="<?php echo $B->tpl_data['email']; ?>"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font9"> 
