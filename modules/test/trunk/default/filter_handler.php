@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the filter module
-define( 'DEFAULT_FILTER' , 'DEFAULT' );
+define( 'DEFAULT_FILTER' , 'default' );
 
 // register this filter                      
 if (FALSE == $B->register_filter( DEFAULT_FILTER,
@@ -39,7 +39,7 @@ function default_filter_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'DEFAULT_FILTER_'.$evt['code'];
+    $class_name = 'default_filter_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))

@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_DEFAULT' , 'DEFAULT');
+define ( 'MOD_DEFAULT' , 'default');
 
 // Version of this modul
 define ( 'MOD_DEFAULT_VERSION' , '0.2');
@@ -42,7 +42,7 @@ function default_event_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'DEFAULT_'.$evt['code'];
+    $class_name = 'default_'.$evt['code'];
 
     // check if this object was previously declared
     if(!is_object($B->$class_name))
