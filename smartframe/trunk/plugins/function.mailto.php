@@ -23,7 +23,7 @@ function mailto( &$string, $type = 'text' )
         case 'simple':
             $string = preg_replace("/(mailto:[^@]{2,})@/","\\1%40",$string);
         case 'text':
-            return str_replace(array(".","@"), array(" ! ", " () "), $string);
+            return str_replace("@", " AT ", $string);
             break;               
         case 'javascript':
             preg_match_all('!<a\s([^>]*)href=["\']mailto:([^"\']+)["\']([^>]*)>(.*?)</a[^>]*>!is', $string, $matches);
@@ -36,10 +36,10 @@ function mailto( &$string, $type = 'text' )
             $replace = $matches[0];
             foreach ($matches[0] as $key => $match) {
               $address = $matches[2][$key];
-              $obfuscated_address = str_replace(array(".","@"), array(" ! ", " () "), $address);
+              $obfuscated_address = str_replace("@", " AT ", $address);
               $extra = trim($matches[1][$key]." ".$matches[3][$key]);
               $text = $matches[4][$key];
-              $obfuscated_text = str_replace(array(".","@"), array(" ! ", " () "), $text);
+              $obfuscated_text = str_replace("@", " AT ", $text);
         
               $string2 = "document.write('<a href=\"mailto:".$address."\" ".$extra.">".$text."</a>');";
               $js_encode = '';
