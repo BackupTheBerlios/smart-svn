@@ -1,0 +1,23 @@
+SMART, which is build on [http://wact.sourceforge.net/index.php/ModelViewController Model-View-Controller] principle, separate the bussines from the presentation logic. Often i have this feeling when reading some forum threats, that MVC create more confusions than transparency. One goal of SMART was to keep this principle as simple as possible but flexible. Even non MVC specialists should understand very quickly what is going on where.
+
+SMART and so "little Jo" stands on 3 feeds:
+* Actions
+* Views
+* Templates
+
++++ Templates
+The design of a web page is defined in templates. In templates php is only used to output (echo) the demanded data. See: [./index.php?view=node&node=671673398 templates] doc for more details. The template language is php. Why not using a template engine? see: [http://www.phppatterns.com/index.php/article/articleview/4/1/1/ Harry Fuecks] and [http://www.massassi.com/php/articles/template_engines/ Brian Lozier].
+
++++ Views
+Here we assemble the demanded data and assign variables, which the templates needs to output. Furthermore, here we define the template, which is associated with this view. Optionaly launching: authentication, prepend filters, append filters. Dont hit your head on the last items. Look at the [./index.php?view=node&node=-1203816644 views] doc for more details on this issue.
+
++++ Actions
+The job of actions can be very different. But in a short cut: Here we accomplish the job request, which is directed to a [./index.php?view=node&node=1282041485 module]. All this low level job, which can be very complex and difficult. Usually you have only to do with actions when you build a module. Here you define its working behavior. Compared with a human body, actions are the lungs, heard, kidneys and spleen. As a template and view programmer you directly wont have do to with actions. Furthermore before an action is working on a request, it validate the transfered data. More on this issue at the [./index.php?view=node&node=150196115 actions] doc.
+
++++ Events
+One more point, which you should keep in mind are Events, which are the (super) glue that holds every thing in the system together.
+
+ Example:
+The view launch an event (ex.: get_article), which said to the module "article"; "give me all articles which are published this month". So the "article" module event handler loads the action "get_article", which make a connection to a database, create a sql command, retrive the requested data in an array and send it back to the view. The view push this data in a template array variable and load the required template. The template does nothing else than loop through this data array and output its content.
+
+As you can see in this example the view holds the contact with modules actions through events. You can put as much events as you want in views, which holds contacts with many different modules. See: [./index.php?view=node&node=150196115 events] doc.

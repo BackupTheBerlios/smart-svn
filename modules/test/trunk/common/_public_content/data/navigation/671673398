@@ -1,0 +1,11 @@
+In templates you have to output the content of the variables assigned by the perform() methode of the view class. You will find all templates in the **/templates_default** folder.  You are free to design your templates. The format of template files is:
+**tpl.xxx.php**
+Where xxx stands for the template name defined in the view class variable $template.
+
+You should include in the top of every template the php line:
+
+<code>
+<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>
+</code>
+
+With this line nobody can call directly a template from within a browser. This is a security issue.

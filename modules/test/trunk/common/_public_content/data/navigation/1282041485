@@ -1,0 +1,96 @@
+A module provide a couple of action classes and optionaly views and templates to build the admin interface.
+
++++ The file and folder structure of a module
+
+<code>
+/modules/xxx/actions            -> folder required
+/modules/xxx/templates          -> folder optional
+/modules/xxx/views              -> folder optional
+/modules/xxx/event_handler.php  -> file required for a working module
+</code>
+
+The file event_handler.php is the interface, which receive events directed to a module, instantinate a demanded module action class, execute its validate() methode and if successfull execute its perform() methode.
+
++++ Structure of an event handler:
+"xxx" stands for the name of the event handler. There cant exists multiple handler with the same name. It must be a unique name. The module folder must have the same name: /modules/xxx/
+
+<code>
+// Check if this file is included in the Smart environement
+//
+if (!defined('SF_SECURE_INCLUDE'))
+{
+    die('No Permission on ' . __FILE__);
+}
+
+// Name of the event handler
+define ( 'MOD_XXX' , 'xxx');
+
+// Version of this module
+define ( 'MOD_XXX_VERSION' , '0.1');
+
+// register this handler                       
+if (FALSE == register_handler( MOD_XXX,
+                               array ( 'module'          => MOD_XXX,
+                                       'event_handler'   => MOD_XXX.'_event_handler',
+                                       'menu_visibility' => TRUE) ))
+{
+    trigger_error( 'The handler '.MOD_XXX.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+}
+
+// The handler function
+function xxx_event_handler( $evt )
+{
+    // build the whole action class name
+    $class_name = 'action_xxx_'.$evt['code'];
+    
+    // check if this object was previously declared
+    if(!is_object($GLOBALS[$class_name]))
+    {
+        // dynamic load of the required class
+        $class_file = SF_BASE_DIR . 'modules/xxx/actions/class.'.$class_name.'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $GLOBALS[$class_name] = & new $class_name();
+            
+            // validate the request
+            if( FALSE == $GLOBALS[$class_name]->validate( $evt['data'] ) )
+            {
+                return FALSE;
+            }
+            // perform the request
+            return $GLOBALS[$class_name]->perform( $evt['data'] );
+        }
+    }
+    else
+    {
+        // validate the request
+        if( FALSE == $GLOBALS[$class_name]->validate( $evt['data'] ) )
+        {
+            return FALSE;
+        }  
+        
+        // perform the request if the requested object exists
+        return $GLOBALS[$class_name]->perform( $evt['data'] );
+    }
+    return TRUE;
+}
+
+</code>
+
++++ SMART's init process
+You can find in the index.php controller file an "init" event, which launch the global initialisation process. Some point of this process are important to understand for those devs who intend to build there own modules.
+
+The event handler file of each module is loaded and registered during the SMART init process. See: /smart/includes/core.inc.php. So, a working module require such an event handler file. Without, the systeme knows nothing about this module.
+
+There is one module which is always required under a specific name:
+The **common** module.
+
+During the systeme init process, SMART launch an init broadcast event to all modules. Each module must provide an init action class **class.action_xxx_sys_init.php**, which is responsible for the own module initialisation. The **common** module is always the first one in such a broadcast chain. The goal is, that in this module, you have to make all base initialisations, which are necessairy to get work your modules set. Example: Making database connection, Creating sessions ......
+Furthermore, you have to check if the systeme setup was successfull done. If no, the common module have to launch a setup event. 
+See: /modules/common/actions/class.action_common_sys_init.php
+
+This is very important because SMART it self, without any module, has no build in high level functionalities.
+
+Open "little JO's" common event handler /modules/common/event_handler.php in an editor. Scroll down to the point "Module SET  CONFIG". Here you have to define some config variables which are necessairy to get work the module set.

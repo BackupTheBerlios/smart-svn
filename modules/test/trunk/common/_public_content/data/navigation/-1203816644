@@ -1,0 +1,45 @@
+In view you define how the system should react on a **view** request. 
+**index.php?view=node**
+
+Here the controller: 
+* loads the view class: /views_default/class.view_node.php and 
+* makes an instance of this class, 
+* execute the auth() methode if present, 
+* execute the prependFilterChain() methode if present, 
+* execute the perform() methode if present and 
+* execute the appendFilterChain() methode if present.
+
+All this methods are optional. But of course if you include none of them a view does nothing. 
+
++++ auth()
+In some case you nee the authentication status of a visitor. The default authentication event call is 
+**M( SF_AUTH_MODULE, 'auth' );** 
+This event assign 3 variables:
+* $B->logged_user_role - permission status
+* $B->logged_user - user name
+* $B->_is_logged - bool user logged status 
+But of course you can include your own authentication event   
+
++++ prependFilterChain()
+In this methode you should only include code, which is executed before the real job. Ex.: detecting spam boots and redirect them to an error page.
+The default prepend filter event is:
+**M( MOD_SYSTEM, 'sys_prepend' );**
+It sends some http headers to prevent browser caching.
+
++++ perform() 
+Here you define the main job of the view.
+
++++ appendFilterChain()
+In this methode you should only include code, which is executed after the real job.
+The default append filter event is:
+**M( MOD_SYSTEM, 'sys_append' );**
+It trims the template output and does email obfuscating on the template output.
+
++++ Those view class variables are important:
+**var $template** define the template to render
+**var $render_template = SF_TEMPLATE_RENDER; // or SF_TEMPLATE_RENDER_NONE** define if a template sould be rendered or no. In case that a view should provide a file for download, you dont need to render a template.
+
++++ Format of a view class file
+You can find all view classes in the folder /views_default/
+**class.view_xxx.php**
+where xxx stands for name of the view defined in the supervariable (GPC) **view**

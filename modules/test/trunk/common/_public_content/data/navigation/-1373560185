@@ -1,0 +1,30 @@
+Events are a powerfull mechanism, which gives to the system all its flexibility. You can define events as job commands, which are directed to a module. Make this, give me that .... An event is based on a single global php function M(), which you can include in any part of the system.
+
+Example and format of an event:
+<code>
+    M( MOD_NAVIGATION,
+       'get_childs'
+       array( 'node_id' => (int)$_REQUEST['node'],
+              'result'  => 'tpl_nodes' ));
+</code>
+
+The first 2 arguments are always required. The first argument define the module to which this event is directed. The second argument define the module action class, which performs on this event call. The third argument is usually an array with variables the action class needs to perform on this event call. 
+
+How the systeme reacts on the example event call?
+* The event handler (event_handler.php) of the module "/modules/navigation" loads the class file "/modules/actions/class.action_navigation_get_childs.php", 
+* makes an instance of this class, 
+* execute the validate() methode of this class and if successfull 
+* execute the perform() methode of this class. The perform methode store all child nodes of the node "node_id" in a template variable $B->tpl_nodes. A template has only to walk through this array an output its content. $B serves as a variables container to pass them arround the system.
+
+There is a second event type named **"Broadcast Event"**. Such an event is directed to all modules. 
+Example:
+<code>
+    B( 'init' );
+</code>
+
+There are 2 possible arguments. The first is required. It define the action class, which should perform on this call. The second optional argument is an variable array with data the action classes needs to perform on.
+This event call is distributed to all module event handlers (event_handler.php). If such an action dosent exists its simply ignored. In this example we send an init event to all modules.
+
+You should keep in mind, that an event is always related to a module action class. See: [./index.php?view=node&node=150196115 Actions]. You can even release an event from within an action class.
+
+One characteristic of SMART is, that you havent be award to include the right class files to run an event call. SMART does this job for you. If a module is registered you can use all its action classes through event calls from anywhere of the system. Even from inside action classes you can release event calls, which are directed to other modules.
