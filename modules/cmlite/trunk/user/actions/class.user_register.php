@@ -13,11 +13,8 @@
  * user_register class 
  *
  */
- 
-// user class
-include_once( SF_BASE_DIR .'modules/user/includes/class.user.php' );
 
-class user_register extends user
+class user_register
 {
     /**
      * Global system instance
@@ -59,21 +56,23 @@ class user_register extends user
             return FALSE;
         }
            
-        $_data = array();
-        $_data['forename'] = $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['forename']));
-        $_data['lastname'] = $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['lastname']));
-        $_data['login']    = $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['login']));
-        $_data['passwd']   = $this->B->db->quoteSmart(md5(commonUtil::stripSlashes($data['reg_data']['passwd1'])));
-        $_data['email']    = $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['email']));
-        $_data['status']   = 0;
-        $_data['rights']   = 1;
+        $_data = array( 'error'     => 'tmp_error',
+                        'user_data' => array('forename' => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['forename'])),
+                                             'lastname' => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['lastname'])),
+                                             'email'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['email'])),
+                                             'login'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['login'])),
+                                             'passwd'   => $this->B->db->quoteSmart(md5($data['reg_data']['passwd1'])),
+                                             'rights'   => 1,
+                                             'status'   => 0));
                 
         $this->B->$data['success_var'] = FALSE;
         $_succ = & $this->B->$data['success_var'];
                
-        if( FALSE === ($uid = $this->add_user( $_data )))
+        if( FALSE === ($uid = $this->B->M( MOD_USER,
+                                           'add',
+                                           $_data )))
         {
-            $this->_error .= 'Login exists. Chose an other one';  
+            $this->_error .= $this->B->tmp_error;  
             return FALSE;
         }
         else
@@ -84,7 +83,7 @@ class user_register extends user
                 
             if($this->B->sys['option']['user']['register_type'] == 'auto')
             {
-                $ustr = $this->add_registered_user_data( $uid ); 
+                $ustr = $this->_add_registered_user_data( $uid ); 
                     
                 $validate_msg = str_replace("(URL)", "<a href='".SF_BASE_LOCATION."/index.php?view=validate&usr_id={$ustr}'>validate</a>",$data['email_msg']);
                 $validate_msg = str_replace("(EMAIL)", "<a href='mailto:{$this->B->sys['option']['email']}'>{$this->B->sys['option']['email']}</a>",$validate_msg);
@@ -112,6 +111,37 @@ class user_register extends user
             return TRUE;
         }
     } 
+
+    /**
+     * add_registered_user_data
+     *
+     * @param int $uid user ID
+     * @return mixed md5_str|false
+     */     
+    function _add_registered_user_data( $uid )
+    {
+        $md5_str = commonUtil::unique_md5_str();
+        $_time   = date("Y-m-d H:i:s", time()); 
+        
+        $sql = '
+            INSERT INTO 
+                '.$this->B->sys['db']['table_prefix'].'user_registered
+                (uid,md5_str,reg_date)
+            VALUES
+                ('.$uid.',
+                 "'.$md5_str.'",
+                 "'.$_time.'")';
+        
+        $res = $this->B->db->query($sql);
+
+        if (DB::isError($res)) 
+        {
+            trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }
+        
+        return $md5_str;
+    }
     
     function _validate( &$data )
     {
