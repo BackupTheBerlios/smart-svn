@@ -44,7 +44,7 @@ class action_navigation_get_node extends action
             list($id, $val) = each($node);
             if($data['node'] == $id)
             {
-                $this->B->$data['title'] = $node[$key]['title'];
+                $this->B->$data['title'] = $node[$id]['title'];
                 break;
             }
         } 
