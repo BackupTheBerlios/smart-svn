@@ -84,11 +84,10 @@ function user_event_handler( $evt )
             // to include in the option module
             $B->mod_option[] = SF_BASE_DIR.'/admin/modules/user/templates/option.tpl.php';
             break;                
-        case EVT_SETUP:       
-            if( count($base->tmp_error) == 0 )
-            {
-                include(SF_BASE_DIR.'/admin/modules/user/_setup.php'); 
-            }
+        case EVT_SETUP:  
+            $success = TRUE;
+            include(SF_BASE_DIR.'/admin/modules/user/_setup.php'); 
+            return $success;
             break;            
     } 
 }

@@ -26,17 +26,23 @@ $B->setup_error = array();
 if( $_POST['do_setup'] )
 {
     // Send a setup message to all registered handlers
-    $B->M( MOD_SYSTEM,       EVT_SETUP );
-    $B->M( MOD_USER,         EVT_SETUP );
-    $B->M( MOD_EARCHIVE,     EVT_SETUP );
-    $B->M( MOD_OPTION,       EVT_SETUP );
+    $success = $B->M( MOD_SYSTEM,           EVT_SETUP );
+    
+    if($success == TRUE)    
+        $success = $B->M( MOD_USER,         EVT_SETUP );
+        
+    if($success == TRUE)
+        $success = $B->M( MOD_EARCHIVE,     EVT_SETUP );
+        
+    if($success == TRUE)
+        $success = $B->M( MOD_OPTION,       EVT_SETUP );
     
     // close db connection if present
     if(is_object($B->db))
         $B->db->disconnect();
         
     // check on errors before proceed
-    if( count($B->setup_error) == 0 )
+    if( $success == TRUE )
     {      
         $B->conf_val['info']['status'] = TRUE;
         $B->conf->setConfigValues( $B->conf_val );

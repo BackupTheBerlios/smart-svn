@@ -44,13 +44,14 @@ function option_event_handler( $evt )
     switch( $evt['code'] )
     {
         case EVT_SETUP:
+            $success = TRUE;
             // The module name and version
             $B->conf_val['module']['option']['name']    = 'option';
             $B->conf_val['module']['option']['version'] = MOD_OPTION_VERSION;
             $B->conf_val['module']['option']['info']    = '';
             // Set some options
             $B->conf_val['option']['tpl'] = SF_DEFAULT_TEMPLATE_GROUP;
-            $B->conf_val['option']['url'] = '../index.php';
+            $B->conf_val['option']['url'] = SF_BASE_LOCATION;
             $B->conf_val['option']['site_title'] = 'Site title';
             $B->conf_val['option']['site_desc'] = 'My first site';
             $B->conf_val['option']['email'] = 'admin@foo.com';
@@ -60,7 +61,7 @@ function option_event_handler( $evt )
             if($_POST['dbtype'] == 'mysql')
             {
                 // The bad words table. Words ignored by word indexer
-                $sql = "CREATE TABLE IF NOT EXISTS {$_POST['dbtablesprefix']}bad_words (
+                $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}bad_words (
                             word varchar(255) NOT NULL default '',
                             lang varchar(4) NOT NULL default '')"; 
                 
@@ -73,7 +74,9 @@ function option_event_handler( $evt )
 
                 if (DB::isError($result))
                 {
-                    $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+                    trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+                    $success = FALSE;
                 }
 
                 if($result->numRows() == 1)
@@ -83,7 +86,9 @@ function option_event_handler( $evt )
 
                     if (DB::isError($result))
                     {
-                        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+                        trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                        $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+                        $success = FALSE;
                     }
                 }            
                 // The bad words table. Words ignored by word indexer
@@ -97,8 +102,11 @@ function option_event_handler( $evt )
 
             if (DB::isError($result))
             {
-                $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-            }            
+                    trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+                    $success = FALSE;
+            }     
+            return $success;
             break;      
         case EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           
