@@ -65,7 +65,7 @@ function select_text(f)
         <td width="89%" align="left" valign="top">
 		<input name="delete_file" type="hidden" value="">
 		<input name="media_file" type="hidden" value="<?php echo htmlentities($media['file']);  ?>">
-		<input name="media_file_path" type="text" value="<?php echo htmlentities($media['path']);  ?>" size="70" maxlength="1000" readonly="true">
+		<input name="media_file_path" type="text" value="<?php echo htmlentities($media['path']);  ?>" size="65" maxlength="1000" readonly="true">
 		</td>
       </tr>
 	  </form>

@@ -14,6 +14,14 @@ function media_manager(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=550,height=450';
 newwindow= window.open('<?php echo SF_CONTROLLER; ?>?admin=1&nodecoration=1&m=navigation&sec=media_manager','',mm); }
 </script>
+<style type="text/css">
+<!--
+.optsel {
+	background-color: #CCCCCC;
+}
+-->
+</style>
+
 <form name="edituser" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=editnode">
 <input name="edit_node" type="hidden" value="<?php echo $_REQUEST['edit_node']; ?>">
 <input name="node" type="hidden" value="<?php echo $_REQUEST['node']; ?>">
@@ -51,7 +59,7 @@ newwindow= window.open('<?php echo SF_CONTROLLER; ?>?admin=1&nodecoration=1&m=na
         <td colspan="2" align="left" valign="top" class="font10bold"><select name="parent_id" size="1" id="parent_id">
          <option value="0">Top</option>   
       <?php foreach($B->tpl_tree as $val):  ?>
-          <option value="<?php echo $val['node']; ?>" <?php if($val['node'] == $B->tpl_node['parent_id'] ) echo 'selected="selected"'; ?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
+          <option value="<?php echo $val['node']; ?>" <?php if($val['node'] == $B->tpl_node['parent_id'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
         <?php endforeach; ?>
     </select></td>
       </tr>   
