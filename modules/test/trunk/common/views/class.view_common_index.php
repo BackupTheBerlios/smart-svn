@@ -41,7 +41,16 @@ class view_common_index extends view
             // switch to the login view of the user module
             $_REQUEST['m']   = 'user';
             $_REQUEST['sec'] = 'login';    
-        }    
+        }
+        else
+        {
+            // get modules names to show them in the html select menu
+            M( MOD_SYSTEM, 
+               'module_names', 
+                array('var'             => 'tpl_mod_list',
+                      'menu_visibility' => TRUE));    
+        }         
+        
         return TRUE;
     }  
     
