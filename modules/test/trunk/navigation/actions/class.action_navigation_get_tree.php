@@ -71,7 +71,7 @@ class action_navigation_get_tree extends action
         foreach($node as $n => $x)
         {
             $x['node'] = $n;
-            $this->_tmp_array['o'.$x['order'].$s] = $x; 
+            $this->_tmp_array['o'.dechex($x['order']).$s] = $x; 
             $s++;
         }
         
