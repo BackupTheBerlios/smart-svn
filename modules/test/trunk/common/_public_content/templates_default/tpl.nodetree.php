@@ -22,7 +22,7 @@
         <td width="638" align="left" valign="top"><table width="638" border="0" cellspacing="4" cellpadding="2">
           <tr>
             <td>
-              <h3>Sitemap </h3>
+              <h3 class="smart">Sitemap </h3>
               <hr class="hr" />
         <div class="text sitemap">
               <?php foreach($B->tpl_tree as $val):  ?>
