@@ -39,7 +39,7 @@
                         </td>
                         <td width="26%" align="left" valign="middle">
                             <?php //show register link if allowed  ?>
-                            <?php if((!$B->auth->is_user)&&($B->sys['option']['user']['allow_register']==TRUE)): ?>
+                            <?php if( ($B->is_logged == FALSE) && ($B->sys['option']['user']['allow_register'] == TRUE) ): ?>
                             <a href="index.php?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                         </td>
@@ -61,7 +61,7 @@
                 <table width="100%"  border="0" cellspacing="4" cellpadding="2">
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks">
-                        <?php if(!isset($_GET['tpl'])): ?>
+                        <?php if(!isset($_GET['view'])): ?>
                             <strong>Home</strong>
                         <?php else: ?>
                             <a href="index.php">Home</a>
