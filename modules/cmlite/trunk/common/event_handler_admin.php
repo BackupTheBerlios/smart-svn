@@ -38,7 +38,7 @@ if (FALSE == $B->register_handler(
 {
     trigger_error( 'The handler '.MOD_COMMON.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
-                                                                          
+                                                                           
 // The handler function
 function common_event_handler( $evt )
 {
