@@ -97,12 +97,12 @@ unset($result);
 
 // Load system options
 $result = $B->dbsys->query('SELECT * FROM options'); 
-$B->sys_option = $B->dbsys->getRow($result);
+$row = $B->dbsys->getRow($result);
+foreach($row as $key => $value)
+{
+    $B->$key = $value;
+}
 unset($result);
-
-// Connect to the database
-$B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/' . $B->sys_option['db_prefix'] . '_data.db.php');
-$B->dbdata->turboMode();
 
 // Register all handlers
 //
@@ -133,22 +133,5 @@ $B->tmp_directory->close();
 unset($B->tmp_evt_handler);
 unset($B->tmp_directory);
 unset($B->tmp_evt_handler);
-
-// Check if option handler is installed (required)
-if ( FALSE == $B->is_handler(SF_OPTION_MODULE) )
-{
-    trigger_error("Missing handler ".SF_OPTION_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__,  E_USER_ERROR);
-}
-
-// Check if user authentication handler is installed (required)
-if ( FALSE == $B->is_handler(SF_AUTH_MODULE) )
-{
-    trigger_error("Missing handler" . SF_AUTH_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__,  E_USER_ERROR);
-}
-
-//
-// Load base options -> option module
-//
-$B->M( MOD_OPTION, EVT_LOAD_INIT_OPTION );
 
 ?>

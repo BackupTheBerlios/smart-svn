@@ -41,15 +41,6 @@ function option_event_handler( $evt )
     switch( $evt['code'] )
     {
         case EVT_LOAD_INIT_OPTION:
-            // get all system options
-            $result = $B->dbsys->query('SELECT * FROM options'); 
-            $row = $B->dbdata->getRow($result); 
-            foreach($row as $key => $value)
-            {
-                $B->$key = $value;
-            }
-            unset($row);
-            unset($result);
             break;      
         case EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           

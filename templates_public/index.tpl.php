@@ -3,7 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>PHP Framework</title>
-<meta http-equiv="Content-Type" content="text/html; charset={CHARSET}" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->charset; ?>" />
 <style type="text/css">
 <!--
 body,td,th {

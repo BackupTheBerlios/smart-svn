@@ -37,7 +37,7 @@ function test_event_handler( $evt )
             // Assign module handler name
             $B->this_module = MOD_TEST;         
             break;             
-        case EVT_INIT:    
+        case EVT_INIT:   
             break; 
         case EVT_LOGOUT:  
             break;             

@@ -32,7 +32,7 @@ include (SF_BASE_DIR . '/admin/include/base.inc.php');
 // send an authentication message to the handler which takes
 // the authentication part
 $B->M( SF_AUTH_MODULE, EVT_AUTHENTICATE );
-
+ 
 // Send a init message to all registered handlers
 $B->B(EVT_INIT);
 

@@ -67,7 +67,11 @@ function user_event_handler( $evt )
                 include(SF_BASE_DIR.'/admin/modules/user/_setup.php'); 
             }
             break;            
-    }
+    } 
 }
+
+// Connect to the main database
+$B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/' . $B->db_prefix . '_data.db.php');
+$B->dbdata->turboMode();
 
 ?>

@@ -47,5 +47,4 @@ function option_event_handler( $evt )
             break;             
     }
 }
-
 ?>

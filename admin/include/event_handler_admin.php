@@ -41,7 +41,15 @@ function system_event_handler( $evt )
     switch( $evt["code"] )
     {            
         case EVT_INIT:
-            include_once(SF_BASE_DIR.'/admin/include/init_admin.php');          
+            // Assign registered module handlers
+            $B->mod_list = array();
+            foreach ($B->handler_list as $key => $value)
+            {
+                if($value['module'] != 'SYSTEM')
+                {
+                    $B->mod_list[$key] =  $value;
+                }
+            }                 
             break; 
         case EVT_LOGOUT:  
             break;    

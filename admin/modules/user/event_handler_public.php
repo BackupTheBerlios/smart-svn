@@ -38,11 +38,15 @@ function user_event_handler( $evt )
 
     switch( $evt['code'] )
     {
-        case SF_EVT_AUTHENTICATE:
+        case EVT_AUTHENTICATE:
             break;
-        case SF_EVT_INIT:        
+        case EVT_INIT:        
             break;           
     }
 }
+
+// Connect to the database
+$B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/' . $B->db_prefix . '_data.db.php');
+$B->dbdata->turboMode(); 
 
 ?>
