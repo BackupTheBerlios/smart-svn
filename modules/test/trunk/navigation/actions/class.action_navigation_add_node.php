@@ -43,9 +43,13 @@ class action_navigation_add_node extends action
         // load exsisting navigation nodes
         $nav = array();
         include(SF_BASE_DIR . 'data/navigation/nodes.php');
+
+        // replace single and double quotes
+        $search_array = array('\'','"');
+        $replace_array = array('&#039;','&quot;');
         
         // add new node
-        $nav[][$node_id] = array('title'  => str_replace ( "'", "&#039;",commonUtil::stripSlashes_special($data['title'])),
+        $nav[][$node_id] = array('title'  => str_replace ( $search_array, $replace_array, commonUtil::stripSlashes_special($data['title'])),
                                  'status' => 'drawt');
 
         // Update navigation node config file

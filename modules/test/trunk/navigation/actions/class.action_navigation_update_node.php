@@ -43,6 +43,11 @@ class action_navigation_update_node extends action
         
         // init loop var
         $x = 0;
+        
+        // replace single and double quotes
+        $search_array = array('\'','"');
+        $replace_array = array('&#039;','&quot;');
+        
          //str_replace ( "'", "&#039;",commonUtil::stripSlashes($data['title']))
         // Look at the node id and assign the new title
         foreach($nav as $node)
@@ -50,7 +55,7 @@ class action_navigation_update_node extends action
             list($id, $val) = each($node);
             if($data['node'] == $id)
             {
-                $nav[$x][$id]= array('title'  => str_replace ( "'", "&#039;",commonUtil::stripSlashes_special($data['title'])),
+                $nav[$x][$id]= array('title'  => str_replace ( $search_array, $replace_array, commonUtil::stripSlashes_special($data['title'])),
                                      'status' => $data['status']);
                 break;
             }
