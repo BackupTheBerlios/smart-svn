@@ -39,6 +39,15 @@ $B->M( SF_AUTH_MODULE, 'sys_authenticate' );
 // Broadcast init event to all registered event handlers
 $B->B( 'sys_init' );
 
+// Logout
+if ( (int)$_REQUEST['logout'] == 1 )
+{
+    // each module can do clean ups before logout
+    $B->B('sys_logout');
+    header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
+    exit;
+}
+
 // get the public view (template)
 include( $B->M( MOD_SYSTEM, 'get_public_view') ); 
 
