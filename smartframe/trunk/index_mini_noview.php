@@ -33,11 +33,13 @@ if(!defined( SF_RELATIVE_PATH ))
 /* #################################################### */
 /* ######### Dont change any thing below !!! ########## */
 /* #################################################### */
-/*
 
- * Secure include of files from this script
- */
-define('SF_SECURE_INCLUDE', 1);
+// Check if this file is included in the Smart environement
+//
+if (!defined('SF_SECURE_INCLUDE'))
+{
+    die('No Permission on ' . __FILE__);
+}
 
 // Define the absolute path to SMART
 //
