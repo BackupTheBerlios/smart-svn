@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * USER_REGISTER class 
+ * user_register class 
  *
  */
  
-class USER_REGISTER
+class user_register
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class USER_REGISTER
      * constructor
      *
      */
-    function USER_REGISTER()
+    function user_register()
     {
         $this->__construct();
     }
@@ -56,16 +56,16 @@ class USER_REGISTER
         
         // captcha class
         //
-        include( SF_BASE_DIR .'/admin/modules/user/captcha/class.captcha.php' );
+        include( SF_BASE_DIR .'modules/user/captcha/class.captcha.php' );
     
         // Captcha privat key!!!
-        $captcha_privat_key = md5(implode('',file(SF_BASE_DIR.'/admin/config/config_system.xml.php')));
+        $captcha_privat_key = md5(implode('',file(SF_BASE_DIR.'modules/common/config/config_system.xml.php')));
         
         // The ttf font to create turing chars images
-        $captcha_ttf_font = SF_BASE_DIR .'/admin/modules/user/captcha/ttf_font/activa.ttf';
+        $captcha_ttf_font = SF_BASE_DIR .'modules/user/captcha/ttf_font/activa.ttf';
     
         // Relative folder of captcha pictures
-        $captcha_pictures_folder = 'admin/modules/user/captcha/pics';
+        $captcha_pictures_folder = 'modules/user/captcha/pics';
     
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 
@@ -117,7 +117,7 @@ class USER_REGISTER
             if($_error === FALSE)
             {
                 // captcha class
-                include( SF_BASE_DIR .'/admin/modules/user/class.user.php' );
+                include( SF_BASE_DIR .'modules/user/includes/class.user.php' );
                 
                 $user = & new user;
             
@@ -168,7 +168,7 @@ class USER_REGISTER
                 {
                     $subject = 'User validation needed';
                     $msg     = 'You have to validate a user registration:<br />';
-                    $msg     .= '<a href="'.SF_BASE_LOCATION.'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'">'.$this->B->sys['option']['url'].'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'</a>';
+                    $msg     .= '<a href="'.SF_BASE_LOCATION.'/index.php?admin=1&m=user&sec=edituser&uid='.$uid.'">'.SF_BASE_LOCATION.'/index.php?admin=1&m=user&sec=edituser&uid='.$uid.'</a>';
                     if(FALSE === @mail($this->B->sys['option']['email'],$subject,$msg,$header))
                     {
                         trigger_error("Sending validation email fails.", E_USER_ERROR);

@@ -49,20 +49,7 @@ class user_login
     {
         if(!empty($data['login']) && !empty($data['passwd']))
         {
-            include_once(SF_BASE_DIR.'/admin/modules/user/actions/sys_authentication/class.auth.php');
-            // Check login data
-            if(isset($_POST['login']))
-            {
-                if(FALSE !== ($rights = $this->B->auth->checklogin($_POST['login_name'], $_POST['password'])))
-                {
-                    if($rights > 1)
-                        @header('Location: index.php');
-                    else
-                        @header('Location: ../index.php');
-                    exit;
-                }
-            }
-
+            include_once(SF_BASE_DIR.'modules/user/includes/class.auth.php');
             if(FALSE !== auth::checklogin($data['login'], $data['passwd']))
             {
                 $query = base64_decode($data['urlvar']);

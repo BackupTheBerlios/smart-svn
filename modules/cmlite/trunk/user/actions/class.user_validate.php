@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * USER_VALIDATE class 
+ * user_validate class 
  *
  */
  
-class USER_VALIDATE
+class user_validate
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class USER_VALIDATE
      * constructor
      *
      */
-    function USER_VALIDATE()
+    function user_validate()
     {
         $this->__construct();
     }
@@ -56,7 +56,7 @@ class USER_VALIDATE
             $_error = &$this->B->$data['error_var'];
             $_error = NULL;
             
-            include( SF_BASE_DIR .'/admin/modules/user/class.user.php' );
+            include( SF_BASE_DIR .'modules/user/includes/class.user.php' );
             $user = & new user;
             if(FALSE === $user->auto_validate_registered_user( $_GET['md5_str'] ))
             {
