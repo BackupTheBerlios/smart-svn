@@ -26,7 +26,7 @@
           <p>Test Form</p>
           <!-- 'm' stay for the module name. 'mf' stay for the modul feature -->
           <!--  so this form send data to the TEST modul and activate the module feature 'evalform' . see admin event handler of the test modul -->
-          <form name="form1" method="post" action="index.php?m=test&tpl=index&action=evalform">
+          <form name="form1" method="post" action="index.php?admin=1&m=test&tpl=index&action=evalform">
             <input name="testfield" type="text" id="testfield" size="40" maxlength="255">
                       <input type="submit" name="Submit" value="Submit">
                     </form>

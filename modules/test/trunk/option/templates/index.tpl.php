@@ -30,7 +30,8 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-    <form action="index.php" method="post" name="email" id="email">    
+    <form action="index.php" method="post" name="email" id="email">  
+        <input name="admin" type="hidden" value="1">
         <input name="m" type="hidden" value="option">
         <input name="tpl" type="hidden" value="index">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
@@ -47,6 +48,7 @@
         </table>   
     </form> 
     <form action="index.php" method="post" name="title" id="title"> 
+        <input name="admin" type="hidden" value="1">
         <input type="hidden" name="tpl" id="id" value="index">
         <input name="m" type="hidden" value="option">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
@@ -64,6 +66,7 @@
         </table> 
     </form>  
     <form action="index.php" method="post" name="charset" id="charset"> 
+        <input name="admin" type="hidden" value="1">
         <input type="hidden" name="tpl" id="id" value="index">
         <input name="m" type="hidden" value="option">              
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
@@ -96,6 +99,7 @@
         </table> 
     </form>  
     <form action="index.php" method="post" name="tpl" id="tpl">
+        <input name="admin" type="hidden" value="1">
         <input type="hidden" name="tpl" id="id" value="index">
         <input name="m" type="hidden" value="option">             
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
