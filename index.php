@@ -39,15 +39,15 @@ if (!isset($_REQUEST['tpl']))
 }
 else
 {
-    // get the requested template and check if it contains only chars a-z
+    // get the requested template name and check if it contains only chars a-z
     if (FALSE === ($B->tmp_tpl = sfSecureGPC::get( $_REQUEST['tpl'], 'string' )))
     {
-        trigger_error( "VAR: tpl\nVALUE: ".$_REQUEST['tpl']."\nFILE: ".__FILE__."\nLINE:".__LINE__  );    
+        trigger_error( "VAR: tpl\nVALUE: " . $_REQUEST['tpl'] . "\nFILE: " . __FILE__ . "\nLINE:" . __LINE__  );    
     }
 }
 
-// build the requested template file
-$B->template_file = SF_BASE_DIR .'/'. $B->sys['option']['tpl'].'_' . $B->tmp_tpl . '.tpl.php';
+// build the whole requested template file path
+$B->template_file = SF_BASE_DIR . '/' . $B->sys['option']['tpl'] . '_' . $B->tmp_tpl . '.tpl.php';
 
 // check if the requested template exist
 if (@file_exists( $B->template_file ))
