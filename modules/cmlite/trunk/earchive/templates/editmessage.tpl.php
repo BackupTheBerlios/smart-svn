@@ -11,7 +11,7 @@ function deleteuser(f, mes)
         }
 }
 </script>
-<form name="deluser" method="post" action="index.php?m=EARCHIVE&mf=edit_mess">
+<form name="editmessage" method="post" action="index.php?admin=1&m=earchive&sec=editmessage">
 <input name="mid" type="hidden" value="<?php echo $B->tpl_data['mid']; ?>">
 <input name="lid" type="hidden" value="<?php echo $B->tpl_data['lid']; ?>">
 <input name="pageID" type="hidden" value="<?php echo $_REQUEST['pageID']; ?>">
@@ -62,15 +62,15 @@ function deleteuser(f, mes)
             <?php else: ?>
             <div>No attachments for this message</div>
             <?php endif; ?>
-</td>
+          </td>
         </tr>
         <tr>
-          <td align="left" valign="top"><input name="editmessage" type="submit" id="editmressage" value="Submit">
+          <td align="left" valign="top"><input name="updatemessage" type="submit" id="updatemessage" value="Submit">
           </td>
         </tr>
       </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?m=EARCHIVE&mf=show_mess&lid=<?php echo $B->tpl_data['lid']; ?>&pageID=<?php echo $_REQUEST['pageID']; ?>">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?admin=1&m=earchive&sec=showmessages&lid=<?php echo $B->tpl_data['lid']; ?>&pageID=<?php echo $_REQUEST['pageID']; ?>">back</a></td>
   </tr>
 </table>
 </form>
