@@ -10,30 +10,30 @@
 // ----------------------------------------------------------------------
 
 /**
- * action_system_sys_logout class 
+ * action_system_module_names class 
  *
  */
  
 class action_system_module_names extends action
 {
     /**
-     * If a logout request was done
+     * Assign module names
      *
      * @param array $data
      */
     function perform( $data )
     {            
-        $h_list = $GLOBALS['handler_list'];
+        $m_list = $GLOBALS['module_list'];
             
         // sort handler array by name
-        ksort($h_list);
+        ksort($m_list);
         
-        // assign template handler names array
+        // assign module names array
         // this array is used to build the modul select form of the admin menu
         $result = & $this->B->$data['var']; 
         $result = array();
 
-        foreach ($h_list as $key => $value)
+        foreach ($m_list as $key => $value)
         {
             // only module with an visible interface
             if( $value['menu_visibility'] == $data['menu_visibility'] )
