@@ -22,7 +22,13 @@ class action_common_cache_delete extends action
      * @param array $data
      */
     function perform( & $data )
-    {        
+    {  
+        // disable cache delete
+        if ( $this->B->sys['option']['cache'] != TRUE )
+        {
+            return TRUE;
+        }
+        
         // Include cache and create instance
         if(!is_object($this->B->cache))
         {            
