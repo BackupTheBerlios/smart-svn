@@ -68,15 +68,15 @@ body {
           <p class="style5">Messages of list: "<?php echo $B->list['name']; ?>"</p>
                     <?php if (count($B->msg) > 0): ?>
                         <?php foreach($B->msg as $msg): ?>
-                  <div class='status'>DATE: <?php echo $msg['mdate']; ?></div>
-                                    <div class='status'>FROM: <?php echo htmlentities($msg['sender']); ?></div>
-                                <a href="index.php?tpl=earchivemsg&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $B->list['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="style2"><?php echo $msg['subject']; ?></a>
-                                    <br /><br />
+                            <div class='status'>DATE: <?php echo $msg['mdate']; ?></div>
+                            <div class='status'>FROM: <?php echo htmlentities($msg['sender']); ?></div>
+                            <a href="index.php?tpl=earchivemsg&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $B->list['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="style2"><?php echo $msg['subject']; ?></a>
+                            <br /><br />
                         <?php endforeach; ?>
-                            <div class='listdesc'><?php echo $B->prevnext; ?></div>
+                        <div class='listdesc'><?php echo $B->prevnext; ?></div>
                     <?php else: ?>
                         <div class='listdesc'>Currently no messages available</div>
-                        <?php endif; ?>
+                    <?php endif; ?>
           </td>
       </tr>
     </table></td>

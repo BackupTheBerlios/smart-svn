@@ -3,7 +3,7 @@ if (!defined('SF_SECURE_INCLUDE')) exit;
 
 //Get the demanded attachment and send it to the client
 
-include_once ('HTTP_Download/Download.php');
+include_once ('HTTP/Download.php');
 
 //get the top requested email list attachment folder 
 $B->M( MOD_MAILARCHIVER, 
