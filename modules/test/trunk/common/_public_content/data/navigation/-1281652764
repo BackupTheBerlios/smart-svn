@@ -1,9 +1,0 @@
-SMART is still alpha stuff. There was a lot of changes and redesigns since the first release. If the idea behind SMART would be successfull depends on several views.
-
-OOP purists dont like the fact that SMART is partialy based on procedual code. The module event handlers and the system event distributors are based on simple global functions. But i cant see at this moment any advantage to change this concept. Critics about this issue are welcome.
-<ul>
-<li>How quick is it possible to build an application comparing to other frameworks?</li>
-<li>How flexible is SMART in order to other frameworks?</li>
-<li>What is its performance comparing to other frameworks?</li>
-<li>Its usability against other frameworks?</li>
-</ul>
