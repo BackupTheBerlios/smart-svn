@@ -35,11 +35,16 @@ class view_navigation extends view
     {
          /* Event to get the navigation menu entries, with status "publish" from the navigation module action class. 
          See: modules/navigation/actions/class.action_navigation_get.php 
-         The result is in the array $B->tpl_nav which is included as the site navigation menu. */
+         The result is in the array $B->tpl_nav which is included as the site navigation menu. 
+         
+         status 1=drawt  2=public
+         
+         if no node is defined, get the childs of the top level
+         */
          M( MOD_NAVIGATION, 
-            'get', 
-            array('nav'     => 'tpl_nodes',
-                  'nstatus' => 'publish'));
+            'get_childs', 
+            array('result' => 'tpl_nodes',
+                  'status' => 2));
         
         return TRUE;
     }    

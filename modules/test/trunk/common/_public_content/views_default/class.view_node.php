@@ -45,8 +45,7 @@ class view_node extends view
            'get_node', 
            array('node'             => $_REQUEST['node'],
                  'error'            => 'tpl_error',
-                 'title'            => 'tpl_title',
-                 'body'             => 'tpl_body',
+                 'result'           => 'tpl_node',
                  'nstatus'          => 'publish',
                  'format'           => 'wikki' )); 
 

@@ -24,19 +24,19 @@
                    Print out the navigation menu.                            
                    The navigation items array $B->tpl_nodes.
                    -----------------------------------------------------------*/ ?>
-          <?php $num = count($B->tpl_nodes); for($x=1; $x<=$num; $x++): ?>
+          <?php foreach($B->tpl_nodes as $node_id => $node): ?>
           <tr>
             <td align="left" valign="top">
               <font size="2">
-                <?php if($_REQUEST['node'] == $B->tpl_nodes[$x]['node']): ?>
-                   <strong><?php echo $B->tpl_nodes[$x]['title']; ?></strong>
+                <?php if($_REQUEST['node'] == $node_id): ?>
+                   <strong><?php echo $node['title']; ?></strong>
                 <?php else: ?>
-                   <a href="<?php echo SF_CONTROLLER; ?>?view=node&node=<?php echo $B->tpl_nodes[$x]['node']; ?>"><?php echo $B->tpl_nodes[$x]['title']; ?></a>
+                   <a href="<?php echo SF_CONTROLLER; ?>?view=node&node=<?php echo $node_id; ?>"><?php echo $node['title']; ?></a>
                 <?php endif; ?>
               </font>
             </td>
           </tr>
-          <?php endfor; ?>
+          <?php endforeach; ?>
           <tr>
             <td align="left" valign="top">&nbsp;</font></td>
           </tr>     

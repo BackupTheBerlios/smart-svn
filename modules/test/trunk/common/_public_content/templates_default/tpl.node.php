@@ -62,9 +62,9 @@ body {
         <?php else: ?>
             <!-- print title and body of a navigation node -->
         
-            <h3><?php echo $B->tpl_title;  ?></h3></font>
+            <h3><?php echo $B->tpl_node['title'];  ?></h3></font>
             <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
-            <?php echo $B->tpl_body;  ?>
+            <?php echo $B->tpl_node['body'];  ?>
             </font></p>
         <?php endif; ?>
         </td>
