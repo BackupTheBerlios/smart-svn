@@ -30,20 +30,6 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-    <form action="index.php?admin=1&m=option" method="post" name="url" id="url">
-        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
-          <tr>
-            <td colspan="2" align="left" valign="top"><span class="optiontitle">URL of the public page </span></td>
-          </tr>
-          <tr>
-            <td width="87%" align="left" valign="top">          
-              <input name="site_url" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars(commonUtil::stripSlashes_special($B->sys['option']['url'])); ?>">
-              &nbsp; 
-           </td>
-            <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_url" value="update" onclick="subok(this.form.update_main_options_url);"></td>
-          </tr>
-        </table> 
-    </form>
     <form action="index.php?admin=1&m=option" method="post" name="email" id="email">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
