@@ -35,62 +35,28 @@ class view_navigation_addnode extends view
      */
     function perform()
     {    
-        // add user on demande
-        if( ($_GET['sec'] == 'adduser') && isset($_POST['adduser']) )
+        if ( isset($_POST['addnode']) )
         {
-            // Init form field values
-            $this->B->tpl_error     = FALSE;
-            $this->B->form_email    = '';
-            $this->B->form_login    = '';
-            $this->B->form_passwd   = '';
-
-            // check if required fields are empty
-            if (FALSE == $this->_check_empty_fields())
-            {
-                $this->_reset_old_fields_data();
-                return TRUE;
-            }            
-
-            // array with new user data
-            $_data = array( 'error'     => 'tpl_error',
-                            'user_data' => array('email'    => commonUtil::stripSlashes($_POST['email']),
-                                                 'login'    => commonUtil::stripSlashes($_POST['login']),
-                                                 'passwd'   => commonUtil::stripSlashes($_POST['passwd']) ));
-            
-            // add new user data
-            if(FALSE !== M( MOD_USER,
-                             'add',
-                             $_data ))
-            {
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
-                exit; 
+            if ( TRUE == M( MOD_NAVIGATION, 
+                            'add_node', 
+                            array('title'  => commonUtil::stripSlashes($_POST['title']),
+                                  'body'   => commonUtil::stripSlashes($_POST['body']),
+                                  'status' => $_POST['status'],
+                                  'error'  => 'tpl_error')) )
+            {  
+                // on success switch to the main navigation page
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation');
+                exit;
             }
             else
             {
+                // if it fails reset form fields
                 $this->_reset_old_fields_data();
-                return TRUE;                
-            }
+                return TRUE;
+            }        
         }
-            
         return TRUE;
     } 
-    
-    /**
-     * check if required fields are empty
-     *
-     * @return bool true on success else false
-     * @access privat
-     */       
-    function _check_empty_fields()
-    {
-        // check if some fields are empty
-        if( empty($_POST['login']) || empty($_POST['passwd']) )
-        {        
-            $this->B->tpl_error = 'You have fill out the email and password fields!';
-            return FALSE;
-        }  
-        return TRUE;
-    }  
     
     /**
      * reset the form fields with old user data
@@ -99,10 +65,8 @@ class view_navigation_addnode extends view
      */       
     function _reset_old_fields_data()
     {
-        // if empty assign form field with old values
-        $this->B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-        $this->B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
-        $this->B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));          
+        $this->B->tpl_title = htmlspecialchars(commonUtil::stripSlashes($_POST['title']));
+        $this->B->tpl_body  = commonUtil::stripSlashes($_POST['body']);
     }       
 }
 

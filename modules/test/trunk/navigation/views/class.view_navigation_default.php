@@ -30,12 +30,20 @@ class view_navigation_default extends view
         
    /**
      * Execute the view of the template "tpl.navigation_default.php"
-     * create the template variables
      *
      * @return bool true
      */
     function perform()
     {
+        // move up or down a node
+        if( isset($_GET['dir']) )
+        {
+            M( MOD_NAVIGATION, 
+               'sort_node', 
+               array('node' => $_GET['node'],
+                     'dir'  => $_GET['dir']));        
+        }
+        
         // assign the template array $B->tpl_nodes with navigation nodes
         M( MOD_NAVIGATION, 
            'get', 

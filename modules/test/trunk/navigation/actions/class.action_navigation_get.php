@@ -31,12 +31,14 @@ class action_navigation_get extends action
         
         // load navigation nodes
         $nav = array();
-        include(SF_BASE_DIR . 'modules/navigation/_nav_data/nav_data.php');
+        include(SF_BASE_DIR . 'data/navigation/nodes.php');
         
         foreach($nav as $node)
         {
-            list($key, $val) = each($node);
-            $_result[] = array('node' => $key, 'title' => $node[$key]['title']);
+            list($nodeID, $val) = each($node);
+            $_result[] = array('node'   => $nodeID, 
+                               'title'  => $node[$nodeID]['title'],
+                               'status' => $node[$nodeID]['status']);
         }
     }  
     

@@ -1,20 +1,20 @@
 <script language="JavaScript" type="text/JavaScript">
-function deleteuser(f, mes)
+function deletenode(f, mes)
 {
       check = confirm(mes);
         if(check == true)
         {
-            f.deluser.value="1";
+            f.delnode.value="1";
         with(f){
         submit();
         }
         }
 }
 </script>
-<form name="edituser" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=user&sec=edituser">
-<input name="user" type="hidden" value="<?php echo $_REQUEST['user']; ?>">
-<input name="modifyuserdata" type="hidden" value="true">
-<input name="deluser" type="hidden" value="0">
+<form name="edituser" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=editnode">
+<input name="node" type="hidden" value="<?php echo $_REQUEST['node']; ?>">
+<input name="modifynodedata" type="hidden" value="true">
+<input name="delnode" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="57%" align="left" valign="top">      <table width="400" border="0" cellspacing="3" cellpadding="3">
@@ -27,10 +27,19 @@ function deleteuser(f, mes)
         <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit Navigation Node</td>
       </tr>      
       <tr>
+        <td align="left" valign="top" class="font10bold">Status</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold"><select name="status" size="1" id="status">
+          <option value="publish" <?php if($B->tpl_status == 'publish') echo 'selected="selected"'; ?>>Publish</option>
+          <option value="drawt" <?php if($B->tpl_status == 'drawt') echo 'selected="selected"'; ?>>Drawt</option>
+        </select></td>
+      </tr>
+      <tr>
         <td align="left" valign="top" class="font10bold">Title</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="title" type="text" id="title" size="40" maxlength="255" value="<?php echo $B->tpl_title; ?>"></td>
+        <td align="left" valign="top"><input name="title" type="text" id="title" size="90" maxlength="1024" value="<?php echo $B->tpl_title; ?>"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Body</td>
@@ -40,15 +49,15 @@ function deleteuser(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top" class="font9"> 
-          <div align="right"><input name="delete" type="button" id="delete" value="Delete this user" onclick="deleteuser(this.form, 'Delete this user?');">
+          <div align="right"><input name="delete" type="button" id="delete" value="Delete this node" onclick="deletenode(this.form, 'Delete this node?');">
           </div></td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="edituser" type="submit" id="edituser" value="Submit"></td>
+        <td align="left" valign="top"><input name="editnode" type="submit" id="editnode" value="Submit"></td>
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=user">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation">back</a></td>
   </tr>
 </table>
 </form>

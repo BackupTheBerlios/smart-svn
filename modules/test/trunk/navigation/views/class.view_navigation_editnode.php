@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_user_edituser class of the template "tpl.user_edituser.php"
+ * view_user_editnode class of the template "tpl.user_editnode.php"
  *
  */
  
@@ -29,26 +29,63 @@ class view_navigation_editnode extends view
     var $template_folder = 'modules/navigation/templates/';
   
     /**
-     * Execute the view of the template "login.tpl.php"
+     * Execute the view of the template "tpl.user_editnode.php"
      * 
-     * edit and update or delete user data
+     * update or delete navigation node data
      *
      * @return bool
      */
     function perform()
-    {                 
-         /* Contact Event call. See: modules/test/actions/class.action_test_contact.php 
-         It assign contact data to the template var $B->tpl_contact which
-         is printed out in the "templates_default/tpl.contact.php" template. */          
-         
-         M( MOD_NAVIGATION, 
-            'get_node', 
-            array('node'             => $_REQUEST['node'],
-                  'title'            => 'tpl_title',
-                  'body'             => 'tpl_body',
-                  'nl2br'            => FALSE,
-                  'htmlspecialchars' => TRUE)); 
+    { 
+        // update navigation node
+        if( $_POST['modifynodedata'] == TRUE ) 
+        {
+            if( $_POST['delnode'] == '1' )
+            {
+                if ( FALSE == M( MOD_NAVIGATION, 
+                                'delete_node', 
+                                 array('node'  => $_REQUEST['node'],
+                                       'error' => 'tpl_error')) )
+                {
+                    // if it fails reset form fields
+                    $this->_reset_old_fields_data();                
+                    return TRUE;
+                }   
+                // on success switch to the main navigation page
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation');
+                exit;
+            }
             
+            if ( TRUE == M( MOD_NAVIGATION, 
+                            'update_node', 
+                            array('node'   => $_REQUEST['node'],
+                                  'title'  => commonUtil::stripSlashes($_POST['title']),
+                                  'body'   => commonUtil::stripSlashes($_POST['body']),
+                                  'status' => $_POST['status'],
+                                  'error'  => 'tpl_error')) )
+            {  
+                // on success switch to the main navigation page
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation');
+                exit;
+            }
+            else
+            {
+                // if it fails reset form fields
+                $this->_reset_old_fields_data();
+                return TRUE;
+            }
+        }
+
+        // get navigation node         
+        M( MOD_NAVIGATION, 
+           'get_node', 
+           array('node'             => $_REQUEST['node'],
+                 'title'            => 'tpl_title',
+                 'body'             => 'tpl_body',
+                 'status'           => 'tpl_status',
+                 'nl2br'            => FALSE,
+                 'htmlspecialchars' => TRUE)); 
+
         return  TRUE;
     }    
 
@@ -59,9 +96,8 @@ class view_navigation_editnode extends view
      */       
     function _reset_old_fields_data()
     {
-        $this->B->tpl_data['email']    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-        $this->B->tpl_data['login']    = htmlspecialchars(commonUtil::stripSlashes($_POST['user']));
-        $this->B->tpl_data['passwd']   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
+        $this->B->tpl_title = htmlspecialchars(commonUtil::stripSlashes($_POST['title']));
+        $this->B->tpl_body  = commonUtil::stripSlashes($_POST['body']);
     }     
 }
 

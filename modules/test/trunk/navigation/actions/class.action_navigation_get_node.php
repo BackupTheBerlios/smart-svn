@@ -36,7 +36,7 @@ class action_navigation_get_node extends action
         
         // load navigation nodes
         $nav = array();
-        include(SF_BASE_DIR . 'modules/navigation/_nav_data/nav_data.php');
+        include(SF_BASE_DIR . 'data/navigation/nodes.php');
         
         // Look at the node id and assign the title of the requested node
         foreach($nav as $node)
@@ -44,7 +44,8 @@ class action_navigation_get_node extends action
             list($id, $val) = each($node);
             if($data['node'] == $id)
             {
-                $this->B->$data['title'] = $node[$id]['title'];
+                $this->B->$data['title']  = $node[$id]['title'];
+                $this->B->$data['status'] = $node[$id]['status'];
                 break;
             }
         } 
