@@ -67,7 +67,13 @@ function user_event_handler( $evt )
             {
                 // set the new version num of this module
                 $B->sys['module']['user']['version']  = MOD_USER_VERSION;
-                $B->system_update_flag = TRUE;            
+                $B->system_update_flag = TRUE;    
+                //check if captcha pics folder is writeable
+                if(!is_writeable( SF_BASE_DIR . '/admin/modules/user/captcha/pics' ))
+                {
+                    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/modules/user/captcha/pics';
+                    $success = FALSE;
+                }                 
             }
             break;               
         case EVT_LOGOUT:  

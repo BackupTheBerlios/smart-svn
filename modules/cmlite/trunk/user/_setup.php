@@ -45,19 +45,11 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
 if( $success == TRUE )
 {
     //create captcha_pics dir if it dosent exist
-    if(!is_dir(SF_BASE_DIR . '/admin/tmp/captcha_pics'))
+    if(!is_writeable( SF_BASE_DIR . '/admin/modules/user/captcha/pics' ))
     {
-        if(!mkdir(SF_BASE_DIR . '/admin/tmp/captcha_pics', SF_DIR_MODE))
-        {
-            $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/admin/tmp/captcha_pics';
-            $success = FALSE;
-        }
-        elseif(!is_writeable( SF_BASE_DIR . '/admin/tmp/captcha_pics' ))
-        {
-            $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/captcha_pics';
-            $success = FALSE;
-        }  
-    }
+        $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/modules/user/captcha/pics';
+        $success = FALSE;
+    }  
     
     if($success == TRUE)
     {
