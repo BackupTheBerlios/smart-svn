@@ -22,14 +22,14 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Init form field values
-$B->form_error = FALSE;
-$B->form_forename = '';
-$B->form_lastname = '';
-$B->form_email    = '';
-$B->form_login    = '';
-$B->form_passwd   = '';
-$B->form_rights   = '';
-$B->form_status   = '';
+$this->B->form_error = FALSE;
+$this->B->form_forename = '';
+$this->B->form_lastname = '';
+$this->B->form_email    = '';
+$this->B->form_login    = '';
+$this->B->form_passwd   = '';
+$this->B->form_rights   = '';
+$this->B->form_status   = '';
 
 // Check if some form fields are empty
 if(
@@ -40,28 +40,28 @@ if(
     empty($_POST['passwd']))
 {
     // if empty assign form field with old values
-    $B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
-    $B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
-    $B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-    $B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
-    $B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
-    $B->form_rights   = $_POST['rights'];
-    $B->form_status   = $_POST['status'];
+    $this->B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
+    $this->B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
+    $this->B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
+    $this->B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
+    $this->B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
+    $this->B->form_rights   = $_POST['rights'];
+    $this->B->form_status   = $_POST['status'];
     
-    $B->form_error = 'You have fill out all fields!';
+    $this->B->form_error = 'You have fill out all fields!';
 }
 else
 {
     // add new user
-    $B->tmp_data = array('forename' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
-                         'lastname' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
-                         'email'    => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
-                         'login'    => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['login'])),
-                         'passwd'   => $B->db->quoteSmart(md5($_POST['passwd'])),
+    $this->B->tmp_data = array('forename' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
+                         'lastname' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
+                         'email'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
+                         'login'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['login'])),
+                         'passwd'   => $this->B->db->quoteSmart(md5($_POST['passwd'])),
                          'rights'   => (int)$_POST['rights'],
                          'status'   => (int)$_POST['status']);
                   
-    if(FALSE !== $B->user->add_user($B->tmp_data))
+    if(FALSE !== $this->B->user->add_user($this->B->tmp_data))
     {
         @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=USER');
         exit;
@@ -69,15 +69,15 @@ else
     else
     {
         // on error during add user
-        $B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
-        $B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
-        $B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-        $B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
-        $B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
-        $B->form_rights   = $_POST['rights'];
-        $B->form_status   = $_POST['status'];   
+        $this->B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
+        $this->B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
+        $this->B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
+        $this->B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
+        $this->B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
+        $this->B->form_rights   = $_POST['rights'];
+        $this->B->form_status   = $_POST['status'];   
     
-        $B->form_error = 'This login exist. Chose an other one!';
+        $this->B->form_error = 'This login exist. Chose an other one!';
     }
 }
 

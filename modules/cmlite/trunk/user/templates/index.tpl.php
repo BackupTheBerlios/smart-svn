@@ -1,9 +1,9 @@
 <style type="text/css">
 <!--
 .style1 {
-	font-size: 12px;
-	font-weight: bold;
-	color: #FFFFFF;
+  font-size: 12px;
+  font-weight: bold;
+  color: #FFFFFF;
 }
 .style2 {font-size: 14px}
 -->

@@ -37,7 +37,7 @@ class EARCHIVE_SEARCH
      */
     function __construct()
     {
-        $this->B = & $this->B;
+        $this->B = & $GLOBALS['B'];
     }
     
     /**

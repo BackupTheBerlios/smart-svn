@@ -1,12 +1,12 @@
 <form name="form1" method="post" action="index.php?m=USER&mf=add_usr">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
-    <td width="57%" align="left" valign="top">		<table width="400" border="0" cellspacing="3" cellpadding="3">
+    <td width="57%" align="left" valign="top">    <table width="400" border="0" cellspacing="3" cellpadding="3">
       <?php if($B->form_error != FALSE): ?>
-			<tr>
+      <tr>
         <td align="left" valign="top" class="itemerror"><?php echo $B->form_error; ?></td>
       </tr>
-			<?php endif; ?>
+      <?php endif; ?>
       <tr>
         <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Add User </td>
       </tr>
@@ -49,16 +49,16 @@
       </tr>
       <tr>
         <td align="left" valign="top" class="font9">
-				<input name="status" type="radio" value="1" checked> 
-				Inactif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<input name="status" type="radio" value="2"> Actif				</td>
+        <input name="status" type="radio" value="1" checked> 
+        Inactif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input name="status" type="radio" value="2"> Actif        </td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Rights</td>
       </tr>
       <tr>
         <td align="left" valign="top">
-				<select name="rights">
+        <select name="rights">
           <option value="1" selected>Registered</option>
           <option value="2">Contributor</option>
           <option value="3">Author</option>

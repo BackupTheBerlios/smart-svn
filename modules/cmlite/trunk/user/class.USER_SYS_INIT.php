@@ -10,15 +10,15 @@
 // ----------------------------------------------------------------------
 
 /**
- * COMMON_SYS_UPDATE class 
+ * USER_SYS_INIT class 
  *
  */
  
-class COMMON_SYS_UPDATE
+class USER_SYS_INIT
 {
     /**
      * Global system instance
-     * @var object $this->B
+     * @var object $B
      */
     var $B;
     
@@ -26,7 +26,7 @@ class COMMON_SYS_UPDATE
      * constructor
      *
      */
-    function COMMON_SYS_UPDATE()
+    function USER_SYS_INIT()
     {
         $this->__construct();
     }
@@ -42,22 +42,24 @@ class COMMON_SYS_UPDATE
     
     /**
      * Check if version number has changed and perfom additional upgarde code
-     * Furthermore assign array with module menu names for the top right
-     * module html seletor
      *
      * @param array $data
      */
     function perform( $data )
     {
-        // include PEAR Config class
-        include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
-
-        $c = new Config();
-        $root = & $c->parseConfig($this->B->sys, 'PHPArray');
-        $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
-        
-        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
-        exit;  
+        // Check for upgrade  
+        if(MOD_USER_VERSION != (string)$this->B->sys['module']['user']['version'])
+        {        
+            // set the new version num of this module
+            $this->B->sys['module']['user']['version']  = MOD_USER_VERSION;
+            $this->B->system_update_flag = TRUE;    
+            //check if captcha pics folder is writeable
+            if(!is_writeable( SF_BASE_DIR . '/admin/modules/user/captcha/pics' ))
+            {
+                trigger_error('Must be writeable: ' . SF_BASE_DIR . '/admin/modules/user/captcha/pics', E_USER_ERROR);
+                return FALSE;
+            }                 
+        }
     }    
 }
 

@@ -62,7 +62,7 @@ if(count($lists) > 0)
             for ($mid = 1; $mid <= $msgcount; $mid++)
             {
                 // Get the default part id
-                $pid = $msg->getDefaultPid($mid);
+                $pid = $msg->msg[$mid]['pid'];
     
                 // Parse header information
                 $msg->getHeaders($mid, $pid);

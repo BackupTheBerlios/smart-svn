@@ -37,7 +37,7 @@ class EARCHIVE_LIST_MESSAGES
      */
     function __construct()
     {
-        $this->B = & $this->B;
+        $this->B = & $GLOBALS['B'];
     }
     
     /**

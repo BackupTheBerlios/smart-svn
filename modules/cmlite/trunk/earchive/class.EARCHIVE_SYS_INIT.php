@@ -48,7 +48,7 @@ class EARCHIVE_SYS_INIT
      * @param array $data
      */
     function perform( $data )
-    {
+    {    
         // check for install or upgrade
         if (MOD_EARCHIVE_VERSION != (string)$this->B->sys['module']['earchive']['version'])
         {

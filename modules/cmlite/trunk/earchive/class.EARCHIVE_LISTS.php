@@ -37,7 +37,7 @@ class EARCHIVE_LISTS
      */
     function __construct()
     {
-        $this->B = & $this->B;
+        $this->B = & $GLOBALS['B'];
     }
     
     /**

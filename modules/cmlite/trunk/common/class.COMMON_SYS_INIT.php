@@ -48,7 +48,7 @@ class COMMON_SYS_INIT
      * @param array $data
      */
     function perform( $data )
-    {
+    {   
         // Check for upgrade  
         if(MOD_COMMON_VERSION != (string)$this->B->sys['module']['common']['version'])
         {
