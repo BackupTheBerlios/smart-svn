@@ -163,7 +163,7 @@ class action_system_get_view extends action
      * @param array $data
      * @return bool
      */
-    function perform( $data )
+    function perform( & $data )
     {
         // include the requested view class
         include_once( $this->_view_class_file );
