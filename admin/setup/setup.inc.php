@@ -32,6 +32,12 @@ if( SF_OB == TRUE )
     ob_start( SF_OB_GZHANDLER ); 
 }
 
+// Check if setup was done
+if(@is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php'))
+{
+    @header('Location: ../index.php');         
+}
+
 // The base object
 include_once( SF_BASE_DIR . "/admin/include/class.sfObject.php" );
 $base = & new sfObject;
