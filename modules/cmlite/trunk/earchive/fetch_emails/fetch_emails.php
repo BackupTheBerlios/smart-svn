@@ -180,7 +180,7 @@ if(count($lists) > 0)
                        $pid = $msg->attachPid[$mid][$i];
                        $att_data = array();
                        
-                       $att_data['file'] = $B->db->quoteSmart($msg->attachFname[$mid][$i]);
+                       $att_data['file'] = $B->db->quoteSmart($B->util->decodeEmailHeader($msg->attachFname[$mid][$i]));
                        $att_data['type'] = $B->db->quoteSmart($msg->attachFtype[$mid][$i]);
                        $att_data['size'] = $msg->attachFsize[$mid][$i];
                        
