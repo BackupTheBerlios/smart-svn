@@ -49,13 +49,6 @@ class earchive_view_addlist
     {
         if(isset($_POST['addlist']))
         {
-            // check if the user of this request have rights
-            if(FALSE == $this->B->earchive_rights->ask_access_to_list())
-            {
-                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
-                exit;
-            }
-
             // Init form field values
             $this->B->form_error       = FALSE;
             $this->B->form_name        = '';

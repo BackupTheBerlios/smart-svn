@@ -80,10 +80,10 @@ class earchive_sys_setup
         if($success == TRUE)
         {
             // create db tables
-            if(file_exists(SF_BASE_DIR . 'modules/earchive/includes/_setup_'.$_POST['dbtype'].'.php'))
+            if(file_exists(SF_BASE_DIR . 'modules/earchive/actions/sys_setup/_setup_'.$_POST['dbtype'].'.php'))
             {
                 // include sqlite setup
-                include_once( SF_BASE_DIR . 'modules/earchive/includes/_setup_'.$_POST['dbtype'].'.php' );    
+                include_once( SF_BASE_DIR . 'modules/earchive/actions/sys_setup/_setup_'.$_POST['dbtype'].'.php' );    
             }
             else
             {

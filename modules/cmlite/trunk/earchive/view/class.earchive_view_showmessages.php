@@ -46,14 +46,7 @@ class earchive_view_showmessages
      * @return bool true on success else false
      */
     function perform()
-    {
-        // check user rights to access the list
-        if(FALSE == $this->B->earchive_rights->ask_access_to_list())
-        {
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=earchive');
-            exit;
-        }
-        
+    {      
         // Delete messages on demande
         if(isset($_POST['deletemess']))
         {

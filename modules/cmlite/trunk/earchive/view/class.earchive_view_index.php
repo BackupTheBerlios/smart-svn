@@ -14,9 +14,6 @@
  *
  */
 
-// earchive rights class
-include_once(SF_BASE_DIR.'modules/earchive/includes/class.rights.php'); 
-
 class earchive_view_index
 {
     /**
@@ -50,22 +47,17 @@ class earchive_view_index
      */
     function perform()
     {
+        // check permission to access this module
+        if( FALSE == $this->B->M( MOD_EARCHIVE, 'filter_permission', array('action' => 'access')))
+        {
+            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
+            exit;      
+        }
+    
+        // set default sub section
         if(!isset($_REQUEST['sec']) || empty($_REQUEST['sec'])) 
         {
             $_REQUEST['sec'] = 'default';
-        }
-
-        if(!is_object($this->B->earchive_rights))
-        {        
-            $this->B->earchive_rights = & new earchive_rights;
-        }
-        // the user class
-        include_once SF_BASE_DIR . 'modules/earchive/includes/class.earchive.php';
-
-        if(!is_object($this->B->earchive))
-        {
-            //User Class instance
-            $this->B->earchive = & new earchive;        
         }
         
         return TRUE;

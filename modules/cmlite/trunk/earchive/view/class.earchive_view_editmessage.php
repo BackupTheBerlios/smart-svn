@@ -47,13 +47,6 @@ class earchive_view_editmessage
      */
     function perform()
     {
-        // check user rights to access the list
-        if(FALSE == $this->B->earchive_rights->ask_access_to_list())
-        {
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
-            exit;
-        }
-
         // init 
         $this->B->form_error = FALSE;
 

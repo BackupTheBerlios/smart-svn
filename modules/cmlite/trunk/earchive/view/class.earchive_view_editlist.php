@@ -47,14 +47,6 @@ class earchive_view_editlist
      */
     function perform()
     {
-        
-        // check user rights to access the list
-        if(FALSE == $this->B->earchive_rights->ask_access_to_list())
-        {
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
-            exit;
-        }
-        
         // init 
         $this->B->form_error = FALSE;
 
@@ -64,7 +56,7 @@ class earchive_view_editlist
             // check if the user of this request try to delete a list
             // with rights other than administrator 5.
             //
-            if(TRUE == $this->B->earchive_rights->ask_access_to_delete_list())
+            if( TRUE == $this->B->M( MOD_EARCHIVE, 'filter_permission', array('action' => 'delete')))
             {
                 $this->B->M( MOD_EARCHIVE, 
                              'delete_list', 
