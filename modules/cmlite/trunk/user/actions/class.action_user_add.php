@@ -24,25 +24,24 @@ class action_user_add extends action
      */
     function perform( & $data )
     { 
-        // quote user data
-        $login    = $this->B->db->quoteSmart($data['user_data']['login']);
-        $passwd   = $this->B->db->quoteSmart(md5($data['user_data']['passwd']));
-        $email    = $this->B->db->quoteSmart($data['user_data']['email']);
-        $forename = $this->B->db->quoteSmart($data['user_data']['forename']);
-        $lastname = $this->B->db->quoteSmart($data['user_data']['lastname']);
+        $set = '';
+        $comma = '';
+        $fields = '';
+        $values = '';
+        
+        foreach($data['user_data'] as $key => $val)
+        {
+            $fields .= $comma.$key;
+            $values .= $comma.$this->B->db->quoteSmart( $val );
+            $comma = ',';
+        }
         
         $sql = '
             INSERT INTO 
                 '.$this->B->sys['db']['table_prefix'].'user_users
-                (forename,lastname,email,login,passwd,status,rights)
+                ('.$fields.')
             VALUES
-                ('.$forename.',
-                 '.$lastname.',
-                 '.$email.',
-                 '.$login.',
-                 '.$passwd.',
-                 '.(int)$data['user_data']['status'].',
-                 '.(int)$data['user_data']['rights'].')';
+                ('.$values.')';
          
         $res = $this->B->db->query($sql);
 
@@ -72,6 +71,12 @@ class action_user_add extends action
         M( MOD_USER,
            'permission',
            array( 'action' => 'add'));
+
+        // check if all requested fields exists
+        if (FALSE == $this->_accepted_fields ( $data ) )
+        {
+            return FALSE;
+        }
         
         // Check user data field values
         //
@@ -213,6 +218,34 @@ class action_user_add extends action
         $result = $this->B->db->query($sql);
         
         return $result->numRows();    
+    } 
+    
+    /**
+     * check if all requested fields exists 
+     *
+     * @param array $data User data
+     * @return bool 
+     */     
+    function _accepted_fields ( & $data )
+    {
+        $accepted_fields = array( 'login'    => TRUE,
+                                  'passwd'   => TRUE,
+                                  'forename' => TRUE,
+                                  'lastname' => TRUE,
+                                  'email'    => TRUE,
+                                  'status'   => TRUE,
+                                  'rights'   => TRUE);
+
+        foreach( $data['user_data'] as $key => $val )
+        {
+            if(!isset($accepted_fields[$key]))
+            {
+                $this->B->$data['error'] = 'This field dosent exists: ' . $key;
+                return FALSE;                
+            }
+        }  
+        
+        return TRUE;
     }    
 }
 
