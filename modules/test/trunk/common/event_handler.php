@@ -12,7 +12,7 @@
 /**
  * Admin COMMON module event handler
  * This module does some init proccess and include 
- * external libraries needed by other modules
+ * external static libraries needed by other modules
  *
  */
 
@@ -105,7 +105,7 @@ define('SF_OPTION_MODULE',    'option'); // required
 define('SF_DEFAULT_MODULE',   'default'); // required
 
 /**
- * The main admin template. All subtemplates from other modules are included here // required
+ * The main admin template. All module views are included in this template // required
  */
 define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . 'modules/common/templates/index.tpl.php');
 
@@ -114,7 +114,7 @@ define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . 'modules/common/templates/index.tpl
  */
 define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
 
-// common util class for all modules
+// static common util class for all modules
 include_once SF_BASE_DIR . 'modules/common/includes/class.commonUtil.php';
 
 ?>
