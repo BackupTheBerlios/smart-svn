@@ -72,6 +72,9 @@
                             <a href="index.php">Home</a>
                         <?php endif; ?>
                         </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="leftnavlinks"><a href="admin/index.php">Admin</a></td>
                     </tr>                  
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks pager">&nbsp;</td>
@@ -80,7 +83,7 @@
                     <table width="100%"  border="0" cellspacing="6" cellpadding="0">
                         <tr>
                             <td width="1%" colspan="2" align="left" valign="top"><span class="style3">E-archives</span></td>
-                            </tr>
+                      </tr>
                                <?php //show available lists links ?>
                                <?php if (count($B->list) > 0): ?>
                                  <?php foreach($B->list as $list): ?>                            
@@ -96,7 +99,7 @@
                                 </tr>                       
                               <?php endif; ?>     
                     </table>
-                 </td>
+              </td>
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
                         <td align="left" valign="top"><p class="pager">E-archive ist ein Verwaltungssystem mit dem man den Inhalt von Email Konten archivieren kann, inklusiv Attachments. Die Basis die das Ganze tr&auml;gt besteht aus einem Framework (<a href="http://smart.open-publisher.net">SMART</a>). E-archive ist nichts weiter als ein Modul dieses Frameworks. Zur Zeit befindet sich das Framework wie auch das E-archive Modul noch in einer Testphase die nicht abgeschlossen ist.</p>

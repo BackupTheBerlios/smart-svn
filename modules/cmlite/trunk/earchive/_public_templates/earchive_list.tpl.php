@@ -75,6 +75,9 @@
                            <a href="index.php">Home</a>
                         <?php endif; ?>
                         </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="leftnavlinks"><a href="admin/index.php">Admin</a></td>
                     </tr>                   
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks">&nbsp;</td>

@@ -79,6 +79,9 @@
                             <a href="index.php">Home</a>
                         <?php endif; ?>
                         </td>
+                    </tr>
+                    <tr>
+                      <td align="left" valign="top" class="leftnavlinks"><a href="admin/index.php">Admin</a></td>
                     </tr>                    
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks">&nbsp;</td>
@@ -87,7 +90,7 @@
                     <table width="100%"  border="0" cellspacing="6" cellpadding="0">
                         <tr>
                             <td width="1%" colspan="2" align="left" valign="top"><span class="style3">E-archives</span></td>
-                            </tr>
+                      </tr>
                           <?php //show available list links  ?>
                         <?php if (count($B->tpl_list) > 0): ?>
                             <?php foreach($B->tpl_list as $list): ?>                            
