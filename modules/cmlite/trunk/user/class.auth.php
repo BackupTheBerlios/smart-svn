@@ -51,7 +51,10 @@ class auth
         $GLOBALS['B']->uid = (int) $_SESSION['id_user'];
         
         $sql = "SELECT
-                    uid
+                    uid,
+                    forename,
+                    lastname,
+                    login
                 FROM
                     {$GLOBALS['B']->sys['db']['table_prefix']}user_users
                 WHERE
@@ -66,6 +69,12 @@ class auth
             $this->user_rights = (int) $_SESSION['user_rights'];
             $this->id_user     = (int) $_SESSION['id_user'];
             $this->is_user     = TRUE;
+            
+            $row = &$result->fetchRow( DB_FETCHMODE_ASSOC );
+            
+            $GLOBALS['B']->user_forename = stripslashes($row['forename']);
+            $GLOBALS['B']->user_lastname = stripslashes($row['lastname']);
+            $GLOBALS['B']->user_login    = stripslashes($row['login']);  
         }
         else
         {
@@ -102,8 +111,8 @@ class auth
         if($result->numRows() == 1)
         {
             $row = $result->fetchRow( DB_FETCHMODE_ASSOC );
-            $GLOBALS['B']->session->set('id_user', $row['uid']);
-            $GLOBALS['B']->session->set('user_rights', $row['rights']);
+            $GLOBALS['B']->session->set('id_user',       $row['uid']);
+            $GLOBALS['B']->session->set('user_rights',   $row['rights']);
             return $row['rights'];
         }
         else
