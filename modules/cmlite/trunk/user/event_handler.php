@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Admin USER module event handler
+ * USER module event handler
  *
  */
 
