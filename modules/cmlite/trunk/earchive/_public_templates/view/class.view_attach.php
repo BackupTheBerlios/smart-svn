@@ -16,31 +16,13 @@
 
 include_once ('HTTP/Download.php');
  
-class view_attach
+class view_attach extends view
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function view_attach()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
+     /**
+     * Template render flag
+     * @var bool $render_template
+     */    
+    var $render_template = SF_TEMPLATE_RENDER_NONE; 
     
     /**
      * Execute the view of the template "group_attach.tpl.php"
@@ -83,8 +65,24 @@ class view_attach
                      'contentdisposition'    => array(HTTP_DOWNLOAD_ATTACHMENT, stripslashes($this->B->tpl_attach['file'])),
                      );
 
-        return TRUE;
-    }    
+        return $this;
+    } 
+    
+    /**
+     * disbale prepend filter chain by overloading the parent view methode
+     *
+     */
+    function prependFilterChain()
+    {  
+    }   
+    
+    /**
+     * disbale append filter chain by overloading the parent view methode
+     *
+     */
+    function appendFilterChain()
+    { 
+    }     
 }
 
 ?>

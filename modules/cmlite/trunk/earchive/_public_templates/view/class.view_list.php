@@ -14,36 +14,18 @@
  *
  */
  
-class view_list
+class view_list extends view
 {
-    /**
-     * Global system instance
-     * @var object $B
+     /**
+     * Default template for this view
+     * @var string $template
      */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function view_list()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
+    var $template = 'list';
     
     /**
      * Execute the view of the template "group_list.tpl.php"
      *
-     * @return bool true on success else false
+     * @return mixed (object) this object on success else (bool) false on error
      * @todo validate $_GET['lid']
      */
     function perform()
@@ -52,14 +34,8 @@ class view_list
         $this->B->M( MOD_EARCHIVE, 
                      'have_access', 
                      array( 'lid' => (int)$_GET['lid'])); 
-        
-        /* get all available email lists and store the result in the array $B->tpl_list */
-        $this->B->M( MOD_EARCHIVE, 
-                     'get_lists', 
-                     array( 'var'    => 'tpl_list', 
-                            'fields' => array('lid','name','email','description','status'))); 
 
-        // Prepare variables for the html view
+        // Prepare variables for the html view -> flat/tree
         $this->B->tpl_select_tree = '';
         $this->B->tpl_select_flat = '';
         if($_REQUEST['mode'] == 'tree')
@@ -85,8 +61,9 @@ class view_list
                             'pager'  => array( 'var'   => 'tpl_prevnext', 
                                                'limit' => 15, 
                                                'delta' => 3)));
-
-        return TRUE;
+ 
+        
+        return $this;
     }    
 }
 

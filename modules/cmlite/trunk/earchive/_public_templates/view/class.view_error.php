@@ -10,26 +10,27 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_index class of the template "group_index.tpl.php"
+ * default error view
  *
  */
  
-class view_index extends view
+class view_error extends view
 {
      /**
-     * Default template for this view
+     * Default template
      * @var string $template
      */
-    var $template = 'index';
-    
+    var $template = 'error';
+
     /**
-     * Execute the view of the template "group_index.tpl.php"
+     * Perform on the error view
      *
-     * @return mixed (object) this object on success else (bool) false on error
+     * @return object this object
      */
-    function & perform()
+    function perform( & $data )
     {
-        // nothing to do. just return this object
+        // assign template error var
+        $this->B->view_error = $this->getError( $data );
         
         return $this;
     }    

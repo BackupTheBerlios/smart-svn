@@ -14,42 +14,25 @@
  *
  */
  
-class view_validate
+class view_validate extends view
 {
-    /**
-     * Global system instance
-     * @var object $B
+     /**
+     * Default template for this view
+     * @var string $template
      */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function view_validate()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
+    var $template = 'validate';
     
     /**
      * Execute the view of the template "group_validate.tpl.php"
      *
-     * @return bool true on success else false
+     * @return mixed (object) this object on success else (bool) false on error
      */
     function perform()
     {
         $this->B->tpl_is_valid = $this->B->M( MOD_USER, 
                                               'validate',
                                               array('md5_str' => $_GET['usr_id']));
+                                              
         if(TRUE === $this->B->tpl_is_valid)
         {
             $this->B->tpl_validation_message = 'Your account is now active.';
@@ -59,7 +42,7 @@ class view_validate
             $this->B->tpl_validation_message = 'Account activation fails!!!';
         }
         
-        return TRUE;
+        return $this;
     }    
     
 }

@@ -14,36 +14,18 @@
  *
  */
  
-class view_register
+class view_register extends view
 {
-    /**
-     * Global system instance
-     * @var object $B
+     /**
+     * Default template for this view
+     * @var string $template
      */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function view_register()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
+    var $template = 'register';
     
     /**
      * Execute the view of the template "group_register.tpl.php"
      *
-     * @return bool true on success else false
+     * @return mixed (object) this object on success else (bool) false on error
      */
     function perform()
     {
@@ -96,7 +78,7 @@ class view_register
             }
             $this->B->tpl_success = 'ok';
         }
-        return TRUE;
+        return $this;
     }    
     
     function _reset_form_data()

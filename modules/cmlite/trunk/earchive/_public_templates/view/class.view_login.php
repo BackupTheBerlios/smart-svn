@@ -14,36 +14,18 @@
  *
  */
  
-class view_login
-{
-    /**
-     * Global system instance
-     * @var object $B
+class view_login extends view
+{  
+     /**
+     * Default template
+     * @var string $template
      */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function view_login()
-    {
-        $this->__construct();
-    }
+    var $template = 'login';
 
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Execute the view of the template "group_login.tpl.php"
      *
-     * @return bool true on success else false
+     * @return mixed (object) this object on success else (bool) false on error
      */
     function perform()
     {
@@ -78,7 +60,8 @@ class view_login
                 return TRUE;            
             }
         }
-        return TRUE;
+        
+        return $this;
     }    
     
     function _reset_form_data()
