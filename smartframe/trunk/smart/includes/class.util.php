@@ -23,18 +23,7 @@ class Util
      */
     function base_location()
     {
-        if(SF_SECTION == 'admin')
-        {
-            $base_dirname = dirname(dirname($_SERVER['PHP_SELF']));
-        }
-        elseif(SF_SECTION == 'public')
-        {
-            $base_dirname = dirname($_SERVER['PHP_SELF']);
-        }
-        else
-        {
-            $base_dirname = '';
-        }
+        $base_dirname = dirname($_SERVER['PHP_SELF']);
         
         if($base_dirname == '/' )
             $base_dirname = '';
