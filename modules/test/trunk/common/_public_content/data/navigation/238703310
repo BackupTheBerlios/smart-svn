@@ -14,7 +14,7 @@ Let's look at Smart's processing of requests in more detail:
 * Execute the append methode of this view class. Here you can include filters which performs on the rendered template.
 * Output the result
 
-An other variable,which the contropller can handle is the **admin** variable. If this variable is defined, the controller knows that he have to load the views of the administration interface from a defined module.
+An other variable,which the contropller can handle is the **admin** variable. If this variable is defined, the controller knows that it has to load the views of the administration interface from a defined module.
 **index.php?admin=1&m=test**
 Here the controller loads the view from the module "test".
 

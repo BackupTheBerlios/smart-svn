@@ -1,15 +1,19 @@
-Download of "little Jo" [http://smart.open-publisher.net/littlejo-0.2.zip littlejo-0.2.zip]
+++++ [http://smart.open-publisher.net/smartframe-0.5a.zip Smart without any module]
+You should use this package if you want to build an application from scratch. You have to know how SMART works in details!
 
-+++ Install
++++ [http://smart.open-publisher.net/littlejo-0.2.zip SMART test unit "little Jo 0.2"  ]
+Use this to test the framework and to learn how it works. It contains some very simple modules, like "user" and "navigation" to manage a small web site. This site is build up on "little Jo".
+
++++ Install of "little Jo"
 Extract the archive to a web directory of your choice. 
 Make shure that the following directories and files are writeable by php scripts:
 
 * /data/captcha
+* /data/common/config
+* /data/common/cache
 * /data/navigation
 * /data/navigation/all files except .htaccess
 * /logs
-* /modules/common/config
-* /modules/common/tmp/cache
 
 Point your browser to "little Jo's web directory. You should see a setup screen. After the setup was successfull done you can login under:
 **user: admin 
@@ -17,5 +21,5 @@ password: admin**
 
 Thats it.
 
-+++ One word on the navigation module. 
-To format the navigation body text you have to use Paul M. Jones (thanks for this job!) [http://wiki.ciaweb.net/yawiki/index.php?area=Text_Wiki&page=WikiRules text_wikki markup rules].
++++ How to upgrade?
+Please use the [http://forum.open-publisher.net/ project forum] for upgrade questions. Little Jo has not yet upgrade features. You have to do this manually.
