@@ -85,8 +85,8 @@ class user_check_login
                 }
                 $query = $amp.base64_decode($data['forward_urlvar']);
             }
-
-            @header('Location: '.SF_BASE_LOCATION.'/index.php'.$admin.$query);
+            
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.$admin.$query);
             exit;
         }
         else

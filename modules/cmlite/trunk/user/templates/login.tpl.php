@@ -52,7 +52,7 @@
 -->
 </style>
 <br />
-<form name="form1" method="post" action="index.php?admin=1">
+<form name="form1" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1">
   <table width="32%" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
     <tr align="center" valign="middle">
       <td colspan="2" class="logintitle">Admin Login</td>
@@ -68,11 +68,11 @@
             Login<br>
             <input type="text" name="login_name" maxlength="1000" size="25" value="<?php echo $B->tpl_form['login_name']; ?>"></td>
       <td width="74%" valign="top" align="center">
-	  <?php if ($B->tpl_error !== FALSE):  ?>  
+    <?php if ($B->tpl_error !== FALSE):  ?>  
         <span class="loginerror">
              <?php echo $B->tpl_error; ?>
         </span>        
-	  <?php endif; ?>	
+    <?php endif; ?> 
     </td>
   </tr>
   <tr> 

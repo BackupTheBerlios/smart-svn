@@ -8,8 +8,8 @@
 <meta name="Description" content="<?php echo str_replace("\"","'",$B->sys['option']['site_desc']); ?>" />
 <meta name="Keywords" content="<?php echo str_replace("\"","'",$B->sys['option']['site_desc']); ?>" />
 <title><?php echo htmlspecialchars($B->sys['option']['site_title']); ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="media/earchive.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
+<link href="<?php echo SF_RELATIVE_PATH; ?>media/earchive.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {color: #0000FF}
@@ -22,7 +22,7 @@
     <td width="760" bgcolor="#0066FF">
       <table width="100%"  border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td width="3%"><img src="media/logo.gif" alt="E-archive - Email archiving software" width="760" height="64" /></td>
+          <td width="3%"><img src="<?php echo SF_RELATIVE_PATH; ?>media/logo.gif" alt="E-archive - Email archiving software" width="760" height="64" /></td>
         </tr>
       </table>
     </td>
@@ -31,7 +31,7 @@
   <tr>
     <td align="left" valign="middle" bgcolor="#333333"><table width="760"  border="0" cellspacing="0" cellpadding="0">
         <tr>
-          <td width="21%"><img src="media/empty.gif" alt="" name="empty" width="8" height="25" id="empty" /></td>
+          <td width="21%"><img src="<?php echo SF_RELATIVE_PATH; ?>media/empty.gif" alt="" name="empty" width="8" height="25" id="empty" /></td>
           <td width="79%" align="right" valign="middle"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td width="14%" align="left" valign="middle" class="topbar">
@@ -43,14 +43,14 @@
                 <td width="26%" align="left" valign="middle">
                   <?php //show register link if allowed  ?>
                   <?php if( ($B->is_logged == FALSE) && ($B->sys['option']['user']['allow_register'] == TRUE) ): ?>
-                  <a href="index.php?view=register" class="topbarlink">register</a>
+                    <a href="<?php echo SF_CONTROLLER; ?>?view=register" class="topbarlink">register</a>
                   <?php endif; ?>
                   <?php if( $B->is_logged == TRUE ): ?>
-&nbsp;&nbsp;<a href="index.php?logout=1" class="topbarlink">logout</a>
+                    &nbsp;&nbsp;<a href="<?php echo SF_CONTROLLER; ?>?logout=1" class="topbarlink">logout</a>
                   <?php endif; ?>
                 </td>
                 <td width="10%" align="left" valign="top">&nbsp;</td>
-                <form name="esearch" id="esearch" method="post" action="index.php?view=search">
+                <form name="esearch" id="esearch" method="post" action="<?php echo SF_CONTROLLER; ?>?view=search">
                   <td width="50%" align="right" valign="middle">
                     <input name="search" type="text" value="<?php if($_POST['search']) echo htmlspecialchars(stripslashes($_POST['search'])); else echo "search"; ?>" size="25" maxlength="128" class="searchform" />
                   </td>
@@ -67,48 +67,14 @@
     <td align="left" valign="top"><table width="760"  border="0" cellspacing="2" cellpadding="2">
         <tr>
           <td width="19%" align="center" valign="top" class="vline">
-            <table width="100%"  border="0" cellspacing="4" cellpadding="2">
-              <tr>
-                <td align="left" valign="top" class="leftnavlinks">
-                  <?php if(!isset($_GET['view'])): ?>
-                  <strong>Home</strong>
-                  <?php else: ?>
-                  <a href="index.php?mode=<?php echo $_REQUEST['mode']; ?>">Home</a>
-                  <?php endif; ?>
-                </td>
-              </tr>
-              <tr>
-                <td align="left" valign="top" class="leftnavlinks"><a href="index.php?admin=1">Admin</a></td>
-              </tr>
-              <tr>
-                <td align="left" valign="top" class="leftnavlinks pager">&nbsp;</td>
-              </tr>
-            </table>
-            <table width="100%"  border="0" cellspacing="6" cellpadding="0">
-              <tr>
-                <td width="1%" colspan="2" align="left" valign="top"><span class="style3">E-archives</span></td>
-              </tr>
-              <?php //show available lists links ?>
-              <?php if (count($B->tpl_list) > 0): ?>
-              <?php foreach($B->tpl_list as $list): ?>
-              <tr>
-                <td width="1%" align="left" valign="top" class="leftnavlinks">-</td>
-                <td width="99%" align="left" valign="top" class="leftnavarchives"><a href="index.php?view=list&amp;lid=<?php echo $list['lid']; ?>&amp;mode=<?php echo $_REQUEST['mode']; ?>"><?php echo $list['name']; ?></a></td>
-              </tr>
-              <?php endforeach; ?>
-              <?php else: ?>
-              <tr>
-                <td width="1%" align="left" valign="top" class="leftnavlinks">-</td>
-                <td width="99%" align="left" valign="top" class="leftnavarchives">no archive</td>
-              </tr>
-              <?php endif; ?>
-            </table>
+          <?php /* ### include the navigation menu view (template) ### */ ?>
+          <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')) ); ?>
           </td>
           <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
               <tr>
                 <td align="left" valign="top"><p class="pager">E-archive is a php script which is able to fetch email messages (+ attachments) from email inbox accounts and make those accessible through a public web page. It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>. E-archive is a module of this framework. </p>
                   <p class="pager">Current Version 0.2.2b</p>
-                  <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&amp;release_id=4123" target="_blank">Download E-archive from the project page at Berlios</a></p>
+                  <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&release_id=4177" target="_blank">Download E-archive from the project page at Berlios</a></p>
                   <h3>Installation:</h3>
                   <p class="pager">Transfer the extracted archive to your web server. You can even install E-archive in a subdirectory. Point your navigator to this directory. You should see an install menu. Follow the instructions.</p>
                   <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> PHP scripts must have write permissions to the following directories:</font></p>

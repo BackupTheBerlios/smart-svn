@@ -1,4 +1,4 @@
-<form name="form1" method="post" action="index.php?admin=1&m=earchive&sec=addlist">
+<form name="form1" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=earchive&sec=addlist">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="57%" align="left" valign="top">      <table width="400" border="0" cellspacing="3" cellpadding="3">
@@ -56,7 +56,7 @@
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?admin=1&m=earchive">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=earchive">back</a></td>
   </tr>
 </table>
 </form>

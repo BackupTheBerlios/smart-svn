@@ -87,7 +87,7 @@ class common_sys_init
             {
                 trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );
             }
-            
+
             // include session class
             include_once( SF_BASE_DIR . 'modules/common/includes/class.session.php' ); 
             @ob_start();

@@ -1,4 +1,4 @@
-<form action="index.php?admin=1&m=earchive&sec=showmessages&lid=<?php echo $B->tpl_list['lid']; ?>&pageID=<?php echo $_REQUEST['pageID'] ?>" method="post" name="delete">
+<form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=earchive&sec=showmessages&lid=<?php echo $B->tpl_list['lid']; ?>&pageID=<?php echo $_REQUEST['pageID'] ?>" method="post" name="delete">
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="89%" align="left" valign="top">
@@ -27,7 +27,7 @@
         <td width="97%" align="left" valign="top">
           <div class='font10'>DATE: <?php echo $msg['mdate']; ?></div>
           <div class='font10'>FROM: <?php echo $msg['sender']; ?></div>
-          <a href="index.php?admin=1&m=earchive&sec=editmessage&mid=<?php echo $msg['mid']; ?>&pageID=<?php echo $_GET['pageID']; ?>&lid=<?php echo $msg['lid']; ?>" class="font12bold"><?php echo $msg['subject']; ?></a>
+          <a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=earchive&sec=editmessage&mid=<?php echo $msg['mid']; ?>&pageID=<?php echo $_GET['pageID']; ?>&lid=<?php echo $msg['lid']; ?>" class="font12bold"><?php echo $msg['subject']; ?></a>
         </td>
       </tr>
       <?php endforeach; ?>
@@ -57,7 +57,7 @@
     <td width="11%" align="center" valign="top" class="itemnormal">
       <table width="100%" border="0" cellspacing="4" cellpadding="4">
         <tr>
-          <td><a href="index.php?admin=1&m=earchive">back to main</a></td>
+          <td><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=earchive">back to main</a></td>
         </tr>
         <tr>
           <td>&nbsp;</td>

@@ -83,7 +83,7 @@ class earchive_view_editmessage
                                          array( 'mid'    => (int)$_REQUEST['mid'], 
                                                 'fields' => $tmp_data)))
                 {        
-                    @header('Location: index.php?admin=1&m=earchive&sec=showmessages&lid='.(int)$_REQUEST["lid"].'&pageID='.(int)$_REQUEST["pageID"]);
+                    @header('Location: '.SF_CONTROLLER.'?admin=1&m=earchive&sec=showmessages&lid='.(int)$_REQUEST["lid"].'&pageID='.(int)$_REQUEST["pageID"]);
                     exit;
                 }
                 else

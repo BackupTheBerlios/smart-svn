@@ -66,7 +66,7 @@ class user_captcha_make extends captcha
         $captcha_ttf_font = SF_BASE_DIR .'modules/user/actions/captcha/ttf_font/activa.ttf';
     
         // Relative folder of captcha pictures
-        $captcha_pictures_folder = 'modules/user/actions/captcha/pics';
+        $captcha_pictures_folder = SF_RELATIVE_PATH . 'modules/user/actions/captcha/pics';
     
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 

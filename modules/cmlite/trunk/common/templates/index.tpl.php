@@ -3,7 +3,7 @@
 <head>
 <meta name="robots" content="noindex,nofollow" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
-<link href="modules/common/media/main.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo SF_RELATIVE_PATH; ?>modules/common/media/main.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {
@@ -43,11 +43,11 @@ function subok(s){
               <td align="left" valign="top"><span class="style6">ADMIN</span> &nbsp;&nbsp;<span class="style4">E-archive 0.2.2b</span></td>
             </tr>
           </table></td>
-          <td width="15%" align="right" valign="top" class="font10"><a href="index.php">The public page</a></td>
+          <td width="15%" align="right" valign="top" class="font10"><a href="<?php echo SF_CONTROLLER; ?>">The public page</a></td>
           <td width="39%" align="right" valign="middle">
       <?php if($B->is_logged != FALSE): ?>
             <form action="index.php" method="post">
-                <select name="m" onChange="go('index.php?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
+                <select name="m" onChange="go('<?php echo SF_CONTROLLER; ?>?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
                  <option value="">The Modules</option>
                  <?php foreach($B->tpl_mod_list as $h): ?>
                     <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
@@ -58,7 +58,7 @@ function subok(s){
           </td>
           <td width="7%" align="right" valign="top">
           <?php if($B->is_logged != FALSE): ?>
-            <a href="index.php?logout=1&admin=1" class="font14">Logout</a>
+            <a href="<?php echo SF_CONTROLLER; ?>?logout=1&admin=1" class="font14">Logout</a>
           <?php endif; ?>&nbsp;
           </td>
         </tr>

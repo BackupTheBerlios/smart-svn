@@ -79,7 +79,7 @@ class earchive_view_addlist
              
                 if(TRUE === $this->B->M( MOD_EARCHIVE, 'add_list', $this->B->tmp_data))
                 {
-                    @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=earchive');
+                    @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=earchive');
                     exit;
                 }  
                 else

@@ -62,7 +62,7 @@
 </style>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" class="loginbody">
-<form name="form1" method="post" action="index.php?view=login&url=<?php echo $_GET['url']; ?>">
+<form name="form1" method="post" action="<?php echo SF_CONTROLLER; ?>?view=login&url=<?php echo $_GET['url']; ?>">
   <table width="350" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
     <tr align="center" valign="middle">
       <td width="74%" class="logintitle">User Validation</td>
@@ -74,7 +74,7 @@
   </tr>
   <?php if($B->tpl_is_valid === TRUE): ?>
   <tr align="left">
-    <td align="center" valign="middle" class="loginitem"><a href="index.php">Procceed</a> </td>
+    <td align="center" valign="middle" class="loginitem"><a href="<?php echo SF_CONTROLLER; ?>">Procceed</a> </td>
   </tr>
   <?php endif; ?>
 </table>

@@ -1,6 +1,4 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>   
-<?php //check login data ?>
-
 <html>
 <head>
 <meta http-equiv="expires" content="0">
@@ -64,7 +62,7 @@
 </style>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" class="registerbody">
-<form name="form1" method="post" action="index.php?view=register&url=<?php echo $_GET['url'] ?>">
+<form name="form1" method="post" action="<?php echo SF_CONTROLLER; ?>?view=register&url=<?php echo $_GET['url'] ?>">
   <table width="400" border="0" align="center" cellpadding="2" cellspacing="0" class="register">  
     <tr align="center" valign="middle">
       <td colspan="2" class="registertitle">Register
@@ -96,7 +94,7 @@
         </td>
        </tr>           
      <?php endif; ?>
-	 <?php if ($B->tpl_success != 'ok'):  ?>
+   <?php if ($B->tpl_success != 'ok'):  ?>
      <tr>
        <td width="80%" align="left" valign="top" class="registeritem">
            Forename<br>
@@ -154,11 +152,11 @@
        <td width="80%" colspan="2"><br>
        <input type="submit" name="do_register" value="submit" onclick="subok(this.form.do_register);">       </td>
      </tr>
-	 <?php else: ?>
+   <?php else: ?>
      <tr align="center" valign="middle">
        <td width="80%" colspan="2"><br>
-           <a href="index.php" class="registeritem">Back to the site</a> </td>
-       </tr>	
+           <a href="<?php echo SF_CONTROLLER; ?>" class="registeritem">Back to the site</a> </td>
+       </tr>  
      <?php endif; ?>
   </table>
 </form>

@@ -57,7 +57,7 @@ class earchive_have_access
         if( ($this->B->tmp_list['status'] == 3) && ($this->B->is_logged === FALSE) )
         {
                 $query = base64_encode($this->_getQueryString());
-                @header('Location: '.SF_BASE_LOCATION.'/index.php?view=login&url='.$query);
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?view=login&url='.$query);
                 exit;      
         }    
         return TRUE;     

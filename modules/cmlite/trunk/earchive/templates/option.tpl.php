@@ -4,7 +4,7 @@
   </tr>
   <tr>
     <td>
-  <form action="index.php?admin=1&m=option" method="post" name="wordindex" id="wordindex">
+  <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="wordindex" id="wordindex">
   <table width="100%"  border="0" cellspacing="2" cellpadding="2">
       <tr>
         <td colspan="2" align="left" valign="middle" class="optiontitle">Rebuild words index DB table </td>

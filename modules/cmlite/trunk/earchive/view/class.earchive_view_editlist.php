@@ -62,7 +62,7 @@ class earchive_view_editlist
                              'delete_list', 
                              array('lid' => (int)$_REQUEST['lid']));
         
-                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=earchive');
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=earchive');
                 exit;
             }    
             else
@@ -102,7 +102,7 @@ class earchive_view_editlist
                                          array( 'lid'  => (int)$_REQUEST['lid'], 
                                                 'data' => $this->B->tmp_data)))
                 {
-                    @header('Location: index.php?admin=1&m=earchive');
+                    @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=earchive');
                     exit;
                 }
                 else

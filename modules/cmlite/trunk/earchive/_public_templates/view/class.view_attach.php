@@ -78,7 +78,7 @@ class view_attach
 
         // set params to send http header and content
         $this->B->attach_params = array(
-                     'file'                  => './data/earchive/'.$this->B->tpl_list['folder'].'/'.$this->B->tpl_msg['folder'].'/'.stripslashes($this->B->tpl_attach['file']),
+                     'file'                  => SF_RELATIVE_PATH . '/data/earchive/'.$this->B->tpl_list['folder'].'/'.$this->B->tpl_msg['folder'].'/'.stripslashes($this->B->tpl_attach['file']),
                      'contenttype'           => $this->B->tpl_attach['type'],
                      'contentdisposition'    => array(HTTP_DOWNLOAD_ATTACHMENT, stripslashes($this->B->tpl_attach['file'])),
                      );

@@ -47,11 +47,6 @@ class view_index
      */
     function perform()
     {
-        //get all available email lists and store the result in the array $B->tpl_list
-        $this->B->M( MOD_EARCHIVE, 
-                     'get_lists', 
-                     array( 'var'    => 'tpl_list', 
-                            'fields' => array('lid','name','email','description','status'))); 
 
         return TRUE;
     }    

@@ -10,8 +10,8 @@
 <meta name="description" content="<?php echo str_replace("\"","'",$B->sys['option']['site_desc']); ?>" />
 <meta name="keywords" content="<?php echo str_replace("\"","'",$B->sys['option']['site_desc']); ?>" />
 <title><?php echo htmlspecialchars($B->sys['option']['site_title']); ?></title>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<link href="media/earchive.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
+<link href="<?php echo SF_RELATIVE_PATH; ?>media/earchive.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -20,7 +20,7 @@
         <td width="760" bgcolor="#0066FF">
             <table width="100%"  border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="3%"><img src="media/logo.gif" width="760" height="64" /></td>
+                    <td width="3%"><img src="<?php echo SF_RELATIVE_PATH; ?>media/logo.gif" width="760" height="64" /></td>
                 </tr>
             </table></td>
         <td width="44" bgcolor="#0066FF">&nbsp;</td>
@@ -28,7 +28,7 @@
     <tr>
         <td align="left" valign="middle" bgcolor="#333333"><table width="760"  border="0" cellspacing="0" cellpadding="0">
             <tr>
-                <td width="21%"><img src="media/empty.gif" alt="" name="empty" width="8" height="25" id="empty" /></td>
+                <td width="21%"><img src="<?php echo SF_RELATIVE_PATH; ?>media/empty.gif" alt="" name="empty" width="8" height="25" id="empty" /></td>
                 <td width="79%" align="right" valign="middle"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td width="14%" align="left" valign="middle" class="topbar">
@@ -43,11 +43,11 @@
                             <a href="index.php?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                             <?php if( $B->is_logged == TRUE ): ?>
-                            &nbsp;&nbsp;<a href="index.php?logout=1" class="topbarlink">logout</a>
+                            &nbsp;&nbsp;<a href="<?php echo SF_CONTROLLER; ?>?logout=1" class="topbarlink">logout</a>
                             <?php endif; ?>             
                         </td>
                         <td width="10%" align="left" valign="top">&nbsp;</td>
-                        <form name="esearch" id="esearch" method="post" action="index.php?view=search">
+                        <form name="esearch" id="esearch" method="post" action="<?php echo SF_CONTROLLER; ?>?view=search">
                             <td width="50%" align="right" valign="middle">
                                 <input name="search" type="text" value="<?php if(!empty($_POST['search'])) echo htmlspecialchars(stripslashes($_POST['search'])); else echo "search"; ?>" size="25" maxlength="128" class="searchform" /></td>
                         </form>
@@ -61,47 +61,9 @@
         <td height="249" align="left" valign="top"><table width="760"  border="0" cellspacing="2" cellpadding="2">
             <tr>
                 <td width="19%" align="center" valign="top" class="vline">
-                <table width="100%"  border="0" cellspacing="4" cellpadding="2">
-                    <tr>
-                        <td align="left" valign="top" class="leftnavlinks">
-                        <?php if(!isset($_GET['view'])): ?>
-                            <strong>Home</strong>
-                        <?php else: ?>
-                            <a href="index.php?mode=<?php echo $_REQUEST['mode']; ?>">Home</a>
-                        <?php endif; ?>
-                        </td>
-                    </tr>
-                    <tr>
-                      <td align="left" valign="top" class="leftnavlinks"><a href="index.php?admin=1">Admin</a></td>
-                    </tr>
-                    <tr>
-                        <td align="left" valign="top" class="leftnavlinks">&nbsp;</td>
-                    </tr>
-                </table>
-                    <table width="100%"  border="0" cellspacing="6" cellpadding="0">
-                        <tr>
-                            <td width="1%" colspan="2" align="left" valign="top"><span class="style3">E-archives</span></td>
-                      </tr>
-                        <?php if (count($B->tpl_list) > 0): ?>
-                        <?php foreach($B->tpl_list as $list): ?>                            
-                        <tr>
-                            <td width="1%" align="left" valign="top" class="leftnavlinks">-</td>
-                            <td width="99%" align="left" valign="top" class="leftnavarchives">
-                            <?php if($list['lid']==$_GET['lid']): ?>
-                                <strong><?php echo $list['name'];  ?></strong>
-                            <?php else: ?>
-                                <a href="index.php?view=list&lid=<?php echo $list['lid']; ?>&mode=<?php echo $_REQUEST['mode']; ?>"><?php echo $list['name']; ?></a>
-                            <?php endif;  ?>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                        <?php else: ?>
-                        <tr>
-                            <td width="1%" align="left" valign="top" class="leftnavlinks">-</td>
-                            <td width="99%" align="left" valign="top" class="leftnavarchives">no archive</td>
-                        </tr>                       
-                        <?php endif; ?>     
-                    </table></td>
+                  <?php /* ### include the navigation menu view (template) ### */ ?>
+                  <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')) ); ?>
+                </td>
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
                         <td align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">                     
@@ -112,9 +74,9 @@
                                     <?php foreach($B->tpl_msg as $msg): ?>
                                       <div class='msgdate'>DATE: <?php echo $msg['mdate']; ?></div>
                                       <div class='msgfrom'>FROM: <?php echo $msg['sender']; ?></div>
-                                      <a href="index.php?view=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
-                                      <div class='msgfrom'>E_archive: <a href="index.php?view=list&lid=<?php echo $msg['list_id']; ?>"><?php echo $msg['list_name']; ?></a></div>
-                    <br />
+                                      <a href="<?php echo SF_CONTROLLER; ?>?view=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
+                                      <div class='msgfrom'>E_archive: <a href="<?php echo SF_CONTROLLER; ?>?view=list&lid=<?php echo $msg['list_id']; ?>"><?php echo $msg['list_name']; ?></a></div>
+                                      <br />
                                     <?php endforeach; ?>
                                   <?php else: ?>
                                       <div class='pager'>Search result 0</div>

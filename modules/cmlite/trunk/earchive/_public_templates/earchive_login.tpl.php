@@ -1,10 +1,4 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>   
-<?php //check login data ?>
-<?php $B->M( MOD_USER, 
-             EVT_USER_LOGIN, 
-             array('urlvar' => $_GET['ret'], 
-                   'login'  => $_POST['login_name'], 
-                   'passwd' => $_POST['password'])); ?> 
 <html>
 <head>
 <meta http-equiv="expires" content="0">
@@ -68,7 +62,7 @@
 </style>
 </head>
 <body bgcolor="#FFFFFF" text="#000000" class="loginbody">
-<form name="form1" method="post" action="index.php?view=login&url=<?php echo $_GET['url']; ?>">
+<form name="form1" method="post" action="<?php echo SF_CONTROLLER; ?>?view=login&url=<?php echo $_GET['url']; ?>">
   <table width="350" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
     <tr align="center" valign="middle">
       <td colspan="2" class="logintitle">Login</td>
@@ -87,7 +81,7 @@
       <?php if ($B->tpl_error !== FALSE):  ?>  
         <span class="loginerror">
                 <?php echo $B->tpl_error; ?>
-        </span>        <?php endif; ?>	   
+        </span>        <?php endif; ?>     
       </td>
   </tr>
   <tr> 
@@ -114,7 +108,7 @@
   <tr align="left">
     <td colspan="2" valign="middle" class="loginitem">
       <?php if($B->sys['option']['user']['allow_register'] == TRUE): ?>
-         <a href="index.php?view=register&url=<?php echo $_GET['url']; ?>">not yet registered?</a>
+         <a href="<?php echo SF_CONTROLLER; ?>?view=register&url=<?php echo $_GET['url']; ?>">not yet registered?</a>
       <?php endif; ?>
     </td>
   </tr>

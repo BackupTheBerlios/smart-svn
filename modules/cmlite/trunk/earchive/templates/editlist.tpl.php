@@ -11,7 +11,7 @@ function deletelist(f, mes)
         }
 }
 </script>
-<form name="deluser" method="post" action="index.php?admin=1&m=earchive&sec=editlist&lid=<?php echo (int)$_REQUEST['lid']; ?>">
+<form name="deluser" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=earchive&sec=editlist&lid=<?php echo (int)$_REQUEST['lid']; ?>">
 <input name="dellist" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
@@ -72,7 +72,7 @@ function deletelist(f, mes)
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?admin=1&m=earchive">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=earchive">back</a></td>
   </tr>
 </table>
 </form>
