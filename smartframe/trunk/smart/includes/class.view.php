@@ -52,23 +52,29 @@ class view
      */
     var $tpl_use_buffer = TRUE;    
     
+     /**
+     * Data container passed to the view
+     * @var mixed $view_data
+     */
+    var $view_data = FALSE;   
     
     /**
      * constructor php4
      *
      */
-    function view()
+    function view( & $data )
     {
-        $this->__construct();
+        $this->__construct( $data );
     }
 
     /**
      * constructor php5
      *
      */
-    function __construct()
+    function __construct(  & $data  )
     {
         $this->B = & $GLOBALS['B'];
+        $this->view_data = $data;
     }
     
     /**
