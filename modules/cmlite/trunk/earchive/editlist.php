@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 // check user rights to access the list
 if(FALSE == earchive_rights::ask_access_to_list())
 {
-    @header('Location: index.php');
+    @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
     exit;
 }
 

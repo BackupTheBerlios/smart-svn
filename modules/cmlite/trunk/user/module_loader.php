@@ -44,7 +44,7 @@ switch($_REQUEST['mf'])
         // have rights to add users?
         if(FALSE == rights::ask_access_to_add_user ())
         {
-            @header('Location: index.php?m=USER');
+            @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=USER');
             exit;
         }    
         

@@ -54,7 +54,7 @@ function user_event_handler( $evt )
                 if(FALSE !== auth::checklogin($evt['data']['login'], $evt['data']['passwd']))
                 {
                     $query = base64_decode($evt['data']['urlvar']);
-                    @header('Location: index.php'.$query);
+                    @header('Location: '.SF_BASE_LOCATION.'/index.php'.$query);
                     exit;                
                 }
             }

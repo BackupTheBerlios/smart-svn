@@ -51,7 +51,7 @@ function earchive_event_handler( $evt )
             // 4 or 5 required (editor or administrator)
             if(FALSE == earchive_rights::ask_access_to_list())
             {
-                @header('Location: index.php');
+                @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
                 exit;
             }
             

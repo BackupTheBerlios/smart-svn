@@ -42,7 +42,7 @@ if( $_POST['do_setup'] )
         $B->conf->setConfigValues( $B->conf_val );
         $B->conf->writeConfigFile( "config_system.xml.php", array('filetype' => 'xml', 'mode' => 'pretty') );
         
-        @header('Location: ./index.php');
+        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
         exit;  
     }
     else

@@ -28,12 +28,12 @@ define ( 'MOD_EARCHIVE' ,      'EARCHIVE');
 // define template instruction calls for this module
 // see details below in function 'earchive_event_handler'
 //
-define ( 'EARCHIVE_LISTS',          '1');
-define ( 'EARCHIVE_LIST',           '2');
-define ( 'EARCHIVE_LIST_MESSAGES',  '3');
-define ( 'EARCHIVE_MESSAGE',        '4');
-define ( 'EARCHIVE_MESSAGE_ATTACH', '5');
-define ( 'EARCHIVE_ATTACH',         '6');
+define ( 'EARCHIVE_LISTS',          'EARCHIVE1');
+define ( 'EARCHIVE_LIST',           'EARCHIVE2');
+define ( 'EARCHIVE_LIST_MESSAGES',  'EARCHIVE3');
+define ( 'EARCHIVE_MESSAGE',        'EARCHIVE4');
+define ( 'EARCHIVE_MESSAGE_ATTACH', 'EARCHIVE5');
+define ( 'EARCHIVE_ATTACH',         'EARCHIVE6');
 
 // register this handler                       
 if (FALSE == $B->register_handler(MOD_EARCHIVE,

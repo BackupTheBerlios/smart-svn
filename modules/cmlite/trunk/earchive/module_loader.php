@@ -38,14 +38,6 @@ switch($_REQUEST['mf'])
         $B->section = SF_BASE_DIR . '/admin/modules/earchive/templates/editlist.tpl.php';    
         break;
     case 'add_list':
-    /*
-        // have rights to add users?
-        if(FALSE == rights::ask_access_to_add_user ())
-        {
-            @header('Location: index.php?m=earchive');
-            exit;
-        }    
-        */
         if(isset($_POST['addlist']))
         {
             include( SF_BASE_DIR."/admin/modules/earchive/addlist.php" ); 

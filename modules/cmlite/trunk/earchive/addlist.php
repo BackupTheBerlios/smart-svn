@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 // check if the user of this request have rights
 if(FALSE == earchive_rights::ask_access_to_list())
 {
-    @header('Location: index.php');
+    @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
     exit;
 }
 
@@ -71,7 +71,7 @@ else
              
     if((FALSE === $B->form_error) && (FALSE !== $B->earchive->add_list($B->tmp_data)))
     {
-        @header('Location: index.php?m=EARCHIVE');
+        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=EARCHIVE');
         exit;
     }
 }

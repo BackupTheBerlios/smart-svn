@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 // check if the user of this request have rights to modify this user data
 if(FALSE == rights::ask_access_to_modify_user( (int)$_REQUEST['uid'] ))
 {
-    @header('Location: index.php?m=USER');
+    @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=USER');
     exit;
 }
 
@@ -40,7 +40,7 @@ if($_POST['deluser'] == 1)
     if(FALSE == rights::is_login_user( (int) $_POST['uid']) )
     {
         $B->user->delete_user( (int) $_POST['uid'] );
-        @header('Location: index.php?m=USER');
+        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=USER');
         exit;  
     }
     else
@@ -101,7 +101,7 @@ if(isset($_POST['edituser']))
             // update user data
             if(FALSE != $B->user->update_user( (int)$_REQUEST['uid'], $B->tmp_data))
             {
-                @header('Location: index.php?m=USER');
+                @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=USER');
                 exit;
             }
             else

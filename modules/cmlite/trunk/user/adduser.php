@@ -63,7 +63,7 @@ else
                   
     if(FALSE !== $B->user->add_user($B->tmp_data))
     {
-        @header('Location: index.php?m=USER');
+        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=USER');
         exit;
     }
     else

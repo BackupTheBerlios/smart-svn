@@ -70,7 +70,7 @@ function user_event_handler( $evt )
             break;               
         case EVT_LOGOUT:  
             $B->session->destroy();
-            @header('Location: index.php');
+            @header('Location: '.SF_BASE_LOCATION.'/index.php');
             exit;
             break; 
         case EVT_SET_OPTIONS:  
