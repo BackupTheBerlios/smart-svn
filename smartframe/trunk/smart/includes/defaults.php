@@ -53,5 +53,12 @@ define('SF_DEFAULT_VIEW_FOLDER',       'views_default/');
 define('SF_TEMPLATE_RENDER',          TRUE);
 define('SF_TEMPLATE_RENDER_NONE',     FALSE);
 
+/**
+ * Error flags
+ */
+define('SF_NO_MODULE',                1000);
+define('SF_NO_ACTION',                1001);
+define('SF_NO_VALID_ACTION'           1002);
+define('SF_IS_VALID_ACTION'           1003);
 
 ?>

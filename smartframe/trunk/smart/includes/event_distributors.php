@@ -90,7 +90,7 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
         {
             trigger_error("This module isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
-        return FALSE;
+        return SF_NO_MODULE;
     }  
 
     // build the whole module action class name
@@ -134,14 +134,14 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
             {
-                return FALSE;
+                return SF_NO_VALID_ACTION;
             }
             // perform on the request
             return $GLOBALS[$class_name]->perform( $data );
         }
         else
         {
-            return NULL;
+            return SF_NO_ACTION;
         }
     }
     // if an instance was previously declared, use it here
@@ -150,7 +150,7 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
         // validate the request
         if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
         {
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }  
         
         // perform the request if the requested object exists
@@ -177,7 +177,7 @@ function & M_OBJ( $target_id, $code, $constructor_param = FALSE )
         {
             trigger_error("This module isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
-        return FALSE;
+        return SF_NO_MODULE;
     }  
 
     // build the whole module action class name
@@ -204,7 +204,7 @@ function & M_OBJ( $target_id, $code, $constructor_param = FALSE )
         {
             trigger_error("This class dosent exists: ".$class_file."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }    
-        return NULL;
+        return SF_NO_ACTION;
     }
 }
 

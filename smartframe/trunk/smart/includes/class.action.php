@@ -52,7 +52,7 @@ class action
      */
     function validate( & $data )
     {
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }  
     
     /**
@@ -61,7 +61,7 @@ class action
      */
     function perform( & $data )
     {
-       return TRUE;
+       return SF_IS_VALID_ACTION;
     }  
 
     /**
