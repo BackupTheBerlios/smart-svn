@@ -56,7 +56,8 @@ class commonUtil
 
     function stripSlashes_special( $var )
     {
-        return stripslashes(preg_replace("/(\\\\)([^'\"])/","\\1\\\\\\2",$var));
+        $var = commonUtil::stripSlashes($var);
+        return preg_replace("/\\\\/","",$var);
     }
     
     /**

@@ -59,8 +59,8 @@ class view_navigation_editnode extends view
             if ( TRUE == M( MOD_NAVIGATION, 
                             'update_node', 
                             array('node'   => $_REQUEST['node'],
-                                  'title'  => commonUtil::stripSlashes($_POST['title']),
-                                  'body'   => commonUtil::stripSlashes($_POST['body']),
+                                  'title'  => $_POST['title'],
+                                  'body'   => $_POST['body'],
                                   'status' => $_POST['status'],
                                   'error'  => 'tpl_error')) )
             {  
