@@ -42,6 +42,12 @@
             <td align="left" valign="top">&nbsp;</font></td>
           </tr>     
           <tr>
-            <td align="left" valign="top"><font size="2"><a href="<?php echo SF_CONTROLLER; ?>?admin=1">Admin</a></font></td>
+            <td align="left" valign="top"><p><font size="2"><a href="<?php echo SF_CONTROLLER; ?>?admin=1">Admin</a></font></p>
+            <p><font size="2">
+            <!-- Show logout link if a user is logged -->
+            <?php if(isset($B->tpl_logged_user)): ?>
+                <a href="<?php echo SF_CONTROLLER; ?>?view=logout">Logout</a>
+            <?php endif; ?>
+            </font></p></td>
           </tr>     
         </table>
