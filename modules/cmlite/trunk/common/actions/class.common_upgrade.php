@@ -67,7 +67,16 @@ class common_upgrade
                 trigger_error('Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/cache', E_USER_ERROR);
             }            
         }
-               
+
+        // version prior to 0.5.2
+        if(version_compare( (string)$this->B->sys['module']['common']['version'], '0.5.2' , '<') == 1)
+        {
+            // check if session folder is writeable
+            if(!is_writeable( SF_BASE_DIR . 'modules/common/tmp/session_data' ))
+            {
+                 trigger_error('Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/session_data', E_USER_ERROR);
+            }             
+        }            
         return TRUE;
     } 
 }
