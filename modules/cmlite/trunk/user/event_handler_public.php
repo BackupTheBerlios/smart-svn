@@ -78,7 +78,7 @@ function user_event_handler( $evt )
             $captcha_ttf_font = SF_BASE_DIR .'/admin/modules/user/captcha/ttf_font/activa.ttf';
     
             // Relative folder of captcha pictures
-            $captcha_pictures_folder = 'admin/tmp/captcha_pics';
+            $captcha_pictures_folder = 'admin/modules/user/captcha/pics';
     
             // Type of turing chars
             $captcha_char_type = 'num'; // or 'hex' 
