@@ -27,7 +27,7 @@ include_once( SF_BASE_DIR . 'smart/includes/defaults.php' );
 
 // Start output buffering
 //
-ob_start( SF_OB_GZHANDLER ); 
+@ob_start(); 
 
 // include sfErrorHandler
 include_once( SF_BASE_DIR . 'smart/includes/class.errorHandler.php' );

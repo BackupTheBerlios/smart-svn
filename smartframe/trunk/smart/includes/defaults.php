@@ -38,11 +38,6 @@ define('SF_ERROR_REPORTING',          E_ALL ^E_NOTICE);
 define('SF_DEBUG',                    FALSE);
 
 /**
- * Allowed output compression if available.
- */
-define('SF_OB_GZHANDLER',             FALSE); //'ob_gzhandler' or FALSE
-
-/**
  * Default dir and file mode
  */
 define('SF_DIR_MODE',                 0775);
