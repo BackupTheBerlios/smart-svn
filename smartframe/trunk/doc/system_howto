@@ -10,7 +10,7 @@ this doc will explain you the principle of this framework.
 After unpack the zip archive you should point your navigator to the directory
 where the unzipped package lies. You should see a setup page.
 
-NOTICE: This package and the modules dont require any db conection or other
+NOTICE: This package and the modules don’t require any db connection or other
 external script packages (PEAR , ....).
 
 
@@ -36,12 +36,12 @@ The base SMART directory structure
 - test_showvars.tpl.php
 
 There is a template engine included in SMART which enable you to separate the
-content from the design. It isnt an external template solution like Smarty,
-Savant or patTemplate but a solution which was never planned but which
-inevitable arised from the internal logic of this software. So, a surprise!
+content from the design. It isn’t an external template solution like Smarty,
+Savant or patTemplate but a solution, which was never planned, but which
+inevitable rose from the internal logic of this software. So, a surprise!
 
 The root directory contains an index.php file. This file control the base
-behavior of the web pages which are accessible by any visitor and load a
+behaviour of the web pages which are accessible by any visitor and load a
 demanded template. If no template is defined in the url, index.php
 load a template called 'index'. In this case this would be the file
 'test_index.tpl.php'. To load an other
@@ -49,10 +49,10 @@ template you have to define the variable 'tpl' in the url.
 Ex. http://www.foo.com/index.php?tpl=showvars
 Here index.php load the template test_showvars.tpl.php
 
-The templates are the main place where you can control the program logic on what
-is going on in a clean and simple way. But be award. There is no extra template
-language you have to learn. The template language is PHP. Later we will explain
-you how this works.
+The templates are the main place where you can control the program logic of
+your web pages on what is going on in a clean and simple way. But be award. 
+There is no extra template language you have to learn. The template language 
+is PHP. Later we will explain you how this works.
 
 Of course there is also an administration part. May you have written modules to
 manage users or articles. Every thing which is related to the admin part lies in
@@ -90,7 +90,7 @@ related data should be included from inside the module folders
 /modules
 here you can include your modules
 ex.: /modules/article/
-     /modules/usermanagement/
+     /modules/user_management/
 
 /tmp
 temporary files produced by the system.
@@ -108,15 +108,15 @@ part.  This means:
 - Load the configuration file
 - Set an error handler
 - Make an instance ($B) of the base class which contains functions to distribute
-  broadcast and directed events. It serve also to encapsulate variables. In
-  SMART there arent global defined vars. All vars should be members of this
+  broadcast and directed events. It serves also to encapsulate variables. In
+  SMART there aren’t global defined vars. All vars should be members of this
   instance.
 - Starting session
 - Load the module event handler functions
 - Check if setup was done
 
 If the system is starting it looks if the setup was done. If not it looks
-for a file '/admin/setup/event_handler_admin.php which controle the
+for a file '/admin/modules/setup/event_handler_admin.php which controle the
 setup process. So there must be always a module named 'setup'.
 
 
@@ -124,18 +124,18 @@ The module concept
 ------------------
 Each module contains a file named event_handler_admin.php or/and
 event_handler_public.php with a function which controls the behavior for this
-module of the public web pages or the admin web pages. These functions are never
-called directly but always through functions of the system base class in
+module of the public web pages respectively the admin web pages. These functions 
+are never called directly but always through functions of the system base class in
 /admin/include/class.sfBase.php.
 This technical mechanism is named as 'call back'. The module handler functions
 are registered during the init process in the file /admin/include/base.inc.php
-and calling (calling back) on demande. This function mechanisn enable the
+and calling (calling back) on demande. This function mechanism enable the
 system to include plug and play modules. Even during a running application you
 can include a new module without edit a couple of config files. We name here
 'call back' a module function, releasing an EVENT. There are 2 kind
 of events:
 - Broadcast events are distributed to all registered module event handlers
-- Directed events are distributed to a specific modul handler function
+- Directed events are distributed to a specific module handler function
 
 Examples:
 $B->B( EVT_INIT );
@@ -146,13 +146,16 @@ $B->M( MOD_TEST, EVT_LOAD_MODULE);
 sends a directed event to the module 'test' which set the test module in his
 normal function state.
 
+$B->B() is used to distribute a broadcasting event.
+$B->M() is used to distribute a directed event.
+
 
 The event handler functions in details
 --------------------------------------
-If a module should serves some funtionalities to the admin and the public area
+If a module should serves some functionalities to the admin and the public area
 it must contains at least 2 files.
-event_handler_admin.php - control the behavior of a module for the admin area.
-evant_handler_public.php - control the behavior of a module for the public area.
+event_handler_admin.php - control the behaviour of a module for the admin area.
+evant_handler_public.php - control the behaviour of a module for the public area.
 
 Lets take the file event_handler_public.php of the 'test' module to show
 you how it works.
@@ -181,8 +184,8 @@ function test_event_handler( $evt )
 
 
 //One module must takes the leader role. That means you have to define 
-//some variables and include necessairy stuff to get work your modules.
-//if your modules needs PEAR or ADODB, you have to include this here.
+//some variables and include necessary stuff to get work your modules.
+//if your modules need PEAR or ADODB, you have to include this here.
 
 // ### These 3 defines MUST be declared ###
 /**
@@ -208,7 +211,7 @@ You will find the public templates in the main root folder. The templates file
 name are of the form:
 xxx_yyy.tpl.php
 where xxx stay for the template group and yyy for the template name.
-The group name give you the possibility to create your web page in different
+The group name gives you the possibility to create your web page in different
 designs. The option module which comes with this test package recognize if there
 are more groups. So you can switch between different groups (designs) from
 within the option module menu. The template name is important to identify a
@@ -220,7 +223,7 @@ There must be always an index template eg. groupname_index.tpl.php, which is
 loaded if no templatename is declared.
 
 The EVENT concept is also applicated in the public web templates. With this
-powerfull feature you can control the behavior of a template with all the
+powerful feature you can control the behavior of a template with all the
 flexibility of PHP but in a clean way.
 
 To have a closer lock, edit the public test templates.
@@ -228,7 +231,7 @@ To have a closer lock, edit the public test templates.
 
 The admin templates
 -------------------
-For the administration part, each module provide its own template set. Each
+For the administration part, each module provides its own template set. Each
 module template is a subtemplate of the main admin template which you can find
 in /admin/index.tpl.php.
 How to include a module subtemplate?
@@ -244,7 +247,6 @@ http://www.foo.com/admin/index.php?m=TEST
 The system evaluate the var 'm', release a module event which is directed to the
 module defined in the var 'm' and activate the switch subsection EVT_LOAD_MODULE
 of the focused module. 'm' stays for 'module'.
-
 
 
 
