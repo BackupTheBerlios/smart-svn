@@ -26,9 +26,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 define( 'MOD_SYSTEM' , 'system' );
 
 // register this handler                       
-if (FALSE == $B->register_handler( MOD_SYSTEM,
-                                   array ( 'module'        => MOD_SYSTEM,
-                                           'event_handler' => 'system_event_handler') ))
+if (FALSE == register_handler( MOD_SYSTEM,
+                               array ( 'module'        => MOD_SYSTEM,
+                                       'event_handler' => 'system_event_handler') ))
 {
     trigger_error( 'The handler '.MOD_SYSTEM.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
@@ -36,13 +36,11 @@ if (FALSE == $B->register_handler( MOD_SYSTEM,
 // The handler function
 function system_event_handler( $evt )
 {
-    global $B;
-
     // build the whole class name
     $class_name = 'system_'.$evt['code'];
     
     // check if this object was previously declared
-    if(!is_object($B->$class_name))
+    if(!is_object($GLOBALS[$class_name]))
     {
         // dynamic load the required class
         $class_file = SF_BASE_DIR . 'smart/actions/class.'.$class_name.'.php';
@@ -50,16 +48,16 @@ function system_event_handler( $evt )
         {
             include_once($class_file);
             // make instance
-            $B->$class_name = & new $class_name();
+            $GLOBALS[$class_name] = & new $class_name();
             // perform the request
-            return $B->$class_name->perform( $evt['data'] );
+            return $GLOBALS[$class_name]->perform( $evt['data'] );
         }
         return FALSE;
     }
     else
     {
         // perform the request if the requested object exists
-        return $B->$class_name->perform( $evt['data'] );
+        return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
 }
 

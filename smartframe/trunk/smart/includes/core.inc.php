@@ -38,6 +38,9 @@ include_once( SF_BASE_DIR . 'smart/includes/class.util.php' );
 // The base container object
 include_once( SF_BASE_DIR . 'smart/includes/class.base.php' );
 
+// The distributor functions
+include_once( SF_BASE_DIR . 'smart/includes/event_distributors.php' );
+
 // Default view class
 include_once( SF_BASE_DIR . 'smart/includes/class.view.php' );
 

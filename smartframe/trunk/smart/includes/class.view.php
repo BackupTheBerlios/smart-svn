@@ -39,6 +39,12 @@ class view
      * @var bool $render_template
      */    
     var $render_template = SF_TEMPLATE_RENDER; // or SF_TEMPLATE_RENDER_NONE
+
+     /**
+     * Template folder
+     * @var bool $template_folder
+     */
+    var $template_folder = SF_TPL_FOLDER;
     
     /**
      * constructor php4
@@ -59,33 +65,35 @@ class view
     }
     
     /**
-     * default perform
+     * perform
      *
      */
     function perform()
     {
     }  
+
+    /**
+     * authentication
+     *
+     */
+    function auth()
+    {
+    }
     
     /**
-     * default prepend filter chain
+     * prepend filter chain
      *
      */
     function prependFilterChain()
-    {
-        // Directed intercepting filter event (auto_prepend)
-        // see smart/actions/class.system_sys_prepend.php
-        $this->B->M( MOD_SYSTEM, 'sys_prepend' );    
+    { 
     }   
     
     /**
-     * default append filter chain
+     * append filter chain
      *
      */
     function appendFilterChain()
-    {
-        // Directed intercepting filter event (auto_append)
-        // see smart/actions/class.system_sys_append.php
-        $this->B->M( MOD_SYSTEM, 'sys_append' );   
+    {  
     }  
 
     /**
@@ -95,7 +103,7 @@ class view
     function & getTemplate()
     {   
         // build the whole file path to the TEMPLATE file
-        $tpl = SF_BASE_DIR . SF_TPL_FOLDER . $this->B->sys['option']['tpl'] . '_' . $this->template . '.tpl.php';
+        $tpl = SF_BASE_DIR . $this->template_folder . 'tpl.' . $this->template . '.php';
         if ( !@file_exists( $tpl ) )
         {
             die('Template dosent exists: ' . $tpl);
@@ -107,13 +115,12 @@ class view
      * get errors as string
      *
      */
-    function & getError( & $data )
+    function & getError()
     {   
         $error_str = "";
-        foreach ($data->errors as $error)
-        {
-            list($key, $val) = each($error);   
-            $error_str .= $key . "\n" . $val . "\n\n";                                
+        foreach ($this->errors as $key => $val)
+        { 
+            $error_str .= $key . "\n" . $val . "\n\n";  
         }
         
         return $error_str;
