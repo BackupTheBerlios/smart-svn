@@ -78,7 +78,7 @@ function earchive_event_handler( $evt )
                 include_once SF_BASE_DIR . '/admin/modules/earchive/class.earchive.php';
                 $earchiver = & new earchive; 
                 
-                include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
+                include_once(SF_BASE_DIR.'/admin/modules/earchive/class.sfWordIndexer.php');
                 $word_indexer = & new word_indexer();
                 
                 $fields = array('mid','lid','subject','body','sender');
