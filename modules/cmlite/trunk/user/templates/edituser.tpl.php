@@ -60,10 +60,9 @@ function deleteuser(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top" class="font9">
-          
-    <input name="status" type="radio" value="1" <?php if($B->tpl_data['status']==1) echo 'checked'; ?>>
+    <input name="status" type="radio" value="1" <?php if($B->tpl_data['status']==1) echo 'checked="checked"'; ?>/>
     Inactif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <input name="status" type="radio" value="2" <?php if($B->tpl_data['status']==2) echo 'checked'; ?>> 
+    <input name="status" type="radio" value="2" <?php if($B->tpl_data['status']==2) echo 'checked="checked"'; ?>/> 
                     Actif   
                     <div align="right"><input name="delete" type="button" id="delete" value="Delete this user" onclick="deleteuser(this.form, 'Delete this user?');">
                     </div></td>
