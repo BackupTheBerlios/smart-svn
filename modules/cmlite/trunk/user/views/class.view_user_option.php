@@ -33,7 +33,7 @@ class view_user_option extends view
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {
         // set user options 
         // this event comes from the option module (module_loader.php)

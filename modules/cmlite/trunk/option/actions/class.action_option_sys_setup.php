@@ -21,7 +21,7 @@ class action_option_sys_setup extends action
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform(  $data = FALSE  )
     {    
         $success = TRUE;
         // The module name and version

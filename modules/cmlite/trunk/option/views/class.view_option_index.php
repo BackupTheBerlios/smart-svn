@@ -33,7 +33,7 @@ class view_option_index extends view
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform(  $data = FALSE  )
     {    
         // Init this variable
         $this->B->modul_options = FALSE;
