@@ -55,15 +55,8 @@ class earchive_set_options
         // fetch messages from email accounts 
         if(isset($_POST['earchive_fetch_emails']))
         {
-            // Include cache and create instance
-            if(!is_object($this->B->cache))
-            {
-                include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache.php');            
-                $this->B->cache = new Cache('db', array('dsn'         => $this->B->dsn,
-                                                        'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
-            }
-            // Delete all cache data
-            $this->B->cache->flush('earchive');
+            // Delete cache data
+            $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
             
             $this->B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
         }          
