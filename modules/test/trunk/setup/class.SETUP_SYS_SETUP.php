@@ -20,7 +20,7 @@ class SETUP_SYS_SETUP
      * Global system instance
      * @var object $this->B
      */
-    var $this->B;
+    var $B;
     
     /**
      * constructor
