@@ -1,3 +1,11 @@
+<?php /*
+ ### Navigation template. It is loaded by defining the url var view=navigation ### 
+     see also /view/class.view_navigation.php
+*/ ?>
+
+<?php /* Only allow calling this template from whithin the application */ ?>
+<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>
+
         <!-- Main Navigation menu included in all templates -->
         
         <table width="100%" border="0" cellspacing="2" cellpadding="2">

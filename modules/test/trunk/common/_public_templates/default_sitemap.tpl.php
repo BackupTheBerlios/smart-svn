@@ -1,4 +1,10 @@
-<?php /*### Sitemap template. It is loaded by defining the url var tpl=sitemap ### */ ?>
+<<?php /*
+ ### Navigation template. It is loaded by defining the url var view=sitemap ### 
+     see also /view/class.view_sitemap.php
+*/ ?>
+
+<?php /* Only allow calling this template from whithin the application */ ?>
+<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

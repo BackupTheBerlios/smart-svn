@@ -1,4 +1,10 @@
-<?php /* ### Index template. It is loaded by default if no template is defined. ### */ ?>
+<?php /*
+ ### Default template ### 
+     see also /view/class.view_index.php
+*/ ?>
+
+<?php /* Only allow calling this template from whithin the application */ ?>
+<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>
 
              
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
