@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * COMMON_SYS_FINSH_UPDATE class 
+ * common_sys_finish_update class 
  *
  */
  
-class COMMON_SYS_FINSH_UPDATE
+class common_sys_finish_update
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class COMMON_SYS_FINSH_UPDATE
      * constructor
      *
      */
-    function COMMON_SYS_FINSH_UPDATE()
+    function common_sys_finish_update()
     {
         $this->__construct();
     }
