@@ -77,7 +77,7 @@ class action_system_get_view extends action
         } 
 
         // check if an admin view request was done
-        if ($_REQUEST['admin'] == '1')
+        if (SF_SECTION == 'admin')
         {
             // if no view is defines call first the common module view
             if( empty($data['view']) )

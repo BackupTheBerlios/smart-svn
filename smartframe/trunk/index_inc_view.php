@@ -35,7 +35,7 @@ if(!defined( SF_RELATIVE_PATH ))
 }
 
 /*
- * Force views folder, independed of the sys config settings.
+ * Force to use the template folder, independed of the sys config settings.
  */
 /*
 if(!defined( SF_VIEW_FOLDER ))
@@ -45,7 +45,7 @@ if(!defined( SF_VIEW_FOLDER ))
 */
 
 /*
- * Force templates folder, independed of the sys config settings.
+ * Force to use the view folder, independed of the sys config settings.
  */
 /*
 if(!defined( SF_TPL_FOLDER ))
@@ -72,6 +72,9 @@ define('SF_BASE_DIR', dirname(__FILE__) . '/');
 // Include the base file
 include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
+// only access on public views and templates
+define('SF_SECTION', 'public');
+
 // Broadcast init event to all registered module event handlers
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
@@ -83,7 +86,7 @@ if(isset($B->system_update_flag))
 } 
 
 // get the public view (template)
-// see smart/actions/class.system_get_public_view.php
+// see smart/actions/class.system_get_view.php
 M( MOD_SYSTEM, 'get_view') );
 
 // Send the output buffer to the client
