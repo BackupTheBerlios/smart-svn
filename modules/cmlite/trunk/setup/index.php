@@ -28,7 +28,7 @@ if( $_POST['do_setup'] )
     // Send a setup message to all registered handlers
     $B->M( MOD_SYSTEM,       EVT_SETUP );
     $B->M( MOD_USER,         EVT_SETUP );
-    $B->M( MOD_MAILARCHIVER, EVT_SETUP );
+    $B->M( MOD_EARCHIVE,     EVT_SETUP );
     $B->M( MOD_OPTION,       EVT_SETUP );
     
     // close db connection if present
