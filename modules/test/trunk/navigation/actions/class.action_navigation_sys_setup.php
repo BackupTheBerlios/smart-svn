@@ -83,8 +83,6 @@ class action_navigation_sys_setup extends action
         
         @umask($old_umask);
         
-        // if noting is going wrong $success is still TRUE else FALSE
-        // ex.: if creating db tables fails you must set this var to false
         return $success;
     }    
 }

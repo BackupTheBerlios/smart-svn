@@ -55,6 +55,8 @@ class action_navigation_upload_media_file extends action
             return FALSE;
         } 
         
+        @chmod( $uploadfile, SF_FILE_MODE);
+        
         return TRUE;
     }
 
