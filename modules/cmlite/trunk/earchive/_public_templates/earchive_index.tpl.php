@@ -45,11 +45,11 @@
                         <td width="26%" align="left" valign="middle">
                             <?php //show register link if allowed  ?>
                             <?php if((!$B->auth->is_user)&&($B->sys['option']['user']['allow_register']==TRUE)): ?>
-                            <a href="index.php?tpl=register" class="topbarlink">register</a>
+                            <a href="index.php?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                         </td>
                         <td width="10%" align="left" valign="top">&nbsp;</td>
-                        <form name="esearch" id="esearch" method="post" action="index.php?tpl=search">
+                        <form name="esearch" id="esearch" method="post" action="index.php?view=search">
                             <td width="50%" align="right" valign="middle">
                                 <input name="search" type="text" value="<?php if($_POST['search']) echo htmlspecialchars(stripslashes($_POST['search'])); else echo "search"; ?>" size="25" maxlength="128" class="searchform" /></td>
                         </form>
@@ -89,7 +89,7 @@
                                  <?php foreach($B->tpl_list as $list): ?>                            
                                    <tr>
                                      <td width="1%" align="left" valign="top" class="leftnavlinks">-</td>
-                                     <td width="99%" align="left" valign="top" class="leftnavarchives"><a href="index.php?tpl=list&lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a></td>
+                                     <td width="99%" align="left" valign="top" class="leftnavarchives"><a href="index.php?view=list&lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a></td>
                                    </tr>
                                  <?php endforeach; ?>
                               <?php else: ?>

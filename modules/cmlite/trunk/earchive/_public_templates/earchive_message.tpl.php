@@ -40,11 +40,11 @@
                         <td width="26%" align="left" valign="middle">
                             <?php //show register link if allowed  ?>
                             <?php if((!$B->auth->is_user)&&($B->sys['option']['user']['allow_register']==TRUE)): ?>
-                            <a href="index.php?tpl=register" class="topbarlink">register</a>
+                            <a href="index.php?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                         </td>
                         <td width="10%" align="left" valign="top">&nbsp;</td>
-                        <form name="esearch" id="esearch" method="post" action="index.php?tpl=search">
+                        <form name="esearch" id="esearch" method="post" action="index.php?view=search">
                             <td width="50%" align="right" valign="middle">
                                 <input name="search" type="text" value="<?php if($_POST['search']) echo htmlspecialchars(stripslashes($_POST['search'])); else echo "search"; ?>" size="25" maxlength="128" class="searchform" /></td>
                         </form>
@@ -89,7 +89,7 @@
                                         <?php if($list['lid']==$_GET['lid']): ?>
                                             <strong><?php echo $list['name'];  ?></strong>
                                         <?php else: ?>
-                                            <a href="index.php?tpl=list&lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a>
+                                            <a href="index.php?view=list&lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a>
                                         <?php endif;  ?>
                                     </td>
                                </tr>
@@ -121,7 +121,7 @@
                                  <strong>Attachments of this message:</strong><br />
                                  <?php if (count($B->tpl_attach) > 0): ?>
                                    <?php foreach($B->tpl_attach as $attach): ?>
-                                    <a href="index.php?tpl=attach&aid=<?php echo $attach['aid']; ?>&mid=<?php echo $attach['mid']; ?>&lid=<?php echo $attach['lid']; ?>"><?php echo stripslashes($attach['file']); ?></a>
+                                    <a href="index.php?view=attach&aid=<?php echo $attach['aid']; ?>&mid=<?php echo $attach['mid']; ?>&lid=<?php echo $attach['lid']; ?>"><?php echo stripslashes($attach['file']); ?></a>
                                     <div>Type: <?php echo $attach['type']; ?></div>
                                     <div>Size: <?php echo $attach['size']; ?></div>
                                     <br />

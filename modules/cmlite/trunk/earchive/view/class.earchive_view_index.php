@@ -13,7 +13,10 @@
  * earchive_view_index class of the template "index.tpl.php"
  *
  */
- 
+
+// earchive rights class
+include_once(SF_BASE_DIR.'modules/earchive/includes/class.rights.php'); 
+
 class earchive_view_index
 {
     /**
@@ -51,9 +54,6 @@ class earchive_view_index
         {
             $_REQUEST['sec'] = 'default';
         }
-        
-        // earchive rights class
-        include(SF_BASE_DIR.'modules/earchive/includes/class.rights.php');  
 
         if(!is_object($this->B->earchive_rights))
         {        

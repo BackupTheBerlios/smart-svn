@@ -36,10 +36,10 @@ class common_get_module_view
     var $_module;
     /**
      * Template name
-     * @var string $_tpl
+     * @var string $_view
      * @access privat
      */
-    var $_tpl;   
+    var $_view;   
     
     /**
      * constructor
@@ -68,10 +68,10 @@ class common_get_module_view
     function validate( & $data )
     {  
         // check if the request is coming from the data array
-        if( isset($data['m']) && isset($data['tpl']) )
+        if( isset($data['m']) && isset($data['view']) )
         {
             $this->_module = $data['m'];
-            $this->_tpl    = $data['tpl'];
+            $this->_view    = $data['view'];
         }
         else
         {
@@ -93,19 +93,19 @@ class common_get_module_view
             }
             
             // set default if no request
-            if( !isset( $_REQUEST['tpl'] ) )
+            if( !isset( $_REQUEST['view'] ) )
             {
-                $this->_tpl = 'index';   
+                $this->_view = 'index';   
             }    
             // ckeck on allowed chars
-            elseif(preg_match("/[a-z_]+/", $_REQUEST['tpl']))
+            elseif(preg_match("/[a-z_]+/", $_REQUEST['view']))
             {
-                $this->_tpl = $_REQUEST['tpl'];
+                $this->_view = $_REQUEST['view'];
             }
             // set error string
             else
             {
-                $this->B->tpl_error = 'Wrong template name format: tpl=' . $_REQUEST['tpl'];
+                $this->B->tpl_error = 'Wrong view name format: view=' . $_REQUEST['view'];
                 return FALSE;
             }        
         }  
@@ -119,7 +119,7 @@ class common_get_module_view
      *
      * This function can receive the requested module name
      * and template name from the GPC arrays ($_REQUEST) OR
-     * from the $data array e.g. $data['m'] $data['tpl']
+     * from the $data array e.g. $data['m'] $data['view']
      *
      * @param array $data
      * @return string whole path to the template
@@ -133,17 +133,17 @@ class common_get_module_view
         }
         
         // path to the requested module template
-        $template_file = SF_BASE_DIR . 'modules/' . $this->_module . '/templates/' . $this->_tpl . '.tpl.php';        
+        $template_file = SF_BASE_DIR . 'modules/' . $this->_module . '/templates/' . $this->_view . '.tpl.php';        
        
         // build the whole file path to the module view class file
-        $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.'.$this->_module.'_view_' . $this->_tpl . '.php';
+        $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.'.$this->_module.'_view_' . $this->_view . '.php';
       
         // include module view class file
         if( @file_exists( $view_class_file ) )
         {  
             include_once( $view_class_file );
             
-            $view_class = $this->_module . '_view_' . $this->_tpl;
+            $view_class = $this->_module . '_view_' . $this->_view;
             
             // instance of the module view class
             $view = & new $view_class();

@@ -40,11 +40,11 @@
                         <td width="26%" align="left" valign="middle">
                             <?php //show register link if allowed  ?>
                             <?php if((!$B->auth->is_user)&&($B->sys['option']['user']['allow_register']==TRUE)): ?>
-                            <a href="index.php?tpl=register" class="topbarlink">register</a>
+                            <a href="index.php?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                         </td>
                         <td width="10%" align="left" valign="top">&nbsp;</td>
-                        <form name="esearch" id="esearch" method="post" action="index.php?tpl=search">
+                        <form name="esearch" id="esearch" method="post" action="index.php?view=search">
                             <td width="50%" align="right" valign="middle">
                                 <input name="search" type="text" value="<?php if(!empty($_POST['search'])) echo htmlspecialchars(stripslashes($_POST['search'])); else echo "search"; ?>" size="25" maxlength="128" class="searchform" /></td>
                         </form>
@@ -87,7 +87,7 @@
                             <?php if($list['lid']==$_GET['lid']): ?>
                                 <strong><?php echo $list['name'];  ?></strong>
                             <?php else: ?>
-                                <a href="index.php?tpl=list&lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a>
+                                <a href="index.php?view=list&lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a>
                             <?php endif;  ?>
                             </td>
                         </tr>
@@ -109,8 +109,8 @@
                                     <?php foreach($B->tpl_msg as $msg): ?>
                                       <div class='msgdate'>DATE: <?php echo $msg['mdate']; ?></div>
                                       <div class='msgfrom'>FROM: <?php echo $msg['sender']; ?></div>
-                                      <a href="index.php?tpl=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
-                                      <div class='msgfrom'>E_archive: <a href="index.php?tpl=list&lid=<?php echo $msg['list_id']; ?>"><?php echo $msg['list_name']; ?></a></div>
+                                      <a href="index.php?view=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
+                                      <div class='msgfrom'>E_archive: <a href="index.php?view=list&lid=<?php echo $msg['list_id']; ?>"><?php echo $msg['list_name']; ?></a></div>
                     <br />
                                     <?php endforeach; ?>
                                   <?php else: ?>

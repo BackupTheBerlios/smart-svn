@@ -53,8 +53,8 @@ class user_sys_authenticate
         
         if( (SF_SECTION == 'admin') && (FALSE == $this->B->auth->isLogged()) )
         {
-            $_REQUEST['tpl'] = 'login';
-            $_REQUEST['m']   = SF_AUTH_MODULE;
+            $_REQUEST['view'] = 'login';
+            $_REQUEST['m']    = SF_AUTH_MODULE;
             
             $this->B->tpl_isLogged = FALSE;
         }
