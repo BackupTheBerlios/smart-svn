@@ -45,6 +45,15 @@ class action
     {
         $this->B = & $GLOBALS['B'];
     }
+ 
+    /**
+     * validate
+     *
+     */
+    function validate()
+    {
+        return TRUE;
+    }  
     
     /**
      * perform
