@@ -10,9 +10,8 @@
 // ----------------------------------------------------------------------
 
 /**
- * Base Object class 
  *
- * Contain event distributor methods
+ * Contains event distributor functions
  *
  */
 
@@ -22,11 +21,6 @@
  */
 $handler_list = array(); 
 
-/**
- * Array of registered filters handler
- * @var array $handler_list
- */
-$filter_list = array(); 
 
 /**
   * Check if a handler exist
@@ -125,62 +119,5 @@ function B( $code, $data = FALSE )
         }
     }   
 }   
-
-/**
-  * Filter register methode
-  *
-  * @param string $target Name of the handler. 
-  * @param array $descriptor Array of identification data of the handler.
-  * @param bool True on success else false if this filter was registered previously
-  */
-function register_filter( $target, $descriptor )
-{
-    global $filter_list;
-    
-    if(isset($filter_list[$target]))
-    {
-        return FALSE;
-    }
-    $filter_list[$target] = $descriptor;
-    return TRUE;
-}  
-
-/**
-  * Send a directed filter event (to a module or to the system)
-  *
-  * @param string $target_id Name of the module filter handler.  
-  * @param array $code Action message id to send to the registered handler.
-  * @param mixed $data Additional data (optional).
-  * @return mixed FALSE if handler dosent exist or isnt defined
-  */ 
-function F( $target_id, $code, $data = FALSE )
-{
-    global $filter_list;
-    
-    $_event_data = array( "target_id" => $target_id,
-                          "code"      => $code,
-                          "data"      => $data);  
-
-    // check if such a handler is registered
-    if(!isset($filter_list[$target_id]))
-    {
-        trigger_error("This filtervhandler function isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-        return FALSE;
-    }  
-
-    // get the function name
-    $descriptor = $filter_list[$target_id];
-
-    // check if the defined function handler exist
-    if(!function_exists($descriptor['filter_handler']))
-    {
-        trigger_error("This filter handler function dosent exists: ".$descriptor['filter_handler']."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-        return FALSE;
-    }
-
-    // call the filter handler function
-    return $descriptor['filter_handler']( $_event_data );  
-} 
-
 
 ?>
