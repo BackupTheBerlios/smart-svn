@@ -66,7 +66,19 @@ class sfUtil
         {
             return $var;
         }
-    }        
+    }
+    /**
+     *  md5 password encrypting for patUser
+     *
+     *
+     *  @access public
+     *  @param  string  $password
+     *  @return string  encrypted password
+     */
+    function    md5_crypter( $password )
+    {
+        return md5($password);
+    }    
 }
 
 ?>

@@ -43,16 +43,6 @@ function option_event_handler( $evt )
     switch( $evt['code'] )
     {
         case SF_EVT_LOAD_INIT_OPTION:
-            // pat configurator instance    
-            $base->conf = new patConfiguration (array(
-                                         'configDir'     => SF_BASE_DIR . '/admin/config',
-                                         'cacheDir'      => SF_BASE_DIR . '/admin/config/cache',
-                                         'errorHandling' => 'trigger_error',
-                                         'includeDir'    => SF_BASE_DIR . '/admin/include',
-                                         'encoding'      => 'iso-8859-1'
-                                        ));                          
-            if( SF_DEBUG == TRUE ) $base->register( 'conf', __FILE__, __LINE__);
-
             //  parse global config options file
             $base->conf->loadCachedConfig( 'config_options.xml' );
 

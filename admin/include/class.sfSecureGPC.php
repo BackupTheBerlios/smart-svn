@@ -69,9 +69,10 @@ class sfSecureGPC
      * _getString
      *
      * Check if the value is a string which
-     * contains a-zA-Z chars
+     * contains a-zA-Z chars or the preg value in $preg_str
      *
      * @param mixed $var Variable. 
+     * @param string $preg_str preg string format eg. "[a-zA-Z]".
      * @return string
      * @access privat
      */    

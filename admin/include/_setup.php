@@ -34,7 +34,7 @@ if(!is_writeable( SF_BASE_DIR . '/admin/tmp/cache_public/' ))
 }
 
 // Do setup 
-if( $_POST['do_setup'] && (count($base->tmp_error) == 0) )
+if( $_POST['do_setup'] && (count($base->tmp_error, COUNT_RECURSIVE) == 0) )
 {
 
     if( empty($_POST['host']) )
@@ -54,7 +54,7 @@ if( $_POST['do_setup'] && (count($base->tmp_error) == 0) )
         $base->tmp_error[]['error'] = 'DB name field is empty!';
     }
   
-    if( count($base->tmp_error) == 0 )
+    if( count($base->tmp_error, COUNT_RECURSIVE) == 0 )
     {
         // set db resource
         $base->dsn = $_POST['db_type'].'://'.$_POST['login'].':'.$_POST['password'].'@'.$_POST['host'].'/'.$_POST['db_name'];
@@ -66,7 +66,7 @@ if( $_POST['do_setup'] && (count($base->tmp_error) == 0) )
             $base->tmp_error[]['error'] = $base->db->getMessage();
         }        
 
-        if( count($base->tmp_error) == 0 )
+        if( count($base->tmp_error, COUNT_RECURSIVE) == 0 )
         {
             $base->tmp_config['db.smart'] = array(
                                        'db_host'         => $_POST['host'],

@@ -38,7 +38,7 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
     $base->tmp_error[]['error'] = 'Sysadmin password fields are empty or not equal!';
 } 
 
-if( count($base->tmp_error) == 0 )
+if( count($base->tmp_error, COUNT_RECURSIVE) == 0 )
 {
     switch($_POST['db_type'])
     {
@@ -54,7 +54,10 @@ if( count($base->tmp_error) == 0 )
     include_once(SF_BASE_DIR.'/admin/modules/user/patUser/include/patUser.php');
 
     // patUser instance
-    $base->user = new patUser();
+    $base->user = new patUser( TRUE, "smartUserData", "{$_POST['table_prefix']}user_sequence" );
+    
+    // set encrypting function
+    $base->user->setCryptFunction( array( $base->util, "md5_crypter" ) );
 
     $base->user->setAuthDbc( $base->db );
 

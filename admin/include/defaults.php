@@ -95,6 +95,7 @@ define('SF_EVT_END',                     5);
 define('SF_EVT_DEBUG',                   6);
 define('SF_EVT_SETUP',                   7);
 define('SF_EVT_LOAD_INIT_OPTION',        8);
+define('SF_EVT_SETUP_FINISH',            9);
 
 
 ?>

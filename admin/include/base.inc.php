@@ -69,13 +69,38 @@ $base->errorHandler   =  new sfErrorHandler();
 if ( SF_DEBUG == TRUE ) $base->register( 'errorHandler', __FILE__, __LINE__);//remove    
 patErrorManager::setErrorHandling( E_ALL , 'callback', array( $base->errorHandler, 'sfDebug' ) );
 
+//  instance of the util class
+$base->util = new sfUtil();
+if( SF_DEBUG == TRUE ) $base->register( 'util', __FILE__, __LINE__);
+
 /*
  * The base location to Smart
  */    
-define('SF_BASE_LOCATION', sfUtil::base_location());
+define('SF_BASE_LOCATION', $base->util->base_location());
+
+// pat configurator instance    
+$base->conf = new patConfiguration (array(
+                                    'configDir'     => SF_BASE_DIR . '/admin/config',
+                                    'cacheDir'      => SF_BASE_DIR . '/admin/config/cache',
+                                    'errorHandling' => 'trigger_error',
+                                    'includeDir'    => SF_BASE_DIR . '/admin/include',
+                                    'encoding'      => 'iso-8859-1'));                          
+if( SF_DEBUG == TRUE ) $base->register( 'conf', __FILE__, __LINE__);
+
+//  parse release info file
+$base->conf->loadCachedConfig( 'config_release_info.xml' );
+
+// get system status
+$base->system_status = $base->conf->getConfigValue('info.status');
+
+// Check if db connect data file is present
+if ( !is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php') )
+{
+    $base->tmp_no_db_connect_file = TRUE;
+}
 
 // Check if setup was done
-if (!@is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php'))
+if ( isset($base->tmp_no_db_connect_file) || ($base->system_status != 'ready') )
 {
     // redirect to setup
     if (SF_SECTION != 'admin')
@@ -136,13 +161,13 @@ unset($base->tmp_evt_handler);
 // Check if option handler is installed (required)
 if ( FALSE == $base->event->is_handler(SF_OPTION_MODULE) )
 {
-    patErrorManager::raiseError( "sf:handler", 'Missing handler', SF_OPTION_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__ );
+    patErrorManager::raiseError( "EventHandler", 'Missing handler', SF_OPTION_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__ );
 }
 
 // Check if user authentication handler is installed (required)
 if ( FALSE == $base->event->is_handler(SF_AUTH_MODULE) )
 {
-    patErrorManager::raiseError( "sf:handler", 'Missing handler', SF_AUTH_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__ );
+    patErrorManager::raiseError( "EventHandler", 'Missing handler', SF_AUTH_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__ );
 }
 
 //

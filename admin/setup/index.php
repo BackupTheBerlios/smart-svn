@@ -39,13 +39,15 @@ if( $_POST['do_setup'] )
     $base->event->broadcast_run( SF_EVT_SETUP );
     
     // if there are errors
-    if( count($base->tmp_error) > 0 )
+    if( count($base->tmp_error, COUNT_RECURSIVE) > 0 )
     {   
         $base->tpl->addRows('error', $base->tmp_error);
     }    
     // if there are no errors go to the admin section
     else
     {    
+        // Send a setup finish message to the system handler
+        $base->event->directed_run( SF_EVT_HANDLER_SYSTEM, SF_EVT_SETUP_FINISH );
         @header('Location: ../index.php');
         exit;  
     }

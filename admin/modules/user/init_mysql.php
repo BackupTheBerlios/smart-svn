@@ -30,7 +30,7 @@ $res = & $base->db->query(
 "CREATE TABLE IF NOT EXISTS {$base->tmp_table_prefix}user (
   uid int(10) unsigned NOT NULL,
   username varchar(20) NOT NULL default '',
-  passwd char(20) NOT NULL default '',
+  passwd char(32) NOT NULL default '',
   name varchar(100) NOT NULL default '',
   lastname varchar(100) NOT NULL default '',
   email varchar(200) NOT NULL default '',
@@ -45,7 +45,7 @@ $res = & $base->db->query(
 
 if (DB::isError($res)) 
 {
-    patErrorManager::raiseError( 111, $res->getMessage() );
+    patErrorManager::raiseError( 'MySql', 'Create Table Error',$res->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__ );
 }
 
 // User group table
@@ -57,7 +57,7 @@ $res = & $base->db->query(
     
 if (DB::isError($res)) 
 {
-    patErrorManager::raiseError( 111, $res->getMessage() );
+    patErrorManager::raiseError( 'MySql', 'Create Table Error',$res->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__ );
 }
 
 // User group relation table
@@ -70,7 +70,7 @@ $res = & $base->db->query(
     
 if (DB::isError($res)) 
 {
-    patErrorManager::raiseError( 111, $res->getMessage() );
+    patErrorManager::raiseError( 'MySql', 'Create Table Error',$res->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__ );
 }
 
 // User permission table
@@ -84,7 +84,7 @@ $res = & $base->db->query(
     
 if (DB::isError($res)) 
 {
-    patErrorManager::raiseError( 111, $res->getMessage() );
+    patErrorManager::raiseError( 'MySql', 'Create Table Error',$res->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__ );
 }
 
 ?>

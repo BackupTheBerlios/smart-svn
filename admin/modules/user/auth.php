@@ -23,7 +23,10 @@ if (!defined('SF_SECURE_INCLUDE'))
 include_once(SF_BASE_DIR.'/admin/modules/user/patUser/include/patUser.php');
 
 // patUser instance
-$base->user = new patUser( TRUE, "patUserData" );
+$base->user = new patUser( TRUE, "smartUserData", "{$base->db_data['db_table_prefix']}user_sequence" );
+
+// set encrypting function
+$base->user->setCryptFunction( array( $base->util, "md5_crypter" ) );
 
 $base->user->setAuthDbc( $base->db );
 

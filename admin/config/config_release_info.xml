@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<configuration>
+    <path name="info">
+        <configValue name="date" type="string">2004-06-18</configValue>
+        <configValue name="email" type="string">smart@open-publisher.net</configValue>
+        <configValue name="name" type="string">Smart PHP Framework</configValue>
+        <configValue name="status" type="string"></configValue>
+        <configValue name="url" type="string">http://smart.open-publisher.net</configValue>
+        <configValue name="version_num" type="string">0.1a</configValue>
+    </path>
+</configuration>
