@@ -96,10 +96,6 @@ else
 // see modules/xxx/actions/class.xxx_sys_init.php
 $B->B( 'sys_init' );
 
-// Directed intercepting filter event (auto_prepend)
-// see smart/actions/class.system_sys_prepend.php
-$B->M( MOD_SYSTEM, 'sys_prepend' );
-
 // Directed authentication event to the module handler, 
 // which takes the authentication part
 // The variable SF_AUTH_MODULE must be declared in the "common"
@@ -146,25 +142,18 @@ switch ( SF_SECTION )
         break;
         
     default:
-        // get the public view (template)
-        // see smart/actions/class.system_get_public_view.php
-        if (SF_TEMPLATE_ENGINE == TRUE)
+        // perform on the requested view class and return its object
+        $view = $B->M( MOD_SYSTEM, 'get_public_view');
+        // render a template ???
+        if ( SF_TEMPLATE_RENDER == $view->render_template )
         {
-            include( $B->M( MOD_SYSTEM, 'get_public_view') );
-        }
-        else
-        {
-            // if an other template engine take effect only
-            // execute the specific view class
-            $B->M( MOD_SYSTEM, 'get_public_view')
-        }
-
+            // get the public template
+            include( $view->getTemplate() );   
+        }        
+        // Launch view related append filter chain
+        $view->appendFilterChain();                
         break;
 }
-  
-// Directed intercepting filter event (auto_append)
-// see smart/actions/class.system_sys_append.php
-$B->M( MOD_SYSTEM, 'sys_append' );   
 
 // Send the output buffer to the client
 while (@ob_end_flush());

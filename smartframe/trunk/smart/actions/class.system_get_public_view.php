@@ -41,102 +41,103 @@ class system_get_public_view
     }
     
     /**
-     * - validate the template request
-     * - build the whole path to the requested template
-     * - return the template path
-     * - load a template view class if present
+     * - validate the view request
+     * - make instance of the view class
+     * - execute the view related prepend filter chain
+     * - preform on the view class
+     * - return the view object
      *
      *
      * @param array $data
-     * @return string
+     * @return object the requested view object
      */
     function perform( $data )
     {
-        // Check if the reuested template is internal defined
+        // Check if the requested template is passed through the $data array
         // else fetch the name from an external var (gpc)
-        if( isset($data['view']) )
+        if ( isset($data['view']) )
         {
             $view = $data['view'];
         }
-        else
+        elseif ( isset($_REQUEST['view']) )
         {
             $view = $_REQUEST['view'];
         }
 
-        // If no template request is done load the default template
+        // If no view request is done load the default template
         if (!isset($view))
         {
             $view = 'index';
         }
 
-        // init
-        $template_file = '';
+        // Check view request string
+        if(!preg_match("/[a-zA-Z0-9_]{1,30}/", $view))
+        {
+            die ('The requested template name "' . $view . '" has a wrong name format! Only max. 30 chars a-zA-Z0-9_ are accepted.');
+            exit;
+        } 
 
         // build the whole file path to the view class file
         $view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $view . '.php';
 
+        // check if view class file exists
+        if( !@file_exists( $view_class_file ) )
+        {
+            die ('The requested view dosent exists: ' . $view_class_file);
+            exit; 
+        }
+        
+        // include the requested view class
+        include_once( $view_class_file );
+        
+        // build the requested view class name and make instance
+        $view_class = 'view_'.$view;          
+        $view_obj   = & new $view_class();
+        
+        // Launch view related prepend filter chain
+        $view_obj->prependFilterChain(); 
+        
+        // perform on the view
+        if( FALSE == $view_obj->perform() )
+        {
+            // if error
+            return $this->_error_view( $view_obj );
+        }
+
+        return $view_obj;
+    } 
+    
+    /**
+     * Build the error view
+     * - make instance of the view class
+     * - execute the view related prepend filter chain
+     * - preform on the view class
+     * - return the view object
+     *
+     *
+     * @param object $view_obj original view object
+     * @return object error view object
+     */    
+    function _error_view( & $view_obj )
+    {
+        // build the whole file path to the view class file
+        $view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $view_obj->error_view . '.php';
+
         // include view class file of the requested template
         if( @file_exists( $view_class_file ) )
         {
-            include_once( $view_class_file );
+            die( "Error view class dosent exists: " . $view_class_file );  
+        } 
             
-            $view_class = 'view_'.$view;
-            
-            $_view = & new $view_class();
-            if( FALSE === ($view_class_result = $_view->perform()) )
-            {
-                // on error set the error template as default
-                $template_file = SF_BASE_DIR . 'error.tpl.php';
-            }
-            elseif( TRUE !== $view_class_result )
-            {
-                // get new view from the view class
-                $view = & $view_class_result;
-            }
-        }
-          
-        // check if no error template file requested
-        if( empty($template_file) )
-        {
-            if(preg_match("/[^a-z_]{1,30}/", $view))
-            {
-                $this->B->view_error = 'The requested template name "' . $view . '" has a wrong name format! Only chars a-z and underscores _ are accepted.';
-                
-                $view = 'error';  
-                
-                // build the whole requested template file path
-                $template_file = SF_BASE_DIR . 'error.tpl.php';
-            } 
-            else
-            {
-                // set template group
-                $template_group = $this->B->sys['option']['tpl'];
-                if( SF_TPL_GROUP != '' )
-                {
-                    $template_group = SF_TPL_GROUP;
-                    
-                }
-            
-                // build the whole requested template file path
-                $template_file = SF_BASE_DIR . SF_TPL_FOLDER . $template_group . '_' . $view . '.tpl.php';
-            }
-        }
-         
-        // check if the requested template exist
-        if (!@file_exists( $template_file ))
-        {
-            $this->B->view_error = 'The requested template "' .$template_file. '" dosent exists!';
-            $template_file = SF_BASE_DIR . 'error.tpl.php';
-            
-            if (!@file_exists( $template_file ))
-            {            
-                // on error
-                die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
-            }
-        }
-
-        return $template_file;
-    }    
+        // include the requested view class
+        include_once( $view_class_file );
+        
+        // build the class name and make instance
+        $error_view_class = 'view_'.$view_obj->error_view;          
+        $error_view_obj   = & new $error_view_class();            
+       
+        return $error_view_obj->perform( $view_obj );      
+    }
 }
 
 ?>

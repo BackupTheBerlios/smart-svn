@@ -38,6 +38,9 @@ include_once( SF_BASE_DIR . 'smart/includes/class.util.php' );
 // The base container object
 include_once( SF_BASE_DIR . 'smart/includes/class.base.php' );
 
+// Default view class
+include_once( SF_BASE_DIR . 'smart/includes/class.view.php' );
+
 // create base container instance
 $B = & new Base;
 
