@@ -1,21 +1,21 @@
 The controller takes care for that every thing in SMART is going on the right way. The controller entry script is **index.php**. This script takes the control over the system. 
 
 ++++ The live cycle of a request:
-A request is always related to how data should be represented (the view). Some data can be represented as a simple text page, html page, pdf, download or what ever. One  global super variable that the controller handles is the "view" variable. This variable define, which view class the controller has to select.
+A request is always related to how data should be represented (the view). Some data can be represented as a simple text page, html page, pdf, download or what ever. One global super variable that the controller handles is the "view" variable. This variable defines which view class the controller has to select.
 
 Let's look at Smart's processing of requests in more detail:
 
 * initialisation of the system and registration of the modules. see: /smart/includes/core.inc.php
 * Make instance of the requested **view** class. see: /views_default
-* Execute the authentication methode of this view class. Each view can have its own authentication
-* Execute the prepend methode of this view class. Here you can include filters, such as spam filters or what ever you want.
-* Execute the perform methode of this view class. Can includes event calls, which execute modules actions. E.g. read or write data. Example: read data from the model and assign templates variables with this data
-* Render the template related to the requested view. see: templates_default
-* Execute the append methode of this view class. Here you can include filters which performs on the rendered template.
+* Execute the authentication method of this view class. Each view can have its own authentication
+* Execute the prepend method of this view class. Here you can include filters, such as spam filters or what ever you want.
+* Execute the perform method of this view class. It can include event calls, which execute modules actions. E.g. read or write data. Example: read data from the model and assign templates variables with this data
+* Render the template related to the requested view. See: templates_default
+* Execute the append method of this view class. Here you can include filters, which performs on the rendered template.
 * Output the result
 
-An other gobal super variable,which the controller can handle is the **admin** variable. If this variable is defined, the controller knows that it has to load the views of the administration interface from a defined module.
+An other global super variable, which the controller can handle is the **admin** variable. If this variable is defined, the controller knows that it has to load the views of the administration interface from a defined module.
 **index.php?admin=1&m=test**
-Here the controller loads the view from the module "test". The controller load first the **index** view of the "common" module. This module is required. The index view render the index template of the "common" module. Every view of the other modules are included from the common module view. For indeep docs of the modules go [?view=node&node=671673398 here].
+Here the controller loads the view from the module "test". The controller loads first the **index** view of the "common" module. This module is required. The index view renders the index template of the "common" module. Every view of the other modules is included from the common module view. For in deep docs of the modules go [?view=node&node=671673398 here].
 
-Of course you have all the liberty over the design of the admin interface.   
+Of course you have all the liberty over the design of the admin interface.

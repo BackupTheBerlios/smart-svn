@@ -6,7 +6,7 @@ Use this to test the framework and to learn how it works. It contains some very 
 
 +++ Install of "little Jo"
 Extract the archive to a web directory of your choice. 
-Make shure that the following directories and files are writeable by php scripts:
+Make sure that the following directories and files are writeable by php scripts:
 
 * /data/captcha
 * /data/common/cache
@@ -16,11 +16,11 @@ Make shure that the following directories and files are writeable by php scripts
 * /data/media
 * /logs
 
-Point your browser to "little Jo's web directory. You should see a setup screen. After the setup was successfull done you can login under:
+Point your browser to "little Jo's web directory. You should see a setup screen. After the setup was successfully done you can login under:
 **user: admin 
 password: admin**
 
-Thats it.
+That’s it.
 
 Little Jo is delivered with sample data. If you want to start an emtpy project from scratch without sample data, delete and modify the following files:
 
@@ -29,4 +29,4 @@ Little Jo is delivered with sample data. If you want to start an emtpy project f
 # Edit the /data/navigation/nodes.php file and resave it with empty content, just with opening/closing php tags ``&lt;?php ?&gt;``.
 
 +++ How to upgrade?
-Please use the [http://forum.open-publisher.net/ project forum] for upgrade questions. Overload your existing installation with the new one, execpt the /data folder.
+Please use the [http://forum.open-publisher.net/ project forum] for upgrade questions. Overload your existing installation with the new one, except the /data folder.

@@ -1,10 +1,10 @@
-In action classes you can define the working behavior of a module. Those actions are units whose job is to perform on a event call. Those classes are only loaded on demande; means; when a event call was done. Compared to normal api classes, which can contains hundreds or thousands of code lines, the module action classes are small units, which performs on a single job, and leads into lower memory waste.
+In action classes you can define the working behaviour of a module. Those actions are units whose job is to perform on a event call. Those classes are only loaded on demand; means; when a event call was done. Compared to normal api classes, which can contains hundreds or thousands of code lines, the module action classes are small units, which performs on a single job, and leads into lower memory waste.
 
 Action classes are parts of a module and reside in the /modules/xxx/actions folder. The file format of such an action classes is:
 **class.action_xxx_yyy.php**
 where xxx stands for the module name and yyy stands for the action name.
 
-The event distributor, which loads and instantinate the required action class execute its validate() methode and if successfull its perform() methode. 
+The event distributor, which loads and instantiate the required action class execute its validate() method and if successful its perform() method. 
 
 +++ How to create a new action class?
 
@@ -28,7 +28,7 @@ The event call for this action is:
     }
 </code>
 
-Save the following code with file name class.action_common_get_square.php in the folder modules/common/actions. Thats it. You can now use the event call above from any point of the system.
+Save the following code with file name class.action_common_get_square.php in the folder modules/common/actions. That’s it. You can now use the event call above from any point of the system.
 
 <code>
 class action_common_get_square extends action

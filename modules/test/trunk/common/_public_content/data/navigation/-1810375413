@@ -1,3 +1,8 @@
+++++ Smart 1.0a / Little Jo 0.7
+# Smart/Little Jo - fixed E_NOTICE messages
+# Smart - deleted class.util.php. This should be part of a common module: see Little Jo
+# Smart - Changed public error view mechanism
+
 ++++ Smart 0.9a / Little Jo 0.6
 # (Smart) The third argument of M(MOD_SYSTEM, 'get_view', $xxx) is passed to view classes. It's available in view classes: $this->view_data . (suggested by P. Gapi``&#324;``ski)
 # (Little Jo) added navigation media manager
