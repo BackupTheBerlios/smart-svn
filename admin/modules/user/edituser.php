@@ -21,6 +21,12 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on '. __FILE__);
 }
 
+if(FALSE == rights::ask_access_to_modify_user( (int)$_REQUEST['uid'] ))
+{
+    @header('Location: index.php?m=USER');
+    exit;
+}
+
 $B->form_error = FALSE;
 
 if($_POST['deluser'] == 1)
@@ -48,10 +54,25 @@ if(isset($_POST['edituser']))
     }
     else
     {
-        if( $_POST['rights_orig'] != (int)$_POST['rights'] )
+        // Check if you want to change your own rights or status
+        if( ($_POST['rights_orig'] != (int)$_POST['rights']) || ($_POST['status_orig'] != (int)$_POST['status']) )
         {
             if(TRUE == rights::is_login_user( (int) $_POST['uid']))
-                $B->form_error = 'You can not change your own rights!';
+                $B->form_error = 'You can not change your own rights or status!';
+        }
+        
+        // Check if you can change rights to the demanded level
+        if( (FALSE == $B->form_error) && ($_POST['rights_orig'] != (int)$_POST['rights']) )
+        {
+            if(FALSE == rights::ask_set_rights ( (int) $_POST['uid'], (int)$_POST['rights'] ) )
+                $B->form_error = 'You can not change to this rights level!';
+        }
+
+        // Check if you can change status of this user
+        if( (FALSE == $B->form_error) && ($_POST['status_orig'] != (int)$_POST['status']) )
+        {
+            if(FALSE == rights::ask_set_status ( (int) $_POST['uid'] ))
+                $B->form_error = 'You can not change status of this user!';
         }
         
         if(empty($B->form_error))
@@ -87,6 +108,7 @@ else
     unset($B->tmp_fields);
 }
 
+// if error restore the form fields values
 if(!empty($B->form_error))
 {
     $B->tpl_data['forename'] = htmlentities($B->util->stripSlashes($_POST['forename']));

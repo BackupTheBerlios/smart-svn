@@ -14,6 +14,7 @@ function deleteuser(f, mes)
 <form name="deluser" method="post" action="index.php?m=USER&mf=edit_usr">
 <input name="uid" type="hidden" value="<?php echo $B->tpl_data['uid']; ?>">
 <input name="rights_orig" type="hidden" value="<?php echo $B->tpl_data['rights']; ?>">
+<input name="status_orig" type="hidden" value="<?php echo $B->tpl_data['status']; ?>">
 <input name="deluser" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>

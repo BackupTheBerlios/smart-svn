@@ -41,11 +41,18 @@ switch($_REQUEST['mf'])
         $B->section = SF_BASE_DIR . '/admin/modules/user/templates/edituser.tpl.php';    
         break;
     case 'add_usr':
+        // have rights to add users?
+        if(FALSE == rights::ask_access_to_add_user ())
+        {
+            @header('Location: index.php?m=USER');
+            exit;
+        }    
+        
         if(isset($_POST['adduser']))
         {
             include( SF_BASE_DIR."/admin/modules/user/adduser.php" ); 
         }
-        // set the base template for this module
+        // set the base template for this module feature
         $B->section = SF_BASE_DIR . '/admin/modules/user/templates/adduser.tpl.php';
         break;
     case 'del_usr':
