@@ -52,8 +52,12 @@ class earchive_get_lists
             trigger_error("'var' is empty!\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }
-        
-        if( SF_SECTION == 'public' )
+
+        if( isset($data['status']) )
+        {
+            $status = $data['status'];
+        }
+        elseif( SF_SECTION == 'public' )
         {
             $status = 'status>1';
         }

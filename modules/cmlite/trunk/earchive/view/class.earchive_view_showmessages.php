@@ -74,6 +74,7 @@ class earchive_view_showmessages
                      'get_messages', 
                      array( 'lid'    => (int)$_REQUEST['lid'], 
                             'var'    => 'tpl_messages',
+                            'order'  => 'mdate DESC',
                             'pager'  => array('var' => 'tpl_messages_pager', 'limit' => 20, 'delta' => 3),
                             'fields' => array('mid', 'lid', 'subject', 'sender', 'mdate')));
 

@@ -55,7 +55,7 @@ class earchive_view_option
         // fetch messages from email accounts 
         if(isset($_POST['earchive_fetch_emails']))
         {
-            $this->B->M( MOD_EARCHIVE, 'fetch_emails' );
+            $this->B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
         }   
         
         return TRUE;
