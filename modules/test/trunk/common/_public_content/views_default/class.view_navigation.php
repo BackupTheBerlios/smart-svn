@@ -38,8 +38,8 @@ class view_navigation extends view
          The result is in the array $B->tpl_nav which is included as the site navigation menu. */
          M( MOD_NAVIGATION, 
             'get', 
-            array('nav'     => 'tpl_nav',
-                  'status'  => 'publish'));
+            array('nav'     => 'tpl_nodes',
+                  'nstatus' => 'publish'));
         
         return TRUE;
     }    

@@ -22,22 +22,21 @@
           </tr>
           <?php /* -----------------------------------------------------------    
                    Print out the navigation menu.                            
-                   The navigation items array $B->tpl_nav.
-                   is produced by the event call at the top of this template. 
+                   The navigation items array $B->tpl_nodes.
                    -----------------------------------------------------------*/ ?>
-          <?php foreach($B->tpl_nav as $node): ?>
+          <?php $num = count($B->tpl_nodes); for($x=1; $x<=$num; $x++): ?>
           <tr>
             <td align="left" valign="top">
               <font size="2">
-                <?php if($_REQUEST['node'] == $node['node']): ?>
-                   <strong><?php echo $node['title']; ?></strong>
+                <?php if($_REQUEST['node'] == $B->tpl_nodes[$x]['node']): ?>
+                   <strong><?php echo $B->tpl_nodes[$x]['title']; ?></strong>
                 <?php else: ?>
-                   <a href="<?php echo SF_CONTROLLER; ?>?view=node&node=<?php echo $node['node']; ?>"><?php echo $node['title']; ?></a>
+                   <a href="<?php echo SF_CONTROLLER; ?>?view=node&node=<?php echo $B->tpl_nodes[$x]['node']; ?>"><?php echo $B->tpl_nodes[$x]['title']; ?></a>
                 <?php endif; ?>
               </font>
             </td>
           </tr>
-          <?php endforeach; ?>
+          <?php endfor; ?>
           <tr>
             <td align="left" valign="top">&nbsp;</font></td>
           </tr>     

@@ -47,8 +47,8 @@ class view_node extends view
                  'error'            => 'tpl_error',
                  'title'            => 'tpl_title',
                  'body'             => 'tpl_body',
-                 'status'           => 'publish',
-                 'nl2br'            => TRUE )); 
+                 'nstatus'          => 'publish',
+                 'format'           => 'wikki' )); 
 
         return TRUE;
     }
