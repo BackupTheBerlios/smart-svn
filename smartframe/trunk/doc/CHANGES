@@ -1,6 +1,10 @@
 CHANGES
 #######
 
+2004-11-23
+----------
+- added session class in the base framework. Session must be started before the output buffer starts.
+
 2004-11-8
 ----------
 - view class can return an other view template than the original value

@@ -93,7 +93,7 @@ switch ( SF_SECTION )
         // get the public view (template)
         // see smart/actions/class.system_get_public_view.php
         include( $B->M( MOD_SYSTEM, 'get_public_view') ); 
-      
+
         break;
 }
   

@@ -94,7 +94,7 @@ class system_get_public_view
                 $view = & $view_class_result;
             }
         }
-    
+          
         // check if no error template file requested
         if( empty($template_file) )
         {
