@@ -115,9 +115,9 @@ if (DB::isError($result))
 if($success != FALSE)
 {
     // insert an administrator
-    $forename  = $B->db->quoteSmart($B->util->stripSlashes($_POST['sysname']));
-    $lastename = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslastname']));
-    $login     = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslogin']));
+    $forename  = $B->db->quoteSmart(commonUtil::stripSlashes($_POST['sysname']));
+    $lastename = $B->db->quoteSmart(commonUtil::stripSlashes($_POST['syslastname']));
+    $login     = $B->db->quoteSmart(commonUtil::stripSlashes($_POST['syslogin']));
     $passwd    = $B->db->quoteSmart(md5($_POST['syspassword1']));
     
     $uid = $B->db->nextId($B->conf_val['db']['table_prefix'].'user_seq_add_user');

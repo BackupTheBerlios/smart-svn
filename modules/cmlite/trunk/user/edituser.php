@@ -86,9 +86,9 @@ if(isset($_POST['edituser']))
         // if no error occure, proceed ...
         if(empty($B->form_error))
         {
-            $B->tmp_data = array('forename' => $B->db->quoteSmart($B->util->stripSlashes($_POST['forename'])),
-                                 'lastname' => $B->db->quoteSmart($B->util->stripSlashes($_POST['lastname'])),
-                                 'email'    => $B->db->quoteSmart($B->util->stripSlashes($_POST['email'])),
+            $B->tmp_data = array('forename' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
+                                 'lastname' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
+                                 'email'    => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
                                  'rights'   => (int)$_POST['rights'],
                                  'status'   => (int)$_POST['status']);
             
@@ -123,11 +123,11 @@ else
 // if error restore the form fields values
 if(!empty($B->form_error))
 {
-    $B->tpl_data['forename'] = htmlspecialchars($B->util->stripSlashes($_POST['forename']));
-    $B->tpl_data['lastname'] = htmlspecialchars($B->util->stripSlashes($_POST['lastname']));
-    $B->tpl_data['email']    = htmlspecialchars($B->util->stripSlashes($_POST['email']));
-    $B->tpl_data['login']    = htmlspecialchars($B->util->stripSlashes($_POST['login']));
-    $B->tpl_data['passwd']   = htmlspecialchars($B->util->stripSlashes($_POST['passwd']));
+    $B->tpl_data['forename'] = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
+    $B->tpl_data['lastname'] = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
+    $B->tpl_data['email']    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
+    $B->tpl_data['login']    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
+    $B->tpl_data['passwd']   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
     $B->tpl_data['rights']   = $_POST['rights'];
     $B->tpl_data['status']   = $_POST['status'];        
 }

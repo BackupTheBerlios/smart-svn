@@ -45,8 +45,8 @@ if(isset($_POST['editmessage']))
     {
         
         // add new user
-        $B->tmp_data = array('subject'     => $B->db->quoteSmart($B->util->stripSlashes($_POST['subject'])),
-                             'body'        => $B->db->quoteSmart($B->util->stripSlashes($_POST['body'])));
+        $B->tmp_data = array('subject'     => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['subject'])),
+                             'body'        => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['body'])));
         
         // delete attachements on demande
         if(count($_POST['aid']) > 0)
@@ -100,8 +100,8 @@ else
 if(!empty($B->form_error))
 {
     // if empty assign form field with old values
-    $B->tpl_data['subject'] = $B->util->stripSlashes($_POST['subject']);
-    $B->tpl_data['body']    = $B->util->stripSlashes($_POST['body']);
+    $B->tpl_data['subject'] = commonUtil::stripSlashes($_POST['subject']);
+    $B->tpl_data['body']    = commonUtil::stripSlashes($_POST['body']);
     $B->tpl_data['mid']     = $_POST['mid'];
     $B->tpl_data['lid']     = $_POST['lid'];
     $B->tpl_data['pageID']  = $_POST['pageID'];

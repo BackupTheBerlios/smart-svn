@@ -40,11 +40,11 @@ if(
     empty($_POST['passwd']))
 {
     // if empty assign form field with old values
-    $B->form_forename = htmlspecialchars($B->util->stripSlashes($_POST['forename']));
-    $B->form_lastname = htmlspecialchars($B->util->stripSlashes($_POST['lastname']));
-    $B->form_email    = htmlspecialchars($B->util->stripSlashes($_POST['email']));
-    $B->form_login    = htmlspecialchars($B->util->stripSlashes($_POST['login']));
-    $B->form_passwd   = htmlspecialchars($B->util->stripSlashes($_POST['passwd']));
+    $B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
+    $B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
+    $B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
+    $B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
+    $B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
     $B->form_rights   = $_POST['rights'];
     $B->form_status   = $_POST['status'];
     
@@ -53,10 +53,10 @@ if(
 else
 {
     // add new user
-    $B->tmp_data = array('forename' => $B->db->quoteSmart($B->util->stripSlashes($_POST['forename'])),
-                         'lastname' => $B->db->quoteSmart($B->util->stripSlashes($_POST['lastname'])),
-                         'email'    => $B->db->quoteSmart($B->util->stripSlashes($_POST['email'])),
-                         'login'    => $B->db->quoteSmart($B->util->stripSlashes($_POST['login'])),
+    $B->tmp_data = array('forename' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
+                         'lastname' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
+                         'email'    => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
+                         'login'    => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['login'])),
                          'passwd'   => $B->db->quoteSmart(md5($_POST['passwd'])),
                          'rights'   => (int)$_POST['rights'],
                          'status'   => (int)$_POST['status']);
@@ -69,11 +69,11 @@ else
     else
     {
         // on error during add user
-        $B->form_forename = htmlspecialchars($B->util->stripSlashes($_POST['forename']));
-        $B->form_lastname = htmlspecialchars($B->util->stripSlashes($_POST['lastname']));
-        $B->form_email    = htmlspecialchars($B->util->stripSlashes($_POST['email']));
-        $B->form_login    = htmlspecialchars($B->util->stripSlashes($_POST['login']));
-        $B->form_passwd   = htmlspecialchars($B->util->stripSlashes($_POST['passwd']));
+        $B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
+        $B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
+        $B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
+        $B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
+        $B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
         $B->form_rights   = $_POST['rights'];
         $B->form_status   = $_POST['status'];   
     

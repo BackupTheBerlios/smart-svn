@@ -185,7 +185,7 @@ class earchive
         if(!empty($data['folder']) && @is_dir($path))
         {   
             // delete attachements folder for this list
-            $GLOBALS['B']->util->delete_dir_tree( $path );
+            commonUtil::delete_dir_tree( $path );
         }
         
         // delete list
@@ -405,7 +405,7 @@ class earchive
         if(!empty($data['folder']) && @is_dir($path))
         {   
             // delete attachements folder for this list
-            $GLOBALS['B']->util->delete_dir_tree( $path );
+            commonUtil::delete_dir_tree( $path );
         }
         
         // delete list messages

@@ -101,6 +101,9 @@ if($B->sys['info']['status'] == TRUE)
     
     /* Create new object of session class */
     $B->session = & new session();    
+
+    // include util common class
+    include_once( SF_BASE_DIR . '/admin/modules/common/class.commonUtil.php' );  
 }
 
 ?>

@@ -327,7 +327,6 @@ class message_search extends earchive
      */
     function _create_tmp_table()
     {
-        //$this->tmp_search_table = (string)'_'.$GLOBALS['B']->util->unique_crc32();
         $this->tmp_search_table = "earchvetmp";
         $sql = "CREATE TEMPORARY TABLE {$this->tmp_search_table} (mid INT NOT NULL default 0)";
         

@@ -69,10 +69,10 @@ if(isset($_POST['editlist']))
     {
         
         // add new user
-        $B->tmp_data = array('name'        => $B->db->quoteSmart($B->util->stripSlashes($_POST['name'])),
-                             'emailserver' => $B->db->quoteSmart($B->util->stripSlashes($_POST['emailserver'])),
-                             'email'       => $B->db->quoteSmart($B->util->stripSlashes($_POST['email'])),
-                             'description' => $B->db->quoteSmart($B->util->stripSlashes($_POST['description'])),
+        $B->tmp_data = array('name'        => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['name'])),
+                             'emailserver' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
+                             'email'       => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
+                             'description' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['description'])),
                              'status'      => (int)$_POST['status']);
             
         // update list data
@@ -100,10 +100,10 @@ else
 if(!empty($B->form_error))
 {
     // if empty assign form field with old values
-    $B->tpl_data['name']        = $B->util->stripSlashes($_POST['name']);
-    $B->tpl_data['emailserver'] = $B->util->stripSlashes($_POST['emailserver']);
-    $B->tpl_data['email']       = $B->util->stripSlashes($_POST['email']);
-    $B->tpl_data['description'] = $B->util->stripSlashes($_POST['description']);
+    $B->tpl_data['name']        = commonUtil::stripSlashes($_POST['name']);
+    $B->tpl_data['emailserver'] = commonUtil::stripSlashes($_POST['emailserver']);
+    $B->tpl_data['email']       = commonUtil::stripSlashes($_POST['email']);
+    $B->tpl_data['description'] = commonUtil::stripSlashes($_POST['description']);
     $B->tpl_data['status']      = $_POST['status'];     
 }
 

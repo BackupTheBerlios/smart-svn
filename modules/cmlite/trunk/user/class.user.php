@@ -215,7 +215,7 @@ class user
      */     
     function add_registered_user_data( $uid )
     {
-        $md5_str = $GLOBALS['B']->util->unique_md5_str();
+        $md5_str = commonUtil::unique_md5_str();
         $_time   = date("Y-m-d H:i:s", time()); 
         
         $sql = '

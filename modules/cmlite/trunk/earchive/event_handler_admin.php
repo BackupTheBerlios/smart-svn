@@ -90,9 +90,9 @@ function earchive_event_handler( $evt )
                     while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
                     {
                         $content  = '';
-                        $content .= stripslashes($row['sender']);
-                        $content .= stripslashes($row['subject']);
-                        $content .= stripslashes($row['body']);
+                        $content .= commonUtil::stripslashes($row['sender']);
+                        $content .= commonUtil::stripslashes($row['subject']);
+                        $content .= commonUtil::stripslashes($row['body']);
                         
                         $word_indexer->indexing_words( $content, 'earchive_words_crc32', array('mid' => $row['mid'], 'lid' => $row['lid']), TRUE);      
                     }

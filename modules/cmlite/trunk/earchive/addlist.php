@@ -43,10 +43,10 @@ if(
     empty($_POST['email']))
 {
     // if empty assign form field with old values
-    $B->form_name        = htmlspecialchars($B->util->stripSlashes($_POST['name']));
-    $B->form_emailserver = htmlspecialchars($B->util->stripSlashes($_POST['emailserver']));
-    $B->form_email       = htmlspecialchars($B->util->stripSlashes($_POST['email']));
-    $B->form_description = htmlspecialchars($B->util->stripSlashes($_POST['description']));
+    $B->form_name        = htmlspecialchars(commonUtil::stripSlashes($_POST['name']));
+    $B->form_emailserver = htmlspecialchars(commonUtil::stripSlashes($_POST['emailserver']));
+    $B->form_email       = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
+    $B->form_description = htmlspecialchars(commonUtil::stripSlashes($_POST['description']));
     $B->form_status      = $_POST['status'];
     
     $B->form_error = 'You have fill out all fields!';
@@ -54,18 +54,18 @@ if(
 else
 {
     // get list messages attachment folder string
-    $list_folder = $B->util->unique_md5_str();
+    $list_folder = commonUtil::unique_md5_str();
 
-    if(!@mkdir(SF_BASE_DIR . '/data/earchive/' . $list_folder, 0775))
+    if(!@mkdir(SF_BASE_DIR . '/data/earchive/' . $list_folder, SF_DIR_MODE))
     {
         $B->form_error = 'Cannot create list messages attachment folder! Contact the administrator.';
     }
 
-    // add new user
-    $B->tmp_data = array('name'        => $B->db->quoteSmart($B->util->stripSlashes($_POST['name'])),
-                         'emailserver' => $B->db->quoteSmart($B->util->stripSlashes($_POST['emailserver'])),
-                         'email'       => $B->db->quoteSmart($B->util->stripSlashes($_POST['email'])),
-                         'description' => $B->db->quoteSmart($B->util->stripSlashes($_POST['description'])),
+    // add new email lsit
+    $B->tmp_data = array('name'        => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['name'])),
+                         'emailserver' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
+                         'email'       => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
+                         'description' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['description'])),
                          'folder'      => $B->db->quoteSmart($list_folder),
                          'status'      => (int)$_POST['status']);
              

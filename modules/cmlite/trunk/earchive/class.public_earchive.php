@@ -367,7 +367,7 @@ class earchive
         }
         else
         {
-            $query = base64_encode($GLOBALS['B']->util->getQueryString());
+            $query = base64_encode(commonUtil::getQueryString());
             @header('Location: '.SF_BASE_LOCATION.'/index.php?tpl=login&ret='.$query);
             exit;
         }
