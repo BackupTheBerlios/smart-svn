@@ -49,7 +49,7 @@ $B = & new sfBase;
 $B->errorHandler   =  new sfErrorHandler();
 
 //  instance of the util class
-$B->util = new sfUtil;
+$B->util = & new sfUtil;
 
 // Define the base location
 define('SF_BASE_LOCATION', $B->util->base_location());
