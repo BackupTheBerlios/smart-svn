@@ -24,7 +24,7 @@ class action_system_email_obfuscating extends action
      */  
     function perform( & $content )
     {
-        return str_replace("@", " AT ", $content );       
+        return str_replace("@", " AT ", $content );   
     }
 }
 

@@ -26,7 +26,7 @@ class action_system_sys_append extends action
     {
         // get the output buffer
         $content = ob_get_contents();
-        ob_clean();
+        @ob_clean();
 
         switch( SF_SECTION )
         {
@@ -51,12 +51,12 @@ class action_system_sys_append extends action
     function _filter_public( & $content )
     {
         // Manual order the filter flow 
-    
+        
         // Remove space before and after the template output
-        $content = M( SYSTEM_FILTER , 'trim_output', $content );
+        $content = M( MOD_SYSTEM , 'trim_output', $content );
 
         // email obfuscation
-        $content = M( SYSTEM_FILTER , 'email_obfuscating', $content  );  
+        $content = M( MOD_SYSTEM , 'email_obfuscating', $content  );  
         
         return $content;
     }
@@ -73,7 +73,7 @@ class action_system_sys_append extends action
         // Manual order the filter flow 
     
         // Remove space before and after the template output
-        $content = M( SYSTEM_FILTER , 'trim_output', $content );
+        $content = M( MOD_SYSTEM , 'trim_output', $content );
         return $content;
     }    
 }
