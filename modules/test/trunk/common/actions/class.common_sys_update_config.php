@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_sys_finish_update class 
+ * common_sys_update_config class 
  *
  */
  
-class common_sys_finish_update
+class common_sys_update_config
 {
     /**
      * Global system instance
@@ -51,7 +51,7 @@ class common_sys_finish_update
         include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
 
         $c = new Config();
-        $root =& $c->parseConfig($this->B->sys, 'PHPArray');
+        $root =& $c->parseConfig( $data, 'PHPArray' );
 
         // save the modified config array
         $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));  

@@ -4,7 +4,7 @@
           <tr>
             <td align="left" valign="top">
              <font size="2">
-              <?php if(!isset($_REQUEST['tpl'])): ?>
+              <?php if(!isset($_REQUEST['view'])): ?>
                   <strong>Home</strong>
               <?php else: ?>
                   <?php echo "<a href='index.php'>Home</a>"; ?>
@@ -21,10 +21,10 @@
           <tr>
             <td align="left" valign="top">
               <font size="2">
-                <?php if($_REQUEST['tpl'] == $val): ?>
+                <?php if($_REQUEST['view'] == $val): ?>
                    <strong><?php echo $key; ?></strong>
                 <?php else: ?>
-                   <a href="index.php?tpl=<?php echo $val; ?>"><?php echo $key; ?></a>
+                   <a href="index.php?view=<?php echo $val; ?>"><?php echo $key; ?></a>
                 <?php endif; ?>
               </font>
             </td>

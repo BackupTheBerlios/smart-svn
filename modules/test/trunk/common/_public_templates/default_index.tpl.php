@@ -40,7 +40,7 @@ body {
       <tr>
         <td width="15%" align="left" valign="top">
         <?php /* ### include the navigation menu view (template) ### */ ?>
-        <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('tpl' => 'navigation')) ); ?>
+        <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')) ); ?>
         </td>
         <td width="85%" align="left" valign="top">
         <?php /*----------------------------------------------------------------------------------------

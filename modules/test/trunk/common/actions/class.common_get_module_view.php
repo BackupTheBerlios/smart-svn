@@ -36,10 +36,10 @@ class common_get_module_view
     var $_module;
     /**
      * Template name
-     * @var string $_tpl
+     * @var string $_view
      * @access privat
      */
-    var $_tpl;   
+    var $_view;   
     
     /**
      * constructor
@@ -66,15 +66,12 @@ class common_get_module_view
      * @return bool true on success or false on error
      */
     function validate( & $data )
-    {
-        // init error string
-        $this->B->tpl_error = FALSE;
-        
+    {  
         // check if the request is coming from the data array
-        if( isset($data['m']) && isset($data['tpl']) )
+        if( isset($data['m']) && isset($data['view']) )
         {
             $this->_module = $data['m'];
-            $this->_tpl    = $data['tpl'];
+            $this->_view   = $data['view'];
         }
         else
         {
@@ -96,19 +93,19 @@ class common_get_module_view
             }
             
             // set default if no request
-            if( !isset( $_REQUEST['tpl'] ) )
+            if( !isset( $_REQUEST['view'] ) )
             {
-                $this->_tpl = 'index';   
+                $this->_view = 'index';   
             }    
             // ckeck on allowed chars
-            elseif(preg_match("/[a-z_]+/", $_REQUEST['tpl']))
+            elseif(preg_match("/[a-z_]+/", $_REQUEST['view']))
             {
-                $this->_tpl = $_REQUEST['tpl'];
+                $this->_view = $_REQUEST['view'];
             }
             // set error string
             else
             {
-                $this->B->tpl_error = 'Wrong template name format: tpl=' . $_REQUEST['tpl'];
+                $this->B->tpl_error = 'Wrong view name format: view=' . $_REQUEST['view'];
                 return FALSE;
             }        
         }  
@@ -122,7 +119,7 @@ class common_get_module_view
      *
      * This function can receive the requested module name
      * and template name from the GPC arrays ($_REQUEST) OR
-     * from the $data array e.g. $data['m'] $data['tpl']
+     * from the $data array e.g. $data['m'] $data['view']
      *
      * @param array $data
      * @return string whole path to the template
@@ -134,50 +131,39 @@ class common_get_module_view
         {
             return SF_BASE_DIR . 'error.tpl.php';
         }
-        
+
         // path to the requested module template
-        $template_file = SF_BASE_DIR . 'modules/' . $this->_module . '/templates/' . $this->_tpl . '.tpl.php';        
-        
+        $template_file = SF_BASE_DIR . 'modules/' . $this->_module . '/templates/' . $this->_view . '.tpl.php';        
+       
         // build the whole file path to the module view class file
-        $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.'.$this->_module.'_view_' . $this->_tpl . '.php';
-        
+        $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.'.$this->_module.'_view_' . $this->_view . '.php';
+      
         // include module view class file
         if( @file_exists( $view_class_file ) )
-        {
+        {  
             include_once( $view_class_file );
             
-            $view_class = $this->_module . '_view_' . $this->_tpl;
+            $view_class = $this->_module . '_view_' . $this->_view;
             
             // instance of the module view class
             $view = & new $view_class();
 
-            if( FALSE == $view->perform() )
+            if( FALSE == $view->perform( $data ) )
             {
-                $template_file = SF_BASE_DIR . 'error.tpl.php';
-                
-                if (!@file_exists( $template_file ))
-                {            
-                    // if no error template exists
-                    die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
-                }            
+                $this->B->tpl_error = "Class function perform() in file: \n\n{$view_class_file}\n\nreturn FALSE !!!";
+
                 // on error set the error template as default
                 return SF_BASE_DIR . 'error.tpl.php';
             }
         }
-            
+          
         // check if the requested template exist
         if (!@file_exists( $template_file ))
         {
-            $this->B->tpl_error = 'The requested template "' .$template_file. '" dosent exists!';
-            $template_file = SF_BASE_DIR . 'error.tpl.php';
-            
-            if (!@file_exists( $template_file ))
-            {            
-                // if no error template exists
-                die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
-            }    
+            $this->B->tpl_error = "The requested template \n\n{$template_file} \n\ndosent exists!";
+              
             // on error set the error template as default
-            return $template_file;
+            return SF_BASE_DIR . 'error.tpl.php';
         }
 
         return $template_file;

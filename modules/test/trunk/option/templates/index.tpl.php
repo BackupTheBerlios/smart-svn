@@ -33,7 +33,7 @@
     <form action="index.php" method="post" name="email" id="email">  
         <input name="admin" type="hidden" value="1">
         <input name="m" type="hidden" value="option">
-        <input name="tpl" type="hidden" value="index">
+        <input name="view" type="hidden" value="index">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
@@ -49,7 +49,7 @@
     </form> 
     <form action="index.php" method="post" name="title" id="title"> 
         <input name="admin" type="hidden" value="1">
-        <input type="hidden" name="tpl" id="id" value="index">
+        <input type="hidden" name="view" id="id" value="index">
         <input name="m" type="hidden" value="option">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
@@ -67,7 +67,7 @@
     </form>  
     <form action="index.php" method="post" name="charset" id="charset"> 
         <input name="admin" type="hidden" value="1">
-        <input type="hidden" name="tpl" id="id" value="index">
+        <input type="hidden" name="view" id="id" value="index">
         <input name="m" type="hidden" value="option">              
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
@@ -98,9 +98,9 @@
           </tr>
         </table> 
     </form>  
-    <form action="index.php" method="post" name="tpl" id="tpl">
+    <form action="index.php" method="post" name="view" id="view">
         <input name="admin" type="hidden" value="1">
-        <input type="hidden" name="tpl" id="id" value="index">
+        <input type="hidden" name="view" id="id" value="index">
         <input name="m" type="hidden" value="option">             
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
@@ -109,8 +109,8 @@
           <tr>
             <td width="13%" align="left" valign="top">
                <select name="group">
-                  <?php foreach($B->templ as $_tpl):  ?>
-                     <option value="<?php echo $_tpl; ?>" <?php if($_tpl==$B->sys['option']['tpl']) echo 'selected="selected"' ?>><?php echo $_tpl; ?></option>
+                  <?php foreach($B->templ as $_view):  ?>
+                     <option value="<?php echo $_view; ?>" <?php if($_view==$B->sys['option']['tpl']) echo 'selected="selected"' ?>><?php echo $_view; ?></option>
                     <?php endforeach;  ?>
                </select>
                &nbsp; 

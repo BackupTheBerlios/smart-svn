@@ -38,7 +38,7 @@ body {
       <tr>
         <td width="15%" align="left" valign="top">        
             <?php /* ### include the navigation menu view (template) ### */ ?>
-            <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('tpl' => 'navigation')) ); ?>
+            <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')) ); ?>
         </td>
         <td width="85%" align="left" valign="top"><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This
               page is produced by the counter template <strong>default_contact.tpl.php</strong>              and the corresponding view class <strong>view/class.view_contact.php</strong>. </font></p>

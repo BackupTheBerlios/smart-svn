@@ -38,7 +38,7 @@ body {
       <tr>
         <td width="15%" align="left" valign="top">        
             <?php /* ### include the navigation menu view (template) ### */ ?>
-            <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('tpl' => 'navigation')) ); ?>
+            <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')) ); ?>
         </td>
         <td width="85%" align="left" valign="top"><p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This
               page is produced by the counter template <strong>default_sitemap.tpl.php</strong>              and the corresponding view class <strong>view/class.view_sitemap.php</strong>. </font></p>
@@ -50,7 +50,7 @@ body {
                    is produced by the event call at the top of this template. 
                    -----------------------------------------------------------*/ ?>        
               <?php foreach($B->tpl_nav as $key => $val): ?>
-                <li><a href="index.php?tpl=<?php echo $val; ?>"><?php echo $key; ?></a></li>
+                <li><a href="index.php?view=<?php echo $val; ?>"><?php echo $key; ?></a></li>
           <?php endforeach; ?>
         </ul> 
       </font></p>     
