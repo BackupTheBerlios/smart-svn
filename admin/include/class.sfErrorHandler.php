@@ -41,8 +41,8 @@ class sfErrorHandler
     */
     function &sfDebug( &$error )
     {
-        $err  = patErrorManager::translateErrorLevel( $error->getLevel() )."<br />";
-        $err .= $error->getMessage()."<br />".$error->getInfo();
+        $err  = patErrorManager::translateErrorLevel( $error->getLevel() )."\n";
+        $err .= $error->getMessage()."\n".$error->getInfo();
         
         $this->_log( &$err, 'SF:' );
     }
