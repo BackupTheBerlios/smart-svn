@@ -60,6 +60,7 @@ function user_event_handler( $evt )
             }
             break;  
         case EVT_USER_REGISTER:
+            // check if option allow_register is not set
             if($B->sys['option']['user']['allow_register'] == FALSE)
             {
                 return;
@@ -142,31 +143,47 @@ function user_event_handler( $evt )
                     $data['rights']   = 1;
                     
                     $_succ = &$GLOBALS['B']->$evt['data']['success_var'];
+                    $_succ = FALSE;
                     
                     if( FALSE === ($uid = $user->add_user( $data )))
                     {
                         $_error .= 'Login exists. Chose an other one';  
-                        $_succ   = FALSE;
+                        $_succ  = FALSE;
+                        $_error = TRUE;
                     }
                     else
                     {
-                        $ustr = $user->add_registered_user_data( $uid ); 
-                        
                         $header  = "From: {$B->sys['option']['email']}\r\n";
                         $header .= "MIME-Version: 1.0\r\n";
                         $header .= "Content-type: text/html; charset={$B->sys['option']['charset']}\r\n";
-                          
-                        $validate_msg = str_replace("(URL)", "<a href='http://{$B->sys['option']['url']}/index.php?tpl=register&md5_str={$ustr}'>http://{$B->sys['option']['url']}/index.php?tpl=register&md5_str={$ustr}</a>",$evt['data']['email_msg']);
-                        $validate_msg = str_replace("(EMAIL)", "<a href='mailto:{$B->sys['option']['email']}'>{$B->sys['option']['email']}</a>",$validate_msg);
-  
-                        if(FALSE === @mail($evt['data']['reg_data']['email'],$evt['data']['email_subject'],$validate_msg,$header))
+                    
+                        if($B->sys['option']['user']['register_type'] == 'auto')
                         {
-                            trigger_error("Email couldnt be sended to registered user: {$evt['data']['reg_data']['email']}", E_USER_ERROR);
-                            $_succ   = FALSE;
+                            $ustr = $user->add_registered_user_data( $uid ); 
+                                
+                            if(FALSE === @mail($evt['data']['reg_data']['email'],$evt['data']['email_subject'],$validate_msg,$header))
+                            {
+                                trigger_error("Email couldnt be sended to registered user: {$evt['data']['reg_data']['email']}", E_USER_ERROR);
+                                $_succ   = FALSE;
+                                $_error = TRUE;
+                            }
+                            else
+                            {
+                                $_succ = TRUE;
+                                $_error = FALSE;
+                            }
                         }
-                        else
+                        elseif($B->sys['option']['user']['register_type'] == 'manual')
                         {
+                            $subject = 'User validation needed';
+                            $msg     = 'You have to validate a user registration:';
+                            $msg     .= '<a href="'.$B->sys['option']['url'].'">'.$B->sys['option']['url'].'/?tpl=USER&mf=edit_usr&uid='.$uid.'</a>';
+                            if(FALSE === @mail($B->sys['option']['email'],$subject,$msg,$header))
+                            {
+                                trigger_error("Sending validation email fails.", E_USER_ERROR);
+                            }  
                             $_succ = TRUE;
+                            $_error = FALSE;                
                         }
                     }
                 }

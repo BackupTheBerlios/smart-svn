@@ -14,12 +14,12 @@
                                        'forename' => $_POST['forename'],
                                        'lastname' => $_POST['lastname'],
                                        'email'    => $_POST['email']))); ?> 
+
+<?php //check validation url with md5 sum variable ?>
 <?php $B->M( MOD_USER, 
              EVT_USER_VALIDATE, 
              array('error_var'   => 'tpl_v_error',
-                   'error_msg'   => 'A unexpected error occured during your account validation. Please contact the administrator (EMAIL) or try again.',
-                   'success_var' => 'tpl_v_success',
-                   'success_msg' => 'Your registration validation was successfull. You can now use restricted content on site (URL)')); ?>
+                   'success_var' => 'tpl_v_success')); ?>
 <html>
 <head>
 <meta http-equiv="expires" content="0">
@@ -85,15 +85,16 @@
 <body bgcolor="#FFFFFF" text="#000000" class="registerbody">
 <form name="form1" method="post" action="index.php?tpl=register">
   <table width="400" border="0" align="center" cellpadding="2" cellspacing="0" class="register">
-    <?php if(isset($B->tpl_v_error)||isset($B->tpl_v_success)) ): ?>
+    <?php if(isset($B->tpl_v_error)||isset($B->tpl_v_success)): ?>
         <tr align="center" valign="middle">
-        <?php if($B->tpl_v_success !== FALSE): ?>
+        <?php if($B->tpl_v_success == TRUE): ?>
             <td colspan="2" class="registertitle">
-            <?php echo $B->tpl_v_success; ?>
+            Your registration is now complete. You can access restricted content on site <?php echo $B->sys['option']['url']; ?>
             </td>
+		<?php endif; ?>
         <?php if($B->tpl_v_error !== FALSE): ?>
             <td colspan="2" class="registererror">
-            <?php echo $B->tpl_v_error; ?>
+            An error occured during your registration. Please contact the administrator <a href="mailto:<?php echo $B->sys['option']['email']; ?>"><?php echo $B->sys['option']['email']; ?></a> or try again.
             </td>
         <?php endif; ?>
         </tr>
@@ -106,13 +107,17 @@
       <?php if ($B->tpl_success === TRUE):  ?>  
        <tr align="center">
         <td colspan="2" valign="top" class="registererror">
+			<?php if($B->sys['option']['user']['register_type'] == 'auto'): ?>
                 Soon your will receive an email with further instructions to complete your account.
+			<?php elseif($B->sys['option']['user']['register_type'] == 'manual'): ?>
+				Your registration have to be validate by one of the adminstrators. You will receive an email message as soon as possible.
+			<?php endif; ?>
         </td>
        </tr>  
       <?php elseif ($B->tpl_success === FALSE):  ?>  
        <tr align="center">
         <td colspan="2" valign="top" class="registererror">
-                An error occured during you registration.
+                An error occured during your registration. Please contact the administrator <a href="mailto:<?php echo $B->sys['option']['email']; ?>"><?php echo $B->sys['option']['email']; ?></a> or try again.
         </td>
        </tr>        
       <?php endif; ?>   
@@ -170,7 +175,7 @@
        <td align="left" valign="top" class="registeritem">
            Turing Key<br>
                      <input type="text" name="captcha_turing_key" value="" maxlength="5" size="40">
-                                         <input type="hidden" name="captcha_public_key" value="<?php echo $B->captcha_public_key; ?>" maxlength="5" size="40">
+                     <input type="hidden" name="captcha_public_key" value="<?php echo $B->captcha_public_key; ?>" maxlength="5" size="40">
              </td>
        <td align="left" valign="top" class="registeritem"><span class="logintext"><img src="<?php echo $B->captcha_turing_picture; ?>" border="1"></span></td>
      </tr>
@@ -180,9 +185,6 @@
      <tr align="center" valign="middle">
        <td width="80%" colspan="2"><br>
        <input type="submit" name="do_register" value="submit" onclick="subok(this.form.do_register);">       </td>
-     </tr>
-     <tr>
-       <td colspan="2" class="registertext"><br /><b>INFO:</b><br /></td>
      </tr>
      <?php endif; ?>
   </table>
