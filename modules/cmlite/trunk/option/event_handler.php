@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_OPTION' , 'OPTION');
+define ( 'MOD_OPTION' , 'option');
 
 // Version of this modul
 define ( 'MOD_OPTION_VERSION' , '0.1.3');
@@ -44,13 +44,13 @@ function option_event_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'OPTION_'.$evt['code'];
+    $class_name = 'option_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/option/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . 'modules/option/actions/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
@@ -59,20 +59,13 @@ function option_event_handler( $evt )
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
         }
-        else
-        {
-            if( SF_DEBUG == TRUE )
-            {
-                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
-            }        
-            return FALSE;
-        } 
     }
     else
     {
         // perform the request if the requested object exists
         return $B->$class_name->perform( $evt['data'] );
     }
+    return TRUE;
 }
 
 ?>

@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * OPTION_SYS_LOAD_MODULE class 
+ * option_view_index class 
  *
  */
  
-class OPTION_SYS_LOAD_MODULE
+class option_view_index
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class OPTION_SYS_LOAD_MODULE
      * constructor
      *
      */
-    function OPTION_SYS_LOAD_MODULE()
+    function option_view_index()
     {
         $this->__construct();
     }
@@ -92,19 +92,19 @@ class OPTION_SYS_LOAD_MODULE
         }     
     
         // set options of other modules
-        $this->B->B( 'SET_OPTIONS' );
+        $this->B->B( 'set_options' );
  
         // if some config are modified, write the config file and reload the page
         if($this->B->_modified == TRUE)
         {
             // include PEAR Config class
-            include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
+            include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
 
             $c = new Config();
             $root =& $c->parseConfig($this->B->sys, 'PHPArray');
-            $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
+            $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
     
-            @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=OPTION');
+            @header('Location: '.SF_BASE_LOCATION.'index.php?admin=1&m=OPTION');
             exit;
         }
 
@@ -112,7 +112,7 @@ class OPTION_SYS_LOAD_MODULE
         if(isset($_POST['update_main_options_badwordadd']) && !empty($_POST['bad_word_list']))
         {
             // Insert bad word list in db table
-            $bad_word_file = SF_BASE_DIR.'/admin/modules/option/bad_word/stop.'.$_POST['bad_word_list'].'.sql';
+            $bad_word_file = SF_BASE_DIR.'modules/option/bad_word/stop.'.$_POST['bad_word_list'].'.sql';
             if( TRUE == @is_file($bad_word_file) )
             {
                 $bad_word = @file($bad_word_file);
@@ -139,7 +139,7 @@ class OPTION_SYS_LOAD_MODULE
          // delete selected bad word languages
          elseif(isset($_POST['update_main_options_badworddel']) && isset($_POST['selected_lang']) && (count($_POST['selected_lang']) > 0))
          {
-            include_once(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php');
+            include_once(SF_BASE_DIR.'modules/common/includes/class.sfWordIndexer.php');
             foreach($_POST['selected_lang'] as $lang)
                 word_indexer::delete_bad_words_lang( $lang );              
          }           
@@ -162,14 +162,14 @@ class OPTION_SYS_LOAD_MODULE
 
          $directory->close();
  
-         include_once(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php');
+         include_once(SF_BASE_DIR.'modules/common/class.sfWordIndexer.php');
     
          // get actif bad words languages
          $this->B->tpl_selected_lang = word_indexer::get_bad_words_lang();
     
          // Get available language bad word list
          //
-         $directory =& dir(SF_BASE_DIR.'/admin/modules/option/bad_word');
+         $directory =& dir(SF_BASE_DIR.'modules/option/bad_word');
 
          $this->B->tpl_bad_word_lang = array();
 
@@ -181,7 +181,7 @@ class OPTION_SYS_LOAD_MODULE
              }            
              // Test filename
              //
-             if(TRUE == @is_file(SF_BASE_DIR.'/admin/modules/option/bad_word/'.$filename))
+             if(TRUE == @is_file(SF_BASE_DIR.'modules/option/bad_word/'.$filename))
              {
                  // Extract language from file name
                  if(preg_match("/^stop\.([^\.]+)/", $filename, $tmp))
@@ -197,10 +197,9 @@ class OPTION_SYS_LOAD_MODULE
 
          // Load options templates from other modules    
          $this->B->mod_option = array();
-         $this->B->B( 'GET_OPTIONS' );
+         $this->B->B( 'get_options' );
 
-         // set the base template for this module
-         $this->B->module = SF_BASE_DIR . '/admin/modules/option/templates/index.tpl.php';       
+         return TRUE;     
     } 
 }
 

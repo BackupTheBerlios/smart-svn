@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * OPTION_SYS_SETUP class 
+ * option_sys_setup class 
  *
  */
  
-class OPTION_SYS_SETUP
+class option_sys_setup
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class OPTION_SYS_SETUP
      * constructor
      *
      */
-    function OPTION_SYS_SETUP()
+    function option_sys_setup()
     {
         $this->__construct();
     }
@@ -69,37 +69,6 @@ class OPTION_SYS_SETUP
                     word varchar(255) NOT NULL default '',
                     lang varchar(4) NOT NULL default '')"; 
             
-        }
-        elseif($_POST['dbtype'] == 'sqlite')
-        {
-            // delete the bad_words table if it exist
-            $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='bad_words'";
-            $result = $this->B->db->query($sql);
-
-            if (DB::isError($result))
-            {
-                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-                $success = FALSE;
-            }
-
-            if($result->numRows() == 1)
-            {
-                $sql = "DROP TABLE bad_words";
-                $result = $this->B->db->query($sql);
-
-                if (DB::isError($result))
-                {
-                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-                $success = FALSE;
-                }
-            }        
-            // The bad words table. Words ignored by word indexer
-            $sql = "CREATE TABLE bad_words (
-                    word varchar(255) NOT NULL default '',
-                    lang varchar(4) NOT NULL default '')"; 
-        
         }
         
         $result = $this->B->db->query($sql);
