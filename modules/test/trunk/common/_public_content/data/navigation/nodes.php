@@ -49,10 +49,14 @@ $node['-1028336057']['order'] = 4;
 $node['-1028336057']['parent_id'] = 0;
 $node['-1810375413']['title'] = 'Changes';
 $node['-1810375413']['status'] = 2;
-$node['-1810375413']['order'] = 8;
+$node['-1810375413']['order'] = 9;
 $node['-1810375413']['parent_id'] = -1718159224;
 $node['-1110413666']['title'] = 'Known bugs';
 $node['-1110413666']['status'] = 2;
-$node['-1110413666']['order'] = 9;
+$node['-1110413666']['order'] = 10;
 $node['-1110413666']['parent_id'] = -1718159224;
+$node['-916550257']['title'] = 'Error handling';
+$node['-916550257']['status'] = 2;
+$node['-916550257']['order'] = 8;
+$node['-916550257']['parent_id'] = -1718159224;
 ?>

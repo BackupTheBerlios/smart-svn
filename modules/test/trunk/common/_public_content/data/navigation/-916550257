@@ -1,0 +1,32 @@
+There are 2 type of error groups.
+++++ Internal errors
+Internal errors, are released through the php function trigger_error(). Smart use its own error handler in /smart/includes/class.errorHandler.php. If an error occurs, it is possible to show or to write the error result in a log file, which you can find in /logs/error_log. You can control this behaviour in the /smart/inclides/default.php configuration file. 
+
+Example:
+<code>
+if (DB::isError($result)) 
+{
+  trigger_error($result->getMessage(), E_USER_ERROR);
+  return FALSE;
+}
+</code>
+
+++++ View errors
+View errors are important for those devs who build view classes. 
+the parent class of every view class provide a default error() function, which SMART internaly call when an error occurs. This is the case when you set a template, that dosent exists or a view is called, which dosent exists.
+
+You should also use this view error method for your own needs.
+
+Example: One way of how to handle errors in view classes:
+<code>
+perform( $data )
+{
+  if($data['xxx'] != 'value')
+  {
+    $this->error[] = array('xxx' => 'Hey, thats not a correct value');
+    $this->error();
+  }
+}
+</code>
+
+View errors should be stored in the error view array. The method error() call a new error view. How this new error view reacts is up to you. See default error view /views_xxx/class.view_error.php. You can change the default error view and related template to your needs. Such an error view is required. 
