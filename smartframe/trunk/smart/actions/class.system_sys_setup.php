@@ -14,7 +14,7 @@
  *
  */
  
-class ystem_sys_setup
+class system_sys_setup
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class ystem_sys_setup
      * constructor php4
      *
      */
-    function ystem_sys_setup()
+    function system_sys_setup()
     {
         $this->__construct();
     }
