@@ -25,16 +25,6 @@ if (!defined( 'SF_SECURE_INCLUDE' ))
 // include default definitions
 include_once( SF_BASE_DIR . 'smart/includes/defaults.php' );
 
-// include session class
-include_once( SF_BASE_DIR . 'smart/includes/class.session.php' ); 
-
-/* Create new object of session class */
-$B->session = & new session(); 
-
-// Start output buffering
-//
-@ob_start(); 
-
 // include sfErrorHandler
 include_once( SF_BASE_DIR . 'smart/includes/class.errorHandler.php' );
 
@@ -46,6 +36,16 @@ include_once( SF_BASE_DIR . 'smart/includes/class.base.php' );
 
 // create base container instance
 $B = & new Base;
+
+// include session class
+include_once( SF_BASE_DIR . 'smart/includes/class.session.php' ); 
+
+/* Create new object of session class */
+$B->session = & new session(); 
+
+// Start output buffering
+//
+@ob_start(); 
 
 // set error handler
 $B->errorHandler   =  new ErrorHandler();
