@@ -13,7 +13,10 @@
  * action_navigation_get class 
  *
  */
- 
+
+include_once('File/Find.php');
+include_once('File.php');
+
 class action_navigation_get extends action
 {
     /**
@@ -26,14 +29,29 @@ class action_navigation_get extends action
      */
     function perform( $data = FALSE )
     {
-            // get var name defined in the public template to store the result
-            $_result = & $this->B->$data['var']; 
+        $f = new File_Find();
+        $this->fp = new File();
+        
+        // get var name defined in the public template to store the result
+        $_result = & $this->B->$data['var']; 
             
-            // The navigation array
-            $_result = array( 'Counter'  => 'counter',
-                              'Contact'  => 'contact',
-                              'Site Map' => 'sitemap'); 
-    }    
+        $item = $f->maptree(SF_BASE_DIR . 'data/navigation');
+        $this->_get_items( $item, $_result );
+    }  
+    
+    function _get_items(&$item , &$result)
+    {
+        sort($item[0]);
+        foreach ($item[0] as $i)
+        {
+            $node = $this->fp->readLine($i.'/node');
+            $dir = basename($i);
+            if($dir != 'navigation')
+            {
+                $result[$dir] = $node;
+            }
+        }
+    }
 }
 
 ?>

@@ -45,6 +45,7 @@ function subok(s){
           </table></td>
           <td width="15%" align="right" valign="top" class="font10"><a href="<?php echo SF_CONTROLLER; ?>">The public page</a></td>
           <td width="39%" align="right" valign="middle">
+            <?php if($B->_is_logged == TRUE): ?>
             <form action="index.php" method="post">
                 <select name="m" onChange="go('<?php echo SF_CONTROLLER; ?>?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value+'&tpl=index')">
                  <option value="">The Modules</option>
@@ -52,10 +53,13 @@ function subok(s){
                     <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
                  <?php endforeach; ?>
                 </select>
-          </form>
+            </form>
+            <?php endif; ?>
           </td>
           <td width="7%" align="right" valign="top">
-            <a href="<?php echo SF_CONTROLLER; ?>?logout=1" class="font14">Logout</a>
+           <?php if($B->_is_logged == TRUE): ?>
+              <a href="<?php echo SF_CONTROLLER; ?>?view=logout" class="font14">Logout</a>
+           <?php endif; ?> 
           </td>
         </tr>
           </table></td>
