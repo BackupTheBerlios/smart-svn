@@ -36,7 +36,7 @@ class action_common_sys_setup extends action
         $this->B->conf_val['module']['common']['name']     = 'common';
         $this->B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
         $this->B->conf_val['module']['common']['mod_type'] = 'littlejo';
-        
+        // cache enabled flag
         $this->B->conf_val['option']['cache']              = TRUE;     
 
 
