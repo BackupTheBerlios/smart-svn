@@ -37,8 +37,24 @@ class action_navigation_sys_setup extends action
         $this->B->conf_val['module']['navigation']['version']  = MOD_NAVIGATION_VERSION;
         $this->B->conf_val['module']['navigation']['mod_type'] = 'littlejo';
 
-        // this directory must be writeable
-        if(!is_writeable( SF_BASE_DIR . 'data/navigation' ))
+        // setup directories
+        $old_umask = @umask(0);
+        
+        if( !is_dir(SF_BASE_DIR . 'data/navigation') )
+        {
+            if( !@mkdir( SF_BASE_DIR . 'data/navigation', SF_DIR_MODE ) ) 
+            {
+                trigger_error('Cant create dir: '.SF_BASE_DIR . 'data/navigation', E_USER_WARNING);
+            }
+            else
+            {
+                if( !@copy(SF_BASE_DIR . 'smart/.htaccess', SF_BASE_DIR . 'data/navigation') )
+                {
+                    trigger_error('Could not copy .htaccess to dir: '.SF_BASE_DIR . 'data/navigation', E_USER_WARNING);                
+                }
+            }            
+        }        
+        elseif(!is_writeable( SF_BASE_DIR . 'data/navigation' ))
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/navigation';
             $success = FALSE;
@@ -58,7 +74,9 @@ class action_navigation_sys_setup extends action
                 $success = FALSE;
             }     
         }
-            
+        
+        @umask($old_umask);
+        
         // if noting is going wrong $success is still TRUE else FALSE
         // ex.: if creating db tables fails you must set this var to false
         return $success;
