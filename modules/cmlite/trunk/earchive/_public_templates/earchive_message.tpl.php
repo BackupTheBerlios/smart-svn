@@ -83,12 +83,7 @@
                             <a href="index.php">Home</a>
                         <?php endif; ?>
                         </td>
-                    </tr>
-                    <tr>
-                        <td align="left" valign="top" class="leftnavlinks">
-                            <a href="http://forum.open-publisher.net" target="_blank">Forum</a>
-                        </td>
-                    </tr>                      
+                    </tr>                    
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks">&nbsp;</td>
                     </tr>

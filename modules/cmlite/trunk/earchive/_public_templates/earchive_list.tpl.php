@@ -2,7 +2,7 @@
 <?php // caching takes effect right now ?>
 <?php $B->M( MOD_SYSTEM, 
              SF_EVT_START_OUTPUT_CACHE, 
-             array('id' => 'lid'.(int)$_GET['lid'], 'lifetime' => 3600)); ?> 
+             array('id' => 'lid'.(int)$_GET['lid'].(int)$_GET['pageID'], 'lifetime' => 3600)); ?> 
 <?php //get all available email lists and store the result in the array $B->tpl_list ?>
 <?php $B->M( MOD_EARCHIVE, 
              EARCHIVE_LISTS, 
@@ -79,12 +79,7 @@
                            <a href="index.php">Home</a>
                         <?php endif; ?>
                         </td>
-                    </tr>
-                    <tr>
-                        <td align="left" valign="top" class="leftnavlinks">
-                            <a href="http://forum.open-publisher.net" target="_blank">Forum</a>
-                        </td>
-                    </tr>                      
+                    </tr>                   
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks">&nbsp;</td>
                     </tr>
