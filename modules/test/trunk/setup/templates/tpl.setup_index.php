@@ -45,11 +45,30 @@ function subok(s){
   <tr>
     <td align="center" valign="top"><p align="left">This template is loaded from the <strong>setup</strong>        module: </p>
       <p align="left">File <strong>'modules/setup/templates/tpl.setup_index.php'</strong>. </p>
-      <p align="left">In most cases you will find here a database setup form
-            (creating db tables) and a form to create an administrator user account. After submit
+      <p align="left">After submit
             this form the setup module will send setup event calls to all other modules. Each
-            module is responsible for its own setup proceedure. </p>
-      <p>
+            module is responsible for its own setup proceedure. You can login into the admin area with <strong>login: admin</strong> and <strong>password: admin</strong></p>
+      <p align="left">Please be shure that the following directories and files are writeable:</p>
+      <ul>
+        <li>
+          <div align="left">data/captcha</div>
+        </li>
+        <li>
+          <div align="left">data/navigation</div>
+        </li>
+        <li>
+          <div align="left">data/navigation/all files</div>
+        </li>
+        <li>
+          <div align="left">logs/</div>
+        </li>
+        <li>
+          <div align="left">modules/common/config</div>
+        </li>
+        <li>
+          <div align="left">modules/common/tmp/session_data</div>
+        </li>
+        </ul>      <p>
         <input type="submit" name="do_setup" value="Submit" />
       </p></td>
   </tr>
