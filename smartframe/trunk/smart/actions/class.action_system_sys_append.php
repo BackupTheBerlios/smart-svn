@@ -53,10 +53,10 @@ class action_system_sys_append extends action
         // Manual order the filter flow 
     
         // Remove space before and after the template output
-        $content = F( SYSTEM_FILTER , 'trim_output', $content );
+        $content = M( SYSTEM_FILTER , 'trim_output', $content );
 
         // email obfuscation
-        $content = F( SYSTEM_FILTER , 'email_obfuscating', $content  );  
+        $content = M( SYSTEM_FILTER , 'email_obfuscating', $content  );  
         
         return $content;
     }
@@ -73,7 +73,7 @@ class action_system_sys_append extends action
         // Manual order the filter flow 
     
         // Remove space before and after the template output
-        $content = F( SYSTEM_FILTER , 'trim_output', $content );
+        $content = M( SYSTEM_FILTER , 'trim_output', $content );
         return $content;
     }    
 }
