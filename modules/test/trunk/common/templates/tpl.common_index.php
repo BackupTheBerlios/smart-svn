@@ -63,7 +63,13 @@ function subok(s){
   <tr>
     <td width="20%" align="left" valign="top">
         <?php /* ### include the module view (template) ### */ ?>
-        <?php include( $B->M( MOD_COMMON, 'get_module_view' ) ); ?>
+        <?php
+              if(empty($_REQUEST['m']))
+              {
+                  $_REQUEST['m'] = SF_DEFAULT_MODULE;
+              }
+              M( MOD_SYSTEM, 'get_view', array('m' => $_REQUEST['m'], 'view' => 'index') );         
+        ?>
     </td>
   </tr>
   <tr>
