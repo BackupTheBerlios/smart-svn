@@ -10,9 +10,10 @@
 </head>
 
 <body>
+<p><a href="admin/index.php">admin</a></p>
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This page is produced
-    by the test_showvars-tpl.php template. You will find the template of this
-    page in the root folder <strong>/test_showvars-tpl.php</strong>
+      by the test_showvars-tpl.php template. You will find the template of this
+      page in the root folder <strong>/test_showvars-tpl.php</strong>
 </font></p>
 <p align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="index.php">
 back to main page</a></font></p>

@@ -10,8 +10,9 @@
 </head>
 
 <body>
+<p><a href="admin/index.php">admin</a></p>
 <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This is the public web page which is loaded by default. You will find the
-  template of this page in the root folder <strong>/test_index.tpl.php</strong>
+    template of this page in the root folder <strong>/test_index.tpl.php</strong>
 </font></p>
 <p align="right"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><a href="index.php?tpl=showvars">switch
     to an other page</a></font></p>
