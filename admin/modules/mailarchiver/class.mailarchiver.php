@@ -17,11 +17,10 @@
 class mailarchiver
 {
     /**
-     * get users data
+     * get all lists
      *
-     * @param array $fields Field names of the user db table
-     * @param int $rights Get user with specific rights (FALSE get all)
-     * @return array Users data 
+     * @param array $fields Field names of the list db table
+     * @return array Lists data 
      */ 
     function get_lists( $fields )
     {       
@@ -60,11 +59,11 @@ class mailarchiver
     }
 
     /**
-     * get user data
+     * get email list data
      *
-     * @param int $uid User id
-     * @param array $fields Field names of the user db table
-     * @return array User data 
+     * @param int $lid List id
+     * @param array $fields Field names of the list db table
+     * @return array List data 
      */     
     function get_list( $lid, $fields )
     {
@@ -87,9 +86,9 @@ class mailarchiver
     } 
     
     /**
-     * add user
+     * add email list
      *
-     * @param array $data associative array of user data
+     * @param array $data associative array of list data
      * @return bool true or false
      */     
     function add_list( $data )
@@ -110,10 +109,10 @@ class mailarchiver
         return $GLOBALS['B']->conn->Execute($sql);
     } 
     /**
-     * update user
+     * update email list data
      *
-     * @param int $uid User id
-     * @param array $data associative array of user data
+     * @param int $lid List id
+     * @param array $data associative array of list data
      */
     function update_list( $lid, $data )
     {
@@ -138,19 +137,40 @@ class mailarchiver
     } 
 
     /**
-     * delete user
+     * delete email list archiv
      *
-     * @param int $uid User id
+     * @param int $lid List id
      */
     function delete_list( $lid )
     {
+        // get attachments folder
+        $fields = array('folder');
+        $data = $this->get_list( $lid, $fields );
+        $path = SF_BASE_DIR.'/data/mailarchiver/'.$data['folder'];
+        
+        if(!empty($data['folder']) && @is_dir($path))
+        {   
+            // delete attachements folder for this list
+            $GLOBALS['B']->util->delete_dir_tree( $path );
+        }
+        
+        // delete list
         $sql = "
             DELETE FROM 
                 {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
             WHERE
                 lid={$lid}";
         
-        return $GLOBALS['B']->conn->Execute($sql);
+        $GLOBALS['B']->conn->Execute($sql);
+        
+        // delete list messages
+        $sql = "
+            DELETE FROM 
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages
+            WHERE
+                lid={$lid}";
+        
+        return $GLOBALS['B']->conn->Execute($sql);        
     }
 }
 

@@ -49,7 +49,7 @@ if($_POST['dellist'] == 1)
     }
 }
 
-// Modify user data
+// Modify list data
 if(isset($_POST['editlist']))
 {  
     // check if some fields are empty
@@ -72,7 +72,7 @@ if(isset($_POST['editlist']))
                              'description' => $B->conn->qstr($B->util->stripSlashes($_POST['description']),magic_quotes_runtime()),
                              'status'      => (int)$_POST['status']);
             
-        // update user data
+        // update list data
         if(FALSE !== $B->marchiver->update_list((int)$_REQUEST['lid'], $B->tmp_data))
         {
             @header('Location: index.php?m=MAILARCHIVER');
@@ -87,7 +87,7 @@ if(isset($_POST['editlist']))
 }
 else
 {
-    // get user data
+    // get list data
     $B->tmp_fields = array('lid','name','status','email','emailuser','emailpasswd','description');
     $B->tpl_data = $B->marchiver->get_list( (int)$_REQUEST['lid'], $B->tmp_fields );
     unset($B->tmp_fields);

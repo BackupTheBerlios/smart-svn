@@ -24,6 +24,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_OPTION' , 'OPTION');
 
+// Version of this modul
+define ( 'MOD_OPTION_VERSION' , '0.1');
+
 // register this handler                       
 if (FALSE == $B->register_handler( 
                            MOD_OPTION,
@@ -43,13 +46,12 @@ function option_event_handler( $evt )
         case EVT_SETUP:
             // The module name and version
             $B->conf_val['module']['option']['name']    = 'option';
-            $B->conf_val['module']['option']['version'] = '0.1';
+            $B->conf_val['module']['option']['version'] = MOD_OPTION_VERSION;
             $B->conf_val['module']['option']['info']    = '';
             // Set some options
             $B->conf_val['option']['tpl'] = 'test';
             $B->conf_val['option']['url'] = '../index.php';
             $B->conf_val['option']['site_title'] = 'Site title';
-            $B->conf_val['option']['site_desc'] = 'My first site';
             $B->conf_val['option']['site_desc'] = 'My first site';
             $B->conf_val['option']['email'] = 'admin@foo.com';
             $B->conf_val['option']['charset'] = $_POST['charset'];
@@ -57,7 +59,12 @@ function option_event_handler( $evt )
         case EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           
             break;             
-        case EVT_INIT:    
+        case EVT_INIT: 
+            // check for install or upgrade
+            if (MOD_OPTION_VERSION != $B->sys['module']['option']['version'])
+            {
+                // 
+            }         
             break; 
         case EVT_LOGOUT:  
             break;             

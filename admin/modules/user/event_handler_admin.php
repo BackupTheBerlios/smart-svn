@@ -27,6 +27,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_USER' , 'USER');
 
+// Version of this modul
+define ( 'MOD_USER_VERSION' , '0.1');
+
 // register this handler                       
 if (FALSE == $B->register_handler( 
                             MOD_USER,
@@ -58,12 +61,8 @@ function user_event_handler( $evt )
             include(SF_BASE_DIR.'/admin/modules/user/module_loader.php');          
             break;             
         case EVT_INIT:
-            // System Name and Version
-            $B->tmp_module_name    = 'User';
-            $B->tmp_module_version = '0.1';
-        
             // Check for upgrade  
-            if(version_compare($B->tmp_module_version, $B->sys['module']['user']['version']) != 0 )
+            if(MOD_USER_VERSION != $B->sys['module']['user']['version'])
                 include(SF_BASE_DIR.'/admin/modules/user/upgrade.php');
                         
             // Name of this module set
