@@ -40,7 +40,7 @@ function subok(s){
               <td align="left" valign="top"><span class="style4"><span class="font10"><?php echo $B->sys['info']['name']; echo ' '.$B->sys['info']['version']; ?></span></span></td>
             </tr>
             <tr>
-              <td align="left" valign="top"><span class="style6">ADMIN</span> &nbsp;&nbsp;<span class="style4">E-archive 0.2.1b</span></td>
+              <td align="left" valign="top"><span class="style6">ADMIN</span> &nbsp;&nbsp;<span class="style4">E-archive 0.2.2b</span></td>
             </tr>
           </table></td>
           <td width="15%" align="right" valign="top" class="font10"><a href="index.php">The public page</a></td>
