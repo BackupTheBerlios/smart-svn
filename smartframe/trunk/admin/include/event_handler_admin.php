@@ -53,8 +53,10 @@ function system_event_handler( $evt )
             break; 
         case EVT_LOGOUT:  
             break;    
-        case EVT_SETUP:         
-            include_once(SF_BASE_DIR.'/admin/include/_setup.php');          
+        case EVT_SETUP:  
+            $success = TRUE;
+            include_once(SF_BASE_DIR.'/admin/include/_setup.php'); 
+            return $success;
             break;             
         case EVT_SETUP_FINISH: 
             break;                

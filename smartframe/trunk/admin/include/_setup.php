@@ -23,28 +23,30 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Check directories accesses
 if(!is_writeable( SF_BASE_DIR . '/data' ))
 {
+    trigger_error("Must be writeable: " . SF_BASE_DIR . "/data\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
     $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data';
+    $success = FALSE;
 }
 
 if(!is_writeable( SF_BASE_DIR . '/admin/logs' ))
 {
+    trigger_error("Must be writeable: " . SF_BASE_DIR . "/admin/logs\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
     $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/logs';
+    $success = FALSE;
 }
 
 if(!is_writeable( SF_BASE_DIR . '/admin/tmp' ))
 {
+    trigger_error("Must be writeable: " . SF_BASE_DIR . "/admin/tmp\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
     $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp';
+    $success = FALSE;
 }
 
 // the version to install
 include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
 
-// Do setup if no error
-if( $_POST['do_setup'] && (count($B->setup_error) == 0) )
-{
-    // set name and version of the framework
-    $B->conf_val['info']['name']    = $B->system_name;
-    $B->conf_val['info']['version'] = $B->system_version;
-}
+// set name and version of the framework
+$B->conf_val['info']['name']    = $B->system_name;
+$B->conf_val['info']['version'] = $B->system_version;
 
 ?>
