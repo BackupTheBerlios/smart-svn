@@ -1,4 +1,4 @@
-<<?php /*
+<?php /*
  ### Navigation template. It is loaded by defining the url var view=sitemap ### 
      see also /view/class.view_sitemap.php
 */ ?>
