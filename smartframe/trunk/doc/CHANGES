@@ -1,6 +1,16 @@
 CHANGES
 #######
 
+2004-08-24
+--------------
+- add - delete/modify email messages
+- fixed iso decoding of attachment names 
+
+2004-08-19
+--------------
+- update pear pager to 2.2.3
+- modified options layout
+
 2004-08-16
 --------------
 - released the 0.1a raw framework
