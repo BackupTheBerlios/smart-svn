@@ -38,12 +38,6 @@ define('SF_ERROR_REPORTING',          E_ALL ^E_NOTICE);
 define('SF_DEBUG',                    FALSE);
 
 /**
- * Default dir and file mode
- */
-define('SF_DIR_MODE',                 0775);
-define('SF_FILE_MODE',                0775);
-
-/**
  * The common module name. This module is required!
  */
 define('SF_COMMON_MODULE',            'common');
