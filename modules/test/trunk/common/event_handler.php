@@ -76,7 +76,7 @@ function common_event_handler( $evt )
 /**
  * The module (name) which takes the authentication part.
  */
-define('SF_AUTH_MODULE',      'TEST'); // required
+define('SF_AUTH_MODULE',      'test'); // required
 
 /**
  * The module which play a base role required for all other modules.
