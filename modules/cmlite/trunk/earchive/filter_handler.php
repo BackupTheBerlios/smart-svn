@@ -25,6 +25,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the filter module
 define( 'EARCHIVE_FILTER' , 'earchive' );
 
+// Version of this module
+define ( 'FILTER_EARCHIVE_VERSION' , '0.1');
+
 // register this filter                      
 if (FALSE == register_filter( EARCHIVE_FILTER,
                               array ( 'filter'         => EARCHIVE_FILTER,

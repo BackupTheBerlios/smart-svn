@@ -25,6 +25,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the filter module
 define( 'USER_FILTER' , 'user' );
 
+// Version of this module
+define ( 'FILTER_USER_VERSION' , '0.1');
+
 // register this filter                      
 if (FALSE == register_filter( USER_FILTER,
                               array ( 'filter'         => USER_FILTER,

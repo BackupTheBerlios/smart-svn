@@ -25,6 +25,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the filter module
 define( 'COMMON_FILTER' , 'common' );
 
+// Version of this module
+define ( 'FILTER_COMMON_VERSION' , '0.1');
+
 // register this filter                      
 if (FALSE == register_filter( COMMON_FILTER,
                               array ( 'filter'         => COMMON_FILTER,
