@@ -46,7 +46,7 @@ function common_event_handler( $evt )
 
     switch( $evt['code'] )
     {            
-        case EVT_INIT:
+        case EVT_INIT:           
             // Check for upgrade  
             if(MOD_COMMON_VERSION != (string)$B->sys['module']['common']['version'])
             {
@@ -155,6 +155,16 @@ unset($tmp_separator);
 // include PEAR DB class
 include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/DB.php');
 
+// include util common class
+include_once( SF_BASE_DIR . '/admin/modules/common/class.commonUtil.php' );  
+
+// init system config array
+$B->sys = array();
+
+// include system config array
+if(file_exists(SF_BASE_DIR . '/admin/modules/common/config/config.php'))
+    include_once( SF_BASE_DIR . '/admin/modules/common/config/config.php' );  
+
 // class instance of DB if setup is done
 if($B->sys['info']['status'] == TRUE)
 { 
@@ -178,9 +188,10 @@ if($B->sys['info']['status'] == TRUE)
     
     /* Create new object of session class */
     $B->session = & new session();
-    
-    // include util common class
-    include_once( SF_BASE_DIR . '/admin/modules/common/class.commonUtil.php' );  
 }
-
+// Set setup flag if setup wasnt done
+else
+{
+    define('_DO_SETUP', TRUE);
+}
 ?>

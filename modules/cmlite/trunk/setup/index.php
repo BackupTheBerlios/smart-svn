@@ -52,21 +52,26 @@ if( $_POST['do_setup'] )
         // set default template group that com with this package
         $B->conf_val['option']['tpl'] = 'earchive';    
         $B->conf_val['info']['status'] = TRUE;
-        $B->conf->setConfigValues( $B->conf_val );
-        $B->conf->writeConfigFile( "config_system.xml.php", array('filetype' => 'xml', 'mode' => 'pretty') );
+
+        // include PEAR Config class
+        include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
+
+        $c = new Config();
+        $root =& $c->parseConfig($B->conf_val, 'PHPArray');
+        $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
         
         @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
         exit;  
     }
     else
     {
-        $B->form_host        = htmlspecialchars($B->util->stripSlashes($_POST['dbhost']));
-        $B->form_user        = htmlspecialchars($B->util->stripSlashes($_POST['dbuser']));
-        $B->form_dbname      = htmlspecialchars($B->util->stripSlashes($_POST['dbname']));
-        $B->form_tableprefix = htmlspecialchars($B->util->stripSlashes($_POST['dbtablesprefix']));
-        $B->form_sysname     = htmlspecialchars($B->util->stripSlashes($_POST['sysname']));
-        $B->form_syslastname = htmlspecialchars($B->util->stripSlashes($_POST['syslastname']));
-        $B->form_syslogin    = htmlspecialchars($B->util->stripSlashes($_POST['syslogin']));
+        $B->form_host        = htmlspecialchars(commonUtil::stripSlashes($_POST['dbhost']));
+        $B->form_user        = htmlspecialchars(commonUtil::stripSlashes($_POST['dbuser']));
+        $B->form_dbname      = htmlspecialchars(commonUtil::stripSlashes($_POST['dbname']));
+        $B->form_tableprefix = htmlspecialchars(commonUtil::stripSlashes($_POST['dbtablesprefix']));
+        $B->form_sysname     = htmlspecialchars(commonUtil::stripSlashes($_POST['sysname']));
+        $B->form_syslastname = htmlspecialchars(commonUtil::stripSlashes($_POST['syslastname']));
+        $B->form_syslogin    = htmlspecialchars(commonUtil::stripSlashes($_POST['syslogin']));
     }
 }
 

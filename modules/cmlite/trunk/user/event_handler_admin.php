@@ -61,7 +61,7 @@ function user_event_handler( $evt )
             // Load a module feature
             include(SF_BASE_DIR.'/admin/modules/user/module_loader.php');          
             break;             
-        case EVT_INIT:
+        case EVT_INIT:      
             // Check for upgrade  
             if(MOD_USER_VERSION != (string)$B->sys['module']['user']['version'])
             {

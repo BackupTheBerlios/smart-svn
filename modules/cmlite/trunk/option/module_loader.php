@@ -42,28 +42,28 @@ if(isset($_POST['cleancache']))
 }
 elseif (isset($_POST['update_main_options_url']))
 {
-    $B->sys['option']['url'] = $B->util->stripSlashes($_POST['site_url']);
+    $B->sys['option']['url'] = commonUtil::addSlashes($_POST['site_url']);
     $B->_modified = TRUE;
 }
 elseif (isset($_POST['update_main_options_email']))
 {
-    $B->sys['option']['email']        = $B->util->stripSlashes($_POST['site_email']);
+    $B->sys['option']['email'] = commonUtil::addSlashes($_POST['site_email']);
     $B->_modified = TRUE;
 } 
 elseif (isset($_POST['update_main_options_title']))
 {
-    $B->sys['option']['site_title'] = $B->util->stripSlashes($_POST['site_title']);
-    $B->sys['option']['site_desc']  = $B->util->stripSlashes($_POST['site_desc']);
+    $B->sys['option']['site_title'] = commonUtil::addSlashes($_POST['site_title']);
+    $B->sys['option']['site_desc']  = commonUtil::addSlashes($_POST['site_desc']);
     $B->_modified = TRUE;
 } 
 elseif (isset($_POST['update_main_options_charset']))
 {
-    $B->sys['option']['charset']    = $B->util->stripSlashes($_POST['charset']);
+    $B->sys['option']['charset'] = $_POST['charset'];
     $B->_modified = TRUE;
 }  
 elseif (isset($_POST['update_main_options_tpl']))
 {
-    $B->sys['option']['tpl']        = $B->util->stripSlashes($_POST['tpl']);
+    $B->sys['option']['tpl'] = $_POST['tpl'];
     $B->_modified = TRUE;
 }     
     
@@ -73,9 +73,12 @@ $B->B( EVT_SET_OPTIONS );
 // if some config are modified, write the config file and reload the page
 if($B->_modified == TRUE)
 {
-    $B->conf->setConfigValues( $B->sys );
-    //  write a new file
-    $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
+    // include PEAR Config class
+    include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
+
+    $c = new Config();
+    $root =& $c->parseConfig($B->sys, 'PHPArray');
+    $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
     
     @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=OPTION');
     exit;

@@ -52,7 +52,12 @@ class commonUtil
         {
             return stripslashes($var);
         }
-    }    
+    }     
+
+    function stripSlashes_special( $var )
+    {
+        return stripslashes(preg_replace("/(\\\\)([^'\"])/","\\1\\\\\\2",$var));
+    }
     
     /**
      * Make unique md5_string

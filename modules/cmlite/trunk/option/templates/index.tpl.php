@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td width="87%" align="left" valign="top">          
-              <input name="site_url" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars(commonUtil::stripSlashes($B->sys['option']['url'])); ?>">
+              <input name="site_url" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars(commonUtil::stripSlashes_special($B->sys['option']['url'])); ?>">
               &nbsp; 
            </td>
             <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_url" value="update" onclick="subok(this.form.update_main_options_url);"></td>
@@ -51,7 +51,7 @@
           </tr>
           <tr>
             <td width="87%" align="left" valign="top">
-              <input name="site_email" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars(commonUtil::stripSlashes($B->sys['option']['email'])); ?>">
+              <input name="site_email" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars(commonUtil::stripSlashes_special($B->sys['option']['email'])); ?>">
               &nbsp; 
             </td>
             <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_email" value="update" onclick="subok(this.form.update_main_options_email);"></td>
@@ -65,8 +65,8 @@
           </tr>
           <tr>
             <td width="87%" align="left" valign="top">  
-                <input name="site_title" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars(commonUtil::stripSlashes($B->sys['option']['site_title'])); ?>">
-                <textarea name="site_desc" cols="50" rows="3" wrap="virtual"><?php echo htmlspecialchars(commonUtil::stripSlashes($B->sys['option']['site_desc'])); ?></textarea>
+                <input name="site_title" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars(commonUtil::stripSlashes_special($B->sys['option']['site_title'])); ?>">
+                <textarea name="site_desc" cols="50" rows="3" wrap="virtual"><?php echo htmlspecialchars(commonUtil::stripSlashes_special($B->sys['option']['site_desc'])); ?></textarea>
                 &nbsp; 
             </td>
             <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_title" value="update" onclick="subok(this.form.update_main_options_title);"></td>

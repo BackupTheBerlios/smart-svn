@@ -78,7 +78,14 @@ unset($tmp_separator);
 // include PEAR DB class
 include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/DB.php');
 
-// class instance of DB if setup is done
+// init system config array
+$B->sys = array();
+
+// include system config array
+if(file_exists(SF_BASE_DIR . '/admin/modules/common/config/config.php'))
+    include_once( SF_BASE_DIR . '/admin/modules/common/config/config.php' );  
+
+// check if setup was done
 if($B->sys['info']['status'] == TRUE)
 { 
     $B->dsn = array('phptype'  => $B->sys['db']['dbtype'],
@@ -104,6 +111,12 @@ if($B->sys['info']['status'] == TRUE)
 
     // include util common class
     include_once( SF_BASE_DIR . '/admin/modules/common/class.commonUtil.php' );  
+}
+else
+{
+    // For setup switch to the admin page
+    @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
+    exit;
 }
 
 ?>
