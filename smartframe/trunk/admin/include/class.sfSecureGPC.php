@@ -36,10 +36,7 @@ class sfSecureGPC
                 break;
             case 'string':
                     return sfSecureGPC::_getString( $var, $preg_str );
-                break;
-            case 'sqlstring':
-                    return sfSecureGPC::_getSqlString( $var );
-                break;                
+                break;            
             default:
                     return FALSE;
                 break;
@@ -106,25 +103,6 @@ class sfSecureGPC
             return FALSE;            
         }
     }
-    /**
-     * _getSqlString
-     *
-     * Check sql intrusion of a string
-     *
-     * @param mixed $var Variable. 
-     * @return string
-     * @access privat
-     * @todo check string
-     */   
-    function _getSqlString( $var )
-    {
-        if(empty($var))
-        {
-            return '';
-        }
-        
-        return $var;
-    }    
 }
 
 ?>
