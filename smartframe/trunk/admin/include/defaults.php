@@ -25,39 +25,39 @@ if (!defined('SF_SECURE_INCLUDE'))
 /**
  * error log types ('LOG|SHOW')
  */
-define('SF_ERROR_HANDLE',               'LOG|SHOW');
+define('SF_ERROR_HANDLE',             'LOG|SHOW');
 
 /**
  * error reporting
  */
-define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
+define('SF_ERROR_REPORTING',          E_ALL ^E_NOTICE);
 
 /**
  * Allowed output buffering.
  */
-define('SF_OB',                          TRUE);
+define('SF_OB',                       TRUE);
 
 /**
  * Allowed output compression if available.
  */
-define('SF_OB_GZHANDLER',                'ob_gzhandler'); //'ob_gzhandler' or FALSE
+define('SF_OB_GZHANDLER',             'ob_gzhandler'); //'ob_gzhandler' or FALSE
 
 /**
  * Default dir and file mode
  */
-define('SF_DIR_MODE',                    0775);
-define('SF_FILE_MODE',                   0775);
+define('SF_DIR_MODE',                 0775);
+define('SF_FILE_MODE',                0775);
 
 /**
  * Default template
  */
-define('SF_DEFAULT_TEMPLATE_GROUP',      'default');
+define('SF_DEFAULT_TEMPLATE_GROUP',   'default');
 
 /**
  * Event types.
  */
-define('EVT_TYPE_BROADCAST',          'SYSTEM_BROADCAST');
-define('EVT_TYPE_DIRECTED' ,          'SYSTEM_DIRECTED'); 
+define('EVT_TYPE_BROADCAST',          'SYS_BROADCAST');
+define('EVT_TYPE_DIRECTED' ,          'SYS_DIRECTED'); 
 
 /**
  * Basic event codes.
