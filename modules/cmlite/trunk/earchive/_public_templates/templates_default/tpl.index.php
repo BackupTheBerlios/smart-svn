@@ -9,7 +9,7 @@
 <meta name="Keywords" content="<?php echo str_replace("\"","'",$B->sys['option']['site_desc']); ?>" />
 <title><?php echo htmlspecialchars($B->sys['option']['site_title']); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
-<link href="<?php echo SF_RELATIVE_PATH; ?>media/earchive.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo SF_RELATIVE_PATH; ?>media_default/earchive.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {color: #0000FF}
