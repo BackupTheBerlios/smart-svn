@@ -1,8 +1,17 @@
 <?php
+// ----------------------------------------------------------------------
+// Smart (PHP Framework)
+// Copyright (c) 2004
+// by Armand Turpel < smart@open-publisher.net >
+// http://smart.open-publisher.net/
+// ----------------------------------------------------------------------
+// LICENSE GPL
+// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// ----------------------------------------------------------------------
 
 
 /**
- * Test module event handler
+ * MAILARCHIVER module event handler
  *
  */
 
@@ -21,8 +30,8 @@ define ( 'MOD_MAILARCHIVER_VERSION' , '0.1');
 
 // register this handler                       
 if (FALSE == $B->register_handler(MOD_MAILARCHIVER,
-                                     array ( 'module'        => MOD_MAILARCHIVER,
-                                             'event_handler' => 'mailarchiver_event_handler') ))
+                           array ( 'module'        => MOD_MAILARCHIVER,
+                                   'event_handler' => 'mailarchiver_event_handler') ))
 {
     trigger_error( 'The handler '.MOD_MAILARCHIVER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
@@ -35,7 +44,18 @@ function mailarchiver_event_handler( $evt )
     switch( $evt["code"] )
     {
         case EVT_LOAD_MODULE:
-            // set the base template for this module
+            // mailarchiver rights class
+            include(SF_BASE_DIR.'/admin/modules/mailarchiver/class.rights.php');   
+
+            // check if the login user have rights to access this module
+            // 4 or 5 required (editor or administrator)
+            if(FALSE == mailarchiver_rights::ask_access_to_list())
+            {
+                @header('Location: index.php');
+                exit;
+            }
+            
+            // load this module
             include(SF_BASE_DIR . '/admin/modules/mailarchiver/module_loader.php');           
             break;             
         case EVT_INIT: 

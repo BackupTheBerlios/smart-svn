@@ -1,21 +1,19 @@
 <script language="JavaScript" type="text/JavaScript">
-function deleteuser(f, mes)
+function deletelist(f, mes)
 {
       check = confirm(mes);
         if(check == true)
         {
-            f.deluser.value=1;
+            f.dellist.value=1;
         with(f){
         submit();
         }
         }
 }
 </script>
-<form name="deluser" method="post" action="index.php?m=USER&mf=edit_usr">
-<input name="uid" type="hidden" value="<?php echo $B->tpl_data['uid']; ?>">
-<input name="rights_orig" type="hidden" value="<?php echo $B->tpl_data['rights']; ?>">
-<input name="status_orig" type="hidden" value="<?php echo $B->tpl_data['status']; ?>">
-<input name="deluser" type="hidden" value="0">
+<form name="deluser" method="post" action="index.php?m=MAILARCHIVER&mf=edit_list">
+<input name="lid" type="hidden" value="<?php echo $B->tpl_data['lid']; ?>">
+<input name="dellist" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="57%" align="left" valign="top">      <table width="400" border="0" cellspacing="3" cellpadding="3">
@@ -25,36 +23,42 @@ function deleteuser(f, mes)
       </tr>
             <?php endif; ?>
       <tr>
-        <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit User </td>
+        <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit List (email account) </td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Forename</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top">
-          <input name="forename" type="text" id="forename" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['forename'])); ?>">
-        </td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10bold">Lastname</td>
+        <td align="left" valign="top" class="font10bold">Name</td>
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="lastname" type="text" id="lastname" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['lastname'])); ?>">
+          <input name="name" type="text" id="name" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['name'])); ?>">
         </td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Password</td>
+        <td align="left" valign="top" class="font10bold">Email to fetch</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="passwd" type="text" id="passwd" size="40" maxlength="255" value="<?php echo $B->form_passwd; ?>"></td>
+        <td align="left" valign="top">
+          <input name="email" type="text" id="email" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['email'])); ?>">
+        </td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Email</td>
+        <td align="left" valign="top" class="font10bold">Email account user</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="email" type="text" id="passwd" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['email'])); ?>"></td>
+        <td align="left" valign="top">
+          <input name="emailuser" type="text" id="emailuser" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['emailuser'])); ?>"></td>
       </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold">Email account passwd </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><input name="emailpasswd" type="text" id="emailpasswd" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['emailpasswd'])); ?>"></td>
+      </tr>
+        <td align="left" valign="top" class="font10bold">Description</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><textarea name="description" cols="40" rows="4" wrap="VIRTUAL" id="description"><?php echo htmlspecialchars(stripslashes($B->tpl_data['description'])); ?></textarea></td>
+      </tr>			
       <tr>
         <td align="left" valign="top" class="font10bold">Status</td>
       </tr>
@@ -64,29 +68,17 @@ function deleteuser(f, mes)
     <input name="status" type="radio" value="1" <?php if($B->tpl_data['status']==1) echo 'checked'; ?>>
     Inactif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input name="status" type="radio" value="2" <?php if($B->tpl_data['status']==2) echo 'checked'; ?>> 
-                    Actif   
-                    <div align="right"><input name="delete" type="button" id="delete" value="Delete this user" onclick="deleteuser(this.form, 'Delete this user?');">
+    Actif&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  <input name="status" type="radio" value="3" <?php if($B->tpl_data['status']==3) echo 'checked'; ?>> Registered						
+    <div align="right"><input name="delete" type="button" id="delete" value="Delete this email list" onclick="deletelist(this.form, 'Delete this list?');">
                     </div></td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Rights</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top">
-                <select name="rights">
-          <option value="1" <?php if($B->tpl_data['rights']==1) echo 'selected'; ?>>Registered</option>
-          <option value="2" <?php if($B->tpl_data['rights']==2) echo 'selected'; ?>>Contributor</option>
-          <option value="3" <?php if($B->tpl_data['rights']==3) echo 'selected'; ?>>Author</option>
-          <option value="4" <?php if($B->tpl_data['rights']==4) echo 'selected'; ?>>Editor</option>
-          <option value="5" <?php if($B->tpl_data['rights']==5) echo 'selected'; ?>>Administrator</option>
-        </select></td>
-      </tr>
-      <tr>
-        <td align="left" valign="top"><input name="edituser" type="submit" id="adduser" value="Submit"></td>
+        <td align="left" valign="top"><input name="editlist" type="submit" id="editlist" value="Submit"></td>
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?m=USER">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?m=MAILARCHIVER">back</a></td>
   </tr>
 </table>
 </form>

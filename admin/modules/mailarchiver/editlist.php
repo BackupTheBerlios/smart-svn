@@ -22,114 +22,87 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // check if the user of this request have rights to modify this user data
-if(FALSE == rights::ask_access_to_modify_user( (int)$_REQUEST['uid'] ))
+if(FALSE == mailarchiver_rights::ask_access_to_list())
 {
-    @header('Location: index.php?m=USER');
+    @header('Location: index.php');
     exit;
 }
 
 // init 
 $B->form_error = FALSE;
 
-// delete user
-if($_POST['deluser'] == 1)
+// delete list
+if($_POST['dellist'] == 1)
 {
-    // check if the user of this request try to delete the own account
-    // This shouldnt be possible
+    // check if the user of this request try to delete a list
+    // with rights other than administrator 5.
     //
-    if(FALSE == rights::is_login_user( (int) $_POST['uid']) )
+    if(TRUE == mailarchiver_rights::ask_access_to_delete_list())
     {
-        $B->user->delete_user( (int) $_POST['uid'] );
-        @header('Location: index.php?m=USER');
-        exit;  
-    }
+        $B->marchiver->delete_list((int)$_REQUEST['lid']);
+        @header('Location: index.php?m=MAILARCHIVER');
+        exit;
+    }    
     else
     {        
-        $B->form_error = 'You can remove your own user account!';    
+        $B->form_error = 'You cant remove this list';    
     }
 }
 
 // Modify user data
-if(isset($_POST['edituser']))
+if(isset($_POST['editlist']))
 {  
     // check if some fields are empty
     if(
-        empty($_POST['forename'])||
-        empty($_POST['lastname'])||
-        empty($_POST['email']))
+        empty($_POST['name'])||
+        empty($_POST['emailuser'])||
+        empty($_POST['email'])||
+        empty($_POST['emailpasswd']))
     {        
         $B->form_error = 'You have fill out all fields!';
     }
     else
     {
-        // Check if you want to change your own rights or status
-        if( ($_POST['rights_orig'] != (int)$_POST['rights']) || ($_POST['status_orig'] != (int)$_POST['status']) )
-        {
-            if(TRUE == rights::is_login_user( (int) $_POST['uid']))
-                $B->form_error = 'You can not change your own rights or status!';
-        }
         
-        // Check if you can change rights to the demanded level
-        if( (FALSE == $B->form_error) && ($_POST['rights_orig'] != (int)$_POST['rights']) )
+        // add new user
+        $B->tmp_data = array('name'        => $B->conn->qstr($B->util->stripSlashes($_POST['name']),       magic_quotes_runtime()),
+                             'emailuser'   => $B->conn->qstr($B->util->stripSlashes($_POST['emailuser']),  magic_quotes_runtime()),
+                             'email'       => $B->conn->qstr($B->util->stripSlashes($_POST['email']),      magic_quotes_runtime()),
+                             'emailpasswd' => $B->conn->qstr($B->util->stripSlashes($_POST['emailpasswd']),magic_quotes_runtime()),
+                             'description' => $B->conn->qstr($B->util->stripSlashes($_POST['description']),magic_quotes_runtime()),
+                             'status'      => (int)$_POST['status']);
+            
+        // update user data
+        if(FALSE !== $B->marchiver->update_list((int)$_REQUEST['lid'], $B->tmp_data))
         {
-            if(FALSE == rights::ask_set_rights ( (int) $_POST['uid'], (int)$_POST['rights'] ) )
-                $B->form_error = 'You can not change to this rights level!';
+            @header('Location: index.php?m=MAILARCHIVER');
+            exit;
         }
-
-        // Check if you can change status of this user
-        if( (FALSE == $B->form_error) && ($_POST['status_orig'] != (int)$_POST['status']) )
+        else
         {
-            if(FALSE == rights::ask_set_status ( (int) $_POST['uid'] ))
-                $B->form_error = 'You can not change status of this user!';
-        }
-        
-        // if no error occure, proceed ...
-        if(empty($B->form_error))
-        {
-            $B->tmp_data = array('forename' => $B->conn->qstr($B->util->stripSlashes($_POST['forename']), magic_quotes_runtime()),
-                                 'lastname' => $B->conn->qstr($B->util->stripSlashes($_POST['lastname']), magic_quotes_runtime()),
-                                 'email'    => $B->conn->qstr($B->util->stripSlashes($_POST['email']),    magic_quotes_runtime()),
-                                 'rights'   => (int)$_POST['rights'],
-                                 'status'   => (int)$_POST['status']);
             
-            // update password if it isnt empty
-            if(!empty($_POST['passwd']))
-            {
-                $B->tmp_data['passwd'] == $B->conn->qstr(md5($_POST['passwd']),   magic_quotes_runtime());
-            }
-            
-            // update user data
-            if(FALSE != $B->user->update_user( (int)$_REQUEST['uid'], $B->tmp_data))
-            {
-                @header('Location: index.php?m=USER');
-                exit;
-            }
-            else
-            {
-            
-                $B->form_error = 'This login exist. Chose a other one!';
-            }
+            $B->form_error = 'Error during update. Try again!';
         }
     }
 }
 else
 {
     // get user data
-    $B->tmp_fields = array('uid','rights','status','email','login','forename','lastname');
-    $B->tpl_data = $B->user->get_user( (int)$_REQUEST['uid'], $B->tmp_fields );
+    $B->tmp_fields = array('lid','name','status','email','emailuser','emailpasswd','description');
+    $B->tpl_data = $B->marchiver->get_list( (int)$_REQUEST['lid'], $B->tmp_fields );
     unset($B->tmp_fields);
 }
 
 // if error restore the form fields values
 if(!empty($B->form_error))
 {
-    $B->tpl_data['forename'] = htmlspecialchars($B->util->stripSlashes($_POST['forename']));
-    $B->tpl_data['lastname'] = htmlspecialchars($B->util->stripSlashes($_POST['lastname']));
-    $B->tpl_data['email']    = htmlspecialchars($B->util->stripSlashes($_POST['email']));
-    $B->tpl_data['login']    = htmlspecialchars($B->util->stripSlashes($_POST['login']));
-    $B->tpl_data['passwd']   = htmlspecialchars($B->util->stripSlashes($_POST['passwd']));
-    $B->tpl_data['rights']   = $_POST['rights'];
-    $B->tpl_data['status']   = $_POST['status'];        
+    // if empty assign form field with old values
+    $B->tpl_data['name']        = htmlspecialchars($B->util->stripSlashes($_POST['name']));
+    $B->tpl_data['emailuser']   = htmlspecialchars($B->util->stripSlashes($_POST['emailuser']));
+    $B->tpl_data['email']       = htmlspecialchars($B->util->stripSlashes($_POST['email']));
+    $B->tpl_data['emailpasswd'] = htmlspecialchars($B->util->stripSlashes($_POST['emailpasswd']));
+    $B->tpl_data['description'] = htmlspecialchars($B->util->stripSlashes($_POST['description']));
+    $B->tpl_data['status']      = $_POST['status'];     
 }
 
 ?>

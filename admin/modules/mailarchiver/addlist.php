@@ -21,6 +21,13 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on ' . __FILE__);
 }
 
+// check if the user of this request have rights
+if(FALSE == mailarchiver_rights::ask_access_to_list())
+{
+    @header('Location: index.php');
+    exit;
+}
+
 // Init form field values
 $B->form_error = FALSE;
 $B->form_name = '';
@@ -35,8 +42,7 @@ if(
     empty($_POST['name'])||
     empty($_POST['emailuser'])||
     empty($_POST['email'])||
-    empty($_POST['emailpasswd'])||
-    empty($_POST['description']))
+    empty($_POST['emailpasswd']))
 {
     // if empty assign form field with old values
     $B->form_name        = htmlspecialchars($B->util->stripSlashes($_POST['name']));
