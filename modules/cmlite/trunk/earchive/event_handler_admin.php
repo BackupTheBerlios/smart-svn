@@ -26,12 +26,13 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_EARCHIVE' , 'EARCHIVE');
 
 // Version of this modul
-define ( 'MOD_EARCHIVE_VERSION' , '0.1');
+define ( 'MOD_EARCHIVE_VERSION' , '0.2');
 
 // register this handler                       
 if (FALSE == $B->register_handler(MOD_EARCHIVE,
-                           array ( 'module'        => MOD_EARCHIVE,
-                                   'event_handler' => 'earchive_event_handler') ))
+                           array ( 'module'           => MOD_EARCHIVE,
+                                   'event_handler'    => 'earchive_event_handler',
+                                   'menu_visibility'  => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_EARCHIVE.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }

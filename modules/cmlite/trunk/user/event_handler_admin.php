@@ -28,13 +28,14 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_USER' , 'USER');
 
 // Version of this modul
-define ( 'MOD_USER_VERSION' , '0.1.1');
+define ( 'MOD_USER_VERSION' , '0.1.2');
 
 // register this handler                       
 if (FALSE == $B->register_handler( 
                             MOD_USER,
-                            array ( 'module'        => MOD_USER,
-                                    'event_handler' => 'user_event_handler') ))
+                            array ( 'module'           => MOD_USER,
+                                    'event_handler'    => 'user_event_handler',
+                                    'menu_visibility'  => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
@@ -97,61 +98,4 @@ function user_event_handler( $evt )
     } 
 }
 
-/***************************
-**** Module SET  CONFIG ****
-****************************/
-
-// ### These 3 defines MUST be declared ###
-/**
- * The module (name) which takes the authentication part.
- */
-define('SF_AUTH_MODULE',                 'USER');
-
-/**
- * The module (name) which takes the global options part.
- */
-define('SF_OPTION_MODULE',               'OPTION');
-
-/**
- * The module (name) which should be loaded by default.
- */
-define('SF_DEFAULT_MODULE',              'ENTRY');
-
-// get os related separator to set include path
-if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
-    $tmp_separator = ';';
-else
-    $tmp_separator = ':';
-
-// set include path to the PEAR packages which is included in smartframe
-ini_set( 'include_path', SF_BASE_DIR . '/admin/modules/user/PEAR' . $tmp_separator . ini_get('include_path') );
-unset($tmp_separator);
-
-// class instance of DB if setup is done
-if($B->sys['info']['status'] == TRUE)
-{
-    // include PEAR DB class
-    include_once( SF_BASE_DIR . '/admin/modules/user/PEAR/DB.php');
-        
-    // if sqlite set host to the db file
-    if($B->sys['db']['dbtype'] == 'sqlite')
-    {
-        $B->sys['db']['name'] = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
-    }
-    
-    $B->dsn = array('phptype'  => $B->sys['db']['dbtype'],
-                    'username' => $B->sys['db']['user'],
-                    'password' => $B->sys['db']['passwd'],
-                    'hostspec' => $B->sys['db']['host'],
-                    'database' => $B->sys['db']['name']);
-
-    $B->dboptions = array('debug'       => 0,
-                          'portability' => DB_PORTABILITY_NONE);
-    
-    $B->db =& DB::connect($B->dsn, $B->dboptions, TRUE);
-    if (DB::isError($B->db)) 
-    {
-        trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );
-    }
-}
 ?>
