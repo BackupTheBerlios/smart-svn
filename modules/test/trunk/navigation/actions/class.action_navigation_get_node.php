@@ -32,7 +32,7 @@ class action_navigation_get_node extends action
         $node  = SF_BASE_DIR . 'data/navigation/'.$data['node'];
         
         // assign the variable with the node text
-        $this->B->$data['body'] = nl2br($this->fp->readAll( $node ));
+        $this->B->$data['body'] = $this->fp->readAll( $node );
         
         // load navigation nodes
         $nav = array();
@@ -48,6 +48,18 @@ class action_navigation_get_node extends action
                 break;
             }
         } 
+        
+        // apply htmlspecialchars on result body and title
+        if ($data['htmlspecialchars'] == TRUE)
+        {
+            $this->B->$data['body']  = htmlspecialchars($this->B->$data['body']);
+            $this->B->$data['title'] = htmlspecialchars($this->B->$data['title']);
+        }  
+        // apply nl2br on result body
+        if ($data['nl2br'] == TRUE)
+        {
+            $this->B->$data['body'] = nl2br($this->B->$data['body']);
+        }      
     }     
 }
 
