@@ -58,6 +58,20 @@ class view_list
                      'get_lists', 
                      array( 'var'    => 'tpl_list', 
                             'fields' => array('lid','name','email','description','status'))); 
+
+        // Prepare variables for the html view
+        $this->B->tpl_select_tree = '';
+        $this->B->tpl_select_flat = '';
+        if($_REQUEST['mode'] == 'tree')
+        {
+            $this->B->tpl_mode = 'tree';
+            $this->B->tpl_select_tree = 'selected="selected"';
+        }
+        else
+        {
+            $this->B->tpl_mode = 'flat'; 
+            $this->B->tpl_select_flat = 'selected="selected"';
+        }
         
         /* get the messages of the requested email list and store the result in the array $B->tpl_msg 
            assign template vars with message data */
@@ -65,9 +79,12 @@ class view_list
                      'get_messages', 
                      array( 'lid'    => (int)$_GET['lid'], 
                             'var'    => 'tpl_msg',
+                            'mode'   => $this->B->tpl_mode,
                             'fields' => array('mid','lid','subject','sender','mdate'),
                             'order'  => 'mdate DESC',
-                            'pager'  => array('var' => 'tpl_prevnext', 'limit' => 15, 'delta' => 3)));
+                            'pager'  => array( 'var'   => 'tpl_prevnext', 
+                                               'limit' => 15, 
+                                               'delta' => 3)));
 
         return TRUE;
     }    
