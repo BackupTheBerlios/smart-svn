@@ -38,9 +38,6 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
 // include sfErrorHandler
 include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
 
-// include session class
-include_once( SF_BASE_DIR . '/admin/include/class.sfSession.php' );
-
 // Load the util class
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
 
@@ -78,9 +75,6 @@ $B->util = new sfUtil;
 
 // Define the base location
 define('SF_BASE_LOCATION', $B->util->base_location());
-
-/* Create new object of session class */
-$B->session = & new session();
 
 // Register all handlers
 //
