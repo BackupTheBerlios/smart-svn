@@ -47,17 +47,6 @@ class action_navigation_get_branch extends action
             $this->B->node = & $node;     
         }        
 
-        // if node is not defined get top level nodes
-        if(!isset($data['node']))
-        {
-            $this->B->$data['node_title'] = FALSE;
-            $data['node'] = 0;
-        }
-        else
-        {
-            $this->B->$data['node_title'] = $this->B->node[$data['node']]['title'];
-        }
-
         // get child nodes of a given node id
         $this->getBranch( $data['node'] ); 
         

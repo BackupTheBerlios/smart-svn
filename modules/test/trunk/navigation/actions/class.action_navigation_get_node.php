@@ -24,7 +24,7 @@ class action_navigation_get_node extends action
     function perform( $data = FALSE )
     {        
         // check if a tree object exists
-        if(!is_array($this->B->node))
+        if(!isset($this->B->node))
         {
             // load navigation nodes  
             $node = array();
@@ -52,59 +52,57 @@ class action_navigation_get_node extends action
         // format text
         if( $data['format'] == 'wikki' )
         {
-            if(!is_object($wiki))
-            {
-                include_once(SF_BASE_DIR . 'modules/common/PEAR/Text/Wiki.php');
-                $wiki = & new Text_Wiki();
+            include_once(SF_BASE_DIR . 'modules/common/PEAR/Text/Wiki.php');
+            $wiki = & new Text_Wiki();
 
-                // wiki configuration
-                //
-                $options = array('http://',
-                                 'https://',
-                                 'ftp://',
-                                 'gopher://',
-                                 'news://',
-                                 'mailto:',
-                                 './',
-                                 '?');
-                $wiki->setParseConf('Url', 'schemes', $options);                
-                
-                $wiki->setRenderConf('Xhtml', 'url', array('target'       => '_self',
-                                                                    'css_inline'   => 'smart',
-                                                                    'css_footnote' => 'smart',
-                                                                    'css_descr'    => 'smart',
-                                                                    'css_img'      => 'smart'));
-                $wiki->setRenderConf('Xhtml', 'image', array('base'     => SF_RELATIVE_PATH,
-                                                                      'css'      => 'smart',
-                                                                      'css_link' => 'smart'));
-                $wiki->setRenderConf('Xhtml', 'list', array( 'css_ol'    => 'smart',
-                                                                      'css_ol_li' => 'smart',
-                                                                      'css_ul'    => 'smart',
-                                                                      'css_ul_li' => 'smart'));
+            // wiki configuration
+            //
+            $options = array('http://',
+                             'https://',
+                             'ftp://',
+                             'gopher://',
+                             'news://',
+                             'mailto:',
+                             './',
+                             '?');
+            $wiki->setParseConf('Url', 'schemes', $options);                
+              
+            $wiki->setRenderConf('Xhtml', 'url', array('target'       => '_self',
+                                                       'css_inline'   => 'smart',
+                                                       'css_footnote' => 'smart',
+                                                       'css_descr'    => 'smart',
+                                                       'css_img'      => 'smart'));
+            $wiki->setRenderConf('Xhtml', 'image', array('base'     => SF_RELATIVE_PATH,
+                                                         'css'      => 'smart',
+                                                         'css_link' => 'smart'));
+            $wiki->setRenderConf('Xhtml', 'list', array( 'css_ol'    => 'smart',
+                                                         'css_ol_li' => 'smart',
+                                                         'css_ul'    => 'smart',
+                                                         'css_ul_li' => 'smart'));
 
-                $wiki->setRenderConf('Xhtml', 'anchor', 'css', 'smart');
-                $wiki->setRenderConf('Xhtml', 'horiz', 'css', 'smart');
-                $wiki->setRenderConf('Xhtml', 'break', 'css', 'smart');
-                $wiki->setRenderConf('Xhtml', 'strong', 'css', 'smart');
-                $wiki->setRenderConf('Xhtml', 'paragraph', 'css', 'smart');
-                $wiki->setRenderConf('Xhtml', 'heading', array('css_h1' => 'smart',
-                                                                        'css_h2' => 'smart',
-                                                                        'css_h3' => 'smart',
-                                                                        'css_h4' => 'smart',
-                                                                        'css_h5' => 'smart',
-                                                                        'css_h6' => 'smart'));
-                $wiki->setRenderConf('Xhtml', 'table', array('css_table' => 'smart',
-                                                                      'css_tr'    => 'smart',
-                                                                      'css_th'    => 'smart',
-                                                                      'css_td'    => 'smart'));
-                $wiki->setRenderConf('Xhtml', 'toc', array('css_list' => 'smart',
-                                                                    'css_item' => 'smart'));
+            $wiki->setRenderConf('Xhtml', 'anchor', 'css', 'smart');
+            $wiki->setRenderConf('Xhtml', 'horiz', 'css', 'smart');
+            $wiki->setRenderConf('Xhtml', 'break', 'css', 'smart');
+            $wiki->setRenderConf('Xhtml', 'strong', 'css', 'smart');
+            $wiki->setRenderConf('Xhtml', 'paragraph', 'css', 'smart');
+            $wiki->setRenderConf('Xhtml', 'heading', array('css_h1' => 'smart',
+                                                           'css_h2' => 'smart',
+                                                           'css_h3' => 'smart',
+                                                           'css_h4' => 'smart',
+                                                           'css_h5' => 'smart',
+                                                           'css_h6' => 'smart'));
+            $wiki->setRenderConf('Xhtml', 'table', array('css_table' => 'smart',
+                                                         'css_tr'    => 'smart',
+                                                         'css_th'    => 'smart',
+                                                         'css_td'    => 'smart'));
+            $wiki->setRenderConf('Xhtml', 'toc', array('css_list' => 'smart',
+                                                       'css_item' => 'smart'));
 
-                $wiki->setRenderConf('Xhtml', 'code', array('css'      => 'smart',
-                                                                     'css_code' => 'smart',
-                                                                     'css_php'  => 'smart',
-                                                                     'css_html' => 'smart'));
-            }
+            $wiki->setRenderConf('Xhtml', 'code', array('css'      => 'smart',
+                                                        'css_code' => 'smart',
+                                                        'css_php'  => 'smart',
+                                                        'css_html' => 'smart'));
+        
             $_result['body'] = $wiki->transform($_result['body'], 'Xhtml');  
         }
         else
