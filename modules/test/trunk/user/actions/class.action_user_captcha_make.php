@@ -36,7 +36,7 @@ class action_user_captcha_make extends action
         $_public_key                   = & $this->B->$data['public_key'];   
             
         // Captcha privat key!!!
-        $captcha_privat_key = md5(implode('',file(SF_BASE_DIR.'modules/common/config/config.php')));
+        $captcha_privat_key = md5(implode('',file(SF_BASE_DIR.'data/common/config/config.php')));
         
         // The ttf font to create turing chars images
         $captcha_ttf_font = SF_BASE_DIR .'modules/user/actions/captcha/ttf_font/activa.ttf';
