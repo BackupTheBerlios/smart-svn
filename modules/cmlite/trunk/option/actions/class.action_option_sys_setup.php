@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * option_sys_setup class 
+ * action_option_sys_setup class 
  *
  */
  
-class option_sys_setup
+class action_option_sys_setup extends action
 {
-    /**
-     * Global system instance
-     * @var object $this->B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function option_sys_setup()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Perform on admin requests for this module
      *
