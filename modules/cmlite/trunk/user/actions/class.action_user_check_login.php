@@ -46,6 +46,7 @@ class action_user_check_login extends action
             $row = $result->fetchRow( DB_FETCHMODE_ASSOC );
             
             // set session data
+            $this->B->session->set('xxxxx',    TRUE);
             $this->B->session->set('user_logged_uid',    $row['uid']);
             $this->B->session->set('user_logged_login',  $login);
             $this->B->session->set('user_logged_rights', $row['rights']);
@@ -69,7 +70,7 @@ class action_user_check_login extends action
                 }
                 $query = $amp.base64_decode($data['forward_urlvar']);
             }
-            
+
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.$admin.$query);
             exit;
         }
