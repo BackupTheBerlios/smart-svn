@@ -40,7 +40,7 @@ if (FALSE == register_handler( MOD_USER,
 function user_event_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'user_'.$evt['code'];
+    $class_name = 'action_user_'.$evt['code'];
         
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))

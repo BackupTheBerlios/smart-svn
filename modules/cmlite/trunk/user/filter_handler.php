@@ -37,7 +37,7 @@ if (FALSE == register_filter( USER_FILTER,
 function user_filter_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'user_filter_'.$evt['code'];
+    $class_name = 'filter_user_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))
