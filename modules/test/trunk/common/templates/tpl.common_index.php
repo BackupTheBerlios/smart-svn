@@ -12,7 +12,7 @@
 }
 .style6 {
     font-size: 24px;
-    color: #0033CC;
+    color: #FFCC00;
 }
 .style8 {color: #0033CC}
 -->
@@ -40,7 +40,7 @@ function subok(s){
               <td align="left" valign="top"><span class="style4"><span class="font10"><?php echo $B->sys['info']['name']; echo ' '.$B->sys['info']['version']; ?></span></span></td>
             </tr>
             <tr>
-              <td align="left" valign="top" class="style6">LittleJo admin</td>
+              <td align="left" valign="top" class="style6">Little Jo <font size="2"><strong>admin interface</strong></font></td>
             </tr>
           </table></td>
           <td width="15%" align="right" valign="top" class="font10"><a href="<?php echo SF_CONTROLLER; ?>">The public page</a></td>

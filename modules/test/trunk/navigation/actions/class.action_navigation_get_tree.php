@@ -53,11 +53,12 @@ class action_navigation_get_tree extends action
         foreach($node as $n => $x)
         {
             $x['node'] = $n;
-            $this->_tmp_array[$x['order'].$s] = $x; 
+            $this->_tmp_array['o'.$x['order'].$s] = $x; 
             $s++;
         }
+        
         ksort($this->_tmp_array);
- 
+
         $this->_level = 0;        
 
         $node = $data['node'];

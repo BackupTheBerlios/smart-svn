@@ -2,7 +2,7 @@
 class Text_Wiki_Render_Xhtml_Image extends Text_Wiki_Render {
 
     var $conf = array(
-        'base' => '/',
+        'base' => '',
         'css'  => null,
         'css_link' => null
     );
