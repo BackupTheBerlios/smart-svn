@@ -68,10 +68,10 @@ class view_login
             
             /* check login and password */
             if( FALSE === $this->B->M( MOD_USER, 
-                                       'login', 
-                                       array( 'login'  => $_POST['login_name'],
-                                              'passwd' => $_POST['password'],
-                                              'urlvar' => $_GET['url'])))
+                                       'check_login', 
+                                       array( 'login'          => $_POST['login_name'],
+                                              'passwd'         => $_POST['password'],
+                                              'forward_urlvar' => $_GET['url'])))
             {
                 $this->B->tpl_error = 'Login fails. Please try again!!<br /><br />';
                 $this->_reset_form_data();

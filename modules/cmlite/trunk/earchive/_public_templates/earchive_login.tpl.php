@@ -94,8 +94,7 @@
       <td width="26%" valign="top" align="left" class="loginitem">
             Passwd<br>
             <input type="password" name="password" size="25" maxlength="100"></td>
-      <td width="74%" valign="middle" align="center" class="loginitem"><a href="index.php?view=forgot_password&url=<?php echo $_GET['url']; ?>">forgot password
-      </a> </td>
+      <td width="74%" valign="middle" align="center" class="loginitem">&nbsp; </td>
   </tr>
   <tr>
     <td valign="top" align="left" class="loginitem">Turing Key<br>

@@ -41,7 +41,7 @@ class view_list
     }
     
     /**
-     * Execute the view of the template "group_index.tpl.php"
+     * Execute the view of the template "group_list.tpl.php"
      *
      * @return bool true on success else false
      * @todo validate $_GET['lid']
