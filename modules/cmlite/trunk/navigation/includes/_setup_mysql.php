@@ -53,7 +53,7 @@ if (DB::isError($result))
     $success = FALSE;
 }
 
-$result = $this->B->db->createSequence($this->B->conf_val['db']['table_prefix'].'navigation_seq_nested_set');
+$result = $this->B->db->createSequence($this->B->conf_val['db']['table_prefix'].'navigation_nested_set');
 
 if (DB::isError($result))
 {
@@ -81,16 +81,16 @@ if (DB::isError($result))
 
 // create table if it dosent exist
 $sql = "CREATE TABLE {$this->B->conf_val['db']['table_prefix']}navigation_attach (
-          id_attach   int(10) unsigned NOT NULL default '0',
-          id_node     int(10) unsigned NOT NULL default '0',
-          attach_type tinyint(2) unsigned NOT NULL default '0',
+          id_attach   int(11) unsigned NOT NULL auto_increment,
+          id_node     int(11) unsigned NOT NULL default '0',
           order_num   tinyint(4) unsigned NOT NULL default '0',
           file        varchar(255) NOT NULL default '',
+          type        varchar(255) NOT NULL default '',
+          size        int(11) unsigned NOT NULL default '0',
           short_desc  varchar(255) NOT NULL default '',
           long_desc   text NOT NULL default '',
           PRIMARY KEY     (id_attach),
           KEY id_node     (id_node),
-          KEY attach_type (attach_type),
           KEY order_num   (order_num))";
 
 $result = $this->B->db->query($sql);
@@ -102,12 +102,4 @@ if (DB::isError($result))
     $success = FALSE;
 }
 
-$result = $this->B->db->createSequence($this->B->conf_val['db']['table_prefix'].'navigation_seq_attach');
-
-if (DB::isError($result))
-{
-    trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-    $success = FALSE;
-}
 ?>
