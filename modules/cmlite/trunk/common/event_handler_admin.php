@@ -27,7 +27,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_COMMON' , 'COMMON');
 
 // Version of this modul
-define ( 'MOD_COMMON_VERSION' , '0.1');
+define ( 'MOD_COMMON_VERSION' , '0.2');
 
 // register this handler                       
 if (FALSE == $B->register_handler( 
@@ -74,6 +74,21 @@ function common_event_handler( $evt )
             $B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
             $B->conf_val['module']['common']['mod_type'] = 'common';
             $B->conf_val['module']['common']['info']     = 'This is the common modul';
+
+            //create session dir if it dosent exist
+            if(!is_dir(SF_BASE_DIR . '/admin/tmp/session'))
+            {
+                if(!mkdir(SF_BASE_DIR . '/admin/tmp/session', SF_DIR_MODE))
+                {
+                    $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/admin/tmp/session';
+                    $success = FALSE;
+                }  
+            }
+            if(($success == TRUE) && !is_writeable( SF_BASE_DIR . '/admin/tmp/session' ))
+            {
+                $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/session';
+                $success = FALSE;
+            }            
             
             // if noting is going wrong $success is still TRUE else FALSE
             // ex.: if creating db tables fails you must set this var to false
@@ -132,6 +147,12 @@ if($B->sys['info']['status'] == TRUE)
     {
         trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );
     }
+
+    // include session class
+    include_once( SF_BASE_DIR . '/admin/modules/common/class.sfSession.php' );  
+    
+    /* Create new object of session class */
+    $B->session = & new session();
 }
 
 ?>

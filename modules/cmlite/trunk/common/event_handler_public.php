@@ -95,6 +95,12 @@ if($B->sys['info']['status'] == TRUE)
     {
         trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );
     }
+    
+    // include session class
+    include_once( SF_BASE_DIR . '/admin/modules/common/class.sfSession.php' );  
+    
+    /* Create new object of session class */
+    $B->session = & new session();    
 }
 
 ?>
