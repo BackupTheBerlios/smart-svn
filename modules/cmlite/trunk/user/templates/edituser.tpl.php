@@ -29,6 +29,14 @@ function deleteuser(f, mes)
         <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit User </td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Login</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">
+          <input name="_login" type="text" id="_login" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['login'])); ?>" disabled="disabled">
+        </td>
+      </tr>      
+      <tr>
         <td align="left" valign="top" class="font10bold">Forename</td>
       </tr>
       <tr>

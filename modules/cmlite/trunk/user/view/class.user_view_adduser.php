@@ -56,7 +56,7 @@ class user_view_adduser
         if( ($_GET['sec'] == 'adduser') && isset($_POST['adduser']) )
         {
             // Init form field values
-            $this->B->form_error = FALSE;
+            $this->B->tpl_error     = FALSE;
             $this->B->form_forename = '';
             $this->B->form_lastname = '';
             $this->B->form_email    = '';
@@ -72,34 +72,25 @@ class user_view_adduser
                 return TRUE;
             }            
 
-            // get new user data
-            $this->B->tmp_data = array( 
-                        'forename' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
-                        'lastname' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
-                        'email'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
-                        'login'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['login'])),
-                        'passwd'   => $this->B->db->quoteSmart(md5($_POST['passwd'])),
-                        'rights'   => 1,
-                        'status'   => 1);
-
-            // check if a user instance exists
-            if(!is_object($this->B->user))
-            {
-                // the user class
-                include_once SF_BASE_DIR . 'modules/user/includes/class.user.php';        
-                //User Class instance
-                $this->B->user = & new user;  
-            }
+            $_data = array( 'error'     => 'tpl_error',
+                            'user_data' => array('forename' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
+                                                 'lastname' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
+                                                 'email'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
+                                                 'login'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['login'])),
+                                                 'passwd'   => $this->B->db->quoteSmart(md5($_POST['passwd'])),
+                                                 'rights'   => 1,
+                                                 'status'   => 1));
             
             // add new user data
-            if(FALSE !== ($user_id = $this->B->user->add_user($this->B->tmp_data)))
+            if(FALSE !== ($user_id = $this->B->M( MOD_USER,
+                                                  'add',
+                                                  $_data )))
             {
                 @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user&sec=edituser&uid='.$user_id);
                 exit; 
             }
             else
             {
-                $this->B->form_error = 'Unknown error! Please try again.';
                 $this->_reset_old_fields_data();
                 return TRUE;                
             }
@@ -124,7 +115,7 @@ class user_view_adduser
            empty($_POST['login'])||
            empty($_POST['passwd']))
         {        
-            $this->B->form_error = 'You have fill out all fields!';
+            $this->B->tpl_error = 'You have fill out all fields!';
             return FALSE;
         }  
         return TRUE;
