@@ -42,7 +42,7 @@ if (FALSE == register_handler( MOD_SETUP,
 function setup_event_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'setup_'.$evt['code'];
+    $class_name = 'action_setup_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))
