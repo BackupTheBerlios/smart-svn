@@ -264,6 +264,36 @@ class mailarchiver
                  '.$data['type'].')';
 
         return $GLOBALS['B']->db->query($sql);
-    }         
+    }  
+    /**
+     * get all lists
+     *
+     * @param array $fields Field names of the list db table
+     * @return array Lists data 
+     */ 
+    function & get_all_messages( $fields )
+    {
+        $comma = '';
+        foreach ($fields as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
+        }
+        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists_messages";
+        
+        $result = $GLOBALS['B']->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage(), E_USER_ERROR);
+        }
+
+        return $result;
+    }    
 }
 ?>

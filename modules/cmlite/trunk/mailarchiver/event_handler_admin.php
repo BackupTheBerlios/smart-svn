@@ -76,6 +76,32 @@ function mailarchiver_event_handler( $evt )
         case EVT_SET_OPTIONS:  
             // set user options 
             // this event comes from the option module (module_loader.php)
+            if(!empty($_POST['mailarchiver_rebuild_index']))
+            {
+                // the mailarchiver class
+                include_once SF_BASE_DIR . '/admin/modules/mailarchiver/class.mailarchiver.php';
+                $marchiver = & new mailarchiver; 
+                
+                include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
+                $word_indexer = & new word_indexer();
+                
+                $fields = array('mid','subject','body','sender');
+                $result = $marchiver->get_all_messages( $fields );
+                
+                if(is_object($result))
+                {
+                    while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
+                    {
+                        $content = '';
+                        $content .= stripslashes($row['sender']);
+                        $content .= stripslashes($row['subject']);
+                        $content .= stripslashes($row['body']);
+                        $mid = $row['mid'];
+                        
+                        $word_indexer->indexing_words( $content, 'mailarchiver_words_crc32', 'mid', $mid, TRUE);      
+                    }
+                }                
+            }
             break;             
         case EVT_GET_OPTIONS:  
             // get mailarchiver options template 
