@@ -46,15 +46,13 @@ if( count($B->setup_error) == 0 )
     $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}mailarchiver_messages (
             mid      INT(11) NOT NULL auto_increment,
             lid      INT(11) NOT NULL,
-            mes_id   CHAR(32) NOT NULL,
             subject  TEXT NOT NULL  default '',
             sender   TEXT NOT NULL  default '',
             mdate    DATETIME default '0000-00-00 00:00:00' NOT NULL,
             body     MEDIUMTEXT default '' NOT NULL,
             folder   VARCHAR(32) default '' NOT NULL,
             PRIMARY KEY     (mid),
-            KEY lid         (lid),
-            KEY mes_id      (mes_id))";
+            KEY lid         (lid))";
 
     $result = $B->db->query($sql);
 

@@ -101,7 +101,6 @@ if( count($B->setup_error) == 0 )
     $sql = "CREATE TABLE mailarchiver_messages (
             mid      INTEGER NOT NULL PRIMARY KEY,
             lid      INT(11) NOT NULL,
-            mes_id   CHAR(32) NOT NULL,
             subject  TEXT NOT NULL default '',
             sender   TEXT NOT NULL default '',
             mdate    DATETIME NOT NULL default '0000-00-00 00:00:00',

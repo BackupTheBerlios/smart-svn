@@ -33,7 +33,7 @@ if( $_POST['do_setup'] )
     
     // close db connection if present
     if(is_object($B->db))
-        $B->db->close();
+        $B->db->disconnect();
         
     // check on errors before proceed
     if( count($B->setup_error) == 0 )

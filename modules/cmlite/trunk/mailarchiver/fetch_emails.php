@@ -73,12 +73,11 @@ foreach ($lists as $account)
             
             $data = array();
             
-            $data['lid']     = $account['lid'];
-            $data['subject'] = $B->db->quoteSmart($msg->header[$mid]['subject']);
-            $data['sender']  = $B->db->quoteSmart($msg->header[$mid]['reply_toaddress']);
-            $data['mdate']   = $B->db->quoteSmart(date('Y-m-d h:i:s', $msg->header[$mid]['udate']));
-            $data['mes_id']  = $B->db->quoteSmart(md5($msg->header[$mid]['message_id']));
-
+            $data['lid']      = $account['lid'];
+            $data['subject']  = $B->db->quoteSmart($msg->header[$mid]['subject']);
+            $data['sender']   = $B->db->quoteSmart($msg->header[$mid]['reply_toaddress']);
+            $data['mdate']    = $B->db->quoteSmart(date('Y-m-d h:i:s', $msg->header[$mid]['udate']));
+            
             $body = $msg->getBody($mid, $pid);
             $mbody = '';
             
