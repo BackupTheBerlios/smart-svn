@@ -47,6 +47,7 @@ function system_event_handler( $evt )
             {
                 $B->sys['info']['name']    = $B->system_name;
                 $B->sys['info']['version'] = $B->system_version;
+                $B->system_update_flag = TRUE;  
             }
                 
             // Assign registered module handlers
