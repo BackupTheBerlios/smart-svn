@@ -14,7 +14,7 @@
         --------------------------------------------------------------
         Print out system variables defined in the admin options menu. 
         --------------------------------------------------------------*/?>
-<title><?php echo $B->sys['option']['site_title']; ?></title>
+<title><?php echo $B->sys['option']['site_title']; ?> - <?php echo $B->tpl_title;  ?> ---</title>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
 
 <style type="text/css">
@@ -56,13 +56,17 @@ body {
         </td>
         <td width="85%" align="left" valign="top">
         <font face="Verdana, Arial, Helvetica, sans-serif">
+
+        <?php if(!empty($B->tpl_error)): ?>
+            <h3><?php echo $B->tpl_error;  ?></h3>
+        <?php else: ?>
+            <!-- print title and body of a navigation node -->
         
-        <!-- print title and body of a navigation node -->
-        
-        <h3><?php echo $B->tpl_title;  ?></h3></font>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+            <h3><?php echo $B->tpl_title;  ?></h3></font>
+            <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
             <?php echo $B->tpl_body;  ?>
-        </font></p>
+            </font></p>
+        <?php endif; ?>
         </td>
       </tr>
     </table></td>

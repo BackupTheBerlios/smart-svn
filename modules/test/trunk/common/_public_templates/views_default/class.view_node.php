@@ -44,10 +44,11 @@ class view_node extends view
         M( MOD_NAVIGATION, 
            'get_node', 
            array('node'             => $_REQUEST['node'],
+                 'error'            => 'tpl_error',
                  'title'            => 'tpl_title',
                  'body'             => 'tpl_body',
-                 'nl2br'            => TRUE,
-                 'htmlspecialchars' => FALSE)); 
+                 'status'           => 'publish',
+                 'nl2br'            => TRUE )); 
 
         return TRUE;
     }
