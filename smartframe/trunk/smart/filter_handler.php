@@ -37,7 +37,7 @@ if (FALSE == register_filter( SYSTEM_FILTER,
 function system_filter_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'system_filter_'.$evt['code'];
+    $class_name = 'filter_system_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))

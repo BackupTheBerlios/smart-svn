@@ -10,39 +10,19 @@
 // ----------------------------------------------------------------------
 
 /**
- * system_get_public_view class 
+ * action_system_get_public_view class 
  *
  * Load the demanded view and optionaly the related template
  *
  */
  
-class system_get_view
+class action_system_get_view extends action
 {
     /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
+     * Default view folder
+     * @var string $view_folder
+     */    
     var $view_folder = SF_VIEW_FOLDER;
-    
-    /**
-     * constructor
-     *
-     */
-    function system_get_view()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
     
     /**
      * - validate the view request
@@ -57,6 +37,11 @@ class system_get_view
      */
     function perform( $data )
     {
+       /**
+        * Set template folder
+        */
+        define('SF_TPL_FOLDER', $this->B->sys['option']['tpl']); 
+        
         // we need the global container object in this function as $B
         // in order to access templates variables e.g. $B->tpl_test
         // A Template is included in this function.

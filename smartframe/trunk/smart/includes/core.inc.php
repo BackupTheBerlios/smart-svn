@@ -44,6 +44,9 @@ include_once( SF_BASE_DIR . 'smart/includes/event_distributors.php' );
 // Default view class
 include_once( SF_BASE_DIR . 'smart/includes/class.view.php' );
 
+// Default action class
+include_once( SF_BASE_DIR . 'smart/includes/class.action.php' );
+
 // create base container instance
 $B = & new Base;
 

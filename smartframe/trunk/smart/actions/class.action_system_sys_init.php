@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * system_sys_init class 
+ * action_system_sys_init class 
  *
  */
  
-class system_sys_init
+class action_system_sys_init extends action
 {
-    /**
-     * Global system instance
-     * @var object $this->B
-     */
-    var $B;
-    
-    /**
-     * constructor php4
-     *
-     */
-    function system_sys_init()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Only check if the version number has changed > include upgrade code
      *

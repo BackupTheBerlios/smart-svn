@@ -37,7 +37,7 @@ if (FALSE == register_handler( MOD_SYSTEM,
 function system_event_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'system_'.$evt['code'];
+    $class_name = 'action_system_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))

@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * system_sys_prepend class - Run code before the application logic
+ * action_system_sys_prepend class - Run code before the application logic
  *
  */
  
-class system_sys_prepend
+class action_system_sys_prepend extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function system_sys_prepend()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Run filters and other stuff before the application logic  
      *

@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * system_sys_setup class 
+ * action_system_sys_setup class 
  *
  */
  
-class system_sys_setup
+class action_system_sys_setup extends action
 {
-    /**
-     * Global system instance
-     * @var object $this->B
-     */
-    var $B;
-    
-    /**
-     * constructor php4
-     *
-     */
-    function system_sys_setup()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Setup proceedure for the base system
      *

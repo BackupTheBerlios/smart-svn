@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * system_sys_append class - Run code after the application logic
+ * action_system_sys_append class - Run code after the application logic
  *
  */
  
-class system_sys_append
+class action_system_sys_append extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function system_sys_append()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Run filters and other stuff after the application logic  
      *

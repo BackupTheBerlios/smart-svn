@@ -10,45 +10,21 @@
 // ----------------------------------------------------------------------
 
 /**
- * system_filter_trim_output class - Remove space before and after the template output
+ * filter_system_email_obfuscating class
  *
  */
  
-class system_filter_trim_output
+class filter_system_email_obfuscating extends action
 {
     /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function system_filter_trim_output()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
-    /**
-     * Remove space before and after the template output
+     * EMAIL_OBFUSCATING
      *
      * @param string $content
      * @return string filtered content
      */  
     function perform( & $content )
     {
-        return trim( $content );  
+        return str_replace("@", " AT ", $content );       
     }
 }
 

@@ -10,23 +10,29 @@
 // ----------------------------------------------------------------------
 
 /**
- * system_filter_add_headers class 
+ * default action. Parent class of every action class
  *
  */
  
-class system_filter_add_headers
+class action
 {
     /**
      * Global system instance
      * @var object $B
      */
     var $B;
+
+    /**
+     * Error array
+     * @var array $errors
+     */
+    var $errors = array();
     
     /**
-     * constructor
+     * constructor php4
      *
      */
-    function system_filter_add_headers()
+    function action()
     {
         $this->__construct();
     }
@@ -41,20 +47,27 @@ class system_filter_add_headers
     }
     
     /**
-     * Add some headers
+     * perform
      *
-     * @param array $data
-     */  
-    function perform( $data )
+     */
+    function perform()
     {
-        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    }  
 
-        header("Cache-Control: no-store, no-cache, must-revalidate");
-        header("Cache-Control: post-check=0, pre-check=0", false);
-        header("Pragma: no-cache");
-        header('P3P: CP="NOI NID ADMa OUR IND UNI COM NAV"');
-    }
+    /**
+     * get errors as string
+     *
+     */
+    function & getError()
+    {   
+        $error_str = "";
+        foreach ($this->errors as $key => $val)
+        { 
+            $error_str .= $key . "\n" . $val . "\n\n";  
+        }
+        
+        return $error_str;
+    }    
 }
 
 ?>
