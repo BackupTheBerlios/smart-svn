@@ -3,7 +3,7 @@
 <head>
 <meta name="robots" content="noindex,nofollow" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
-<link href="modules/common/media/main.css" rel="stylesheet" type="text/css" />
+<link href="<?php echo SF_RELATIVE_PATH; ?>modules/common/media/main.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {
@@ -46,7 +46,7 @@ function subok(s){
           <td width="15%" align="right" valign="top" class="font10"><a href="index.php">The public page</a></td>
           <td width="39%" align="right" valign="middle">
             <form action="index.php" method="post">
-                <select name="m" onChange="go('index.php?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value+'&tpl=index')">
+                <select name="m" onChange="go('<?php echo SF_CONTROLLER; ?>?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value+'&tpl=index')">
                  <option value="">The Modules</option>
                  <?php foreach($B->tpl_mod_list as $h): ?>
                     <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
@@ -55,7 +55,7 @@ function subok(s){
           </form>
           </td>
           <td width="7%" align="right" valign="top">
-            <a href="index.php?logout=1" class="font14">Logout</a>
+            <a href="<?php echo SF_CONTROLLER; ?>?logout=1" class="font14">Logout</a>
           </td>
         </tr>
           </table></td>
