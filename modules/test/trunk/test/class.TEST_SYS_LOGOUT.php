@@ -47,12 +47,12 @@ class TEST_SYS_LOGOUT
      */
     function perform( $data )
     {            
-            // include here additional clean up code. 
-            // destroying sessions,....
+        // include here additional clean up code. 
+        // destroying sessions,....
             
-            // exit to the main public page
-            @header('Location: '.SF_BASE_LOCATION.'/index.php');
-            exit;
+        // exit to the main public page
+        @header('Location: '.SF_BASE_LOCATION.'/index.php');
+        exit;
     }    
 }
 

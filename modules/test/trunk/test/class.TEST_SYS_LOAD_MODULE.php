@@ -47,31 +47,31 @@ class TEST_SYS_LOAD_MODULE
      */
     function perform( $data )
     {
-            // Load a specific module feature
-            // 'mf' stay for 'module feature'
-            // this var is defined in the test template index.tpl.php
-            //
-            if($_REQUEST['mf'] == 'evalform')
-            {
-                // just assign the form data to the template var
-                $this->B->tpl_test_form_text = $_POST['testfield'];
-            }
+        // Load a specific module feature
+        // 'mf' stay for 'module feature'
+        // this var is defined in the test template index.tpl.php
+        //
+        if($_REQUEST['mf'] == 'evalform')
+        {
+            // just assign the form data to the template var
+            $this->B->tpl_test_form_text = $_POST['testfield'];
+        }
             
-            // assign some template vars
-            // these vars were included in template index.tpl.php of this module
-            //
-            $this->B->tpl_test_title      = "Test module";
-            $this->B->tpl_test_intro_text = "This module does currently nothing else than print out this text, some array variables and evaluate form data.";
+        // assign some template vars
+        // these vars were included in template index.tpl.php of this module
+        //
+        $this->B->tpl_test_title      = "Test module";
+        $this->B->tpl_test_intro_text = "This module does currently nothing else than print out this text, some array variables and evaluate form data.";
             
-            // assign an template array with numbers
-            $this->B->tpl_test_counter = array();
-            for($i=0;$i<11;$i++)
-                $this->B->tpl_test_counter[] = $i;
+        // assign an template array with numbers
+        $this->B->tpl_test_counter = array();
+        for($i=0;$i<11;$i++)
+            $this->B->tpl_test_counter[] = $i;
             
-            // set the base template for this module
-            $this->B->module = SF_BASE_DIR . '/admin/modules/test/templates/index.tpl.php'; 
+        // set the base template for this module
+        $this->B->module = SF_BASE_DIR . '/admin/modules/test/templates/index.tpl.php'; 
             
-            return TRUE;
+        return TRUE;
     }    
 }
 

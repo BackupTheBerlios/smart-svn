@@ -17,11 +17,27 @@
 class TEST_COUNTER
 {
     /**
+     * Global system instance
+     * @var object $B
+     */
+    var $B;
+    
+    /**
      * constructor
      *
      */
     function TEST_COUNTER()
     {
+        $this->__construct();
+    }
+
+    /**
+     * constructor php5
+     *
+     */
+    function __construct()
+    {
+        $this->B = & $GLOBALS['B'];
     }
     
     /**
@@ -36,21 +52,23 @@ class TEST_COUNTER
      */
     function perform( $data )
     {
-            // get var name defined in the public template to store the result
-            $_result = & $GLOBALS['B']->$data['var']; 
+        // get var name defined in the public template to store the result
+        $_result = & $this->B->$data['var']; 
             
-            // the result must be an array
-            $_result = array();
+        // the result must be an array
+        $_result = array();
             
-            // check if start/end counter are defined else set default values
-            if(empty($data['start_counter']))
-                $data['start_counter'] = 0;
-            if(empty($data['end_counter']))
-                $data['end_counter'] = 10;
+        // check if start/end counter are defined else set default values
+        if(empty($data['start_counter']))
+            $data['start_counter'] = 0;
+        if(empty($data['end_counter']))
+            $data['end_counter'] = 10;
                 
-            // assign counter vars
-            for($i = $data['start_counter']; $i <= $data['end_counter']; $i++)
-                $_result[] = $i;    
+        // assign counter vars
+        for($i = $data['start_counter']; $i <= $data['end_counter']; $i++)
+            $_result[] = $i;  
+            
+        return TRUE;
     }    
 }
 

@@ -17,11 +17,27 @@
 class TEST_CONTACT
 {
     /**
+     * Global system instance
+     * @var object $B
+     */
+    var $B;
+    
+    /**
      * constructor
      *
      */
     function TEST_CONTACT()
     {
+        $this->__construct();
+    }
+
+    /**
+     * constructor php5
+     *
+     */
+    function __construct()
+    {
+        $this->B = & $GLOBALS['B'];
     }
     
     /**
@@ -35,11 +51,11 @@ class TEST_CONTACT
      */  
     function perform( $data )
     {
-            // get var name defined in the public template to store the result
-            $_result = & $GLOBALS['B']->$data['var']; 
+        // get var name defined in the public template to store the result
+        $_result = & $this->B->$data['var']; 
             
-            $_result  = "\nBuster Keaton\n41, Rue Tivoli,\nParis, France\n\n";
-            $_result .= "Email: {$GLOBALS['B']->sys['option']['email']}";     
+        $_result  = "\nBuster Keaton\n41, Rue Tivoli,\nParis, France\n\n";
+        $_result .= "Email: {$GLOBALS['B']->sys['option']['email']}";     
     }
 }
 

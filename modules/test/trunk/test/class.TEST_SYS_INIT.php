@@ -47,15 +47,15 @@ class TEST_SYS_INIT
      */
     function perform( $data )
     {
-            // Check for upgrade  
-            if(MOD_TEST_VERSION != (string)$this->B->sys['module']['test']['version'])
-            {
-                // set the new version num of this module
-                $this->B->sys['module']['test']['version'] = MOD_TEST_VERSION;
-                $this->B->system_update_flag = TRUE;  
+        // Check for upgrade  
+        if(MOD_TEST_VERSION != (string)$this->B->sys['module']['test']['version'])
+        {
+            // set the new version num of this module
+            $this->B->sys['module']['test']['version'] = MOD_TEST_VERSION;
+            $this->B->system_update_flag = TRUE;  
                 
-                // include here additional upgrade code
-            }
+            // include here additional upgrade code
+        }
     }    
 }
 
