@@ -29,7 +29,7 @@ function test_event_handler( $evt )
     {
         case SF_EVT_LOAD_MODULE:
             // set the base template for this module
-            $base->tpl->readTemplatesFromInput(  "admin/modules/test/templates/index.tmpl.html" );    
+            $base->tpl->readTemplatesFromInput(  "admin/modules/test/templates/index.tpl.html" );    
             // Assign module handler name
             $base->tpl->addVar( 'module', 'this_module', EVT_HANDLER_TEST );         
             break;             

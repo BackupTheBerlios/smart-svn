@@ -5,7 +5,7 @@
 
 // Check if this file is included in the environement
 //
-if (!defined('SECURE_INCLUDE'))
+if (!defined('SF_SECURE_INCLUDE'))
 {
     die('No Permission on'. __FILE__);
 }
@@ -29,7 +29,7 @@ foreach ($base->event->handler_list as $value)
 // Assign registered handlers
 $base->tpl->addRows( 'handler', $list );  
 
-$base->tpl->readTemplatesFromInput(  "/admin/index.tmpl.html" );
+$base->tpl->readTemplatesFromInput(  "/admin/index.tpl.html" );
 
 
 ?>

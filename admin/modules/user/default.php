@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // set the default template for this module
-$base->tpl->readTemplatesFromInput(  "admin/modules/user/templates/default.tmpl.html" );    
+$base->tpl->readTemplatesFromInput(  "admin/modules/user/templates/default.tpl.html" );    
 
 // Assign groups
 $base->tpl->addRows( 'user_group_list', $base->user->getGroups( array('gid','name') ) );

@@ -36,7 +36,7 @@ $base->user->setAuthFields( array( "primary"   =>  "uid",
                                    "passwd"    =>  "passwd" ) );
 
 // set login template
-if(@is_file(SF_BASE_DIR . '/templates/UserLogin.tmpl'))
+if(@is_file(SF_BASE_DIR . '/templates/UserLogin.tpl.html'))
 {
     $base->user->loginTemplate = "/templates/UserLogin.tpl.html";
 }

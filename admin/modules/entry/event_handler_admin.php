@@ -36,7 +36,7 @@ function entry_event_handler( $evt )
     switch( $evt["code"] )
     {
         case SF_EVT_LOAD_MODULE:
-            include(BASE_DIR.'/admin/modules/entry/module_loader.php');          
+            include(SF_BASE_DIR.'/admin/modules/entry/module_loader.php');          
             break;             
         case SF_EVT_INIT:        
             break; 
