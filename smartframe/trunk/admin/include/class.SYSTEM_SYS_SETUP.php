@@ -60,8 +60,8 @@ class SYSTEM_SYS_SETUP
             include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
 
             // set name and version of the framework
-            $this->B->conf_val['info']['name']    = $B->system_name;
-            $this->B->conf_val['info']['version'] = $B->system_version;
+            $this->B->conf_val['info']['name']    = $this->B->system_name;
+            $this->B->conf_val['info']['version'] = $this->B->system_version;
             return $success;
     }
 }

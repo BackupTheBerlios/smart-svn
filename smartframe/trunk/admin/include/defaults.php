@@ -28,14 +28,14 @@ if (!defined('SF_SECURE_INCLUDE'))
 define('SF_ERROR_HANDLE',             'LOG|SHOW');
 
 /**
- * error reporting
+ * error reporting E_COMPILE_ERROR|E_ERROR|E_CORE_ERROR|E_PARSE
  */
-define('SF_ERROR_REPORTING',          E_COMPILE_ERROR|E_ERROR|E_CORE_ERROR|E_PARSE);
+define('SF_ERROR_REPORTING',          E_ALL ^E_NOTICE);
 
 /**
  * Set debug.
  */
-define('SF_DEBUG',                    TRUE);
+define('SF_DEBUG',                    FALSE);
 
 /**
  * Allowed output buffering.
