@@ -48,21 +48,7 @@ function system_event_handler( $evt )
                 $B->sys['info']['name']    = $B->system_name;
                 $B->sys['info']['version'] = $B->system_version;
                 $B->system_update_flag = TRUE;  
-            }
-                
-            // Assign registered module handlers
-            $B->mod_list = array();
-            
-            // sort handler list by name
-            ksort($B->handler_list);
-            // assign template handler list array
-            foreach ($B->handler_list as $key => $value)
-            {
-                if( $value['menu_visibility'] == TRUE )
-                {
-                    $B->tpl_mod_list[$key] =  $value;
-                }
-            }                 
+            }           
             break; 
         case EVT_LOGOUT:  
             break;  
