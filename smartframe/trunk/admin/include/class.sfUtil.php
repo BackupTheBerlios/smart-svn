@@ -97,6 +97,17 @@ class sfUtil
         mt_srand((double) microtime()*1000000);
         return md5(str_replace(".","",$_SERVER["REMOTE_ADDR"]) + mt_rand(100000,999999)+uniqid(microtime()));    
     } 
+
+    /**
+     * Make unique crc32
+     *
+     * @return int unique crc32  
+     */
+    function unique_crc32()
+    {
+        mt_srand((double) microtime()*1000000);
+        return crc32(str_replace(".","",$_SERVER["REMOTE_ADDR"]) + mt_rand(100000,999999)+uniqid(microtime()));    
+    }
     
     /**
      * delete_dir_tree

@@ -1,23 +1,11 @@
 <?php
-// File: $Id: word_indexer.php,v 1.1.2.6 2004/03/24 13:18:24 atur Exp $
 // ----------------------------------------------------------------------
-// Open Publisher
-// Copyright (c) 2002-2003
-// by Armand Turpel
-// http://open-publisher.net/
+// Smart PHP Framework
+// Copyright (c) 2004
+// by Armand Turpel < smart@open-publisher.net >
+// http://smart.open-publisher.net/
 // ----------------------------------------------------------------------
-// LICENSE
-//
-// This program is free software; you can redistribute it and/or
-// modify it under the terms of the GNU General Public License (GPL)
-// as published by the Free Software Foundation; either version 2
-// of the License, or (at your option) any later version.
-//
-// This program is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
+// LICENSE GPL
 // To read the license please visit http://www.gnu.org/copyleft/gpl.html
 // ----------------------------------------------------------------------
 
@@ -183,7 +171,7 @@ class word_indexer
         // Build the INSERT string
         foreach( $_content as $value )
         {
-            $_insert_string .= $_comma.'('.crc32(htmlentities($value)).$_ins.') ';
+            $_insert_string .= $_comma.'('.crc32($value).$_ins.') ';
             $_comma = ',';
         }
         
