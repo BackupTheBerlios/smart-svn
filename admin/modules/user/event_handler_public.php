@@ -67,19 +67,18 @@ define('SF_DEFAULT_MODULE',              'ENTRY');
 if($B->sys['info']['status'] == TRUE)
 {
     // include DB class
-    include_once( SF_BASE_DIR . '/admin/modules/user/class.'.$B->sys['db']['dbtype'].'.php' );         
+    include_once( SF_BASE_DIR . '/admin/modules/user/adodb/adodb.inc.php');
 
+    $B->conn = ADONewConnection( $B->sys['db']['dbtype'] );
     if($B->sys['db']['dbtype'] == 'sqlite')
     {
-        // Connect to the main database
-        $B->db = & new DB(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
-        $B->db->turboMode();
+        $B->sys['db']['host'] = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
     }
-    elseif($B->sys['db']['dbtype'] == 'mysql')
+    
+    if (!$B->conn->Connect( $B->sys['db']['host'], $B->sys['db']['user'], $B->sys['db']['passwd'], $B->sys['db']['name'] ))
     {
-        // Connect to the mysql database
-        $B->db = & new DB($B->sys['db']['host'],$B->sys['db']['user'],$B->sys['db']['passwd'],$B->sys['db']['name']);
-    }    
+        trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );            
+    } 
 }
 
 ?>

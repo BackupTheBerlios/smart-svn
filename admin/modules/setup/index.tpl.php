@@ -77,7 +77,7 @@ function subok(s){
     <?php if($_REQUEST['dbtype'] == 'mysql'): ?>    
     <table width="90%"  border="0" cellspacing="4" cellpadding="2">
       <tr bgcolor="#CCCCCC">
-        <td colspan="2" align="left" valign="top"><span class="subtitle">&nbsp;Database conect data</span><span class="style1"> (ignore this if you have seleted Sqlite as database) </span></td>
+        <td colspan="2" align="left" valign="top"><span class="subtitle">&nbsp;Database conect data</span></td>
       </tr>
       <tr>
         <td width="19%" align="left" valign="top"><span class="normal">Host:</span></td>
@@ -99,13 +99,13 @@ function subok(s){
         <td align="left" valign="top"><span class="normal">DB Name :</span></td>
         <td align="left" valign="top">
           <input name="dbname" type="text" size="50" maxlength="255" value="<?php echo $B->form_dbname ?>"/>
-&nbsp;
-<input type="checkbox" name="create_db" value="checkbox" />
-<span class="normal">create DB</span></td>      
+           &nbsp;
+          <input type="checkbox" name="create_db" value="checkbox" />
+          <span class="normal">create DB</span></td>      
       <tr>
         <td align="left" valign="top"><span class="normal">Tables Prefix :</span></td>
         <td align="left" valign="top">
-          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($B->form_host)) echo 'smart_';else echo $B->form_host; ?>"/>
+          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($B->form_tableprefix)) echo 'smart_';else echo $B->form_tableprefix; ?>"/>
         </td>
       </tr>
     </table>

@@ -49,10 +49,10 @@ class auth
                     uid={$GLOBALS['B']->uid}
                 AND
                     status=2 {$_and}";
-                    
-        $result = $GLOBALS['B']->db->query($sql);
         
-        if($GLOBALS['B']->db->numRows($result) == 1)
+        $result = $GLOBALS['B']->conn->Execute($sql);
+        
+        if($result->RecordCount() == 1)
         {
             $this->user_rights = (int) $_SESSION['user_rights'];
             $this->id_user     = (int) $_SESSION['id_user'];
@@ -88,11 +88,11 @@ class auth
                 AND
                     status=2";
         
-        $result = $GLOBALS['B']->db->query($sql);
+        $result = $GLOBALS['B']->conn->Execute($sql);
         
-        if($GLOBALS['B']->db->numRows($result) == 1)
+        if($result->RecordCount() == 1)
         {
-            $row = $GLOBALS['B']->db->getRow($result);
+            $row = $result->FetchRow();
             $GLOBALS['B']->session->set('id_user', $row['uid']);
             $GLOBALS['B']->session->set('user_rights', $row['rights']);
             return $row['rights'];

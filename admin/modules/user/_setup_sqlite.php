@@ -36,28 +36,29 @@ if( count($B->setup_error) == 0 )
         
     @copy(SF_BASE_DIR . '/admin/include/.htaccess', SF_BASE_DIR . '/data/db_sqlite/.htaccess');
 
-    // include sqlite class
-    include_once( SF_BASE_DIR . '/admin/modules/user/class.sqlite.php' );
-    
     $db_file = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
     
     if(file_exists($db_file))
         $is_db_file = TRUE;
+
+    $B->conn = ADONewConnection( 'sqlite' );
     
-    // Connect to the database
-    $B->db = & new DB(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
-    $B->db->turboMode(); 
+    if (!$B->conn->Connect( $db_file ))
+    {
+        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
 
     if(TRUE == $is_db_file)
     {
-        $B->tmp_inf = $B->db->getTableInfo('user_users');
+        $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='user_users'";
+        $result = $B->conn->Execute($sql);
 
-        if(!empty($B->tmp_inf))
+        if($result->RecordCount() == 1)
         {
             $sql = "DROP TABLE user_users";
-            if( FALSE == $B->db->query($sql) )
+            if ( FALSE === $B->conn->Execute($sql))
             {
-                $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+                $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
             }
         }
     }
@@ -73,24 +74,24 @@ if( count($B->setup_error) == 0 )
             email    VARCHAR(300) NOT NULL default '',
             desc     TEXT NOT NULL default '')";
 
-    if( FALSE == $B->db->query($sql) )
+    if ( FALSE === $B->conn->Execute($sql))
     {
-        $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+        $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
+    
+    $forename  = $B->conn->qstr($_POST['sysname'],           magic_quotes_runtime());
+    $lastename = $B->conn->qstr($_POST['syslastname'],       magic_quotes_runtime());
+    $login     = $B->conn->qstr($_POST['syslogin'],          magic_quotes_runtime());
+    $passwd    = $B->conn->qstr(md5($_POST['syspassword1']), magic_quotes_runtime());
 
-    $forename  = $B->db->escapeString($_POST['sysname']);
-    $lastename = $B->db->escapeString($_POST['syslastname']);
-    $login     = $B->db->escapeString($_POST['syslogin']);
-    $passwd    = md5($_POST['syspassword1']);
-
-    $sql = "INSERT INTO user_users 
+    $sql = 'INSERT INTO user_users 
                 (forename,lastname,login,passwd,status,rights) 
               VALUES 
-                ('{$forename}','{$lastename}','{$login}','{$passwd}',2,5)";
+                ('.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
     
-    if( FALSE == $B->db->query($sql) )
+    if ( FALSE === $B->conn->Execute($sql))
     {
-        $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+        $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
 }
 

@@ -118,7 +118,7 @@ if ( $B->sys['info']['status'] !== TRUE )
         if(isset($_GET['dbtype']))
             $_dbtype = '?dbtype='.$_GET['dbtype'];
         else
-            $_dbtype = '';
+            $_dbtype = '?dbtype=sqlite';
         @header('Location: admin/index.php'.$_dbtype);
         exit;
     }

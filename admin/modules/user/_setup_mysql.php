@@ -33,16 +33,27 @@ if( count($B->setup_error) == 0 )
     $B->conf_val['db']['name']         = $_POST['dbname'];
     $B->conf_val['db']['table_prefix'] = $_POST['dbtablesprefix'];
 
-    // Connect to the main database
-    $B->db = & new DB($B->conf_val['db']['host'],$B->conf_val['db']['user'],$B->conf_val['db']['passwd'],$B->conf_val['db']['name']);
-
-    if($_POST['create_db'])
+    if(isset($_POST['create_db']))
     {
-        $B->tmp_sql = 'CREATE DATABASE IF NOT EXISTS '.$B->conf_val['db']['name'];
-        $B->db->query( $B->tmp_sql );    
+        if(FALSE === ($_conn = @mysql_connect($B->conf_val['db']['host'], $B->conf_val['db']['user'], $B->conf_val['db']['passwd'])))
+        {
+            $B->setup_error[] = 'Cannot connect to the database host: '.__FILE__.' '.__LINE__ ;             
+        }
+        
+        $sql = 'CREATE DATABASE IF NOT EXISTS ' . $_POST['dbname'];
+        if(FALSE === @mysql_query($sql, $_conn))
+        {
+            $B->setup_error[] = 'Cannot create database: '.__FILE__.' '.__LINE__ ;                     
+        }
+        @mysql_close( $_conn );
     }
+
+    $B->conn = ADONewConnection( 'mysql' );
     
-    $B->db->select_db ( $B->conf_val['db']['name'] );
+    if (!$B->conn->Connect( $B->conf_val['db']['host'], $B->conf_val['db']['user'], $B->conf_val['db']['passwd'], $B->conf_val['db']['name'] ))
+    {
+        $B->setup_error[] = 'Cannot connect to the database: '.__FILE__.' '.__LINE__ ;            
+    }
     
     $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}user_users (
             uid      INT(11) NOT NULL auto_increment,
@@ -57,25 +68,26 @@ if( count($B->setup_error) == 0 )
             KEY status      (status),
             KEY rights      (rights))";
 
-    if( FALSE === $B->db->query($sql) )
+    if ($B->conn->Execute($sql) === FALSE)
     {
-        $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
-    $forename  = $B->db->escapeString($_POST['sysname']);
-    $lastename = $B->db->escapeString($_POST['syslastname']);
-    $login     = $B->db->escapeString($_POST['syslogin']);
-    $passwd    = md5($_POST['syspassword1']);
+    $forename  = $B->conn->qstr($_POST['sysname'],     magic_quotes_runtime());
+    $lastename = $B->conn->qstr($_POST['syslastname'], magic_quotes_runtime());
+    $login     = $B->conn->qstr($_POST['syslogin'],    magic_quotes_runtime());
+    $passwd    = $B->conn->qstr(md5($_POST['syspassword1']),    magic_quotes_runtime());
 
-    $sql = "INSERT INTO {$B->conf_val['db']['table_prefix']}user_users 
+    $sql = 'INSERT INTO '.$B->conf_val['db']['table_prefix'].'user_users 
                 (forename,lastname,login,passwd,status,rights) 
               VALUES 
-                ('{$forename}','{$lastename}','{$login}','{$passwd}',2,5)";
+                ('.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
     
-    if( FALSE === $B->db->query($sql) )
+    if ($B->conn->Execute($sql) === FALSE)
     {
-        $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
-    }   
+        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }  
+    unset($sql);
 }
 
 ?>

@@ -40,6 +40,9 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
 
 if( count($B->setup_error) == 0 )
 {
+    // include adodb
+    include_once( SF_BASE_DIR . '/admin/modules/user/adodb/adodb.inc.php' );    
+    
     // include sqlite setup
     include_once( SF_BASE_DIR . '/admin/modules/user/_setup_'.$_POST['dbtype'].'.php' );    
     
