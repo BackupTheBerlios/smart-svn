@@ -89,9 +89,9 @@
         <tr align="center" valign="middle">
         <?php if($B->tpl_v_success == TRUE): ?>
             <td colspan="2" class="registertitle">
-            Your registration is now complete. You can access restricted content on site <a href="http://<?php echo $B->sys['option']['url']; ?>"><?php echo $B->sys['option']['url']; ?></a>
+            Your registration is now complete. You can access restricted content on site <a href="<?php echo $B->sys['option']['url']; ?>"><?php echo $B->sys['option']['url']; ?></a>
             </td>
-		<?php endif; ?>
+    <?php endif; ?>
         <?php if($B->tpl_v_error == TRUE): ?>
             <td colspan="2" class="registererror">
             An error occured during your registration. Please contact the administrator <a href="mailto:<?php echo $B->sys['option']['email']; ?>"><?php echo $B->sys['option']['email']; ?></a> or try again.
@@ -107,11 +107,11 @@
       <?php if ($B->tpl_success === TRUE):  ?>  
        <tr align="center">
         <td colspan="2" valign="top" class="registererror">
-			<?php if($B->sys['option']['user']['register_type'] == 'auto'): ?>
+      <?php if($B->sys['option']['user']['register_type'] == 'auto'): ?>
                 Soon your will receive an email with further instructions to complete your account.
-			<?php elseif($B->sys['option']['user']['register_type'] == 'manual'): ?>
-				Your registration have to be validate by one of the adminstrators. You will receive an email message as soon as possible.
-			<?php endif; ?>
+      <?php elseif($B->sys['option']['user']['register_type'] == 'manual'): ?>
+        Your registration have to be validate by one of the adminstrators. You will receive an email message as soon as possible.
+      <?php endif; ?>
         </td>
        </tr>  
       <?php elseif ($B->tpl_success === FALSE):  ?>  
