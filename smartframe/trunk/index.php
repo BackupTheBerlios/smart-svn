@@ -26,14 +26,40 @@ define('SF_BASE_DIR', dirname(__FILE__) . '/');
 // Include the base file
 include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
+// Define section area
+if ($_REQUEST['admin'] == '1')
+{
+    define('SF_SECTION', 'admin');   
+}
+else
+{
+    define('SF_SECTION', 'public');   
+}
+
+// Broadcast init event to all registered event handlers
+$B->B( 'sys_init' );
+
+// Directed intercepting filter event (auto_prepend)
+$B->M( MOD_SYSTEM, 'sys_prepend' );
+
+// Directed authentication event to the module handler, 
+// which takes the authentication part
+$B->M( SF_AUTH_MODULE, 'sys_authenticate' );
+
+// Logout
+if ( $_REQUEST['logout'] == '1' )
+{
+    // each module can do clean ups before logout
+    $B->B('sys_logout');
+    header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
+    exit;
+}
+
 // switch to the demanded front controller flow: default=public else admin)
 //
-switch ( $_REQUEST['admin'] )
+switch ( SF_SECTION )
 {
-    case '1': 
-        // Define section area
-        define('SF_SECTION', 'admin');   
-
+    case 'admin':  
         // switch to the public page from within the admin page
         if($_REQUEST['view'] == 'public')
         {
@@ -42,22 +68,6 @@ switch ( $_REQUEST['admin'] )
             exit;         
         }
 
-        // Directed authentication event to the module handler, 
-        // which takes the authentication part
-        $B->M( SF_AUTH_MODULE, 'sys_authenticate' );
-
-        // Logout
-        if ( (int)$_REQUEST['logout'] == 1 )
-        {
-            // each module can do clean ups before logout
-            $B->B('sys_logout');
-            header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
-            exit;
-        }
-
-        // Broadcast init event to all registered event handlers
-        $B->B( 'sys_init' );
-        
         // if an update was done this event finish the update process
         if(isset($B->system_update_flag))
         {
@@ -67,45 +77,24 @@ switch ( $_REQUEST['admin'] )
             exit;    
         }   
         
-        // get the admin view
+        // get the admin view (template)
         include( $B->M( MOD_SYSTEM, 'get_admin_view') ); 
         
         // add to the URLs and forms the "admin" variable.
-        @output_add_rewrite_var('admin', '1');
+        output_add_rewrite_var('admin', '1');
+        ob_flush();      
         
         break;
         
     default:
-        // Define section area
-        define('SF_SECTION', 'public'); 
-
-        // Directed intercepting filter event (auto_prepend)
-        $B->M( MOD_SYSTEM, 'sys_prepend' );
-
-        // Directed authentication event to the module handler, 
-        // which takes the authentication part
-        $B->M( SF_AUTH_MODULE, 'sys_authenticate' );
-
-        // Logout
-        if ( (int)$_REQUEST['logout'] == 1 )
-        {
-            // each module can do clean ups before logout
-            $B->B('sys_logout');
-            header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
-            exit;
-        }
-
-        // Broadcast init event to all registered event handlers
-        $B->B( 'sys_init' );
-        
         // get the public view (template)
         include( $B->M( MOD_SYSTEM, 'get_public_view') ); 
-        
-        // Directed intercepting filter event (auto_append)
-        $B->M( MOD_SYSTEM, 'sys_append' );        
-        
+      
         break;
 }
+
+// Directed intercepting filter event (auto_append)
+$B->M( MOD_SYSTEM, 'sys_append' );   
 
 // Send the output buffer to the client
 ob_end_flush();
