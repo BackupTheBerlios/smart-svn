@@ -68,14 +68,16 @@ body {
              each module should
               provide a couple of action classes, which perform on the event
             requests.</font></p>
-        <p align="center"><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><img src="media/view.gif" width="542" height="338" /></font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>The
               format of the template and the corresponting view class files.<br />
             </strong><br />
             <strong>Template:</strong> / [group name]_[template name].tpl.php<br />
             <strong>View class:</strong> / view / class.view_[template name].php
 </font></p>
-        <p>&nbsp;</p>        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Whats
+        <p>&nbsp;</p>
+        <p align="center"><img src="media/smart.gif" width="591" height="614" /></p>
+        <p>&nbsp;</p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Whats
             new:</strong></font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version <strong>0.3a</strong></em></font></p>
         <ul>
