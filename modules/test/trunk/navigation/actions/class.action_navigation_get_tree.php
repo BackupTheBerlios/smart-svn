@@ -20,7 +20,7 @@ class action_navigation_get_tree extends action
      * Fill up an array with navigation elements
      *
      * Structure of the $data array:
-     * $data['nav'] - name of the navigation array
+     * $data['result'] - name of the navigation array
      * $data['status'] - status of the nodes to get
      *
      * @param array $data
@@ -44,25 +44,21 @@ class action_navigation_get_tree extends action
             }  
         }
 
-            // load navigation nodes
-            include (SF_BASE_DIR . 'data/navigation/nodes.php');     
+        // load navigation nodes
+        include (SF_BASE_DIR . 'data/navigation/nodes.php');    
             
-            //$this->B->tree = & new Tree($file);
-            
-
-                // order the node tree by order
-                $this->_tmp_array = array();
-                $s=0;
-                foreach($node as $n => $x)
-                {
-                    $x['node'] = $n;
-                    $this->_tmp_array[$x['order'].$s] = $x; 
-                    $s++;
-                }
-            
-                ksort($this->_tmp_array);
+        // order the node tree by order
+        $this->_tmp_array = array();
+        $s=0;
+        foreach($node as $n => $x)
+        {
+            $x['node'] = $n;
+            $this->_tmp_array[$x['order'].$s] = $x; 
+            $s++;
+        }
+        ksort($this->_tmp_array);
  
-                $this->_level = 0;        
+        $this->_level = 0;        
 
         $node = $data['node'];
         if(!isset($data['node']))

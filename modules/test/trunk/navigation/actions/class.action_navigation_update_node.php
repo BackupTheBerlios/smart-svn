@@ -13,9 +13,6 @@
  * action_navigation_update_node class 
  *
  */
- 
-// tree class
-include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
 
 class action_navigation_update_node extends action
 {
@@ -27,22 +24,22 @@ class action_navigation_update_node extends action
     function perform( $data = FALSE )
     {
         // check if a tree object exists
-        if(!is_object($this->B->tree))
+        if(!is_array($this->B->node))
         {
-            // load navigation nodes
-            $file = SF_BASE_DIR . 'data/navigation/nodes.php';     
-            
-            $this->B->tree = & new Tree($file);
+            // load navigation nodes  
+            $node = array();
+            include ( SF_BASE_DIR . 'data/navigation/nodes.php' ); 
+            $this->B->node = & $node;     
         }      
 
         // load data of the requested node
-        $this->B->tree->updateNode( $data ); 
+        $this->updateNode( $data ); 
 
         // Update navigation node title
         // see modules/common/actions/class.action_common_sys_update_config.php
         M( SF_BASE_MODULE, 
            'sys_update_config', 
-           array( 'data'     => $this->B->tree->node,
+           array( 'data'     => $this->B->node,
                   'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
                   'var_name' => 'node',
                   'type'     => 'PHPArray') );
@@ -84,7 +81,168 @@ class action_navigation_update_node extends action
         }     
         
         return TRUE;
-    }    
+    }   
+    /**
+     * update node data
+     *
+     * @param array $data
+     */    
+    function updateNode( & $data )
+    {
+        // We need PEAR File to read the nodes file 
+        include_once('File.php');
+
+        $fp = & new File();
+
+        // Add navigation node body
+        $node_body  = SF_BASE_DIR . 'data/navigation/'.$data['node']; 
+        
+        if (!is_int($fp->write  ( $node_body, $data['body'], FILE_MODE_WRITE )))
+        {
+            $this->B->$data['error'] = 'Could not write file: '.$node_body;
+            return FALSE;
+        }
+        
+        $fp->unlock ( $node_body, FILE_MODE_WRITE );      
+        
+        $this->B->node[$data['node']]['title']     = $data['title'];
+        $this->B->node[$data['node']]['status']    = $data['status'];
+        
+        if($this->B->node[$data['node']]['parent_id'] != $data['parent_id'])
+        {
+            $this->_move = TRUE;
+            $this->_verifyParentId( $data['node'], $data['parent_id'] );
+            
+            if($this->_move == TRUE)
+            {
+
+                $tmp = array();
+                $tmp['node'] = $this->B->node[$data['node']]['parent_id'];
+                
+                $this->B->node[$data['node']]['order'] = $this->getLastOrderId( $data['parent_id'] );
+                $this->B->node[$data['node']]['parent_id'] = $data['parent_id'];
+                
+        
+                $_data = $this->getChildren( $tmp );
+        
+                $_order = 1;
+        
+                foreach ($_data as $node => $val)
+                {
+                    $this->B->node[$node]['order'] = $_order;
+                    $_order++;
+                }                  
+            }
+        }
+        
+    } 
+    /**
+     * check for circular reference error
+     *
+     * @param int $parent_id
+     * @param int $check_id
+     */     
+    function _verifyParentId( $parent_id, $check_id )
+    {
+        if( 0 == $check_id )
+        {
+            return;
+        }
+        elseif( ($this->_move == FALSE) || ( $parent_id == $check_id) )
+        {
+            $this->_move = FALSE;
+            return;
+        }
+        else
+        { 
+            $this->_verifyParentId( $parent_id, $this->B->node[$check_id]['parent_id'] );
+        }
+        return;
+    }
+
+    /**
+     * update sub nodes statuses
+     *
+     * @param int $parent_id
+     * @param int $status
+     */ 
+    function updateTreeNodeStatus( $parent_id, $status )
+    {
+        foreach($this->B->node as $node => $val)
+        {
+            if( $val['parent_id'] == $parent_id )
+            {
+                $this->B->node[$node]['status'] = $status;
+                
+                $this->updateTreeNodeStatus( $node, $status );
+            }
+        }  
+        return;
+    } 
+    
+    /**
+     * get order id of the last node
+     *
+     * @param int $parent_id
+     * @return int
+     */     
+    function getLastOrderId( $parent_id )
+    {
+        $order_id = 1;
+        foreach ($this->B->node as $key => $val)
+        {
+            if( $val['parent_id'] == $parent_id )
+            {
+                if($this->B->node[$key]['order'] >= $order_id)
+                {
+                    $order_id = $this->B->node[$key]['order'] + 1;
+                }
+            }
+        }  
+        
+        return $order_id;
+    }   
+    
+    /**
+     * get child nodes sorted by order
+     *
+     * @param array $data
+     */     
+    function & getChildren( & $data )
+    {
+        $tmp = array();
+        foreach ($this->B->node as $key => $val)
+        {
+            if( $val['parent_id'] == $data['node'] )
+            {
+                if( isset($data['status']) )
+                {
+                    if( $val['status'] == $data['status'] )
+                    {
+                        $tmp[$val['order']] = $key;
+                    }
+                    continue;
+                }
+                $tmp[$val['order']] = $key;
+            }
+        }
+        // ordered
+        ksort($tmp);
+        
+        $result = array();
+        
+        foreach ($tmp as $val)
+        {
+            $result[$val]['title']     = $this->B->node[$val]['title'];
+            $result[$val]['status']    = $this->B->node[$val]['status'];
+            $result[$val]['order']     = $this->B->node[$val]['order'];
+            $result[$val]['parent_id'] = $this->B->node[$val]['parent_id'];
+        }  
+        
+        unset($tmp);
+
+        return $result;
+    }        
 }
 
 ?>
