@@ -37,16 +37,19 @@ class action_navigation_get_node extends action
 
         $_result = & $this->B->$data['result'];      
 
-        // check if cache ID exists
-        if ( M( MOD_COMMON, 
-                'cache_get',
-                array('result'     => $data['result'],
-                      'cacheID'    => SF_SECTION.$data['node'],
-                      'cacheGroup' => 'navigation'))) 
+        if(SF_SECTION == 'public')
         {
-            return TRUE;
-        }  
-
+            // check if cache ID exists
+            if ( M( MOD_COMMON, 
+                    'cache_get',
+                    array('result'     => $data['result'],
+                          'cacheID'    => SF_SECTION.$data['node'],
+                          'cacheGroup' => 'navigation'))) 
+            {
+                return TRUE;
+            }  
+        }
+        
         $_result = $this->B->tree->getAllData( $data['node'] );     
 
         // format text
@@ -60,11 +63,13 @@ class action_navigation_get_node extends action
             $_result['body'] = $this->B->wiki->transform($_result['body'], 'Xhtml');    
         }
 
-        // save result to cache
-        M( MOD_COMMON, 
-           'cache_save',
-           array('result' => $_result));  
-
+        if(SF_SECTION == 'public')
+        {
+            // save result to cache
+            M( MOD_COMMON, 
+               'cache_save',
+               array('result' => $_result));  
+        }
     }   
     
     /**

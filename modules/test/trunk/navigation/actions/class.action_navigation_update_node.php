@@ -48,10 +48,8 @@ class action_navigation_update_node extends action
                   'type'     => 'PHPArray') );
 
         // Delete cache data
-        M( MOD_COMMON, 'cache_delete', array( 'id'    => SF_SECTION.$data['node'],
-                                              'group' => 'navigation'));
-        M( MOD_COMMON, 'cache_delete', array( 'id'    => SF_SECTION.$data['node'],
-                                              'group' => 'navigation_nav'));                                              
+        M( MOD_COMMON, 'cache_delete', array( 'id'    => 'public'.$data['node'],
+                                              'group' => 'navigation'));                                            
         
         return TRUE;
     }   

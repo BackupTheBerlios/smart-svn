@@ -44,7 +44,7 @@ class view_navigation_editnode extends view
             {
                 if ( FALSE == M( MOD_NAVIGATION, 
                                 'delete_node', 
-                                 array('node'  => $_REQUEST['node'],
+                                 array('node'  => $_REQUEST['edit_node'],
                                        'error' => 'tpl_error')) )
                 {
                     // if it fails reset form fields
@@ -52,20 +52,20 @@ class view_navigation_editnode extends view
                     return TRUE;
                 }   
                 // on success switch to the main navigation page
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation');
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation&node='.$_REQUEST['node']);
                 exit;
             }
             
             if ( TRUE == M( MOD_NAVIGATION, 
                             'update_node', 
-                            array('node'   => (int)$_REQUEST['node'],
+                            array('node'   => (int)$_REQUEST['edit_node'],
                                   'title'  => $_POST['title'],
                                   'body'   => $_POST['body'],
                                   'status' => (int)$_POST['status'],
                                   'error'  => 'tpl_error')) )
             {  
                 // on success switch to the main navigation page
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation');
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation&node='.$_REQUEST['node']);
                 exit;
             }
             else
@@ -79,7 +79,7 @@ class view_navigation_editnode extends view
         // get navigation node         
         M( MOD_NAVIGATION, 
            'get_node', 
-           array('node'   => $_REQUEST['node'],
+           array('node'   => $_REQUEST['edit_node'],
                  'result' => 'tpl_node',
                  'status' => 'tpl_status')); 
 

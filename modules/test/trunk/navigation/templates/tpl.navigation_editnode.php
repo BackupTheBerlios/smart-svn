@@ -12,6 +12,7 @@ function deletenode(f, mes)
 }
 </script>
 <form name="edituser" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=editnode">
+<input name="edit_node" type="hidden" value="<?php echo $_REQUEST['edit_node']; ?>">
 <input name="node" type="hidden" value="<?php echo $_REQUEST['node']; ?>">
 <input name="modifynodedata" type="hidden" value="true">
 <input name="delnode" type="hidden" value="0">
@@ -57,7 +58,7 @@ function deletenode(f, mes)
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&node=<?php echo $_REQUEST['node']; ?>">back</a></td>
   </tr>
 </table>
 </form>
