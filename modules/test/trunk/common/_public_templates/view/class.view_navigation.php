@@ -49,10 +49,10 @@ class view_navigation
     function perform()
     {
          /* Event to get the navigation menu entries from the navigation module action class. 
-         See: modules/navigation/actions/class.NAVIGATION_GET.php 
+         See: modules/navigation/actions/class.navigation_get.php 
          The result is in the array $B->tpl_nav which is included as the site navigation menu. */
          $this->B->M( MOD_NAVIGATION, 
-                      'GET', 
+                      'get', 
                       array('var' => 'tpl_nav'));
         
         return TRUE;

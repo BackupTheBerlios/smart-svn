@@ -49,20 +49,20 @@ class view_counter
     function perform()
     {
          /* Counter 1,2,3 Event calls. 
-         See: modules/test/actions/class.TEST_COUNTER.php  
+         See: modules/test/actions/class.test_counter.php  
          The results are printed out in the template "/xxx_counter.tpl.php" .*/          
          $this->B->M( MOD_TEST, 
-                      'COUNTER', 
+                      'counter', 
                       array('var'           => 'tpl_counter1', 
                             'start_counter' => 0, 
                             'end_counter'   => 200)); 
          $this->B->M( MOD_TEST, 
-                      'COUNTER', 
+                      'counter', 
                       array('var'           => 'tpl_counter2', 
                             'start_counter' => 1000, 
                             'end_counter'   => 1200));
          $this->B->M( MOD_TEST, 
-                      'COUNTER', 
+                      'counter', 
                       array('var'           => 'tpl_counter3', 
                             'start_counter' => 10000, 
                             'end_counter'   => 10200));  

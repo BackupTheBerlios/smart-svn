@@ -48,12 +48,12 @@ class view_contact
      */
     function perform()
     {
-         /* Contact Event call. See: modules/test/actions/class.TEST_CONTACT.php 
+         /* Contact Event call. See: modules/test/actions/class.test_contact.php 
          It assign contact data to the template var $B->tpl_contact which
          is printed out in the "/xxx_contact.tpl.php" template. */          
          
          $this->B->M( MOD_TEST, 
-                      'CONTACT', 
+                      'contact', 
                       array('var' => 'tpl_contact')); 
 
         
