@@ -104,8 +104,6 @@ class action_navigation_get_node extends action
                                                                      'css_code' => 'smart',
                                                                      'css_php'  => 'smart',
                                                                      'css_html' => 'smart'));
-                                                    
-                $wiki->setRenderConf('Xhtml', 'translate', null); 
             }
             $_result['body'] = $wiki->transform($_result['body'], 'Xhtml');    
         }
