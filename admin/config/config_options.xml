@@ -1,0 +1,11 @@
+<!DOCTYPE configuration SYSTEM "patConfiguration.dtd">
+<configuration>
+    <path name="option">
+        <configValue name="db">smart</configValue> 
+        <configValue name="site_url"></configValue>
+        <configValue name="admin_email"></configValue>
+        <configValue name="templates_folder">templates_public</configValue>
+        <configValue name="charset">iso-8859-1</configValue>
+        <configValue name="design_style">default</configValue>      
+    </path>
+</configuration>

@@ -1,0 +1,7 @@
+PHP Framework install instructions
+------------------------------------------
+
+Edit the file /admin/config/config_db_connect.xml.php to set your db configuration.
+Load the file /admin/sql/pat.sql from phpmyadmin into a database as defined in the db configuration file. 
+
+Thats all. Point your browser to the folder where the package was extracted.
