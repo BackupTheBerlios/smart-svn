@@ -139,7 +139,7 @@ class earchive_search
             }
             $text_sql .= ')';
                 
-            if($this->B->auth->is_user)
+            if($this->B->logged_user_login)
             {
                 $w_status = 'l.status>1';
             }
@@ -286,7 +286,7 @@ class earchive_search
      */
     function & _get_result( &$word_sql )
     {
-        if($this->B->auth->is_user)
+        if($this->B->logged_user_login)
         {
             $w_status = 'l.status>1';
         }
