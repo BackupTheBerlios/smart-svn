@@ -105,9 +105,15 @@ class action_navigation_get_node extends action
                                                                      'css_php'  => 'smart',
                                                                      'css_html' => 'smart'));
             }
-            $_result['body'] = $wiki->transform($_result['body'], 'Xhtml');    
+            $_result['body'] = $wiki->transform($_result['body'], 'Xhtml');  
         }
-
+        else
+        {
+            // preserve opening/closing tags <>
+            $_result['body'] = str_replace("&lt;","&amp;lt;",$_result['body']); 
+            $_result['body'] = str_replace("&gt;","&amp;gt;",$_result['body']); 
+        }
+        
         if(SF_SECTION == 'public')
         {
             // save result to cache
