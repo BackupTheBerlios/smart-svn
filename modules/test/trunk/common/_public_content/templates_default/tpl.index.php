@@ -33,22 +33,22 @@ body {
 <style type="text/css">
 <!--
 .leftcol {
-	border-top-width: 0px;
-	border-right-width: 2px;
-	border-bottom-width: 0px;
-	border-left-width: 0px;
-	border-top-style: none;
-	border-right-style: solid;
-	border-bottom-style: none;
-	border-left-style: none;
-	border-right-color: #66CCFF;
+  border-top-width: 0px;
+  border-right-width: 2px;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-top-style: none;
+  border-right-style: solid;
+  border-bottom-style: none;
+  border-left-style: none;
+  border-right-color: #66CCFF;
 }
 -->
 </style>
 <style type="text/css">
 <!--
 .para {
-	font-size: 12px;
+  font-size: 12px;
 }
 -->
 </style>
@@ -79,8 +79,8 @@ body {
         <?php M( MOD_SYSTEM, 'get_view', array('view' => 'navigation')); ?>
         </td>
         <td width="90%" align="left" valign="top">        <font face="Verdana, Arial, Helvetica, sans-serif">
-        <h3>Welcome to &quot;little Jo&quot;</h3>
-        </font>          <p class="para">Little Jo is a simple <a href="http://www.php.net" target="_blank">php</a> web application with a few simple modules, which are based on <a href="http://smart.open-publisher.net" target="_blank">SMART</a> (The base framework). Little Jo is a good starting point to learn how SMART internaly works and it's a simple tool to maintain a small website. Little Jo works without database support but with flat files, which are stored in the filesystem.  You will find all stored files in the /data folder.</p>
+        <h3>Welcome to &quot;little Jo&quot; ver.:0.2</h3>
+        </font><p class="para">Little Jo is a <a href="http://www.php.net" target="_blank">php</a> web application with a few simple modules, which are based on <a href="http://smart.open-publisher.net" target="_blank">SMART</a> (The base framework). Little Jo is a good starting point to learn how SMART internally works and it's a simple tool to maintain a small website. Little Jo works without database support but with flat files, which are stored in the filesystem.  You will find all stored files in the /data folder.</p>
         <p class="para">Installed Modules:</p>
         <ul class="para">
           <li> <strong>Default</strong> - It dose nothing else then printing the welcome page of the admin interface.</li>
