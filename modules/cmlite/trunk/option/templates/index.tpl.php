@@ -5,6 +5,10 @@
     font-weight: bold;
     color: #FFFFFF;
 }
+.style3 {
+  font-size: 12px;
+  color: #FFFFFF;
+}
 .optiondesc {
     font-size: 10px;
     color: #333333;
@@ -24,7 +28,7 @@
 </style>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr bgcolor="#666699">
-    <td colspan="2"><span class="style1">&nbsp;&nbsp;&nbsp;Options Management</span></td>
+    <td colspan="2"><span class="style1">&nbsp;&nbsp;&nbsp;Options Management &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="style3">module version: <?php echo $B->sys['module']['option']['version']; ?></span></td>
   </tr>
   <tr>
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
