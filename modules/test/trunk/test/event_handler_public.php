@@ -25,8 +25,8 @@ define ( 'MOD_TEST' , 'TEST');
 
 // define classes which reacts on event calls from within a template through
 // the event handler class.
-define ( 'EVT_TEST_COUNTER' ,      'TEST_COUNTER');
-define ( 'EVT_TEST_CONTACT' ,      'TEST_CONTACT');
+define ( 'EVT_TEST_COUNTER' ,      'COUNTER');
+define ( 'EVT_TEST_CONTACT' ,      'CONTACT');
 
 
 // register this handler                       
@@ -46,19 +46,21 @@ function test_event_handler( $evt )
 {
     global $B;
     
+    // build the whole class name
+    $class_name = 'TEST_'.$evt['code'];
+    
     // check if this object was previously declared
-    if(!is_object($B->$evt['code']))
+    if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/test/class.'.$evt['code'].'.php';
+        $class_file = SF_BASE_DIR . '/admin/modules/test/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
             // make instance
-            $B->$evt['code'] = & new $evt['code']();
+            $B->$class_name = & new $class_name();
             // perform the request
-            $B->$evt['code']->perform( $evt['data'] );
-            return TRUE;  
+            return $B->$class_name->perform( $evt['data'] );
         }
         else
         {
@@ -67,9 +69,8 @@ function test_event_handler( $evt )
     }
     else
     {
-        // perform the request if object exists
-        $B->$evt['code']->perform( $evt['data'] );
-        return TRUE; 
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
     }
 }
 
