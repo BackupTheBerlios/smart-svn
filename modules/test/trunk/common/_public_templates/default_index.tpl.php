@@ -58,7 +58,7 @@ body {
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>The
             process of creating a page:</strong></font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If
-              no <strong>tpl</strong> (template) url var is defined the default
+              no <strong>view</strong> (template) url var is defined the default
               template is 'index' -&gt; see: 'default_index.tpl.php'. But before
               parsing this template, Smart is looking if there is a 'class.view_index.php'
               class
@@ -85,7 +85,12 @@ body {
         <p>&nbsp;</p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Whats
             new:</strong></font></p>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version <strong>0.3a</strong></em></font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Version <strong>0.3.2a</strong></font></p>
+        <ul>
+          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">change <strong>tpl</strong> var name through <strong>view</strong></font></li>
+          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">A view class can return an other view (template) than the original</font></li>
+          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Add session handling in the core framework. Because a session must started before output buffering.</font></li>
+        </ul>        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version <strong>0.3a</strong></em></font></p>
         <ul>
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">added
               view class for each template. </font></li>
