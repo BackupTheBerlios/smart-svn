@@ -1,132 +1,130 @@
-# German
-#
-INSERT INTO bad_words VALUES 
-('aber', 'de'),
-('als', 'de'),
-('am', 'de'),
-('an', 'de'),
-('auch', 'de'),
-('auf', 'de'),
-('aus', 'de'),
-('bei', 'de'),
-('bin', 'de'),
-('bis', 'de'),
-('bist', 'de'),
-('da', 'de'),
-('dadurch', 'de'),
-('daher', 'de'),
-('darum', 'de'),
-('das', 'de'),
-('daß', 'de'),
-('dass', 'de'),
-('dein', 'de'),
-('deine', 'de'),
-('dem', 'de'),
-('den', 'de'),
-('der', 'de'),
-('des', 'de'),
-('dessen', 'de'),
-('deshalb', 'de'),
-('die', 'de'),
-('dies', 'de'),
-('dieser', 'de'),
-('dieses', 'de'),
-('doch', 'de'),
-('dort', 'de'),
-('du', 'de'),
-('durch', 'de'),
-('ein', 'de'),
-('eine', 'de'),
-('einem', 'de'),
-('einen', 'de'),
-('einer', 'de'),
-('eines', 'de'),
-('er', 'de'),
-('es', 'de'),
-('euer', 'de'),
-('eure', 'de'),
-('für', 'de'),
-('hatte', 'de'),
-('hatten', 'de'),
-('hattest', 'de'),
-('hattet', 'de'),
-('hier', 'de'),
-('hinter', 'de'),
-('ich', 'de'),
-('ihr', 'de'),
-('ihre', 'de'),
-('im', 'de'),
-('in', 'de'),
-('ist', 'de'),
-('ja', 'de'),
-('jede', 'de'),
-('jedem', 'de'),
-('jeden', 'de'),
-('jeder', 'de'),
-('jedes', 'de'),
-('jener', 'de'),
-('jenes', 'de'),
-('jetzt', 'de'),
-('kann', 'de'),
-('kannst', 'de'),
-('können', 'de'),
-('könnt', 'de'),
-('machen', 'de'),
-('mein', 'de'),
-('meine', 'de'),
-('mit', 'de'),
-('muß', 'de'),
-('mußt', 'de'),
-('musst', 'de'),
-('müssen', 'de'),
-('müßt', 'de'),
-('nach', 'de'),
-('nachdem', 'de'),
-('nein', 'de'),
-('nicht', 'de'),
-('nun', 'de'),
-('oder', 'de'),
-('seid', 'de'),
-('sein', 'de'),
-('seine', 'de'),
-('sich', 'de'),
-('sie', 'de'),
-('sind', 'de'),
-('soll', 'de'),
-('sollen', 'de'),
-('sollst', 'de'),
-('sollt', 'de'),
-('sonst', 'de'),
-('soweit', 'de'),
-('sowie', 'de'),
-('und', 'de'),
-('unser', 'de'),
-('unsere', 'de'),
-('unter', 'de'),
-('vom', 'de'),
-('von', 'de'),
-('vor', 'de'),
-('wann', 'de'),
-('warum', 'de'),
-('was', 'de'),
-('weiter', 'de'),
-('weitere', 'de'),
-('wenn', 'de'),
-('wer', 'de'),
-('werde', 'de'),
-('werden', 'de'),
-('werdet', 'de'),
-('weshalb', 'de'),
-('wie', 'de'),
-('wieder', 'de'),
-('wieso', 'de'),
-('wir', 'de'),
-('wird', 'de'),
-('wirst', 'de'),
-('wo', 'de'),
-('woher', 'de'),
-('wohin', 'de'),
-('zu', 'de'),
-('zum', 'de'),
-('zur', 'de'),
-('über', 'de')
+# GERMAN
+aber
+als
+am
+an
+auch
+auf
+aus
+bei
+bin
+bis
+bist
+da
+dadurch
+daher
+darum
+das
+daß
+dass
+dein
+deine
+dem
+den
+der
+des
+dessen
+deshalb
+die
+dies
+dieser
+dieses
+doch
+dort
+du
+durch
+ein
+eine
+einem
+einen
+einer
+eines
+er
+es
+euer
+eure
+für
+hatte
+hatten
+hattest
+hattet
+hier
+hinter
+ich
+ihr
+ihre
+im
+in
+ist
+ja
+jede
+jedem
+jeden
+jeder
+jedes
+jener
+jenes
+jetzt
+kann
+kannst
+können
+könnt
+machen
+mein
+meine
+mit
+muß
+mußt
+musst
+müssen
+müßt
+nach
+nachdem
+nein
+nicht
+nun
+oder
+seid
+sein
+seine
+sich
+sie
+sind
+soll
+sollen
+sollst
+sollt
+sonst
+soweit
+sowie
+und
+unser
+unsere
+unter
+vom
+von
+vor
+wann
+warum
+was
+weiter
+weitere
+wenn
+wer
+werde
+werden
+werdet
+weshalb
+wie
+wieder
+wieso
+wir
+wird
+wirst
+wo
+woher
+wohin
+zu
+zum
+zur
+über

@@ -124,7 +124,15 @@ class earchive
                  '.$data['folder'].',
                  '.$data['status'].')';
 
-        return $GLOBALS['B']->db->query($sql);
+        $result = $GLOBALS['B']->db->query($sql);
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }   
+        
+        return $result;
     } 
     /**
      * update email list data
@@ -151,7 +159,15 @@ class earchive
             WHERE
                 lid='.$lid;
         
-        return $GLOBALS['B']->db->query($sql);
+        $result = $GLOBALS['B']->db->query($sql);
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }   
+        
+        return $result;        
     } 
 
     /**
@@ -237,11 +253,14 @@ class earchive
                  '.$data['folder'].')';
 
         $result = $GLOBALS['B']->db->query($sql);
-
+        
         if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
-        else
-            return $mid;
+        }   
+        
+        return $mid;
     }     
     /**
      * add email message attachment
@@ -268,11 +287,19 @@ class earchive
                 ('.$aid.',
                  '.$mid.',
                  '.$lid.',
-                 '.$data['file'].',
-                 '.$data['size'].',
-                 '.$data['type'].')';
+                 "'.$data['file'].'",
+                 "'.$data['size'].'",
+                 "'.$data['type'].'")';
 
-        return $GLOBALS['B']->db->query($sql);
+        $result = $GLOBALS['B']->db->query($sql);
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }   
+        
+        return $result;
     }  
     /**
      * get all messages

@@ -1,201 +1,199 @@
 # Native Slovak ISO-8859-2 charset
-#
-INSERT INTO bad_words VALUES 
-('dnes', 'sk'),
-('sk', 'sk'),
-('tymto', 'sk'),
-('týmto', 'sk'),
-('budes', 'sk'),
-('bude¹', 'sk'),
-('budem', 'sk'),
-('boli', 'sk'),
-('si', 'sk'),
-('moj', 'sk'),
-('môj', 'sk'),
-('svoj', 'sk'),
-('ta', 'sk'),
-('»a', 'sk'),
-('tomto', 'sk'),
-('toto', 'sk'),
-('tuto', 'sk'),
-('tieto', 'sk'),
-('jej', 'sk'),
-('ci', 'sk'),
-('èi', 'sk'),
-('preco', 'sk'),
-('preèo', 'sk'),
-('mate', 'sk'),
-('máte', 'sk'),
-('tato', 'sk'),
-('táto', 'sk'),
-('kam', 'sk'),
-('tohoto', 'sk'),
-('kto', 'sk'),
-('ktori', 'sk'),
-('ktorí', 'sk'),
-('mi', 'sk'),
-('nam', 'sk'),
-('nám', 'sk'),
-('tom', 'sk'),
-('tomuto', 'sk'),
-('mat', 'sk'),
-('ma»', 'sk'),
-('nic', 'sk'),
-('niè', 'sk'),
-('preto', 'sk'),
-('ktorou', 'sk'),
-('bola', 'sk'),
-('toho', 'sk'),
-('pretoze', 'sk'),
-('preto¾e', 'sk'),
-('asi', 'sk'),
-('ho', 'sk'),
-('nasu', 'sk'),
-('na¹u', 'sk'),
-('napiste', 'sk'),
-('napí¹te', 'sk'),
-('re', 'sk'),
-('co', 'sk'),
-('èo', 'sk'),
-('tym', 'sk'),
-('tým', 'sk'),
-('takze', 'sk'),
-('tak¾e', 'sk'),
-('svojich', 'sk'),
-('jej', 'sk'),
-('svojimi', 'sk'),
-('ste', 'sk'),
-('aj', 'sk'),
-('tu', 'sk'),
-('teda', 'sk'),
-('tejto', 'sk'),
-('tieto', 'sk'),
-('bolo', 'sk'),
-('kde', 'sk'),
-('ku', 'sk'),
-('prave', 'sk'),
-('práve', 'sk'),
-('ju', 'sk'),
-('nad', 'sk'),
-('ci', 'sk'),
-('èi', 'sk'),
-('pod', 'sk'),
-('tymito', 'sk'),
-('týmito', 'sk'),
-('medzi', 'sk'),
-('cez', 'sk'),
-('ty', 'sk'),
-('potom', 'sk'),
-('vam', 'sk'),
-('ani', 'sk'),
-('ked', 'sk'),
-('keï', 'sk'),
-('avsak', 'sk'),
-('av¹ak', 'sk'),
-('nie', 'sk'),
-('som', 'sk'),
-('tento', 'sk'),
-('clanku', 'sk'),
-('èlánku', 'sk'),
-('clankov', 'sk'),
-('èlánkov', 'sk'),
-('clánky', 'sk'),
-('èlanky', 'sk'),
-('aby', 'sk'),
-('sme', 'sk'),
-('pred', 'sk'),
-('pyta', 'sk'),
-('pýta', 'sk'),
-('ich', 'sk'),
-('bol', 'sk'),
-('ste', 'sk'),
-('az', 'sk'),
-('a¾', 'sk'),
-('bez', 'sk'),
-('tiez', 'sk'),
-('tie¾', 'sk'),
-('len', 'sk'),
-('prvy', 'sk'),
-('prvý', 'sk'),
-('prvi', 'sk'),
-('prví', 'sk'),
-('vase', 'sk'),
-('va¹e', 'sk'),
-('ktora', 'sk'),
-('ktorá', 'sk'),
-('nas', 'sk'),
-('nás', 'sk'),
-('nas', 'sk'),
-('ná¹', 'sk'),
-('novy', 'sk'),
-('nový', 'sk'),
-('tipy', 'sk'),
-('pokial', 'sk'),
-('pokiaµ', 'sk'),
-('moze', 'sk'),
-('mô¾e', 'sk'),
-('design', 'sk'),
-('strana', 'sk'),
-('jeho', 'sk'),
-('svoje', 'sk'),
-('ine', 'sk'),
-('iné', 'sk'),
-('spravy', 'sk'),
-('správy', 'sk'),
-('nove', 'sk'),
-('nové', 'sk'),
-('vas', 'sk'),
-('vás', 'sk'),
-('vas', 'sk'),
-('vá¹', 'sk'),
-('len', 'sk'),
-('podla', 'sk'),
-('podµa', 'sk'),
-('tu', 'sk'),
-('clanok', 'sk'),
-('èlánok', 'sk'),
-('uz', 'sk'),
-('u¾', 'sk'),
-('email', 'sk'),
-('byt', 'sk'),
-('by»', 'sk'),
-('viac', 'sk'),
-('bude', 'sk'),
-('uz', 'sk'),
-('u¾', 'sk'),
-('nez', 'sk'),
-('ne¾', 'sk'),
-('ktory', 'sk'),
-('ktorý', 'sk'),
-('by', 'sk'),
-('ktore', 'sk'),
-('ktoré', 'sk'),
-('co', 'sk'),
-('èo', 'sk'),
-('lebo', 'sk'),
-('ten', 'sk'),
-('tak', 'sk'),
-('ma', 'sk'),
-('pri', 'sk'),
-('od', 'sk'),
-('po', 'sk'),
-('su', 'sk'),
-('sú', 'sk'),
-('ako', 'sk'),
-('dalsi', 'sk'),
-('ïal¹í', 'sk'),
-('ale', 'sk'),
-('si', 'sk'),
-('vo', 'sk'),
-('v', 'sk'),
-('to', 'sk'),
-('ako', 'sk'),
-('za', 'sk'),
-('spat', 'sk'),
-('spä»', 'sk'),
-('ze', 'sk'),
-('¾e', 'sk'),
-('do', 'sk'),
-('pre', 'sk'),
-('je', 'sk'),
-('na', 'sk')
+dnes
+sk
+tymto
+týmto
+budes
+bude¹
+budem
+boli
+si
+moj
+môj
+svoj
+ta
+»a
+tomto
+toto
+tuto
+tieto
+jej
+ci
+èi
+preco
+preèo
+mate
+máte
+tato
+táto
+kam
+tohoto
+kto
+ktori
+ktorí
+mi
+nam
+nám
+tom
+tomuto
+mat
+ma»
+nic
+niè
+preto
+ktorou
+bola
+toho
+pretoze
+preto¾e
+asi
+ho
+nasu
+na¹u
+napiste
+napí¹te
+re
+co
+èo
+tym
+tým
+takze
+tak¾e
+svojich
+jej
+svojimi
+ste
+aj
+tu
+teda
+tejto
+tieto
+bolo
+kde
+ku
+prave
+práve
+ju
+nad
+ci
+èi
+pod
+tymito
+týmito
+medzi
+cez
+ty
+potom
+vam
+ani
+ked
+keï
+avsak
+av¹ak
+nie
+som
+tento
+clanku
+èlánku
+clankov
+èlánkov
+clánky
+èlanky
+aby
+sme
+pred
+pyta
+pýta
+ich
+bol
+ste
+az
+a¾
+bez
+tiez
+tie¾
+len
+prvy
+prvý
+prvi
+prví
+vase
+va¹e
+ktora
+ktorá
+nas
+nás
+nas
+ná¹
+novy
+nový
+tipy
+pokial
+pokiaµ
+moze
+mô¾e
+design
+strana
+jeho
+svoje
+ine
+iné
+spravy
+správy
+nove
+nové
+vas
+vás
+vas
+vá¹
+len
+podla
+podµa
+tu
+clanok
+èlánok
+uz
+u¾
+email
+byt
+by»
+viac
+bude
+uz
+u¾
+nez
+ne¾
+ktory
+ktorý
+by
+ktore
+ktoré
+co
+èo
+lebo
+ten
+tak
+ma
+pri
+od
+po
+su
+sú
+ako
+dalsi
+ïal¹í
+ale
+si
+vo
+v
+to
+ako
+za
+spat
+spä»
+ze
+¾e
+do
+pre
+je
+na

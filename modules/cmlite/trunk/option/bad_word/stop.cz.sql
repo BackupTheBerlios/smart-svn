@@ -1,141 +1,139 @@
 # Czech
-#
-INSERT INTO bad_words VALUES 
-('dnes', 'cz'),
-('cz', 'cz'),
-('timto', 'cz'),
-('budes', 'cz'),
-('budem', 'cz'),
-('byli', 'cz'),
-('jses', 'cz'),
-('muj', 'cz'),
-('svym', 'cz'),
-('ta', 'cz'),
-('tomto', 'cz'),
-('tohle', 'cz'),
-('tuto', 'cz'),
-('tyto', 'cz'),
-('jej', 'cz'),
-('zda', 'cz'),
-('proc', 'cz'),
-('mate', 'cz'),
-('tato', 'cz'),
-('kam', 'cz'),
-('tohoto', 'cz'),
-('kdo', 'cz'),
-('kteri', 'cz'),
-('mi', 'cz'),
-('nam', 'cz'),
-('tom', 'cz'),
-('tomuto', 'cz'),
-('mit', 'cz'),
-('nic', 'cz'),
-('proto', 'cz'),
-('kterou', 'cz'),
-('byla', 'cz'),
-('toho', 'cz'),
-('protoze', 'cz'),
-('asi', 'cz'),
-('ho', 'cz'),
-('nasi', 'cz'),
-('napiste', 'cz'),
-('re', 'cz'),
-('coz', 'cz'),
-('tim', 'cz'),
-('takze', 'cz'),
-('svych', 'cz'),
-('jeji', 'cz'),
-('svymi', 'cz'),
-('jste', 'cz'),
-('aj', 'cz'),
-('tu', 'cz'),
-('tedy', 'cz'),
-('teto', 'cz'),
-('bylo', 'cz'),
-('kde', 'cz'),
-('ke', 'cz'),
-('prave', 'cz'),
-('ji', 'cz'),
-('nad', 'cz'),
-('nejsou', 'cz'),
-('ci', 'cz'),
-('pod', 'cz'),
-('tema', 'cz'),
-('mezi', 'cz'),
-('pres', 'cz'),
-('ty', 'cz'),
-('pak', 'cz'),
-('vam', 'cz'),
-('ani', 'cz'),
-('kdyz', 'cz'),
-('vsak', 'cz'),
-('ne', 'cz'),
-('jsem', 'cz'),
-('tento', 'cz'),
-('clanku', 'cz'),
-('clanky', 'cz'),
-('aby', 'cz'),
-('jsme', 'cz'),
-('pred', 'cz'),
-('pta', 'cz'),
-('jejich', 'cz'),
-('byl', 'cz'),
-('jeste', 'cz'),
-('az', 'cz'),
-('bez', 'cz'),
-('take', 'cz'),
-('pouze', 'cz'),
-('prvni', 'cz'),
-('vase', 'cz'),
-('ktera', 'cz'),
-('nas', 'cz'),
-('novy', 'cz'),
-('tipy', 'cz'),
-('pokud', 'cz'),
-('muze', 'cz'),
-('design', 'cz'),
-('strana', 'cz'),
-('jeho', 'cz'),
-('sve', 'cz'),
-('jine', 'cz'),
-('zpravy', 'cz'),
-('nove', 'cz'),
-('neni', 'cz'),
-('vas', 'cz'),
-('jen', 'cz'),
-('podle', 'cz'),
-('zde', 'cz'),
-('clanek', 'cz'),
-('uz', 'cz'),
-('email', 'cz'),
-('byt', 'cz'),
-('vice', 'cz'),
-('bude', 'cz'),
-('jiz', 'cz'),
-('nez', 'cz'),
-('ktery', 'cz'),
-('by', 'cz'),
-('ktere', 'cz'),
-('co', 'cz'),
-('nebo', 'cz'),
-('ten', 'cz'),
-('tak', 'cz'),
-('ma', 'cz'),
-('pri', 'cz'),
-('od', 'cz'),
-('po', 'cz'),
-('jsou', 'cz'),
-('jak', 'cz'),
-('dalsi', 'cz'),
-('ale', 'cz'),
-('si', 'cz'),
-('ve', 'cz'),
-('to', 'cz'),
-('jako', 'cz'),
-('za', 'cz'),
-('zpet', 'cz'),
-('ze', 'cz'),
-('do', 'cz'),
-('pro', 'cz'),
-('je', 'cz'),
-('na', 'cz')
+dnes
+cz
+timto
+budes
+budem
+byli
+jses
+muj
+svym
+ta
+tomto
+tohle
+tuto
+tyto
+jej
+zda
+proc
+mate
+tato
+kam
+tohoto
+kdo
+kteri
+mi
+nam
+tom
+tomuto
+mit
+nic
+proto
+kterou
+byla
+toho
+protoze
+asi
+ho
+nasi
+napiste
+re
+coz
+tim
+takze
+svych
+jeji
+svymi
+jste
+aj
+tu
+tedy
+teto
+bylo
+kde
+ke
+prave
+ji
+nad
+nejsou
+ci
+pod
+tema
+mezi
+pres
+ty
+pak
+vam
+ani
+kdyz
+vsak
+ne
+jsem
+tento
+clanku
+clanky
+aby
+jsme
+pred
+pta
+jejich
+byl
+jeste
+az
+bez
+take
+pouze
+prvni
+vase
+ktera
+nas
+novy
+tipy
+pokud
+muze
+design
+strana
+jeho
+sve
+jine
+zpravy
+nove
+neni
+vas
+jen
+podle
+zde
+clanek
+uz
+email
+byt
+vice
+bude
+jiz
+nez
+ktery
+by
+ktere
+co
+nebo
+ten
+tak
+ma
+pri
+od
+po
+jsou
+jak
+dalsi
+ale
+si
+ve
+to
+jako
+za
+zpet
+ze
+do
+pro
+je
+na

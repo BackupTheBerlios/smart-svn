@@ -1,565 +1,563 @@
 # English
-#
-INSERT INTO bad_words VALUES 
-('a', 'en'),
-('about', 'en'),
-('above', 'en'),
-('abst', 'en'),
-('accordance', 'en'),
-('according', 'en'),
-('accordingly', 'en'),
-('across', 'en'),
-('act', 'en'),
-('actually', 'en'),
-('added', 'en'),
-('adj', 'en'),
-('adopted', 'en'),
-('affected', 'en'),
-('affecting', 'en'),
-('affects', 'en'),
-('after', 'en'),
-('afterwards', 'en'),
-('again', 'en'),
-('against', 'en'),
-('ah', 'en'),
-('all', 'en'),
-('almost', 'en'),
-('alone', 'en'),
-('along', 'en'),
-('already', 'en'),
-('also', 'en'),
-('although', 'en'),
-('always', 'en'),
-('am', 'en'),
-('among', 'en'),
-('amongst', 'en'),
-('an', 'en'),
-('and', 'en'),
-('announce', 'en'),
-('another', 'en'),
-('any', 'en'),
-('anyhow', 'en'),
-('anymore', 'en'),
-('anyone', 'en'),
-('anything', 'en'),
-('anywhere', 'en'),
-('apparently', 'en'),
-('approximately', 'en'),
-('are', 'en'),
-('aren', 'en'),
-('arent', 'en'),
-('arise', 'en'),
-('around', 'en'),
-('as', 'en'),
-('aside', 'en'),
-('at', 'en'),
-('auth', 'en'),
-('available', 'en'),
-('away', 'en'),
-('b', 'en'),
-('back', 'en'),
-('be', 'en'),
-('became', 'en'),
-('because', 'en'),
-('become', 'en'),
-('becomes', 'en'),
-('becoming', 'en'),
-('been', 'en'),
-('before', 'en'),
-('beforehand', 'en'),
-('begin', 'en'),
-('beginning', 'en'),
-('beginnings', 'en'),
-('begins', 'en'),
-('behind', 'en'),
-('being', 'en'),
-('below', 'en'),
-('beside', 'en'),
-('besides', 'en'),
-('between', 'en'),
-('beyond', 'en'),
-('billion', 'en'),
-('biol', 'en'),
-('both', 'en'),
-('briefly', 'en'),
-('but', 'en'),
-('by', 'en'),
-('c', 'en'),
-('ca', 'en'),
-('came', 'en'),
-('can', 'en'),
-('cannot', 'en'),
-('cant', 'en'),
-('certain', 'en'),
-('certainly', 'en'),
-('co', 'en'),
-('co.', 'en'),
-('come', 'en'),
-('contains', 'en'),
-('could', 'en'),
-('couldnt', 'en'),
-('d', 'en'),
-('date', 'en'),
-('did', 'en'),
-('didnt', 'en'),
-('different', 'en'),
-('do', 'en'),
-('does', 'en'),
-('doesnt', 'en'),
-('doing', 'en'),
-('done', 'en'),
-('dont', 'en'),
-('down', 'en'),
-('due', 'en'),
-('during', 'en'),
-('e', 'en'),
-('each', 'en'),
-('ed', 'en'),
-('effect', 'en'),
-('eg', 'en'),
-('eight', 'en'),
-('eighty', 'en'),
-('either', 'en'),
-('else', 'en'),
-('elsewhere', 'en'),
-('end', 'en'),
-('ending', 'en'),
-('enough', 'en'),
-('especially', 'en'),
-('et-al', 'en'),
-('etc', 'en'),
-('even', 'en'),
-('ever', 'en'),
-('every', 'en'),
-('everyone', 'en'),
-('everything', 'en'),
-('everywhere', 'en'),
-('except', 'en'),
-('f', 'en'),
-('far', 'en'),
-('few', 'en'),
-('ff', 'en'),
-('first', 'en'),
-('five', 'en'),
-('fix', 'en'),
-('followed', 'en'),
-('following', 'en'),
-('for', 'en'),
-('former', 'en'),
-('formerly', 'en'),
-('found', 'en'),
-('from', 'en'),
-('further', 'en'),
-('g', 'en'),
-('gave', 'en'),
-('get', 'en'),
-('gets', 'en'),
-('give', 'en'),
-('given', 'en'),
-('giving', 'en'),
-('go', 'en'),
-('goes', 'en'),
-('gone', 'en'),
-('got', 'en'),
-('h', 'en'),
-('had', 'en'),
-('hardly', 'en'),
-('has', 'en'),
-('hasnt', 'en'),
-('have', 'en'),
-('havent', 'en'),
-('having', 'en'),
-('he', 'en'),
-('hed', 'en'),
-('hence', 'en'),
-('her', 'en'),
-('here', 'en'),
-('hereafter', 'en'),
-('hereby', 'en'),
-('herein', 'en'),
-('heres', 'en'),
-('hereupon', 'en'),
-('hers', 'en'),
-('herself', 'en'),
-('hes', 'en'),
-('hid', 'en'),
-('him', 'en'),
-('himself', 'en'),
-('his', 'en'),
-('home', 'en'),
-('how', 'en'),
-('however', 'en'),
-('hundred', 'en'),
-('i', 'en'),
-('id', 'en'),
-('ie', 'en'),
-('if', 'en'),
-('ill', 'en'),
-('im', 'en'),
-('immediately', 'en'),
-('importance', 'en'),
-('important', 'en'),
-('in', 'en'),
-('inc', 'en'),
-('inc.', 'en'),
-('indeed', 'en'),
-('index', 'en'),
-('information', 'en'),
-('instead', 'en'),
-('into', 'en'),
-('invention', 'en'),
-('is', 'en'),
-('isnt', 'en'),
-('it', 'en'),
-('its', 'en'),
-('itself', 'en'),
-('ive', 'en'),
-('j', 'en'),
-('just', 'en'),
-('k', 'en'),
-('keep', 'en'),
-('kept', 'en'),
-('keys', 'en'),
-('kg', 'en'),
-('km', 'en'),
-('l', 'en'),
-('largely', 'en'),
-('last', 'en'),
-('later', 'en'),
-('latter', 'en'),
-('latterly', 'en'),
-('least', 'en'),
-('let', 'en'),
-('lets', 'en'),
-('like', 'en'),
-('likely', 'en'),
-('line', 'en'),
-('ll', 'en'),
-('ltd', 'en'),
-('m', 'en'),
-('made', 'en'),
-('mainly', 'en'),
-('make', 'en'),
-('makes', 'en'),
-('many', 'en'),
-('may', 'en'),
-('maybe', 'en'),
-('me', 'en'),
-('means', 'en'),
-('meantime', 'en'),
-('meanwhile', 'en'),
-('mg', 'en'),
-('might', 'en'),
-('million', 'en'),
-('miss', 'en'),
-('ml', 'en'),
-('more', 'en'),
-('moreover', 'en'),
-('most', 'en'),
-('mostly', 'en'),
-('mr', 'en'),
-('mrs', 'en'),
-('much', 'en'),
-('mug', 'en'),
-('must', 'en'),
-('my', 'en'),
-('myself', 'en'),
-('n', 'en'),
-('na', 'en'),
-('namely', 'en'),
-('nay', 'en'),
-('near', 'en'),
-('nearly', 'en'),
-('necessarily', 'en'),
-('neither', 'en'),
-('never', 'en'),
-('nevertheless', 'en'),
-('new', 'en'),
-('next', 'en'),
-('nine', 'en'),
-('ninety', 'en'),
-('no', 'en'),
-('nobody', 'en'),
-('none', 'en'),
-('nonetheless', 'en'),
-('noone', 'en'),
-('nor', 'en'),
-('normally', 'en'),
-('nos', 'en'),
-('not', 'en'),
-('noted', 'en'),
-('nothing', 'en'),
-('now', 'en'),
-('nowhere', 'en'),
-('o', 'en'),
-('obtain', 'en'),
-('obtained', 'en'),
-('of', 'en'),
-('off', 'en'),
-('often', 'en'),
-('oh', 'en'),
-('omitted', 'en'),
-('on', 'en'),
-('once', 'en'),
-('one', 'en'),
-('ones', 'en'),
-('only', 'en'),
-('onto', 'en'),
-('or', 'en'),
-('ord', 'en'),
-('other', 'en'),
-('others', 'en'),
-('otherwise', 'en'),
-('ought', 'en'),
-('our', 'en'),
-('ours', 'en'),
-('ourselves', 'en'),
-('out', 'en'),
-('over', 'en'),
-('overall', 'en'),
-('owing', 'en'),
-('own', 'en'),
-('p', 'en'),
-('page', 'en'),
-('pages', 'en'),
-('part', 'en'),
-('particularly', 'en'),
-('past', 'en'),
-('per', 'en'),
-('perhaps', 'en'),
-('please', 'en'),
-('poorly', 'en'),
-('possible', 'en'),
-('possibly', 'en'),
-('potentially', 'en'),
-('pp', 'en'),
-('predominantly', 'en'),
-('present', 'en'),
-('previously', 'en'),
-('primarily', 'en'),
-('probably', 'en'),
-('promptly', 'en'),
-('proud', 'en'),
-('put', 'en'),
-('q', 'en'),
-('quickly', 'en'),
-('quite', 'en'),
-('r', 'en'),
-('ran', 'en'),
-('rather', 'en'),
-('re', 'en'),
-('readily', 'en'),
-('really', 'en'),
-('recent', 'en'),
-('recently', 'en'),
-('ref', 'en'),
-('refs', 'en'),
-('regardless', 'en'),
-('related', 'en'),
-('relatively', 'en'),
-('research', 'en'),
-('respectively', 'en'),
-('resulted', 'en'),
-('resulting', 'en'),
-('results', 'en'),
-('run', 'en'),
-('s', 'en'),
-('said', 'en'),
-('same', 'en'),
-('say', 'en'),
-('sec', 'en'),
-('section', 'en'),
-('seem', 'en'),
-('seemed', 'en'),
-('seeming', 'en'),
-('seems', 'en'),
-('seen', 'en'),
-('seven', 'en'),
-('several', 'en'),
-('shall', 'en'),
-('she', 'en'),
-('shed', 'en'),
-('shell', 'en'),
-('shes', 'en'),
-('should', 'en'),
-('shouldnt', 'en'),
-('show', 'en'),
-('showed', 'en'),
-('shown', 'en'),
-('showns', 'en'),
-('shows', 'en'),
-('significant', 'en'),
-('significantly', 'en'),
-('similar', 'en'),
-('similarly', 'en'),
-('since', 'en'),
-('six', 'en'),
-('slightly', 'en'),
-('so', 'en'),
-('some', 'en'),
-('somehow', 'en'),
-('someone', 'en'),
-('somethan', 'en'),
-('something', 'en'),
-('sometime', 'en'),
-('sometimes', 'en'),
-('somewhat', 'en'),
-('somewhere', 'en'),
-('soon', 'en'),
-('specifically', 'en'),
-('state', 'en'),
-('states', 'en'),
-('still', 'en'),
-('stop', 'en'),
-('strongly', 'en'),
-('substantially', 'en'),
-('successfully', 'en'),
-('such', 'en'),
-('sufficiently', 'en'),
-('suggest', 'en'),
-('t', 'en'),
-('taking', 'en'),
-('than', 'en'),
-('that', 'en'),
-('thatll', 'en'),
-('thats', 'en'),
-('thatve', 'en'),
-('the', 'en'),
-('their', 'en'),
-('theirs', 'en'),
-('them', 'en'),
-('themselves', 'en'),
-('then', 'en'),
-('thence', 'en'),
-('there', 'en'),
-('thereafter', 'en'),
-('thereby', 'en'),
-('thered', 'en'),
-('therefore', 'en'),
-('therein', 'en'),
-('therell', 'en'),
-('thereof', 'en'),
-('therere', 'en'),
-('theres', 'en'),
-('thereto', 'en'),
-('thereupon', 'en'),
-('thereve', 'en'),
-('these', 'en'),
-('they', 'en'),
-('theyd', 'en'),
-('theyll', 'en'),
-('theyre', 'en'),
-('theyve', 'en'),
-('this', 'en'),
-('those', 'en'),
-('thou', 'en'),
-('though', 'en'),
-('thoughh', 'en'),
-('thousand', 'en'),
-('throug', 'en'),
-('through', 'en'),
-('throughout', 'en'),
-('thru', 'en'),
-('thus', 'en'),
-('til', 'en'),
-('tip', 'en'),
-('to', 'en'),
-('together', 'en'),
-('too', 'en'),
-('toward', 'en'),
-('towards', 'en'),
-('trillion', 'en'),
-('try', 'en'),
-('two', 'en'),
-('u', 'en'),
-('under', 'en'),
-('unless', 'en'),
-('unlike', 'en'),
-('unlikely', 'en'),
-('until', 'en'),
-('unto', 'en'),
-('up', 'en'),
-('upon', 'en'),
-('ups', 'en'),
-('us', 'en'),
-('use', 'en'),
-('used', 'en'),
-('usefully', 'en'),
-('usefulness', 'en'),
-('using', 'en'),
-('usually', 'en'),
-('v', 'en'),
-('various', 'en'),
-('ve', 'en'),
-('very', 'en'),
-('via', 'en'),
-('vol', 'en'),
-('vols', 'en'),
-('vs', 'en'),
-('w', 'en'),
-('was', 'en'),
-('wasnt', 'en'),
-('way', 'en'),
-('we', 'en'),
-('web', 'en'),
-('wed', 'en'),
-('well', 'en'),
-('were', 'en'),
-('werent', 'en'),
-('weve', 'en'),
-('what', 'en'),
-('whatever', 'en'),
-('whatll', 'en'),
-('whats', 'en'),
-('whatve', 'en'),
-('when', 'en'),
-('whence', 'en'),
-('whenever', 'en'),
-('where', 'en'),
-('whereafter', 'en'),
-('whereas', 'en'),
-('whereby', 'en'),
-('wherein', 'en'),
-('wheres', 'en'),
-('whereupon', 'en'),
-('wherever', 'en'),
-('whether', 'en'),
-('which', 'en'),
-('while', 'en'),
-('whim', 'en'),
-('whither', 'en'),
-('who', 'en'),
-('whod', 'en'),
-('whoever', 'en'),
-('whole', 'en'),
-('wholl', 'en'),
-('whom', 'en'),
-('whomever', 'en'),
-('whos', 'en'),
-('whose', 'en'),
-('why', 'en'),
-('widely', 'en'),
-('will', 'en'),
-('with', 'en'),
-('within', 'en'),
-('without', 'en'),
-('wont', 'en'),
-('words', 'en'),
-('world', 'en'),
-('would', 'en'),
-('wouldnt', 'en'),
-('www', 'en'),
-('x', 'en'),
-('y', 'en'),
-('yes', 'en'),
-('yet', 'en'),
-('you', 'en'),
-('youd', 'en'),
-('youll', 'en'),
-('your', 'en'),
-('youre', 'en'),
-('yours', 'en'),
-('yourself', 'en'),
-('yourselves', 'en'),
-('youve', 'en'),
-('z', 'en')
+a
+about
+above
+abst
+accordance
+according
+accordingly
+across
+act
+actually
+added
+adj
+adopted
+affected
+affecting
+affects
+after
+afterwards
+again
+against
+ah
+all
+almost
+alone
+along
+already
+also
+although
+always
+am
+among
+amongst
+an
+and
+announce
+another
+any
+anyhow
+anymore
+anyone
+anything
+anywhere
+apparently
+approximately
+are
+aren
+arent
+arise
+around
+as
+aside
+at
+auth
+available
+away
+b
+back
+be
+became
+because
+become
+becomes
+becoming
+been
+before
+beforehand
+begin
+beginning
+beginnings
+begins
+behind
+being
+below
+beside
+besides
+between
+beyond
+billion
+biol
+both
+briefly
+but
+by
+c
+ca
+came
+can
+cannot
+cant
+certain
+certainly
+co
+co.
+come
+contains
+could
+couldnt
+d
+date
+did
+didnt
+different
+do
+does
+doesnt
+doing
+done
+dont
+down
+due
+during
+e
+each
+ed
+effect
+eg
+eight
+eighty
+either
+else
+elsewhere
+end
+ending
+enough
+especially
+et-al
+etc
+even
+ever
+every
+everyone
+everything
+everywhere
+except
+f
+far
+few
+ff
+first
+five
+fix
+followed
+following
+for
+former
+formerly
+found
+from
+further
+g
+gave
+get
+gets
+give
+given
+giving
+go
+goes
+gone
+got
+h
+had
+hardly
+has
+hasnt
+have
+havent
+having
+he
+hed
+hence
+her
+here
+hereafter
+hereby
+herein
+heres
+hereupon
+hers
+herself
+hes
+hid
+him
+himself
+his
+home
+how
+however
+hundred
+i
+id
+ie
+if
+ill
+im
+immediately
+importance
+important
+in
+inc
+inc.
+indeed
+index
+information
+instead
+into
+invention
+is
+isnt
+it
+its
+itself
+ive
+j
+just
+k
+keep
+kept
+keys
+kg
+km
+l
+largely
+last
+later
+latter
+latterly
+least
+let
+lets
+like
+likely
+line
+ll
+ltd
+m
+made
+mainly
+make
+makes
+many
+may
+maybe
+me
+means
+meantime
+meanwhile
+mg
+might
+million
+miss
+ml
+more
+moreover
+most
+mostly
+mr
+mrs
+much
+mug
+must
+my
+myself
+n
+na
+namely
+nay
+near
+nearly
+necessarily
+neither
+never
+nevertheless
+new
+next
+nine
+ninety
+no
+nobody
+none
+nonetheless
+noone
+nor
+normally
+nos
+not
+noted
+nothing
+now
+nowhere
+o
+obtain
+obtained
+of
+off
+often
+oh
+omitted
+on
+once
+one
+ones
+only
+onto
+or
+ord
+other
+others
+otherwise
+ought
+our
+ours
+ourselves
+out
+over
+overall
+owing
+own
+p
+page
+pages
+part
+particularly
+past
+per
+perhaps
+please
+poorly
+possible
+possibly
+potentially
+pp
+predominantly
+present
+previously
+primarily
+probably
+promptly
+proud
+put
+q
+quickly
+quite
+r
+ran
+rather
+re
+readily
+really
+recent
+recently
+ref
+refs
+regardless
+related
+relatively
+research
+respectively
+resulted
+resulting
+results
+run
+s
+said
+same
+say
+sec
+section
+seem
+seemed
+seeming
+seems
+seen
+seven
+several
+shall
+she
+shed
+shell
+shes
+should
+shouldnt
+show
+showed
+shown
+showns
+shows
+significant
+significantly
+similar
+similarly
+since
+six
+slightly
+so
+some
+somehow
+someone
+somethan
+something
+sometime
+sometimes
+somewhat
+somewhere
+soon
+specifically
+state
+states
+still
+stop
+strongly
+substantially
+successfully
+such
+sufficiently
+suggest
+t
+taking
+than
+that
+thatll
+thats
+thatve
+the
+their
+theirs
+them
+themselves
+then
+thence
+there
+thereafter
+thereby
+thered
+therefore
+therein
+therell
+thereof
+therere
+theres
+thereto
+thereupon
+thereve
+these
+they
+theyd
+theyll
+theyre
+theyve
+this
+those
+thou
+though
+thoughh
+thousand
+throug
+through
+throughout
+thru
+thus
+til
+tip
+to
+together
+too
+toward
+towards
+trillion
+try
+two
+u
+under
+unless
+unlike
+unlikely
+until
+unto
+up
+upon
+ups
+us
+use
+used
+usefully
+usefulness
+using
+usually
+v
+various
+ve
+very
+via
+vol
+vols
+vs
+w
+was
+wasnt
+way
+we
+web
+wed
+well
+were
+werent
+weve
+what
+whatever
+whatll
+whats
+whatve
+when
+whence
+whenever
+where
+whereafter
+whereas
+whereby
+wherein
+wheres
+whereupon
+wherever
+whether
+which
+while
+whim
+whither
+who
+whod
+whoever
+whole
+wholl
+whom
+whomever
+whos
+whose
+why
+widely
+will
+with
+within
+without
+wont
+words
+world
+would
+wouldnt
+www
+x
+y
+yes
+yet
+you
+youd
+youll
+your
+youre
+yours
+yourself
+yourselves
+youve
+z

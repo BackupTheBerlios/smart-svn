@@ -1,182 +1,179 @@
 # Spanish
-#
-INSERT INTO bad_words VALUES 
-('un', 'es'),
-('una', 'es'),
-('unas', 'es'),
-('unos', 'es'),
-('uno', 'es'),
-('sobre', 'es'),
-('todo', 'es'),
-('también', 'es'),
-('tras', 'es'),
-('otro', 'es'),
-('algún', 'es'),
-('alguno', 'es'),
-('alguna', 'es'),
-('algunos', 'es'),
-('algunas', 'es'),
-('ser', 'es'),
-('es', 'es'),
-('soy', 'es'),
-('eres', 'es'),
-('somos', 'es'),
-('sois', 'es'),
-('estoy', 'es'),
-('esta', 'es'),
-('estamos', 'es'),
-('estais', 'es'),
-('estan', 'es'),
-('como', 'es'),
-('en', 'es'),
-('para', 'es'),
-('atras', 'es'),
-('porque', 'es'),
-('por qué', 'es'),
-('estado', 'es'),
-('estaba', 'es'),
-('ante', 'es'),
-('antes', 'es'),
-('siendo', 'es'),
-('ambos', 'es'),
-('pero', 'es'),
-('por', 'es'),
-('poder', 'es'),
-('puede', 'es'),
-('puedo', 'es'),
-('podemos', 'es'),
-('podeis', 'es'),
-('pueden', 'es'),
-('fui', 'es'),
-('fue', 'es'),
-('fuimos', 'es'),
-('fueron', 'es'),
-('hacer', 'es'),
-('hago', 'es'),
-('hace', 'es'),
-('hacemos', 'es'),
-('haceis', 'es'),
-('hacen', 'es'),
-('cada', 'es'),
-('fin', 'es'),
-('incluso', 'es'),
-('primero', 'es'),
-('desde', 'es'),
-('conseguir', 'es'),
-('consigo', 'es'),
-('consigue', 'es'),
-('consigues', 'es'),
-('conseguimos', 'es'),
-('consiguen', 'es'),
-('ir', 'es'),
-('voy', 'es'),
-('va', 'es'),
-('vamos', 'es'),
-('vais', 'es'),
-('van', 'es'),
-('vaya', 'es'),
-('gueno', 'es'),
-('ha', 'es'),
-('tener', 'es'),
-('tengo', 'es'),
-('tiene', 'es'),
-('tenemos', 'es'),
-('teneis', 'es'),
-('tienen', 'es'),
-('el', 'es'),
-('la', 'es'),
-('lo', 'es'),
-('las', 'es'),
-('los', 'es'),
-('su', 'es'),
-('aqui', 'es'),
-('mio', 'es'),
-('tuyo', 'es'),
-('ellos', 'es'),
-('ellas', 'es'),
-('nos', 'es'),
-('nosotros', 'es'),
-('vosotros', 'es'),
-('vosotras', 'es'),
-('si', 'es'),
-('dentro', 'es'),
-('solo', 'es'),
-('solamente', 'es'),
-('saber', 'es'),
-('sabes', 'es'),
-('sabe', 'es'),
-('sabemos', 'es'),
-('sabeis', 'es'),
-('saben', 'es'),
-('ultimo', 'es'),
-('largo', 'es'),
-('bastante', 'es'),
-('haces', 'es'),
-('muchos', 'es'),
-('aquellos', 'es'),
-('aquellas', 'es'),
-('sus', 'es'),
-('entonces', 'es'),
-('tiempo', 'es'),
-('verdad', 'es'),
-('verdadero', 'es'),
-('verdadera', 'es'),
-('cierto', 'es'),
-('ciertos', 'es'),
-('cierta', 'es'),
-('ciertas', 'es'),
-('intentar', 'es'),
-('intento', 'es'),
-('intenta', 'es'),
-('intentas', 'es'),
-('intentamos', 'es'),
-('intentais', 'es'),
-('intentan', 'es'),
-('dos', 'es'),
-('bajo', 'es'),
-('arriba', 'es'),
-('encima', 'es'),
-('usar', 'es'),
-('uso', 'es'),
-('usas', 'es'),
-('usa', 'es'),
-('usamos', 'es'),
-('usais', 'es'),
-('usan', 'es'),
-('emplear', 'es'),
-('empleo', 'es'),
-('empleas', 'es'),
-('emplean', 'es'),
-('ampleamos', 'es'),
-('empleais', 'es'),
-('valor', 'es'),
-('muy', 'es'),
-('era', 'es'),
-('eras', 'es'),
-('eramos', 'es'),
-('eran', 'es'),
-('modo', 'es'),
-('bien', 'es'),
-('cual', 'es'),
-('cuando', 'es'),
-('donde', 'es'),
-('mientras', 'es'),
-('quien', 'es'),
-('con', 'es'),
-('entre', 'es'),
-('sin', 'es'),
-('trabajo', 'es'),
-('trabajar', 'es'),
-('trabajas', 'es'),
-('trabaja', 'es'),
-('trabajamos', 'es'),
-('trabajais', 'es'),
-('trabajan', 'es'),
-('podria', 'es'),
-('podrias', 'es'),
-('podriamos', 'es'),
-('podrian', 'es'),
-('podriais', 'es'),
-('yo', 'es'),
-('aquel', 'es')
-
+un
+una
+unas
+unos
+uno
+sobre
+todo
+también
+tras
+otro
+algún
+alguno
+alguna
+algunos
+algunas
+ser
+es
+soy
+eres
+somos
+sois
+estoy
+esta
+estamos
+estais
+estan
+como
+en
+para
+atras
+porque
+por qué
+estado
+estaba
+ante
+antes
+siendo
+ambos
+pero
+por
+poder
+puede
+puedo
+podemos
+podeis
+pueden
+fui
+fue
+fuimos
+fueron
+hacer
+hago
+hace
+hacemos
+haceis
+hacen
+cada
+fin
+incluso
+primero
+desde
+conseguir
+consigo
+consigue
+consigues
+conseguimos
+consiguen
+ir
+voy
+va
+vamos
+vais
+van
+vaya
+gueno
+ha
+tener
+tengo
+tiene
+tenemos
+teneis
+tienen
+el
+la
+lo
+las
+los
+su
+aqui
+mio
+tuyo
+ellos
+ellas
+nos
+nosotros
+vosotros
+vosotras
+si
+dentro
+solo
+solamente
+saber
+sabes
+sabe
+sabemos
+sabeis
+saben
+ultimo
+largo
+bastante
+haces
+muchos
+aquellos
+aquellas
+sus
+entonces
+tiempo
+verdad
+verdadero
+verdadera
+cierto
+ciertos
+cierta
+ciertas
+intentar
+intento
+intenta
+intentas
+intentamos
+intentais
+intentan
+dos
+bajo
+arriba
+encima
+usar
+uso
+usas
+usa
+usamos
+usais
+usan
+emplear
+empleo
+empleas
+emplean
+ampleamos
+empleais
+valor
+muy
+era
+eras
+eramos
+eran
+modo
+bien
+cual
+cuando
+donde
+mientras
+quien
+con
+entre
+sin
+trabajo
+trabajar
+trabajas
+trabaja
+trabajamos
+trabajais
+trabajan
+podria
+podrias
+podriamos
+podrian
+podriais
+yo
+aquel

@@ -1,150 +1,148 @@
 # Portuguese
-# 
-INSERT INTO bad_words VALUES 
-('último', 'pt'),
-('é', 'pt'),
-('acerca', 'pt'),
-('agora', 'pt'),
-('algmas', 'pt'),
-('alguns', 'pt'),
-('ali', 'pt'),
-('ambos', 'pt'),
-('antes', 'pt'),
-('apontar', 'pt'),
-('aquela', 'pt'),
-('aquelas', 'pt'),
-('aquele', 'pt'),
-('aqueles', 'pt'),
-('aqui', 'pt'),
-('atrás', 'pt'),
-('bem', 'pt'),
-('bom', 'pt'),
-('cada', 'pt'),
-('caminho', 'pt'),
-('cima', 'pt'),
-('com', 'pt'),
-('como', 'pt'),
-('comprido', 'pt'),
-('conhecido', 'pt'),
-('corrente', 'pt'),
-('das', 'pt'),
-('debaixo', 'pt'),
-('dentro', 'pt'),
-('desde', 'pt'),
-('desligado', 'pt'),
-('deve', 'pt'),
-('devem', 'pt'),
-('deverá', 'pt'),
-('direita', 'pt'),
-('diz', 'pt'),
-('dizer', 'pt'),
-('dois', 'pt'),
-('dos', 'pt'),
-('e', 'pt'),
-('ela', 'pt'),
-('ele', 'pt'),
-('eles', 'pt'),
-('em', 'pt'),
-('enquanto', 'pt'),
-('então', 'pt'),
-('está', 'pt'),
-('estão', 'pt'),
-('estado', 'pt'),
-('estar', 'pt'),
-('estará', 'pt'),
-('este', 'pt'),
-('estes', 'pt'),
-('esteve', 'pt'),
-('estive', 'pt'),
-('estivemos', 'pt'),
-('estiveram', 'pt'),
-('eu', 'pt'),
-('fará', 'pt'),
-('faz', 'pt'),
-('fazer', 'pt'),
-('fazia', 'pt'),
-('fez', 'pt'),
-('fim', 'pt'),
-('foi', 'pt'),
-('fora', 'pt'),
-('horas', 'pt'),
-('iniciar', 'pt'),
-('inicio', 'pt'),
-('ir', 'pt'),
-('irá', 'pt'),
-('ista', 'pt'),
-('iste', 'pt'),
-('isto', 'pt'),
-('ligado', 'pt'),
-('maioria', 'pt'),
-('maiorias', 'pt'),
-('mais', 'pt'),
-('mas', 'pt'),
-('mesmo', 'pt'),
-('meu', 'pt'),
-('muito', 'pt'),
-('muitos', 'pt'),
-('nós', 'pt'),
-('não', 'pt'),
-('nome', 'pt'),
-('nosso', 'pt'),
-('novo', 'pt'),
-('o', 'pt'),
-('onde', 'pt'),
-('os', 'pt'),
-('ou', 'pt'),
-('outro', 'pt'),
-('para', 'pt'),
-('parte', 'pt'),
-('pegar', 'pt'),
-('pelo', 'pt'),
-('pessoas', 'pt'),
-('pode', 'pt'),
-('poderá', 'pt'),
-('podia', 'pt'),
-('por', 'pt'),
-('porque', 'pt'),
-('povo', 'pt'),
-('promeiro', 'pt'),
-('quê', 'pt'),
-('qual', 'pt'),
-('qualquer', 'pt'),
-('quando', 'pt'),
-('quem', 'pt'),
-('quieto', 'pt'),
-('são', 'pt'),
-('saber', 'pt'),
-('sem', 'pt'),
-('ser', 'pt'),
-('seu', 'pt'),
-('somente', 'pt'),
-('têm', 'pt'),
-('tal', 'pt'),
-('também', 'pt'),
-('tem', 'pt'),
-('tempo', 'pt'),
-('tenho', 'pt'),
-('tentar', 'pt'),
-('tentaram', 'pt'),
-('tente', 'pt'),
-('tentei', 'pt'),
-('teu', 'pt'),
-('teve', 'pt'),
-('tipo', 'pt'),
-('tive', 'pt'),
-('todos', 'pt'),
-('trabalhar', 'pt'),
-('trabalho', 'pt'),
-('tu', 'pt'),
-('um', 'pt'),
-('uma', 'pt'),
-('umas', 'pt'),
-('uns', 'pt'),
-('usa', 'pt'),
-('usar', 'pt'),
-('valor', 'pt'),
-('veja', 'pt'),
-('ver', 'pt'),
-('verdade', 'pt'),
-('verdadeiro', 'pt'),
-('você', 'pt')
+último
+é
+acerca
+agora
+algmas
+alguns
+ali
+ambos
+antes
+apontar
+aquela
+aquelas
+aquele
+aqueles
+aqui
+atrás
+bem
+bom
+cada
+caminho
+cima
+com
+como
+comprido
+conhecido
+corrente
+das
+debaixo
+dentro
+desde
+desligado
+deve
+devem
+deverá
+direita
+diz
+dizer
+dois
+dos
+e
+ela
+ele
+eles
+em
+enquanto
+então
+está
+estão
+estado
+estar
+estará
+este
+estes
+esteve
+estive
+estivemos
+estiveram
+eu
+fará
+faz
+fazer
+fazia
+fez
+fim
+foi
+fora
+horas
+iniciar
+inicio
+ir
+irá
+ista
+iste
+isto
+ligado
+maioria
+maiorias
+mais
+mas
+mesmo
+meu
+muito
+muitos
+nós
+não
+nome
+nosso
+novo
+o
+onde
+os
+ou
+outro
+para
+parte
+pegar
+pelo
+pessoas
+pode
+poderá
+podia
+por
+porque
+povo
+promeiro
+quê
+qual
+qualquer
+quando
+quem
+quieto
+são
+saber
+sem
+ser
+seu
+somente
+têm
+tal
+também
+tem
+tempo
+tenho
+tentar
+tentaram
+tente
+tentei
+teu
+teve
+tipo
+tive
+todos
+trabalhar
+trabalho
+tu
+um
+uma
+umas
+uns
+usa
+usar
+valor
+veja
+ver
+verdade
+verdadeiro
+você

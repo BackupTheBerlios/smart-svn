@@ -132,9 +132,9 @@ if($B->sys['info']['status'] == TRUE)
                     'database' => $B->sys['db']['name']);
 
     $B->dboptions = array('debug'       => 0,
-                          'portability' => DB_PORTABILITY_ALL);
+                          'portability' => DB_PORTABILITY_NONE);
     
-    $B->db =& DB::connect($B->dsn, $B->dboptions);
+    $B->db =& DB::connect($B->dsn, $B->dboptions, TRUE);
     if (DB::isError($B->db)) 
     {
         trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );

@@ -1,122 +1,120 @@
 # Norwegian
-# 
-INSERT INTO bad_words VALUES 
-('alle', 'no'),
-('andre', 'no'),
-('arbeid', 'no'),
-('av', 'no'),
-('begge', 'no'),
-('bort', 'no'),
-('bra', 'no'),
-('bruke', 'no'),
-('da', 'no'),
-('denne', 'no'),
-('der', 'no'),
-('deres', 'no'),
-('det', 'no'),
-('din', 'no'),
-('disse', 'no'),
-('du', 'no'),
-('eller', 'no'),
-('en', 'no'),
-('ene', 'no'),
-('eneste', 'no'),
-('enhver', 'no'),
-('enn', 'no'),
-('er', 'no'),
-('et', 'no'),
-('folk', 'no'),
-('for', 'no'),
-('fordi', 'no'),
-('fors€ke', 'no'),
-('fra', 'no'),
-('f≈', 'no'),
-('f€r', 'no'),
-('f€rst', 'no'),
-('gjorde', 'no'),
-('gj€re', 'no'),
-('god', 'no'),
-('g≈', 'no'),
-('ha', 'no'),
-('hadde', 'no'),
-('han', 'no'),
-('hans', 'no'),
-('hennes', 'no'),
-('her', 'no'),
-('hva', 'no'),
-('hvem', 'no'),
-('hver', 'no'),
-('hvilken', 'no'),
-('hvis', 'no'),
-('hvor', 'no'),
-('hvordan', 'no'),
-('hvorfor', 'no'),
-('i', 'no'),
-('ikke', 'no'),
-('inn', 'no'),
-('innen', 'no'),
-('kan', 'no'),
-('kunne', 'no'),
-('lage', 'no'),
-('lang', 'no'),
-('lik', 'no'),
-('like', 'no'),
-('makt', 'no'),
-('mange', 'no'),
-('med', 'no'),
-('meg', 'no'),
-('meget', 'no'),
-('men', 'no'),
-('mens', 'no'),
-('mer', 'no'),
-('mest', 'no'),
-('min', 'no'),
-('mye', 'no'),
-('m≈', 'no'),
-('m≈te', 'no'),
-('navn', 'no'),
-('nei', 'no'),
-('ny', 'no'),
-('n≈', 'no'),
-('n≈r', 'no'),
-('og', 'no'),
-('ogs≈', 'no'),
-('om', 'no'),
-('opp', 'no'),
-('oss', 'no'),
-('over', 'no'),
-('part', 'no'),
-('punkt', 'no'),
-('p≈', 'no'),
-('rett', 'no'),
-('riktig', 'no'),
-('samme', 'no'),
-('sant', 'no'),
-('si', 'no'),
-('siden', 'no'),
-('sist', 'no'),
-('skulle', 'no'),
-('slik', 'no'),
-('slutt', 'no'),
-('som', 'no'),
-('start', 'no'),
-('stille', 'no'),
-('s≈', 'no'),
-('tid', 'no'),
-('til', 'no'),
-('tilbake', 'no'),
-('tilstand', 'no'),
-('under', 'no'),
-('ut', 'no'),
-('uten', 'no'),
-('var', 'no'),
-('ved', 'no'),
-('verdi', 'no'),
-('vi', 'no'),
-('vil', 'no'),
-('ville', 'no'),
-('vite', 'no'),
-('v≈r', 'no'),
-('v÷re', 'no'),
-('v÷rt', 'no'),
-('≈', 'no')
+alle
+andre
+arbeid
+av
+begge
+bort
+bra
+bruke
+da
+denne
+der
+deres
+det
+din
+disse
+du
+eller
+en
+ene
+eneste
+enhver
+enn
+er
+et
+folk
+for
+fordi
+fors€ke
+fra
+f≈
+f€r
+f€rst
+gjorde
+gj€re
+god
+g≈
+ha
+hadde
+han
+hans
+hennes
+her
+hva
+hvem
+hver
+hvilken
+hvis
+hvor
+hvordan
+hvorfor
+i
+ikke
+inn
+innen
+kan
+kunne
+lage
+lang
+lik
+like
+makt
+mange
+med
+meg
+meget
+men
+mens
+mer
+mest
+min
+mye
+m≈
+m≈te
+navn
+nei
+ny
+n≈
+n≈r
+og
+ogs≈
+om
+opp
+oss
+over
+part
+punkt
+p≈
+rett
+riktig
+samme
+sant
+si
+siden
+sist
+skulle
+slik
+slutt
+som
+start
+stille
+s≈
+tid
+til
+tilbake
+tilstand
+under
+ut
+uten
+var
+ved
+verdi
+vi
+vil
+ville
+vite
+v≈r
+v÷re
+v÷rt
+≈

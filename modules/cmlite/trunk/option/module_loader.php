@@ -51,13 +51,21 @@ if(!isset($_GET['mf']))
             $bad_word_file = SF_BASE_DIR.'/admin/modules/option/bad_word/stop.'.$_POST['bad_word_list'].'.sql';
             if( TRUE == @is_file($bad_word_file) )
             {
-                $bad_word = implode("", @file($bad_word_file));
-                $bad_word = str_replace('bad_words', $B->sys['db']['table_prefix'].'bad_words', $bad_word);
-                $result = $B->db->query($bad_word); 
+                $bad_word = @file($bad_word_file);
+                $sth = $B->db->autoPrepare($B->sys['db']['table_prefix'].'bad_words', array('word','lang'),DB_AUTOQUERY_INSERT);
+                $_ins = array();
+                foreach($bad_word as $word)
+                {
+                    if(!strstr($word,"#"))
+                    {
+                        $_ins[] = array($word,$_POST['bad_word_list']);
+                    }
+                }
+                $result = &$B->db->executeMultiple($sth, $_ins);
                 if (DB::isError($result)) 
                 {
-                    trigger_error($result->getMessage()."\n\nSQL: ".$bad_word."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                }           
+                        trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                }                 
             }
             else
             {

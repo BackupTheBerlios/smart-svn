@@ -1,129 +1,127 @@
 # French
-#
-INSERT INTO bad_words VALUES 
-('alors', 'fr'),
-('au', 'fr'),
-('aucuns', 'fr'),
-('aussi', 'fr'),
-('autre', 'fr'),
-('avant', 'fr'),
-('avec', 'fr'),
-('avoir', 'fr'),
-('bon', 'fr'),
-('car', 'fr'),
-('ce', 'fr'),
-('cela', 'fr'),
-('ces', 'fr'),
-('ceux', 'fr'),
-('chaque', 'fr'),
-('ci', 'fr'),
-('comme', 'fr'),
-('comment', 'fr'),
-('dans', 'fr'),
-('des', 'fr'),
-('du', 'fr'),
-('dedans', 'fr'),
-('dehors', 'fr'),
-('depuis', 'fr'),
-('deux', 'fr'),
-('devrait', 'fr'),
-('doit', 'fr'),
-('donc', 'fr'),
-('dos', 'fr'),
-('droite', 'fr'),
-('début', 'fr'),
-('elle', 'fr'),
-('elles', 'fr'),
-('en', 'fr'),
-('encore', 'fr'),
-('essai', 'fr'),
-('est', 'fr'),
-('et', 'fr'),
-('eu', 'fr'),
-('fait', 'fr'),
-('faites', 'fr'),
-('fois', 'fr'),
-('font', 'fr'),
-('force', 'fr'),
-('haut', 'fr'),
-('hors', 'fr'),
-('ici', 'fr'),
-('il', 'fr'),
-('ils', 'fr'),
-('je', 'fr'),
-('juste', 'fr'),
-('la', 'fr'),
-('le', 'fr'),
-('les', 'fr'),
-('leur', 'fr'),
-('là', 'fr'),
-('ma', 'fr'),
-('maintenant', 'fr'),
-('mais', 'fr'),
-('mes', 'fr'),
-('mine', 'fr'),
-('moins', 'fr'),
-('mon', 'fr'),
-('mot', 'fr'),
-('même', 'fr'),
-('ni', 'fr'),
-('nommés', 'fr'),
-('notre', 'fr'),
-('nous', 'fr'),
-('nouveaux', 'fr'),
-('ou', 'fr'),
-('où', 'fr'),
-('par', 'fr'),
-('parce', 'fr'),
-('parole', 'fr'),
-('pas', 'fr'),
-('personnes', 'fr'),
-('peut', 'fr'),
-('peu', 'fr'),
-('pièce', 'fr'),
-('plupart', 'fr'),
-('pour', 'fr'),
-('pourquoi', 'fr'),
-('quand', 'fr'),
-('que', 'fr'),
-('quel', 'fr'),
-('quelle', 'fr'),
-('quelles', 'fr'),
-('quels', 'fr'),
-('qui', 'fr'),
-('sa', 'fr'),
-('sans', 'fr'),
-('ses', 'fr'),
-('seulement', 'fr'),
-('si', 'fr'),
-('sien', 'fr'),
-('son', 'fr'),
-('sont', 'fr'),
-('sous', 'fr'),
-('soyez', 'fr'),
-('sujet', 'fr'),
-('sur', 'fr'),
-('ta', 'fr'),
-('tandis', 'fr'),
-('tellement', 'fr'),
-('tels', 'fr'),
-('tes', 'fr'),
-('ton', 'fr'),
-('tous', 'fr'),
-('tout', 'fr'),
-('trop', 'fr'),
-('très', 'fr'),
-('tu', 'fr'),
-('valeur', 'fr'),
-('voie', 'fr'),
-('voient', 'fr'),
-('vont', 'fr'),
-('votre', 'fr'),
-('vous', 'fr'),
-('vu', 'fr'),
-('ça', 'fr'),
-('étaient', 'fr'),
-('état', 'fr'),
-('étions', 'fr'),
-('été', 'fr'),
-('être', 'fr')
+alors
+au
+aucuns
+aussi
+autre
+avant
+avec
+avoir
+bon
+car
+ce
+cela
+ces
+ceux
+chaque
+ci
+comme
+comment
+dans
+des
+du
+dedans
+dehors
+depuis
+deux
+devrait
+doit
+donc
+dos
+droite
+début
+elle
+elles
+en
+encore
+essai
+est
+et
+eu
+fait
+faites
+fois
+font
+force
+haut
+hors
+ici
+il
+ils
+je
+juste
+la
+le
+les
+leur
+là
+ma
+maintenant
+mais
+mes
+mine
+moins
+mon
+mot
+même
+ni
+nommés
+notre
+nous
+nouveaux
+ou
+où
+par
+parce
+parole
+pas
+personnes
+peut
+peu
+pièce
+plupart
+pour
+pourquoi
+quand
+que
+quel
+quelle
+quelles
+quels
+qui
+sa
+sans
+ses
+seulement
+si
+sien
+son
+sont
+sous
+soyez
+sujet
+sur
+ta
+tandis
+tellement
+tels
+tes
+ton
+tous
+tout
+trop
+très
+tu
+valeur
+voie
+voient
+vont
+votre
+vous
+vu
+ça
+étaient
+état
+étions
+été
+être

@@ -1,105 +1,102 @@
 # Danish
-#
-INSERT INTO bad_words VALUES 
-('af', 'dk'),
-('alle', 'dk'),
-('andet', 'dk'),
-('andre', 'dk'),
-('at', 'dk'),
-('begge', 'dk'),
-('da', 'dk'),
-('de', 'dk'),
-('den', 'dk'),
-('denne', 'dk'),
-('der', 'dk'),
-('deres', 'dk'),
-('det', 'dk'),
-('dette', 'dk'),
-('dig', 'dk'),
-('din', 'dk'),
-('dog', 'dk'),
-('du', 'dk'),
-('ej', 'dk'),
-('eller', 'dk'),
-('en', 'dk'),
-('end', 'dk'),
-('ene', 'dk'),
-('eneste', 'dk'),
-('enhver', 'dk'),
-('et', 'dk'),
-('fem', 'dk'),
-('fire', 'dk'),
-('flere', 'dk'),
-('fleste', 'dk'),
-('for', 'dk'),
-('fordi', 'dk'),
-('forrige', 'dk'),
-('fra', 'dk'),
-('få', 'dk'),
-('før', 'dk'),
-('god', 'dk'),
-('han', 'dk'),
-('hans', 'dk'),
-('har', 'dk'),
-('hendes', 'dk'),
-('her', 'dk'),
-('hun', 'dk'),
-('hvad', 'dk'),
-('hvem', 'dk'),
-('hver', 'dk'),
-('hvilken', 'dk'),
-('hvis', 'dk'),
-('hvor', 'dk'),
-('hvordan', 'dk'),
-('hvorfor', 'dk'),
-('hvornår', 'dk'),
-('i', 'dk'),
-('ikke', 'dk'),
-('ind', 'dk'),
-('ingen', 'dk'),
-('intet', 'dk'),
-('jeg', 'dk'),
-('jeres', 'dk'),
-('kan', 'dk'),
-('kom', 'dk'),
-('kommer', 'dk'),
-('lav', 'dk'),
-('lidt', 'dk'),
-('lille', 'dk'),
-('man', 'dk'),
-('mand', 'dk'),
-('mange', 'dk'),
-('med', 'dk'),
-('meget', 'dk'),
-('men', 'dk'),
-('mens', 'dk'),
-('mere', 'dk'),
-('mig', 'dk'),
-('ned', 'dk'),
-('ni', 'dk'),
-('nogen', 'dk'),
-('noget', 'dk'),
-('ny', 'dk'),
-('nyt', 'dk'),
-('nær', 'dk'),
-('næste', 'dk'),
-('næsten', 'dk'),
-('og', 'dk'),
-('op', 'dk'),
-('otte', 'dk'),
-('over', 'dk'),
-('på', 'dk'),
-('se', 'dk'),
-('seks', 'dk'),
-('ses', 'dk'),
-('som', 'dk'),
-('stor', 'dk'),
-('store', 'dk'),
-('syv', 'dk'),
-('ti', 'dk'),
-('til', 'dk'),
-('to', 'dk'),
-('tre', 'dk'),
-('ud', 'dk'),
-('var', 'dk')
-
+af
+alle
+andet
+andre
+at
+begge
+da
+de
+den
+denne
+der
+deres
+det
+dette
+dig
+din
+dog
+du
+ej
+eller
+en
+end
+ene
+eneste
+enhver
+et
+fem
+fire
+flere
+fleste
+for
+fordi
+forrige
+fra
+få
+før
+god
+han
+hans
+har
+hendes
+her
+hun
+hvad
+hvem
+hver
+hvilken
+hvis
+hvor
+hvordan
+hvorfor
+hvornår
+i
+ikke
+ind
+ingen
+intet
+jeg
+jeres
+kan
+kom
+kommer
+lav
+lidt
+lille
+man
+mand
+mange
+med
+meget
+men
+mens
+mere
+mig
+ned
+ni
+nogen
+noget
+ny
+nyt
+nær
+næste
+næsten
+og
+op
+otte
+over
+på
+se
+seks
+ses
+som
+stor
+store
+syv
+ti
+til
+to
+tre
+ud
+var

@@ -1,113 +1,111 @@
 # Polish
-#
-INSERT INTO bad_words VALUES 
-('i', 'pl'),
-('w', 'pl'),
-('z', 'pl'),
-('o', 'pl'),
-('na', 'pl'),
-('do', 'pl'),
-('a', 'pl'),
-('jest', 'pl'),
-('od', 'pl'),
-('przez', 'pl'),
-('to', 'pl'),
-('po', 'pl'),
-('siê', 'pl'),
-('dla', 'pl'),
-('nie', 'pl'),
-('oraz', 'pl'),
-('jak', 'pl'),
-('za', 'pl'),
-('ze', 'pl'),
-('tym', 'pl'),
-('co', 'pl'),
-('przy', 'pl'),
-('tego', 'pl'),
-('ich', 'pl'),
-('ale', 'pl'),
-('tylko', 'pl'),
-('pod', 'pl'),
-('s±', 'pl'),
-('jego', 'pl'),
-('jako', 'pl'),
-('czy', 'pl'),
-('¿e', 'pl'),
-('tak', 'pl'),
-('ma', 'pl'),
-('tej', 'pl'),
-('lub', 'pl'),
-('tak¿e', 'pl'),
-('jednak', 'pl'),
-('ten', 'pl'),
-('jej', 'pl'),
-('u', 'pl'),
-('ju¿', 'pl'),
-('nad', 'pl'),
-('tych', 'pl'),
-('które', 'pl'),
-('te', 'pl'),
-('jeszcze', 'pl'),
-('bardzo', 'pl'),
-('mo¿e', 'pl'),
-('bez', 'pl'),
-('innych', 'pl'),
-('im', 'pl'),
-('przed', 'pl'),
-('wszystkich', 'pl'),
-('we', 'pl'),
-('mo¿na', 'pl'),
-('których', 'pl'),
-('wszystkim', 'pl'),
-('równie¿', 'pl'),
-('który', 'pl'),
-('nawet', 'pl'),
-('te¿', 'pl'),
-('sobie', 'pl'),
-('tu', 'pl'),
-('nich', 'pl'),
-('by³o', 'pl'),
-('by³', 'pl'),
-('bêdzie', 'pl'),
-('wielu', 'pl'),
-('go', 'pl'),
-('gdy', 'pl'),
-('wiele', 'pl'),
-('ta', 'pl'),
-('nas', 'pl'),
-('aby', 'pl'),
-('gdzie', 'pl'),
-('bo', 'pl'),
-('wiêc', 'pl'),
-('tam', 'pl'),
-('którzy', 'pl'),
-('która', 'pl'),
-('kilka', 'pl'),
-('miêdzy', 'pl'),
-('naszego', 'pl'),
-('by³a', 'pl'),
-('bardziej', 'pl'),
-('przede', 'pl'),
-('nam', 'pl'),
-('wszystko', 'pl'),
-('swoje', 'pl'),
-('której', 'pl'),
-('ni¿', 'pl'),
-('czyli', 'pl'),
-('zawsze', 'pl'),
-('którym', 'pl'),
-('takie', 'pl'),
-('bowiem', 'pl'),
-('nim', 'pl'),
-('poza', 'pl'),
-('w³a¶nie', 'pl'),
-('i¿', 'pl'),
-('by³y', 'pl'),
-('kiedy', 'pl'),
-('mog±', 'pl'),
-('mi', 'pl'),
-('którego', 'pl'),
-('mnie', 'pl'),
-('dlatego', 'pl'),
-('naszych', 'pl'),
-('je¶li', 'pl')
+i
+w
+z
+o
+na
+do
+a
+jest
+od
+przez
+to
+po
+siê
+dla
+nie
+oraz
+jak
+za
+ze
+tym
+co
+przy
+tego
+ich
+ale
+tylko
+pod
+s±
+jego
+jako
+czy
+¿e
+tak
+ma
+tej
+lub
+tak¿e
+jednak
+ten
+jej
+u
+ju¿
+nad
+tych
+które
+te
+jeszcze
+bardzo
+mo¿e
+bez
+innych
+im
+przed
+wszystkich
+we
+mo¿na
+których
+wszystkim
+równie¿
+który
+nawet
+te¿
+sobie
+tu
+nich
+by³o
+by³
+bêdzie
+wielu
+go
+gdy
+wiele
+ta
+nas
+aby
+gdzie
+bo
+wiêc
+tam
+którzy
+która
+kilka
+miêdzy
+naszego
+by³a
+bardziej
+przede
+nam
+wszystko
+swoje
+której
+ni¿
+czyli
+zawsze
+którym
+takie
+bowiem
+nim
+poza
+w³a¶nie
+i¿
+by³y
+kiedy
+mog±
+mi
+którego
+mnie
+dlatego
+naszych
+je¶li
