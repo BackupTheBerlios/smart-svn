@@ -97,6 +97,7 @@ class earchive_sys_setup
         $this->B->conf_val['module']['earchive']['version']  = MOD_EARCHIVE_VERSION;
         $this->B->conf_val['module']['earchive']['mod_type'] = 'lite';
         $this->B->conf_val['module']['earchive']['info']     = 'Email messages archive. Author: Armand Turpel <smart AT open-publisher.net>';     
+        $this->B->conf_val['module']['earchive']['passID']   = '1234';     
 
         return $success;
     } 
