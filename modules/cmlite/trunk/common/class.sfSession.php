@@ -56,7 +56,7 @@ class session
             $this->http =& $GLOBALS['HTTP_SESSION_VARS'];
         } 
         
-        session_save_path ( SF_BASE_DIR . '/admin/tmp/session' );
+        session_save_path ( SF_BASE_DIR . '/admin/modules/common/tmp/session_data' );
         session_start();
     }
 

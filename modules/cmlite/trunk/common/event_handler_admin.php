@@ -89,18 +89,9 @@ function common_event_handler( $evt )
             $B->conf_val['module']['common']['mod_type'] = 'common';
             $B->conf_val['module']['common']['info']     = 'This is the common modul';
 
-            //create session dir if it dosent exist
-            if(!is_dir(SF_BASE_DIR . '/admin/tmp/session'))
+            if(($success == TRUE) && !is_writeable( SF_BASE_DIR . '/admin/modules/common/tmp/session_data' ))
             {
-                if(!mkdir(SF_BASE_DIR . '/admin/tmp/session', SF_DIR_MODE))
-                {
-                    $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/admin/tmp/session';
-                    $success = FALSE;
-                }  
-            }
-            if(($success == TRUE) && !is_writeable( SF_BASE_DIR . '/admin/tmp/session' ))
-            {
-                $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/session';
+                $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/modules/common/tmp/session_data';
                 $success = FALSE;
             }            
 
