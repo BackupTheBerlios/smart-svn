@@ -27,7 +27,14 @@ class action_user_sys_setup extends action
         // Do setup 
 
         //create captcha_pics dir if it dosent exist
-        if(!is_writeable( SF_BASE_DIR . 'data/captcha' ))
+        if( !is_dir(SF_BASE_DIR . 'data/captcha') )
+        {
+            if( !@mkdir( SF_BASE_DIR . 'data/captcha', SF_DIR_MODE ) ) 
+            {
+                trigger_error('Cant create dir: '.SF_BASE_DIR . 'data/captcha', E_USER_WARNING);
+            }          
+        }
+        elseif(!is_writeable( SF_BASE_DIR . 'data/captcha' ))
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/captcha';
             $success = FALSE;
