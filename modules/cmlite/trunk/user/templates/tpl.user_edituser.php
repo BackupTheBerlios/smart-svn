@@ -20,7 +20,7 @@ function deleteuser(f, mes)
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="57%" align="left" valign="top">      <table width="400" border="0" cellspacing="3" cellpadding="3">
-      <?php if($B->tpl_error != FALSE): ?>
+      <?php if(isset($B->tpl_error)): ?>
       <tr>
         <td align="left" valign="top" class="itemerror"><?php echo $B->tpl_error; ?></td>
       </tr>

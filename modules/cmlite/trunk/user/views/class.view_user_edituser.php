@@ -36,9 +36,9 @@ class view_user_edituser extends view
      * @return bool
      */
     function perform()
-    {           
+    {  
         // check permission to modify user data
-        F( USER_FILTER,
+        M( MOD_USER,
            'permission',
            array( 'action'  => 'modify',
                   'user_id' => (int)$_REQUEST['uid']));
@@ -84,11 +84,6 @@ class view_user_edituser extends view
             $this->_reset_old_fields_data();
             return FALSE;
         }        
-        if (FALSE == $this->_check_empty_fields())
-        {
-            $this->_reset_old_fields_data();
-            return FALSE;
-        }
         if (FALSE == $this->_check_own_changes())
         {
             $this->_reset_old_fields_data();
@@ -123,7 +118,7 @@ class view_user_edituser extends view
         if($_POST['deluser'] == "1")
         {
             // check permission
-            $_is_logged_user = F( USER_FILTER,
+            $_is_logged_user = M( MOD_USER,
                                   'permission',
                                   array( 'action'  => 'is_logged_user',
                                          'user_id' => (int) $_POST['uid']));  
@@ -149,26 +144,6 @@ class view_user_edituser extends view
     }
 
     /**
-     * check if required fields are empty
-     *
-     * @return bool true on success else false
-     * @access privat
-     */       
-    function _check_empty_fields()
-    {
-        // check if some fields are empty
-        if(
-            empty($_POST['forename'])||
-            empty($_POST['lastname'])||
-            empty($_POST['email']))
-        {        
-            $this->B->tpl_error = 'You have fill out all fields!';
-            return FALSE;
-        }  
-        return TRUE;
-    }
-
-    /**
      * check if a user try to change own rights and status
      *
      * @return bool true on success else false
@@ -179,7 +154,7 @@ class view_user_edituser extends view
         if( ($_POST['rights_orig'] != (int)$_POST['rights']) || ($_POST['status_orig'] != (int)$_POST['status']) )    
         {
             // check permission
-            $_is_logged_user = F( USER_FILTER,
+            $_is_logged_user = M( MOD_USER,
                                   'permission',
                                   array( 'action'  => 'is_logged_user',
                                          'user_id' => (int) $_POST['uid']));  
@@ -203,7 +178,7 @@ class view_user_edituser extends view
         if( $_POST['rights_orig'] != (int)$_POST['rights'] )
         {
             // check permission
-            $_success = F( USER_FILTER,
+            $_success = M( MOD_USER,
                            'permission',
                            array( 'action'  => 'set_rights',
                                   'user_id' => (int) $_POST['uid'],
@@ -229,7 +204,7 @@ class view_user_edituser extends view
         if( $_POST['status_orig'] != (int)$_POST['status'] )
         {
             // check permission
-            $_success = F( USER_FILTER,
+            $_success = M( MOD_USER,
                            'permission',
                            array( 'action'  => 'set_status',
                                   'user_id' => (int) $_POST['uid'])); 
@@ -252,18 +227,18 @@ class view_user_edituser extends view
     function _update_user_data()
     {
         // prepare user data array
-        $_data = array( 'error'   => 'tpl_error',
-                        'user_id' => (int)$_REQUEST['uid'],
-                        'fields'  => array( 'forename' => $_POST['forename'],
-                                            'lastname' => $_POST['lastname'],
-                                            'email'    => $_POST['email'],
-                                            'rights'   => (int)$_POST['rights'],
-                                            'status'   => (int)$_POST['status'] ));
+        $_data = array( 'error'     => 'tpl_error',
+                        'user_id'   => (int)$_REQUEST['uid'],
+                        'user_data' => array( 'forename' => commonUtil::stripSlashes($_POST['forename']),
+                                              'lastname' => commonUtil::stripSlashes($_POST['lastname']),
+                                              'email'    => commonUtil::stripSlashes($_POST['email']),
+                                              'rights'   => (int)$_POST['rights'],
+                                              'status'   => (int)$_POST['status'] ));
             
         // update password if it isnt empty
         if(!empty($_POST['passwd']))
         {
-            $_data['fields']['passwd'] = md5($_POST['passwd']);
+            $_data['user_data']['passwd'] = md5($_POST['passwd']);
         }
             
         // update user data
@@ -274,7 +249,7 @@ class view_user_edituser extends view
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
             exit;
         }   
-        return TRUE;
+        return FALSE;
     }
 
     /**
@@ -291,43 +266,7 @@ class view_user_edituser extends view
         $this->B->tpl_data['passwd']   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
         $this->B->tpl_data['rights']   = $_POST['rights'];
         $this->B->tpl_data['status']   = $_POST['status'];            
-    }
-    
-    /**
-     * disable prepend filter chain by overloading the methode of the parent class
-     *
-     */
-    function prependFilterChain()
-    { 
-        // do nothing
-    }  
-    
-    /**
-     * disable append filter chain by overloading the methode of the parent class
-     *
-     */
-    function appendFilterChain()
-    { 
-        // do nothing
-    } 
-    
-    /**
-     * disable authentication by overloading the methode of the parent class
-     *
-     */
-    function auth()
-    {  
-        // do nothing
-    }  
-    
-    /**
-     * disable logout by overloading the methode of the parent class
-     *
-     */
-    function logout()
-    { 
-        // do nothing
-    }        
+    }       
 }
 
 ?>

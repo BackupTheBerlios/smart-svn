@@ -47,20 +47,14 @@ class view_user_adduser extends view
             $this->B->form_passwd   = '';
             $this->B->form_rights   = '';
             $this->B->form_status   = '';
-
-            // check if required fields are empty
-            if (FALSE == $this->_check_empty_fields())
-            {
-                $this->_reset_old_fields_data();
-                return TRUE;
-            }            
+         
 
             $_data = array( 'error'     => 'tpl_error',
-                            'user_data' => array('forename' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
-                                                 'lastname' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
-                                                 'email'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
-                                                 'login'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['login'])),
-                                                 'passwd'   => $this->B->db->quoteSmart(md5($_POST['passwd'])),
+                            'user_data' => array('forename' => commonUtil::stripSlashes($_POST['forename']),
+                                                 'lastname' => commonUtil::stripSlashes($_POST['lastname']),
+                                                 'email'    => commonUtil::stripSlashes($_POST['email']),
+                                                 'login'    => commonUtil::stripSlashes($_POST['login']),
+                                                 'passwd'   => commonUtil::stripSlashes($_POST['passwd']),
                                                  'rights'   => 1,
                                                  'status'   => 1));
             
@@ -83,28 +77,6 @@ class view_user_adduser extends view
     } 
     
     /**
-     * check if required fields are empty
-     *
-     * @return bool true on success else false
-     * @access privat
-     */       
-    function _check_empty_fields()
-    {
-        // check if some fields are empty
-        if(
-           empty($_POST['forename'])||
-           empty($_POST['lastname'])||
-           empty($_POST['email'])||
-           empty($_POST['login'])||
-           empty($_POST['passwd']))
-        {        
-            $this->B->tpl_error = 'You have fill out all fields!';
-            return FALSE;
-        }  
-        return TRUE;
-    }  
-    
-    /**
      * reset the form fields with old user data
      *
      * @access privat
@@ -117,46 +89,7 @@ class view_user_adduser extends view
         $this->B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
         $this->B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
         $this->B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));          
-    }    
-    
-    /**
-     * disable prepend filter chain by overloading the methode of the parent class
-     *
-     */
-    function prependFilterChain()
-    { 
-        // check permission to add new user
-        F( USER_FILTER,
-           'permission',
-           array( 'action'  => 'add'));
-    }  
-    
-    /**
-     * disable append filter chain by overloading the methode of the parent class
-     *
-     */
-    function appendFilterChain()
-    { 
-        // do nothing
-    } 
-    
-    /**
-     * disable authentication by overloading the methode of the parent class
-     *
-     */
-    function auth()
-    {  
-        // do nothing
-    }  
-    
-    /**
-     * disable logout by overloading the methode of the parent class
-     *
-     */
-    function logout()
-    { 
-        // do nothing
-    }        
+    }           
 }
 
 ?>

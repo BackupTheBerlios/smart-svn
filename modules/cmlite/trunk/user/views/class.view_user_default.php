@@ -50,43 +50,7 @@ class view_user_default extends view
                                     'forename',
                                     'lastname')));
         return TRUE;
-    }   
-    
-    /**
-     * disable prepend filter chain by overloading the methode of the parent class
-     *
-     */
-    function prependFilterChain()
-    { 
-        // do nothing
-    }  
-    
-    /**
-     * disable append filter chain by overloading the methode of the parent class
-     *
-     */
-    function appendFilterChain()
-    { 
-        // do nothing
-    } 
-    
-    /**
-     * disable authentication by overloading the methode of the parent class
-     *
-     */
-    function auth()
-    {  
-        // do nothing
-    }  
-    
-    /**
-     * disable logout by overloading the methode of the parent class
-     *
-     */
-    function logout()
-    { 
-        // do nothing
-    }        
+    }       
 }
 
 ?>
