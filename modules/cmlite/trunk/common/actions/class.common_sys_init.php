@@ -105,7 +105,7 @@ class common_sys_init
             }
            
             // launch setup screen
-            include( $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'setup', 'tpl' => 'index')) ); 
+            include( $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'setup', 'view' => 'index')) ); 
             
             // Send the output buffer to the client
             ob_end_flush();

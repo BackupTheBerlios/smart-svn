@@ -71,7 +71,7 @@ class common_get_module_view
         if( isset($data['m']) && isset($data['view']) )
         {
             $this->_module = $data['m'];
-            $this->_view    = $data['view'];
+            $this->_view   = $data['view'];
         }
         else
         {
@@ -131,7 +131,7 @@ class common_get_module_view
         {
             return SF_BASE_DIR . 'error.tpl.php';
         }
-        
+
         // path to the requested module template
         $template_file = SF_BASE_DIR . 'modules/' . $this->_module . '/templates/' . $this->_view . '.tpl.php';        
        

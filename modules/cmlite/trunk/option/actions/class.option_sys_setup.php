@@ -68,7 +68,6 @@ class option_sys_setup
             $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}bad_words (
                     word varchar(255) NOT NULL default '',
                     lang varchar(4) NOT NULL default '')"; 
-            
         }
         
         $result = $this->B->db->query($sql);
