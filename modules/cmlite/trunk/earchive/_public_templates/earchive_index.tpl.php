@@ -20,7 +20,7 @@
 </head>
 
 <body>
-<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+<table width="366%"  border="0" cellspacing="0" cellpadding="0">
     <tr>
         <td width="760" bgcolor="#0066FF">
             <table width="100%"  border="0" cellspacing="0" cellpadding="0">
@@ -28,7 +28,7 @@
                     <td width="3%"><img src="media/logo.gif" width="760" height="64" /></td>
                 </tr>
             </table></td>
-        <td bgcolor="#0066FF">&nbsp;</td>
+        <td width="2117" bgcolor="#0066FF">&nbsp;</td>
     </tr>
     <tr>
         <td align="left" valign="middle" bgcolor="#333333"><table width="760"  border="0" cellspacing="0" cellpadding="0">
@@ -48,7 +48,7 @@
                             <a href="index.php?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                             <?php if( $B->is_logged == TRUE ): ?>
-                            <a href="index.php?logout=1" class="topbarlink">logout</a>
+                            &nbsp;&nbsp;<a href="index.php?logout=1" class="topbarlink">logout</a>
                             <?php endif; ?>							
                         </td>
                         <td width="10%" align="left" valign="top">&nbsp;</td>
@@ -112,15 +112,21 @@
                             E-archive is a module of this framework.
                             It is still in a test phase. So there is no garuantee
                             that it is bug free.</p>
-                          <p class="pager">Current Version 0.1.6a</p>
+                          <p class="pager">Current Version 0.1.7a</p>
                           <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios</a></p>
-                            <h4 class="pager">Installation:</h4>
+                            <h3>Installation:</h3>
                             <p class="pager">Transfer the extracted archive to
                               your web server. You can even install E-archive
                               in a subdirectory. Point your navigator to this
                               directory. You should see an install menu. Follow
                               the instructions.</p>
-                            <p class="pager"><strong>Upgrade from version 0.1.5a:</strong></p>
+                            <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> PHP scripts must have write permissions to the following directories:</font></p>
+                            <ul>
+                              <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>/logs</strong></font></li>
+                              <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/modules/common/config</font></strong></li>
+                              <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/smart/tmp/session_data</font></strong></li>
+                            </ul>
+                            <h3>Upgrade from version 0.1.5a:</h3>
                             <p class="pager">This version is based on <a href="http://smart.open-publisher.net" target="_blank">smart frame</a> 0.3.2a which was designed from the ground up. To upgrade from previous e-archive versions you have to:</p>
                             <ul>
                               <li><font size="2">make backup of the whole earchive database, files and folders</font></li>
@@ -138,7 +144,7 @@
                               <li><font size="2">delete the following folders:<br />
                               <strong>/admin</strong><br />
                                 <strong>/plugins</strong>                              </font></li>
-                          </ul>                            <h4 class="pager">Administration</h4>
+                          </ul>                            <h3>Administration</h3>
                             <p class="pager">The following modules are installed:</p>
                             <ul class="pager">
                                 <li><strong>USER</strong> - User management.
@@ -161,7 +167,7 @@
                                 <li><strong>Earchive - </strong>Administration
                                   of email boxes to which this modul has access. </li>
                           </ul>
-                            <h4 class="pager">The E-archiv Module</h4>
+                            <h3>The E-archiv Module</h3>
                             <p class="pager">If you activate this module in the
                               top right select menu of the administration you
                               will see a page with all existing email accounts to
@@ -214,7 +220,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <br />
                                 You can set a &quot;passID&quot; value in the admin/options menu. It prevent that some one outside can activate the fetch email process.</li>
                             </ul>                            
-                            <h4 class="pager">The public templates </h4>
+                            <h3>The public templates </h3>
                             <p class="pager">In templates you can define the
                               layout of the public web page. You will find the
                               templates in the root folder of a E-archive installation.
@@ -271,14 +277,14 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                               templates in the same public root folder. You can
                               switch to this new template group in the OPTION
                               menu.</p>                            
-                            <h4 class="pager">ToDO                            </h4>
+                            <h3>ToDO</h3>
                             <ul>
                                 <li class="pager">Add a template if a visitor
                                   forgot account data.</li>
                                 <li class="pager">Switch to PEAR MDB2 if there
                                   is a stable release.</li>
                           </ul>
-                            <h4 class="pager">Get involved</h4>
+                            <h3>Get involved</h3>
                             <p class="pager">Please contact me if you have interests
                               to get involved in this project. Requirements:</p>
                             <ul>
@@ -289,14 +295,15 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 Subversion </li>
                                 <li class="pager">Teamwork</li>
                             </ul>                            
-                            <h4 class="pager">Contact</h4>
+                            <h3>Contact</h3>
                             <p class="pager">Armand Turpel &lt;<a href="mailto:smart@open-publisher.net">smart@open-publisher.net</a>&gt; </p>
-                            <h4 class="pager">Lizenz</h4>
+                            <h3>Licence</h3>
                             <p class="pager">GPL</p>
-                            <h3 class="pager">Technical requirements</h3>
+                            <h3>Technical requirements</h3>
                             <ul>
                                 <li class="pager">PHP &gt; 4.3 </li>
                                 <li class="pager">MySql &gt; 3.23.xx</li>
+                                <li class="pager">GD php extension</li>
                                 <li class="pager">IMAP php extension</li>
                                 <li class="pager">XML php extension</li>
                             </ul></td>
