@@ -55,7 +55,6 @@ class earchive_upgrade
             $sql = "ALTER TABLE 
                         {$this->B->sys['db']['table_prefix']}earchive_lists 
                     CHANGE lid lid INT(11) NOT NULL auto_increment,
-                    DROP INDEX lid,
                     ADD PRIMARY KEY (lid)";      
         
             $result = $this->B->db->query($sql);
@@ -80,9 +79,8 @@ class earchive_upgrade
             $sql = "ALTER TABLE 
                         {$this->B->sys['db']['table_prefix']}earchive_messages 
                     CHANGE mid mid INT(11) NOT NULL auto_increment,
-                    DROP INDEX mid,
                     ADD PRIMARY KEY (mid),
-                    ADD KEY mdate   (mdate)";      
+                    ADD INDEX       (mdate)";      
         
             $result = $this->B->db->query($sql);
 
@@ -106,7 +104,6 @@ class earchive_upgrade
             $sql = "ALTER TABLE 
                         {$this->B->sys['db']['table_prefix']}earchive_attach 
                     CHANGE aid aid INT(11) NOT NULL auto_increment,
-                    DROP INDEX aid,
                     ADD PRIMARY KEY (aid)";      
         
             $result = $this->B->db->query($sql);
