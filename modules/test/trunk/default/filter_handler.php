@@ -26,7 +26,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define( 'DEFAULT_FILTER' , 'default' );
 
 // register this filter                      
-if (FALSE == register_filter( EARCHIVE_FILTER,
+if (FALSE == register_filter( DEFAULT_FILTER,
                               array ( 'filter'         => DEFAULT_FILTER,
                                       'filter_handler' => 'default_filter_handler') ))
 {

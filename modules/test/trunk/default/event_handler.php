@@ -28,7 +28,7 @@ define ( 'MOD_DEFAULT' , 'default');
 define ( 'MOD_DEFAULT_VERSION' , '0.2');
 
 // register this handler                       
-if (FALSE == register_handler( MOD_ENTRY,
+if (FALSE == register_handler( MOD_DEFAULT,
                                array ( 'module'          => MOD_DEFAULT,
                                        'event_handler'   => 'default_event_handler',
                                        'menu_visibility' => TRUE) ))
