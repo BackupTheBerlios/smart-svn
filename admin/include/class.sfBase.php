@@ -57,13 +57,18 @@ class sfBase
       * @param string $target_id Name of the handler.  
       * @param array $code Message id to send to all registered handler.
       * @param mixed $data Additional data (optional).
-      * @return mixed
+      * @return mixed FALSE if handler dosent exist
       */ 
     function M( $target_id, $code, $data = FALSE )
     {
         $_event = array("target_id" => $target_id,
                         "code"      => $code,
-                        "data"      => $data);    
+                        "data"      => $data);  
+        
+        // if such a handler dosent exist return false
+        if(empty($this->handler_list[$target_id]))
+            return FALSE;
+            
         $descriptor = $this->handler_list[$target_id];
         // call the event handler function
         return $descriptor['event_handler']($_event);  

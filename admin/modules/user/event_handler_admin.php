@@ -73,7 +73,9 @@ function user_event_handler( $evt )
             $B->session->destroy();
             @header('Location: index.php');
             exit;
-            break;  
+            break; 
+        case EVT_LOAD_OPTIONS:       
+            break;               
         case EVT_SETUP:       
             if( count($base->tmp_error) == 0 )
             {

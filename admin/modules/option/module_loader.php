@@ -21,8 +21,13 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on ' . __FILE__);
 }
 
+// Init this variable
+$B->modul_options = FALSE;
+
+// If no module feature is requested. NO options of other modules.
 if(!isset($_GET['mf']))
 {
+    // Load the available templates
     $B->templ = array();
     $directory =& dir(SF_BASE_DIR);
 
@@ -30,7 +35,7 @@ if(!isset($_GET['mf']))
     {
         if (FALSE == is_dir(SF_BASE_DIR . '/' . $dirname))
         {
-            if(preg_match("/(^[^_]*).*\.tpl\.php$/", $dirname, $tmp))
+            if(preg_match("/(^[^_]+).*\.tpl\.php$/", $dirname, $tmp))
             {
                 if(!in_array($tmp[1], $B->templ))
                     $B->templ[] = $tmp[1];
@@ -40,11 +45,13 @@ if(!isset($_GET['mf']))
 
     $directory->close();
 }
+else
+{
+    //Load options of the requested modul
+    $B->modul_options = $B->M( $_GET['mf'], EVT_LOAD_OPTIONS);
+}
 
 // set the base template for this module
 $B->module = SF_BASE_DIR . '/admin/modules/option/templates/index.tpl.php';    
-
-// Assign module handler name
-$B->this_module = MOD_OPTION ;
 
 ?>
