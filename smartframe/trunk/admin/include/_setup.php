@@ -42,6 +42,20 @@ if(!is_writeable( SF_BASE_DIR . '/admin/tmp' ))
     $success = FALSE;
 }
 
+if(!is_writeable( SF_BASE_DIR . '/admin/config' ))
+{
+    trigger_error("Must be writeable: " . SF_BASE_DIR . "/admin/config\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/config';
+    $success = FALSE;
+}
+
+if(!is_writeable( SF_BASE_DIR . '/admin/config/cache' ))
+{
+    trigger_error("Must be writeable: " . SF_BASE_DIR . "/admin/config/cache\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/config/cache';
+    $success = FALSE;
+}
+
 // the version to install
 include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
 
