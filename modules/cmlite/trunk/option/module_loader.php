@@ -31,7 +31,7 @@ if(!isset($_GET['mf']))
     // Empty public web cache
     if(isset($_POST['cleancache']))
     {
-         include_once(SF_BASE_DIR.'/admin/lib/PEAR/Cache/Lite.php');
+         include_once(SF_BASE_DIR.'/admin/modules/user/PEAR/Cache/Lite.php');
                  
          $options = array(
              'cacheDir' => SF_BASE_DIR.'/admin/tmp/cache/'
@@ -44,23 +44,28 @@ if(!isset($_GET['mf']))
       elseif (isset($_POST['update_main_options_url']))
     {
         $B->sys['option']['url']        = $B->util->stripSlashes($_POST['site_url']);
+        $B->_modified = TRUE;
     }
     elseif (isset($_POST['update_main_options_email']))
     {
         $B->sys['option']['email']        = $B->util->stripSlashes($_POST['site_email']);
+        $B->_modified = TRUE;
     } 
     elseif (isset($_POST['update_main_options_title']))
     {
         $B->sys['option']['site_title'] = $B->util->stripSlashes($_POST['site_title']);
         $B->sys['option']['site_desc']  = $B->util->stripSlashes($_POST['site_desc']);
+        $B->_modified = TRUE;
     } 
     elseif (isset($_POST['update_main_options_charset']))
     {
         $B->sys['option']['charset']    = $B->util->stripSlashes($_POST['charset']);
+        $B->_modified = TRUE;
     }  
     elseif (isset($_POST['update_main_options_tpl']))
     {
         $B->sys['option']['tpl']        = $B->util->stripSlashes($_POST['tpl']);
+        $B->_modified = TRUE;
     }     
     
     // set options of other modules
@@ -69,6 +74,13 @@ if(!isset($_GET['mf']))
     $B->conf->setConfigValues( $B->sys );
     //  write a new file
     $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
+
+    // if some config are modified, reload the page
+    if($B->_modified == TRUE)
+    {
+        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=OPTION');
+        exit;
+    }
 
     // insert bad word languages list
     if(isset($_POST['update_main_options_badwordadd']) && !empty($_POST['bad_word_list']))

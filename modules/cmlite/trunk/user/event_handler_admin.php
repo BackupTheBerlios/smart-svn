@@ -81,6 +81,7 @@ function user_event_handler( $evt )
             {
                 $B->sys['option']['user']['allow_register'] = (bool)$_POST['userallowregister'];
                 $B->sys['option']['user']['register_type']  = $_POST['userregistertype'];
+                $B->_modified = TRUE;
             }
             break;             
         case EVT_GET_OPTIONS:  
@@ -125,7 +126,6 @@ else
 // set include path to the PEAR packages which is included in smartframe
 ini_set( 'include_path', SF_BASE_DIR . '/admin/modules/user/PEAR' . $tmp_separator . ini_get('include_path') );
 unset($tmp_separator);
-
 
 // class instance of DB if setup is done
 if($B->sys['info']['status'] == TRUE)
