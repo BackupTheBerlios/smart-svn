@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the filter module
-define( 'SYSTEM_FILTER' , 'SYSTEM' );
+define( 'SYSTEM_FILTER' , 'system' );
 
 // register this filter                      
 if (FALSE == $B->register_filter( SYSTEM_FILTER,
@@ -39,7 +39,7 @@ function system_filter_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'SYSTEM_FILTER_'.$evt['code'];
+    $class_name = 'system_filter_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
