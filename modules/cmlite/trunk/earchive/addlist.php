@@ -11,6 +11,7 @@
 
 /**
  * add user script
+ * this file is included in the class.EARCHIVE_SYS_LOAD_MODULE.php file
  *
  */
 
@@ -29,12 +30,12 @@ if(FALSE == earchive_rights::ask_access_to_list())
 }
 
 // Init form field values
-$B->form_error = FALSE;
-$B->form_name = '';
-$B->form_emailserver   = '';
-$B->form_email       = '';
-$B->form_description   = '';
-$B->form_status   = '';
+$this->B->form_error       = FALSE;
+$this->B->form_name        = '';
+$this->B->form_emailserver = '';
+$this->B->form_email       = '';
+$this->B->form_description = '';
+$this->B->form_status      = '';
 
 // Check if some form fields are empty
 if(
@@ -43,13 +44,13 @@ if(
     empty($_POST['email']))
 {
     // if empty assign form field with old values
-    $B->form_name        = htmlspecialchars(commonUtil::stripSlashes($_POST['name']));
-    $B->form_emailserver = htmlspecialchars(commonUtil::stripSlashes($_POST['emailserver']));
-    $B->form_email       = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-    $B->form_description = htmlspecialchars(commonUtil::stripSlashes($_POST['description']));
-    $B->form_status      = $_POST['status'];
+    $this->B->form_name        = htmlspecialchars(commonUtil::stripSlashes($_POST['name']));
+    $this->B->form_emailserver = htmlspecialchars(commonUtil::stripSlashes($_POST['emailserver']));
+    $this->B->form_email       = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
+    $this->B->form_description = htmlspecialchars(commonUtil::stripSlashes($_POST['description']));
+    $this->B->form_status      = $_POST['status'];
     
-    $B->form_error = 'You have fill out all fields!';
+    $this->B->form_error = 'You have fill out all fields!';
 }
 else
 {
@@ -58,18 +59,18 @@ else
 
     if(!@mkdir(SF_BASE_DIR . '/data/earchive/' . $list_folder, SF_DIR_MODE))
     {
-        $B->form_error = 'Cannot create list messages attachment folder! Contact the administrator.';
+        $this->B->form_error = 'Cannot create list messages attachment folder! Contact the administrator.';
     }
 
-    // add new email lsit
-    $B->tmp_data = array('name'        => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['name'])),
-                         'emailserver' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
-                         'email'       => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
-                         'description' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['description'])),
-                         'folder'      => $B->db->quoteSmart($list_folder),
+    // add new email list
+    $this->B->tmp_data = array('name'  => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['name'])),
+                         'emailserver' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
+                         'email'       => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
+                         'description' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['description'])),
+                         'folder'      => $this->B->db->quoteSmart($list_folder),
                          'status'      => (int)$_POST['status']);
              
-    if((FALSE === $B->form_error) && (FALSE !== $B->earchive->add_list($B->tmp_data)))
+    if((FALSE === $this->B->form_error) && (FALSE !== $this->B->earchive->add_list($this->B->tmp_data)))
     {
         @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=EARCHIVE');
         exit;

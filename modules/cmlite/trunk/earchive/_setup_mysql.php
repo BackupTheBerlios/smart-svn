@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 
 
 // create table if it dosent exist
-$sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_lists (
+$sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_lists (
         lid         INT(11) NOT NULL default 0,
         status      TINYINT NOT NULL default 1,
         name        VARCHAR(255) NOT NULL default '',
@@ -33,25 +33,25 @@ $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_
         KEY lid         (lid),
         KEY status      (status))";
 
-$result = $B->db->query($sql);
+$result = $this->B->db->query($sql);
 
 if (DB::isError($result))
 {
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
 }
 
-$result = $B->db->createSequence($B->conf_val['db']['table_prefix'].'earchive_seq_add_list');
+$result = $this->B->db->createSequence($this->B->conf_val['db']['table_prefix'].'earchive_seq_add_list');
 if (DB::isError($result))
 {
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
 }
    
 // create table if it dosent exist
-$sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_messages (
+$sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_messages (
         mid      INT(11) NOT NULL default 0,
         lid      INT(11) NOT NULL,
         subject  TEXT NOT NULL  default '',
@@ -62,26 +62,26 @@ $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_
         KEY mid         (mid),
         KEY lid         (lid))";
 
-$result = $B->db->query($sql);
+$result = $this->B->db->query($sql);
 
 if (DB::isError($result))
 {
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
 }
 
-$result = $B->db->createSequence($B->conf_val['db']['table_prefix'].'earchive_seq_add_message');
+$result = $this->B->db->createSequence($this->B->conf_val['db']['table_prefix'].'earchive_seq_add_message');
 
 if (DB::isError($result))
 {
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
 }
 
 // create table if it dosent exist
-$sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_attach (
+$sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_attach (
         aid      INT(11) NOT NULL default 0,
         mid      INT(11) NOT NULL,
         lid      INT(11) NOT NULL,
@@ -92,34 +92,34 @@ $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_
         KEY mid         (mid),
         KEY lid         (lid))";
 
-$result = $B->db->query($sql);
+$result = $this->B->db->query($sql);
 
 if (DB::isError($result))
 {
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
 }
 
-$result = $B->db->createSequence($B->conf_val['db']['table_prefix'].'earchive_seq_add_attach');
+$result = $this->B->db->createSequence($this->B->conf_val['db']['table_prefix'].'earchive_seq_add_attach');
 
 if (DB::isError($result))
 {
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
 }
 
-$sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_words_crc32 (
+$sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_words_crc32 (
           word int(11) NOT NULL default 0,
           mid  int(11) NOT NULL default 0,
           lid  int(11) NOT NULL default 0)";
-$result = $B->db->query($sql);
+$result = $this->B->db->query($sql);
 
 if (DB::isError($result))
 {
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
 }
     

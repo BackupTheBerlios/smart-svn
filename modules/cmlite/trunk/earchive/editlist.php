@@ -29,7 +29,7 @@ if(FALSE == earchive_rights::ask_access_to_list())
 }
 
 // init 
-$B->form_error = FALSE;
+$this->B->form_error = FALSE;
 
 // delete list
 if($_POST['dellist'] == 1)
@@ -39,7 +39,7 @@ if($_POST['dellist'] == 1)
     //
     if(TRUE == earchive_rights::ask_access_to_delete_list())
     {
-        $B->earchive->delete_list((int)$_REQUEST['lid']);
+        $this->B->earchive->delete_list((int)$_REQUEST['lid']);
         
         // delete word index of this list
         include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');        
@@ -50,7 +50,7 @@ if($_POST['dellist'] == 1)
     }    
     else
     {        
-        $B->form_error = 'You cant remove this list';    
+        $this->B->form_error = 'You cant remove this list';    
     }
 }
 
@@ -63,20 +63,20 @@ if(isset($_POST['editlist']))
         empty($_POST['emailserver'])||
         empty($_POST['email']))
     {        
-        $B->form_error = 'You have fill out all fields!';
+        $this->B->form_error = 'You have fill out all fields!';
     }
     else
     {
         
         // add new user
-        $B->tmp_data = array('name'        => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['name'])),
-                             'emailserver' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
-                             'email'       => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
-                             'description' => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['description'])),
+        $this->B->tmp_data = array('name'        => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['name'])),
+                             'emailserver' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
+                             'email'       => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
+                             'description' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['description'])),
                              'status'      => (int)$_POST['status']);
             
         // update list data
-        if(FALSE !== $B->earchive->update_list((int)$_REQUEST['lid'], $B->tmp_data))
+        if(FALSE !== $this->B->earchive->update_list((int)$_REQUEST['lid'], $this->B->tmp_data))
         {
             @header('Location: index.php?m=EARCHIVE');
             exit;
@@ -84,27 +84,27 @@ if(isset($_POST['editlist']))
         else
         {
             
-            $B->form_error = 'Error during update. Try again!';
+            $this->B->form_error = 'Error during update. Try again!';
         }
     }
 }
 else
 {
     // get list data
-    $B->tmp_fields = array('lid','name','status','email','emailserver','description');
-    $B->tpl_data = $B->earchive->get_list( (int)$_REQUEST['lid'], $B->tmp_fields );
-    unset($B->tmp_fields);
+    $this->B->tmp_fields = array('lid','name','status','email','emailserver','description');
+    $this->B->tpl_data = $this->B->earchive->get_list( (int)$_REQUEST['lid'], $this->B->tmp_fields );
+    unset($this->B->tmp_fields);
 }
 
 // if error restore the form fields values
-if(!empty($B->form_error))
+if(!empty($this->B->form_error))
 {
     // if empty assign form field with old values
-    $B->tpl_data['name']        = commonUtil::stripSlashes($_POST['name']);
-    $B->tpl_data['emailserver'] = commonUtil::stripSlashes($_POST['emailserver']);
-    $B->tpl_data['email']       = commonUtil::stripSlashes($_POST['email']);
-    $B->tpl_data['description'] = commonUtil::stripSlashes($_POST['description']);
-    $B->tpl_data['status']      = $_POST['status'];     
+    $this->B->tpl_data['name']        = commonUtil::stripSlashes($_POST['name']);
+    $this->B->tpl_data['emailserver'] = commonUtil::stripSlashes($_POST['emailserver']);
+    $this->B->tpl_data['email']       = commonUtil::stripSlashes($_POST['email']);
+    $this->B->tpl_data['description'] = commonUtil::stripSlashes($_POST['description']);
+    $this->B->tpl_data['status']      = $_POST['status'];     
 }
 
 ?>

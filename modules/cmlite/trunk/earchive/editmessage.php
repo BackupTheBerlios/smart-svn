@@ -29,7 +29,7 @@ if(FALSE == earchive_rights::ask_access_to_list())
 }
 
 // init 
-$B->form_error = FALSE;
+$this->B->form_error = FALSE;
 
 // Modify list data
 if(isset($_POST['editmessage']))
@@ -39,23 +39,23 @@ if(isset($_POST['editmessage']))
         empty($_POST['subject'])||
         empty($_POST['body']))
     {        
-        $B->form_error = 'You have fill out all fields!';
+        $this->B->form_error = 'You have fill out all fields!';
     }
     else
     {
         
         // add new user
-        $B->tmp_data = array('subject'     => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['subject'])),
-                             'body'        => $B->db->quoteSmart(commonUtil::stripSlashes($_POST['body'])));
+        $this->B->tmp_data = array('subject'     => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['subject'])),
+                             'body'        => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['body'])));
         
         // delete attachements on demande
         if(count($_POST['aid']) > 0)
         {
             $fields = array('lid','folder');
             // message folder
-            $data   = $B->earchive->get_message( (int)$_REQUEST['mid'], $fields );
+            $data   = $this->B->earchive->get_message( (int)$_REQUEST['mid'], $fields );
             // list folder
-            $l_data = $B->earchive->get_list( $data['lid'], $fields );        
+            $l_data = $this->B->earchive->get_list( $data['lid'], $fields );        
             
             $path = SF_BASE_DIR.'/data/earchive/'.$l_data['folder'].'/'.$data['folder'];
             
@@ -64,14 +64,14 @@ if(isset($_POST['editmessage']))
             // get attachment files and delete them
             foreach($_POST['aid'] as $aid)
             {
-                $file = $B->earchive->get_attach( $aid, $fields );
+                $file = $this->B->earchive->get_attach( $aid, $fields );
                 @unlink($path.'/'.$file['file']); 
-                $B->earchive->delete_attach_db_entry( $aid );
+                $this->B->earchive->delete_attach_db_entry( $aid );
             }
         }
         
         // update message data
-        if(FALSE !== $B->earchive->update_message((int)$_REQUEST['mid'], $B->tmp_data))
+        if(FALSE !== $this->B->earchive->update_message((int)$_REQUEST['mid'], $this->B->tmp_data))
         {
             @header('Location: index.php?m=EARCHIVE&mf=show_mess&lid='.(int)$_REQUEST["lid"].'&pageID='.(int)$_REQUEST["pageID"]);
             exit;
@@ -79,32 +79,32 @@ if(isset($_POST['editmessage']))
         else
         {
             
-            $B->form_error = 'Error during update. Try again!';
+            $this->B->form_error = 'Error during update. Try again!';
         }
     }
 }
 else
 {
     // get list data
-    $B->tmp_fields = array('mid','lid','subject','sender','body','folder');
-    $B->tpl_data = $B->earchive->get_message( (int)$_REQUEST['mid'], $B->tmp_fields );
-    unset($B->tmp_fields);
+    $this->B->tmp_fields = array('mid','lid','subject','sender','body','folder');
+    $this->B->tpl_data = $this->B->earchive->get_message( (int)$_REQUEST['mid'], $this->B->tmp_fields );
+    unset($this->B->tmp_fields);
 
     // get list data
-    $B->tmp_fields = array('aid','file','size','type');    
-    $B->tpl_attach = $B->earchive->get_message_attach( (int)$_REQUEST['mid'], $B->tmp_fields );
-    unset($B->tmp_fields);
+    $this->B->tmp_fields = array('aid','file','size','type');    
+    $this->B->tpl_attach = $this->B->earchive->get_message_attach( (int)$_REQUEST['mid'], $this->B->tmp_fields );
+    unset($this->B->tmp_fields);
 }
 
 // if error restore the form fields values
-if(!empty($B->form_error))
+if(!empty($this->B->form_error))
 {
     // if empty assign form field with old values
-    $B->tpl_data['subject'] = commonUtil::stripSlashes($_POST['subject']);
-    $B->tpl_data['body']    = commonUtil::stripSlashes($_POST['body']);
-    $B->tpl_data['mid']     = $_POST['mid'];
-    $B->tpl_data['lid']     = $_POST['lid'];
-    $B->tpl_data['pageID']  = $_POST['pageID'];
+    $this->B->tpl_data['subject'] = commonUtil::stripSlashes($_POST['subject']);
+    $this->B->tpl_data['body']    = commonUtil::stripSlashes($_POST['body']);
+    $this->B->tpl_data['mid']     = $_POST['mid'];
+    $this->B->tpl_data['lid']     = $_POST['lid'];
+    $this->B->tpl_data['pageID']  = $_POST['pageID'];
 }
 
 ?>
