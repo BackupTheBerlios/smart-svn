@@ -30,8 +30,9 @@ define ( 'MOD_OPTION_VERSION' , '0.1');
 // register this handler                       
 if (FALSE == $B->register_handler( 
                            MOD_OPTION,
-                           array ( 'module'        => MOD_OPTION,
-                                   'event_handler' => 'option_event_handler') ))
+                           array ( 'module'          => MOD_OPTION,
+                                   'event_handler'   => 'option_event_handler',
+                                   'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_OPTION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }

@@ -30,8 +30,9 @@ define ( 'MOD_ENTRY_VERSION' , '0.1');
 // register this handler                       
 if (FALSE == $B->register_handler( 
                            MOD_ENTRY,
-                           array ( 'module'        => MOD_ENTRY,
-                                   'event_handler' => 'entry_event_handler') ))
+                           array ( 'module'          => MOD_ENTRY,
+                                   'event_handler'   => 'entry_event_handler',
+                                   'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_ENTRY.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }

@@ -30,8 +30,9 @@ define ( 'MOD_TEST_VERSION' , '0.1');
 // register this handler                       
 if (FALSE == $B->register_handler( 
                             MOD_TEST,
-                            array ( 'module'        => MOD_TEST,
-                                    'event_handler' => 'test_event_handler') ))
+                            array ( 'module'          => MOD_TEST,
+                                    'event_handler'   => 'test_event_handler',
+                                    'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
