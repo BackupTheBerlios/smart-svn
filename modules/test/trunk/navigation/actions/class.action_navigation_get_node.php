@@ -13,33 +13,42 @@
  * action_navigation_get class 
  *
  */
+ 
+// PEAR File
+include_once('File.php');
 
-class action_navigation_get extends action
+class action_navigation_get_node extends action
 {
     /**
-     * Fill up an array with navigation elements
-     *
-     * Structure of the $data array:
-     * $data['var']           - array name where to store navigation array
+     * Fill up variables with navigation node title and text
      *
      * @param array $data
      */
     function perform( $data = FALSE )
     {
-        // get var name defined in the public template to store the result
-        $_result = & $this->B->$data['nav']; 
+        $this->fp = new File();
+        
+        // location of the node body (text)
+        $node  = SF_BASE_DIR . 'data/navigation/'.$data['node'];
+        
+        // assign the variable with the node text
+        $this->B->$data['body'] = nl2br($this->fp->readAll( $node ));
         
         // load navigation nodes
         $nav = array();
         include(SF_BASE_DIR . 'modules/navigation/_nav_data/nav_data.php');
         
+        // Look at the node id and assign the title of the requested node
         foreach($nav as $node)
         {
-            list($key, $val) = each($node);
-            $_result[] = array('node' => $key, 'title' => $node[$key]['title']);
-        }
-    }  
-    
+            list($id, $val) = each($node);
+            if($data['node'] == $id)
+            {
+                $this->B->$data['title'] = $node[$key]['title'];
+                break;
+            }
+        } 
+    }     
 }
 
 ?>
