@@ -147,7 +147,7 @@ class earchive_sys_setup
         
         $fields = array( 'mid'           => array( 'type'     => 'integer', 
                                                    'notnull'  => 1,
-                                                   'default'  => 0 ), 
+                                                   'default'  => 0), 
                          'lid'           => array( 'type'     => 'integer', 
                                                    'notnull'  => 1,
                                                    'default'  => 0 ),                           
@@ -156,7 +156,9 @@ class earchive_sys_setup
                          'sender'        => array( 'type'     => 'text',
                                                    'length'   => 1024),
                          'body'          => array( 'type'     => 'text'), 
-                         'mdate'         => array( 'type'     => 'time'),
+                         'mdate'         => array( 'type'     => 'timestamp',
+                                                   'notnull'  => 1,
+                                                   'default'  => '0000-00-00 00:00:00'),
                          'folder'        => array( 'type'     => 'text',
                                                    'length'   => 32) 
                        );

@@ -177,7 +177,9 @@ class user_sys_setup
                                               'default'  => 0 ), 
                          'md5_str'  => array( 'type'     => 'text',
                                               'length'   => 32),
-                         'reg_date' => array( 'type'     => 'time') 
+                         'reg_date' => array( 'type'     => 'timestamp',
+                                              'notnull'  => 1,
+                                              'default'  => '0000-00-00 00:00:00') 
                        );
                        
         $result = $this->B->dbmanager->createTable( $table, $fields );
