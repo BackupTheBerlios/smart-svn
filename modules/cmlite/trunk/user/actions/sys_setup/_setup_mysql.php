@@ -149,9 +149,9 @@ if($success != FALSE)
     }
     
     $sql = 'INSERT INTO '.$this->B->conf_val['db']['table_prefix'].'user_users 
-                (uid,forename,lastname,login,passwd,status,rights) 
+                (uid,forename,lastname,login,passwd,status,rights,email) 
               VALUES 
-                ('.$uid.','.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
+                ('.$uid.','.$forename.','.$lastename.','.$login.','.$passwd.',2,5,"admin@foo.com")';
         
     $result = $this->B->db->query($sql);
 
