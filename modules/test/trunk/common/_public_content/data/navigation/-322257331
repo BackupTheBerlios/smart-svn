@@ -15,8 +15,7 @@ Here we assemble the demanded data and assign variables, which the templates nee
 The job of actions can be very different. But in a short cut: Here we accomplish the job request, which is directed to a [./index.php?view=node&node=1282041485 module]. All this low level job, which can be very complex and difficult. Ex.: accessing data store. As a template and view programmer you will use actions like black boxes through event functions. You only have to know what should going in to receive an expected result. Furthermore before an action works on a request, it validates the transfered data. More on this issue at the [./index.php?view=node&node=150196115 actions] doc.
 
 +++ Events
-One more point, which you should keep in mind are Events, which are the (super) glue that holds every thing in the system together. Events are always directed to module actions classes through an intermediat global function M(). - At least here, oop fetishists will leave the plot - . 
-
+One more point, which you should keep in mind are Events, which are the (super) glue that holds every thing in the system together. Events are always directed to module actions classes through an intermediat global function M().
  Example:
 In a view, an event (ex.: get_childs) is directed to the module "navigation"; "give me all child nodes with status 2 (published) of the node ID defined in $_GET['node']". So the event distributor loads the "navigation" module action class in
 "modules/navigation/actions/class.action_navigation_get_childs.php"
