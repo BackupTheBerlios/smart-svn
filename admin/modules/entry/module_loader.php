@@ -21,10 +21,10 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on'. __FILE__);
 }
 
-// set the base template for this module
-$base->tpl->readTemplatesFromInput(  "admin/modules/entry/templates/index.tpl.html" );    
+// set the base template for this module   
+$base->tpl->assign( 'module', SF_BASE_DIR . "/admin/modules/entry/templates/index.tpl.php" );    
 
 // Assign module handler name
-$base->tpl->addVar( 'module', 'this_module', SF_EVT_HANDLER_ENTRY );
+$base->tpl->assign( 'this_module', SF_EVT_HANDLER_ENTRY );
 
 ?>

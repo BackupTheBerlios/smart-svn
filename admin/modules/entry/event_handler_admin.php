@@ -30,9 +30,7 @@ if (FALSE == $base->event->register_handler(
                            array ( 'module'        => SF_EVT_HANDLER_ENTRY,
                                    'event_handler' => 'entry_event_handler') ))
 {
-    patErrorManager::raiseError( 'handler',
-                                 'Handler exist', 
-                                 'The handler '.SF_EVT_HANDLER_ENTRY.' exist: '.__FILE__.' '.__LINE__  );        
+    trigger_error( 'The handler '.SF_EVT_HANDLER_ENTRY.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
 // The handler function
