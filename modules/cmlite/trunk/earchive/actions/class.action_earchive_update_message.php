@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_update_message class 
+ * action_earchive_update_message class 
  *
  */
  
-class earchive_update_message
+class action_earchive_update_message extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_update_message()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * update message data
      *

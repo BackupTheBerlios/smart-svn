@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_add_attach class 
+ * action_earchive_add_attach class 
  *
  */
  
-class earchive_add_attach
+class action_earchive_add_attach extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_add_attach()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * store attachment data
      *

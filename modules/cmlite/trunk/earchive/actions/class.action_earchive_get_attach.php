@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * EARCHIVE_ATTACH class 
+ * action_earchive_get_attach class 
  *
  */
  
-class earchive_get_attach
+class action_earchive_get_attach extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_get_attach()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Get a message attachment 
      *

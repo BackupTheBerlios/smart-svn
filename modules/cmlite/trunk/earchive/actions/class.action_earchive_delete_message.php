@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_delete_message class 
+ * action_earchive_delete_message class 
  *
  */
  
-class earchive_delete_message
+class action_earchive_delete_message extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_delete_message()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Delete email list message data and attachement folder
      *

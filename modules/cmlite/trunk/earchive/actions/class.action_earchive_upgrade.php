@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_upgrade class 
+ * action_common_upgrade class 
  *
  */
  
-class earchive_upgrade
+class action_earchive_upgrade extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_upgrade()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * upgarde the common module
      *

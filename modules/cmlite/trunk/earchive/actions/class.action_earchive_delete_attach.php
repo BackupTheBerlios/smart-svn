@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_delete_attach class 
+ * action_earchive_delete_attach class 
  *
  */
  
-class earchive_delete_attach
+class action_earchive_delete_attach extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_delete_attach()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * delete message attachment
      *

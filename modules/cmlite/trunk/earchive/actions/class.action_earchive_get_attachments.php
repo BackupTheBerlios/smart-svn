@@ -10,52 +10,28 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_get_list class 
+ * action_earchive_get_attachments class 
  *
  */
  
-class earchive_get_list
+class action_earchive_get_attachments extends action
 {
     /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_get_list()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
-    /**
-     * Assign template array with list data
+     * Assign array with message attachments data
      *
      * @param array $data
      */
     function perform( & $data )
     { 
-        if(empty($data['lid']) || empty($data['var']))
+        if(empty($data['mid']) || empty($data['var']))
         {
-            trigger_error("'lid' or 'var' is empty!\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error("'mid' or 'var' is empty!\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }
         
         // get var name to store the result
         $this->B->$data['var'] = array();
-        $result                = & $this->B->$data['var'];              
+        $_result               = & $this->B->$data['var'];              
         
         $comma = '';
         foreach ($data['fields'] as $f)
@@ -68,18 +44,34 @@ class earchive_get_list
             SELECT
                 {$_fields}
             FROM
-                {$this->B->sys['db']['table_prefix']}earchive_lists
+                {$this->B->sys['db']['table_prefix']}earchive_attach
             WHERE
-                lid={$data['lid']}";
-        
-        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+                mid={$data['mid']}            
+            ORDER BY
+                file ASC";
+
+        $result = $this->B->db->query($sql);
 
         if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            return FALSE;
         }
-
+        
+        $_result = array();
+        
+        if(is_object($result))
+        {
+            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+            {
+                $tmp = array();
+                foreach($data['fields'] as $f)
+                {
+                    $tmp[$f] = stripslashes($row[$f]);
+                }
+                $_result[] = $tmp;
+            }
+        }
+      
         return TRUE;     
     }    
 }

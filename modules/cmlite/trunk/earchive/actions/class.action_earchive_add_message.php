@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_add_message class 
+ * action_earchive_add_message class 
  *
  */
  
-class earchive_add_message
+class action_earchive_add_message extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_add_message()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * add message data
      *

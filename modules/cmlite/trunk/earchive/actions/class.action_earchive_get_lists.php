@@ -10,54 +10,40 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_get_attachments class 
+ * action_earchive_get_lists class 
  *
  */
  
-class earchive_get_attachments
+class action_earchive_get_lists extends action
 {
     /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_get_attachments()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
-    /**
-     * Assign array with message attachments data
+     * Assign template array with lists data
      *
      * @param array $data
      */
     function perform( & $data )
     { 
-        if(empty($data['mid']) || empty($data['var']))
+        if( empty($data['var']) )
         {
-            trigger_error("'mid' or 'var' is empty!\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error("'var' is empty!\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }
+
+        if( isset($data['status']) )
+        {
+            $status = $data['status'];
+        }
+        elseif( SF_SECTION == 'public' )
+        {
+            $status = 'status>1';
+        }
+        else
+        {
+            $status = 'status>0';
+        }
         
-        // get var name to store the result
-        $this->B->$data['var'] = array();
-        $_result               = & $this->B->$data['var'];              
-        
-        $comma = '';
+        $comma   = '';
+        $_fields = '';
         foreach ($data['fields'] as $f)
         {
             $_fields .= $comma.$f;
@@ -68,24 +54,27 @@ class earchive_get_attachments
             SELECT
                 {$_fields}
             FROM
-                {$this->B->sys['db']['table_prefix']}earchive_attach
+                {$this->B->sys['db']['table_prefix']}earchive_lists
             WHERE
-                mid={$data['mid']}            
+                {$status}
             ORDER BY
-                file ASC";
-
+                name ASC";
+        
         $result = $this->B->db->query($sql);
 
         if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
         }
         
-        $_result = array();
+        // get var name to store the result
+        $this->B->$data['var'] = array();
+        $_result               = & $this->B->$data['var'];
         
         if(is_object($result))
         {
-            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+            while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)
@@ -95,7 +84,6 @@ class earchive_get_attachments
                 $_result[] = $tmp;
             }
         }
-      
         return TRUE;     
     }    
 }

@@ -16,7 +16,7 @@
  *
  *
  */
-class earchive_word_indexer
+class action_earchive_word_indexer extends action
 {
     /**
      * Default word delimiters
@@ -52,27 +52,6 @@ class earchive_word_indexer
      * 
      */    
      var $_convert_str = array('"','\'','<','>','(',')','{','}','[',']','.',',',';',':','?','%','\\','#','$','*','=','/','|','!','~','°','@','_','`','´','^','’','‘','¨','©','®','«','»','·','×');
-
-    
-    /**
-     * Constructor
-     * @param int $word_length Minimal word length
-     * @param string $delimiters Word delimiters
-     */
-    function earchive_word_indexer()
-    {   
-
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
 
     /**
      * Launch some word indexer features

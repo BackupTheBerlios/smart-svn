@@ -10,18 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * earchive_search class 
+ * action_earchive_search class 
  *
  */
  
-class earchive_search
+class action_earchive_search extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-
     var $url_add = '';
     /**
      * chars to replace by space
@@ -45,24 +39,6 @@ class earchive_search
      * 
      */
     var $bad_word_array = array();
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_search()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
     
     /**
      * Searching for messages

@@ -17,32 +17,8 @@
 // the PEAR IMAP class
 include_once (SF_BASE_DIR . 'modules/common/PEAR/MAIL/IMAP.php');
  
-class earchive_fetch_emails
+class action_earchive_fetch_emails extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function earchive_fetch_emails()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * fetch emails from accounts
      *
