@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Auth Object class 
+ * User Authentication class 
  *
  * 
  *
@@ -21,7 +21,7 @@ class auth
     /**
      * authentication constructor
      *
-     * @return bool 
+     * @param string $section Interface section 'admin' or 'public'
      */
     function auth( $section )
     {        
@@ -64,7 +64,14 @@ class auth
             $this->is_user             = FAlSE;
         }
     }  
-    
+
+    /**
+     * Check login
+     *
+     * @param string $login
+     * @param string $passwd (not md5 encoded)
+     * @return mixed False on failure 
+     */    
     function checklogin($login, $passwd)
     {
         $passwd = md5($passwd);

@@ -17,7 +17,14 @@
  */
  
 class user
-{   
+{
+    /**
+     * get users data
+     *
+     * @param array $fields Field names of the user db table
+     * @param int $rights Get user with specific rights (FALSE get all)
+     * @return array Users data 
+     */ 
     function get_users( $fields, $rights = FALSE )
     {
         if($rights != FALSE)
@@ -55,7 +62,14 @@ class user
         }
         return $data;
     }
-    
+
+    /**
+     * get user data
+     *
+     * @param int $uid User id
+     * @param array $fields Field names of the user db table
+     * @return array User data 
+     */     
     function get_user( $uid, $fields )
     {
         $comma = '';
@@ -78,6 +92,11 @@ class user
         return $GLOBALS['B']->dbdata->getRow($result);
     } 
     
+    /**
+     * add user
+     *
+     * @param array $data associative array of user data
+     */     
     function add_user( $data )
     {
         if($this->login_exists($data['login']) > 0)
@@ -99,10 +118,13 @@ class user
                  '{$data['rights']}')";
         
         $GLOBALS['B']->dbdata->query($sql);
-        
-        return TRUE;
     } 
-
+    /**
+     * update user
+     *
+     * @param int $uid User id
+     * @param array $data associative array of user data
+     */
     function update_user( $uid, $data )
     {
         if($this->login_exists($data['login']) > 0)
@@ -132,6 +154,11 @@ class user
         return TRUE;
     } 
 
+    /**
+     * delete user
+     *
+     * @param int $uid User id
+     */
     function delete_user( $uid )
     {
         $sql = "
@@ -142,7 +169,13 @@ class user
         
         $GLOBALS['B']->dbdata->query($sql);
     }
-    
+
+    /**
+     * check if login exist
+     *
+     * @param string $login User login
+     * @return int Number of logins
+     */    
     function login_exists($login)
     {
         $sql = "
