@@ -55,13 +55,11 @@ class common_cache_get
         {            
             include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache/Lite.php');
             // Set a few options
-            $options = array( 'cacheDir' => SF_BASE_DIR . 'modules/common/tmp/cache/',
+            $options = array( 'cacheDir' => SF_BASE_DIR . 'modules/earchive/tmp/cache/',
                               'lifeTime' => (int)$this->B->sys['cache']['lifetime'] );  
             // Create a Cache_Lite object
             $this->B->cache = new Cache_Lite($options);
         }
-
-
 
         $_id_name = 'cacheID_1';
         if(!empty($data['id_name']))

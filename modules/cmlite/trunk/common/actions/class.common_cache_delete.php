@@ -49,10 +49,13 @@ class common_cache_delete
     {        
         // Include cache and create instance
         if(!is_object($this->B->cache))
-        {
-            include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache.php');            
-            $this->B->cache = new Cache('db', array('dsn'         => $this->B->dsn,
-                                                    'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
+        {            
+            include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache/Lite.php');
+            // Set a few options
+            $options = array( 'cacheDir' => SF_BASE_DIR . 'modules/earchive/tmp/cache/',
+                              'lifeTime' => (int)$this->B->sys['cache']['lifetime'] );  
+            // Create a Cache_Lite object
+            $this->B->cache = new Cache_Lite($options);
         }
                 
         $group = '';
