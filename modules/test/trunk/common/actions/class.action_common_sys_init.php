@@ -39,8 +39,8 @@ class action_common_sys_init extends action
         $this->B->sys = array();
 
         // include system config array $this->B->sys
-        if(file_exists(SF_BASE_DIR . 'modules/common/config/config.php'))
-            include_once( SF_BASE_DIR . 'modules/common/config/config.php' );  
+        if(file_exists(SF_BASE_DIR . 'data/common/config/config.php'))
+            include_once( SF_BASE_DIR . 'data/common/config/config.php' );  
 
         // if setup was done
         if($this->B->sys['info']['status'] == TRUE)

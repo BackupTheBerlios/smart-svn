@@ -77,9 +77,8 @@ class view_setup_index extends view
                 M( SF_BASE_MODULE, 
                     'sys_update_config', 
                      array( 'data'      => $this->B->conf_val,
-                             'file'     => SF_BASE_DIR . 'modules/'.SF_BASE_MODULE.'/config/config.php',
-                             'var_name' => 'this->B->sys',
-                             'type'     => 'PHPArray') );     
+                            'var_name' => 'this->B->sys',
+                            'type'     => 'PHPArray') );     
                              
                 @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
                 exit;  

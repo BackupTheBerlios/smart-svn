@@ -34,7 +34,7 @@ class action_common_sys_update_config extends action
         $root =& $c->parseConfig( $data['data'], $data['type'] );
 
         // save the modified config array
-        $c->writeConfig( $data['file'], $data['type'], array('name' => $data['var_name']) );  
+        $c->writeConfig( SF_BASE_DIR . 'data/'.SF_BASE_MODULE.'/config/config.php', $data['type'], array('name' => $data['var_name']) );  
     }    
 }
 

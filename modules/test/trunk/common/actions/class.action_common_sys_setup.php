@@ -39,15 +39,15 @@ class action_common_sys_setup extends action
         
         $this->B->conf_val['option']['cache']              = TRUE;
 
-        if( !is_writeable( SF_BASE_DIR . 'modules/common/config' ) )
+        if( !is_writeable( SF_BASE_DIR . 'data/common/config/' ) )
         {
-            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/config';
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common/config/';
             $success = FALSE;
         }
         
-        if( !is_writeable( SF_BASE_DIR . 'modules/common/tmp/cache' ) )
+        if( !is_writeable( SF_BASE_DIR . 'data/common/cache/' ) )
         {
-            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/cache';
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common/cache/';
             $success = FALSE;
         }        
             
