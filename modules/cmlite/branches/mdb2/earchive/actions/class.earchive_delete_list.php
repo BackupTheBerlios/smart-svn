@@ -63,7 +63,13 @@ class earchive_delete_list
         
         $result = $this->B->db->query($sql);     
 
-        $row = &$result->FetchRow( DB_FETCHMODE_ASSOC );
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }
+
+        $row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC );
         
         $folder = $row['folder'];
         
@@ -82,7 +88,13 @@ class earchive_delete_list
             WHERE
                 lid={$data['lid']}";
         
-        $this->B->db->query($sql);
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }
         
         // delete list messages
         $sql = "
@@ -91,7 +103,13 @@ class earchive_delete_list
             WHERE
                 lid={$data['lid']}";
         
-        $this->B->db->query($sql);    
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }  
         
         // delete list messages
         $sql = "
@@ -100,7 +118,13 @@ class earchive_delete_list
             WHERE
                 lid={$data['lid']}";
         
-        $this->B->db->query($sql); 
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }
         
         // delete list messages word indexes
         $sql = "
@@ -109,7 +133,13 @@ class earchive_delete_list
             WHERE
                 lid={$data['lid']}";
         
-        $this->B->db->query($sql);    
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }    
         
         return TRUE;
     }    

@@ -138,7 +138,7 @@ class earchive_fetch_emails
                 // list id of this message
                 $this->_message_data['lid'] = $account['lid'];
                 
-                $this->_message_data['folder'] = $this->B->db->quoteSmart($_folder = commonUtil::unique_md5_str());
+                $this->_message_data['folder'] = $this->B->db->quote($_folder = commonUtil::unique_md5_str());
                 
                 // add message in db table
                 if(FALSE == ($message_id = $this->B->M( MOD_EARCHIVE, 'add_message', $this->_message_data ) ))
@@ -196,8 +196,8 @@ class earchive_fetch_emails
                 $_file = $this->_decodeEmailHeader($this->_msg->msg[$mid]['at']['fname'][$i]);
                 
                 $att_data['path_file'] = $path.'/'.$_file;
-                $att_data['file']      = $this->B->db->quoteSmart($_file);
-                $att_data['type']      = $this->B->db->quoteSmart($this->_msg->msg[$mid]['at']['ftype'][$i]);
+                $att_data['file']      = $this->B->db->quote($_file);
+                $att_data['type']      = $this->B->db->quote($this->_msg->msg[$mid]['at']['ftype'][$i]);
                 $att_data['size']      = $this->_msg->msg[$mid]['at']['fsize'][$i];
                 $att_data['mid']       = $message_id;
                 $att_data['lid']       = $account['lid'];
@@ -271,7 +271,7 @@ class earchive_fetch_emails
                 $this->_message_data['body'] .= ' ';
             }                   
         }
-        $this->_message_data['body'] = $this->B->db->quoteSmart($this->_message_data['body']);
+        $this->_message_data['body'] = $this->B->db->quote($this->_message_data['body']);
         return TRUE;
     }
     /**
@@ -323,9 +323,9 @@ class earchive_fetch_emails
             $this->_message_data['sender'] = "&lt; no sender &gt;";
         }
         
-        $this->_message_data['sender']  = $this->B->db->quoteSmart($this->_html_activate_links($this->_message_data['sender']));
-        $this->_message_data['subject'] = $this->B->db->quoteSmart($this->_message_data['subject']);
-        $this->_message_data['mdate']   = $this->B->db->quoteSmart(date('Y-m-d H:i:s', $this->_msg->header[$mid]['udate']));
+        $this->_message_data['sender']  = $this->B->db->quote($this->_html_activate_links($this->_message_data['sender']));
+        $this->_message_data['subject'] = $this->B->db->quote($this->_message_data['subject']);
+        $this->_message_data['mdate']   = $this->B->db->quote(date('Y-m-d H:i:s', $this->_msg->header[$mid]['udate']));
     
         return TRUE;
     }

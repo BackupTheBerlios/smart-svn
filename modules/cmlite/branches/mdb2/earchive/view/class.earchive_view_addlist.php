@@ -70,11 +70,12 @@ class earchive_view_addlist
             else
             {
                // add new email list
-                $this->B->tmp_data = array('name'  => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['name'])),
-                             'emailserver' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
-                             'email'       => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
-                             'description' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['description'])),
-                             'folder'      => $this->B->db->quoteSmart($list_folder),
+                $this->B->tmp_data = array(
+                             'name'        => $this->B->db->quote(commonUtil::stripSlashes($_POST['name'])),
+                             'emailserver' => $this->B->db->quote(commonUtil::stripSlashes($_POST['emailserver'])),
+                             'email'       => $this->B->db->quote(commonUtil::stripSlashes($_POST['email'])),
+                             'description' => $this->B->db->quote(commonUtil::stripSlashes($_POST['description'])),
+                             'folder'      => $this->B->db->quote($list_folder),
                              'status'      => (int)$_POST['status']);
              
                 if(TRUE === $this->B->M( MOD_EARCHIVE, 'add_list', $this->B->tmp_data))

@@ -58,7 +58,7 @@ class earchive_add_list
 
         $lid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_seq_add_list');
 
-        if (DB::isError($lid)) 
+        if (MDB2::isError($lid)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
@@ -79,7 +79,7 @@ class earchive_add_list
 
         $result = $this->B->db->query($sql);
         
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;

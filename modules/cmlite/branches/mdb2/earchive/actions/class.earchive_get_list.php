@@ -72,9 +72,11 @@ class earchive_get_list
             WHERE
                 lid={$data['lid']}";
         
-        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $_result = $this->B->db->query($sql);
+        
+        $result = $_result->fetchRow( MDB2_FETCHMODE_ASSOC );
 
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;

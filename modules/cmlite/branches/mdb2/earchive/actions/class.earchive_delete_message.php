@@ -82,7 +82,13 @@ class earchive_delete_message
             WHERE
                 mid={$data['mid']}";
         
-        $this->B->db->query($sql);    
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }   
         
         // delete list messages
         $sql = "
@@ -91,7 +97,13 @@ class earchive_delete_message
             WHERE
                 mid={$data['mid']}";
         
-        $this->B->db->query($sql); 
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }
         
         // delete list messages word indexes
         $sql = "
@@ -100,7 +112,13 @@ class earchive_delete_message
             WHERE
                 mid={$data['mid']}";
         
-        $this->B->db->query($sql);     
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }  
         
         return TRUE;
     }    

@@ -78,7 +78,7 @@ class earchive_add_attach
     {
         $aid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'earchive_seq_add_attach');
 
-        if (DB::isError($aid)) 
+        if (MDB2::isError($aid)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
@@ -97,7 +97,7 @@ class earchive_add_attach
 
         $result = $this->B->db->query($sql);
         
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;

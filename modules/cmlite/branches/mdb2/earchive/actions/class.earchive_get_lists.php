@@ -86,7 +86,7 @@ class earchive_get_lists
         
         $result = $this->B->db->query($sql);
 
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
@@ -98,7 +98,7 @@ class earchive_get_lists
         
         if(is_object($result))
         {
-            while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
+            while($row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)

@@ -72,6 +72,13 @@ class earchive_get_messages
         {
             $data['pager']['limit'] = 15;
         }        
+
+        if(empty($_GET['pageID']) || ($_GET['pageID']==1))
+            $page = 0;
+        else
+            $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
+        
+        $this->B->db->setLimit( (string)$data['pager']['limit'], (string)$page );
         
         $sql = "
             SELECT
@@ -82,14 +89,10 @@ class earchive_get_messages
                 lid={$data['lid']} 
             {$order}";
 
-        if(empty($_GET['pageID']) || ($_GET['pageID']==1))
-            $page = 0;
-        else
-            $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
             
-        $result = $this->B->db->limitQuery( $sql, $page, $data['pager']['limit'] );
+        $result = $this->B->db->query( $sql );
 
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
@@ -100,7 +103,7 @@ class earchive_get_messages
 
         if(is_object($result))
         {
-            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+            while($row = $result->fetchRow( MDB2_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)
@@ -136,7 +139,11 @@ class earchive_get_messages
             WHERE
                 lid={$lid}";        
 
-        $_result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $result = $this->B->db->query( $sql );
+        
+        //$_result = $this->B->db->getRow( $sql, NULL, array(), NULL,  DB_FETCHMODE_ASSOC );
+
+        $_result = $result->fetchRow( DB_FETCHMODE_ASSOC );
 
         $params['totalItems'] = $_result['num_rows'];
         

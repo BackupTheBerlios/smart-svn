@@ -63,7 +63,9 @@ class earchive_delete_attach
             WHERE
                 mid={$data['mid']}";
 
-        $m_data = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $_result = $this->B->db->query($sql);
+        
+        $m_data  = $_result->fetchRow( MDB2_FETCHMODE_ASSOC );
         
         // get list folder of message
         $sql = "
@@ -74,7 +76,9 @@ class earchive_delete_attach
             WHERE
                 lid={$m_data['lid']}";
         
-        $l_data = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $_result = $this->B->db->query($sql);
+        
+        $l_data  = $_result->fetchRow( MDB2_FETCHMODE_ASSOC );
 
         // full path of message data folder
         $path = SF_BASE_DIR.'data/earchive/'.$l_data['folder'].'/'.$m_data['folder'];
@@ -89,9 +93,10 @@ class earchive_delete_attach
                     {$this->B->sys['db']['table_prefix']}earchive_attach 
                 WHERE 
                     aid={$data['aid']}";
+       
         $result = $this->B->db->query($sql);   
             
-        $row = $result->FetchRow( DB_FETCHMODE_ASSOC );
+        $row = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
         
         // delete attachment file
         @unlink($path.'/'.$row['file']); 
