@@ -52,11 +52,11 @@ class action_navigation_get_tree extends action
         if(SF_SECTION == 'public')
         {
             // check if cache ID exists
-            if ( M( MOD_COMMON, 
-                    'cache_get',
-                    array('result'     => $data['result'],
-                          'cacheID'    => SF_SECTION.'tree'.$_node.$status,
-                          'cacheGroup' => 'navigation-tree'))) 
+            if ( SF_IS_VALID_ACTION == M( MOD_COMMON, 
+                                          'cache_get',
+                                          array('result'     => $data['result'],
+                                                'cacheID'    => SF_SECTION.'tree'.$_node.$status,
+                                                'cacheGroup' => 'navigation-tree'))) 
             {
                 return SF_IS_VALID_ACTION;
             }  
