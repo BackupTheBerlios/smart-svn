@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * USER_SET_OPTIONS class 
+ * user_view_options class 
  *
  */
  
-class USER_SET_OPTIONS
+class user_view_options
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class USER_SET_OPTIONS
      * constructor
      *
      */
-    function USER_SET_OPTIONS()
+    function user_view_options()
     {
         $this->__construct();
     }

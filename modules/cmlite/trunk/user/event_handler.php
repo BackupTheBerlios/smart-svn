@@ -57,13 +57,13 @@ function user_event_handler( $evt )
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
         }
-        return FALSE;
     }
     else
     {
         // perform the request if the requested object exists
         return $B->$class_name->perform( $evt['data'] );
     }
+    return TRUE;
 }
 
 ?>

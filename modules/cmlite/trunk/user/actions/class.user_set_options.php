@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_sys_logout class 
+ * user_set_options class 
  *
  */
  
-class user_sys_logout
+class user_set_options
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class user_sys_logout
      * constructor
      *
      */
-    function user_sys_logout()
+    function user_set_options()
     {
         $this->__construct();
     }
@@ -41,17 +41,21 @@ class user_sys_logout
     }
     
     /**
-     * If a logout request was done
+     * Set options for this module
      *
      * @param array $data
      */
     function perform( $data )
-    {            
-        // include here additional clean up code. 
-        // destroying sessions,....
-        $this->B->session->destroy();
-        
-    }    
+    {    
+        // set user options 
+        // this event comes from the option module
+        if(isset($_POST['update_user_options_allowreg']))
+        {
+            $this->B->sys['option']['user']['allow_register'] = (bool)$_POST['userallowregister'];
+            $this->B->sys['option']['user']['register_type']  = $_POST['userregistertype'];
+            $this->B->_modified = TRUE;
+        }
+    } 
 }
 
 ?>

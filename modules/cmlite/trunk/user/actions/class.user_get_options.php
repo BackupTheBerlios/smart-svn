@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * USER_GET_OPTIONS class 
+ * user_get_options class 
  *
  */
  
-class USER_GET_OPTIONS
+class user_get_options
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class USER_GET_OPTIONS
      * constructor
      *
      */
-    function USER_GET_OPTIONS()
+    function user_get_options()
     {
         $this->__construct();
     }
@@ -49,8 +49,8 @@ class USER_GET_OPTIONS
     function perform( $data )
     {
         // get user options template 
-        // to include in the option module
-        $this->B->mod_option[] = SF_BASE_DIR.'/admin/modules/user/templates/option.tpl.php';    
+        // to include in the option module        
+        $this->B->mod_option[] = $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'user', 'tpl' => 'option') );
     } 
 }
 
