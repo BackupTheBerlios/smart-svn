@@ -21,21 +21,20 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'SF_EVT_HANDLER_USER' , 'user');
+define ( 'MOD_USER' , 'USER');
 
 // register this handler                       
-if (FALSE == $base->event->register_handler( 
-                            SF_EVT_HANDLER_USER,
-                            array ( 'module'        => SF_EVT_HANDLER_USER,
-                                    'event_handler' => 'user_event_handler') ))
+if (FALSE == $B->register_handler(MOD_USER,
+                           array ( 'module'        => MOD_USER,
+                                   'event_handler' => 'user_event_handler') ))
 {
-    trigger_error( 'The handler '.SF_EVT_HANDLER_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+    trigger_error( 'The handler '.MOD_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 } 
 
 // The handler function
 function user_event_handler( $evt )
 {
-    global $base;
+    global $B;
 
     switch( $evt['code'] )
     {

@@ -22,45 +22,47 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'SF_EVT_HANDLER_OPTION' , 'option');
+define ( 'MOD_OPTION' , 'OPTION');
 
 // register this handler                       
-if (FALSE == $base->event->register_handler( 
-                           SF_EVT_HANDLER_OPTION,
-                           array ( 'module'        => SF_EVT_HANDLER_OPTION,
+if (FALSE == $B->register_handler( 
+                           MOD_OPTION,
+                           array ( 'module'        => MOD_OPTION,
                                    'event_handler' => 'option_event_handler') ))
 {
-    trigger_error( 'The handler '.SF_EVT_HANDLER_OPTION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+    trigger_error( 'The handler '.MOD_OPTION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
 // The handler function
 function option_event_handler( $evt )
 {
-    global $base;
+    global $B;
 
     switch( $evt['code'] )
     {
-        case SF_EVT_LOAD_INIT_OPTION:
+        case EVT_LOAD_INIT_OPTION:
             // get all system options
-            $base->sql = "SELECT * FROM options";
-            if(!$base->result = sqlite_unbuffered_query($base->dbconn_system, $base->sql))
+            $sql = "SELECT * FROM options";
+            if(!$result = sqlite_unbuffered_query($B->dbconn_system, $sql))
             {
-                trigger_error("ERROR: " . @sqlite_error_string(@sqlite_last_error ( $base->dbconn_system )) . "\nFILE: " . __FILE__ . "\nLINE: " . __LINE__ . "\n\n");
+                trigger_error("ERROR: " . @sqlite_error_string(@sqlite_last_error ( $B->dbconn_system )) . "\nFILE: " . __FILE__ . "\nLINE: " . __LINE__ . "\n\n");
             }
             
-            $row = sqlite_fetch_array($base->result, SQLITE_ASSOC);
+            $row = sqlite_fetch_array($result, SQLITE_ASSOC);
             foreach($row as $key => $value)
             {
-                $base->tpl->assign($key, $value);
+                $B->$key = $value;
             }
-            
+            unset($row);
+            unset($result);
+            unset($sql);
             break;      
-        case SF_EVT_LOAD_MODULE:
+        case EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           
             break;             
-        case SF_EVT_INIT:    
+        case EVT_INIT:    
             break; 
-        case SF_EVT_LOGOUT:  
+        case EVT_LOGOUT:  
             break;             
     }
 }

@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 /**
  * error log types ('LOG|SHOW|DIE|MAIL')
  */
-define('SF_ERROR_HANDLE',               'SHOW');
+define('SF_ERROR_HANDLE',               'SHOW|LOG');
 
 /**
  * error reporting
@@ -56,38 +56,38 @@ define('SF_FILE_MODE',                   0755);
 /**
  * The module (name) which takes the authentication part.
  */
-define('SF_AUTH_MODULE',                 'user');
+define('SF_AUTH_MODULE',                 'USER');
 
 /**
  * The module (name) which takes the global options part.
  */
-define('SF_OPTION_MODULE',               'option');
+define('SF_OPTION_MODULE',               'OPTION');
 
 /**
  * The module (name) which should be loaded by default.
  */
-define('SF_DEFAULT_MODULE',              'entry');
+define('SF_DEFAULT_MODULE',              'ENTRY');
 
 
 /**
  * Event types.
  */
-define('SF_EVT_TYPE_BROADCAST',          1);
-define('SF_EVT_TYPE_DIRECTED' ,          2); 
+define('EVT_TYPE_BROADCAST',          1);
+define('EVT_TYPE_DIRECTED' ,          2); 
 
 
 /**
  * Basic event codes.
  */
-define('SF_EVT_AUTHENTICATE',            1);
-define('SF_EVT_INIT',                    2);
-define('SF_EVT_LOGOUT',                  3);
-define('SF_EVT_LOAD_MODULE',             4);
-define('SF_EVT_END',                     5);
-define('SF_EVT_DEBUG',                   6);
-define('SF_EVT_SETUP',                   7);
-define('SF_EVT_LOAD_INIT_OPTION',        8);
-define('SF_EVT_SETUP_FINISH',            9);
+define('EVT_AUTHENTICATE',            1);
+define('EVT_INIT',                    2);
+define('EVT_LOGOUT',                  3);
+define('EVT_LOAD_MODULE',             4);
+define('EVT_END',                     5);
+define('EVT_DEBUG',                   6);
+define('EVT_SETUP',                   7);
+define('EVT_LOAD_INIT_OPTION',        8);
+define('EVT_SETUP_FINISH',            9);
 
 
 ?>

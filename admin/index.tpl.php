@@ -2,8 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <title>Admin</title>
-<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $charset; ?>" />
-<link href="media/<?php echo $css_folder; ?>/main.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->charset; ?>" />
+<link href="media/<?php echo $B->css_folder; ?>/main.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {
@@ -33,7 +33,7 @@ function go(x){
                         <form action="index.php" method="post">
             <select name="m" onChange="go('index.php?m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
                         <option value="">Registered module handlers</option>
-                        <?php foreach($handler as $h): ?>
+                        <?php foreach($B->mod_list as $h): ?>
                             <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
                         <?php endforeach; ?>
             </select>
@@ -43,7 +43,7 @@ function go(x){
           </table></td>
   </tr>
   <tr>
-    <td width="20%" align="left" valign="top"><?php include( $module ); ?></td>
+    <td width="20%" align="left" valign="top"><?php include( $B->module ); ?></td>
   </tr>
 </table>
 </body>

@@ -22,30 +22,30 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'SF_EVT_HANDLER_ENTRY' , 'entry');
+define ( 'MOD_ENTRY' , 'ENTRY');
 
 // register this handler                       
-if (FALSE == $base->event->register_handler( 
-                           SF_EVT_HANDLER_ENTRY,
-                           array ( 'module'        => SF_EVT_HANDLER_ENTRY,
+if (FALSE == $B->register_handler( 
+                           MOD_ENTRY,
+                           array ( 'module'        => MOD_ENTRY,
                                    'event_handler' => 'entry_event_handler') ))
 {
-    trigger_error( 'The handler '.SF_EVT_HANDLER_ENTRY.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+    trigger_error( 'The handler '.MOD_ENTRY.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
 // The handler function
 function entry_event_handler( $evt )
 {
-    global $base;
+    global $B;
 
     switch( $evt["code"] )
     {
-        case SF_EVT_LOAD_MODULE:
+        case EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/entry/module_loader.php');          
             break;             
-        case SF_EVT_INIT:        
+        case EVT_INIT:        
             break; 
-        case SF_EVT_LOGOUT:  
+        case EVT_LOGOUT:  
             break;             
     }
 }

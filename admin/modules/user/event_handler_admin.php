@@ -21,15 +21,15 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'SF_EVT_HANDLER_USER' , 'user');
+define ( 'MOD_USER' , 'USER');
 
 // register this handler                       
-if (FALSE == $base->event->register_handler( 
-                            SF_EVT_HANDLER_USER,
-                            array ( 'module'        => SF_EVT_HANDLER_USER,
+if (FALSE == $B->register_handler( 
+                            MOD_USER,
+                            array ( 'module'        => MOD_USER,
                                     'event_handler' => 'user_event_handler') ))
 {
-    trigger_error( 'The handler '.SF_EVT_HANDLER_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+    trigger_error( 'The handler '.MOD_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
                                         
                                         
@@ -37,26 +37,25 @@ if (FALSE == $base->event->register_handler(
 // The handler function
 function user_event_handler( $evt )
 {
-    global $base;
+    global $B;
 
     switch( $evt["code"] )
     {
-        case SF_EVT_AUTHENTICATE:
+        case EVT_AUTHENTICATE:
             // Include authentication script
             include(SF_BASE_DIR.'/admin/modules/user/auth.php');         
             break;
-        case SF_EVT_LOAD_MODULE:
+        case EVT_LOAD_MODULE:
             // Include authentication script
             include(SF_BASE_DIR.'/admin/modules/user/module_loader.php');          
             break;             
-        case SF_EVT_INIT:
+        case EVT_INIT:
             // Include authentication script
             include(SF_BASE_DIR.'/admin/modules/user/init.php');          
             break; 
-        case SF_EVT_LOGOUT:  
-            $base->user->logOut();
+        case EVT_LOGOUT:  
             break;  
-        case SF_EVT_SETUP:       
+        case EVT_SETUP:       
             if( count($base->tmp_error) == 0 )
             {
                 include(SF_BASE_DIR.'/admin/modules/user/_setup.php'); 

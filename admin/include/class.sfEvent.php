@@ -54,6 +54,40 @@ class sfEvent
         // call the event handler function
         return $descriptor["event_handler"]($_event);  
     }
+    
+    /**
+     * Alias Send a directed event
+     *
+     * @param string $target_id Name of the handler.  
+     * @param array $code Message id to send to all registered handler.
+     * @param mixed $data Additional data (optional).
+     */ 
+    function M( $target_id, $code, $data = FALSE )
+    {
+        $_event = array("target_id" => $target_id,
+                        "code"      => $code,
+                        "data"      => $data);    
+        $descriptor = $this->handler_list[$target_id];
+        // call the event handler function
+        return $descriptor["event_handler"]($_event);  
+    }    
+
+    /**
+     * Alias Send a broadcast event
+     *
+     * @param array $code Message id to send to all registered handler.
+     * @param mixed $data Additional data (optional).
+     */ 
+    function B( $code, $data = FALSE )
+    {
+        $_event = array("code"      => $code,
+                        "data"      => $data);  
+        foreach( $this->handler_list as $descriptor )
+        {
+            // call the event handler function
+            $descriptor["event_handler"]($_event);
+        }   
+    }
 
     /**
      * Send a broadcast event

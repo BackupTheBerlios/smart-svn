@@ -31,31 +31,31 @@ include (SF_BASE_DIR . '/admin/include/base.inc.php');
 
 // send an authentication message to the handler which takes
 // the authentication part
-//$base->event->directed ( SF_AUTH_MODULE, SF_EVT_AUTHENTICATE );
+//$B->event->directed ( SF_AUTH_MODULE, SF_EVT_AUTHENTICATE );
 
 // Send a init message to all registered handlers
-$base->event->broadcast (SF_EVT_INIT);
+$B->B(EVT_INIT);
 
 // Logout
 if ( $_REQUEST['logout'] == 1 )
 {
-    $base->event->broadcast (SF_EVT_LOGOUT);
+    $B->B(EVT_LOGOUT);
     header ( 'Location: ../index.php' );
     exit;
 }
 
 // check if the demanded module (handler) is registered else load default module
-if ( TRUE == $base->event->is_handler ($_REQUEST['m']))
+if ( TRUE == $B->is_handler ($_REQUEST['m']))
 {
-    $base->event->directed ($_REQUEST['m'], SF_EVT_LOAD_MODULE);
+    $B->M($_REQUEST['m'], EVT_LOAD_MODULE);
 }
 else
 {
-    $base->event->directed (SF_DEFAULT_MODULE, SF_EVT_LOAD_MODULE);
+    $B->M(SF_DEFAULT_MODULE, EVT_LOAD_MODULE);
 }
 
 //  Output all templates
-$base->tpl->display ('/admin/index.tpl.php');
+include(SF_BASE_DIR . '/admin/index.tpl.php');
 
 // Send the output buffer to the client
 if (SF_OB == TRUE)

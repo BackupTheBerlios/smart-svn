@@ -6,7 +6,7 @@
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td align="left" valign="top"><?php include($section); ?></td>
+    <td align="left" valign="top"><?php include($B->section); ?></td>
     <td>&nbsp;</td>
   </tr>
 </table>

@@ -23,35 +23,32 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define( 'SF_EVT_HANDLER_SYSTEM' , 'system' );
+define( 'MOD_SYSTEM' , 'SYSTEM' );
 
 // register this handler                       
-if (FALSE == $base->event->register_handler( 
-                           SF_EVT_HANDLER_SYSTEM,
-                           array ( 'module'        => SF_EVT_HANDLER_SYSTEM,
+if (FALSE == $B->register_handler(MOD_SYSTEM,
+                           array ( 'module'        => MOD_SYSTEM,
                                    'event_handler' => 'system_event_handler') ))
 {
-    patErrorManager::raiseError( 'handler',
-                                 'Handler exist', 
-                                 'The handler '.SF_EVT_HANDLER_SYSTEM.' exist on '.__FILE__.' '.__LINE__  );        
+    trigger_error( 'The handler '.MOD_SYSTEM.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
 // The handler function
 function system_event_handler( $evt )
 {
-    global $base;
+    global $B;
     
     switch( $evt["code"] )
     {            
-        case SF_EVT_INIT:
+        case EVT_INIT:
             include_once(SF_BASE_DIR.'/admin/include/init_admin.php');          
             break; 
-        case SF_EVT_LOGOUT:  
+        case EVT_LOGOUT:  
             break;    
-        case SF_EVT_SETUP:         
+        case EVT_SETUP:         
             include_once(SF_BASE_DIR.'/admin/include/_setup.php');          
             break;             
-        case SF_EVT_SETUP_FINISH: 
+        case EVT_SETUP_FINISH: 
             break;                
     }
 }

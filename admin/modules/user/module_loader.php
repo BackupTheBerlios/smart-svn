@@ -21,9 +21,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // set the base template for this module
-$base->tpl->assign( 'module', SF_BASE_DIR . "/admin/modules/user/templates/index.tpl.php" );    
+$B->module = SF_BASE_DIR . '/admin/modules/user/templates/index.tpl.php';    
 // Assign module handler name
-$base->tpl->assign( 'this_module', SF_EVT_HANDLER_USER );    
+$B->this_module = EVT_HANDLER_USER;    
 
 // Switch to module features
 switch($_REQUEST['mf'])
