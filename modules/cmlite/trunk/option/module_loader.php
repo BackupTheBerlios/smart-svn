@@ -27,7 +27,20 @@ $B->modul_options = FALSE;
 // Show main options if no module feature is requested.
 if(!isset($_GET['mf']))
 {
-    if (isset($_POST['update_main_options']))
+   // Empty public web cache
+   if(isset($_POST['clean_cache']))
+   {
+        include_once(SF_BASE_DIR.'/admin/lib/PEAR/Cache/Lite.php');
+                
+        $options = array(
+            'cacheDir' => SF_BASE_DIR.'/admin/tmp/cache/'
+        ); 
+            
+        $B->_cache = & new Cache_Lite($options);    
+        $B->_cache->clean();
+        unset($B->_cache);
+    }
+    elseif (isset($_POST['update_main_options']))
     {
         // set options of other modules
         $B->B( EVT_SET_OPTIONS );
