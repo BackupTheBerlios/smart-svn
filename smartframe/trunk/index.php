@@ -13,7 +13,7 @@
  * Front Controller
  *
  */
- 
+
 /*
  * Secure include of files from this script
  */
@@ -43,7 +43,7 @@ $B->B( 'sys_init' );
 // Directed intercepting filter event (auto_prepend)
 // see smart/actions/class.system_sys_prepend.php
 $B->M( MOD_SYSTEM, 'sys_prepend' );
- 
+
 // Directed authentication event to the module handler, 
 // which takes the authentication part
 // The variable SF_AUTH_MODULE must be declared in the "common"
@@ -56,7 +56,7 @@ if ( $_REQUEST['logout'] == '1' )
     // each module can do clean up before logout
     // see modules/xxx/actions/class.xxx_sys_logout.php
     $B->B('sys_logout');
-    
+
     if (SF_SECTION == 'admin')
     {
         header ( 'Location: '.SF_BASE_LOCATION.'/index.php?admin=1' );

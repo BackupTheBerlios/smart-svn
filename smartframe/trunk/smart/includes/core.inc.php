@@ -35,15 +35,23 @@ include_once( SF_BASE_DIR . 'smart/includes/class.errorHandler.php' );
 // Load the util class
 include_once( SF_BASE_DIR . 'smart/includes/class.util.php' );
 
-// The base object
+// include session class
+include_once( SF_BASE_DIR . 'smart/includes/class.session.php' );  
+
+// The base container object
 include_once( SF_BASE_DIR . 'smart/includes/class.base.php' );
+
+// create base container instance
 $B = & new Base;
 
 // set error handler
 $B->errorHandler   =  new ErrorHandler();
 
 //  instance of the util class
-$B->util = & new Util;
+$B->util = & new Util;         
+     
+/* Create new object of session class */
+$B->session = & new session(); 
 
 // Define the base location
 define('SF_BASE_LOCATION', $B->util->base_location());
