@@ -32,6 +32,7 @@
         <td width="19%" align="left" valign="top"><span class="normal">Database Type:</span></td>
         <td width="81%" align="left" valign="top">
           <select name="dbtype" id="dbtype">
+            <option value="mysql" selected>MySql</option>
             <option value="sqlite">Sqlite</option>
           </select>
 </td>
@@ -69,13 +70,13 @@
       <tr>
         <td width="19%" align="left" valign="top"><span class="normal">Host:</span></td>
         <td width="81%" align="left" valign="top">
-          <input name="dbhost" type="text" size="50" maxlength="255" />
+          <input name="dbhost" type="text" size="50" maxlength="255" value="<?php echo $B->form_host ?>"/>
         </td>
       </tr>
       <tr>
         <td align="left" valign="top"><span class="normal">User:</span></td>
         <td align="left" valign="top">
-          <input name="dbuser" type="text" size="50" maxlength="255" />
+          <input name="dbuser" type="text" size="50" maxlength="255"  value="<?php echo $B->form_user ?>"/>
         </td>
       </tr>
       <tr>
@@ -83,9 +84,16 @@
         <td align="left" valign="top"><input name="dbpasswd" type="password" id="login" size="50" maxlength="255" /></td>
       </tr>
       <tr>
+        <td align="left" valign="top"><span class="normal">DB Name :</span></td>
+        <td align="left" valign="top">
+          <input name="dbname" type="text" size="50" maxlength="255" value="<?php echo $B->form_dbname ?>"/>
+&nbsp;
+<input type="checkbox" name="create_db" value="checkbox" />
+<span class="normal">create DB</span></td>      
+      <tr>
         <td align="left" valign="top"><span class="normal">Tables Prefix :</span></td>
         <td align="left" valign="top">
-          <input name="dbtablesprefix" type="password" size="50" maxlength="255" />
+          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($B->form_host)) echo 'smart_';else echo $B->form_host; ?>"/>
         </td>
       </tr>
     </table>
@@ -96,18 +104,18 @@
       <tr>
         <td width="19%" align="left" valign="top"><span class="normal">Name:</span></td>
         <td width="81%" align="left" valign="top">
-          <input name="sysname" type="text" size="50" maxlength="255" />
+          <input name="sysname" type="text" size="50" maxlength="255" value="<?php echo $B->form_sysname ?>"/>
         </td>
       </tr>
       <tr>
         <td align="left" valign="top"><span class="normal">Lastname:</span></td>
         <td align="left" valign="top">
-          <input name="syslastname" type="text" size="50" maxlength="255" />
+          <input name="syslastname" type="text" size="50" maxlength="255" value="<?php echo $B->form_syslastname ?>"/>
         </td>
       </tr>
       <tr>
         <td align="left" valign="top" class="normal">Login:</td>
-        <td align="left" valign="top"><input name="syslogin" type="text" id="login" size="50" maxlength="255" /></td>
+        <td align="left" valign="top"><input name="syslogin" type="text" id="login" size="50" maxlength="255" value="<?php echo $B->form_syslogin ?>"/></td>
       </tr>
       <tr>
         <td align="left" valign="top"><span class="normal">Password:</span></td>

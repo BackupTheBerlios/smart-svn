@@ -118,7 +118,7 @@ if($B->sys['info']['status'] == TRUE)
     if($B->sys['db']['dbtype'] == 'mysql')
     {
         // Connect to the mysql database
-        $B->db = & new DB($B->sys['db']['host'],$B->sys['db']['user'],$B->sys['db']['passwd'],$B->sys['db']['table_prefix']);
+        $B->db = & new DB($B->sys['db']['host'], $B->sys['db']['user'], $B->sys['db']['passwd'], $B->sys['db']['name']);
     }    
 }
 ?>

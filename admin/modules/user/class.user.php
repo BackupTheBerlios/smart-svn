@@ -43,7 +43,7 @@ class user
             SELECT
                 {$_fields}
             FROM
-                user_users
+                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
                 {$where}
             ORDER BY
                 rights DESC, lastname ASC";
@@ -83,7 +83,7 @@ class user
             SELECT
                 {$_fields}
             FROM
-                user_users
+                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
             WHERE
                 uid={$uid}";
         
@@ -106,7 +106,7 @@ class user
         
         $sql = "
             INSERT INTO 
-                user_users
+                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
                 (forename,lastname,email,login,passwd,status,rights)
             VALUES
                 ('{$data['forename']}',
@@ -143,7 +143,7 @@ class user
         
         $sql = "
             UPDATE 
-                user_users
+                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
             SET
                 {$set}
             WHERE
@@ -163,7 +163,7 @@ class user
     {
         $sql = "
             DELETE FROM 
-                user_users
+                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
             WHERE
                 uid={$uid}";
         
@@ -182,7 +182,7 @@ class user
             SELECT
                 uid
             FROM
-                user_users
+                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
             WHERE
                 login='{$login}'";
         

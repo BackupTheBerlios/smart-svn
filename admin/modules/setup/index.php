@@ -42,6 +42,16 @@ if( $_POST['do_setup'] )
         @header('Location: ./index.php');
         exit;  
     }
+    else
+    {
+        $B->form_host        = htmlspecialchars($B->util->stripSlashes($_POST['dbhost']));
+        $B->form_user        = htmlspecialchars($B->util->stripSlashes($_POST['dbuser']));
+        $B->form_dbname      = htmlspecialchars($B->util->stripSlashes($_POST['dbname']));
+        $B->form_tableprefix = htmlspecialchars($B->util->stripSlashes($_POST['dbtablesprefix']));
+        $B->form_sysname     = htmlspecialchars($B->util->stripSlashes($_POST['sysname']));
+        $B->form_syslastname = htmlspecialchars($B->util->stripSlashes($_POST['syslastname']));
+        $B->form_syslogin    = htmlspecialchars($B->util->stripSlashes($_POST['syslogin']));
+    }
 }
 
 // Include the setup template

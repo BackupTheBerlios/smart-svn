@@ -44,7 +44,7 @@ class auth
         $sql = "SELECT
                     uid
                 FROM
-                    user_users
+                    {$GLOBALS['B']->sys['db']['table_prefix']}user_users
                 WHERE
                     uid={$GLOBALS['B']->uid}
                 AND
@@ -80,7 +80,7 @@ class auth
                     uid,
                     rights
                 FROM
-                    user_users
+                    {$GLOBALS['B']->sys['db']['table_prefix']}user_users
                 WHERE
                     login='{$login}'
                 AND

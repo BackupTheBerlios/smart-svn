@@ -310,6 +310,23 @@ class DB
     // {{{ _setTableInfo()
     
     /**
+    * list_tables
+    *
+    * @return   array
+    */
+    
+    function list_tables()
+    {
+        $query = "SELECT * FROM sqlite_master";
+        $result = $this->query($query);
+        $this->_tableInfo = $this->selectRows($result, 0);
+    }
+
+    // }}}
+
+    // {{{ _setTableInfo()
+    
+    /**
     * This method set _tableInfo
     *
     * @param    string      $tablename  the name of table
@@ -319,7 +336,7 @@ class DB
     
     function _setTableInfo($tablename)
     {
-        $query = "SELECT type, name, tbl_name, rootpage, sql FROM sqlite_master where tbl_name = '" . $tablename . "'";
+        $query = "SELECT type, name, tbl_name, rootpage, sql FROM sqlite_master where tbl_name='".$tablename."'";
         $result = $this->query($query);
         $this->_tableInfo = $this->selectRows($result, 0);
     }

@@ -39,18 +39,26 @@ if( count($B->setup_error) == 0 )
     // include sqlite class
     include_once( SF_BASE_DIR . '/admin/modules/user/class.sqlite.php' );
     
+    $db_file = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
+    
+    if(file_exists($db_file))
+        $is_db_file = TRUE;
+    
     // Connect to the database
     $B->db = & new DB(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
     $B->db->turboMode(); 
 
-    //$B->tmp_inf = $B->db->getTableInfo('user_users', 'tbl_name');
-
-    if(!empty($B->tmp_inf))
+    if(TRUE == $is_db_file)
     {
-        $sql = "DROP TABLE user_users";
-        if( FALSE == $B->db->query($sql) )
+        $B->tmp_inf = $B->db->getTableInfo('user_users');
+
+        if(!empty($B->tmp_inf))
         {
-            $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+            $sql = "DROP TABLE user_users";
+            if( FALSE == $B->db->query($sql) )
+            {
+                $B->setup_error[] = $B->db->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+            }
         }
     }
     
