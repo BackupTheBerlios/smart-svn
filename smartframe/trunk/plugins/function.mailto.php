@@ -16,14 +16,14 @@
  * @param string $type 'simple', 'text', 'javascript'
  * @return string Encoded string 
  */
-function mailto( &$string, $type = 'simple' )
+function mailto( &$string, $type = 'text' )
 {
     switch ($type)
     {
         case 'simple':
             $string = preg_replace("/(mailto:[^@]{2,})@/","\\1%40",$string);
         case 'text':
-            return str_replace("@", " AT ", $string);
+            return str_replace(array(".","@"), array(" ! ", " () "), $string);
             break;               
         case 'javascript':
             preg_match_all('!<a\s([^>]*)href=["\']mailto:([^"\']+)["\']([^>]*)>(.*?)</a[^>]*>!is', $string, $matches);
@@ -36,10 +36,10 @@ function mailto( &$string, $type = 'simple' )
             $replace = $matches[0];
             foreach ($matches[0] as $key => $match) {
               $address = $matches[2][$key];
-              $obfuscated_address = str_replace(array(".","@"), array(" dot ", " at "), $address);
+              $obfuscated_address = str_replace(array(".","@"), array(" ! ", " () "), $address);
               $extra = trim($matches[1][$key]." ".$matches[3][$key]);
               $text = $matches[4][$key];
-              $obfuscated_text = str_replace(array(".","@"), array(" dot ", " at "), $text);
+              $obfuscated_text = str_replace(array(".","@"), array(" ! ", " () "), $text);
         
               $string2 = "document.write('<a href=\"mailto:".$address."\" ".$extra.">".$text."</a>');";
               $js_encode = '';
