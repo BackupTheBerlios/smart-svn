@@ -21,6 +21,30 @@ class EARCHIVE_SEARCH
      * @var object $B
      */
     var $B;
+
+    var $url_add = '';
+    /**
+     * chars to replace by space
+     * 
+     */    
+     var $_convert_str = array('"','\'','<','>','(',')','{','}','[',']','.',',',';',':','?','%','\\','#','$','*','=','/','|','!','~','°','@','_','`','´','^','’','‘','¨','©','®','«','»','·','×');
+    /**
+     * Preg pattern to stript out strings
+     * 
+     */
+    var $_pattern = array (
+                "'<[\/\!]*?[^<>]*?>'si",           // Strip out HTML tags
+                "'[\r\n]+'");     
+    /**
+     * Mimimal default word length
+     * 
+     */
+    var $_word_length = 3;
+    /**
+     * Words to ignore list (stopwords)
+     * 
+     */
+    var $bad_word_array = array();
     
     /**
      * constructor
