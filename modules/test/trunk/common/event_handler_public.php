@@ -40,8 +40,31 @@ function common_event_handler( $evt )
 {
     global $B;
 
-    switch( $evt['code'] )
-    {           
+   // build the whole class name
+    $class_name = 'COMMON_'.$evt['code'];
+    
+    // check if this object was previously declared
+    if(!is_object($B->$class_name))
+    {
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/common/class.'.$class_name.'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$class_name = & new $class_name();
+            // perform the request
+            return $B->$class_name->perform( $evt['data'] );
+        }
+        else
+        {
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
     }
 }
 
