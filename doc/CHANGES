@@ -1,6 +1,11 @@
 CHANGES
 #######
 
+2004-06-29
+--------------
+- Deleted pattools  (A. Turpel)
+- Added Savant2 template engine  (A. Turpel)
+
 2004-06-16
 --------------
 -Added option module (A. Turpel)
