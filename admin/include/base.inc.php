@@ -32,21 +32,23 @@ if ( SF_OB == TRUE )
     ob_start( SF_OB_GZHANDLER ); 
 }
 
-
 // include sfSecureGPC
 include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
 
 // include sfErrorHandler
 include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
 
-// include sqlite class
-include_once( SF_BASE_DIR . '/admin/include/class.sfSqLite.php' );
-
 // include session class
 include_once( SF_BASE_DIR . '/admin/include/class.sfSession.php' );
 
 // Load the util class
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
+
+// The patErrorManager class 
+include_once( SF_BASE_DIR . '/admin/lib/patTools/patErrorManager.php' );
+
+// The patConfiguration class (read/write xml config files)
+include_once( SF_BASE_DIR . '/admin/lib/patTools/patConfiguration.php' );
 
 // The base object
 include_once( SF_BASE_DIR . '/admin/include/class.sfBase.php' );
@@ -55,54 +57,24 @@ $B = & new sfBase;
 // set error handler
 $B->errorHandler   =  new sfErrorHandler();
 
+//  create config
+$B->conf = & new patConfiguration(array(
+                                         'configDir'     => SF_BASE_DIR . '/admin/config',
+                                         'cacheDir'      => SF_BASE_DIR . '/admin/config/cache',
+                                         'errorHandling' => 'trigger_error',
+                                         'encoding'      => 'ISO-8859-1'
+                                        ));
+
+//  read config file from cache
+//  if cache is not valid, original file will be read and cache created
+$B->conf->loadCachedConfig( 'config_system.xml.php', array('filetype'=>'xml') );
+$B->sys = $B->conf->getConfigValue();
+
 //  instance of the util class
 $B->util = new sfUtil;
 
-/*
- * The base location to Smart
- */    
-define('SF_BASE_LOCATION', $B->util->base_location());
-
-
-// Check if setup was done
-if ( !@file_exists(SF_BASE_DIR . '/data/db_sqlite/system.db.php' ) )
-{
-    // redirect to setup
-    if (SF_SECTION != 'admin')
-    {
-        @header('Location: ' . SF_BASE_LOCATION . '/admin/setup/');
-    }
-    else
-    {
-        @header('Location: ' . SF_BASE_LOCATION . '/setup/');    
-    }
-    exit;          
-}
-
-// Connect to the session database
-$B->dbsession = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/session.db.php');
-$B->dbsession->turboMode();
-
 /* Create new object of session class */
 $B->session = & new session();
-
-// Connect to the system database
-$B->dbsys = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/system.db.php');
-$B->dbsys->turboMode();
-
-// Load system info
-$result = $B->dbsys->query('SELECT * FROM info'); 
-$B->sys_info = $B->dbsys->getRow($result);
-unset($result);
-
-// Load system options
-$result = $B->dbsys->query('SELECT * FROM options'); 
-$row = $B->dbsys->getRow($result);
-foreach($row as $key => $value)
-{
-    $B->$key = $value;
-}
-unset($result);
 
 // Register all handlers
 //
@@ -133,5 +105,25 @@ $B->tmp_directory->close();
 unset($B->tmp_evt_handler);
 unset($B->tmp_directory);
 unset($B->tmp_evt_handler);
+
+// Check if setup was done
+if ( $B->sys['info']['status'] !== TRUE )
+{
+    // send a setup message to the handler which takes
+    // the setup part
+    $B->M( SF_SETUP_MODULE, EVT_SETUP );
+    /*
+    // redirect to setup
+    if (SF_SECTION != 'admin')
+    {
+        @header('Location: ' . SF_BASE_LOCATION . '/admin/setup/');
+    }
+    else
+    {
+        @header('Location: ' . SF_BASE_LOCATION . '/setup/');    
+    }
+    exit; 
+    */
+}
 
 ?>

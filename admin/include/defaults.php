@@ -45,7 +45,7 @@ define('SF_OB',                          FALSE);
 /**
  * Allowed output compression if available.
  */
-define('SF_OB_GZHANDLER',                "ob_gzhandler");
+define('SF_OB_GZHANDLER',                "");//"ob_gzhandler"
 
 /**
  * Default dir and file mode

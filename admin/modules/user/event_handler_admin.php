@@ -11,6 +11,9 @@
 
 /**
  * Admin user module event handler
+ * This is also the main module of this set of modules
+ * This means that here you must include all stuff
+ * to get work the module set.
  */
 
 // Check if this file is included in the Smart environement
@@ -70,8 +73,12 @@ function user_event_handler( $evt )
     } 
 }
 
+
+// include sqlite class
+include_once( SF_BASE_DIR . '/admin/modules/user/class.sfSqLite.php' );
+
 // Connect to the main database
-$B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/' . $B->db_prefix . '_data.db.php');
+$B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
 $B->dbdata->turboMode();
 
 ?>

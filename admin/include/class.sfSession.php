@@ -46,13 +46,6 @@ class session
             $this->http =& $GLOBALS['HTTP_SESSION_VARS'];
         }        
         
-        /* Change the save_handler to use the class functions */
-        session_set_save_handler (  array(&$this, '_open'),
-                                    array(&$this, '_close'),
-                                    array(&$this, '_read'),
-                                    array(&$this, '_write'),
-                                    array(&$this, '_destroy'),
-                                    array(&$this, '_gc'));  
         session_start();
     }
 
@@ -178,114 +171,5 @@ class session
         session_unset();
         session_destroy();
     } 
-
-    /* Open session, if you have your own db connection
-       code, put it in here! */
-    function _open($path, $name) 
-    {
-        return TRUE;
-    }
-
-    /* Close session */
-    function _close() 
-    {
-        /* This is used for a manual call of the
-           session gc function */
-        $this->_gc(0);
-        return TRUE;
-    }
-
-    /* Read session data from database */
-    function _read($ses_id) 
-    {
-        $session_sql = "SELECT * FROM " . $this->ses_table
-                     . " WHERE ses_id = '$ses_id'";
-        $session_res = $this->_B->dbsession->query($session_sql);
-        if (!$session_res) 
-        {
-            return '';
-        }
-
-        $session_num = $this->_B->dbsession->numRows($session_res);
-        if ($session_num > 0) 
-        {
-            $session_row = $this->_B->dbsession->getRow($session_res);
-            $ses_data = $session_row["ses_value"];
-            return $ses_data;
-        } 
-        else 
-        {
-            return '';
-        }
-    }
-
-    /* Write new data to database */
-    function _write($ses_id, $data) 
-    {
-        $session_sql = "UPDATE " . $this->ses_table
-                     . " SET ses_time='" . time()
-                     . "', ses_value='$data' WHERE ses_id='$ses_id'";
-        $session_res = $this->_B->dbsession->query($session_sql);
-        
-        if (!$session_res) 
-        {
-            return FALSE;
-        }
-        if ($this->_B->dbsession->affectedRows()) 
-        {
-            return TRUE;
-        }
-
-        $session_sql = "INSERT INTO " . $this->ses_table
-                     . " (ses_id, ses_time, ses_start, ses_value)"
-                     . " VALUES ('$ses_id', '" . time()
-                     . "', '" . time() . "', '$data')";
-        $session_res = $this->_B->dbsession->query($session_sql);
-        
-        if (!$session_res) 
-        {    
-            return FALSE;
-        }         
-        else 
-        {
-            return TRUE;
-        }
-    }
-
-    /* Destroy session record in database */
-    function _destroy($ses_id) 
-    {
-        $session_sql = "DELETE FROM " . $this->ses_table
-                     . " WHERE ses_id='$ses_id'";
-        $session_res = $this->_B->dbsession->query($session_sql);
-        if (!$session_res) 
-        {
-            return FALSE;
-        }         
-        else 
-        {
-            return TRUE;
-        }
-    }
-
-    /* Garbage collection, deletes old sessions */
-    function _gc($life) 
-    {
-        $ses_life = strtotime("-5 minutes");
-
-        $session_sql = "DELETE FROM " . $this->ses_table
-                     . " WHERE ses_time < $ses_life";
-        $session_res = $this->_B->dbsession->query($session_sql);
-
-
-        if (!$session_res) 
-        {
-            return FALSE;
-        }         
-        else 
-        {
-            return TRUE;
-        }
-    }
 } 
 ?>
