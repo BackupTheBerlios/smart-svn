@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * User authentication file
+ * User module authentication
  */
 
 // Check if this file is included in the environement
@@ -28,7 +28,7 @@ $base->user = new patUser( TRUE, "patUserData" );
 $base->user->setAuthDbc( $base->db );
 
 //  this table stores all users
-$base->user->setAuthTable( $base->connect['table_prefix']."user" );
+$base->user->setAuthTable( $base->db_data['db_table_prefix']."user" );
 
 //  set required fieldnames
 $base->user->setAuthFields( array( "primary"   =>  "uid",
@@ -64,19 +64,19 @@ $base->user->setTemplate( $base->tpl );
 $base->user->setMaxLoginAttempts( 10 );
     
 //  this table stores group data
-$base->user->setGroupTable( $base->connect['db_table_prefix']."user_group" );
+$base->user->setGroupTable( $base->db_data['db_table_prefix']."user_group" );
 //  set fieldnames in the grouptable
 $base->user->setGroupFields( array( "primary"   =>  "gid",
                                     "name"      =>  "name" ) );
 
 //  this table stores group data
-$base->user->setGroupRelTable( $base->connect['table_prefix']."user_group_rel" );
+$base->user->setGroupRelTable( $base->db_data['db_table_prefix']."user_group_rel" );
 //  set fieldnames in the user - group relation table
 $base->user->setGroupRelFields( array( "uid"   =>  "uid",
                                        "gid"   =>  "gid" ) );
 
 //  set tabel which stores permissions
-$base->user->setPermTable( $base->connect['table_prefix']."user_group_permission" );
+$base->user->setPermTable( $base->db_data['db_table_prefix']."user_group_permission" );
 $base->user->setPermFields( array( "id"      =>  "id",
                                    "id_type" =>  "id_type",
                                    "id_part" =>  "id_part",

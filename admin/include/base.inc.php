@@ -19,11 +19,11 @@
  */
 if (!defined( 'SF_SECURE_INCLUDE' ))
 {
-    die("no permission on " . __FILE__);
+    die('no permission on ' . __FILE__);
 }
 
 // include default definitions
-include_once( SF_BASE_DIR . "/admin/include/defaults.php" );
+include_once( SF_BASE_DIR . '/admin/include/defaults.php' );
 
 // Start output buffering
 //
@@ -33,25 +33,50 @@ if( SF_OB == TRUE )
 }
 
 // The base object
-include_once( SF_BASE_DIR . "/admin/include/class.sfObject.php" );
+include_once( SF_BASE_DIR . '/admin/include/class.sfObject.php' );
 $base = & new sfObject;
 if( SF_DEBUG == TRUE )
     $base->register( 'base', __FILE__, __LINE__);
 
+// The base object
+include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
+$base->util = & new sfUtil;
+if( SF_DEBUG == TRUE )
+    $base->register( 'util', __FILE__, __LINE__);
+
+/*
+ * The base location to Smart
+ */    
+define('SF_BASE_LOCATION', $base->util->base_location());
+
+// Check if setup was done
+if(!@is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php'))
+{
+    // redirect to setup
+    if(SF_SECTION != 'admin')
+    {
+        @header('Location: ' . SF_BASE_LOCATION . '/admin/setup/');
+    }
+    else
+    {
+        @header('Location: ' . SF_BASE_LOCATION . '/setup/');    
+    }
+    exit;          
+}
 
 // include pear db
-include_once( "DB.php" );
+include_once( 'DB.php' );
 // include event class
-include_once( SF_BASE_DIR . "/admin/include/class.sfEvent.php" );
+include_once( SF_BASE_DIR . '/admin/include/class.sfEvent.php' );
 // include patErrorManager
-include_once( SF_BASE_DIR . "/admin/lib/patError/patErrorManager.php" );
+include_once( SF_BASE_DIR . '/admin/lib/patError/patErrorManager.php' );
 // include patTemplate
-include_once( SF_BASE_DIR . "/admin/lib/patTemplate/patTemplate.php" );
+include_once( SF_BASE_DIR . '/admin/lib/patTemplate/patTemplate.php' );
 // include patConfiguration
-include_once( SF_BASE_DIR . "/admin/lib/patConfiguration/include/patConfiguration.php" );
+include_once( SF_BASE_DIR . '/admin/lib/patConfiguration/include/patConfiguration.php' );
 
 // set error handling
-patErrorManager::setErrorHandling( SF_ERROR_REPORTING, "echo" );
+patErrorManager::setErrorHandling( SF_ERROR_REPORTING, 'echo' );
 
 // pat configurator instance    
 $base->conf = new patConfiguration;
@@ -59,14 +84,14 @@ if( SF_DEBUG == TRUE )
     $base->register( 'conf', __FILE__, __LINE__);
 
 //  set global config dir
-$base->conf->setConfigDir( SF_BASE_DIR . "/admin/config" );
+$base->conf->setConfigDir( SF_BASE_DIR . '/admin/config' );
 
 //
 // Load base options
 //
 
 //  parse global config options file
-$base->conf->parseConfigFile( "config_options.xml" );
+$base->conf->parseConfigFile( 'config_options.xml' );
 
 //  get the db name set
 $base->db_connect = $base->conf->getConfigValue('option.db');
@@ -81,7 +106,7 @@ $base->charset = $base->conf->getConfigValue('option.charset');
 $base->design_style = $base->conf->getConfigValue('option.design_style');
 
 //  parse config db file
-$base->conf->parseConfigFile( "config_db_connect.xml.php" );
+$base->conf->parseConfigFile( 'config_db_connect.xml.php' );
     
 //  get all config db values
 $base->db_data = $base->conf->getConfigValue( 'db.' . $base->db_connect );
@@ -118,7 +143,7 @@ include_once (SF_BASE_DIR . '/admin/include/event_handler_' . SF_SECTION . '.php
 $base->tmp_directory =& dir( SF_BASE_DIR . '/admin/modules');
 while (false != ($base->tmp_dirname = $base->tmp_directory->read()))
 {
-    if ( ( $base->tmp_dirname == "." ) || ( $base->tmp_dirname == ".." ) )
+    if ( ( $base->tmp_dirname == '.' ) || ( $base->tmp_dirname == '..' ) )
     {
         continue;
     }            

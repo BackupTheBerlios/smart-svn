@@ -1,9 +1,9 @@
-PHP Framework install instructions
-------------------------------------------
+Smart PHP Framework install instructions
+---------------------------------------------
 
-Currently I'm working on the setup proceedure.
-/admin/setup/
+Currently only mysql is supported.
 
-So other pages wont work at this moment.
+Point your browser to the location where you extracted Smart.
+If nothing is going wrong you can see a setup page.
 
 A. Turpel

@@ -30,7 +30,7 @@ $res = & $base->db->query(
 "CREATE TABLE IF NOT EXISTS {$base->tmp_table_prefix}user (
   uid int(10) unsigned NOT NULL,
   username varchar(20) NOT NULL default '',
-  passwd char(32) NOT NULL default '',
+  passwd char(20) NOT NULL default '',
   name varchar(100) NOT NULL default '',
   lastname varchar(100) NOT NULL default '',
   email varchar(200) NOT NULL default '',

@@ -94,7 +94,7 @@ if( count($base->tmp_error_system) == 0 )
                           array( 'name'     => $_POST['sysname'],
                                  'lastname' => $_POST['syslastname'],
                                  'username' => $_POST['syslogin'],
-                                 'passwd'   => md5($_POST['syspassword1'])) );
+                                 'passwd'   => $_POST['syspassword1']) );
                                  
     $base->user->addUserToGroup( array( 'uid' => $base->tmp_uid, 'gid' => $base->tmp_gid ) );
     $base->user->addPermission( array( 'id_type' => 'group',
@@ -104,8 +104,5 @@ if( count($base->tmp_error_system) == 0 )
                                        'perms'   => array( 'read', 'delete', 'modify', 'add' ) ) );
     
 }
-
- 
-
 
 ?>
