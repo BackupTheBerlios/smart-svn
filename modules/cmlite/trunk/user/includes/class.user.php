@@ -285,6 +285,8 @@ class user
                 md5_str='{$md5_str}'";
         
         $GLOBALS['B']->db->query($sql);
+        
+        return TRUE;
     }    
 
     /**
