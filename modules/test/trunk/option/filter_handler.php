@@ -45,7 +45,7 @@ function option_filter_handler( $evt )
     if(!is_object($B->$class_name))
     {
         // dynamic load of the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/navigation/filter/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . '/admin/modules/option/filters/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
