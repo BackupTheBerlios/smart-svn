@@ -10,25 +10,27 @@
 // ----------------------------------------------------------------------
 
 /**
- * action_system_sys_prepend class - Run code before the application logic
+ * action_system_add_headers class 
  *
  */
  
-class action_system_sys_prepend extends action
+class action_system_add_headers extends action
 {
     /**
-     * Run filters and other stuff before the application logic  
-     *
+     * Add some headers
      *
      * @param array $data
-     */
+     */  
     function perform( $data )
     {
-        // Manual order the filter priority 
+        header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+        header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 
-        // add headers
-        M( SYSTEM_FILTER , 'add_headers' ); 
-    }    
+        header("Cache-Control: no-store, no-cache, must-revalidate");
+        header("Cache-Control: post-check=0, pre-check=0", false);
+        header("Pragma: no-cache");
+        header('P3P: CP="NOI NID ADMa OUR IND UNI COM NAV"');
+    }
 }
 
 ?>

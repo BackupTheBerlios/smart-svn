@@ -10,25 +10,22 @@
 // ----------------------------------------------------------------------
 
 /**
- * action_system_sys_prepend class - Run code before the application logic
+ * action_system_trim_output class - Remove space before and after the template output
  *
  */
  
-class action_system_sys_prepend extends action
+class action_system_trim_output extends action
 {
     /**
-     * Run filters and other stuff before the application logic  
+     * Remove space before and after the template output
      *
-     *
-     * @param array $data
-     */
-    function perform( $data )
+     * @param string $content
+     * @return string filtered content
+     */  
+    function perform( & $content )
     {
-        // Manual order the filter priority 
-
-        // add headers
-        M( SYSTEM_FILTER , 'add_headers' ); 
-    }    
+        return trim( $content );  
+    }
 }
 
 ?>
