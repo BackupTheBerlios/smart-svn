@@ -30,7 +30,7 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-		<form action="index.php?m=OPTION" method="post" name="email" id="email">
+    <form action="index.php?m=OPTION" method="post" name="email" id="email">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
@@ -43,8 +43,8 @@
             <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_email" value="update" onclick="subok(this.form.update_main_options_email);"></td>
           </tr>
         </table>   
-		</form> 
-		<form action="index.php?m=OPTION" method="post" name="title" id="title">    
+    </form> 
+    <form action="index.php?m=OPTION" method="post" name="title" id="title">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
@@ -58,8 +58,8 @@
             <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_title" value="update" onclick="subok(this.form.update_main_options_title);"></td>
           </tr>
         </table> 
-		</form>  
-		<form action="index.php?m=OPTION" method="post" name="charset" id="charset">              
+    </form>  
+    <form action="index.php?m=OPTION" method="post" name="charset" id="charset">              
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Charset</span></td>
@@ -88,16 +88,16 @@
             <td width="63%" align="left" valign="top"><input type="submit" name="update_main_options_charset" value="update" onclick="subok(this.form.update_main_options_charset);"></td>
           </tr>
         </table> 
-		</form>  
-		<form action="index.php?m=OPTION" method="post" name="tpl" id="tpl">      
+    </form>  
+    <form action="index.php?m=OPTION" method="post" name="tpl" id="tpl">      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web pages templates</span></td>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web page template groups</span></td>
           </tr>
           <tr>
             <td width="13%" align="left" valign="top">
                <select name="tpl">
-               		<?php foreach($B->templ as $_tpl):  ?>
+                  <?php foreach($B->templ as $_tpl):  ?>
                      <option value="<?php echo $_tpl; ?>" <?php if($_tpl==$B->sys['option']['tpl']) echo 'selected="selected"' ?>><?php echo $_tpl; ?></option>
                     <?php endforeach;  ?>
                </select>
@@ -105,9 +105,9 @@
             </td>
             <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_tpl" value="update" onclick="subok(this.form.update_main_options_tpl);"></td>
           </tr>
-		  </table> 
-		  </form>
-		  </td>
+      </table> 
+      </form>
+      </td>
         <td width="24%" align="right" valign="top"></td>
       </tr>
     </table>        
