@@ -50,8 +50,8 @@ define('SF_OB_GZHANDLER',                FALSE); //'ob_gzhandler'
 /**
  * Default dir and file mode
  */
-define('SF_DIR_MODE',                    0755);
-define('SF_FILE_MODE',                   0755);
+define('SF_DIR_MODE',                    0775);
+define('SF_FILE_MODE',                   0775);
 
 /**
  * Event types.
