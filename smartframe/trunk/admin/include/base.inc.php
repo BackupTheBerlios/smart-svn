@@ -41,34 +41,12 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
 // Load the util class
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
 
-// The patErrorManager class 
-include_once( SF_BASE_DIR . '/admin/lib/patTools/patErrorManager.php' );
-
-// The patConfiguration class (read/write xml config files)
-include_once( SF_BASE_DIR . '/admin/lib/patTools/patConfiguration.php' );
-
 // The base object
 include_once( SF_BASE_DIR . '/admin/include/class.sfBase.php' );
 $B = & new sfBase;
 
 // set error handler
 $B->errorHandler   =  new sfErrorHandler();
-
-//  create config
-$B->conf = & new patConfiguration(array(
-                                         'configDir'     => SF_BASE_DIR . '/admin/config',
-                                         'cacheDir'      => SF_BASE_DIR . '/admin/config/cache',
-                                         'errorHandling' => 'trigger_error',
-                                         'encoding'      => 'ISO-8859-1'
-                                        ));
-
-if(@file_exists(SF_BASE_DIR . '/admin/config/config_system.xml.php'))
-{
-    //  read config file from cache
-    //  if cache is not valid, original file will be read and cache created
-    $B->conf->loadCachedConfig( 'config_system.xml.php', array('filetype'=>'xml') );
-    $B->sys = $B->conf->getConfigValue();
-}
 
 //  instance of the util class
 $B->util = new sfUtil;
@@ -112,26 +90,5 @@ $B->tmp_directory->close();
 unset($B->tmp_evt_handler);
 unset($B->tmp_directory);
 unset($B->tmp_evt_handler);
-
-// Check if setup was done
-if ( $B->sys['info']['status'] !== TRUE )
-{
-    // If calling from the pubilc page, switch to the admin page
-    if( SF_SECTION != 'admin' )
-    {
-        if(isset($_GET['dbtype']))
-            $_dbtype = '?dbtype='.$_GET['dbtype'];
-        else
-            $_dbtype = '?dbtype=mysql';
-        @header('Location: '.SF_BASE_LOCATION.'/admin/index.php'.$_dbtype);
-        exit;
-    }
-    // send a setup message to the handler which takes
-    // the setup part
-    if(FALSE === $B->M( MOD_SETUP, EVT_SETUP ))
-    {
-        die("<b>It seems that there is no setup module available. You have to install the setup module.</b>");
-    }
-}
 
 ?>

@@ -29,6 +29,16 @@ define ('SF_SECTION', 'admin');
 // Include the base file
 include (SF_BASE_DIR . '/admin/include/base.inc.php');
 
+// If setup flag is defined send a setup event to the handler which takes
+// the setup part
+if( defined( '_DO_SETUP' ) )
+{
+    if( FALSE == $B->M( MOD_SETUP, EVT_SETUP ) )
+    {
+        die("SETUP module is missing or not registered !!!");
+    }
+}  
+
 // send an authentication message to the handler which takes
 // the authentication part
 $B->M( SF_AUTH_MODULE, EVT_AUTHENTICATE );
