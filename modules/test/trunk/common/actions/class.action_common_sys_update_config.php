@@ -25,7 +25,7 @@ class action_common_sys_update_config extends action
      * $data['var_name'] Name of the data array or ...
      * $data['type'] Data type
      */
-    function perform( $data = FALSE )
+    function perform( & $data)
     {                 
         // include PEAR Config class
         include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
@@ -34,8 +34,8 @@ class action_common_sys_update_config extends action
         $root =& $c->parseConfig( $data['data'], $data['type'] );
 
         // save the modified config array
-        $c->writeConfig( SF_BASE_DIR . 'data/'.SF_BASE_MODULE.'/config/config.php', $data['type'], array('name' => $data['var_name']) );  
-    }    
+        $c->writeConfig( $data['file'], $data['type'], array('name' => $data['var_name']) );  
+    }  
 }
 
 ?>

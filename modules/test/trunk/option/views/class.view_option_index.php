@@ -51,7 +51,7 @@ class view_option_index extends view
             M( SF_BASE_MODULE, 
                'sys_update_config', 
                array( 'data'     => $this->B->sys,
-                      'file'     => SF_BASE_DIR . 'modules/'.SF_BASE_MODULE.'/config/config.php',
+                      'file'     => SF_BASE_DIR . 'data/'.SF_BASE_MODULE.'/config/config.php',
                       'var_name' => 'this->B->sys',
                       'type'     => 'PHPArray') );
         
