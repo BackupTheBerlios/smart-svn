@@ -33,12 +33,12 @@ include (SF_BASE_DIR . 'smart/includes/core.inc.php');
 //
 
 // Send a init message to all registered handlers
-$B->B('SYS_INIT');
+$B->B('sys_init');
 
 // if an update was done this event must be called to finish the update process
 if(isset($B->system_update_flag))
 {
-    $B->M( SF_BASE_MODULE, 'SYS_FINSH_UPDATE' );
+    $B->M( SF_BASE_MODULE, 'sys_finish_update' );
     // reload admin section
     @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
     exit;    
@@ -46,19 +46,19 @@ if(isset($B->system_update_flag))
 
 // send an authentication event to the handler which takes
 // the authentication part
-$B->M( SF_AUTH_MODULE, 'SYS_AUTHENTICATE' );
+$B->M( SF_AUTH_MODULE, 'sys_authenticate' );
 
 // Logout
 if ( (int)$_REQUEST['logout'] == 1 )
 {
     // each module can do clean ups before logout
-    $B->B('SYS_LOGOUT');
+    $B->B('sys_logout');
     header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
     exit;
 }
 
 // get the admin view (template)
-include( $B->M( MOD_SYSTEM, 'GET_ADMIN_VIEW') ); 
+include( $B->M( MOD_SYSTEM, 'get_admin_view') ); 
 
 ob_end_flush ();
 
