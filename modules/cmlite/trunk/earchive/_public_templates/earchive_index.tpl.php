@@ -106,14 +106,14 @@
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
                         <td align="left" valign="top"><p class="pager">E-archive
-                            can archive email messages (+ attachments)
-                            and make those accessible through a public web page.
+                            is a php script which is able to fetch email messages (+ attachments)
+                            from email inbox accounts and make those accessible through a public web page.
                             It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>.
                             E-archive is a module of this framework.
                             It is still in a test phase. So there is no garuantee
                             that it is bug free.</p>
                           <p class="pager">Current Version 0.1.8a</p>
-                          <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios</a></p>
+                          <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&release_id=4033" target="_blank">Download E-archive from the project page at Berlios</a></p>
                             <h3>Installation:</h3>
                             <p class="pager">Transfer the extracted archive to
                               your web server. You can even install E-archive
@@ -149,9 +149,9 @@
                             <p class="pager">The following modules are installed:</p>
                             <ul class="pager">
                                 <li><strong>USER</strong> - User management.
-                                  You can assign one of 5 right levels to a user
+                                  You can assign 1 of 5 right levels to a user
                                   account. <span class="style4"><br />
-                                    Registered</span> - Access to public content
+                                    Registered</span> - Access to public restricted content
                                     to which visitors must be registered.<br />
                                     <span class="style4">Contributor</span> -
                                     Not relevant for
@@ -166,15 +166,14 @@
                                 <li><strong>Options - </strong>Modify system
                                   options. Only for administrators</li>
                                 <li><strong>Earchive - </strong>Administration
-                                  of email boxes to which this modul has access. </li>
+                                  of access data to email inbox accounts. </li>
                           </ul>
                             <h3>The E-archiv Module</h3>
                             <p class="pager">If you activate this module in the
                               top right select menu of the administration you
                               will see a page with all existing email accounts to
                               which E-archive has access. Here you can add, edit,
-                              delete or modify  email accounts and
-                              archived messages. If you add a new account
+                              delete or modify  access data to email accounts. If you add a new e-archive account
                               you
                               have
                               to
@@ -207,13 +206,13 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <li class="pager"><strong>Description - </strong>Detailed
                                 description</li>
                           </ul>
-                            <p class="pager">There are 2 ways on which E-archive
+                            <p class="pager">There are 2 ways how E-archive
                               can connect to one or more email inboxes to download messages.</p>
                             <ul>
-                              <li class="pager">Executing, by the php interpreter, the
+                              <li class="pager">Cronjob: Executing, by the php interpreter, the
                                 file <strong>modules/earchive/fetch_emails/fetch_emails.php
                                 </strong>through a cronjob. </li>
-                              <li class="pager">Activate the fetch email process manually from
+                              <li class="pager">Manually: Activate the fetch email process manually from
                                 within the options menu; &quot;OPTION&gt;fetch
                                 emails&quot;. </li>
                             </ul>                            
@@ -272,7 +271,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                               templates, change the groupname and save those
                               templates in the same public root folder. You can
                               switch to this new template group in the OPTION
-                              menu. If you make change on the templates delivered with this package your should place the modified templates under a other group. Else you delete your modifications when upgrade to a new earchive release.</p>                            
+                              menu. If you make change on the templates delivered with this package your should place the modified templates under an other group. Else you will delete your modifications when upgrade to a new earchive release.</p>                            
                             <h3>ToDO</h3>
                             <ul>
                                 <li class="pager">Add a template if a visitor
@@ -287,7 +286,8 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                 <li class="pager">Experience with           
                                 Subversion </li>
                                 <li class="pager">Teamwork</li>
-                            </ul>                            
+                            </ul>       
+							<p class="pager">This project needs urgently php programmers with good knowledg of the php <strong>IMAP</strong> extension.</p>                 
                             <h3>Contact</h3>
                             <p class="pager">Armand Turpel &lt;<a href="mailto:smart@open-publisher.net">smart@open-publisher.net</a>&gt; </p>
                             <h3>Licence</h3>
