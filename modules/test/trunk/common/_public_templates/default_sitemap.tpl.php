@@ -1,9 +1,7 @@
-<?php /*### Sitemap template. It is fetched by defining the url var tpl=sitemap ### */ ?>
-
-<?php /* ##### For a better usability we place the event calls at the top of each template #### */ ?>
+<?php /*### Sitemap template. It is loaded by defining the url var tpl=sitemap ### */ ?>
 
 <?php /* Event to get the navigation menu entries from the navigation module. 
-         See: /admin/modules/navigation/class.NAVIGATION_GET.php 
+         See: /admin/modules/navigation/actions/class.NAVIGATION_GET.php 
          The result is in the array $B->tpl_nav which is printed below as the site navigation menu. */ ?>
 <?php $B->M( MOD_NAVIGATION, 
              'GET', 

@@ -1,17 +1,15 @@
-<?php /* ### Contact template. It is fetched by defining the url var tpl=contact ### */ ?>
+<?php /* ### Contact template. It is loaded by defining the url var tpl=contact ### */ ?>
 
-<?php /* ##### For a better usability we place the event calls at the top of each template #### */ ?>
-
-<?php /* Event to get the navigation menu entries from the navigation module. 
-         See: /admin/modules/navigation/class.NAVIGATION_GET.php 
+<?php /* Event to get the navigation menu entries from the navigation module action class. 
+         See: /admin/modules/navigation/actions/class.NAVIGATION_GET.php 
          The result is in the array $B->tpl_nav which is printed below as the site navigation menu. */ ?>
 <?php $B->M( MOD_NAVIGATION, 
              'GET', 
              array('var' => 'tpl_nav')); ?> 
 
-<?php /* Contact Event call. See: /admin/modules/test/class.TEST_CONTACT.php 
+<?php /* Contact Event call. See: /admin/modules/test/actions/class.TEST_CONTACT.php 
          It assign contact data to the template var $B->tpl_contact which
-         is printed out below in this template. */ ?>          
+         is printed out bellow in this template. */ ?>          
 <?php $B->M( MOD_TEST, 
              'CONTACT', 
              array('var' => 'tpl_contact')); ?> 

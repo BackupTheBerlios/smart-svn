@@ -1,17 +1,15 @@
-<?php /*### Counter template. It is fetched by defining the url var tpl=counter ### */ ?>
+<?php /*### Counter template. It is loaded by defining the url var tpl=counter ### */ ?>
 
-<?php /* ##### For a better usability we place the event calls at the top of each template #### */ ?>
-
-<?php /* Event to get the navigation menu entries from the navigation module. 
-         See: /admin/modules/navigation/class.NAVIGATION_GET.php 
-         The result is in the array $B->tpl_nav which is printed below as the site navigation menu. */ ?>
+<?php /* Event to get the navigation menu entries from the navigation module action class. 
+         See: /admin/modules/navigation/actions/class.NAVIGATION_GET.php 
+         The result is in the array $B->tpl_nav which is printed bellow as the site navigation menu. */ ?>
 <?php $B->M( MOD_NAVIGATION, 
              'GET', 
              array('var' => 'tpl_nav')); ?> 
              
 <?PHP /* Counter 1,2,3 Event calls. 
-         See: admin/modules/test/class.TEST_COUNTER.php  
-         The results are printed out bellow of this template.*/ ?>          
+         See: admin/modules/test/actions/class.TEST_COUNTER.php  
+         The results are printed out bellow in this template.*/ ?>          
 <?php $B->M( MOD_TEST, 
              'COUNTER', 
              array('var'           => 'tpl_counter1', 

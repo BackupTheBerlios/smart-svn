@@ -1,11 +1,9 @@
 <?php /* ### Index template. It is loaded by default if no template is defined. ### */ ?>
 
-<?php /* ##### For a better usability we place the event calls at the top of each template #### */ ?>
-
 <?php /* A simple event call directed to the test module. It is a trivial example, but
          it show you how the following event call interact with the corresponding
-         class "class.TEST_PRINT.php" of the test module.
-         See: /admin/modules/test/class.TEST_PRINT.php
+         action class "class.TEST_PRINT.php" of the test module.
+         See: /admin/modules/test/actions/class.TEST_PRINT.php
          
          A welcome string is passed to the perform($data) function of this class
          and this function assign the welcome string to the template 
@@ -16,8 +14,8 @@
              array('var'    => 'tpl_welcome_string',
                    'string' => 'Welcome to the SMART Framework test page!')); ?> 
 
-<?php /* Event to get the navigation menu entries from the navigation module class. 
-         See: /admin/modules/navigation/class.NAVIGATION_GET.php 
+<?php /* Event to get the navigation menu entries from the navigation module action class. 
+         See: /admin/modules/navigation/actions/class.NAVIGATION_GET.php 
          The result is in the array $B->tpl_nav. */ ?>
 <?php $B->M( MOD_NAVIGATION, 
              'GET', 
