@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_view_adduser class of the template "login.tpl.php"
+ * user_view_adduser class of the template "adduser.tpl.php"
  *
  */
  
@@ -41,32 +41,18 @@ class user_view_adduser
     }
     
     /**
-     * Execute the view of the template "index.tpl.php"
-     * create the template variables
-     * and listen to an action
+     * Execute the view of the template "adduser.tpl.php"
      *
      * @return bool true on success else false
      */
     function perform()
-    {
-        // User rights class
-        include(SF_BASE_DIR.'modules/user/includes/class.rights.php');  
-
-        // have rights to add users?
-        if(FALSE == rights::ask_access_to_add_user ())
-        {
-            @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?admin=1');
-            exit;
-        } 
-        
-        // the user class
-        include_once SF_BASE_DIR . 'modules/user/includes/class.user.php';
-
-        //User Class instance
-        $this->B->user = & new user;  
-
-        
-        // Check login data
+    {    
+        // check permission to add new user
+        $this->B->F( USER_FILTER,
+                     'permission',
+                     array( 'action'  => 'add'));
+ 
+        // add user on demande
         if( ($_GET['sec'] == 'adduser') && isset($_POST['adduser']) )
         {
             // Init form field values
@@ -79,59 +65,84 @@ class user_view_adduser
             $this->B->form_rights   = '';
             $this->B->form_status   = '';
 
-            // Check if some form fields are empty
-            if(
-                empty($_POST['forename'])||
-                empty($_POST['lastname'])||
-                empty($_POST['email'])||
-                empty($_POST['login'])||
-                empty($_POST['passwd']))
+            // check if required fields are empty
+            if (FALSE == $this->_check_empty_fields())
             {
-                // if empty assign form field with old values
-                $this->B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
-                $this->B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
-                $this->B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-                $this->B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
-                $this->B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
-                $this->B->form_rights   = $_POST['rights'];
-                $this->B->form_status   = $_POST['status'];
-    
-                $this->B->form_error = 'You have fill out all fields!';
-            }
-            else
-            {
-                // add new user
-                $this->B->tmp_data = array( 
+                $this->_reset_old_fields_data();
+                return TRUE;
+            }            
+
+            // get new user data
+            $this->B->tmp_data = array( 
                         'forename' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
                         'lastname' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
                         'email'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
                         'login'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['login'])),
                         'passwd'   => $this->B->db->quoteSmart(md5($_POST['passwd'])),
-                        'rights'   => (int)$_POST['rights'],
-                        'status'   => (int)$_POST['status']);
-                  
-                if(FALSE !== $this->B->user->add_user($this->B->tmp_data))
-                {
-                    @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user');
-                    exit;
-                }
-                else
-                {
-                    // on error during add user
-                    $this->B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
-                    $this->B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
-                    $this->B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-                    $this->B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
-                    $this->B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
-                    $this->B->form_rights   = $_POST['rights'];
-                    $this->B->form_status   = $_POST['status'];   
-    
-                    $this->B->form_error = 'This login exist. Chose an other one!';
-                }
+                        'rights'   => 1,
+                        'status'   => 1);
+
+            // check if a user instance exists
+            if(!is_object($this->B->user))
+            {
+                // the user class
+                include_once SF_BASE_DIR . 'modules/user/includes/class.user.php';        
+                //User Class instance
+                $this->B->user = & new user;  
+            }
+            
+            // add new user data
+            if(FALSE !== ($user_id = $this->B->user->add_user($this->B->tmp_data)))
+            {
+                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user&sec=edituser&uid='.$user_id);
+                exit; 
+            }
+            else
+            {
+                $this->B->form_error = 'Unknown error! Please try again.';
+                $this->_reset_old_fields_data();
+                return TRUE;                
             }
         }
             
         return TRUE;
+    } 
+    
+    /**
+     * check if required fields are empty
+     *
+     * @return bool true on success else false
+     * @access privat
+     */       
+    function _check_empty_fields()
+    {
+        // check if some fields are empty
+        if(
+           empty($_POST['forename'])||
+           empty($_POST['lastname'])||
+           empty($_POST['email'])||
+           empty($_POST['login'])||
+           empty($_POST['passwd']))
+        {        
+            $this->B->form_error = 'You have fill out all fields!';
+            return FALSE;
+        }  
+        return TRUE;
+    }  
+    
+    /**
+     * reset the form fields with old user data
+     *
+     * @access privat
+     */       
+    function _reset_old_fields_data()
+    {
+        // if empty assign form field with old values
+        $this->B->form_forename = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
+        $this->B->form_lastname = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
+        $this->B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
+        $this->B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
+        $this->B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));          
     }    
 }
 

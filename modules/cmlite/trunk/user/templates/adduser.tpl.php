@@ -45,28 +45,6 @@
         <td align="left" valign="top"><input name="email" type="text" id="passwd" size="40" maxlength="255" value="<?php echo $B->form_email; ?>"></td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Status</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font9">
-        <input name="status" type="radio" value="1" checked> 
-        Inactif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input name="status" type="radio" value="2"> Actif        </td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10bold">Rights</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top">
-        <select name="rights">
-          <option value="1" selected>Registered</option>
-          <option value="2">Contributor</option>
-          <option value="3">Author</option>
-          <option value="4">Editor</option>
-          <option value="5">Administrator</option>
-        </select></td>
-      </tr>
-      <tr>
         <td align="left" valign="top"><input name="adduser" type="submit" id="adduser" value="Submit"></td>
       </tr>
     </table>
