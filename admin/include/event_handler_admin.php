@@ -45,7 +45,7 @@ function system_event_handler( $evt )
             $B->mod_list = array();
             foreach ($B->handler_list as $key => $value)
             {
-                if($value['module'] != 'SYSTEM')
+                if(($value['module'] != 'SYSTEM') && ($value['module'] != 'SETUP'))
                 {
                     $B->mod_list[$key] =  $value;
                 }

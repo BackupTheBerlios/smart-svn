@@ -65,10 +65,13 @@ $B->conf = & new patConfiguration(array(
                                          'encoding'      => 'ISO-8859-1'
                                         ));
 
-//  read config file from cache
-//  if cache is not valid, original file will be read and cache created
-$B->conf->loadCachedConfig( 'config_system.xml.php', array('filetype'=>'xml') );
-$B->sys = $B->conf->getConfigValue();
+if(@file_exists(SF_BASE_DIR . '/admin/config/config_system.xml.php'))
+{
+    //  read config file from cache
+    //  if cache is not valid, original file will be read and cache created
+    $B->conf->loadCachedConfig( 'config_system.xml.php', array('filetype'=>'xml') );
+    $B->sys = $B->conf->getConfigValue();
+}
 
 //  instance of the util class
 $B->util = new sfUtil;
@@ -111,19 +114,7 @@ if ( $B->sys['info']['status'] !== TRUE )
 {
     // send a setup message to the handler which takes
     // the setup part
-    $B->M( SF_SETUP_MODULE, EVT_SETUP );
-    /*
-    // redirect to setup
-    if (SF_SECTION != 'admin')
-    {
-        @header('Location: ' . SF_BASE_LOCATION . '/admin/setup/');
-    }
-    else
-    {
-        @header('Location: ' . SF_BASE_LOCATION . '/setup/');    
-    }
-    exit; 
-    */
+    $B->M( MOD_SETUP, EVT_SETUP );
 }
 
 ?>

@@ -20,6 +20,15 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on'. __FILE__);
 }
 
+if(!@mkdir(SF_BASE_DIR . '/data/db_sqlite'))
+{
+    $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/data/db_sqlite';
+}
+elseif(!@is_writeable( SF_BASE_DIR . '/data/db_sqlite' ))
+{
+    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/db_sqlite';
+}
+
 // Do setup 
 if( empty($_POST['sysname']) )
 {
@@ -40,6 +49,12 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
 
 if( count($B->setup_error) == 0 )
 {
+    @copy(SF_BASE_DIR . '/admin/include/.htaccess', SF_BASE_DIR . '/data/db_sqlite/.htaccess');
+    
+    // Connect to the main database
+    $B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
+    $B->dbdata->turboMode();
+
     $sql = "CREATE TABLE user_users (
             uid      INTEGER NOT NULL PRIMARY KEY,
             status   TINYINT NOT NULL default 1,
@@ -71,11 +86,9 @@ if( count($B->setup_error) == 0 )
         $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
     
-    $sql = "INSERT INTO modules (name,version) VALUES ('user','0.1')";
-    if( FALSE == $B->dbsystem->query($sql) )
-    {
-        $B->setup_error[] = $B->dbsystem->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
-    }   
+    $B->conf_val['module']['user']['name']    = 'user';
+    $B->conf_val['module']['user']['version'] = '0.1';
+    $B->conf_val['module']['user']['info'] = '';
 }
 
 ?>
