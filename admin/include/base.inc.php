@@ -91,7 +91,7 @@ $B->sys_option = $B->dbsys->getRow($result);
 unset($result);
 
 // Connect to the database
-$B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/' . $B->sys_option['db'] . '_data.db.php');
+$B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/' . $B->sys_option['db_prefix'] . '_data.db.php');
 $B->dbdata->turboMode();
 
 // Register all handlers

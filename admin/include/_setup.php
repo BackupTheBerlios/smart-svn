@@ -36,24 +36,23 @@ if( $_POST['do_setup'] && (count($B->setup_error) == 0) )
     // Connect to the database
     $B->dbsystem = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/system.db.php');
         
-    $sql_create_tables = implode('', file(SF_BASE_DIR . '/admin/include/db_system_tables.sql'));
-    if( FALSE == $B->dbsystem->query($sql_create_tables) )
+    include (SF_BASE_DIR . '/admin/include/db_system_tables.php');
+    
+    if (count($B->setup_error) == 0)
     {
-        $B->setup_error[] = $B->dbsystem->get_error();
-    }
-    else
-    {
-        $sql = "INSERT INTO info (name,version) VALUES ('{$B->system_name}','{$B->system_version}')";
+        $name = $B->dbsystem->escapeString($B->system_name);
+        $version = $B->dbsystem->escapeString($B->system_version);
+        $sql = "INSERT INTO info (name,version) VALUES ('{$name}','{$version}')";
         if( FALSE == $B->dbsystem->query($sql) )
         {
-            $B->setup_error[] = $B->dbsystem->get_error();
+            $B->setup_error[] = $B->dbsystem->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
         }
         else
         {
-            $sql = "INSERT INTO options (db,css_folder) VALUES ('smart','default')";
+            $sql = "INSERT INTO options (db_prefix,css_folder) VALUES ('smart','default')";
             if( FALSE == $B->dbsystem->query($sql) )
             {
-                $B->setup_error[] = $B->dbsystem->get_error();
+                $B->setup_error[] = $B->dbsystem->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
             }
             else
             {

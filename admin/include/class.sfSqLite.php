@@ -129,7 +129,7 @@ class SqLite
      * @see     setWaitingTime()
      */
 
-    var $_busyTimeout = 30000;
+    var $_busyTimeout = 3;
 
     /**
      * Array with table informations
