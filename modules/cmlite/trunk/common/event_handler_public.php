@@ -75,12 +75,12 @@ else
 ini_set( 'include_path', SF_BASE_DIR . '/admin/modules/common/PEAR' . $tmp_separator . ini_get('include_path') );
 unset($tmp_separator);
 
+// include PEAR DB class
+include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/DB.php');
+
 // class instance of DB if setup is done
 if($B->sys['info']['status'] == TRUE)
-{
-    // include PEAR DB class
-    include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/DB.php');
-    
+{ 
     $B->dsn = array('phptype'  => $B->sys['db']['dbtype'],
                     'username' => $B->sys['db']['user'],
                     'password' => $B->sys['db']['passwd'],

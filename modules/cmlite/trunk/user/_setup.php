@@ -17,7 +17,7 @@
 //
 if (!defined('SF_SECURE_INCLUDE'))
 {
-    die('No Permission on'. __FILE__);
+    die('No Permission on '. __FILE__);
 }
 
 // Do setup 
@@ -44,39 +44,27 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
 
 if( $success == TRUE )
 {
-    //create sqlite dir if it dosent exist
+    //create captcha_pics dir if it dosent exist
     if(!is_dir(SF_BASE_DIR . '/admin/tmp/captcha_pics'))
     {
-        if(!@mkdir(SF_BASE_DIR . '/admin/tmp/captcha_pics', SF_DIR_MODE))
+        if(!mkdir(SF_BASE_DIR . '/admin/tmp/captcha_pics', SF_DIR_MODE))
         {
             $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/admin/tmp/captcha_pics';
             $success = FALSE;
         }
-        elseif(!@is_writeable( SF_BASE_DIR . '/admin/tmp/captcha_pics' ))
+        elseif(!is_writeable( SF_BASE_DIR . '/admin/tmp/captcha_pics' ))
         {
             $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/captcha_pics';
             $success = FALSE;
         }  
     }
-       
-    // check if pear db is present
-    if(@file_exist(SF_BASE_DIR . '/admin/modules/common/PEAR/DB.php'))
-    {  
-        // include PEAR DB
-        include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/DB.php' ); 
-    }
-    else
-    {
-        $B->setup_error[] = 'PEAR DB.php dosent exist: ' . SF_BASE_DIR . '/admin/modules/common/PEAR/DB.php';
-        $success = FALSE;
-    }
     
     if($success == TRUE)
     {
         // create db tables
-        if(@file_exist(SF_BASE_DIR . '/admin/modules/user/_setup_'.$_POST['dbtype'].'.php'))
+        if(file_exists(SF_BASE_DIR . '/admin/modules/user/_setup_'.$_POST['dbtype'].'.php'))
         {
-            // include sqlite setup
+            // include mysql setup
             include_once( SF_BASE_DIR . '/admin/modules/user/_setup_'.$_POST['dbtype'].'.php' );    
         }
         else

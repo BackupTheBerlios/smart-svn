@@ -23,13 +23,13 @@ if (!defined('SF_SECURE_INCLUDE'))
 //create data folder
 if(!is_dir(SF_BASE_DIR . '/data/earchive'))
 {
-    if(!@mkdir(SF_BASE_DIR . '/data/earchive', SF_DIR_MODE))
+    if(!mkdir(SF_BASE_DIR . '/data/earchive', SF_DIR_MODE))
     {
         trigger_error("Cant make dir: ".SF_BASE_DIR."/data/earchive\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/data/earchive';
         $success = FALSE;
     }
-    elseif(!@is_writeable( SF_BASE_DIR . '/data/earchive' ))
+    elseif(!is_writeable( SF_BASE_DIR . '/data/earchive' ))
     {
         trigger_error("Cant make dir: ".SF_BASE_DIR."/data/earchive\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/earchive';
@@ -37,7 +37,7 @@ if(!is_dir(SF_BASE_DIR . '/data/earchive'))
     }  
 }
 
-if(!@file_exist(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php'))
+if(!file_exists(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php'))
 {
         trigger_error("File missing: Earchive depends on the following class: ".SF_BASE_DIR."/admin/modules/common/class.sfWordIndexer.php\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         $B->setup_error[] = "File missing: Earchive depends on the following class: ".SF_BASE_DIR."/admin/modules/common/class.sfWordIndexer.php";
@@ -52,7 +52,7 @@ else
 if($success == TRUE)
 {
     // create db tables
-    if(@file_exist(SF_BASE_DIR . '/admin/modules/earchive/_setup_'.$_POST['dbtype'].'.php'))
+    if(file_exists(SF_BASE_DIR . '/admin/modules/earchive/_setup_'.$_POST['dbtype'].'.php'))
     {
         // include sqlite setup
         include_once( SF_BASE_DIR . '/admin/modules/earchive/_setup_'.$_POST['dbtype'].'.php' );    
