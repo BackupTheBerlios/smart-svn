@@ -1,3 +1,6 @@
+<?php if($B->tpl_error != FALSE): ?>
+<?php echo $B->tpl_error; ?>
+<?php endif; ?>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="89%" align="left" valign="top">

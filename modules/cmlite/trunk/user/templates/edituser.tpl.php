@@ -21,10 +21,10 @@ function deleteuser(f, mes)
   <tr>
     <td width="57%" align="left" valign="top">      <table width="400" border="0" cellspacing="3" cellpadding="3">
       <?php if($B->tpl_error != FALSE): ?>
-            <tr>
+      <tr>
         <td align="left" valign="top" class="itemerror"><?php echo $B->tpl_error; ?></td>
       </tr>
-            <?php endif; ?>
+      <?php endif; ?>
       <tr>
         <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit User </td>
       </tr>
