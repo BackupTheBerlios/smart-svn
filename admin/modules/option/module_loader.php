@@ -24,10 +24,25 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Init this variable
 $B->modul_options = FALSE;
 
-// If no module feature is requested. NO options of other modules.
+// Show main options if no module feature is requested.
 if(!isset($_GET['mf']))
 {
-    // Load the available templates
+    // if update main options
+    if (isset($_POST['update_main_options']))
+    {
+        $B->sys['option']['url']        = $B->util->stripSlashes($_POST['site_url']);
+        $B->sys['option']['email']      = $B->util->stripSlashes($_POST['site_email']);
+        $B->sys['option']['site_title'] = $B->util->stripSlashes($_POST['site_title']);
+        $B->sys['option']['site_desc']  = $B->util->stripSlashes($_POST['site_desc']);
+        $B->sys['option']['charset']    = $B->util->stripSlashes($_POST['charset']);
+        $B->sys['option']['tpl']        = $B->util->stripSlashes($_POST['tpl']);
+        
+        $B->conf->setConfigValues( $B->sys );
+        //  write a new file
+        $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
+    }    
+    
+    // Load the available public templates sets from the main folder 
     $B->templ = array();
     $directory =& dir(SF_BASE_DIR);
 
@@ -48,7 +63,10 @@ if(!isset($_GET['mf']))
 else
 {
     //Load options of the requested modul
-    $B->modul_options = $B->M( $_GET['mf'], EVT_LOAD_OPTIONS);
+    if(FALSE === ($B->modul_options = $B->M( $_GET['mf'], EVT_LOAD_OPTIONS)))
+    {
+        trigger_error( "This modul handler dosent exist: " . $_GET['mf'] . "\n" . __FILE__ . "\n" . __LINE__, E_USER_ERROR  );            
+    }
 }
 
 // set the base template for this module

@@ -2,7 +2,7 @@
 /**
  * patConfiguration
  *
- * $Id: patConfiguration.php,v 1.3 2004/07/15 19:32:02 schst Exp $
+ * $Id: patConfiguration.php,v 1.5 2004/07/17 18:50:09 schst Exp $
  *
  * Abstracts access to configuration files.
  * Currently XML, WDDX, INI and PHP files are
@@ -540,7 +540,7 @@ class patConfiguration
 			switch( $action )
 			{
 				case	'checkFile':
-					if( filemtime( $param ) > $cacheTime )
+					if( @filemtime( $param ) > $cacheTime )
 					{
 						flock( $fp, LOCK_UN );
 						fclose( $fp );
@@ -587,9 +587,9 @@ class patConfiguration
 
 		$cntFiles	=	count( $externalFiles );
 		for( $i = 0; $i < $cntFiles; $i++ )
-			fputs( $fp, 'checkFile='.$externalFiles[$i].'\n' );
+			fputs( $fp, "checkFile=".$externalFiles[$i]."\n" );
 
-		fputs( $fp, 'startCache=yes'.'\n' );
+		fputs( $fp, "startCache=yes\n" );
 		fwrite( $fp, $cacheData );
 		flock( $fp, LOCK_UN );
 		fclose( $fp );
@@ -673,25 +673,26 @@ class patConfiguration
 	}
 
    /**
-	* convert a string variable to any type
+	* convert a variable to any type
 	*
 	* @access	private
-	* @param	string	$value	value that should be converted
-	* @param	string	$type	type of the value (string, bool, integer, double)
-	* @return	mixed	$value
+	* @param	mixed		value that should be converted
+	* @param	string		type of the value (string, bool, integer, double, object)
+	* @param	array		options for the type conversion
+	* @return	mixed
 	*/
-	function convertValue( $value, $type = 'string' )
+	function convertValue( $value, $type = 'string', $options = array() )
 	{
 		switch( $type )
 		{
 			//	string
-			case	'string':
+			case 'string':
 				settype( $value, 'string' );
 				break;
 
 			//	boolean
-			case	'boolean':
-			case	'bool':
+			case 'boolean':
+			case 'bool':
 				if( $value == 'true' || $value == 'yes' || $value == 'on' )
 					$value	=	true;
 				else
@@ -699,19 +700,19 @@ class patConfiguration
 				break;
 
 			//	integer
-			case	'integer':
-			case	'int':
+			case 'integer':
+			case 'int':
 				settype( $value, 'integer' );
 				break;
 
 			//	double
-			case	'float':
-			case	'double':
+			case 'float':
+			case 'double':
 				settype( $value, 'double' );
 				break;
 
 			//	array
-			case	'array':
+			case 'array':
 				if( !is_array( $value ) )
 				{
 					if( trim( $value ) )
@@ -720,6 +721,17 @@ class patConfiguration
 						$value	=	array();
 				}
 				break;
+
+			//	object
+			case 'object':
+				if( class_exists( $options['instanceof'] ) )
+					$class = $options['instanceof'];
+				else
+					$class = 'stdClass';
+					
+				$value = &new $class( $value );
+				break;
+
 		}
 		return	$value;
 	}

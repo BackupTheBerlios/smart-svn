@@ -111,15 +111,19 @@ if($B->sys['info']['status'] == TRUE)
     // include DB class
     include_once( SF_BASE_DIR . '/admin/modules/user/adodb/adodb.inc.php');
     
+    // adodb cache dir
     $ADODB_CACHE_DIR = SF_BASE_DIR . '/admin/tmp/ADODB_cache';
     
+    // adodb instance
     $B->conn = ADONewConnection( $B->sys['db']['dbtype'] );
     
+    // if sqlite set host to the db file
     if($B->sys['db']['dbtype'] == 'sqlite')
     {
         $B->sys['db']['host'] = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
     }
     
+    // db connect
     if (!$B->conn->Connect( $B->sys['db']['host'], $B->sys['db']['user'], $B->sys['db']['passwd'], $B->sys['db']['name'] ))
     {
         trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );            

@@ -24,7 +24,7 @@ class sfBase
      */
     var $handler_list = array(); 
     /**
-      * Check if a handler exists
+      * Check if a handler exist
       *
       * @param string $target Name of a handler.
       * @return bool true or false.
@@ -65,7 +65,7 @@ class sfBase
                         "code"      => $code,
                         "data"      => $data);  
         
-        // if such a handler dosent exist return false
+        // check if such a handler exist
         if(empty($this->handler_list[$target_id]))
             return FALSE;
             
