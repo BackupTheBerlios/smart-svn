@@ -10,38 +10,13 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_sys_init class 
+ * action_common_sys_init class 
  *
  */
  
-class common_sys_init
+class action_common_sys_init extends action
 {
     /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function common_sys_init()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];        
-    }
-    
-    /**
-    
      * Check if version number has changed and perfom additional upgarde code
      * Furthermore assign array with module menu names for the top right
      * module html seletor

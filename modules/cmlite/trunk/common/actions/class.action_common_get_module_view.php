@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_get_module_view class 
+ * action_common_get_module_view class 
  *
  * - this class validate the requested module name and template name.
  * - make an instance of the requested module view
@@ -20,14 +20,8 @@
  * - on error the error template is returned
  */
  
-class common_get_module_view
+class action_common_get_module_view extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     * @access privat
-     */
-    var $B;
     /**
      * Module name
      * @var string $module
@@ -40,24 +34,6 @@ class common_get_module_view
      * @access privat
      */
     var $_view;   
-    
-    /**
-     * constructor
-     *
-     */
-    function common_get_module_view()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
 
     /**
      * Validate request variables

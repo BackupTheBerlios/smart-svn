@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_cache_get class 
+ * action_common_cache_get class 
  *
  */
  
-class common_cache_get
+class action_common_cache_get extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function common_cache_get()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Get cache result
      *

@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_sys_update_config class 
+ * action_common_sys_update_config class 
  *
  */
  
-class common_sys_update_config
-{
-    /**
-     * Global system instance
-     * @var object $this->B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function common_sys_finish_update()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
+class action_common_sys_update_config extends action
+{ 
     /**
      * Control the main setup process
      *

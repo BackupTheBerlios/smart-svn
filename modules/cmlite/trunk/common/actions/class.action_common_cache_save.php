@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_cache_save class 
+ * action_common_cache_save class 
  *
  */
  
-class common_cache_save
+class action_common_cache_save extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function common_cache_save()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Cache data
      *

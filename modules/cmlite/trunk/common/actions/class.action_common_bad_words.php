@@ -10,32 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * common_bad_words class
+ * action_common_bad_words class
  *
  *
  */
-class common_bad_words
+class action_common_bad_words extends action
 {  
-    /**
-     * Constructor
-     * @param int $word_length Minimal word length
-     * @param string $delimiters Word delimiters
-     */
-    function common_bad_words()
-    {   
-
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-
     /**
      * add list data in db table
      *

@@ -40,7 +40,7 @@ if (FALSE == register_handler( MOD_COMMON,
 function common_event_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'common_'.$evt['code'];
+    $class_name = 'action_common_'.$evt['code'];
         
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))

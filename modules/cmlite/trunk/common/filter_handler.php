@@ -37,7 +37,7 @@ if (FALSE == register_filter( COMMON_FILTER,
 function common_filter_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'common_filter'.$evt['code'];
+    $class_name = 'filter_common_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))
