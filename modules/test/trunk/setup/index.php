@@ -36,7 +36,7 @@ if( $_POST['do_setup'] )
     
     // Send a setup message to the entry handler
     if($success == TRUE)    
-        $success = $B->M( MOD_ENTRY,        EVT_SETUP );
+        $success = $B->M( MOD_DEFAULT,       EVT_SETUP );
     
     // Send a setup message to the test handler
     if($success == TRUE)
