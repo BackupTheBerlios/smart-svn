@@ -22,8 +22,13 @@ class mailarchiver
      * @param array $fields Field names of the list db table
      * @return array Lists data 
      */ 
-    function get_lists( $fields )
-    {       
+    function get_lists( $fields, $status = FALSE )
+    {
+        if(FALSE !== $status)
+            $where = 'WHERE '.$status;
+        else
+            $where = '';
+        
         $comma = '';
         foreach ($fields as $f)
         {
@@ -35,7 +40,8 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists 
+                {$where} 
             ORDER BY
                 name ASC";
         

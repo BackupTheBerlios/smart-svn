@@ -23,7 +23,8 @@ class mailarchiver
      */ 
     function get_lists( $data )
     {
-        $comma = '';
+        $comma   = '';
+        $_fields = '';
         foreach ($data['fields'] as $f)
         {
             $_fields .= $comma.$f;
@@ -35,6 +36,8 @@ class mailarchiver
                 {$_fields}
             FROM
                 {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
+            WHERE
+                status>1
             ORDER BY
                 name ASC";
         
@@ -65,10 +68,11 @@ class mailarchiver
      * @param array $fields Field names of the list db table
      * @return array List data 
      */     
-    function get_list( $lid, $fields )
+    function get_list( $data )
     {
-        $comma = '';
-        foreach ($fields as $f)
+        $comma   = '';
+        $_fields = '';
+        foreach ($data['fields'] as $f)
         {
             $_fields .= $comma.$f;
             $comma = ',';
@@ -80,97 +84,174 @@ class mailarchiver
             FROM
                 {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
             WHERE
-                lid={$lid}";
-        
-        return $GLOBALS['B']->conn->getRow($sql);
-    } 
-    
-    /**
-     * add email list
-     *
-     * @param array $data associative array of list data
-     * @return bool true or false
-     */     
-    function add_list( $data )
-    {
-        $sql = '
-            INSERT INTO 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
-                (name,email,emailuser,emailpasswd,description,folder,status)
-            VALUES
-                ('.$data['name'].',
-                 '.$data['email'].',
-                 '.$data['emailuser'].',
-                 '.$data['emailpasswd'].',
-                 '.$data['description'].',
-                 '.$data['folder'].',
-                 '.$data['status'].')';
+                status>1                
+            AND
+                lid={$data['lid']}";
 
-        return $GLOBALS['B']->conn->Execute($sql);
+        // get var name to store the result
+        $GLOBALS['B']->$data['var'] = array();
+        $_result                    = & $GLOBALS['B']->$data['var'];
+
+        $_result = $GLOBALS['B']->conn->getRow($sql);
     } 
+
     /**
-     * update email list data
+     * get email list data
      *
      * @param int $lid List id
-     * @param array $data associative array of list data
-     */
-    function update_list( $lid, $data )
+     * @param array $fields Field names of the list db table
+     * @return array List data 
+     */     
+    function get_message( $data )
     {
-        $set = '';
-        $comma = '';
-        
-        foreach($data as $key => $val)
+        $comma   = '';
+        $_fields = '';
+        foreach ($data['fields'] as $f)
         {
-            $set .= $comma.$key.'='.$val;
+            $_fields .= $comma.$f;
             $comma = ',';
         }
         
-        $sql = '
-            UPDATE 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
-            SET
-                '.$set.'
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages
             WHERE
-                lid='.$lid;
-        
-        return $GLOBALS['B']->conn->Execute($sql);
+                mid={$data['mid']}                
+            AND
+                lid={$data['lid']}";
+
+        // get var name to store the result
+        $GLOBALS['B']->$data['var'] = array();
+        $_result                    = & $GLOBALS['B']->$data['var'];
+
+        $_result = $GLOBALS['B']->conn->getRow($sql);
     } 
 
     /**
-     * delete email list archiv
+     * get email list data
      *
      * @param int $lid List id
-     */
-    function delete_list( $lid )
+     * @param array $fields Field names of the list db table
+     * @return array List data 
+     */     
+    function get_messages( $data )
     {
-        // get attachments folder
-        $fields = array('folder');
-        $data = $this->get_list( $lid, $fields );
-        $path = SF_BASE_DIR.'/data/mailarchiver/'.$data['folder'];
-        
-        if(!empty($data['folder']) && @is_dir($path))
-        {   
-            // delete attachements folder for this list
-            $GLOBALS['B']->util->delete_dir_tree( $path );
+        $comma   = '';
+        $_fields = '';
+        foreach ($data['fields'] as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
         }
         
-        // delete list
-        $sql = "
-            DELETE FROM 
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
-            WHERE
-                lid={$lid}";
+        if(!empty($data['order']))
+            $order = 'mdate DESC';
+        else
+            $order = $data['order'];
         
-        $GLOBALS['B']->conn->Execute($sql);
-        
-        // delete list messages
         $sql = "
-            DELETE FROM 
+            SELECT
+                {$_fields}
+            FROM
                 {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages
             WHERE
-                lid={$lid}";
+                lid={$data['lid']} 
+            ORDER BY {$order}";
+
+        if(!isset($_GET['pageID']) || ($_GET['pageID']==1))
+            $page = -1;
+        else
+            $page = ($_GET['pageID']-1)*$data['pager']['limit'];
+            
+        $result = $GLOBALS['B']->conn->SelectLimit($sql,$data['pager']['limit'],$page);
+
+        // get var name to store the result
+        $GLOBALS['B']->$data['var'] = array();
+        $_result                    = & $GLOBALS['B']->$data['var'];
+
+        if(is_object($result))
+        {
+            while($row = $result->FetchRow())
+            {
+                $tmp = array();
+                foreach($data['fields'] as $f)
+                {
+                    $tmp[$f] = stripslashes($row[$f]);
+                }
+                $_result[] = $tmp;
+            }
+        }
+        $this->_pager( $data );
+    }
+
+    /**
+     * get email list data
+     *
+     * @param int $lid List id
+     * @param array $fields Field names of the list db table
+     * @return array List data 
+     */     
+    function get_message_attach( $data )
+    {
+        $comma   = '';
+        $_fields = '';
+        foreach ($data['fields'] as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
+        }
         
-        return $GLOBALS['B']->conn->Execute($sql);        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_attach 
+            WHERE 
+                mid={$data['mid']}
+            ORDER BY
+                file ASC";
+        
+        $result = $GLOBALS['B']->conn->Execute($sql);
+        
+        // get var name to store the result
+        $GLOBALS['B']->$data['var'] = array();
+        $_result                    = & $GLOBALS['B']->$data['var'];
+        
+        if(is_object($result))
+        {
+            while($row = $result->FetchRow())
+            {
+                $tmp = array();
+                foreach($data['fields'] as $f)
+                {
+                    $tmp[$f] = stripslashes($row[$f]);
+                }
+                $_result[] = $tmp;
+            }
+        }
+    }
+
+    function _pager( &$data )
+    {
+        include_once(SF_BASE_DIR.'/admin/lib/Pager_Sliding/Sliding.php');
+        
+        $sql = "
+            SELECT
+                count(lid) AS num_rows
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages
+            WHERE
+                lid={$data['lid']}";        
+
+        $_result = $GLOBALS['B']->conn->getRow($sql);
+
+        $params['totalItems'] = $_result['num_rows'];
+        $params['perPage']    = $data['pager']['limit'];
+        $pager = &new Pager_Sliding($params);
+        $links = $pager->getLinks();
+        $GLOBALS['B']->$data['pager']['var'] = $links['all'];    
     }
 }
 

@@ -40,7 +40,7 @@ $msg =& new Mail_IMAP();
 //User Class instance
 $B->marchiver = & new mailarchiver;
 
-$lists = $B->marchiver->get_lists( array('lid','emailserver','folder') );
+$lists = $B->marchiver->get_lists( array('lid','emailserver','folder'), 'status>1' );
 
 foreach ($lists as $account)
 {
@@ -84,7 +84,7 @@ foreach ($lists as $account)
             
             if ($body['ftype'] == 'text/plain')
             {
-                $data['body'] = $B->conn->qstr(nl2br(htmlspecialchars($body['message'])), magic_quotes_runtime());
+                $data['body'] = $B->conn->qstr(nl2br($body['message']), magic_quotes_runtime());
             }
             else
             {
@@ -107,8 +107,8 @@ foreach ($lists as $account)
                 $data['folder']  = '0';
             }
             
-            if(FALSE === ($message_id = $B->marchiver->add_message( $data ))
-                trigger_error('Cannot add message: '.__FILE__.' '.__LINE__, E_USER_ERROR);
+            if(FALSE === ($message_id = $B->marchiver->add_message( $data )))
+                trigger_error('Cannot add message: '.var_export($data).__FILE__.' '.__LINE__, E_USER_ERROR);
 
             // Now the attachments
             if ((TRUE === $is_attach) && ($message_id !== FALSE))
@@ -125,20 +125,19 @@ foreach ($lists as $account)
                    $pid = $msg->attachPid[$mid][$i];
                    $att_data = array();
                    
-                   $att_data['lid']  = $account['lid'];
                    $att_data['file'] = $B->conn->qstr($msg->attachFname[$mid][$i], magic_quotes_runtime());
                    $att_data['type'] = $B->conn->qstr($msg->attachFtype[$mid][$i], magic_quotes_runtime());
-                   $att_data['size'] = $B->conn->qstr($msg->attachFsize[$mid][$i], magic_quotes_runtime());
+                   $att_data['size'] = $msg->attachFsize[$mid][$i];
                    
                     // Parse header information
                     $msg->getParts($mid, $pid);
                     $body = $msg->getBody($mid, $pid);
 
-                    if($f = @fopen($path.'/'.$att_data['file'], 'wb'))
+                    if($f = @fopen($path.'/'.$msg->attachFname[$mid][$i], 'wb'))
                     {
                         @fwrite($f, $body['message'], $att_data['size']);
                         @fclose($f);
-                        $B->marchiver->add_attach( $message_id, $att_data );
+                        $B->marchiver->add_attach( $message_id, $account['lid'], $att_data );
                     }
                 }
             }
