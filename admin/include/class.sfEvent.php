@@ -37,7 +37,12 @@ class sfEvent
      */
     function register_handler( $target, $descriptor )
     {
+        if(isset($this->handler_list[$target]))
+        {
+            return patErrorManager::raiseError( 'handler:error', 'Handler exist', "The handler {$target} exist!"  );        
+        }
         $this->handler_list[$target] = $descriptor;
+        return TRUE;
     }
 
     /**
