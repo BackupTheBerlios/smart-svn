@@ -16,7 +16,7 @@
  *
  */
  
-class system_get_public_view
+class system_get_view
 {
     /**
      * Global system instance
@@ -30,7 +30,7 @@ class system_get_public_view
      * constructor
      *
      */
-    function system_get_public_view()
+    function system_get_view()
     {
         $this->__construct();
     }
@@ -58,6 +58,8 @@ class system_get_public_view
     function perform( $data )
     {
         // we need the global container object in this function as $B
+        // in order to access templates variables e.g. $B->tpl_test
+        // A Template is included in this function.
         $B = & $this->B;
         
         // Check if the requested template is passed through the $data array
@@ -86,18 +88,19 @@ class system_get_public_view
 
         if ($_REQUEST['admin'] == '1')
         {
-            if ( isset($data['m']) )
+            // if no view is defines call first the common module view
+            if( empty($data['view']) )
+            {
+                $module = SF_BASE_MODULE;
+            }
+            elseif ( isset($data['m']) )
             {
                 $module = $data['m'];
             }
             elseif( isset( $_REQUEST['m'] ) )
             {
                 $module = $_REQUEST['m'];   
-            }
-            else
-            {
-                $module = SF_BASE_MODULE;   
-            }   
+            }  
             
             // Check view request string
             if(!preg_match("/[a-zA-Z0-9_]{1,30}/", $module))
@@ -134,9 +137,6 @@ class system_get_public_view
 
         // Launch view related authentication
         $view_obj->auth(); 
-
-        // Launch view related logout
-        $view_obj->logout(); 
 
         // Launch view related prepend filter chain
         $view_obj->prependFilterChain(); 

@@ -51,7 +51,7 @@ class system_sys_prepend
         // Manual order the filter priority 
 
         // add headers
-        $this->B->F( SYSTEM_FILTER , 'add_headers' ); 
+        F( SYSTEM_FILTER , 'add_headers' ); 
     }    
 }
 

@@ -77,10 +77,10 @@ class system_sys_append
         // Manual order the filter flow 
     
         // Remove space before and after the template output
-        $content = $this->B->F( SYSTEM_FILTER , 'trim_output', $content );
+        $content = F( SYSTEM_FILTER , 'trim_output', $content );
 
         // email obfuscation
-        $content = $this->B->F( SYSTEM_FILTER , 'email_obfuscating', $content  );  
+        $content = F( SYSTEM_FILTER , 'email_obfuscating', $content  );  
         
         return $content;
     }
@@ -97,7 +97,7 @@ class system_sys_append
         // Manual order the filter flow 
     
         // Remove space before and after the template output
-        $content = $this->B->F( SYSTEM_FILTER , 'trim_output', $content );
+        $content = F( SYSTEM_FILTER , 'trim_output', $content );
         return $content;
     }    
 }
