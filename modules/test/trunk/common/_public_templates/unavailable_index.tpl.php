@@ -10,6 +10,6 @@
 </head>
 
 <body>
-<p>This site is currently unavailable. Please come back later</p>
+<p>This site is currently unavailable. Please come back later.<br><br>This page is produced by the "unavailable_index.tpl.php" template.<br><br><a href="admin/index.php">back to admin</a></p>
 </body>
 </html>
