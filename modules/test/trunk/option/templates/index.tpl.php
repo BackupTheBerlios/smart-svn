@@ -30,7 +30,9 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-    <form action="index.php?m=OPTION" method="post" name="email" id="email">
+    <form action="index.php" method="post" name="email" id="email">    
+        <input name="m" type="hidden" value="option">
+		<input name="tpl" type="hidden" value="index">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
@@ -40,11 +42,13 @@
               <input name="site_email" type="text" size="70" maxlength="1024" value="<?php echo htmlspecialchars(stripslashes($B->sys['option']['email'])); ?>">
               &nbsp; 
             </td>
-            <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_email" value="update" onclick="subok(this.form.update_main_options_email);"></td>
+            <td width="13%" align="left" valign="top"><input type="submit" name="action" value="update email"></td>
           </tr>
         </table>   
     </form> 
-    <form action="index.php?m=OPTION" method="post" name="title" id="title">    
+    <form action="index.php" method="post" name="title" id="title"> 
+        <input type="hidden" name="tpl" id="id" value="index">
+        <input name="m" type="hidden" value="option">	   
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
@@ -55,11 +59,13 @@
                 <textarea name="site_desc" cols="50" rows="3" wrap="virtual"><?php echo htmlspecialchars(stripslashes($B->sys['option']['site_desc'])); ?></textarea>
                 &nbsp; 
             </td>
-            <td width="13%" align="left" valign="top"><input type="submit" name="update_main_options_title" value="update" onclick="subok(this.form.update_main_options_title);"></td>
+            <td width="13%" align="left" valign="top"><input type="submit" name="action" value="update title"></td>
           </tr>
         </table> 
     </form>  
-    <form action="index.php?m=OPTION" method="post" name="charset" id="charset">              
+    <form action="index.php" method="post" name="charset" id="charset"> 
+        <input type="hidden" name="tpl" id="id" value="index">
+        <input name="m" type="hidden" value="option">	             
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Charset</span></td>
@@ -85,25 +91,27 @@
           <option value="utf-8" <?php if($B->sys['option']['charset']=='utf-8') echo 'selected="selected"' ?>>Unicode (utf-8)</option>
         </select>&nbsp; 
             </td>
-            <td width="63%" align="left" valign="top"><input type="submit" name="update_main_options_charset" value="update" onclick="subok(this.form.update_main_options_charset);"></td>
+            <td width="63%" align="left" valign="top"><input type="submit" name="action" value="update charset"></td>
           </tr>
         </table> 
     </form>  
-    <form action="index.php?m=OPTION" method="post" name="tpl" id="tpl">      
+    <form action="index.php" method="post" name="tpl" id="tpl">
+        <input type="hidden" name="tpl" id="id" value="index">
+        <input name="m" type="hidden" value="option">	    	      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web page template groups</span></td>
           </tr>
           <tr>
             <td width="13%" align="left" valign="top">
-               <select name="tpl">
+               <select name="group">
                   <?php foreach($B->templ as $_tpl):  ?>
                      <option value="<?php echo $_tpl; ?>" <?php if($_tpl==$B->sys['option']['tpl']) echo 'selected="selected"' ?>><?php echo $_tpl; ?></option>
                     <?php endforeach;  ?>
                </select>
                &nbsp; 
             </td>
-            <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_tpl" value="update" onclick="subok(this.form.update_main_options_tpl);"></td>
+            <td width="87%" align="left" valign="top"><input type="submit" name="action" value="update group"></td>
           </tr>
       </table> 
       </form>

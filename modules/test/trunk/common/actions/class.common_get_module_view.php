@@ -56,7 +56,7 @@ class common_get_module_view
         }
         else
         {
-            $module = FALSE;
+            $module = SF_DEFAULT_MODULE;
         }
         
         if(preg_match("/[a-z_]+/", $_REQUEST['tpl']))
@@ -69,21 +69,22 @@ class common_get_module_view
         }        
     
         // get module view
-        if( ( FALSE != $module ) && ( FALSE != $tpl ) )
+        if( isset( $_REQUEST['m'] ) && ( FALSE != $tpl ) )
         {
             // path to the main admin template
             $template_file = SF_BASE_DIR . 'modules/' . $module . '/templates/' . $tpl . '.tpl.php';        
             // build the whole file path to the view class file
-            $view_class_file = SF_BASE_DIR . 'modules/' . $module . '/view/class.mod_view_' . $tpl . '.php';
+            $view_class_file = SF_BASE_DIR . 'modules/' . $module . '/view/class.'.$module.'_view_' . $tpl . '.php';
 
         }
         // get default module view
         else
         {
             // path to the main admin template
-            $template_file = SF_BASE_DIR . 'modules/' . SF_DEFAULT_MODULE . '/templates/index.tpl.php';        
+            $template_file = SF_BASE_DIR . 'modules/' . $module . '/templates/index.tpl.php';        
             // build the whole file path to the view class file
-            $view_class_file = SF_BASE_DIR . 'modules/' . SF_DEFAULT_MODULE . '/view/class.mod_view_index.php';        
+            $view_class_file = SF_BASE_DIR . 'modules/' . $module . '/view/class.'.$module.'_view_index.php';        
+            $tpl = 'index';
         }
         
         // include view class file of the requested template
@@ -91,7 +92,7 @@ class common_get_module_view
         {
             include_once( $view_class_file );
             
-            $view_class = 'mod_view_'.$data['tpl'];
+            $view_class = $module . '_view_' . $tpl;
             
             $view = & new $view_class();
             if( FALSE == $view->perform() )

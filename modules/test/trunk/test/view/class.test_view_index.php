@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * test_view_index class of the template "/xxx_index.tpl.php"
+ * test_view_index class of the template "index.tpl.php"
  *
  */
  
@@ -41,16 +41,16 @@ class test_view_index
     }
     
     /**
-     * Execute the view of the template "/xxx_index.tpl.php"
+     * Execute the view of the template "index.tpl.php"
      * create the template variables
+     * and listen to an action
      *
      * @return bool true on success else false
      */
     function perform()
     {
-        // Load a specific module feature
-        // 'mf' stay for 'module feature'
-        // this var is defined in the test template index.tpl.php
+        // Execute a specific module action
+        // Here we listen to the "evalform" action
         //
         if($_REQUEST['action'] == 'evalform')
         {
