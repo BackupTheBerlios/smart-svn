@@ -15,10 +15,21 @@
 .style1 {color: #990000; font-size: 12px;}
 -->
 </style>
+</style>
+<script language="JavaScript" type="text/JavaScript">
+function go(x){
+    if(x != ""){
+    window.location.href = x;
+    }
+}
+function subok(s){
+    s.value = "... wait";
+}
+</script>
 </head>
 <body>
 <?php foreach($B->setup_error as $err) echo $err . '<br />'; ?>
-<form name="setup" id="setup" method="post" action="index.php">
+<form name="setup" id="setup" method="post" action="index.php?dbtype=<?php echo $_REQUEST['dbtype']; ?>">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">Smart Frame Setup </span></td>
@@ -31,9 +42,9 @@
       <tr>
         <td width="19%" align="left" valign="top"><span class="normal">Database Type:</span></td>
         <td width="81%" align="left" valign="top">
-          <select name="dbtype" id="dbtype">
-            <option value="mysql" selected>MySql</option>
-            <option value="sqlite">Sqlite</option>
+          <select name="dbtype" id="dbtype"  onChange="go('index.php?dbtype='+this.form.dbtype.options[this.form.dbtype.options.selectedIndex].value)">
+            <option value="sqlite" <?php if(!isset($_REQUEST['dbtype']) || ($_REQUEST['dbtype']=='sqlite')) echo 'selected'; ?>>Sqlite</option>
+            <option value="mysql" <?php if($_REQUEST['dbtype'] == 'mysql') echo 'selected'; ?>>MySql</option>
           </select>
 </td>
       </tr>
@@ -63,6 +74,7 @@
         </td>
       </tr>
     </table>
+    <?php if($_REQUEST['dbtype'] == 'mysql'): ?>    
     <table width="90%"  border="0" cellspacing="4" cellpadding="2">
       <tr bgcolor="#CCCCCC">
         <td colspan="2" align="left" valign="top"><span class="subtitle">&nbsp;Database conect data</span><span class="style1"> (ignore this if you have seleted Sqlite as database) </span></td>
@@ -97,6 +109,7 @@
         </td>
       </tr>
     </table>
+    <?php endif; ?>
     <table width="90%"  border="0" cellspacing="4" cellpadding="2">
       <tr bgcolor="#CCCCCC">
         <td colspan="2" align="left" valign="top"><span class="subtitle">&nbsp;Sysadmin data </span></td>

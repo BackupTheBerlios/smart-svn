@@ -115,7 +115,11 @@ if ( $B->sys['info']['status'] !== TRUE )
     // If calling from the pubilc page, switch to the admin page
     if( SF_SECTION != 'admin' )
     {
-        @header('Location: admin/index.php');
+        if(isset($_GET['dbtype']))
+            $_dbtype = '?dbtype='.$_GET['dbtype'];
+        else
+            $_dbtype = '';
+        @header('Location: admin/index.php'.$_dbtype);
         exit;
     }
     // send a setup message to the handler which takes
