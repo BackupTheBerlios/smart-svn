@@ -45,12 +45,11 @@ else
     }
 }
 
-
 // Include the requested template
 include('templates_public/' . $B->tmp_tpl . '.tpl.php');
-
+$B->dbdata->close();
 // Send the output buffer to the client
-if( OB == TRUE)
+if( SF_OB == TRUE)
 {
     ob_end_flush();
 }

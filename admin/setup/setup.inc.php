@@ -46,11 +46,11 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfSqLite.php' );
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
 
 // The base object
-include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
-
-// The base object
 include_once( SF_BASE_DIR . '/admin/include/class.sfBase.php' );
 $B = & new sfBase;
+
+// The system name and version variables
+include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
 
 // set error handler
 $B->errorHandler   =  new sfErrorHandler();

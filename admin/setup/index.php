@@ -34,7 +34,10 @@ if( $_POST['do_setup'] )
 {
     // Send a setup message to all registered handlers
     $B->B( EVT_SETUP );
-    
+    if(is_object($B->dbdata))
+        $B->dbdata->close();
+    if(is_object($B->dbsystem))    
+        $B->dbsystem->close();
     // if there are errors
     if( count($B->setup_error) == 0 )
     {      

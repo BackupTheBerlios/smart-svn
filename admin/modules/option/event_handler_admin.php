@@ -42,7 +42,7 @@ function option_event_handler( $evt )
     {
         case EVT_LOAD_INIT_OPTION:
             // get all system options
-            $result = $B->dbdata->query('SELECT * FROM options'); 
+            $result = $B->dbsys->query('SELECT * FROM options'); 
             $row = $B->dbdata->getRow($result); 
             foreach($row as $key => $value)
             {
