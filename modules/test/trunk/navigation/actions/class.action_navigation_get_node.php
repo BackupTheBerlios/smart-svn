@@ -56,6 +56,18 @@ class action_navigation_get_node extends action
             {
                 include_once(SF_BASE_DIR . 'modules/common/PEAR/Text/Wiki.php');
                 $this->B->wiki = & new Text_Wiki();
+                
+                $options = array('http://',
+                                 'https://',
+                                 'ftp://',
+                                 'gopher://',
+                                 'news://',
+                                 'mailto:',
+                                 './');
+                $this->B->wiki->setParseConf('Url', 'schemes', $options);                
+                
+                $this->B->wiki->setRenderConf('Xhtml', 'url', 'target', '_self');
+                $this->B->wiki->setRenderConf('Xhtml', 'image', 'base', 'data/media/');
             }
             $_result['body'] = $this->B->wiki->transform($_result['body'], 'Xhtml');    
         }
