@@ -343,12 +343,13 @@ class captcha
             {
                 continue;
             }     
-            $file = $this->_basedir.'/'.$filename;
+            $file = $this->_basedir.'data/captcha/'.$filename;
+
             if(TRUE == is_file($file))
             {
                 if((time()-$this->captcha_picture_expire) > filemtime($file))
                 {
-                        unlink($file);
+                        @unlink($file);
                 } 
             }  
         }
