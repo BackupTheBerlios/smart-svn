@@ -15,7 +15,7 @@
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="name" type="text" id="name" size="80" maxlength="255" value="<?php echo $B->form_name; ?>">
+          <input name="name" type="text" id="name" size="80" maxlength="255" value="<?php echo $B->tpl_data['name']; ?>">
         </td>
       </tr>
       <tr>
@@ -23,7 +23,7 @@
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="emailserver" type="text" id="emailserver" size="80" maxlength="1024" value="<?php echo $B->form_emailserver; ?>">
+          <input name="emailserver" type="text" id="emailserver" size="80" maxlength="1024" value="<?php echo $B->tpl_data['emailserver']; ?>">
 </td>
       </tr>         
       <tr>
@@ -31,14 +31,14 @@
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="email" type="text" id="email" size="80" maxlength="255" value="<?php echo $B->form_email; ?>">
+          <input name="email" type="text" id="email" size="80" maxlength="255" value="<?php echo $B->tpl_data['email']; ?>">
         </td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Description</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="description" cols="60" rows="4" wrap="VIRTUAL" id="description"><?php echo $B->form_description; ?></textarea></td>
+        <td align="left" valign="top"><textarea name="description" cols="60" rows="4" wrap="VIRTUAL" id="description"><?php echo $B->tpl_data['description']; ?></textarea></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Status</td>
