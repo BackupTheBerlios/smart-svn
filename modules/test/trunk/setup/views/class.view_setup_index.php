@@ -56,7 +56,7 @@ class view_setup_index extends view
     
             // Send a setup message to the test handler
             if($success == TRUE)
-                $success = M( MOD_TEST,         'sys_setup' );
+                $success = M( MOD_NAVIGATION,   'sys_setup' );
     
             // Send a setup message to the option handler
             if($success == TRUE)
