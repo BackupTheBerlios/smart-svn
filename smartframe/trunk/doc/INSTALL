@@ -5,8 +5,10 @@ If you downloaded only the raw framework you have to create or install at least 
 and a user module. The raw framework only manage modules. It has no build in 
 high level functionalities.
 
-If this package contains modules, you have to point your navigator to the the folder
-where you uploaded the extracted framework. A setup menu should appear.
+If this package contains modules, you have to point your navigator to the folder
+where you uploaded the extracted framework archive. A setup menu should appear.
+
+Suggestions and bug reports are welcome.
 
 A. Turpel
 smart@open-publisher.net
