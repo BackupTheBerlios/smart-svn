@@ -35,7 +35,7 @@ define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
 /**
  * Allowed output buffering.
  */
-define('SF_OB',                          TRUE);
+define('SF_OB',                          FALSE);
 
 /**
  * Allowed output compression if available.
