@@ -9,8 +9,6 @@ Extract the archive to a web directory of your choice.
 Make shure that the following directories and files are writeable by php scripts:
 
 * /data/captcha
-* /data/common/config
-* /data/common/cache
 * /data/navigation
 * /data/navigation/all files except .htaccess
 * /logs
