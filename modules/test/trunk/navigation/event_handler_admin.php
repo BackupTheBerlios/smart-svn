@@ -25,14 +25,13 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_NAVIGATION' , 'NAVIGATION');
 
 // Version of this modul
-define ( 'MOD_NAVIGATION_VERSION' , '0.1');
+define ( 'MOD_NAVIGATION_VERSION' , '0.2');
 
 // register this handler                       
-if (FALSE == $B->register_handler( 
-                            MOD_NAVIGATION,
-                            array ( 'module'          => MOD_NAVIGATION,
-                                    'event_handler'   => 'navigation_event_handler',
-                                    'menu_visibility' => FALSE) ))
+if (FALSE == $B->register_handler( MOD_NAVIGATION,
+                                   array ( 'module'          => MOD_NAVIGATION,
+                                           'event_handler'   => 'navigation_event_handler',
+                                           'menu_visibility' => FALSE) ))
 {
     trigger_error( 'The handler '.MOD_NAVIGATION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
@@ -42,40 +41,32 @@ function navigation_event_handler( $evt )
 {
     global $B;
 
-    switch( $evt['code'] )
-    {           
-        case EVT_INIT:
-            // Check for upgrade  
-            if(MOD_NAVIGATION_VERSION != (string)$B->sys['module']['navigation']['version'])
-            {
-                // set the new version num of this module
-                $B->sys['module']['navigation']['version']  = MOD_NAVIGATION_VERSION;
-                $B->system_update_flag = TRUE;  
-                
-                // include here additional upgrade code
-            }
-            break;                             
-        case EVT_SETUP:  
-            // init the success var
-            $success = TRUE;
-            
-            // include here all stuff to get work this module:
-            // creating db tables
-
-            // The module name and version
-            // these array vars were saved later by the setup handler
-            // in the file /admin/config/config_system.xml.php
-            //
-            $B->conf_val['module']['navigation']['name']     = 'navigation';
-            $B->conf_val['module']['navigation']['version']  = MOD_NAVIGATION_VERSION;
-            $B->conf_val['module']['navigation']['mod_type'] = 'test';
-            $B->conf_val['module']['navigation']['info']     = 'This is the navigation modul';
-            
-            // if noting is going wrong $success is still TRUE else FALSE
-            // ex.: if creating db tables fails you must set this var to false
-            return $success;
-            break;            
-    } 
+    // build the whole class name
+    $class_name = 'NAVIGATION_'.$evt['code'];
+    
+    // check if this object was previously declared
+    if(!is_object($B->$class_name))
+    {
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/navigation/class.'.$class_name.'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$class_name = & new $class_name();
+            // perform the request
+            return $B->$class_name->perform( $evt['data'] );
+        }
+        else
+        {
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
+    }
 }
 
 ?>
