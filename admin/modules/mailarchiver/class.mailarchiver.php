@@ -10,13 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * The user class 
- *
- * 
+ * The mailarchiver class 
  *
  */
  
-class user
+class mailarchiver
 {
     /**
      * get users data
@@ -25,13 +23,8 @@ class user
      * @param int $rights Get user with specific rights (FALSE get all)
      * @return array Users data 
      */ 
-    function get_users( $fields, $rights = FALSE )
-    {
-        if($rights != FALSE)
-        {
-            $_where = "WHERE rights={$rights}";
-        }
-        
+    function get_lists( $fields )
+    {       
         $comma = '';
         foreach ($fields as $f)
         {
@@ -43,17 +36,16 @@ class user
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
-                {$where}
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
             ORDER BY
-                rights DESC, lastname ASC";
+                name ASC";
         
         $result = $GLOBALS['B']->conn->Execute($sql);
         
         $data = array();
         
         if(is_object($result))
-        {        
+        {
             while($row = $result->FetchRow())
             {
                 $tmp = array();
@@ -74,7 +66,7 @@ class user
      * @param array $fields Field names of the user db table
      * @return array User data 
      */     
-    function get_user( $uid, $fields )
+    function get_list( $lid, $fields )
     {
         $comma = '';
         foreach ($fields as $f)
@@ -87,9 +79,9 @@ class user
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
             WHERE
-                uid={$uid}";
+                lid={$lid}";
         
         return $GLOBALS['B']->conn->getRow($sql);
     } 
@@ -100,26 +92,21 @@ class user
      * @param array $data associative array of user data
      * @return bool true or false
      */     
-    function add_user( $data )
+    function add_list( $data )
     {
-        if($this->login_exists($data['login']) > 0)
-        {
-            return FALSE;
-        }
-        
         $sql = '
             INSERT INTO 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'user_users
-                (forename,lastname,email,login,passwd,status,rights)
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
+                (name,email,emailuser,emailpasswd,description,folder,status)
             VALUES
-                ('.$data['forename'].',
-                 '.$data['lastname'].',
+                ('.$data['name'].',
                  '.$data['email'].',
-                 '.$data['login'].',
-                 '.$data['passwd'].',
-                 '.$data['status'].',
-                 '.$data['rights'].')';
-        
+                 '.$data['emailuser'].',
+                 '.$data['emailpasswd'].',
+                 '.$data['description'].',
+                 '.$data['folder'].',
+                 '.$data['status'].')';
+
         return $GLOBALS['B']->conn->Execute($sql);
     } 
     /**
@@ -128,7 +115,7 @@ class user
      * @param int $uid User id
      * @param array $data associative array of user data
      */
-    function update_user( $uid, $data )
+    function update_list( $lid, $data )
     {
         $set = '';
         $comma = '';
@@ -141,11 +128,11 @@ class user
         
         $sql = '
             UPDATE 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'user_users
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
             SET
                 '.$set.'
             WHERE
-                uid='.$uid;
+                lid='.$lid;
         
         return $GLOBALS['B']->conn->Execute($sql);
     } 
@@ -155,35 +142,15 @@ class user
      *
      * @param int $uid User id
      */
-    function delete_user( $uid )
+    function delete_list( $lid )
     {
         $sql = "
             DELETE FROM 
-                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
             WHERE
-                uid={$uid}";
+                lid={$lid}";
         
         return $GLOBALS['B']->conn->Execute($sql);
-    }
-
-    /**
-     * check if login exist
-     *
-     * @param string $login User login
-     * @return int Number of logins
-     */    
-    function login_exists($login)
-    {
-        $sql = '
-            SELECT
-                uid
-            FROM
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'user_users
-            WHERE
-                login='.$login;
-        
-        $result = $GLOBALS['B']->conn->Execute($sql);
-        return $result->RecordCount();    
     }
 }
 
