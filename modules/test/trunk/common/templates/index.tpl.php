@@ -55,9 +55,7 @@ function subok(s){
           </form>
           </td>
           <td width="7%" align="right" valign="top">
-          <?php if($B->login != FALSE): ?>
             <a href="index.php?logout=1" class="font14">Logout</a>
-          <?php endif; ?>
           </td>
         </tr>
           </table></td>
