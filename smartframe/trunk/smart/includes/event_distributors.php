@@ -22,7 +22,7 @@
  *   It directs an event to a specific module
  *
  * - Broadcast Event Distributor
- *   It directs an event to all modules
+ *   It broadcasts an event to all modules
  *
  *
  * Furthermore one function to return an action object
@@ -96,8 +96,8 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
     // build the whole module action class name
     $class_name = 'action_' . $target_id . '_' . $code;
     
-    // check if this object was previously declared
-    if( !isset($GLOBALS[$class_name]) )
+    // check if this object was previously declared or force to create a new instance > $instance == true
+    if( !isset($GLOBALS[$class_name]) || ($instance == TRUE) )
     {
         // path to the modules action class 
         $class_file = SF_BASE_DIR . 'modules/' . $target_id . '/actions/class.'.$class_name.'.php';
@@ -111,8 +111,25 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
         if(@file_exists($class_file))
         {
             include_once($class_file);
-            // make instance of the module action class
-            $GLOBALS[$class_name] = & new $class_name( $constructor_param );
+            
+            // check if such an instance exists and try create a new one
+            if( $instance == TRUE )
+            {
+                $i = 1;
+                while( isset($GLOBALS[$class_name . $i]) )
+                {
+                    $i++;
+                }
+                $new_instance = $class_name . $i;
+                // make new instance of the module action class
+                $GLOBALS[$new_instance] = & new $class_name( $constructor_param );
+                $class_name = $new_instance;            
+            }
+            else
+            {
+                // make instance of the module action class
+                $GLOBALS[$class_name] = & new $class_name( $constructor_param );
+            }
             
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
@@ -129,21 +146,7 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
     }
     // if an instance was previously declared, use it here
     else
-    {
-        // Force a new instance anyway
-        if( $instance == TRUE )
-        {
-            $i = 1;
-            while( isset($GLOBALS[$class_name . $i]) )
-            {
-                $i++;
-            }
-            $new_instance = $class_name . $i;
-            // make new instance of the module action class
-            $GLOBALS[$new_instance] = & new $class_name( $constructor_param );
-            $class_name = $new_instance;
-        }
-        
+    {        
         // validate the request
         if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
         {
@@ -223,7 +226,7 @@ function B( $code, $data = FALSE, $constructor_param = FALSE, $instance = FALSE 
         $class_name = 'action_' . $target_id . '_' . $code;
 
         // check if this object was previously declared
-        if( !isset($GLOBALS[$class_name]) )
+        if( !isset($GLOBALS[$class_name]) || ($instance == TRUE) )
         {
             // path to the modules action class 
             $class_file = SF_BASE_DIR . 'modules/' . $target_id . '/actions/class.'.$class_name.'.php';
@@ -237,9 +240,26 @@ function B( $code, $data = FALSE, $constructor_param = FALSE, $instance = FALSE 
             if(@file_exists($class_file))
             {
                 include_once($class_file);
-                // make instance
-                $GLOBALS[$class_name] = & new $class_name( $constructor_param );
-            
+                
+                // check if such an instance exists and try create a new one
+                if( $instance == TRUE )
+                {
+                    $i = 1;
+                    while( isset($GLOBALS[$class_name . $i]) )
+                    {
+                        $i++;
+                    }
+                    $new_instance = $class_name . $i;
+                    // make new instance of the module action class
+                    $GLOBALS[$new_instance] = & new $class_name( $constructor_param );
+                    $class_name = $new_instance;            
+                }
+                else
+                {
+                    // make instance
+                    $GLOBALS[$class_name] = & new $class_name( $constructor_param );
+                }
+                
                 // validate the request
                 if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
                 {
@@ -252,21 +272,7 @@ function B( $code, $data = FALSE, $constructor_param = FALSE, $instance = FALSE 
         }
         // if an instance was previously declared, use it here
         else
-        {
-            // Force a new instance anyway
-            if( $instance == TRUE )
-            {
-                $i = 1;
-                while( isset($GLOBALS[$class_name . $i]) )
-                {
-                    $i++;
-                }
-                $new_instance = $class_name . $i;
-                // make new instance of the module action class
-                $GLOBALS[$new_instance] = & new $class_name( $constructor_param );
-                $class_name = $new_instance;
-            }
-            
+        {            
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
             {
