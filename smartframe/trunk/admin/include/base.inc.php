@@ -32,16 +32,6 @@ if ( SF_OB == TRUE )
     ob_start( SF_OB_GZHANDLER ); 
 }
 
-// get os related separator to set include path
-if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
-    $tmp_separator = ';';
-else
-    $tmp_separator = ':';
-
-// set include path to the PEAR packages which is included in smartframe
-ini_set( 'include_path', SF_BASE_DIR . '/admin/lib/PEAR' . $tmp_separator . ini_get('include_path') );
-unset($tmp_separator);
-
 // include sfSecureGPC
 include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
 
