@@ -40,7 +40,7 @@ if (FALSE == register_handler( MOD_EARCHIVE,
 function earchive_event_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'earchive_'.$evt['code'];    
+    $class_name = 'action_earchive_'.$evt['code'];    
     
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))

@@ -37,7 +37,7 @@ if (FALSE == register_filter( EARCHIVE_FILTER,
 function earchive_filter_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'earchive_filter_'.$evt['code'];
+    $class_name = 'filter_earchive_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))
