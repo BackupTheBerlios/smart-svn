@@ -74,7 +74,7 @@ class word_indexer
      * @param int $word_length Minimal word length
      * @param string $delimiters Word delimiters
      */
-    function word_indexer( $word_length = 2 )
+    function word_indexer( $word_length, $dbtable, $row, $rebuild = FALSE  )
     {   
         $this->_word_length = $word_length;
     }
@@ -95,7 +95,7 @@ class word_indexer
 
         while ($word = each ($array_content))
         {     
-            if(strlen($word[0])>$this->_word_length)
+            if(strlen($word[0]) > $this->_word_length)
             {
                 $word[0] = strtolower($word[0]);
                 if(!isset($this->bad_word_array[$word[0]]))
@@ -244,7 +244,7 @@ class word_indexer
 
         $res = $GLOBALS['B']->db->query($sql);                
 
-        while($result = &$res->FetchRow( DB_FETCHMODE_ASSOC ))
+        while($result = $res->FetchRow( DB_FETCHMODE_ASSOC ))
         {
             $this->bad_word_array[stripslashes($result['word'])] = TRUE;
         }
