@@ -30,7 +30,7 @@ define('SF_ERROR_HANDLE',             'LOG');
 /**
  * error reporting
  */
-define('SF_ERROR_REPORTING',          E_ALL);
+define('SF_ERROR_REPORTING',          E_ALL ^ E_NOTICE);
 
 /**
  * Set debug mode.

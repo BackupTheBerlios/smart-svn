@@ -25,11 +25,11 @@ class view_error extends view
     /**
      * Perform on the error view
      *
-     * @param object $view_obj Object of the view from which the error occurs
      * @return bool true 
      */
     function perform()
     {
+        // SF_DEBUG is defined in /smart/includes/defaults.php
         if( SF_DEBUG == TRUE )
         {
             // template error array
