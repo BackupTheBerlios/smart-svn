@@ -1,6 +1,11 @@
 CHANGES
 #######
 
+2004-07-25
+--------------
+- replaced adodb by PEAR DB
+- added mailarchiver module
+
 2004-07-21
 --------------
 - update options module
