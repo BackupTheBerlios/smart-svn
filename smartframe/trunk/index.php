@@ -30,10 +30,10 @@ define('SF_SECTION', 'public');
 include( SF_BASE_DIR . "/admin/include/base.inc.php" );
 
 // Send a authentication message to the event handlers which takes the authentication part
-$B->M( SF_AUTH_MODULE, EVT_AUTHENTICATE );
+$B->M( SF_AUTH_MODULE, 'SYS_AUTHENTICATE' );
 
 // Send a init message to all registered event handlers
-$B->B( SF_EVT_INIT );
+$B->B( 'SYS_INIT' );
 
 // If no template request is done load the default template
 if (!isset($_REQUEST['tpl']))

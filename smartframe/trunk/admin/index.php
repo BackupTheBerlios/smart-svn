@@ -33,7 +33,7 @@ include (SF_BASE_DIR . '/admin/include/base.inc.php');
 // the setup part
 if( defined( '_DO_SETUP' ) )
 {
-    if( FALSE == $B->M( MOD_SETUP, EVT_SETUP ) )
+    if( FALSE == $B->M( MOD_SETUP, 'SYS_SETUP' ) )
     {
         die("SETUP module is missing or not registered !!!");
     }
@@ -41,21 +41,21 @@ if( defined( '_DO_SETUP' ) )
 
 // send an authentication message to the handler which takes
 // the authentication part
-$B->M( SF_AUTH_MODULE, EVT_AUTHENTICATE );
+$B->M( SF_AUTH_MODULE, 'SYS_AUTHENTICATE' );
 
 // Send a init message to all registered handlers
-$B->B(EVT_INIT);
+$B->B('SYS_INIT');
 
 // if an update was done this event must be called to finish the update process
 if(isset($B->system_update_flag))
 {
-    $B->M( SF_BASE_MODULE, EVT_UPDATE );
+    $B->M( SF_BASE_MODULE, 'SYS_UPDATE' );
 }
 
 // Logout
 if ( $_REQUEST['logout'] == 1 )
 {
-    $B->B(EVT_LOGOUT);
+    $B->B('SYS_LOGOUT');
     header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
     exit;
 }
@@ -63,11 +63,11 @@ if ( $_REQUEST['logout'] == 1 )
 // check if the demanded module (handler) is registered else load default module
 if ( TRUE == $B->is_handler ($_REQUEST['m']))
 {
-    $B->M($_REQUEST['m'], EVT_LOAD_MODULE);
+    $B->M($_REQUEST['m'], 'SYS_LOAD_MODULE');
 }
 else
 {
-    $B->M(SF_DEFAULT_MODULE, EVT_LOAD_MODULE);
+    $B->M(SF_DEFAULT_MODULE, 'SYS_LOAD_MODULE');
 }
 
 if(!defined( 'SF_TEMPLATE_MAIN' ) || !file_exists( SF_TEMPLATE_MAIN ))

@@ -26,9 +26,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 define( 'MOD_SYSTEM' , 'SYSTEM' );
 
 // register this handler                       
-if (FALSE == $B->register_handler(MOD_SYSTEM,
-                           array ( 'module'        => MOD_SYSTEM,
-                                   'event_handler' => 'system_event_handler') ))
+if (FALSE == $B->register_handler( MOD_SYSTEM,
+                                   array ( 'module'        => MOD_SYSTEM,
+                                           'event_handler' => 'system_event_handler') ))
 {
     trigger_error( 'The handler '.MOD_SYSTEM.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }

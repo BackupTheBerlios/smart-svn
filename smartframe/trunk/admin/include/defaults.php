@@ -58,25 +58,5 @@ define('SF_FILE_MODE',                0775);
  */
 define('SF_DEFAULT_TEMPLATE_GROUP',   'default');
 
-/**
- * Event types.
- */
-define('EVT_TYPE_BROADCAST',          'SYS_BROADCAST');
-define('EVT_TYPE_DIRECTED' ,          'SYS_DIRECTED'); 
-
-/**
- * Basic event codes.
- */
-define('EVT_AUTHENTICATE',            'SYS_AUTHENTICATE');
-define('EVT_INIT',                    'SYS_INIT');
-define('EVT_LOGOUT',                  'SYS_LOGOUT');
-define('EVT_LOAD_MODULE',             'SYS_LOAD_MODULE');
-define('EVT_END',                     'SYS_END');
-define('EVT_DEBUG',                   'SYS_DEBUG');
-define('EVT_SETUP',                   'SYS_SETUP');
-define('EVT_LOAD_INIT_OPTION',        'SYS_LOAD_INIT_OPTION');
-define('EVT_SETUP_FINISH',            'SYS_SETUP_FINISH');
-define('EVT_UPDATE',                  'SYS_UPDATE');
-
 
 ?>
