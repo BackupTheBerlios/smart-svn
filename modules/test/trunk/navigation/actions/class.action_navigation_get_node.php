@@ -41,21 +41,29 @@ class action_navigation_get_node extends action
         // Look at the node id and assign the title of the requested node
         foreach($nav as $node)
         {
-            list($id, $val) = each($node);
-            if($data['node'] == $id)
+            list($nodeID, $val) = each($node);
+            
+            // check status request
+            if( isset( $data['status'] )  && ($node[$nodeID]['status'] == $data['status']) )
             {
-                $this->B->$data['title']  = $node[$id]['title'];
-                $this->B->$data['status'] = $node[$id]['status'];
-                break;
+                if($data['node'] == $nodeID)
+                {
+                    $this->B->$data['title']  = $node[$nodeID]['title'];
+                    $this->B->$data['status'] = $node[$nodeID]['status'];
+                    break;
+                }
             }
+            else
+            {
+                if($data['node'] == $nodeID)
+                {
+                    $this->B->$data['title']  = $node[$nodeID]['title'];
+                    $this->B->$data['status'] = $node[$nodeID]['status'];
+                    break;
+                }
+            }            
         } 
         
-        // apply htmlspecialchars on result body and title
-        if ($data['htmlspecialchars'] == TRUE)
-        {
-            $this->B->$data['body']  = htmlspecialchars($this->B->$data['body']);
-            $this->B->$data['title'] = htmlspecialchars($this->B->$data['title']);
-        }  
         // apply nl2br on result body
         if ($data['nl2br'] == TRUE)
         {
@@ -74,10 +82,41 @@ class action_navigation_get_node extends action
         // validate $data['node']. no chars else than 0123456789 and - are accepted
         if( preg_match("/[^0-9-]/", $data['node']) )
         {
+            $this->B->$data['error']  = 'Wrong node format';
             return FALSE;
-        }     
+        }   
         
-        return TRUE;
+        // check if the requested node exsists
+        
+        // load navigation nodes
+        $nav = array();
+        include(SF_BASE_DIR . 'data/navigation/nodes.php');
+
+        foreach($nav as $node)
+        {
+            list($nodeID, $val) = each($node);
+            
+            // check status request
+            if( isset( $data['status'] ) && ($node[$nodeID]['status'] == $data['status']) )
+            {
+                if($data['node'] == $nodeID)
+                {
+                    return TRUE;
+                    break;
+                }
+            }
+            else
+            {
+                if($data['node'] == $nodeID)
+                {
+                    return TRUE;
+                    break;
+                }
+            }             
+        } 
+
+        $this->B->$data['error']  = 'The requested node dosent exsists or is in drawt mode';
+        return FALSE;
     }        
 }
 

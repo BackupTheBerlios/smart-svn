@@ -154,9 +154,9 @@ class view_user_edituser extends view
      */       
     function _reset_old_fields_data()
     {
-        $this->B->tpl_data['email']    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-        $this->B->tpl_data['login']    = htmlspecialchars(commonUtil::stripSlashes($_POST['user']));
-        $this->B->tpl_data['passwd']   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
+        $this->B->tpl_data['email']    = commonUtil::stripSlashes($_POST['email']);
+        $this->B->tpl_data['login']    = commonUtil::stripSlashes($_POST['user']);
+        $this->B->tpl_data['passwd']   = commonUtil::stripSlashes($_POST['passwd']);
     }     
 }
 

@@ -103,9 +103,9 @@ class view_user_adduser extends view
     function _reset_old_fields_data()
     {
         // if empty assign form field with old values
-        $this->B->form_email    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-        $this->B->form_login    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
-        $this->B->form_passwd   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));          
+        $this->B->form_email    = commonUtil::stripSlashes($_POST['email']);
+        $this->B->form_login    = commonUtil::stripSlashes($_POST['login']);
+        $this->B->form_passwd   = commonUtil::stripSlashes($_POST['passwd']);          
     }       
 }
 
