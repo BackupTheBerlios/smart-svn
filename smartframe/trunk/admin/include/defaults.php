@@ -25,12 +25,12 @@ if (!defined('SF_SECURE_INCLUDE'))
 /**
  * error log types ('LOG|SHOW')
  */
-define('SF_ERROR_HANDLE',             'LOG|SHOW');
+define('SF_ERROR_HANDLE',             'LOG');
 
 /**
  * error reporting
  */
-define('SF_ERROR_REPORTING',          E_ALL ^E_NOTICE);
+define('SF_ERROR_REPORTING',          E_COMPILE_ERROR|E_ERROR|E_CORE_ERROR|E_PARSE);
 
 /**
  * Allowed output buffering.
