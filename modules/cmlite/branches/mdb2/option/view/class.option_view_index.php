@@ -180,17 +180,20 @@ class option_view_index
             if( TRUE == @is_file($bad_word_file) )
             {
                 $bad_word = @file($bad_word_file);
-                $sth = $this->B->db->autoPrepare($this->B->sys['db']['table_prefix'].'bad_words', array('word','lang'),DB_AUTOQUERY_INSERT);
-                $_ins = array();
+
+                $alldata = array();
                 foreach($bad_word as $word)
                 {
                     if(!strstr($word,"#"))
                     {
-                        $_ins[] = array($word,$_POST['bad_word_list']);
+                        $alldata[] = array($word,$_POST['bad_word_list']);
                     }
                 }
-                $result = &$this->B->db->executeMultiple($sth, $_ins);
-                if (DB::isError($result)) 
+
+                $prepared_query = $this->B->db->prepare('INSERT INTO '.$this->B->sys['db']['table_prefix'].'bad_words VALUES(?,?)', array('text', 'text'));
+                
+                $result = $this->B->db->executeMultiple($prepared_query, null, $alldata);
+                if (MDB2::isError($result)) 
                 {
                     trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
                 }                 

@@ -188,7 +188,7 @@ class user_sys_setup
             $this->B->setup_error[] = $result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         } 
         
-        $result = $this->B->dbmanager->createSequence( $this->B->conf_val['db']['table_prefix'] . 'user_seq_users' );
+        $result = $this->B->dbmanager->createSequence( $this->B->conf_val['db']['table_prefix'] . 'user_users' );
 
         if (MDB2::isError($result)) 
         {

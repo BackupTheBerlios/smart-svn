@@ -77,6 +77,10 @@ class setup_sys_setup
                                            'userpasswd1'  => $data['userpasswd1'],
                                            'userpasswd2'  => $data['userpasswd2']) );
 
+        // validate earchive data
+        if($success == TRUE)    
+            $success = $this->B->M( MOD_EARCHIVE,         
+                                    'sys_setup_validate');
 
         if($success == TRUE)    
             $success = $this->B->M( MOD_COMMON,       
@@ -98,10 +102,10 @@ class setup_sys_setup
                                            'userpasswd1'  => $data['userpasswd1'],
                                            'userpasswd2'  => $data['userpasswd2']) );
 
-/*        
+        
         if($success == TRUE)
             $success = $this->B->M( MOD_EARCHIVE,     'sys_setup' );
-*/
+
         if($success == TRUE)
             $success = $this->B->M( MOD_OPTION,       'sys_setup' );
     
