@@ -44,27 +44,32 @@ if( count($B->setup_error) == 0 )
     if(file_exists($db_file))
         $is_db_file = TRUE;
 
-    // instance of adodb
-    $B->conn = ADONewConnection( 'sqlite' );
+    $B->dsn = array('phptype'  => 'sqlite',
+                    'database' => $db_file,
+                    'mode'     => '0775');
+
+    $B->dboptions = array('debug'       => 2,
+                          'portability' => DB_PORTABILITY_ALL);
     
-    // connect to the database
-    if (!$B->conn->Connect( $db_file ))
+    $B->db =& DB::connect($B->dsn, $B->dboptions);
+    if ( DB::isError($B->db) ) 
     {
-        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = 'Cannot connect to the database: '.__FILE__.' '.__LINE__ ; 
     }
 
     if(TRUE == $is_db_file)
     {
         // delete the user_users table if it exist
         $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='user_users'";
-        $result = $B->conn->Execute($sql);
+        $result = $B->db->query($sql);
 
-        if($result->RecordCount() == 1)
+        if($result->numRows() == 1)
         {
             $sql = "DROP TABLE user_users";
-            if ( FALSE === $B->conn->Execute($sql))
+            $result = $B->db->query($sql);
+            if ( DB::isError($result) )
             {
-                $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+                $B->setup_error[] = $result->getMessage() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
             }
         }
     }
@@ -81,26 +86,30 @@ if( count($B->setup_error) == 0 )
             email    VARCHAR(300) NOT NULL default '',
             desc     TEXT NOT NULL default '')";
 
-    if ( FALSE === $B->conn->Execute($sql))
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
-    }
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    } 
     
     // insert an administrator
-    $forename  = $B->conn->qstr($_POST['sysname'],           magic_quotes_runtime());
-    $lastename = $B->conn->qstr($_POST['syslastname'],       magic_quotes_runtime());
-    $login     = $B->conn->qstr($_POST['syslogin'],          magic_quotes_runtime());
-    $passwd    = $B->conn->qstr(md5($_POST['syspassword1']), magic_quotes_runtime());
+    $forename  = $B->db->quoteSmart($B->util->stripSlashes($_POST['sysname']));
+    $lastename = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslastname']));
+    $login     = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslogin']));
+    $passwd    = $B->db->quoteSmart(md5($_POST['syspassword1']));
 
     $sql = 'INSERT INTO user_users 
                 (forename,lastname,login,passwd,status,rights) 
               VALUES 
                 ('.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
+
+    $result = $B->db->query($sql);
     
-    if ( FALSE === $B->conn->Execute($sql))
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
-    }
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    } 
 }
 
 ?>

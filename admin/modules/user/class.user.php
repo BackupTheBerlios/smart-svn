@@ -48,13 +48,18 @@ class user
             ORDER BY
                 rights DESC, lastname ASC";
         
-        $result = $GLOBALS['B']->conn->Execute($sql);
+        $result = $GLOBALS['B']->db->query($sql);
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage(), E_USER_ERROR);
+        }        
         
         $data = array();
         
         if(is_object($result))
         {        
-            while($row = $result->FetchRow())
+            while($row = &$result->fetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($fields as $f)
@@ -91,7 +96,7 @@ class user
             WHERE
                 uid={$uid}";
         
-        return $GLOBALS['B']->conn->getRow($sql);
+        return $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     } 
     
     /**
@@ -120,7 +125,7 @@ class user
                  '.$data['status'].',
                  '.$data['rights'].')';
         
-        return $GLOBALS['B']->conn->Execute($sql);
+        return $GLOBALS['B']->db->query($sql);
     } 
     /**
      * update user
@@ -147,7 +152,7 @@ class user
             WHERE
                 uid='.$uid;
         
-        return $GLOBALS['B']->conn->Execute($sql);
+        return $GLOBALS['B']->db->query($sql);
     } 
 
     /**
@@ -163,7 +168,7 @@ class user
             WHERE
                 uid={$uid}";
         
-        return $GLOBALS['B']->conn->Execute($sql);
+        return $GLOBALS['B']->db->query($sql);
     }
 
     /**
@@ -182,8 +187,8 @@ class user
             WHERE
                 login='.$login;
         
-        $result = $GLOBALS['B']->conn->Execute($sql);
-        return $result->RecordCount();    
+        $result = &$GLOBALS['B']->db->query($sql);
+        return $result->numRows();    
     }
 }
 

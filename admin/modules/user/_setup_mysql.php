@@ -46,12 +46,19 @@ if( count($B->setup_error) == 0 )
         @mysql_close( $_conn );
     }
 
-    // instance of adodb
-    $B->conn = ADONewConnection( 'mysql' );
+    $B->dsn = array('phptype'  => 'mysql',
+                    'username' => $B->conf_val['db']['user'],
+                    'password' => $B->conf_val['db']['passwd'],
+                    'hostspec' => $B->conf_val['db']['host'],
+                    'database' => $B->conf_val['db']['name']);
+
+    $B->dboptions = array('debug'       => 2,
+                          'portability' => DB_PORTABILITY_ALL);
     
-    if (!$B->conn->Connect( $B->conf_val['db']['host'], $B->conf_val['db']['user'], $B->conf_val['db']['passwd'], $B->conf_val['db']['name'] ))
+    $B->db =& DB::connect($B->dsn, $B->dboptions);
+    if (DB::isError($B->db))
     {
-        $B->setup_error[] = 'Cannot connect to the database: '.__FILE__.' '.__LINE__ ;            
+        $B->setup_error[] = 'Cannot connect to the database: '.__FILE__.' '.__LINE__ ; 
     }
     
     // create table if it dosent exist
@@ -68,26 +75,30 @@ if( count($B->setup_error) == 0 )
             KEY status      (status),
             KEY rights      (rights))";
 
-    if ($B->conn->Execute($sql) === FALSE)
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // insert an administrator
-    $forename  = $B->conn->qstr($B->util->stripSlashes($_POST['sysname']),     magic_quotes_runtime());
-    $lastename = $B->conn->qstr($B->util->stripSlashes($_POST['syslastname']), magic_quotes_runtime());
-    $login     = $B->conn->qstr($B->util->stripSlashes($_POST['syslogin']),    magic_quotes_runtime());
-    $passwd    = $B->conn->qstr(md5($_POST['syspassword1']),    magic_quotes_runtime());
+    $forename  = $B->db->quoteSmart($B->util->stripSlashes($_POST['sysname']));
+    $lastename = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslastname']));
+    $login     = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslogin']));
+    $passwd    = $B->db->quoteSmart(md5($_POST['syspassword1']));
 
     $sql = 'INSERT INTO '.$B->conf_val['db']['table_prefix'].'user_users 
                 (forename,lastname,login,passwd,status,rights) 
               VALUES 
                 ('.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
     
-    if ($B->conn->Execute($sql) === FALSE)
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-    }  
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    } 
     unset($sql);
 }
 

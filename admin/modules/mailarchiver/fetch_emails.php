@@ -28,11 +28,11 @@ define ('SF_SECTION', 'admin');
 // Include the base file
 include (SF_BASE_DIR . '/admin/include/base.inc.php');
 
-
 // the user class
-include_once SF_BASE_DIR . '/admin/modules/mailarchiver/class.mailarchiver.php';
-// the mail class
-include_once SF_BASE_DIR . '/admin/modules/mailarchiver/MAIL/IMAP.php';
+include_once (SF_BASE_DIR . '/admin/modules/mailarchiver/class.mailarchiver.php');
+
+// the PEAR IMAP class
+include_once ('MAIL/IMAP.php');
 
 // Set up class, initiate a mailbox connection
 $msg =& new Mail_IMAP();
@@ -74,21 +74,21 @@ foreach ($lists as $account)
             $data = array();
             
             $data['lid']     = $account['lid'];
-            $data['subject'] = $B->conn->qstr($msg->header[$mid]['subject'], magic_quotes_runtime());
-            $data['sender']  = $B->conn->qstr($msg->header[$mid]['reply_toaddress'], magic_quotes_runtime());
-            $data['mdate']   = $B->conn->qstr(date('Y-m-d h:i:s', $msg->header[$mid]['udate']), magic_quotes_runtime());
-            $data['mes_id']  = $B->conn->qstr(md5($msg->header[$mid]['message_id']), magic_quotes_runtime());
+            $data['subject'] = $B->db->quoteSmart($msg->header[$mid]['subject']);
+            $data['sender']  = $B->db->quoteSmart($msg->header[$mid]['reply_toaddress']);
+            $data['mdate']   = $B->db->quoteSmart(date('Y-m-d h:i:s', $msg->header[$mid]['udate']));
+            $data['mes_id']  = $B->db->quoteSmart(md5($msg->header[$mid]['message_id']));
 
             $body = $msg->getBody($mid, $pid);
             $mbody = '';
             
             if ($body['ftype'] == 'text/plain')
             {
-                $data['body'] = $B->conn->qstr(nl2br($body['message']), magic_quotes_runtime());
+                $data['body'] = $B->db->quoteSmart(nl2br($body['message']));
             }
             else
             {
-                $data['body'] = $B->conn->qstr($body['message'], magic_quotes_runtime());
+                $data['body'] = $B->db->quoteSmart($body['message']);
             }
 
             $mes_folder = FALSE;
@@ -100,7 +100,7 @@ foreach ($lists as $account)
                 $is_attach = TRUE;
                 // get list messages attachment folder string
                 $mes_folder = $B->util->unique_md5_str();
-                $data['folder']  = $B->conn->qstr($mes_folder, magic_quotes_runtime());
+                $data['folder']  = $B->db->quoteSmart($mes_folder);
             }
             else
             {
@@ -125,8 +125,8 @@ foreach ($lists as $account)
                    $pid = $msg->attachPid[$mid][$i];
                    $att_data = array();
                    
-                   $att_data['file'] = $B->conn->qstr($msg->attachFname[$mid][$i], magic_quotes_runtime());
-                   $att_data['type'] = $B->conn->qstr($msg->attachFtype[$mid][$i], magic_quotes_runtime());
+                   $att_data['file'] = $B->db->quoteSmart($msg->attachFname[$mid][$i]);
+                   $att_data['type'] = $B->db->quoteSmart($msg->attachFtype[$mid][$i]);
                    $att_data['size'] = $msg->attachFsize[$mid][$i];
                    
                     // Parse header information

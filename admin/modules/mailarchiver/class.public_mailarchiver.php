@@ -41,7 +41,12 @@ class mailarchiver
             ORDER BY
                 name ASC";
         
-        $result = $GLOBALS['B']->conn->Execute($sql);
+        $result = $GLOBALS['B']->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nSQL: ".$sql."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
         
         // get var name to store the result
         $GLOBALS['B']->$data['var'] = array();
@@ -49,7 +54,7 @@ class mailarchiver
         
         if(is_object($result))
         {
-            while($row = $result->FetchRow())
+            while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)
@@ -92,7 +97,7 @@ class mailarchiver
         $GLOBALS['B']->$data['var'] = array();
         $_result                    = & $GLOBALS['B']->$data['var'];
 
-        $_result = $GLOBALS['B']->conn->getRow($sql);
+        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     } 
 
     /**
@@ -126,7 +131,7 @@ class mailarchiver
         $GLOBALS['B']->$data['var'] = array();
         $_result                    = & $GLOBALS['B']->$data['var'];
 
-        $_result = $GLOBALS['B']->conn->getRow($sql);
+        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     } 
 
     /**
@@ -161,11 +166,16 @@ class mailarchiver
             ORDER BY {$order}";
 
         if(!isset($_GET['pageID']) || ($_GET['pageID']==1))
-            $page = -1;
+            $page = 0;
         else
-            $page = ($_GET['pageID']-1)*$data['pager']['limit'];
+            $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
             
-        $result = $GLOBALS['B']->conn->SelectLimit($sql,$data['pager']['limit'],$page);
+        $result = $GLOBALS['B']->db->limitQuery($sql,$page,$data['pager']['limit']);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nSQL: ".$sql."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
 
         // get var name to store the result
         $GLOBALS['B']->$data['var'] = array();
@@ -173,7 +183,7 @@ class mailarchiver
 
         if(is_object($result))
         {
-            while($row = $result->FetchRow())
+            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)
@@ -213,7 +223,12 @@ class mailarchiver
             ORDER BY
                 file ASC";
         
-        $result = $GLOBALS['B']->conn->Execute($sql);
+        $result = $GLOBALS['B']->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nSQL: ".$sql."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
         
         // get var name to store the result
         $GLOBALS['B']->$data['var'] = array();
@@ -221,7 +236,7 @@ class mailarchiver
         
         if(is_object($result))
         {
-            while($row = $result->FetchRow())
+            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)
@@ -233,9 +248,45 @@ class mailarchiver
         }
     }
 
+    /**
+     * get email list data
+     *
+     * @param int $lid List id
+     * @param array $fields Field names of the list db table
+     * @return array List data 
+     */     
+    function get_attach( $data )
+    {
+        $comma   = '';
+        $_fields = '';
+        foreach ($data['fields'] as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
+        }
+        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_attach
+            WHERE
+                aid={$data['aid']} 
+            AND
+                mid={$data['mid']}                
+            AND
+                lid={$data['lid']}";
+
+        // get var name to store the result
+        $GLOBALS['B']->$data['var'] = array();
+        $_result                    = & $GLOBALS['B']->$data['var'];
+
+        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+    } 
+
     function _pager( &$data )
     {
-        include_once(SF_BASE_DIR.'/admin/lib/Pager_Sliding/Sliding.php');
+        include_once('Pager_Sliding/Sliding.php');
         
         $sql = "
             SELECT
@@ -245,7 +296,7 @@ class mailarchiver
             WHERE
                 lid={$data['lid']}";        
 
-        $_result = $GLOBALS['B']->conn->getRow($sql);
+        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
 
         $params['totalItems'] = $_result['num_rows'];
         $params['perPage']    = $data['pager']['limit'];

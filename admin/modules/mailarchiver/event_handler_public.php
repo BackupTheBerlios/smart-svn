@@ -22,6 +22,7 @@ define ( 'MAILARCHIVER_LIST',           '2');
 define ( 'MAILARCHIVER_LIST_MESSAGES',  '3');
 define ( 'MAILARCHIVER_MESSAGE',        '4');
 define ( 'MAILARCHIVER_MESSAGE_ATTACH', '5');
+define ( 'MAILARCHIVER_ATTACH',         '6');
 
 // register this handler                       
 if (FALSE == $B->register_handler(MOD_MAILARCHIVER,
@@ -59,7 +60,10 @@ function mailarchiver_event_handler( $evt )
             break;     
         case MAILARCHIVER_MESSAGE_ATTACH: 
             return $mailarchiver->get_message_attach( $evt['data'] );
-            break;               
+            break; 
+        case MAILARCHIVER_ATTACH: 
+            return $mailarchiver->get_attach( $evt['data'] );
+            break;            
     }
 }
 

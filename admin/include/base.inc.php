@@ -32,6 +32,9 @@ if ( SF_OB == TRUE )
     ob_start( SF_OB_GZHANDLER ); 
 }
 
+// set include path to the PEAR packages which is included in smartframe
+ini_set( 'include_path', SF_BASE_DIR . '/admin/lib/PEAR' );
+
 // include sfSecureGPC
 include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
 

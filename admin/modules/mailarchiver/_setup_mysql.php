@@ -35,9 +35,11 @@ if( count($B->setup_error) == 0 )
             PRIMARY KEY     (lid),
             KEY status      (status))";
 
-    if ($B->conn->Execute($sql) === FALSE)
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
     
     // create table if it dosent exist
@@ -54,9 +56,11 @@ if( count($B->setup_error) == 0 )
             KEY lid         (lid),
             KEY mes_id      (mes_id))";
 
-    if ($B->conn->Execute($sql) === FALSE)
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // create table if it dosent exist
@@ -71,10 +75,13 @@ if( count($B->setup_error) == 0 )
             KEY mid         (mid),
             KEY lid         (lid))";
 
-    if ($B->conn->Execute($sql) === FALSE)
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
+    
     unset($sql);
 }
 

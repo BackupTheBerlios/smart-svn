@@ -66,21 +66,26 @@ define('SF_DEFAULT_MODULE',              'ENTRY');
 // class instance of DB if setup is done
 if($B->sys['info']['status'] == TRUE)
 {
-    // include DB class
-    include_once( SF_BASE_DIR . '/admin/modules/user/adodb/adodb.inc.php');
+    // include PEAR DB class
+    include_once( 'DB.php');
     
-    $ADODB_CACHE_DIR = SF_BASE_DIR . '/admin/tmp/ADODB_cache';
-
-    $B->conn = ADONewConnection( $B->sys['db']['dbtype'] );
     if($B->sys['db']['dbtype'] == 'sqlite')
     {
-        $B->sys['db']['host'] = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
+        $B->sys['db']['name'] = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
     }
     
-    if (!$B->conn->Connect( $B->sys['db']['host'], $B->sys['db']['user'], $B->sys['db']['passwd'], $B->sys['db']['name'] ))
-    {
-        trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );            
-    } 
+    $B->dsn = array('phptype'  => $B->sys['db']['dbtype'],
+                    'username' => $B->sys['db']['user'],
+                    'password' => $B->sys['db']['passwd'],
+                    'hostspec' => $B->sys['db']['host'],
+                    'database' => $B->sys['db']['name']);
+
+    $B->dboptions = array('debug'       => 2,
+                          'portability' => DB_PORTABILITY_ALL);
+    
+    $B->db =& DB::connect($B->dsn, $B->dboptions);
+    if (DB::isError($B->db)) 
+        trigger_error( $B->db->getMessage(),E_USER_ERROR );     
 }
 
 ?>

@@ -45,13 +45,18 @@ class mailarchiver
             ORDER BY
                 name ASC";
         
-        $result = $GLOBALS['B']->conn->Execute($sql);
+        $result = $GLOBALS['B']->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage(), E_USER_ERROR);
+        }
         
         $data = array();
         
         if(is_object($result))
         {
-            while($row = $result->FetchRow())
+            while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($fields as $f)
@@ -88,7 +93,7 @@ class mailarchiver
             WHERE
                 lid={$lid}";
         
-        return $GLOBALS['B']->conn->getRow($sql);
+        return $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     } 
     
     /**
@@ -99,19 +104,27 @@ class mailarchiver
      */     
     function add_list( $data )
     {
+        $lid = $GLOBALS['B']->db->nextId('sequence_add_list');
+
+        if (DB::isError($lid)) 
+        {
+            trigger_error($result->getMessage(), E_USER_ERROR);
+        }
+        
         $sql = '
             INSERT INTO 
                 '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
-                (name,email,emailserver,description,folder,status)
+                (lid,name,email,emailserver,description,folder,status)
             VALUES
-                ('.$data['name'].',
+                ('.$lid.',
+                 '.$data['name'].',
                  '.$data['email'].',
                  '.$data['emailserver'].',
                  '.$data['description'].',
                  '.$data['folder'].',
                  '.$data['status'].')';
 
-        return $GLOBALS['B']->conn->Execute($sql);
+        return $GLOBALS['B']->db->query($sql);
     } 
     /**
      * update email list data
@@ -138,7 +151,7 @@ class mailarchiver
             WHERE
                 lid='.$lid;
         
-        return $GLOBALS['B']->conn->Execute($sql);
+        return $GLOBALS['B']->db->query($sql);
     } 
 
     /**
@@ -166,7 +179,7 @@ class mailarchiver
             WHERE
                 lid={$lid}";
         
-        $GLOBALS['B']->conn->Execute($sql);
+        $GLOBALS['B']->db->query($sql);
         
         // delete list messages
         $sql = "
@@ -175,7 +188,7 @@ class mailarchiver
             WHERE
                 lid={$lid}";
         
-        $GLOBALS['B']->conn->Execute($sql);    
+        $GLOBALS['B']->db->query($sql);    
         
         // delete list messages
         $sql = "
@@ -184,7 +197,7 @@ class mailarchiver
             WHERE
                 lid={$lid}";
         
-        $GLOBALS['B']->conn->Execute($sql);          
+        $GLOBALS['B']->db->query($sql);          
     }
     /**
      * add email message
@@ -194,7 +207,12 @@ class mailarchiver
      */     
     function add_message( &$data )
     {
-        $mid = $GLOBALS['B']->conn->GenID('sequence_add_message');
+        $mid = $GLOBALS['B']->db->nextId('sequence_add_message');
+
+        if (DB::isError($mid)) 
+        {
+            trigger_error($result->getMessage(), E_USER_ERROR);
+        }
         
         $sql = '
             INSERT INTO 
@@ -210,7 +228,9 @@ class mailarchiver
                  '.$data['body'].',
                  '.$data['folder'].')';
 
-        if(FALSE === $GLOBALS['B']->conn->Execute($sql))
+        $result = $GLOBALS['B']->db->query($sql);
+
+        if (DB::isError($result)) 
             return FALSE;
         else
             return $mid;
@@ -223,7 +243,12 @@ class mailarchiver
      */     
     function add_attach( $mid, $lid, &$data )
     {
-        $aid = $GLOBALS['B']->conn->GenID('sequence_add_attach');
+        $aid = $GLOBALS['B']->db->nextId('sequence_add_attach');
+
+        if (DB::isError($aid)) 
+        {
+            trigger_error($result->getMessage(), E_USER_ERROR);
+        }
         
         $sql = '
             INSERT INTO 
@@ -237,7 +262,7 @@ class mailarchiver
                  '.$data['size'].',
                  '.$data['type'].')';
 
-        return $GLOBALS['B']->conn->Execute($sql);
+        return $GLOBALS['B']->db->query($sql);
     }         
 }
 

@@ -22,17 +22,16 @@ if (!defined('SF_SECURE_INCLUDE'))
 
 if( count($B->setup_error) == 0 )
 {
-    // the sqlite database file
-    $db_file = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
-    
-    if(file_exists($db_file))
-        $is_db_file = TRUE;
-
     // delete the user_users table if it exist
     $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='mailarchiver_lists'";
-    $result = $B->conn->Execute($sql);
+    $result = $B->db->query($sql);
 
-    if($result->RecordCount() == 1)
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
+
+    if($result->numRows() == 1)
     {
         $sql = "DROP TABLE mailarchiver_lists";
         if ( FALSE === $B->conn->Execute($sql))
@@ -43,27 +42,41 @@ if( count($B->setup_error) == 0 )
     
     // delete the user_users table if it exist
     $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='mailarchiver_messages'";
-    $result = $B->conn->Execute($sql);
+    $result = $B->db->query($sql);
 
-    if($result->RecordCount() == 1)
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
+
+    if($result->numRows() == 1)
     {
         $sql = "DROP TABLE mailarchiver_messages";
-        if ( FALSE === $B->conn->Execute($sql))
+        $result = $B->db->query($sql);
+
+        if (DB::isError($result))
         {
-            $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+            $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         }
     }
     
     // delete the user_users table if it exist
     $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='mailarchiver_attach'";
-    $result = $B->conn->Execute($sql);
+    $result = $B->db->query($sql);
 
-    if($result->RecordCount() == 1)
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
+
+    if($result->numRows() == 1)
     {
         $sql = "DROP TABLE mailarchiver_attach";
-        if ( FALSE === $B->conn->Execute($sql))
+        $result = $B->db->query($sql);
+
+        if (DB::isError($result))
         {
-            $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+            $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         }
     }    
     
@@ -77,9 +90,11 @@ if( count($B->setup_error) == 0 )
             emailserver TEXT NOT NULL default '',            
             folder      CHAR(32) NOT NULL)";
 
-    if ( FALSE === $B->conn->Execute($sql))
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
     
     // create table if it dosent exist
@@ -93,9 +108,11 @@ if( count($B->setup_error) == 0 )
             body     TEXT NOT NULL default '',
             folder   CHAR(32) NOT NULL default '')";
 
-    if ($B->conn->Execute($sql) === FALSE)
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
     // create table if it dosent exist
@@ -107,10 +124,13 @@ if( count($B->setup_error) == 0 )
             size     INT(11) NOT NULL,
             type     VARCHAR(200) NOT NULL default '')";
 
-    if ($B->conn->Execute($sql) === FALSE)
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
     {
-        $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-    }
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    } 
+    
     unset($sql);
 }
 
