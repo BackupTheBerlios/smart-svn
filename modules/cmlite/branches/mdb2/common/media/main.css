@@ -1,0 +1,43 @@
+body,td,th {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+.headerdesc {
+    font-size: 14px;
+    color: #CCCCCC;
+    font-weight: bold;
+}
+.itemnormalbold {
+    font-size: 14px;
+    font-weight: bold;
+}
+.itemnormal {font-size: 14px}
+.itemsmall {font-size: 10px}
+.itemerror {
+    font-size: 12px;
+    font-weight: bold;
+    color: #FF0000;
+}
+.font10 {font-size: 10px}
+.font10bold {
+    font-size: 10px;
+    font-weight: bold;
+}
+.font14 {font-size: 14px}
+.font9 {font-size: 9px}
+.font9bold {
+    font-size: 9px;
+    font-weight: bold;
+}
+.font12bold {
+	font-size: 12px;
+	font-weight: bold;
+}
+.font12 {
+	font-size: 12px;
+}
