@@ -29,8 +29,8 @@ function subok(s){
 </head>
 <body>
 <!-- Display setup errors -->
-<?php if(count($B->setup_error) > 0): ?>
-    <?php foreach($B->setup_error as $error): ?>
+<?php if(count($GLOBALS['B']->setup_error) > 0): ?>
+    <?php foreach($GLOBALS['B']->setup_error as $error): ?>
         <?php echo $error; ?><br><br>
     <?php endforeach; ?>
 <?php endif; ?>
@@ -44,7 +44,7 @@ function subok(s){
   </tr>
   <tr>
     <td align="center" valign="top"><p>This template is loaded from the setup
-        module handler. In must cases you will find here a database setup form
+        module event handler. In must cases you will find here a database setup form
         (creating db tables) and a form to create an administrator user account.</p>
       <p>
         <input type="submit" name="do_setup" value="Submit" />
