@@ -17,7 +17,7 @@
 class action_user_check_login extends action
 {
     /**
-     * Check login data and set session vars and url forward  on success
+     * Check login data and set session vars
      *
      * @param array $data
      */
@@ -29,6 +29,10 @@ class action_user_check_login extends action
         {
             $this->B->session->set('logged_user', $data['login']);
             
+            if(isset($data['noforward']))
+            {
+                return TRUE;
+            }
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
             exit;
         }
