@@ -58,6 +58,9 @@ class view_option_index extends view
         // assign tpl array with available public template groups
         $this->_load_public_tpl_groups();
 
+        // assign tpl array with available public template groups
+        $this->_load_public_view_groups();
+
         // assign tpl array with available bad word lists
         $this->_get_bad_words_list();
 
@@ -100,7 +103,12 @@ class view_option_index extends view
         {
             $this->B->sys['option']['tpl'] = $_POST['tplgroup'];
             $this->B->_modified = TRUE;
-        }   
+        }  
+        elseif (isset($_POST['update_main_options_view']))
+        {
+            $this->B->sys['option']['view'] = $_POST['viewgroup'];
+            $this->B->_modified = TRUE;
+        }         
     }
 
     /**
@@ -219,6 +227,31 @@ class view_option_index extends view
 
          $directory->close();    
     }
+    /**
+     * Assign view array with all available public view folders
+     *
+     * @access privat
+     */     
+    function _load_public_view_groups()
+    {
+         // Load the available public view folders
+         $this->B->viewfolder = array();
+         
+         $directory =& dir(SF_BASE_DIR);
+
+         while (false != ($itemname = $directory->read()))
+         {
+             if (TRUE == is_dir(SF_BASE_DIR . '/' . $itemname))
+             {
+                if(preg_match("/^views_/", $itemname))
+                {
+                    $this->B->viewfolder[] = $itemname . "/";
+                }
+             }
+         }
+
+         $directory->close();    
+    }    
 }
 
 ?>
