@@ -112,6 +112,11 @@ unset($B->tmp_evt_handler);
 // Check if setup was done
 if ( $B->sys['info']['status'] !== TRUE )
 {
+    if( SF_SECTION != 'admin' )
+    {
+        @header('Location: admin/index.php');
+        exit;
+    }
     // send a setup message to the handler which takes
     // the setup part
     $B->M( MOD_SETUP, EVT_SETUP );
