@@ -47,7 +47,7 @@ class view_user_edituser extends view
         }     
     
         // prepare data array
-        $_data = array( 'user' => $_REQUEST['user'],
+        $_data = array( 'user' => urldecode($_REQUEST['user']),
                         'result'  => 'tpl_data');
                         
         // get user data
@@ -107,7 +107,7 @@ class view_user_edituser extends view
                 if(TRUE == M( MOD_USER,
                               'delete',
                               array( 'error' => 'tpl_error',
-                                     'user'  => $_POST['user'])))
+                                     'user'  => urldecode($_POST['user']))))
                 {
                     @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
                     exit;   
@@ -126,8 +126,8 @@ class view_user_edituser extends view
     function _update_user_data()
     {
         // prepare user data array
-        $_data = array( 'error'   => 'tpl_error',
-                        'user' => $_REQUEST['user'],
+        $_data = array( 'error' => 'tpl_error',
+                        'user'  => urldecode($_REQUEST['user']),
                         'email' => $_POST['email']);
             
         // update password if it isnt empty
