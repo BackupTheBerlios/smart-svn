@@ -86,33 +86,53 @@ class Tree
         
         $this->node[$data['node']]['title']     = $data['title'];
         $this->node[$data['node']]['status']    = $data['status'];
-    } 
-    
-    function addNode( & $data )
-    {
-        $node_id = $this->createUniqueId();
         
-        // We need PEAR File to read the nodes file 
-        include_once('File.php');
-
-        $fp = & new File();
-
-        // Add navigation node body
-        $node_body  = SF_BASE_DIR . 'data/navigation/'.$node_id; 
-        
-        if (!is_int($fp->write  ( $node_body, $data['body'], FILE_MODE_WRITE )))
+        if($this->node[$data['node']]['parent_id'] != $data['parent_id'])
         {
-            $this->B->$data['error'] = 'Could not write file: '.$node_body;
-            return FALSE;
+            $this->_move = TRUE;
+            $this->_verifyParentId( $data['node'], $data['parent_id'] );
+            
+            if($this->_move == TRUE)
+            {
+
+                $tmp = array();
+                $tmp['node'] = $this->node[$data['node']]['parent_id'];
+                
+                $this->node[$data['node']]['order'] = $this->getLastOrderId( $data['parent_id'] );
+                $this->node[$data['node']]['parent_id'] = $data['parent_id'];
+                
+        
+                $_data = $this->getChildren( $tmp );
+        
+                $_order = 1;
+        
+                foreach ($_data as $node => $val)
+                {
+                    $this->node[$node]['order'] = $_order;
+                    $_order++;
+                }                  
+            }
         }
         
-        $fp->unlock ( $node_body, FILE_MODE_WRITE );      
-        
-        $this->node[$node_id]['title']     = $data['title'];
-        $this->node[$node_id]['status']    = $data['status'];
-        $this->node[$node_id]['order']     = $this->getLastOrderId( (int)$data['parent_id'] );
-        $this->node[$node_id]['parent_id'] = (int)$data['parent_id'];
-    }  
+    } 
+    
+    function _verifyParentId( $parent_id, $check_id )
+    {
+           if( 0 == $check_id )
+           {
+              return;
+           }
+            elseif( ($this->_move == FALSE) || ( $parent_id == $check_id) )
+            {
+                $this->_move = FALSE;
+                return;
+            }
+            else
+            { 
+                $this->_verifyParentId( $parent_id, $this->node[$check_id]['parent_id'] );
+            }
+            return;
+    }
 
     function deleteNode( $node_id )
     {
@@ -121,7 +141,7 @@ class Tree
         
         if (!@unlink( $node_body ))
         {
-            $this->B->$data['error'] = 'Could not unlink file: '.$node_body;
+            trigger_error ('Could not unlink file: '.$node_body, E_USER_ERROR);
         }
         
         $tmp = array();
@@ -155,10 +175,24 @@ class Tree
         
                 if (!@unlink( $node_body ))
                 {
-                    $this->B->$data['error'] = 'Could not unlink file: '.$node_body;
+                    trigger_error ('Could not unlink file: '.$node_body, E_USER_ERROR);
                 }
                 
                 $this->deleteTree( $node );
+            }
+        }  
+        return;
+    }
+
+    function updateTreeNodeStatus( $parent_id, $status )
+    {
+        foreach($this->node as $node => $val)
+        {
+            if( $val['parent_id'] == $parent_id )
+            {
+                $this->node[$node]['status'] = $status;
+                
+                $this->updateTreeNodeStatus( $node, $status );
             }
         }  
         return;
@@ -211,35 +245,6 @@ class Tree
         return FALSE;
     }
 
-    function getLastOrderId( $parent_id )
-    {
-        $order_id = 1;
-        foreach ($this->node as $key => $val)
-        {
-            if( $val['parent_id'] == $parent_id )
-            {
-                if($this->node[$key]['order'] >= $order_id)
-                {
-                    $order_id = $this->node[$key]['order'] + 1;
-                }
-            }
-        }  
-        
-        return $order_id;
-    }
-
-    function & createUniqueId()
-    {
-        // make node id
-        $node_id = commonUtil::unique_crc32();
-        
-        while( isset($this->node[$node_id]) )
-        {
-            $node_id = commonUtil::unique_crc32();
-        }
-        
-        return $node_id;
-    }
 }
 
 ?>
