@@ -1,10 +1,15 @@
 README
 #######
 
-This is a alpha version of a php framework.
+This is the alpha version of a php framework.
 
-The framework has a module structured concept based on a event distributor class
-and some event handlers functions (call-back). See EVENT_HANDLER_DOC. 
+There isnt yet any english end user doc available. 
+
+Please visite the Smart project site:
+http://smart.open-publisher.net
+
+The project site of the module Earchive:
+http://e-archive.open-publisher.net
 
 
 Armand Turpel
