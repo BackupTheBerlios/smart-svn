@@ -38,6 +38,11 @@ define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
 define('SF_DEBUG',                       TRUE);
 
 /**
+ * Enable Xdebug profiler
+ */
+define('XDEBUG_PROFILER',                TRUE);
+
+/**
  * Show runtime messages like time execution and 
  * memory usage (only on php >= 4.3.2).
  * Unset this definition for a public release

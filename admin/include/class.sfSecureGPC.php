@@ -22,9 +22,10 @@ class sfSecureGPC
      *
      * @param mixed $var Var to check.     
      * @param string $type Type of the variable.
+     * @param string $preg_str preg string format eg. "[a-zA-Z]".
      * @return mixed
      */
-    function get( &$var, $type = 'int' )
+    function get( &$var, $type = 'int', $preg_str = FALSE )
     {
         switch ($type)
         {
@@ -32,13 +33,12 @@ class sfSecureGPC
                     return sfSecureGPC::_getInt( $var );
                 break;
             case 'string':
-                    return sfSecureGPC::_getString( $var );
+                    return sfSecureGPC::_getString( $var, $preg_str );
                 break;
             case 'sqlstring':
                     return sfSecureGPC::_getSqlString( $var );
                 break;                
             default:
-                    patErrorManager::raiseError( 'GPC', 'Unknow var type:.' . $type);
                     return FALSE;
                 break;
         }
@@ -61,7 +61,7 @@ class sfSecureGPC
         
         if(preg_match("/[^0-9]+/",$var))
         {
-            patErrorManager::raiseWarning( 'GPC', 'Wrong INT', $var  );                    
+            return FALSE;                   
         }
         return (int) $var;
     }
@@ -75,21 +75,32 @@ class sfSecureGPC
      * @return string
      * @access privat
      */    
-    function _getString( $var )
+    function _getString( $var, $preg_str )
     {
         if(empty($var))
         {
             return '';
         }
         
-        if(preg_match("/[^a-zA-Z]/",$var))
+        if( FALSE !== $preg_str )
         {
-            patErrorManager::raiseWarning( 'GPC', 'Wrong STRING', $var  );
-            return preg_replace("/[^a-zA-Z]+/", "", $var);
+            if( preg_match("/{$preg_str}/",$var) )
+            {        
+                return $var;   
+            }
+            else
+            {
+                return FALSE;             
+            }
+        }
+        
+        if(preg_match("/[a-zA-Z]+/",$var))
+        {
+            return $var;
         }
         else
         {
-            return $var;
+            return FALSE;            
         }
     }
     /**

@@ -39,7 +39,10 @@ if(!isset($_REQUEST['tpl']))
 }
 else
 {
-    $base->tmp_tpl = sfSecureGPC::get( $_REQUEST['tpl'], 'string' );
+    if(FALSE === ($base->tmp_tpl = sfSecureGPC::get( $_REQUEST['tpl'], 'string' )))
+    {
+        patErrorManager::raiseError( 'GPC', 'Wrong string Value', "VAR: tpl\nVALUE: ".$_REQUEST['tpl']."\nFILE: ".__FILE__."\nLINE:".__LINE__  );    
+    }
 }
 
 // set the base template for this module
@@ -53,4 +56,6 @@ if( OB == TRUE)
 {
     ob_end_flush();
 }
+
+
 ?>
