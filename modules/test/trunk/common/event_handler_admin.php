@@ -123,7 +123,7 @@ define('SF_AUTH_MODULE',      'TEST'); // required
 /**
  * The module which play a base role required for all other modules.
  */
-define('SF_BASE_MODULE',                 MOD_COMMON);
+define('SF_BASE_MODULE',      MOD_COMMON); // required
 
 /**
  * The module (name) which takes the global options part.

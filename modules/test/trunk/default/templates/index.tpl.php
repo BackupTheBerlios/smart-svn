@@ -19,7 +19,7 @@
         <tr>
           <td width="76%" align="left" valign="top"><table width="100%"  border="0" cellspacing="6" cellpadding="6">
             <tr>
-              <td align="left" valign="top"><p>This is the entry page of the module set, which run under the SMART framework. In the top right corner you can select all available modules from the select menu. This release is only for testing purpose to demonstrate how the modules works.</p>
+              <td align="left" valign="top"><p>This is the entry page of the module set, which run under the SMART framework. In the top right corner you can select all available modules from the select menu. This release is only for testing purpose to demonstrate how the modules mechanism works. Alternate you can download the real working application <a href="http://e-archive.open-publisher.net" target="_blank">E-archive</a>, which is build upon SMART.</p>
                   <p>&nbsp; </p></td>
             </tr>
           </table></td>
