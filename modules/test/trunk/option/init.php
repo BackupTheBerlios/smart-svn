@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_OPTION' , 'option');
 
 // Version of this modul
-define ( 'MOD_OPTION_VERSION' , '0.1.6');
+define ( 'MOD_OPTION_VERSION' , '0.1.7');
 
 // register this module                       
 if (FALSE == register_module( MOD_OPTION,

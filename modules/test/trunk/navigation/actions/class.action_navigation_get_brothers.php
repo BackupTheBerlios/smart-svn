@@ -17,7 +17,7 @@
 class action_navigation_get_brothers extends action
 {
     /**
-     * Fill up an array with navigation elements
+     * Get all nodes from the same node level as the current node
      *
      * Structure of the $data array:
      * $data['result'] - name of the navigation array result
@@ -32,12 +32,6 @@ class action_navigation_get_brothers extends action
         $_result = & $this->B->$data['result']; 
         $_result = array();
 
-        // if node is not defined get top level nodes
-        if(!isset($data['node']))
-        {
-            $data['node'] = 0;
-        }
-
         // check if a tree object exists
         if(!is_array($this->B->node))
         {
@@ -47,6 +41,17 @@ class action_navigation_get_brothers extends action
             $this->B->node = & $node;     
         }         
 
+        if( !isset($data['node']) )
+        {
+            $data['node'] = 0;
+            return FALSE;        
+        }
+        else
+        {
+            // assign parent node
+            $data['node'] = $this->B->node['node']['parent_id'];
+        }
+        
         // get child nodes of a given node id
         $_result = $this->getChildren( $data ); 
         
@@ -67,7 +72,7 @@ class action_navigation_get_brothers extends action
             trigger_error("Wrong 'status' variable: ".$data['status']." Only 2 = 'publish' or 1 = 'drawt' are accepted.\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }     
-        
+     
         return TRUE;
     } 
     

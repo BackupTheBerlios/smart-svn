@@ -24,7 +24,7 @@ class action_common_sys_init extends action
      * @param array $data
      */
     function perform( $data )
-    {
+    {   
         // get os related separator to set include path
         if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
             $tmp_separator = ';';

@@ -27,7 +27,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_COMMON' , 'common');
 
 // Version of this module
-define ( 'MOD_COMMON_VERSION' , '0.4');
+define ( 'MOD_COMMON_VERSION' , '0.5');
 
 // register this module                       
 if (FALSE == register_module( MOD_COMMON,
