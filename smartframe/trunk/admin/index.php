@@ -57,16 +57,6 @@ if ( (int)$_REQUEST['logout'] == 1 )
     exit;
 }
 
-// check if the demanded module (handler) is registered else load default module
-if ( TRUE == $B->is_handler ($_REQUEST['m']))
-{
-    $B->M($_REQUEST['m'], 'SYS_LOAD_MODULE');
-}
-else
-{
-    $B->M(SF_DEFAULT_MODULE, 'SYS_LOAD_MODULE');
-}
-
 // get the admin view (template)
 include( $B->M( MOD_SYSTEM, 'GET_ADMIN_VIEW') ); 
 
