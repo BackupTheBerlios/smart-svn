@@ -23,13 +23,14 @@ class action_navigation_add_node extends action
      */
     function perform( $data = FALSE )
     {
-        // check if a tree node array exists
-        if(!isset($this->node))
+        // check if a tree object exists
+        if(!is_array($this->B->node))
         {
-            // load navigation nodes
-            include_once SF_BASE_DIR . 'data/navigation/nodes.php';     
-            $this->node = & $node;
-        } 
+            // load navigation nodes  
+            $node = array();
+            include ( SF_BASE_DIR . 'data/navigation/nodes.php' ); 
+            $this->B->node = & $node;     
+        }  
         
         // add node to the array
         $this->addNode( $data );
@@ -38,7 +39,7 @@ class action_navigation_add_node extends action
         // see modules/common/actions/class.action_common_sys_update_config.php
         M( SF_BASE_MODULE, 
            'sys_update_config', 
-           array( 'data'     => $this->node,
+           array( 'data'     => $this->B->node,
                   'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
                   'var_name' => 'node',
                   'type'     => 'PHPArray') );
@@ -88,10 +89,10 @@ class action_navigation_add_node extends action
         
         $fp->unlock ( $node_body, FILE_MODE_WRITE );      
         
-        $this->node[$node_id]['title']     = $data['title'];
-        $this->node[$node_id]['status']    = $data['status'];
-        $this->node[$node_id]['order']     = $this->getLastOrderId( (int)$data['parent_id'] );
-        $this->node[$node_id]['parent_id'] = (int)$data['parent_id'];
+        $this->B->node[$node_id]['title']     = $data['title'];
+        $this->B->node[$node_id]['status']    = $data['status'];
+        $this->B->node[$node_id]['order']     = $this->getLastOrderId( (int)$data['parent_id'] );
+        $this->B->node[$node_id]['parent_id'] = (int)$data['parent_id'];
     }  
     /**
      * get order id of the last node
@@ -102,13 +103,13 @@ class action_navigation_add_node extends action
     function getLastOrderId( $parent_id )
     {
         $order_id = 1;
-        foreach ($this->node as $key => $val)
+        foreach ($this->B->node as $key => $val)
         {
             if( $val['parent_id'] == $parent_id )
             {
-                if($this->node[$key]['order'] >= $order_id)
+                if($this->B->node[$key]['order'] >= $order_id)
                 {
-                    $order_id = $this->node[$key]['order'] + 1;
+                    $order_id = $this->B->node[$key]['order'] + 1;
                 }
             }
         }  
@@ -125,7 +126,7 @@ class action_navigation_add_node extends action
         // make node id
         $node_id = commonUtil::unique_crc32();
         
-        while( isset($this->node[$node_id]) )
+        while( isset($this->B->node[$node_id]) )
         {
             $node_id = commonUtil::unique_crc32();
         }

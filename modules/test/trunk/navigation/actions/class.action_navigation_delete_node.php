@@ -23,13 +23,14 @@ class action_navigation_delete_node extends action
      */
     function perform( $data = FALSE )
     {
-        // check if a tree node array exists
-        if(!isset($this->node))
+        // check if a tree object exists
+        if(!is_array($this->B->node))
         {
-            // load navigation nodes
-            include_once SF_BASE_DIR . 'data/navigation/nodes.php';     
-            $this->node = & $node;
-        }
+            // load navigation nodes  
+            $node = array();
+            include ( SF_BASE_DIR . 'data/navigation/nodes.php' ); 
+            $this->B->node = & $node;     
+        }  
         
         // add node to the array
         $this->deleteNode( $data['node'] );
@@ -38,7 +39,7 @@ class action_navigation_delete_node extends action
         // see modules/common/actions/class.action_common_sys_update_config.php
         M( SF_BASE_MODULE, 
            'sys_update_config', 
-           array( 'data'     => $this->node,
+           array( 'data'     => $this->B->node,
                   'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
                   'var_name' => 'node',
                   'type'     => 'PHPArray') );
@@ -86,9 +87,9 @@ class action_navigation_delete_node extends action
         
         // delete node array item
         $tmp = array();
-        $tmp['node'] = $this->node[$node_id]['parent_id'];
+        $tmp['node'] = $this->B->node[$node_id]['parent_id'];
 
-        unset( $this->node[$node_id] );
+        unset( $this->B->node[$node_id] );
         
         // delete subtree
         $this->deleteTree( $node_id );
@@ -101,7 +102,7 @@ class action_navigation_delete_node extends action
         
         foreach ($_data as $node => $val)
         {
-            $this->node[$node]['order'] = $_order;
+            $this->B->node[$node]['order'] = $_order;
             $_order++;
         }        
     }  
@@ -112,12 +113,12 @@ class action_navigation_delete_node extends action
      */      
     function deleteTree( $parent_id )
     {
-        foreach($this->node as $node => $val)
+        foreach($this->B->node as $node => $val)
         {
             if( $val['parent_id'] == $parent_id )
             {
                 // delete node in array
-                unset($this->node[$node]);
+                unset($this->B->node[$node]);
                 
                 // get node body text file path
                 $node_body  = SF_BASE_DIR . 'data/navigation/'.$node; 
@@ -140,7 +141,7 @@ class action_navigation_delete_node extends action
     function & getChildren( & $data )
     {
         $tmp = array();
-        foreach ($this->node as $key => $val)
+        foreach ($this->B->node as $key => $val)
         {
             if( $val['parent_id'] == $data['node'] )
             {
@@ -162,10 +163,10 @@ class action_navigation_delete_node extends action
         
         foreach ($tmp as $val)
         {
-            $result[$val]['title']     = $this->node[$val]['title'];
-            $result[$val]['status']    = $this->node[$val]['status'];
-            $result[$val]['order']     = $this->node[$val]['order'];
-            $result[$val]['parent_id'] = $this->node[$val]['parent_id'];
+            $result[$val]['title']     = $this->B->node[$val]['title'];
+            $result[$val]['status']    = $this->B->node[$val]['status'];
+            $result[$val]['order']     = $this->B->node[$val]['order'];
+            $result[$val]['parent_id'] = $this->B->node[$val]['parent_id'];
         }  
         
         unset($tmp);

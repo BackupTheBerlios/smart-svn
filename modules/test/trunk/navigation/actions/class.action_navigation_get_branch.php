@@ -14,16 +14,13 @@
  *
  */
 
-// tree class
-//include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
-
 class action_navigation_get_branch extends action
 {
     /**
      * Fill up an array with navigation nodes of a node branch
      *
      * Structure of the $data array:
-     * $data['nav'] - name of the navigation array
+     * $data['result'] - name of the navigation array result
      * $data['status'] - status of the nodes to get
      *
      * @param array $data
@@ -83,7 +80,11 @@ class action_navigation_get_branch extends action
         
         return TRUE;
     } 
-    
+    /**
+     * get branch (all parents) data of a given node
+     *
+     * @param int $node
+     */     
     function getBranch( $node )
     {
         if(!isset($this->branch))
