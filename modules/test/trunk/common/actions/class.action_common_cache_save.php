@@ -48,7 +48,22 @@ class action_common_cache_save extends action
         $this->B->cache->save($data['result'], $this->B->$_id_name, $this->B->$_group_name);
 
         return TRUE;
-    }   
+    } 
+    /**
+     * validate data
+     *
+     * @param array $data
+     */    
+    function validate( & $data )
+    {
+        // disable cache by returning false
+        if ( SF_CACHE == FALSE )
+        {
+            return FALSE;
+        }
+        
+        return TRUE;
+    }
 }
 
 ?>

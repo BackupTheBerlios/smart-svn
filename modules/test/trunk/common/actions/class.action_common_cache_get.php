@@ -67,7 +67,23 @@ class action_common_cache_get extends action
             return TRUE;
         }
         return FALSE;
-    }   
+    } 
+    
+    /**
+     * validate data
+     *
+     * @param array $data
+     */    
+    function validate( & $data )
+    {
+        // disable cache by returning false
+        if ( SF_CACHE == FALSE )
+        {
+            return FALSE;
+        }
+        
+        return TRUE;
+    }
 }
 
 ?>
