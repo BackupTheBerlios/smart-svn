@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_login class of the template "group_login.tpl.php"
+ * view_login class of the template "tpl.login.php"
  *
  */
  
@@ -23,25 +23,25 @@ class view_login extends view
     var $template = 'login';
 
     /**
-     * Execute the view of the template "group_login.tpl.php"
+     * Execute the view of the template "tpl.login.php"
      *
-     * @return mixed (object) this object on success else (bool) false on error
+     * @return bool false on error else true
      */
     function perform()
     {
         // create capcha picture and public key
-        $this->B->M( MOD_USER,
-                     'captcha_make',
-                     array( 'captcha_pic' => 'tpl_captcha_pic',
-                            'public_key'  => 'tpl_public_key'));
+        M( MOD_USER,
+           'captcha_make',
+           array( 'captcha_pic' => 'tpl_captcha_pic',
+                  'public_key'  => 'tpl_public_key'));
                             
         if(isset($_POST['login']))
         {
             // validate captcha turing/public keys
-            if (FALSE === $this->B->M( MOD_USER,
-                                       'captcha_validate',
-                                       array( 'turing_key'  => $_POST['captcha_turing_key'],
-                                              'public_key'  => $_POST['captcha_public_key'])))
+            if (FALSE === M( MOD_USER,
+                             'captcha_validate',
+                             array( 'turing_key'  => $_POST['captcha_turing_key'],
+                                    'public_key'  => $_POST['captcha_public_key'])))
             {
                 $this->B->tpl_error = 'Wrong turing key!!<br /><br />';
                 $this->_reset_form_data();
@@ -49,11 +49,11 @@ class view_login extends view
             }
             
             /* check login and password */
-            if( FALSE === $this->B->M( MOD_USER, 
-                                       'check_login', 
-                                       array( 'login'          => $_POST['login_name'],
-                                              'passwd'         => $_POST['password'],
-                                              'forward_urlvar' => $_GET['url'])))
+            if( FALSE === M( MOD_USER, 
+                             'check_login', 
+                             array( 'login'          => $_POST['login_name'],
+                                    'passwd'         => $_POST['password'],
+                                    'forward_urlvar' => $_GET['url'])))
             {
                 $this->B->tpl_error = 'Login fails. Please try again!!<br /><br />';
                 $this->_reset_form_data();
@@ -61,14 +61,49 @@ class view_login extends view
             }
         }
         
-        return $this;
+        return TRUE;
     }    
     
     function _reset_form_data()
     {
         $this->B->tpl_form = array();
         $this->B->tpl_form['login_name'] = commonUtil::stripSlashes($_POST['login_name']);     
-    }    
+    }  
+    
+    /**
+     * default authentication
+     *
+     */
+    function auth()
+    {
+        // Directed authentication event to the module handler, 
+        // which takes the authentication part
+        // The variable SF_AUTH_MODULE must be declared in the "common"
+        // module event_handler.php file
+        M( SF_AUTH_MODULE, 'sys_authenticate' );
+    }
+    
+    /**
+     * default prepend filter chain
+     *
+     */
+    function prependFilterChain()
+    {
+        // Directed intercepting filter event (auto_prepend)
+        // see smart/actions/class.system_sys_prepend.php
+        M( MOD_SYSTEM, 'sys_prepend' );    
+    }   
+    
+    /**
+     * default append filter chain
+     *
+     */
+    function appendFilterChain()
+    {
+        // Directed intercepting filter event (auto_append)
+        // see smart/actions/class.system_sys_append.php
+        M( MOD_SYSTEM, 'sys_append' );   
+    }       
 }
 
 ?>

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_search class of the template "group_search.tpl.php"
+ * view_search class of the template "tpl.search.php"
  *
  */
  
@@ -23,26 +23,60 @@ class view_search extends view
     var $template = 'search';
     
     /**
-     * Execute the view of the template "group_search.tpl.php"
+     * Execute the view of the template "tpl.search.php"
      *
-     * @return mixed (object) this object on success else (bool) false on error
+     * @return bool false on error else true
      */
     function & perform()
     { 
         //get the messages of the searching result and store the result in the array $B->tpl_msg
-        $this->B->M( MOD_EARCHIVE, 
-                     'search', 
-                     array( 'var'      => 'tpl_msg', 
-                            'search'   => $_REQUEST['search'], 
-                            'bool'     => 'and', 
-                            'order'    => 'mdate desc', 
-                            'limit'    => 100, 
-                            'fields'   => array('mid','lid','subject','sender','mdate'),
-                            'get_list' => TRUE));                        
+        M( MOD_EARCHIVE, 
+           'search', 
+           array( 'var'      => 'tpl_msg', 
+                  'search'   => $_REQUEST['search'], 
+                  'bool'     => 'and', 
+                  'order'    => 'mdate desc', 
+                  'limit'    => 100, 
+                  'fields'   => array('mid','lid','subject','sender','mdate'),
+                  'get_list' => TRUE));                        
 
-
-        return $this;
-    }    
+        return TRUE;
+    } 
+    
+    /**
+     * default authentication
+     *
+     */
+    function auth()
+    {
+        // Directed authentication event to the module handler, 
+        // which takes the authentication part
+        // The variable SF_AUTH_MODULE must be declared in the "common"
+        // module event_handler.php file
+        M( SF_AUTH_MODULE, 'sys_authenticate' );
+    }
+    
+    /**
+     * default prepend filter chain
+     *
+     */
+    function prependFilterChain()
+    {
+        // Directed intercepting filter event (auto_prepend)
+        // see smart/actions/class.system_sys_prepend.php
+        M( MOD_SYSTEM, 'sys_prepend' );    
+    }   
+    
+    /**
+     * default append filter chain
+     *
+     */
+    function appendFilterChain()
+    {
+        // Directed intercepting filter event (auto_append)
+        // see smart/actions/class.system_sys_append.php
+        M( MOD_SYSTEM, 'sys_append' );   
+    }       
 }
 
 ?>

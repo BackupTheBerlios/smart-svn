@@ -30,7 +30,6 @@ class view_index extends view
     function & perform()
     {
         // nothing to do. just return this object
-        
         return $this;
     }    
 }

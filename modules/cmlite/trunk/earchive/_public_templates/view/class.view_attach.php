@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_attach class of the template "group_attach.tpl.php"
+ * view_attach class
  *
  */
 
@@ -22,41 +22,40 @@ class view_attach extends view
      * Template render flag
      * @var bool $render_template
      */    
-    var $render_template = SF_TEMPLATE_RENDER_NONE; 
+    var $render_template = SF_TEMPLATE_RENDER_NONE; // We need no template here
     
     /**
-     * Execute the view of the template "group_attach.tpl.php"
+     * Provide a file for download
      *
      * @return bool true on success else false
-     * @todo validate $_GET['mid']
      */
     function perform()
     {
         //Get the demanded attachment and send it to the client
 
         //get the top requested email list attachment folder 
-        $this->B->M( MOD_EARCHIVE, 
-                     'get_list', 
-                     array( 'var'    => 'tpl_list', 
-                            'lid'    => (int)$_GET['lid'], 
-                            'fields' => array('folder'))); 
+        M( MOD_EARCHIVE, 
+           'get_list', 
+           array( 'var'    => 'tpl_list', 
+                  'lid'    => (int)$_GET['lid'], 
+                  'fields' => array('folder'))); 
 
         //get the requested message attachment folder
-        $this->B->M( MOD_EARCHIVE, 
-                     'get_message', 
-                     array( 'var'    => 'tpl_msg', 
-                            'mid'    => (int)$_GET['mid'], 
-                            'lid'    => (int)$_GET['lid'], 
-                            'fields' => array('folder')));                        
+        M( MOD_EARCHIVE, 
+           'get_message', 
+           array( 'var'    => 'tpl_msg', 
+                  'mid'    => (int)$_GET['mid'], 
+                  'lid'    => (int)$_GET['lid'], 
+                  'fields' => array('folder')));                        
 
         //get the attachment file name, type
-        $this->B->M( MOD_EARCHIVE, 
-                     'get_attach', 
-                     array( 'var'    => 'tpl_attach', 
-                            'aid'    => (int)$_GET['aid'], 
-                            'mid'    => (int)$_GET['mid'], 
-                            'lid'    => (int)$_GET['lid'], 
-                            'fields' => array('file','type')));
+        M( MOD_EARCHIVE, 
+           'get_attach', 
+           array( 'var'    => 'tpl_attach', 
+                  'aid'    => (int)$_GET['aid'], 
+                  'mid'    => (int)$_GET['mid'], 
+                  'lid'    => (int)$_GET['lid'], 
+                  'fields' => array('file','type')));
 
         // set params to send http header and content
         $this->B->attach_params = array(
@@ -65,24 +64,35 @@ class view_attach extends view
                      'contentdisposition'    => array(HTTP_DOWNLOAD_ATTACHMENT, stripslashes($this->B->tpl_attach['file'])),
                      );
 
-        return $this;
+        // stop output buffering
+        // we dont need those headers which has been allready sended
+        //
+        while ( @ob_end_clean() );
+
+        // send header and content
+        $error = HTTP_Download::staticSend($this->B->attach_params, false);
+
+        if (TRUE !== $error) 
+        {
+            trigger_error($error->message." ".$this->B->attach_params['file']."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
+        exit;
+        // stop application here
+        return TRUE;
     } 
     
     /**
-     * disbale prepend filter chain by overloading the parent view methode
+     * default authentication
      *
      */
-    function prependFilterChain()
-    {  
+    function auth()
+    {
+        // Directed authentication event to the module handler, 
+        // which takes the authentication part
+        // The variable SF_AUTH_MODULE must be declared in the "common"
+        // module event_handler.php file
+        M( SF_AUTH_MODULE, 'sys_authenticate' );
     }   
-    
-    /**
-     * disbale append filter chain by overloading the parent view methode
-     *
-     */
-    function appendFilterChain()
-    { 
-    }     
 }
 
 ?>
