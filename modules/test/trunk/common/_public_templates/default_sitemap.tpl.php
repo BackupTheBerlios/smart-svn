@@ -56,7 +56,7 @@ body {
                    is produced by the event call at the top of this template. 
                    -----------------------------------------------------------*/ ?>        
               <?php foreach($B->tpl_nav as $key => $val): ?>
-                <li><a href="index.php?view=<?php echo $val; ?>"><?php echo $key; ?></a></li>
+                <li><a href="<?php echo SF_CONTROLLER; ?>?view=<?php echo $val; ?>"><?php echo $key; ?></a></li>
           <?php endforeach; ?>
         </ul> 
       </font></p>     

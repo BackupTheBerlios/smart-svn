@@ -15,7 +15,7 @@
               <?php if(!isset($_REQUEST['view'])): ?>
                   <strong>Home</strong>
               <?php else: ?>
-                  <?php echo "<a href='index.php'>Home</a>"; ?>
+                  <?php echo "<a href='".SF_CONTROLLER."'>Home</a>"; ?>
               <?php endif; ?>
              </font>
             </td>  
@@ -32,7 +32,7 @@
                 <?php if($_REQUEST['view'] == $val): ?>
                    <strong><?php echo $key; ?></strong>
                 <?php else: ?>
-                   <a href="index.php?view=<?php echo $val; ?>"><?php echo $key; ?></a>
+                   <a href="<?php echo SF_CONTROLLER; ?>?view=<?php echo $val; ?>"><?php echo $key; ?></a>
                 <?php endif; ?>
               </font>
             </td>
@@ -42,6 +42,6 @@
             <td align="left" valign="top">&nbsp;</font></td>
           </tr>     
           <tr>
-            <td align="left" valign="top"><font size="2"><a href="index.php?admin=1">Admin</a></font></td>
+            <td align="left" valign="top"><font size="2"><a href="<?php echo SF_CONTROLLER; ?>?admin=1">Admin</a></font></td>
           </tr>     
         </table>

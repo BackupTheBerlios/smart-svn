@@ -81,7 +81,7 @@ body {
             <strong>View class:</strong> / view / class.view_[template name].php
 </font></p>
         <p>&nbsp;</p>
-        <p align="center"><img src="media/smart.gif" width="591" height="614" /></p>
+        <p align="center"><img src="<?php echo SF_RELATIVE_PATH; ?>media/smart.gif" width="591" height="614" /></p>
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         </td>
