@@ -48,6 +48,11 @@ class view_list
      */
     function perform()
     {
+        /* check if registered user is required to access this list */
+        $this->B->M( MOD_EARCHIVE, 
+                     'have_access', 
+                     array( 'lid' => (int)$_GET['lid'])); 
+        
         /* get all available email lists and store the result in the array $B->tpl_list */
         $this->B->M( MOD_EARCHIVE, 
                      'get_lists', 
