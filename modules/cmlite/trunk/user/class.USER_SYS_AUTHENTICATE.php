@@ -50,7 +50,7 @@ class USER_SYS_AUTHENTICATE
         $this->B->login = TRUE;
         include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
         $this->B->auth = & new auth('admin');  
-        if($this->B->auth->is_user == FALSE)
+        if( ($this->B->auth->is_user == FALSE) && (SF_SECTION == 'admin') )
         {
             $this->B->login = FALSE;
 
