@@ -48,16 +48,7 @@ class user_view_edituser
      * @return bool
      */
     function perform()
-    {    
-        if(!is_object($this->B->user))
-        {
-            // the user class
-            include_once SF_BASE_DIR . 'modules/user/includes/class.user.php';
-
-            //User Class instance
-            $this->B->user = & new user;  
-        }
-        
+    {           
         // check permission to modify user data
         $this->B->F( USER_FILTER,
                      'permission',
@@ -67,7 +58,10 @@ class user_view_edituser
         // if some user data has change
         if( isset($_POST['modifyuserdata']) )
         {
-            $this->_modify_user();
+            if(FALSE == $this->_modify_user())
+            {
+                return TRUE;
+            }
         }     
     
         // prepare data array
@@ -269,30 +263,29 @@ class user_view_edituser
      */   
     function _update_user_data()
     {
-        $tmp_data = array(
-                            'forename' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['forename'])),
-                            'lastname' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['lastname'])),
-                            'email'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
-                            'rights'   => (int)$_POST['rights'],
-                            'status'   => (int)$_POST['status']);
+        // prepare user data array
+        $_data = array( 'error'   => 'tpl_error',
+                        'user_id' => (int)$_REQUEST['uid'],
+                        'fields'  => array( 'forename' => $_POST['forename'],
+                                            'lastname' => $_POST['lastname'],
+                                            'email'    => $_POST['email'],
+                                            'rights'   => (int)$_POST['rights'],
+                                            'status'   => (int)$_POST['status'] ));
             
         // update password if it isnt empty
         if(!empty($_POST['passwd']))
         {
-            $tmp_data['passwd'] == $this->B->db->quoteSmart(md5($_POST['passwd']));
+            $_data['fields']['passwd'] == md5($_POST['passwd']);
         }
             
         // update user data
-        if(FALSE != $this->B->user->update_user( (int)$_REQUEST['uid'], $tmp_data))
+        if(FALSE != $this->B->M( MOD_USER,
+                                 'update',
+                                 $_data))
         {
             @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user');
             exit;
-        }
-        else
-        {
-            $this->B->tpl_error = 'This login exist. Chose a other one!';
-            return FALSE;
-        }    
+        }   
         return TRUE;
     }
 
@@ -306,7 +299,7 @@ class user_view_edituser
         $this->B->tpl_data['forename'] = htmlspecialchars(commonUtil::stripSlashes($_POST['forename']));
         $this->B->tpl_data['lastname'] = htmlspecialchars(commonUtil::stripSlashes($_POST['lastname']));
         $this->B->tpl_data['email']    = htmlspecialchars(commonUtil::stripSlashes($_POST['email']));
-        $this->B->tpl_data['login']    = htmlspecialchars(commonUtil::stripSlashes($_POST['login']));
+        $this->B->tpl_data['login']    = htmlspecialchars(commonUtil::stripSlashes($_POST['_login']));
         $this->B->tpl_data['passwd']   = htmlspecialchars(commonUtil::stripSlashes($_POST['passwd']));
         $this->B->tpl_data['rights']   = $_POST['rights'];
         $this->B->tpl_data['status']   = $_POST['status'];            
