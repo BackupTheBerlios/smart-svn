@@ -63,7 +63,7 @@ if( count($B->setup_error) == 0 )
     
     // create table if it dosent exist
     $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}user_users (
-            uid      INT(11) NOT NULL auto_increment,
+            uid      INT(11) NOT NULL default 0,
             status   TINYINT NOT NULL default 1,
             rights   TINYINT NOT NULL default 1,
             login    VARCHAR(30) NOT NULL,
@@ -71,7 +71,7 @@ if( count($B->setup_error) == 0 )
             forename VARCHAR(50) NOT NULL,
             lastname VARCHAR(50) NOT NULL,
             email    TEXT NOT NULL,
-            PRIMARY KEY     (uid),
+            KEY uid         (uid),
             KEY status      (status),
             KEY rights      (rights))";
 
@@ -101,10 +101,17 @@ if( count($B->setup_error) == 0 )
     $login     = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslogin']));
     $passwd    = $B->db->quoteSmart(md5($_POST['syspassword1']));
 
+    $uid = $B->db->nextId($B->conf_val['db']['table_prefix'].'user_seq_add_user');
+
+    if (DB::isError($uid)) 
+    {
+        trigger_error($uid->getMessage(), E_USER_ERROR);
+    }
+
     $sql = 'INSERT INTO '.$B->conf_val['db']['table_prefix'].'user_users 
-                (forename,lastname,login,passwd,status,rights) 
+                (uid,forename,lastname,login,passwd,status,rights) 
               VALUES 
-                ('.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
+                ('.$uid.','.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
     
     $result = $B->db->query($sql);
 

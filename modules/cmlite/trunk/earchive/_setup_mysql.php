@@ -25,14 +25,14 @@ if( count($B->setup_error) == 0 )
 {      
     // create table if it dosent exist
     $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_lists (
-            lid         INT(11) NOT NULL auto_increment,
+            lid         INT(11) NOT NULL default 0,
             status      TINYINT NOT NULL default 1,
             name        VARCHAR(255) NOT NULL default '',
             description TEXT NOT NULL  default '',
             email       TEXT NOT NULL default '',
             emailserver TEXT NOT NULL default '',
             folder      CHAR(32) NOT NULL,
-            PRIMARY KEY     (lid),
+            KEY lid         (lid),
             KEY status      (status))";
 
     $result = $B->db->query($sql);
@@ -44,14 +44,14 @@ if( count($B->setup_error) == 0 )
     
     // create table if it dosent exist
     $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_messages (
-            mid      INT(11) NOT NULL auto_increment,
+            mid      INT(11) NOT NULL default 0,
             lid      INT(11) NOT NULL,
             subject  TEXT NOT NULL  default '',
             sender   TEXT NOT NULL  default '',
             mdate    DATETIME default '0000-00-00 00:00:00' NOT NULL,
             body     MEDIUMTEXT default '' NOT NULL,
             folder   VARCHAR(32) default '' NOT NULL,
-            PRIMARY KEY     (mid),
+            KEY mid         (mid),
             KEY lid         (lid))";
 
     $result = $B->db->query($sql);
@@ -63,13 +63,13 @@ if( count($B->setup_error) == 0 )
 
     // create table if it dosent exist
     $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_attach (
-            aid      INT(11) NOT NULL auto_increment,
+            aid      INT(11) NOT NULL default 0,
             mid      INT(11) NOT NULL,
             lid      INT(11) NOT NULL,
             file     TEXT NOT NULL  default '',
             size     INT(11) NOT NULL,
             type     VARCHAR(200) NOT NULL  default '',
-            PRIMARY KEY     (aid),
+            KEY aid         (aid),
             KEY mid         (mid),
             KEY lid         (lid))";
 

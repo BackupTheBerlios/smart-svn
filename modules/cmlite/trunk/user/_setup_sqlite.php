@@ -76,15 +76,14 @@ if( count($B->setup_error) == 0 )
     
     // create the user_users table
     $sql = "CREATE TABLE user_users (
-            uid      INTEGER NOT NULL PRIMARY KEY,
+            uid      INTEGER NOT NULL default 0,
             status   TINYINT NOT NULL default 1,
             rights   TINYINT NOT NULL default 1,
             login    VARCHAR(30) NOT NULL,
             passwd   CHAR(32) NOT NULL,
             forename VARCHAR(50) NOT NULL,
             lastname VARCHAR(50) NOT NULL,
-            email    TEXT NOT NULL default '',
-            desc     TEXT NOT NULL default '')";
+            email    TEXT NOT NULL default '')";
 
     $result = $B->db->query($sql);
 
@@ -92,6 +91,16 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
+
+    // create index
+    $sql = "CREATE INDEX user_users_uid ON user_users (uid)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
 
     // create index
     $sql = "CREATE INDEX user_users_status ON user_users (status)";
@@ -132,10 +141,17 @@ if( count($B->setup_error) == 0 )
     $login     = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslogin']));
     $passwd    = $B->db->quoteSmart(md5($_POST['syspassword1']));
 
+    $uid = $B->db->nextId($B->conf_val['db']['table_prefix'].'user_seq_add_user');
+
+    if (DB::isError($uid)) 
+    {
+        trigger_error($uid->getMessage(), E_USER_ERROR);
+    }
+
     $sql = 'INSERT INTO user_users 
-                (forename,lastname,login,passwd,status,rights) 
+                (uid,forename,lastname,login,passwd,status,rights) 
               VALUES 
-                ('.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
+                ('.$uid.','.$forename.','.$lastename.','.$login.','.$passwd.',2,5)';
 
     $result = $B->db->query($sql);
     

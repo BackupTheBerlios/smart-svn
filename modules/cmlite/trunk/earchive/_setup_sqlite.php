@@ -103,13 +103,23 @@ if( count($B->setup_error) == 0 )
     
     // create the user_users table
     $sql = "CREATE TABLE earchive_lists (
-            lid         INTEGER NOT NULL PRIMARY KEY,
+            lid         INTEGER NOT NULL default 0,
             status      TINYINT NOT NULL default 1,
             name        VARCHAR(50) NOT NULL default '',
             description TEXT NOT NULL default '',
             email       VARCHAR(255) NOT NULL default '',
             emailserver TEXT NOT NULL default '',            
             folder      CHAR(32) NOT NULL)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
+
+    // create index
+    $sql = "CREATE INDEX earchive_lists_lid ON earchive_lists (lid)";
 
     $result = $B->db->query($sql);
 
@@ -130,13 +140,23 @@ if( count($B->setup_error) == 0 )
     
     // create table if it dosent exist
     $sql = "CREATE TABLE earchive_messages (
-            mid      INTEGER NOT NULL PRIMARY KEY,
+            mid      INTEGER NOT NULL default 0,
             lid      INT(11) NOT NULL,
             subject  TEXT NOT NULL default '',
             sender   TEXT NOT NULL default '',
             mdate    DATETIME NOT NULL default '0000-00-00 00:00:00',
             body     TEXT NOT NULL default '',
             folder   CHAR(32) NOT NULL default '')";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
+
+    // create index
+    $sql = "CREATE INDEX earchive_messages_mid ON earchive_messages (mid)";
 
     $result = $B->db->query($sql);
 
@@ -157,7 +177,7 @@ if( count($B->setup_error) == 0 )
 
     // create table if it dosent exist
     $sql = "CREATE TABLE earchive_attach (
-            aid      INTEGER NOT NULL PRIMARY KEY,
+            aid      INTEGER NOT NULL default 0,
             mid      INT(11) NOT NULL,
             lid      INT(11) NOT NULL,
             file     TEXT NOT NULL default '',
@@ -170,6 +190,16 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
+
+    // create index
+    $sql = "CREATE INDEX earchive_attach_aid ON earchive_attach (aid)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
 
     // create index
     $sql = "CREATE INDEX earchive_attach_mid ON earchive_attach (mid)";
