@@ -23,7 +23,7 @@ class action_user_sys_setup extends action
      */
     function perform( $data )
     {    
-        $success = TRUE;
+        $success = SF_IS_VALID_ACTION;
         // Do setup 
 
         //create captcha_pics dir if it dosent exist
@@ -37,7 +37,7 @@ class action_user_sys_setup extends action
         elseif(!is_writeable( SF_BASE_DIR . 'data/captcha' ))
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/captcha';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }  
     
         $this->B->conf_val['module']['user']['name']     = 'user';

@@ -40,7 +40,7 @@ class action_user_get_users extends action
         // sort the result array by user names
         sort($_result);
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
 }
 

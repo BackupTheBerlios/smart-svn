@@ -36,7 +36,7 @@ class action_user_delete extends action
                   'var_name' => 'this->B->sys',
                   'type'     => 'PHPArray') );  
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
 }
 

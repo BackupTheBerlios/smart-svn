@@ -47,27 +47,27 @@ class view_setup_index extends view
             $success = M( MOD_SYSTEM,           'sys_setup' );
             
             // Send a setup message to the common handler
-            if($success == TRUE)    
+            if($success == SF_IS_VALID_ACTION)    
                 $success = M( MOD_COMMON,       'sys_setup' );
    
             // Send a setup message to the entry handler
-            if($success == TRUE)    
+            if($success == SF_IS_VALID_ACTION)    
                 $success = M( MOD_DEFAULT,      'sys_setup' );
     
             // Send a setup message to the test handler
-            if($success == TRUE)
+            if($success == SF_IS_VALID_ACTION)
                 $success = M( MOD_NAVIGATION,   'sys_setup' );
     
             // Send a setup message to the option handler
-            if($success == TRUE)
+            if($success == SF_IS_VALID_ACTION)
                 $success = M( MOD_OPTION,       'sys_setup' );
                 
             // Send a setup message to the option handler
-            if($success == TRUE)
+            if($success == SF_IS_VALID_ACTION)
                 $success = M( MOD_USER,         'sys_setup' );                
 
             // check on errors before proceed
-            if( $success == TRUE )
+            if( $success == SF_IS_VALID_ACTION )
             {   
                 // write the system config file
                 $this->B->conf_val['info']['status'] = TRUE;

@@ -55,6 +55,8 @@ class action_user_auth extends action
         {
             $this->B->_is_logged = FALSE;
         }  
+        
+        return SF_IS_VALID_ACTION;
     } 
 }
 

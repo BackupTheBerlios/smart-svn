@@ -26,7 +26,7 @@ class action_common_cache_delete extends action
         // disable cache delete
         if ( $this->B->sys['option']['cache'] != TRUE )
         {
-            return TRUE;
+            return SF_IS_VALID_ACTION;;
         }
         
         // Include cache and create instance
@@ -63,7 +63,7 @@ class action_common_cache_delete extends action
             // Delete all cache data
             $this->B->cache->remove($id, $group);         
         }
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }   
 }
 

@@ -52,12 +52,12 @@ class action_navigation_upload_media_file extends action
         if (!move_uploaded_file($data['media_file']['tmp_name'], $uploadfile)) 
         {
             $this->_error = "Error during file upload. Please try again ::: " . $data['media_file']['error'];
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         } 
         
         @chmod( $uploadfile, SF_FILE_MODE);
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
 
     /**
@@ -74,13 +74,13 @@ class action_navigation_upload_media_file extends action
         if( empty($data['media_file']['tmp_name']) )
         {
             $this->_error = "You have to select a file to upload!";
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }
 
         if( preg_match("/\.\./", $data['media_file']['name']) )
         {
             $this->_error = "This media file name isnt allowed: " . $data['media_file']['name'];
-            return FALSE;            
+            return SF_NO_VALID_ACTION;            
         } 
 
         if(isset( $data['media_folder']))
@@ -99,7 +99,7 @@ class action_navigation_upload_media_file extends action
             if( preg_match("/\.\./", $data['media_folder']) )
             {
                 $this->_error = "This media folder path isnt allowed: " . $data['media_folder'];
-                return FALSE;            
+                return SF_NO_VALID_ACTION;            
             }          
         }        
 
@@ -108,16 +108,16 @@ class action_navigation_upload_media_file extends action
         if( !is_dir($uploaddir) )
         {
             $this->_error = "This folder dosent exsists: " . $uploaddir;
-            return FALSE;                        
+            return SF_NO_VALID_ACTION;                        
         }
 
         if( !is_writeable($uploaddir) )
         {
             $this->_error = "This folder isnt writeable: " . $uploaddir;
-            return FALSE;                        
+            return SF_NO_VALID_ACTION;                        
         }  
             
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
 }
 

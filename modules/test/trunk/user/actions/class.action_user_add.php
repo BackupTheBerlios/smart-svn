@@ -38,7 +38,7 @@ class action_user_add extends action
                   'var_name' => 'this->B->sys',
                   'type'     => 'PHPArray') );
        
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
     
     /**
@@ -57,22 +57,22 @@ class action_user_add extends action
         if( isset($this->B->sys['user'][$data['user_data']['login']]) )
         {        
             $error = 'Login exists';
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }
         // validate user name
         elseif( !preg_match("/[a-zA-Z0-9]{3,20}/",$data['user_data']['login']) )
         {
             $error = 'Login name require 3-20 chars a-zA-Z0-9.';
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }  
         // validate email
         elseif( !empty($email) && preg_match("/[^a-zA-Z0-9_@-.]/",$data['user_data']['email']) )
         {
             $error = 'Email require 3-20 chars a-zA-Z0-9_@-.';
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }       
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }     
 }
 

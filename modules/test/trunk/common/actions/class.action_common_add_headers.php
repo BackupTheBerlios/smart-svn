@@ -30,6 +30,8 @@ class action_common_add_headers extends action
         header("Cache-Control: post-check=0, pre-check=0", false);
         header("Pragma: no-cache");
         header('P3P: CP="NOI NID ADMa OUR IND UNI COM NAV"');
+        
+        return SF_IS_VALID_ACTION;
     }
 }
 

@@ -27,7 +27,7 @@ class action_common_cache_get extends action
         // disable cache
         if ( $this->B->sys['option']['cache'] != TRUE )
         {
-            return FALSE;
+            return SF_IS_VALID_ACTION;;
         }
         
         // get var name to store the result
@@ -71,9 +71,9 @@ class action_common_cache_get extends action
         // check if cache ID exists
         if ($result = $this->B->cache->get($this->B->$_id_name, $this->B->$_group_name)) 
         {
-            return TRUE;
+            return SF_IS_VALID_ACTION;
         }
-        return FALSE;
+        return SF_IS_VALID_ACTION;
     } 
 }
 

@@ -34,6 +34,8 @@ class action_option_sys_init extends action
             $this->B->sys['module']['option']['version']  = MOD_OPTION_VERSION;
             $this->B->system_update_flag = TRUE;
         }
+        
+        return SF_IS_VALID_ACTION;
     }    
 }
 

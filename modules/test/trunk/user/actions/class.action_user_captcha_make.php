@@ -58,7 +58,7 @@ class action_user_captcha_make extends action
         @chmod(SF_BASE_DIR . $_captcha_pic, SF_FILE_MODE);
         $_public_key     = $captcha->public_key;
 
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
 }
 

@@ -50,7 +50,7 @@ class action_navigation_get_childs extends action
         // get child nodes of a given node id
         $_result = $this->getChildren( $data ); 
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
     
     /**
@@ -65,7 +65,7 @@ class action_navigation_get_childs extends action
         if( isset($data['status']) && ( ($data['status'] < 0) || ($data['status'] > 2) ) )
         {
             trigger_error("Wrong 'status' variable: ".$data['status']." Only 2 = 'publish' or 1 = 'drawt' are accepted.\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }   
 
         // check if node exists
@@ -75,11 +75,11 @@ class action_navigation_get_childs extends action
             if($data['node'] != 0)
             {
                 $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
-                return FALSE;  
+                return SF_NO_VALID_ACTION;  
             }
         }     
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
     
     /**

@@ -26,14 +26,14 @@ class action_common_cache_save extends action
         // disable cache
         if ( $this->B->sys['option']['cache'] != TRUE )
         {
-            return TRUE;
+            return SF_IS_VALID_ACTION;
         }
         
         // Include cache and create instance
         if(!is_object($this->B->cache))
         {
             trigger_error('No cache object. You have to call "common_cache_get" first!', E_USER_ERROR);
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }
         
         // set default cache id name value
@@ -53,7 +53,7 @@ class action_common_cache_save extends action
         // save result to cache
         $this->B->cache->save($data['result'], $this->B->$_id_name, $this->B->$_group_name);
 
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
 }
 

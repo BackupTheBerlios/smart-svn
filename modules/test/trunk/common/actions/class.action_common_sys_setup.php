@@ -24,7 +24,7 @@ class action_common_sys_setup extends action
     function perform( $data )
     {            
         // init the success var
-        $success = TRUE;
+        $success = SF_IS_VALID_ACTION;
             
         // include here all stuff to get work this module:
         // creating db tables
@@ -47,12 +47,12 @@ class action_common_sys_setup extends action
         if( !is_dir( SF_BASE_DIR . 'data' ) )
         {
             $this->B->setup_error[] = 'This directory must exists: ' . SF_BASE_DIR . 'data';
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }        
         elseif( !is_writeable( SF_BASE_DIR . 'data' ) )
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data';
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }
 
         if( !is_dir(SF_BASE_DIR . 'data/common') )
@@ -65,7 +65,7 @@ class action_common_sys_setup extends action
         elseif( !is_writeable( SF_BASE_DIR . 'data/common' ) )
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }        
 
         if( !is_dir(SF_BASE_DIR . 'data/common/config') )
@@ -85,7 +85,7 @@ class action_common_sys_setup extends action
         elseif( !is_writeable( SF_BASE_DIR . 'data/common/config' ) )
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common/config/';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }
 
         if( !is_dir(SF_BASE_DIR . 'data/common/cache') )
@@ -105,7 +105,7 @@ class action_common_sys_setup extends action
         elseif( !is_writeable( SF_BASE_DIR . 'data/common/cache' ) )
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common/config/';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }       
         
         @umask($old_umask);

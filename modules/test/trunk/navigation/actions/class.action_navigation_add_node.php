@@ -44,7 +44,7 @@ class action_navigation_add_node extends action
                   'var_name' => 'node',
                   'type'     => 'PHPArray') );
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }  
     
     /**
@@ -59,10 +59,10 @@ class action_navigation_add_node extends action
         if( empty( $data['title'] ) )
         {   
             $this->B->$data['error'] = 'Title field is empty!!!';
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }            
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
     /**
      * add node data

@@ -33,6 +33,8 @@ class action_default_sys_init extends action
             $this->B->sys['module']['default']['info']     = 'This is the default module';
             $this->B->system_update_flag = TRUE; 
         }
+        
+        return SF_IS_VALID_ACTION;
     }    
 }
 

@@ -29,7 +29,9 @@ class action_user_sys_init extends action
             // set the new version num of this module
             $this->B->sys['module']['user']['version'] = MOD_USER_VERSION;
             $this->B->system_update_flag = TRUE;  
-        }       
+        }  
+        
+        return SF_IS_VALID_ACTION;
     }    
 }
 

@@ -31,14 +31,14 @@ class action_user_check_login extends action
             
             if(isset($data['noforward']))
             {
-                return TRUE;
+                return SF_IS_VALID_ACTION;
             }
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
             exit;
         }
         else
         {
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }  
     } 
 }

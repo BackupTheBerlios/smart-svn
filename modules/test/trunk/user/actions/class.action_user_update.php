@@ -41,7 +41,7 @@ class action_user_update extends action
                   'var_name' => 'this->B->sys',
                   'type'     => 'PHPArray') );
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
 }
 

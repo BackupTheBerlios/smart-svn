@@ -44,10 +44,10 @@ class action_navigation_delete_media_file extends action
         if( !@unlink($media_file) )
         {
             $this->_error = "Couldnt delete file ::: " . $media_file;
-            return FALSE;        
+            return SF_NO_VALID_ACTION;        
         }
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
 
     /**
@@ -77,7 +77,7 @@ class action_navigation_delete_media_file extends action
             if( preg_match("/\.\./", $data['media_folder']) )
             {
                 $this->_error = "This media folder path isnt allowed: " . $data['media_folder'];
-                return FALSE;            
+                return SF_NO_VALID_ACTION;             
             }          
         }        
         
@@ -85,13 +85,13 @@ class action_navigation_delete_media_file extends action
         if( empty( $data['media_file'] ) )
         {
             $this->_error = "Empty media file name!";
-            return FALSE;            
+            return SF_NO_VALID_ACTION;             
         }
 
         if( preg_match("/\.\./", $data['media_file']) )
         {
             $this->_error = "This media file cant be deleted: " . $data['media_fiele'];
-            return FALSE;            
+            return SF_NO_VALID_ACTION;             
         }   
 
         $uploaddir  = SF_BASE_DIR . 'data/media' . $media_folder;    
@@ -99,22 +99,22 @@ class action_navigation_delete_media_file extends action
         if( !file_exists( $uploaddir . '/' . $data['media_file']) )
         {
             $this->_error = "This file dosent exists: " . $uploaddir . '/' . $data['media_file'];
-            return FALSE;                        
+            return SF_NO_VALID_ACTION;                         
         }
 
         if( !is_dir($uploaddir) )
         {
             $this->_error = "This folder dosent exsists: " . $uploaddir;
-            return FALSE;                        
+            return SF_NO_VALID_ACTION;                         
         }
 
         if( !is_writeable($uploaddir) )
         {
             $this->_error = "This folder isnt writeable: " . $uploaddir;
-            return FALSE;                        
+            return SF_NO_VALID_ACTION;                        
         }  
             
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
 }
 

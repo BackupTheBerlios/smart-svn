@@ -23,7 +23,8 @@ class action_option_sys_setup extends action
      */
     function perform(  $data = FALSE  )
     {    
-        $success = TRUE;
+        $success = SF_IS_VALID_ACTION;
+        
         // The module name and version
         $this->B->conf_val['module']['option']['name']     = 'option';
         $this->B->conf_val['module']['option']['version']  = MOD_OPTION_VERSION;

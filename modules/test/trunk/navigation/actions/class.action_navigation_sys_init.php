@@ -32,6 +32,8 @@ class action_navigation_sys_init extends action
                 
             // include here additional upgrade code
         }
+        
+        return SF_IS_VALID_ACTION;
     }    
 }
 

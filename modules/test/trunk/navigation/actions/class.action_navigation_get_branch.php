@@ -64,7 +64,7 @@ class action_navigation_get_branch extends action
             $this->_x = 0;            
         }
            
-        return TRUE;
+        return SF_IS_VALID_ACTION; 
     }
     
     /**
@@ -79,17 +79,17 @@ class action_navigation_get_branch extends action
         if( preg_match("/[^0-9-]/", $data['node']) )
         {
             $this->B->$data['error']  = 'Wrong node format';
-            return FALSE;
+            return SF_NO_VALID_ACTION; 
         }     
         
         // check if node exists
         if(($data['node'] != 0 ) && !file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
         {
             $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
-            return FALSE;            
+            return SF_NO_VALID_ACTION;             
         }
         
-        return TRUE;
+        return SF_IS_VALID_ACTION; 
     } 
     /**
      * get branch (all parents) data of a given node

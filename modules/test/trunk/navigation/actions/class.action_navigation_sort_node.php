@@ -47,7 +47,8 @@ class action_navigation_sort_node extends action
             // Delete cache data
             M( MOD_COMMON, 'cache_delete', array('group' => 'navigation-tree'));                   
         }
-        return TRUE;
+        
+        return SF_IS_VALID_ACTION;
     }  
     
     /**
@@ -61,15 +62,15 @@ class action_navigation_sort_node extends action
         // validate $data['dir']. it should be "up" or "down"
         if( !preg_match("/up|down/", $data['dir']) )
         {
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }
         // validate $data['node']. no chars else than 0123456789 and - are accepted
         if( preg_match("/[^0-9-]/", $data['node']) )
         {
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }     
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
     /**
      * move node order

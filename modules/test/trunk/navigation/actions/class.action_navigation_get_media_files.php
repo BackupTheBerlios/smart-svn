@@ -56,7 +56,7 @@ class action_navigation_get_media_files extends action
             $_result[] = $tmp;
         }
 
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
     /**
      * Validate data
@@ -85,7 +85,7 @@ class action_navigation_get_media_files extends action
             if( preg_match("/\.\./", $data['media_folder']) )
             {
                 $this->_error = "This media folder path isnt allowed: " . $data['media_folder'];
-                return FALSE;            
+                return SF_NO_VALID_ACTION;            
             }          
         }        
 
@@ -94,10 +94,10 @@ class action_navigation_get_media_files extends action
         if( !is_dir($uploaddir) )
         {
             $this->_error = "This folder dosent exsists: " . $uploaddir;
-            return FALSE;                        
+            return SF_NO_VALID_ACTION;                        
         }
             
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }    
 }
 

@@ -25,6 +25,8 @@ class action_common_trim_output extends action
     function perform()
     {
         $this->B->tpl_buffer_content = trim( $this->B->tpl_buffer_content );  
+        
+        return SF_IS_VALID_ACTION;
     }
 }
 

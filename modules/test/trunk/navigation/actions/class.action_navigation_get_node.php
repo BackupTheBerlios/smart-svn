@@ -43,7 +43,7 @@ class action_navigation_get_node extends action
                           'cacheID'    => SF_SECTION.$data['node'],
                           'cacheGroup' => 'navigation'))) 
             {
-                return TRUE;
+                return SF_IS_VALID_ACTION;
             }  
         }
         
@@ -119,6 +119,8 @@ class action_navigation_get_node extends action
                'cache_save',
                array('result' => $_result));  
         }
+        
+        return SF_IS_VALID_ACTION;
     }   
     
     /**
@@ -133,16 +135,16 @@ class action_navigation_get_node extends action
         if( preg_match("/[^0-9-]/", $data['node']) )
         {
             $this->B->$data['error']  = 'Wrong node format';
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         } 
         // check if node exists
         if(!file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
         {
             $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
-            return FALSE;            
+            return SF_NO_VALID_ACTION;            
         }
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }  
     /**
      * get all node data

@@ -58,7 +58,7 @@ class action_navigation_get_tree extends action
                           'cacheID'    => SF_SECTION.'tree'.$_node.$status,
                           'cacheGroup' => 'navigation-tree'))) 
             {
-                return TRUE;
+                return SF_IS_VALID_ACTION;
             }  
         }
 
@@ -90,7 +90,7 @@ class action_navigation_get_tree extends action
                array('result' => $this->tree_result));  
         }
  
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
     
     /**
@@ -105,16 +105,16 @@ class action_navigation_get_tree extends action
         if( isset($data['status']) && ( ($data['status'] < 0) || ($data['status'] > 2) ) )
         {
             trigger_error("Wrong 'status' variable: ".$data['status']." Only 2 = 'publish' or 1 = 'drawt' are accepted.\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }     
         // check if node exists
         if(isset($data['node']) && !file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
         {
             $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
-            return FALSE;            
+            return SF_NO_VALID_ACTION;            
         }   
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
 
     /**

@@ -50,7 +50,7 @@ class action_navigation_update_node extends action
         // Delete cache data
         M( MOD_COMMON, 'cache_delete', array('group' => 'navigation-tree'));                                                
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }   
     
     /**
@@ -65,22 +65,22 @@ class action_navigation_update_node extends action
         if( empty( $data['title'] ) )
         {   
             $this->B->$data['error'] = 'Title field is empty!!!';
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }        
         // validate $data['status']. it should be "drawt" or "publish"
         if( !is_int($data['status']) || ($data['status'] < 0) || ($data['status'] > 2) )
         {
             $this->B->$data['error'] = 'Wrong status format !!!';        
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }
         // validate $data['node']. no chars else than 0123456789 and - are accepted
         if( preg_match("/[^0-9-]/", $data['node']) )
         {
             $this->B->$data['error'] = 'Wrong node format !!!';        
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }     
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }   
     /**
      * update node data

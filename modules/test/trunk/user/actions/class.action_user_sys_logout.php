@@ -25,7 +25,9 @@ class action_user_sys_logout extends action
     {            
         // include here additional clean up code.  
         // destroying sessions,....
-        $this->B->session->destroy();        
+        $this->B->session->destroy();   
+        
+        return SF_IS_VALID_ACTION;
     }    
 }
 

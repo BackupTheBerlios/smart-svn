@@ -32,7 +32,7 @@ class action_user_get extends action
         $result['login'] = $data['user'];
         $result['email'] = $this->B->sys['user'][$data['user']]['email'];
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     } 
     /**
      * validate the parameters passed in the data array
@@ -45,10 +45,10 @@ class action_user_get extends action
         // check if this user exists
         if(!isset($this->B->sys['user'][$data['user']]))
         {
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }      
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }      
 }
 

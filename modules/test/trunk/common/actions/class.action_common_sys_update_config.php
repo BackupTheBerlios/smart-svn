@@ -45,7 +45,7 @@ class action_common_sys_update_config extends action
             @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_SECTION . '=1');
             exit;          
         }
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }  
 }
 

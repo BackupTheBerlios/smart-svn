@@ -25,6 +25,8 @@ class action_common_email_obfuscating extends action
     function perform()
     {
         $this->B->tpl_buffer_content = str_replace("@", " AT ", $this->B->tpl_buffer_content );   
+        
+        return SF_IS_VALID_ACTION;
     }
 }
 

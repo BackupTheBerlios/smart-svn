@@ -23,7 +23,7 @@ class action_default_sys_setup extends action
      */
     function perform( $data = FALSE )
     {            
-        $success = TRUE;
+        $success = SF_IS_VALID_ACTION;;
         // The module name and version
         $this->B->conf_val['module']['default']['name']     = 'default';
         $this->B->conf_val['module']['default']['version']  = MOD_DEFAULT_VERSION;

@@ -24,7 +24,7 @@ class action_navigation_sys_setup extends action
     function perform( $data = FALSE )
     {            
         // init the success var
-        $success = TRUE;
+        $success = SF_IS_VALID_ACTION;
             
         // include here all stuff to get work this module:
         // creating db tables
@@ -57,7 +57,7 @@ class action_navigation_sys_setup extends action
         elseif(!is_writeable( SF_BASE_DIR . 'data/navigation' ))
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/navigation';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }
         
         // check if all files in this directory are writeable
@@ -71,14 +71,14 @@ class action_navigation_sys_setup extends action
             if(!is_writeable( SF_BASE_DIR . 'data/navigation/'.$file ))
             {
                 $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/navigation/'.$file;
-                $success = FALSE;
+                $success = SF_NO_VALID_ACTION;
             }     
         }
         
         if(!is_writeable( SF_BASE_DIR . 'data/media' ))
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/media';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }        
         
         @umask($old_umask);

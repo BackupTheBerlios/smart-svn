@@ -88,6 +88,8 @@ class action_common_sys_init extends action
                 
             // include here additional upgrade code
         }
+        
+        return SF_IS_VALID_ACTION;
     }   
     /**
      * get data of the client browser

@@ -51,7 +51,7 @@ class action_navigation_delete_node extends action
         // Delete cache data
         M( MOD_COMMON, 'cache_delete', array('group' => 'navigation-tree'));  
         
-        return TRUE;
+        return SF_IS_VALID_ACTION; 
     } 
     
     /**
@@ -65,10 +65,10 @@ class action_navigation_delete_node extends action
         // validate $data['node']. no chars else than 0123456789 and - are accepted
         if( preg_match("/[^0-9-]/", $data['node']) )
         {
-            return FALSE;
+            return SF_NO_VALID_ACTION; 
         }     
         
-        return TRUE;
+        return SF_IS_VALID_ACTION; 
     }  
     /**
      * delete node data
