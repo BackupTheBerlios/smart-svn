@@ -42,7 +42,7 @@ if (FALSE == register_handler( MOD_ENTRY,
 function entry_event_handler( $evt )
 {
     // build the whole class name
-    $class_name = 'entry_'.$evt['code'];
+    $class_name = 'action_entry_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($GLOBALS[$class_name]))
@@ -55,13 +55,13 @@ function entry_event_handler( $evt )
             // make instance
             $GLOBALS[$class_name] = & new $class_name();
             // perform the request
-            return $class_name->perform( $evt['data'] );
+            return $GLOBALS[$class_name]->perform( $evt['data'] );
         }
     }
     else
     {
         // perform the request if the requested object exists
-        return $class_name->perform( $evt['data'] );
+        return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
     return TRUE;
 }
