@@ -59,7 +59,8 @@ if(!defined( SF_VIEW_FOLDER ))
 /* #################################################### */
 /*
 
- * Secure include of files from this script
+/* 
+ *Secure include of files from this script
  */
 define('SF_SECURE_INCLUDE', 1);
 

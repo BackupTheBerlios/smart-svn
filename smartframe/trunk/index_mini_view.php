@@ -12,7 +12,11 @@
 /*
  * The Front Controller
  *
+ * You should use this controller if you only want to use public
+ * SMART views/templates in your projects. No admin view!
+ *
  */
+
 
 /*
  * Front Controller File Name

@@ -10,7 +10,11 @@
 // ----------------------------------------------------------------------
 
 /*
- * The Front Controller
+ * The Front Controller, which provide no view
+ *
+ * You should use this controller if you only want to use
+ * SMART events in your projects. This controller isnt providing
+ * view/template capabilities
  *
  */
 
