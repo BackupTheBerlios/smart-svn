@@ -51,14 +51,7 @@ function system_event_handler( $evt )
             }           
             break; 
         case EVT_LOGOUT:  
-            break;  
-        case EVT_UPDATE: 
-            $B->conf->setConfigValues( $B->sys );
-            $B->conf->writeConfigFile( "config_system.xml.php", array('filetype' => 'xml', 'mode' => 'pretty') );
-        
-            @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
-            exit;         
-            break;              
+            break;             
         case EVT_SETUP:  
             $success = TRUE;
             include_once(SF_BASE_DIR.'/admin/include/_setup.php'); 
