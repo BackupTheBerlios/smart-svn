@@ -35,6 +35,17 @@ class view_index extends view
             // assign a template variable with the name of the logged user.
             $this->B->tpl_logged_user = $this->B->logged_user;
         }
+        
+        // Set path to language related advertising content
+        if( SF_CLIENT_LANG == 'de')
+        {
+              $this->B->tpl_advertising = SF_BASE_DIR.'templates_smart/tpl.advertising_de.php';
+        }
+        else 
+        {
+              $this->B->tpl_advertising = SF_BASE_DIR.'templates_smart/tpl.advertising_def.php';        
+        }
+        
         return TRUE;
     } 
 

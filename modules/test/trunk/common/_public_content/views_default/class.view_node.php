@@ -64,6 +64,16 @@ class view_node extends view
                  'node'   => (int)$_GET['node'],
                  'status' => 2));
 
+        // Set path to language related advertising content
+        if( SF_CLIENT_LANG == 'de')
+        {
+              $this->B->tpl_advertising = SF_BASE_DIR.'templates_smart/tpl.advertising2_de.php';
+        }
+        else 
+        {
+              $this->B->tpl_advertising = SF_BASE_DIR.'templates_smart/tpl.advertising_def.php';        
+        }
+
         return TRUE;
     }
     
