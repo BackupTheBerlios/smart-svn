@@ -30,11 +30,12 @@ class action_option_sys_setup extends action
         $this->B->conf_val['module']['option']['mod_type'] = 'lite';
         $this->B->conf_val['module']['option']['info']     = '';
         // Set some options
-        $this->B->conf_val['option']['tpl'] = SF_DEFAULT_TEMPLATE_GROUP;
-        $this->B->conf_val['option']['url'] = SF_BASE_LOCATION;
+        $this->B->conf_val['option']['tpl']  = SF_DEFAULT_TEMPLATE_FOLDER;
+        $this->B->conf_val['option']['view'] = SF_DEFAULT_VIEW_FOLDER;     
+        $this->B->conf_val['option']['url']  = SF_BASE_LOCATION;
         $this->B->conf_val['option']['site_title'] = 'Site title';
-        $this->B->conf_val['option']['site_desc'] = 'My first site';
-        $this->B->conf_val['option']['email'] = 'admin@foo.com';
+        $this->B->conf_val['option']['site_desc']  = 'My first site';
+        $this->B->conf_val['option']['email']   = 'admin@foo.com';
         $this->B->conf_val['option']['charset'] = $_POST['charset'];
      
         return $success;    
