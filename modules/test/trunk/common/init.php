@@ -53,6 +53,11 @@ define('SF_AUTH_MODULE',      'user'); // required
 define('SF_BASE_MODULE',      MOD_COMMON); // required
 
 /**
+ * The module which is the last member in a broadcast event.
+ */
+define('SF_LAST_MODULE',      'user'); 
+
+/**
  * The module (name) which takes the global options part.
  */
 define('SF_OPTION_MODULE',    'option'); // required
