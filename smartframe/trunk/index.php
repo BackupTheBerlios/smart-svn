@@ -60,14 +60,6 @@ if ( $_REQUEST['logout'] == '1' )
 switch ( SF_SECTION )
 {
     case 'admin':  
-        // switch to the public page from within the admin section
-        if($_REQUEST['view'] == 'public')
-        {
-            // reload public section
-            @header('Location: '.SF_BASE_LOCATION.'/index.php');
-            exit;         
-        }
-
         // if an update was done this event finish the update process
         if(isset($B->system_update_flag))
         {
@@ -79,11 +71,7 @@ switch ( SF_SECTION )
         
         // get the admin view (template)
         include( $B->M( MOD_SYSTEM, 'get_admin_view') ); 
-        
-        // add to the URLs and forms the "admin" variable.
-        output_add_rewrite_var('admin', '1');
-        ob_flush();
-        
+   
         break;
         
     default:
@@ -94,10 +82,9 @@ switch ( SF_SECTION )
 }
   
 // Directed intercepting filter event (auto_append)
-// echo the content
-echo $B->M( MOD_SYSTEM, 'sys_append' );   
+$B->M( MOD_SYSTEM, 'sys_append' );   
 
 // Send the output buffer to the client
-ob_end_flush();
+while (@ob_end_flush());
 
 ?>

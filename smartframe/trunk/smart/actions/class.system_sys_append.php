@@ -49,17 +49,18 @@ class system_sys_append
     function perform( $data )
     {
         // get the output buffer
-        $content = ob_get_clean();
+        $content = ob_get_contents();
+        ob_clean();
         
         switch( SF_SECTION )
         {
             case 'admin':
                 // run filters for the admin page
-                return $this->_filter_admin( $content );
+                echo $this->_filter_admin( $content );
                 break;
             default:
                 // run filters for the public page
-                return $this->_filter_public( $content );
+                echo $this->_filter_public( $content );
                 break;            
         } 
     }  
@@ -97,7 +98,6 @@ class system_sys_append
     
         // Remove space before and after the template output
         $content = $this->B->F( SYSTEM_FILTER , 'trim_output', $content );
-
         return $content;
     }    
 }
