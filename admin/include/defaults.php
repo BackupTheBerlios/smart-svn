@@ -79,5 +79,7 @@ define('SF_EVT_LOGOUT',                  3);
 define('SF_EVT_LOAD_MODULE',             4);
 define('SF_EVT_END',                     5);
 define('SF_EVT_DEBUG',                   6);
+define('SF_EVT_SETUP',                   7);
+
 
 ?>
