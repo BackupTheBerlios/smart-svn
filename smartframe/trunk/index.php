@@ -27,7 +27,7 @@ if(!defined( SF_CONTROLLER ))
  */
 if(!defined( SF_RELATIVE_PATH ))
 {
-   define('SF_RELATIVE_PATH', ''); 
+   define('SF_RELATIVE_PATH', './'); 
 }
 
 /*

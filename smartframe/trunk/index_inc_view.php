@@ -31,7 +31,7 @@ if(!defined( SF_CONTROLLER ))
  */
 if(!defined( SF_RELATIVE_PATH ))
 {
-   define('SF_RELATIVE_PATH', ''); 
+   define('SF_RELATIVE_PATH', './'); 
 }
 
 /*
@@ -72,14 +72,14 @@ define('SF_BASE_DIR', dirname(__FILE__) . '/');
 // Include the base file
 include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
-// only access on public views and templates
+// only access on public views and templates. No admin view
 define('SF_SECTION', 'public');
 
 // Broadcast init event to all registered module event handlers
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
 
-// if an update was done this event complete the update process
+// you have to reload the admin section to launch the update process
 if(isset($B->system_update_flag))
 {
     die('An update was done. You have to reload the SMART admin interface.');   
@@ -87,7 +87,7 @@ if(isset($B->system_update_flag))
 
 // get the public view (template)
 // see smart/actions/class.system_get_view.php
-M( MOD_SYSTEM, 'get_view') );
+M( MOD_SYSTEM, 'get_view');
 
 // Send the output buffer to the client
 @ob_end_flush();
