@@ -54,7 +54,19 @@ function system_event_handler( $evt )
             break;             
         case EVT_SETUP:  
             $success = TRUE;
-            include_once(SF_BASE_DIR.'/admin/include/_setup.php'); 
+            if(!is_writeable( SF_BASE_DIR . '/admin/logs' ))
+            {
+                trigger_error("Must be writeable: " . SF_BASE_DIR . "/admin/logs\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/logs';
+                $success = FALSE;
+            }
+
+            // the version to install
+            include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
+
+            // set name and version of the framework
+            $B->conf_val['info']['name']    = $B->system_name;
+            $B->conf_val['info']['version'] = $B->system_version;
             return $success;
             break;             
         case EVT_SETUP_FINISH: 
