@@ -37,6 +37,9 @@ class action_user_get_users extends action
                                'role' => $this->B->sys['user'][$key]['role']);
         }
         
+        // sort the result array by user names
+        sort($_result);
+        
         return TRUE;
     } 
 }
