@@ -48,7 +48,9 @@ if( $_POST['do_setup'] )
         
     // check on errors before proceed
     if( $success == TRUE )
-    {      
+    {
+        // set default template group that com with this package
+        $B->conf_val['option']['tpl'] = 'earchive';    
         $B->conf_val['info']['status'] = TRUE;
         $B->conf->setConfigValues( $B->conf_val );
         $B->conf->writeConfigFile( "config_system.xml.php", array('filetype' => 'xml', 'mode' => 'pretty') );
