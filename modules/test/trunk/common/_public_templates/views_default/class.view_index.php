@@ -39,6 +39,19 @@ class view_index extends view
     } 
 
     /**
+     * authentication
+     *
+     */
+    function auth()
+    {
+        // Directed authentication event to the module handler, 
+        // which takes the authentication part
+        // The variable SF_AUTH_MODULE must be declared in the "common"
+        // module event_handler.php file
+        M( SF_AUTH_MODULE, 'auth' );
+    }
+
+    /**
      * prepend filter chain
      *
      */
