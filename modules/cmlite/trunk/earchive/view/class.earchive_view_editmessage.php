@@ -70,7 +70,7 @@ class earchive_view_editmessage
             else
             {
                 // delete attachments ?
-                if(count($_POST['aid'] > 0))
+                if(is_array($_POST['aid']) && (count($_POST['aid'] > 0)))
                 {
                     foreach ($_POST['aid'] as $aid)
                     {
