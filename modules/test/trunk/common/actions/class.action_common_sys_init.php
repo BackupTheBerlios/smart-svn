@@ -14,34 +14,9 @@
  *
  */
  
-class common_sys_init
+class action_common_sys_init extends action
 {
     /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function common_sys_init()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
-    /**
-    
      * Check if version number has changed and perfom additional upgarde code
      * Furthermore assign array with module menu names for the top right
      * module html seletor
@@ -85,10 +60,7 @@ class common_sys_init
             }
             
             // launch setup screen
-            include( $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'setup', 'view' => 'index')) ); 
-
-            // add to the URLs and forms the "admin" variable.
-            output_add_rewrite_var('admin', '1');
+            M( MOD_SYSTEM, 'get_view', array('m' => 'setup', 'view' => 'index')); 
             
             // Send the output buffer to the client
             ob_end_flush();
@@ -107,14 +79,16 @@ class common_sys_init
      
         if( SF_SECTION == 'admin')
         {
+            $h_list = $GLOBALS['handler_list'];
+            
             // sort handler array by name
-            ksort($this->B->handler_list);
+            ksort($h_list);
         
             // assign template handler names array
             // this array is used to build the modul select form of the admin menu
             $this->B->tpl_mod_list = array();    
-            
-            foreach ($this->B->handler_list as $key => $value)
+
+            foreach ($h_list as $key => $value)
             {
                 if( $value['menu_visibility'] == TRUE )
                 {
