@@ -15,7 +15,7 @@
  */
 
 /*
- * Front Controller File Name
+ * Front Controller File Name (this file)
  */
 if(!defined( SF_CONTROLLER ))
 {
@@ -31,7 +31,7 @@ if(!defined( SF_RELATIVE_PATH ))
 }
 
 /*
- * View folder. example: 'test/'
+ * View folder.
  */
 if(!defined( SF_VIEW_FOLDER ))
 {
@@ -42,9 +42,8 @@ if(!defined( SF_VIEW_FOLDER ))
 /* ######### Dont change any thing below !!! ########## */
 /* #################################################### */
 
-/*
 /* 
- *Secure include of files from this script
+ * Secure include of files from this script
  */
 if(!defined( SF_SECURE_INCLUDE ))
 {
@@ -55,7 +54,7 @@ if(!defined( SF_SECURE_INCLUDE ))
 //
 define('SF_BASE_DIR', dirname(__FILE__) . '/');
 
-// Include the base file
+// Include the system core file
 include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
 // Define section area
@@ -68,7 +67,7 @@ else
     define('SF_SECTION', 'public'); 
 }
 
-// Broadcast init event to all registered module event handlers
+// Broadcast init event to all registered modules
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
 

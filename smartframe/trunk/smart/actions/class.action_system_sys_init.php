@@ -23,7 +23,7 @@ class action_system_sys_init extends action
      * @param array $data
      */  
     function perform( $data )
-    {   
+    {
             include_once(SF_BASE_DIR.'smart/includes/system_version.php');           
             // Check for upgrade  
             if($this->B->system_version != (string)$this->B->sys['info']['version'])
