@@ -51,15 +51,12 @@ class earchive_sys_init
     {    
         // check for install or upgrade
         if (MOD_EARCHIVE_VERSION != (string)$this->B->sys['module']['earchive']['version'])
-        {
-            if( !isset($this->B->sys['module']['earchive']['passID']) )
-            {
-                $this->B->sys['module']['earchive']['passID'] = '1234';
-            }
-        
+        {       
             // set the new version num of this module
             $this->B->sys['module']['earchive']['version']  = MOD_EARCHIVE_VERSION;
             $this->B->system_update_flag = TRUE;
+            
+            $this->B->M( MOD_EARCHIVE, 'upgrade' );
         }
     }    
 }

@@ -74,9 +74,9 @@ class common_sys_setup
         {
             $this->B->dbmanager = $this->B->db->loadModule('manager', $this->B->db->dbmanager); 
 
-            if (MDB2::isError($result)) 
+            if (MDB2::isError($this->B->dbmanager)) 
             {
-                trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($this->B->dbmanager->getMessage()."\n\nINFO: ".$this->B->dbmanager->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }             
 
             $success = $this->_create_db( $data['dbname'] );   

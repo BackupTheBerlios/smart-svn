@@ -53,6 +53,8 @@ class user_sys_init
             // set the new version num of this module
             $this->B->sys['module']['user']['version'] = MOD_USER_VERSION;
             $this->B->system_update_flag = TRUE;  
+
+            $this->B->M( MOD_USER, 'upgrade' );
                 
             // include here additional upgrade code
         }       
