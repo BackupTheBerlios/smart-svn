@@ -38,7 +38,7 @@
           </tr>
           <?php endforeach; ?> 
           <tr>
-            <td align="left" valign="top"><br /><font size="2"><a href="<?php echo SF_CONTROLLER; ?>?view=sitemap">Sitemap</a></font><br /><br /></td>
+            <td align="left" valign="top"><br /><font size="2"><a href="<?php echo SF_CONTROLLER; ?>?view=nodetree">Sitemap</a></font><br /><br /></td>
           </tr>             
           <tr>
             <td align="left" valign="top"><font size="2"><a href="<?php echo SF_CONTROLLER; ?>?admin=1">Admin</a></font><br />
