@@ -14,6 +14,17 @@
       </tr>
     </table>
    <?php endforeach; ?>
+   <?php if(count($B->all_lists) == 0): ?>
+    <table width="100%"  border="0" cellspacing="6" cellpadding="6">
+      <tr>
+        <td width="6%" align="left" valign="top">
+        </td>
+        <td width="94%" align="left" valign="top" class="itemnormal">
+           There is not yet any list installed.<br />
+        </td>
+      </tr>
+    </table>   
+   <?php endif; ?>
 </td>
     <td width="11%" align="center" valign="top" class="itemnormal"><a href="index.php?m=EARCHIVE&mf=add_list">add list</a></td>
   </tr>
