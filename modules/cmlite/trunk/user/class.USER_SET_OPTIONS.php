@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * EARCHIVE_GET_OPTIONS class 
+ * USER_SET_OPTIONS class 
  *
  */
  
-class EARCHIVE_GET_OPTIONS
+class USER_SET_OPTIONS
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class EARCHIVE_GET_OPTIONS
      * constructor
      *
      */
-    function EARCHIVE_GET_OPTIONS()
+    function USER_SET_OPTIONS()
     {
         $this->__construct();
     }
@@ -41,16 +41,20 @@ class EARCHIVE_GET_OPTIONS
     }
     
     /**
-     * Define the options template for this module
-     * This is a subtemplate of the options module main template
+     * Set options for this module
      *
      * @param array $data
      */
     function perform( $data )
-    {
-        // get earchive options template 
-        // to include in the option module
-        $this->B->mod_option[] = SF_BASE_DIR.'/admin/modules/earchive/templates/option.tpl.php';
+    {    
+        // set user options 
+        // this event comes from the option module (module_loader.php)
+        if(isset($_POST['update_user_options_allowreg']))
+        {
+            $this->B->sys['option']['user']['allow_register'] = (bool)$_POST['userallowregister'];
+            $this->B->sys['option']['user']['register_type']  = $_POST['userregistertype'];
+            $this->B->_modified = TRUE;
+        }
     } 
 }
 

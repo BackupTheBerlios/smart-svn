@@ -41,7 +41,7 @@ class EARCHIVE_SET_OPTIONS
     }
     
     /**
-     * Do setup for this module
+     * Set options for this module
      *
      * @param array $data
      */

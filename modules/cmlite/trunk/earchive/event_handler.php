@@ -10,9 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Admin COMMON module event handler
- * This module does some init proccess and include 
- * external libraries needed by other modules
+ * EARCHIVE module event handler
  *
  */
 
@@ -30,6 +28,16 @@ define ( 'MOD_EARCHIVE' , 'EARCHIVE');
 define ( 'MOD_EARCHIVE_VERSION' , '0.3');
 
 // define template event calls for this module
+// this event handler build from those variables
+// dynamic class function calls:
+// Format:
+// Class file        = class.EARCHIVE_definedvar.php
+// CLASS             = EARCHIVE_definedvar
+// CLASS Constructor = EARCHIVE_definedvar() // in php4 // __construct() in php5
+//
+// The event handler call only one class function:
+// perform( $data );
+// where $data = the third param of a event call -> $evt['data']
 //
 define ( 'EARCHIVE_LISTS',          'LISTS');          // all email lists (accounts)
 define ( 'EARCHIVE_LIST',           'LIST');           // single email list (account) 
@@ -71,6 +79,10 @@ function earchive_event_handler( $evt )
         }
         else
         {
+            if( SF_DEBUG == TRUE )
+            {
+                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
+            }
             return FALSE;
         } 
     }

@@ -59,6 +59,10 @@ function setup_event_handler( $evt )
         }
         else
         {
+            if( SF_DEBUG == TRUE )
+            {
+                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
+            }        
             return FALSE;
         } 
     }

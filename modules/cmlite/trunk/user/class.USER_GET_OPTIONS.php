@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * EARCHIVE_GET_OPTIONS class 
+ * USER_GET_OPTIONS class 
  *
  */
  
-class EARCHIVE_GET_OPTIONS
+class USER_GET_OPTIONS
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class EARCHIVE_GET_OPTIONS
      * constructor
      *
      */
-    function EARCHIVE_GET_OPTIONS()
+    function USER_GET_OPTIONS()
     {
         $this->__construct();
     }
@@ -48,9 +48,9 @@ class EARCHIVE_GET_OPTIONS
      */
     function perform( $data )
     {
-        // get earchive options template 
+        // get user options template 
         // to include in the option module
-        $this->B->mod_option[] = SF_BASE_DIR.'/admin/modules/earchive/templates/option.tpl.php';
+        $this->B->mod_option[] = SF_BASE_DIR.'/admin/modules/user/templates/option.tpl.php';    
     } 
 }
 
