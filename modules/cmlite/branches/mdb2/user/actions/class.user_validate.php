@@ -63,7 +63,15 @@ class user_validate
             WHERE
                 md5_str='{$data['md5_str']}'";
         
-        $row = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }        
+        
+        $row = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
         
         if(!isset($row['uid']))
         {
@@ -78,7 +86,12 @@ class user_validate
             WHERE
                 uid='.$row['uid'];
         
-        $this->B->db->query($sql);
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        } 
         
         $sql = "
             DELETE FROM 
@@ -86,7 +99,13 @@ class user_validate
             WHERE
                 md5_str='{$data['md5_str']}'";
         
-        $this->B->db->query($sql);
+        $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        } 
+        
         return TRUE;
     } 
     /**
@@ -107,14 +126,14 @@ class user_validate
         
         $result = $this->B->db->query($sql);
         
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }        
         
         if(is_object($result))
         {        
-            while($row = &$result->fetchRow( DB_FETCHMODE_ASSOC ))
+            while($row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC ))
             {
                 $sql = "
                     DELETE FROM 
@@ -122,7 +141,12 @@ class user_validate
                     WHERE
                         uid={$row['uid']}";
         
-                $this->B->db->query($sql);    
+                $result = $this->B->db->query($sql);
+
+                if (MDB2::isError($result)) 
+                {
+                    trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                }    
                 
                 $sql = "
                     DELETE FROM 
@@ -130,7 +154,12 @@ class user_validate
                     WHERE
                         uid={$row['uid']}";
         
-                $this->B->db->query($sql);                   
+                $result = $this->B->db->query($sql);
+        
+                if (MDB2::isError($result)) 
+                {
+                    trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                }                
             }
         }
     }    

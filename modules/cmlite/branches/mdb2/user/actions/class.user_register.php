@@ -131,7 +131,7 @@ class user_register
         
         $res = $this->B->db->query($sql);
 
-        if (DB::isError($res)) 
+        if (MDB2::isError($res)) 
         {
             trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;

@@ -80,7 +80,7 @@ class user_get_users
         
         $result = $this->B->db->query($sql);
         
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             $error = 'Unexpected error';
@@ -89,7 +89,7 @@ class user_get_users
         
         if(is_object($result))
         {        
-            while($row = &$result->fetchRow( DB_FETCHMODE_ASSOC ))
+            while($row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)

@@ -59,7 +59,7 @@ class user_add
 
         $uid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'user_seq_add_user');
 
-        if (DB::isError($uid)) 
+        if (MDB2::isError($uid)) 
         {
             trigger_error($uid->getMessage()."\n".$uid->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             $error = 'Unexpected error';
@@ -82,7 +82,7 @@ class user_add
          
         $res = $this->B->db->query($sql);
 
-        if (DB::isError($res)) 
+        if (MDB2::isError($res)) 
         {
             trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             $error = 'Unexpected error';

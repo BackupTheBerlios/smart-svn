@@ -129,7 +129,7 @@ class user_sys_authenticate
             $this->B->logged_id_user     = (int) $_SESSION['logged_id_user'];
             $this->_is_logged  = TRUE;
             
-            $row = &$result->fetchRow( DB_FETCHMODE_ASSOC );
+            $row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC );
             
             $this->B->logged_user_forename = stripslashes($row['forename']);
             $this->B->logged_user_lastname = stripslashes($row['lastname']);

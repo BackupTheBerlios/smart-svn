@@ -62,10 +62,16 @@ class user_check_login
                     status=2";
         
         $result = $this->B->db->query($sql);
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        } 
      
         if($result->numRows() == 1)
         {
-            $row = $result->fetchRow( DB_FETCHMODE_ASSOC );
+            $row = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
             $this->B->session->set('logged_id_user',       $row['uid']);
             $this->B->session->set('logged_user_rights',   $row['rights']);
 

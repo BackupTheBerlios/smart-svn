@@ -56,7 +56,7 @@ class user_update
         
         foreach($data['fields'] as $key => $val)
         {
-            $set .= $comma.$key.'='.$this->B->db->quoteSmart( commonUtil::addSlashes($val ) );
+            $set .= $comma.$key.'='.$this->B->db->quote( commonUtil::addSlashes($val ) );
             $comma = ',';
         }
         
@@ -70,7 +70,7 @@ class user_update
         
         $result = $this->B->db->query($sql);
         
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
             trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             $error = 'Unexpected error';
