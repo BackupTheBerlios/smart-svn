@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 /**
  * error log types ('LOG|SHOW')
  */
-define('SF_ERROR_HANDLE',             'LOG|SHOW');
+define('SF_ERROR_HANDLE',             'LOG');
 
 /**
  * error reporting E_COMPILE_ERROR|E_ERROR|E_CORE_ERROR|E_PARSE
@@ -45,7 +45,7 @@ define('SF_OB',                       TRUE);
 /**
  * Allowed output compression if available.
  */
-define('SF_OB_GZHANDLER',             'ob_gzhandler'); //'ob_gzhandler' or FALSE
+define('SF_OB_GZHANDLER',             FALSE); //'ob_gzhandler' or FALSE
 
 /**
  * Default dir and file mode
