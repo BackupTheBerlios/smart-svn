@@ -88,22 +88,41 @@ if(count($lists) > 0)
                 $x = 0;
                 $comma = '';
                 $from = '';
-                // get the from string
-                foreach($msg->header[$mid]['from_personal'] as $f)
+                
+                // check if header from_personal is available
+                if(isset($msg->header[$mid]['from_personal']) && (count($msg->header[$mid]['from_personal'])>0))
                 {
-                    if($msg->header[$mid]['from_personal'] != $msg->header[$mid]['reply_to_personal'] && !empty($msg->header[$mid]['reply_to_personal']))
+                    // get the from string
+                    foreach($msg->header[$mid]['from_personal'] as $f)
                     {
-                        $from .= $comma.$msg->header[$mid]['reply_to_personal'][$x].' &lt;'.$msg->header[$mid]['reply_to'][$x].'&gt;' ;
+                        if($msg->header[$mid]['from_personal'] != $msg->header[$mid]['reply_to_personal'] && !empty($msg->header[$mid]['reply_to_personal']))
+                        {
+                            $from .= $comma.$msg->header[$mid]['reply_to_personal'][$x].' &lt;'.$msg->header[$mid]['reply_to'][$x].'&gt;' ;
+                        }
+                        else
+                        {
+                            $from .= $comma.$msg->header[$mid]['from_personal'][$x].' &lt;'.$msg->header[$mid]['from'][$x].'&gt;' ;
+                        }
+                        $comma = ', ';
+                        $x++;
+                    }
+                    // decode from string
+                    $from = $B->util->decodeEmailHeader($from);
+                }
+                else
+                {
+                    // get from address
+                    if(($msg->header[$mid]['fromaddress'] != $msg->header[$mid]['reply_toaddress']) && !empty($msg->header[$mid]['reply_toaddress']))
+                    {
+                        $from = $B->util->decodeEmailHeader($msg->header[$mid]['reply_toaddress']);
                     }
                     else
                     {
-                        $from .= $comma.$msg->header[$mid]['from_personal'][$x].' &lt;'.$msg->header[$mid]['from'][$x].'&gt;' ;
-                    }
-                    $comma = ', ';
-                    $x++;
+                        $from = $B->util->decodeEmailHeader($msg->header[$mid]['fromaddress']);
+                    }  
+                    $from = str_replace("<","&lt;",$from);
+                    $from = str_replace(">","&gt;",$from);
                 }
-                // decode from string
-                $from = $B->util->decodeEmailHeader($from);
                 
                 // decode subject string                
                 $subject =$B->util->decodeEmailHeader($msg->header[$mid]['subject']);

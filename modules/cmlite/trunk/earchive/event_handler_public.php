@@ -34,6 +34,7 @@ define ( 'EARCHIVE_LIST_MESSAGES',  'EARCHIVE3');
 define ( 'EARCHIVE_MESSAGE',        'EARCHIVE4');
 define ( 'EARCHIVE_MESSAGE_ATTACH', 'EARCHIVE5');
 define ( 'EARCHIVE_ATTACH',         'EARCHIVE6');
+define ( 'EARCHIVE_SEARCH',         'EARCHIVE7');
 
 // register this handler                       
 if (FALSE == $B->register_handler(MOD_EARCHIVE,
@@ -79,7 +80,14 @@ function earchive_event_handler( $evt )
         case EARCHIVE_ATTACH: 
             // get a single attachment
             return $earchive->get_attach( $evt['data'] );
-            break;            
+            break;     
+        case EARCHIVE_SEARCH: 
+            if(!empty($evt['data']['search']))
+            {
+                include_once(SF_BASE_DIR.'/admin/modules/earchive/class.message.search32.php');
+                new message_search( $evt['data'] );
+            }
+            break;              
     }
 }
 
