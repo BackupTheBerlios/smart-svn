@@ -119,9 +119,9 @@ class earchive_sys_setup
         $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}earchive_messages (
                 mid        INT(11) NOT NULL auto_increment,
                 lid        INT(11) NOT NULL,
-                message_id VARCHAR(255) NOT NULL default '',
-                root_id    VARCHAR(255) NOT NULL default '',
-                parent_id  VARCHAR(255) NOT NULL default '',            
+                message_id VARCHAR(32) NOT NULL default '',
+                root_id    VARCHAR(32) NOT NULL default '',
+                parent_id  VARCHAR(32) NOT NULL default '',
                 subject    TEXT NOT NULL  default '',
                 sender     TEXT NOT NULL  default '',
                 mdate      DATETIME default '0000-00-00 00:00:00' NOT NULL,

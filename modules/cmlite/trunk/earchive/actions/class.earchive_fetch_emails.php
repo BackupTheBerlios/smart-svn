@@ -111,12 +111,17 @@ class earchive_fetch_emails
             for ($mid = 1; $mid <= $msgcount; $mid++)
             {
                 // init message data array
-                $this->_message_data = array( 'lid'     => 0,
-                                              'sender'  => '',
-                                              'subject' => '',
-                                              'mdate'   => '',
-                                              'body'    => '',
-                                              'folder'  => '');
+                $this->_message_data = array( 'lid'        => 0,
+                                              'message_id' => '',
+                                              'root_id'    => '',
+                                              'parent_id'  => '',
+                                              'enc_type'   => '',
+                                              'sender'     => '',
+                                              'subject'    => '',
+                                              'mdate'      => '',
+                                              'body'       => '',
+                                              'folder'     => '',
+                                              'header'     => '');
                 
                 // Parse inline/attachment information specific to this part id
                 //
@@ -136,6 +141,15 @@ class earchive_fetch_emails
                 
                 $this->_message_data['folder'] = $this->B->db->quoteSmart($_folder = commonUtil::unique_md5_str());
                 
+                if($this->B->sys['module']['earchive']['get_header'] == TRUE)
+                {
+                    $this->_message_data['header'] = $this->B->db->quoteSmart($this->_msg->getRawHeaders( $mid ));
+                }
+                else
+                {
+                    $this->_message_data['header'] = "'".""."'";
+                }
+                
                 // add message in db table
                 if(FALSE == ($message_id = $this->B->M( MOD_EARCHIVE, 'add_message', $this->_message_data ) ))
                 {
@@ -153,7 +167,7 @@ class earchive_fetch_emails
                 $this->_msg->unsetParts($mid);
                 $this->_msg->unsetHeaders($mid);                
                 // delte message from inbox
-                $this->_msg->delete($mid);
+                //$this->_msg->delete($mid);
                 
                 // prepare content for indexing
                 $_content = $this->_message_data['subject'].' '.$this->_message_data['sender'].' '.$this->_message_data['body'];
@@ -227,57 +241,18 @@ class earchive_fetch_emails
             {
                 $body = $this->_msg->getBody( $mid, $this->_msg->msg[$mid]['in']['pid'][$i] );
 
-                if ($body['ftype'] == 'text/html')
-                {
-                    $this->_message_data['ftype'] = 'text/html';
-                    $this->_message_data['body'] .= $body['message'];
-                }
-                elseif ($body['ftype'] == 'text/plain')
-                {
-                    $this->_message_data['ftype'] = 'text/plain';
-                    $body['message'] = str_replace("<","&lt;",$body['message']);
-                    $body['message'] = str_replace(">","&gt;",$body['message']);
-                    $this->_message_data['body'] .= nl2br($this->_html_activate_links($body['message']));
-                }
-                else
-                {
-                    $this->_message_data['body'] .= ' ';
-                }
-        
-                if($this->_message_data['body'] == 'NULL')
-                {
-                    $this->_message_data['body'] .= ' ';
-                }
+                $this->_message_data['body'] .= $body['message'];
             }
         }
         else
         {
             $body = $this->_msg->getBody( $mid );
-
-            if ($body['ftype'] == 'text/html')
-            {
-                $this->_message_data['ftype'] = 'text/html';
-                $this->_message_data['body'] .= $body['message'];
-            }
-            elseif ($body['ftype'] == 'text/plain')
-            {
-                $this->_message_data['ftype'] = 'text/plain';
-                $body['message'] = str_replace("<","&lt;",$body['message']);
-                $body['message'] = str_replace(">","&gt;", $body['message']);
-                $this->_message_data['body'] .= nl2br($this->_html_activate_links($body['message']));
-                
-            }
-            else
-            {
-                $this->_message_data['body'] .= ' ';
-            }
-                    
-            if($data['body'] == 'NULL')
-            {
-                $this->_message_data['body'] .= ' ';
-            }                   
+            $this->_message_data['body'] .= $body['message'];                  
         }
+        
+        $this->_message_data['enc_type'] = $body['ftype'];
         $this->_message_data['body'] = $this->B->db->quoteSmart($this->_message_data['body']);
+        
         return TRUE;
     }
     /**
@@ -327,6 +302,18 @@ class earchive_fetch_emails
         if(empty($this->_message_data['sender']))
         {
             $this->_message_data['sender'] = "&lt; no sender &gt;";
+        }
+
+        $this->_message_data['message_id']  = md5($this->_msg->header[$mid]['message_id']);
+
+        if(!empty($this->_msg->header[$mid]['references']))
+        {
+            $chunk = preg_split("/[[:blank:]]/", $this->_msg->header[$mid]['references']);
+            if($chunk[0] != $this->_msg->header[$mid]['message_id'])
+            {
+                $this->_message_data['root_id']    = md5($chunk[0]);
+                $this->_message_data['parent_id']  = md5(end($chunk));
+            }
         }
         
         $this->_message_data['sender']  = $this->B->db->quoteSmart($this->_html_activate_links($this->_message_data['sender']));

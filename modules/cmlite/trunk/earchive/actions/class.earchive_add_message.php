@@ -50,14 +50,19 @@ class earchive_add_message
         $sql = '
             INSERT INTO 
                 '.$this->B->sys['db']['table_prefix'].'earchive_messages
-                (lid,sender,subject,mdate,body,folder)
+                (lid,message_id,root_id,parent_id,enc_type,sender,subject,mdate,body,folder,header)
             VALUES
                 ('.$data['lid'].',
+                 "'.$data['message_id'].'",
+                 "'.$data['root_id'].'",
+                 "'.$data['parent_id'].'",
+                 "'.$data['enc_type'].'",
                  '.$data['sender'].',
                  '.$data['subject'].',
                  '.$data['mdate'].',
                  '.$data['body'].',
-                 '.$data['folder'].')';
+                 '.$data['folder'].',
+                 '.$data['header'].')';
 
         $result = $this->B->db->query($sql);
         

@@ -57,11 +57,11 @@ class earchive_get_message
         $this->B->$data['var'] = array();
         $result                = & $this->B->$data['var'];              
         
-        $comma = '';
-        foreach ($data['fields'] as $f)
+        $_fields = implode(',', $data['fields']);
+        
+        if(!isset($data['fields']['enc_type']))
         {
-            $_fields .= $comma.$f;
-            $comma = ',';
+            $_fields .= ',enc_type'; 
         }
         
         $sql = "
@@ -80,6 +80,12 @@ class earchive_get_message
             return FALSE;
         }
 
+        // transform text to html
+        if($result['enc_type'] == 'text/plain')
+        {
+            $result['body'] = nl2br($this->_text2html( $result['body'] ));
+        }
+
         return TRUE;     
     }    
     
@@ -92,7 +98,7 @@ class earchive_get_message
         $str = eregi_replace('([[:space:]()[{}])(www.[-a-zA-Z0-9@:%_\+.~#?&//=]+)', '\\1<a href="http://\\2" target="_blank">\\2</a>', $str);
         $str = eregi_replace('([_\.0-9a-z-]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,3})','<a href="mailto:\\1">\\1</a>', $str);
         
-        return $str
+        return $str;
     }
 }
 

@@ -57,13 +57,7 @@ class earchive_get_messages
             return FALSE;
         }           
         
-        $comma   = '';
-        $_fields = '';
-        foreach ($data['fields'] as $f)
-        {
-            $_fields .= $comma.$f;
-            $comma = ',';
-        }
+        $_fields = implode(',', $data['fields'] );
         
         $order = ''; 
         
