@@ -1,6 +1,11 @@
 CHANGES
 #######
 
+2005-01-13
+---------
+- removed filter handlers. filter jobs can be done by event handlers
+- action classes extends from a parent class
+
 2005-01-4
 ---------
 - Event handler functions are now simple public functions
