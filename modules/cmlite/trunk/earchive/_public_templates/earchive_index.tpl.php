@@ -1,4 +1,8 @@
-<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
+<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?> 
+<?php // caching takes effect right now ?>
+<?php $B->M( MOD_SYSTEM, 
+             SF_EVT_START_OUTPUT_CACHE, 
+             array('id' => 'index', 'lifetime' => 3600)); ?> 
 <?php //get all available email lists and store the result in the array $B->list ?>
 <?php $B->M( MOD_EARCHIVE, 
              EARCHIVE_LISTS, 
@@ -72,12 +76,7 @@
                             <a href="index.php">Home</a>
                         <?php endif; ?>
                         </td>
-                    </tr>
-                    <tr>
-                        <td align="left" valign="top" class="leftnavlinks">
-                            <a href="http://forum.open-publisher.net" target="_blank" class="pager">Forum</a>
-                        </td>
-                    </tr>                    
+                    </tr>                  
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks pager">&nbsp;</td>
                     </tr>
@@ -104,8 +103,8 @@
                  </td>
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
-                        <td align="left" valign="top"><p class="pager">E-archive ist ein Verwaltungssystem mit dem man den Inhalt von E-mail Konten archivieren kann, inklusiv Attachments. Die Basis die das Ganze tr&auml;gt besteht aus einem Framework (<a href="http://smart.open-publisher.net">SMART</a>). E-archive ist nichts weiter als ein Modul dieses Frameworks. </p>
-                            <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&release_id=3123" target="_blank">Download E-archive from the project page at Berlios </a> </p>
+                        <td align="left" valign="top"><p class="pager">E-archive ist ein Verwaltungssystem mit dem man den Inhalt von Email Konten archivieren kann, inklusiv Attachments. Die Basis die das Ganze tr&auml;gt besteht aus einem Framework (<a href="http://smart.open-publisher.net">SMART</a>). E-archive ist nichts weiter als ein Modul dieses Frameworks. </p>
+                            <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios </a> </p>
                             <h4 class="pager">Installation:</h4>
                             <p class="pager">Nachdem das komprimierte Archiv ausgepackt wurde, muss der Inhalt des Hauptordners per ftp auf den Server hochgeladen werden. Dabei kann man E-archiv auch in ein Unterordner kopieren. Danach im Webbrowser den Ordner aufrufen wo sich das Ganze befindet. Es sollte nun ein Installationsmenu erscheinen.</p>
                             <h4 class="pager">Administration</h4>
@@ -164,7 +163,18 @@ NNTP: nntp://user:pass@mail.example.com:119/comp.test </li>
                             <p class="pager">Was unbedingt in Ordnung gebracht werden muss:</p>
                             <ul>
                                 <li class="pager">L&ouml;schen bzw um&auml;ndern von Beitr&auml;gen und Attachments </li>
-                                <li class="pager">Bei mehreren und intensiv benutzten Listen muss die Preformance stimmen.  In E-archive wird auf PEAR DB gesetzt um soweit wie m&ouml;glich kompatibel zu mehreren Datenbankensystemen zu sein. Das schl&auml;gt sich nat&uuml;rlich negativ auf die Performance aus und das ganz heftig bei INSERT Operationen. Die &Uuml;berlegungen gehen dahin eine eigene Abstraktionsschnittstelle zu schreiben die nur f&uuml;r einige Systeme ausgelegt ist. </li>
+                                <li class="pager">Bei mehreren und intensiv benutzten Listen muss die Preformance stimmen.  In E-archive wird auf PEAR DB gesetzt um soweit wie m&ouml;glich kompatibel zu mehreren Datenbankensystemen zu sein. Das schl&auml;gt sich nat&uuml;rlich negativ auf die Performance aus und das ganz heftig bei INSERT Operationen. Die &Uuml;berlegungen gehen dahin eine eigene Abstraktionsschnittstelle zu schreiben die nur f&uuml;r einige Systeme ausgelegt ist. Oder abwarten wie die Entwicklung mit PEAR MDB2 weitergeht. </li>
+                                </ul>
+                            <h4 class="pager">Contact</h4>
+                            <p class="pager">Armand Turpel &lt;<a href="mailto:smart%20AT%20open-publisher.net">smart AT open-publisher.net</a>&gt; </p>
+                            <h4 class="pager">Lizenz</h4>
+                            <p class="pager">GPL</p>
+                            <h3 class="pager">Technische Vorraussetzungen </h3>
+                            <ul>
+                                <li class="pager">PHP &gt; 4.3 </li>
+                                <li class="pager">MySql &gt; 3.23.xx</li>
+                                <li class="pager">IMAP php extension</li>
+                                <li class="pager">XML php extension</li>
                             </ul></td>
                     </tr>
                 </table></td>
@@ -182,3 +192,5 @@ NNTP: nntp://user:pass@mail.example.com:119/comp.test </li>
 </table>
 </body>
 </html>
+<?php // END of the page to cache ?>
+<?php $B->M( MOD_SYSTEM, SF_EVT_END_OUTPUT_CACHE ); ?> 
