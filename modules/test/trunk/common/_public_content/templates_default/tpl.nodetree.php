@@ -118,8 +118,8 @@ body {
   <tr>
     <td align="left" valign="top" bgcolor="#66CCFF"><table width="100%" border="0" cellspacing="4" cellpadding="4">
       <tr>
-        <td width="53%"><font color="#000099" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>SMART</strong></font><font size="4" face="Verdana, Arial, Helvetica, sans-serif"> <font size="3">PHP Framework - <strong>Test</strong></font></font></td>
-        <td width="47%" align="right" valign="middle"> <font size="2">
+        <td width="57%"><font color="#000099" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>SMART</strong></font><font size="4" face="Verdana, Arial, Helvetica, sans-serif"> <font size="3">PHP Framework - <font size="4" face="Verdana, Arial, Helvetica, sans-serif"><font size="2">test unit</font><strong> &quot;little Jo&quot;</strong></font></font></font></td>
+        <td width="43%" align="right" valign="middle"> <font size="2">
           <!-- Show user name if a user is logged -->
           <?php if(isset($B->tpl_logged_user)): ?>
       User: <strong><?php echo $B->tpl_logged_user; ?></strong> is logged
@@ -131,11 +131,11 @@ body {
   <tr>
     <td><table width="100%" border="0" cellspacing="4" cellpadding="4">
       <tr>
-        <td width="15%" align="left" valign="top" class="leftcol">
+        <td width="10%" align="left" valign="top" class="leftcol">
         <?php /* ### include the navigation menu view (template) ### */ ?>
         <?php M( MOD_SYSTEM, 'get_view', array('view' => 'navigation')); ?>
         </td>
-        <td width="85%" align="left" valign="top">        <font face="Verdana, Arial, Helvetica, sans-serif">
+        <td width="90%" align="left" valign="top">        <font face="Verdana, Arial, Helvetica, sans-serif">
 	      <div class="tree">
 	        <h3>Sitemap
             </h3>

@@ -45,6 +45,13 @@ body {
 }
 -->
 </style>
+<style type="text/css">
+<!--
+.para {
+	font-size: 12px;
+}
+-->
+</style>
 </head>
 
 <body>
@@ -52,8 +59,8 @@ body {
   <tr>
     <td align="left" valign="top" bgcolor="#66CCFF"><table width="100%" border="0" cellspacing="4" cellpadding="4">
       <tr>
-        <td width="53%"><font color="#000099" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>SMART</strong></font><font size="4" face="Verdana, Arial, Helvetica, sans-serif"> <font size="3">PHP Framework - <strong>Test</strong></font></font></td>
-        <td width="47%" align="right" valign="middle">
+        <td width="59%"><font color="#000099" size="4" face="Verdana, Arial, Helvetica, sans-serif"><strong>SMART</strong></font><font size="4" face="Verdana, Arial, Helvetica, sans-serif"> <font size="3">PHP Framework - <font size="2">test unit</font><strong> &quot;little Jo&quot;</strong></font></font></td>
+        <td width="41%" align="right" valign="middle">
           <font size="2">
           <!-- Show user name if a user is logged -->
           <?php if(isset($B->tpl_logged_user)): ?>
@@ -67,24 +74,21 @@ body {
   <tr>
     <td><table width="100%" border="0" cellspacing="4" cellpadding="4">
       <tr>
-        <td width="15%" align="left" valign="top" class="leftcol">
+        <td width="10%" align="left" valign="top" class="leftcol">
         <?php /* ### include the navigation menu view (template) ### */ ?>
         <?php M( MOD_SYSTEM, 'get_view', array('view' => 'navigation')); ?>
         </td>
-        <td width="85%" align="left" valign="top">
-        <font face="Verdana, Arial, Helvetica, sans-serif">
-        <h3>SMART</h3></font>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This package comes with a couple of simple modules to show you how SMART works. </font></p>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The following modules are installed:</font></p>
-        <ul>
-          <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">common - </font></strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">It is always required. It includes the base libraries, which are common to all other modules. E.g. PEAR, Session class, .... The event handler of this module define some base variables, such as, which module takes the authentication part, which module is loaded by default when switching to the admin area. Furthermore this module provide the top admin view and template. Any admin templates of other modules are included (subtemplates) in this template.</font></li>
-          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>default</strong> - this module is loaded by default. It only provide a welcome screen.</font></li>
-          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>navigation - </strong>It enable you to create and manage simple navigation nodes for a site.</font></li>
-          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>option</strong> - here you can controle some global options</font></li>
-          <li><font size="2"><strong>setup</strong> -</font> <font size="2">this module controle the setup process</font></li>
-          <li><font size="2"><strong>user</strong> - a simple user management module</font></li>
-        </ul>        <p>&nbsp;</p>
-        <p align="center">&nbsp;</p>
+        <td width="90%" align="left" valign="top">        <font face="Verdana, Arial, Helvetica, sans-serif">
+        <h3>Welcome to &quot;little Jo&quot;</h3>
+        </font>          <p class="para">Little Jo is a simple <a href="http://www.php.net" target="_blank">php</a> web application with a few simple modules, which are based on <a href="http://smart.open-publisher.net" target="_blank">SMART</a> (The base framework). Little Jo is a good starting point to learn how SMART internaly works and it's a simple tool to maintain a small website. Little Jo works without database support but with flat files, which are stored in the filesystem.  You will find all stored files in the /data folder.</p>
+        <p class="para">Installed Modules:</p>
+        <ul class="para">
+          <li> <strong>Default</strong> - It dose nothing else then printing the welcome page of the admin interface.</li>
+          <li> <strong>Navigation</strong> - Here you can add, edit and delete navigation nodes (tree structure).</li>
+          <li> <strong>Option</strong> - Here you can edit some base options</li>
+          <li><strong>User</strong> - Here you can add, edit or delete users. (Currently there is no build in permission system. All users have admin rights)<br />
+          </li>
+        </ul>        
         <p>&nbsp;</p>
         <p>&nbsp;</p>
         </td>

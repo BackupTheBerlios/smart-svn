@@ -48,7 +48,7 @@ class view_nodetree extends view
                  'status' => 2,
                  'format' => 'wikki' )); 
 
-        // get navigation node         
+        // get navigation node sitemap         
         M( MOD_NAVIGATION, 
            'get_tree', 
            array('result' => 'tpl_tree',
