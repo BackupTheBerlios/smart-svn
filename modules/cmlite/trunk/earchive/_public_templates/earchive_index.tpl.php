@@ -73,7 +73,7 @@
                   <?php if(!isset($_GET['view'])): ?>
                   <strong>Home</strong>
                   <?php else: ?>
-                  <a href="index.php">Home</a>
+                  <a href="index.php?mode=<?php echo $_REQUEST['mode']; ?>">Home</a>
                   <?php endif; ?>
                 </td>
               </tr>
@@ -93,7 +93,7 @@
               <?php foreach($B->tpl_list as $list): ?>
               <tr>
                 <td width="1%" align="left" valign="top" class="leftnavlinks">-</td>
-                <td width="99%" align="left" valign="top" class="leftnavarchives"><a href="index.php?view=list&amp;lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a></td>
+                <td width="99%" align="left" valign="top" class="leftnavarchives"><a href="index.php?view=list&amp;lid=<?php echo $list['lid']; ?>&amp;mode=<?php echo $_REQUEST['mode']; ?>"><?php echo $list['name']; ?></a></td>
               </tr>
               <?php endforeach; ?>
               <?php else: ?>

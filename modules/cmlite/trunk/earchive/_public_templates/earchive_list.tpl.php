@@ -53,7 +53,7 @@ function go(x){
                             &nbsp;&nbsp;<a href="index.php?logout=1" class="topbarlink">logout</a>
                             <?php endif; ?>             
                         </td>
-						<form name="mode" id="mode" method="post" action="">
+            <form name="mode" id="mode" method="post" action="">
                         <td width="30%" align="right" valign="middle">
                           <font color="#99CCFF" size="1">view &gt; 
                           </font>
@@ -82,7 +82,7 @@ function go(x){
                         <?php if(!isset($_GET['view'])): ?>
                            <strong>Home</strong>
                         <?php else: ?>
-                           <a href="index.php">Home</a>
+                           <a href="index.php?mode=<?php echo $_REQUEST['mode']; ?>">Home</a>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -106,7 +106,7 @@ function go(x){
                                         <?php if($list['lid']==$_GET['lid']): ?>
                                             <strong><?php echo $list['name'];  ?></strong>
                                         <?php else: ?>
-                                            <a href="index.php?view=list&lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a>
+                                            <a href="index.php?view=list&lid=<?php echo $list['lid']; ?>&mode=<?php echo $_REQUEST['mode']; ?>"><?php echo $list['name']; ?></a>
                                         <?php endif;  ?>
                                     </td>
                                </tr>
@@ -119,7 +119,7 @@ function go(x){
                         <?php endif; ?>     
                     </table></td>
                 <td width="81%" align="left" valign="top">
-				<table width="100%"  border="0" cellspacing="2" cellpadding="0">
+        <table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
                         <td align="left" valign="top">
                            <table width="100%"  border="0" cellspacing="0" cellpadding="0">
@@ -146,7 +146,7 @@ function go(x){
                                       <?php endif; ?>
                                       <div class='msgdate'>DATE: <?php echo $msg['mdate']; ?></div>
                                       <div class='msgfrom'>FROM: <?php echo $msg['sender']; ?></div>
-                                      <a href="index.php?view=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
+                                      <a href="index.php?view=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>&mode=<?php echo $_REQUEST['mode']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
                                       <br />
                                       <br />
                                      <?php if( ($B->tpl_mode=='tree') && ($msg['level'] == 1) ): ?>

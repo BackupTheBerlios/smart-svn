@@ -44,7 +44,7 @@
                             <?php endif; ?>
                             <?php if( $B->is_logged == TRUE ): ?>
                             &nbsp;&nbsp;<a href="index.php?logout=1" class="topbarlink">logout</a>
-                            <?php endif; ?>							
+                            <?php endif; ?>             
                         </td>
                         <td width="10%" align="left" valign="top">&nbsp;</td>
                         <form name="esearch" id="esearch" method="post" action="index.php?view=search">
@@ -67,7 +67,7 @@
                         <?php if(!isset($_GET['view'])): ?>
                             <strong>Home</strong>
                         <?php else: ?>
-                            <a href="index.php">Home</a>
+                            <a href="index.php?mode=<?php echo $_REQUEST['mode']; ?>">Home</a>
                         <?php endif; ?>
                         </td>
                     </tr>
@@ -90,7 +90,7 @@
                             <?php if($list['lid']==$_GET['lid']): ?>
                                 <strong><?php echo $list['name'];  ?></strong>
                             <?php else: ?>
-                                <a href="index.php?view=list&lid=<?php echo $list['lid']; ?>"><?php echo $list['name']; ?></a>
+                                <a href="index.php?view=list&lid=<?php echo $list['lid']; ?>&mode=<?php echo $_REQUEST['mode']; ?>"><?php echo $list['name']; ?></a>
                             <?php endif;  ?>
                             </td>
                         </tr>

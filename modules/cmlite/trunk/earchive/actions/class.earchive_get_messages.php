@@ -132,7 +132,7 @@ class earchive_get_messages
                 
                 $this->_result[] = $tmp;
                 
-                if( $data['mode'] == 'tree' )
+                if( ($data['mode'] == 'tree') && !empty($row['message_id']) )
                 {
                     $this->_get_childs( $data, $_fields, $row['message_id'] );
                 } 
