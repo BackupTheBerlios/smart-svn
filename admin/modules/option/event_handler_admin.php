@@ -48,6 +48,10 @@ function option_event_handler( $evt )
             // Set some options
             $B->conf_val['option']['tpl'] = 'test';
             $B->conf_val['option']['url'] = '../index.php';
+            $B->conf_val['option']['site_title'] = 'Site title';
+            $B->conf_val['option']['site_desc'] = 'My first site';
+            $B->conf_val['option']['site_desc'] = 'My first site';
+            $B->conf_val['option']['email'] = 'admin@foo.com';
             $B->conf_val['option']['charset'] = $_POST['charset'];
             break;      
         case EVT_LOAD_MODULE:
