@@ -100,10 +100,10 @@ else
 if(!empty($B->form_error))
 {
     // if empty assign form field with old values
-    $B->tpl_data['name']        = htmlspecialchars($B->util->stripSlashes($_POST['name']));
-    $B->tpl_data['emailserver'] = htmlspecialchars($B->util->stripSlashes($_POST['emailserver']));
-    $B->tpl_data['email']       = htmlspecialchars($B->util->stripSlashes($_POST['email']));
-    $B->tpl_data['description'] = htmlspecialchars($B->util->stripSlashes($_POST['description']));
+    $B->tpl_data['name']        = $B->util->stripSlashes($_POST['name']);
+    $B->tpl_data['emailserver'] = $B->util->stripSlashes($_POST['emailserver']);
+    $B->tpl_data['email']       = $B->util->stripSlashes($_POST['email']);
+    $B->tpl_data['description'] = $B->util->stripSlashes($_POST['description']);
     $B->tpl_data['status']      = $_POST['status'];     
 }
 

@@ -396,9 +396,11 @@ class earchive
     function delete_message( $mid )
     {
         // get attachments folder
-        $fields = array('folder');
+        $fields = array('lid','folder');
         $data = $this->get_message( $mid, $fields );
-        $path = SF_BASE_DIR.'/data/earchive/'.$data['folder'];
+        $l_data = $this->get_list( $data['lid'], $fields );        
+        
+        $path = SF_BASE_DIR.'/data/earchive/'.$l_data['folder'].'/'.$data['folder'];
         
         if(!empty($data['folder']) && @is_dir($path))
         {   
@@ -456,7 +458,7 @@ class earchive
             FROM
                 {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
             WHERE
-                mid={$data['mid']}";
+                mid={$mid}";
 
         return $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     }     
@@ -492,6 +494,91 @@ class earchive
         $pager = &new Pager_Sliding($params);
         $links = $pager->getLinks();
         $GLOBALS['B']->$pager_var = $links['all'];    
-    }    
+    }  
+
+    /**
+     * get message attachments
+     *
+     * @param array $data Col names of the attach db table and instructions
+     */     
+    function get_message_attach( $mid, $fields )
+    {
+        $comma   = '';
+        $_fields = '';
+        foreach ($fields as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
+        }
+        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach 
+            WHERE 
+                mid={$mid}
+            ORDER BY
+                file ASC";
+        
+        $result = $GLOBALS['B']->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
+        
+        $_result = array();
+        
+        if(is_object($result))
+        {
+            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+            {
+                $tmp = array();
+                foreach($fields as $f)
+                {
+                    $tmp[$f] = stripslashes($row[$f]);
+                }
+                $_result[] = $tmp;
+            }
+        }
+        return $_result;
+    }
+    
+    /**
+     * update email list data
+     *
+     * @param int $lid List id
+     * @param array $data associative array of list data
+     */
+    function update_message( $mid, $data )
+    {
+        $set = '';
+        $comma = '';
+        
+        foreach($data as $key => $val)
+        {
+            $set .= $comma.$key.'='.$val;
+            $comma = ',';
+        }
+        
+        $sql = '
+            UPDATE 
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'earchive_messages
+            SET
+                '.$set.'
+            WHERE
+                mid='.$mid;
+        
+        $result = $GLOBALS['B']->db->query($sql);
+        
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            return FALSE;
+        }   
+        
+        return $result;        
+    }     
 }
 ?>
