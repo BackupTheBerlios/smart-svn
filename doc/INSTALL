@@ -3,7 +3,10 @@ Smart PHP Framework install instructions
 
 Currently only mysql is supported.
 
+First create a database.
+
 Point your browser to the location where you extracted Smart.
 If nothing is going wrong you can see a setup page.
 
 A. Turpel
+smart@open-publisher.net
