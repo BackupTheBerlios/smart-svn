@@ -135,7 +135,7 @@ if(count($lists) > 0)
                 {
                     $is_attach = TRUE;
                     // get list messages attachment folder string
-                    $mes_folder = sfUtilCommon::unique_md5_str();
+                    $mes_folder = commonUtil::unique_md5_str();
                     $data['folder']  = $B->db->quoteSmart($mes_folder);
                 }
                 else
