@@ -40,7 +40,7 @@
                <td width="190" class="subnode"><?php echo '<a href="'.SF_CONTROLLER.'?view=node&node='.$node_id.'">'.$node['title'].'</a>'; ?></td>
              </tr>
              <?php endforeach; ?>
-             <?php if($table == TRUE):  ?>
+             <?php if(isset($table)):  ?>
            </table>   
            <?php endif; ?>
            <?php if(!empty($B->tpl_error)): ?>
