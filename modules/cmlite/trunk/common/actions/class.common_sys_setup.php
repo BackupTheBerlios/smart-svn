@@ -74,6 +74,13 @@ class common_sys_setup
             $success = FALSE;
         }
 
+        // check if session folder is writeable
+        if(!is_writeable( SF_BASE_DIR . 'modules/common/tmp/session_data' ))
+        {
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/session_data';
+            $success = FALSE;
+        } 
+
         // create bad_words table for mysql
         if($_POST['dbtype'] == 'mysql')
         {
