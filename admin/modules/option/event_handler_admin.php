@@ -42,20 +42,14 @@ function option_event_handler( $evt )
     {
         case EVT_LOAD_INIT_OPTION:
             // get all system options
-            $sql = "SELECT * FROM options";
-            if(!$result = sqlite_unbuffered_query($B->dbconn_system, $sql))
-            {
-                trigger_error("ERROR: " . @sqlite_error_string(@sqlite_last_error ( $B->dbconn_system )) . "\nFILE: " . __FILE__ . "\nLINE: " . __LINE__ . "\n\n");
-            }
-            
-            $row = sqlite_fetch_array($result, SQLITE_ASSOC);
+            $result = $B->dbdata->query('SELECT * FROM options'); 
+            $row = $B->dbdata->getRow($result); 
             foreach($row as $key => $value)
             {
                 $B->$key = $value;
             }
             unset($row);
             unset($result);
-            unset($sql);
             break;      
         case EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           

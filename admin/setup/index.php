@@ -29,32 +29,25 @@ define ('SF_SECTION', 'admin');
 // Include the base file
 include( SF_BASE_DIR.'/admin/setup/setup.inc.php' );
 
-// set the setup template
-$base->tpl->readTemplatesFromInput(  '/admin/setup/index.tpl.html' ); 
-
 // launch setup
 if( $_POST['do_setup'] )
 {
     // Send a setup message to all registered handlers
-    $base->event->broadcast_run( SF_EVT_SETUP );
+    $B->B( EVT_SETUP );
     
     // if there are errors
-    if( count($base->tmp_error, COUNT_RECURSIVE) > 0 )
-    {   
-        $base->tpl->addRows('error', $base->tmp_error);
-    }    
-    // if there are no errors go to the admin section
-    else
-    {    
+    if( count($B->setup_error) == 0 )
+    {      
         // Send a setup finish message to the system handler
-        $base->event->directed_run( SF_EVT_HANDLER_SYSTEM, SF_EVT_SETUP_FINISH );
+        $B->B( EVT_HANDLER_SYSTEM, EVT_SETUP_FINISH );
         @header('Location: ../index.php');
         exit;  
     }
 }
 
 //  Output all templates
-$base->tpl->displayParsedTemplate();
+// set the setup template
+include(  SF_BASE_DIR . '/admin/setup/index.tpl.php' ); 
 
 // Send the output buffer to the client
 if( SF_OB == TRUE)

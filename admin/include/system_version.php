@@ -16,19 +16,8 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on '. __FILE__);
 }
 
-
-// Assign registered module handlers
-$B->mod_list = array();
-
-foreach ($B->handler_list as $key => $value)
-{
-    if($value['module'] != 'SYSTEM')
-    {
-        $B->mod_list[$key] =  $value;
-    }
-}
-
-// assign media folder variable
-$B->css_folder = $B->sys_option['css_folder'];
+// System Name and Version
+$B->system_name    = 'Smart Frame';
+$B->system_version = '0.1';
 
 ?>

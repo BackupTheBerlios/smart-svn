@@ -20,92 +20,46 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on '. __FILE__);
 }
 
-// Init error array
-$base->tmp_error = array();
-
 // Check directories accesses
-if(!is_writeable( SF_BASE_DIR . '/admin/config/' ))
+if(!is_writeable( SF_BASE_DIR . '/data' ))
 {
-    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/config/';
+    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data';
 }
-if(!is_writeable( SF_BASE_DIR . '/admin/tmp/cache_admin/' ))
+if(!is_writeable( SF_BASE_DIR . '/data/db_sqlite' ))
 {
-    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_admin/';
-}
-if(!is_writeable( SF_BASE_DIR . '/admin/tmp/cache_public/' ))
-{
-    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_public/';
+    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/db_sqlite';
 }
 
 // Do setup if no error
-if( $_POST['do_setup'] && (count($base->tmp_error) == 0) )
-{
-    if( empty($_POST['host']) )
-    {
-        $base->tmp_error[]['error'] = 'Host field is empty!';
-    }
-    if( empty($_POST['login']) )
-    {
-        $base->tmp_error[]['error'] = 'Login field is empty!';
-    }
-    if( ($_POST['password1'] != $_POST['password2']) )
-    {
-        $base->tmp_error[]['error'] = 'Password fields are empty or not equal!';
-    } 
-    if( empty($_POST['db_name']) )
-    {
-        $base->tmp_error[]['error'] = 'DB name field is empty!';
-    }
-  
-    // proceed if no error
-    if( count($base->tmp_error) == 0 )
-    {
-        // create directory for the ##SQLITE## database
-        if($_POST['db_type'] == 'sqlite')
-        {
-            $sqlite_dir = SF_BASE_DIR . '/admin/db_sqlite';
-            if(FALSE == $base->dir->is_dir( $sqlite_dir ))
-            {
-                if(FALSE == $base->dir->mkdir( $sqlite_dir, 0770 ))
-                {
-                    patErrorManager::raiseError( "Sqlite", 'Cant create directory', $base->dir->error."\nFILE: ".__FILE__."\nLINE: ".__LINE__);
-                }
-            }
-            // protect this directory
-            if(FALSE == $base->dir->copy( SF_BASE_DIR . '/admin/include/.htaccess', $sqlite_dir . '/.htaccess'))
-            {
-                    patErrorManager::raiseError( "Sqlite", 'Cant protect db_sqlite directory through .htaccess', $base->dir->error."\nFILE: ".__FILE__."\nLINE: ".__LINE__ );            
-            }
-            // db name with absolute path
-            $_POST['db_name'] = $sqlite_dir . '/' . $_POST['db_name'];
-        }
+if( $_POST['do_setup'] && (count($B->setup_error) == 0) )
+{ 
+    // Connect to the database
+    $B->dbsystem = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/system.db.php');
         
-        // set db resource
-        $base->dsn = $_POST['db_type'].'://'.$_POST['login'].':'.$_POST['password'].'@'.$_POST['host'].'/'.$_POST['db_name'];
-
-        // db connect
-        $base->db = & DB::connect($base->dsn);
-        if (DB::isError($base->db)) 
+    $sql_create_tables = implode('', file(SF_BASE_DIR . '/admin/include/db_system_tables.sql'));
+    if( FALSE == $B->dbsystem->query($sql_create_tables) )
+    {
+        $B->setup_error[] = $B->dbsystem->get_error();
+    }
+    else
+    {
+        $sql = "INSERT INTO info (name,version) VALUES ('{$B->system_name}','{$B->system_version}')";
+        if( FALSE == $B->dbsystem->query($sql) )
         {
-            $base->tmp_error[]['error'] = $base->db->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-        }        
-
-        // proceed if no error
-        if( count($base->tmp_error) == 0 )
-        {      
-            // write db config file
-            $base->tmp_config['db.smart'] = array(
-                                       'db_host'         => $_POST['host'],
-                                       'db_user'         => $_POST['login'],
-                                       'db_passwd'       => $_POST['password'],
-                                       'db_type'         => $_POST['db_type'],
-                                       'db_name'         => $_POST['db_name'],
-                                       'db_table_prefix' => $_POST['table_prefix'] );
-     
-            $base->conf->setConfigValues( $base->tmp_config );
-            $base->conf->writeConfigFile('config_db_connect.xml.php', 'xml', array('mode' => 'pretty'));
-            // prefix for creating tables
-            $base->tmp_table_prefix = $_POST['table_prefix'];
+            $B->setup_error[] = $B->dbsystem->get_error();
+        }
+        else
+        {
+            $sql = "INSERT INTO options (db,css_folder) VALUES ('smart','default')";
+            if( FALSE == $B->dbsystem->query($sql) )
+            {
+                $B->setup_error[] = $B->dbsystem->get_error();
+            }
+            else
+            {
+                // Connect to the database
+                $B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
+            }
         }
     }
 }

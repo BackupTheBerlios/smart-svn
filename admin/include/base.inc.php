@@ -40,7 +40,7 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
 include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
 
 // include sqlite class
-//include_once( SF_BASE_DIR . '/admin/include/SPSQLite.class.php' );
+include_once( SF_BASE_DIR . '/admin/include/class.sfSqLite.php' );
 
 // Load the util class
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
@@ -60,8 +60,9 @@ $B->util = new sfUtil;
  */    
 define('SF_BASE_LOCATION', $B->util->base_location());
 
+
 // Check if setup was done
-if ( @is_file(SF_BASE_DIR . '/db_sqlite/options_db') )
+if ( !@file_exists(SF_BASE_DIR . '/data/db_sqlite/system.db.php' ) )
 {
     // redirect to setup
     if (SF_SECTION != 'admin')
@@ -75,18 +76,23 @@ if ( @is_file(SF_BASE_DIR . '/db_sqlite/options_db') )
     exit;          
 }
 
-// create the db resource and connect to the database
-if (!$B->dbconn_system = sqlite_open(SF_BASE_DIR . '/admin/db_sqlite/smart_system.db.php', 0666, $sqliteerror))
-{
-    trigger_error($sqliteerror . "\nFILE: " . __FILE__ . "\nLINE:" . __LINE__, E_USER_ERROR);
-}
-/*
-// create the db resource and connect to the database
-if (!$B->dbconn_data = sqlite_popen(SF_BASE_DIR . '/admin/db_sqlite/smart_data.db.php', 0666, $sqliteerror))
-{
-    trigger_error($sqliteerror . "\nFILE: " . __FILE__ . "\nLINE:" . __LINE__, E_USER_ERROR);
-}
-*/
+// Connect to the system database
+$B->dbsys = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/system.db.php');
+$B->dbsys->turboMode();
+
+// Load system info
+$result = $B->dbsys->query('SELECT * FROM info'); 
+$B->sys_info = $B->dbsys->getRow($result);
+unset($result);
+
+// Load system options
+$result = $B->dbsys->query('SELECT * FROM options'); 
+$B->sys_option = $B->dbsys->getRow($result);
+unset($result);
+
+// Connect to the database
+$B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/' . $B->sys_option['db'] . '_data.db.php');
+$B->dbdata->turboMode();
 
 // Register all handlers
 //
