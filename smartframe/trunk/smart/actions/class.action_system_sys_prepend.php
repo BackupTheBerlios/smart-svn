@@ -27,7 +27,7 @@ class action_system_sys_prepend extends action
         // Manual order the filter priority 
 
         // add headers
-        M( SYSTEM_FILTER , 'add_headers' ); 
+        M( MOD_SYSTEM , 'add_headers' ); 
     }    
 }
 
