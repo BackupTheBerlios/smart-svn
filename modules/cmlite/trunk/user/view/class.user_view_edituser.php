@@ -275,7 +275,7 @@ class user_view_edituser
         // update password if it isnt empty
         if(!empty($_POST['passwd']))
         {
-            $_data['fields']['passwd'] == md5($_POST['passwd']);
+            $_data['fields']['passwd'] = md5($_POST['passwd']);
         }
             
         // update user data

@@ -48,7 +48,7 @@ class earchive_view_index
     function perform()
     {
         // check permission to access this module
-        if( FALSE == $this->B->M( MOD_EARCHIVE, 'filter_permission', array('action' => 'access')))
+        if( FALSE == $this->B->F( MOD_EARCHIVE, 'permission', array('action' => 'access')))
         {
             @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
             exit;      

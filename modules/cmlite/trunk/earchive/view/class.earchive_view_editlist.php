@@ -56,7 +56,7 @@ class earchive_view_editlist
             // check if the user of this request try to delete a list
             // with rights other than administrator 5.
             //
-            if( TRUE == $this->B->M( MOD_EARCHIVE, 'filter_permission', array('action' => 'delete')))
+            if( TRUE == $this->B->F( MOD_EARCHIVE, 'permission', array('action' => 'delete')))
             {
                 $this->B->M( MOD_EARCHIVE, 
                              'delete_list', 
