@@ -108,10 +108,10 @@ class action_navigation_update_node extends action
         $this->B->node[$data['node']]['title']     = commonUtil::stripSlashes( $data['title'] );
         $this->B->node[$data['node']]['status']    = $data['status'];
         
-        if($this->B->node[$data['node']]['parent_id'] != $data['parent_id'])
+        if($this->B->node[$data['node']]['parent_id'] != (int)$data['parent_id'])
         {
             $this->_move = TRUE;
-            $this->_verifyParentId( $data['node'], $data['parent_id'] );
+            $this->_verifyParentId( $data['node'], (int)$data['parent_id'] );
             
             if($this->_move == TRUE)
             {
@@ -119,8 +119,8 @@ class action_navigation_update_node extends action
                 $tmp = array();
                 $tmp['node'] = $this->B->node[$data['node']]['parent_id'];
                 
-                $this->B->node[$data['node']]['order'] = $this->getLastOrderId( $data['parent_id'] );
-                $this->B->node[$data['node']]['parent_id'] = $data['parent_id'];
+                $this->B->node[$data['node']]['order'] = $this->getLastOrderId( (int)$data['parent_id'] );
+                $this->B->node[$data['node']]['parent_id'] = (int)$data['parent_id'];
                 
         
                 $_data = $this->getChildren( $tmp );
