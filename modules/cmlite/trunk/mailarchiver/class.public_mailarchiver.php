@@ -177,7 +177,7 @@ class mailarchiver
                 lid={$data['lid']} 
             ORDER BY {$order}";
 
-        if(!isset($_GET['pageID']) || ($_GET['pageID']==1))
+        if(empty($_GET['pageID']) || ($_GET['pageID']==1))
             $page = 0;
         else
             $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
