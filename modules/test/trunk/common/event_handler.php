@@ -49,7 +49,7 @@ function common_event_handler( $evt )
     if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/common/event/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . '/admin/modules/common/action/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
