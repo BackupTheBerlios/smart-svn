@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Setup of the user module
+ * Sqlite setup of the user module
  */
 
 // Check if this file is included in the environement
@@ -22,6 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 
 if( count($B->setup_error) == 0 )
 {
+    //create sqlite dir if it dosent exist
     if(!is_dir(SF_BASE_DIR . '/data/db_sqlite'))
     {
         if(!@mkdir(SF_BASE_DIR . '/data/db_sqlite'))
@@ -33,16 +34,20 @@ if( count($B->setup_error) == 0 )
             $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/db_sqlite';
         }  
     }
-        
+    
+    // copy .htaccess to deny access from outside
     @copy(SF_BASE_DIR . '/admin/include/.htaccess', SF_BASE_DIR . '/data/db_sqlite/.htaccess');
 
+    // the sqlite database file
     $db_file = SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php';
     
     if(file_exists($db_file))
         $is_db_file = TRUE;
 
+    // instance of adodb
     $B->conn = ADONewConnection( 'sqlite' );
     
+    // connect to the database
     if (!$B->conn->Connect( $db_file ))
     {
         $B->setup_error[] = $B->conn->ErrorMsg()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
@@ -50,6 +55,7 @@ if( count($B->setup_error) == 0 )
 
     if(TRUE == $is_db_file)
     {
+        // delete the user_users table if it exist
         $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='user_users'";
         $result = $B->conn->Execute($sql);
 
@@ -63,6 +69,7 @@ if( count($B->setup_error) == 0 )
         }
     }
     
+    // create the user_users table
     $sql = "CREATE TABLE user_users (
             uid      INTEGER NOT NULL PRIMARY KEY,
             status   TINYINT NOT NULL default 1,
@@ -79,6 +86,7 @@ if( count($B->setup_error) == 0 )
         $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
     
+    // insert an administrator
     $forename  = $B->conn->qstr($_POST['sysname'],           magic_quotes_runtime());
     $lastename = $B->conn->qstr($_POST['syslastname'],       magic_quotes_runtime());
     $login     = $B->conn->qstr($_POST['syslogin'],          magic_quotes_runtime());

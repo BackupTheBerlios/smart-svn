@@ -103,18 +103,18 @@ class user
             return FALSE;
         }
         
-        $sql = "
+        $sql = '
             INSERT INTO 
-                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'user_users
                 (forename,lastname,email,login,passwd,status,rights)
             VALUES
-                ('{$data['forename']}',
-                 '{$data['lastname']}',
-                 '{$data['email']}',
-                 '{$data['login']}',
-                 '{$data['passwd']}',
-                 '{$data['status']}',
-                 '{$data['rights']}')";
+                ('.$data['forename'].',
+                 '.$data['lastname'].',
+                 '.$data['email'].',
+                 '.$data['login'].',
+                 '.$data['passwd'].',
+                 '.$data['status'].',
+                 '.$data['rights'].')';
         
         return $GLOBALS['B']->conn->Execute($sql);
     } 
@@ -126,27 +126,22 @@ class user
      */
     function update_user( $uid, $data )
     {
-        if($this->login_exists($data['login']) > 0)
-        {
-            return FALSE;
-        }
-        
         $set = '';
         $comma = '';
         
         foreach($data as $key => $val)
         {
-            $set .= $comma.$key."='".$val."'";
+            $set .= $comma.$key.'='.$val;
             $comma = ',';
         }
         
-        $sql = "
+        $sql = '
             UPDATE 
-                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'user_users
             SET
-                {$set}
+                '.$set.'
             WHERE
-                uid={$uid}";
+                uid='.$uid;
         
         return $GLOBALS['B']->conn->Execute($sql);
     } 
@@ -175,13 +170,13 @@ class user
      */    
     function login_exists($login)
     {
-        $sql = "
+        $sql = '
             SELECT
                 uid
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}user_users
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'user_users
             WHERE
-                login='{$login}'";
+                login='.$login;
         
         $result = $GLOBALS['B']->conn->Execute($sql);
         return $result->RecordCount();    

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Default login page of the user module
+ * add user script
  *
  */
 
@@ -18,9 +18,10 @@
 //
 if (!defined('SF_SECURE_INCLUDE'))
 {
-    die('No Permission on'. __FILE__);
+    die('No Permission on ' . __FILE__);
 }
 
+// Init form field values
 $B->form_error = FALSE;
 $B->form_forename = '';
 $B->form_lastname = '';
@@ -30,6 +31,7 @@ $B->form_passwd   = '';
 $B->form_rights   = '';
 $B->form_status   = '';
 
+// Check if some form fields are empty
 if(
     empty($_POST['forename'])||
     empty($_POST['lastname'])||
@@ -37,6 +39,7 @@ if(
     empty($_POST['login'])||
     empty($_POST['passwd']))
 {
+    // if empty assign form field with old values
     $B->form_forename = htmlspecialchars($B->util->stripSlashes($_POST['forename']));
     $B->form_lastname = htmlspecialchars($B->util->stripSlashes($_POST['lastname']));
     $B->form_email    = htmlspecialchars($B->util->stripSlashes($_POST['email']));
@@ -49,11 +52,12 @@ if(
 }
 else
 {
-    $B->tmp_data = array('forename' => $B->db->escapeString($_POST['forename']),
-                         'lastname' => $B->db->escapeString($_POST['lastname']),
-                         'email'    => $B->db->escapeString($_POST['email']),
-                         'login'    => $B->db->escapeString($_POST['login']),
-                         'passwd'   => md5($_POST['passwd']),
+    // add new user
+    $B->tmp_data = array('forename' => $B->conn->qstr($B->util->stripSlashes($_POST['forename']),    magic_quotes_runtime()),
+                         'lastname' => $B->conn->qstr($B->util->stripSlashes($_POST['lastname']),    magic_quotes_runtime()),
+                         'email'    => $B->conn->qstr($B->util->stripSlashes($_POST['email']),       magic_quotes_runtime()),
+                         'login'    => $B->conn->qstr($B->util->stripSlashes($_POST['login']),       magic_quotes_runtime()),
+                         'passwd'   => $B->conn->qstr(md5($_POST['passwd']), magic_quotes_runtime()),
                          'rights'   => (int)$_POST['rights'],
                          'status'   => (int)$_POST['status']);
                   
@@ -64,6 +68,7 @@ else
     }
     else
     {
+        // on error during add user
         $B->form_forename = htmlspecialchars($B->util->stripSlashes($_POST['forename']));
         $B->form_lastname = htmlspecialchars($B->util->stripSlashes($_POST['lastname']));
         $B->form_email    = htmlspecialchars($B->util->stripSlashes($_POST['email']));
@@ -72,7 +77,7 @@ else
         $B->form_rights   = $_POST['rights'];
         $B->form_status   = $_POST['status'];   
     
-        $B->form_error = 'This login exist. Chose a other one!';
+        $B->form_error = 'This login exist. Chose an other one!';
     }
 }
 

@@ -33,23 +33,36 @@ include( SF_BASE_DIR . "/admin/include/base.inc.php" );
 $B->B( SF_EVT_INIT );
 
 // If no template request is done load the default template
-if(!isset($_REQUEST['tpl']))
+if (!isset($_REQUEST['tpl']))
 {
     $B->tmp_tpl = 'index';
 }
 else
 {
-    if(FALSE === ($B->tmp_tpl = sfSecureGPC::get( $_REQUEST['tpl'], 'string' )))
+    // get the requested template and check if it contains only chars a-z
+    if (FALSE === ($B->tmp_tpl = sfSecureGPC::get( $_REQUEST['tpl'], 'string' )))
     {
         trigger_error( "VAR: tpl\nVALUE: ".$_REQUEST['tpl']."\nFILE: ".__FILE__."\nLINE:".__LINE__  );    
     }
 }
 
-// Include the requested template
-include($B->sys['option']['tpl'].'_' . $B->tmp_tpl . '.tpl.php');
+// build the requested template file
+$B->template_file = SF_BASE_DIR .'/'. $B->sys['option']['tpl'].'_' . $B->tmp_tpl . '.tpl.php';
+
+// check if the requested template exist
+if (@file_exists( $B->template_file ))
+{
+    // Include the requested template
+    include( $B->template_file );
+}
+else
+{
+    // on error
+    echo "The requested template file '{$B->template_file}' doent exist! Please contact the administrator {$B->sys['option']['email']}";
+}
 
 // Send the output buffer to the client
-if( SF_OB == TRUE)
+if ( SF_OB == TRUE)
 {
     ob_end_flush();
 }
