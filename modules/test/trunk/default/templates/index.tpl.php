@@ -28,6 +28,8 @@
                   all available modules from the select menu. This release is
                   only for testing purpose to demonstrate how the modules mechanism
                   works.</p>
+                <p>To test a real world application in action, which is based on this framework, please visite the following site:<br>
+                  <a href="http://e-archive.open-publisher.net" target="_blank">http://e-archive.open-publisher.net</a></p>
                 <p>&nbsp;</p>
                 <p>&nbsp; </p></td>
             </tr>

@@ -43,11 +43,14 @@ function subok(s){
     <td align="center" valign="top">&nbsp;</td>
   </tr>
   <tr>
-    <td align="center" valign="top"><p>This template is loaded from the setup
-        module: File 'index.tpl.php'. In must cases you will find here a database setup form
-        (creating db tables) and a form to create an administrator user account. After submit
-        this form the setup module will send setup event calls to all other modules. Each
-        module is responsible for its own setup proceedure.</p>
+    <td align="center" valign="top"><p align="left">This template is loaded from the <strong>setup</strong>        module: </p>
+      <p align="left">File <strong>'modules/setup/templates/index.tpl.php'</strong>. </p>
+      <p align="left">In must cases you will find here a database setup form
+            (creating db tables) and a form to create an administrator user account. After submit
+            this form the setup module will send setup event calls to all other modules. Each
+            module is responsible for its own setup proceedure. </p>
+      <p align="left">Example:<br />
+        See: /modules/test/actions/class.test_sys_setup.php</p>
       <p>
         <input type="submit" name="do_setup" value="Submit" />
       </p></td>
