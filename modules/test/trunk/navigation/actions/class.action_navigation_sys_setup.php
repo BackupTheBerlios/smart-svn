@@ -75,6 +75,12 @@ class action_navigation_sys_setup extends action
             }     
         }
         
+        if(!is_writeable( SF_BASE_DIR . 'data/media' ))
+        {
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/media';
+            $success = FALSE;
+        }        
+        
         @umask($old_umask);
         
         // if noting is going wrong $success is still TRUE else FALSE
