@@ -54,6 +54,11 @@ define('SF_DIR_MODE',                    0775);
 define('SF_FILE_MODE',                   0775);
 
 /**
+ * Default template
+ */
+define('SF_DEFAULT_TEMPLATE_GROUP',      'earchive');
+
+/**
  * Event types.
  */
 define('EVT_TYPE_BROADCAST',          1);
