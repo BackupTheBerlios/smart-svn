@@ -29,7 +29,7 @@ class view_nodetree extends view
      * @return bool true on success else false
      */
     function perform()
-    {
+    {      
         // check if the visitor is a logged user
         if( isset( $this->B->logged_user ) )
         {
