@@ -108,7 +108,7 @@ class mailarchiver
 
         if (DB::isError($lid)) 
         {
-            trigger_error($result->getMessage(), E_USER_ERROR);
+            trigger_error($lid->getMessage(), E_USER_ERROR);
         }
         
         $sql = '

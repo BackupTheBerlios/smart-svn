@@ -92,6 +92,39 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
+
+    // create index
+    $sql = "CREATE INDEX user_users_status ON user_users (status)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    } 
+    
+    // create index
+    $sql = "CREATE INDEX user_users_rights ON user_users (rights)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }    
+
+    // create table if it dosent exist
+    $sql = "CREATE TABLE user_registered (
+            uid      INTEGER NOT NULL default 0,
+            md5_str  CHAR(32) NOT NULL default '',
+            reg_date DATETIME NOT NULL default '0000-00-00 00:00:00')";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
     
     // insert an administrator
     $forename  = $B->db->quoteSmart($B->util->stripSlashes($_POST['sysname']));

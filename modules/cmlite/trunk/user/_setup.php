@@ -51,6 +51,9 @@ if( count($B->setup_error) == 0 )
     $B->conf_val['module']['user']['info'] = '';  
     
     $B->conf_val['db']['dbtype'] = $_POST['dbtype'];
+    
+    $B->conf_val['option']['user']['allow_register']  = TRUE;
+    $B->conf_val['option']['user']['register_type']   = 'auto';
 }
 
 ?>

@@ -44,7 +44,7 @@ function user_event_handler( $evt )
             include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
             $B->auth = & new auth( SF_SECTION );  
             break;
-        case EVT_CHECK_LOGIN:
+        case EVT_LOGIN:
             if(!empty($evt['data']['login']) && !empty($evt['data']['passwd']))
             {
                 include_once(SF_BASE_DIR.'/admin/modules/user/class.auth.php');
@@ -55,9 +55,148 @@ function user_event_handler( $evt )
                     exit;                
                 }
             }
-            break;            
-        case EVT_INIT:        
-            break;           
+            break;  
+        case EVT_REGISTER:
+            if($B->sys['option']['user']['allow_register'] == FALSE)
+            {
+                return;
+            }            
+            
+            // captcha class
+            //
+            include( SF_BASE_DIR .'/admin/modules/user/captcha/class.captcha.php' );
+    
+            // Captcha privat key!!!
+            $captcha_privat_key = md5(implode('',file(SF_BASE_DIR.'/admin/config/config_system.xml.php')));
+        
+            // The ttf font to create turing chars images
+            $captcha_ttf_font = SF_BASE_DIR .'/admin/modules/user/captcha/ttf_font/activa.ttf';
+    
+            // Relative folder of captcha pictures
+            $captcha_pictures_folder = 'admin/tmp/captcha_pics/';
+    
+            // Type of turing chars
+            $captcha_char_type = 'num'; // or 'hex' 
+        
+            $captcha = & new captcha( $captcha_privat_key, SF_BASE_DIR, $captcha_ttf_font, $captcha_pictures_folder, $captcha_char_type );
+            $captcha->captcha_picture_expire = 300;
+            $captcha->width = 120;
+            $captcha->string_len = 5;
+            $captcha->shadow = FALSE;    
+
+            $B->captcha_turing_picture = $captcha->make_captcha();
+            $B->captcha_public_key     = $captcha->public_key;
+
+            if($evt['data']['register'] != FALSE)
+            {
+                // get var name to store the result
+                $_error = &$GLOBALS['B']->$evt['data']['error_var'];
+                $_error = FALSE;
+
+                if(FALSE == $captcha->check_captcha($_POST['captcha_public_key'], $_POST['captcha_turing_key']))
+                {
+                     $_error .= '- Wrong turing key<br /><br />'; 
+                }
+        
+                if(empty($evt['data']['reg_data']['login']))
+                {
+                    $_error .= '- Login field is empty<br /><br />';              
+                }
+                if(empty($evt['data']['reg_data']['passwd1']) ||
+                   ($evt['data']['reg_data']['passwd1'] != $evt['data']['reg_data']['passwd2']))
+                {
+                    $_error .= '- Password fields are empty or have different entries<br /><br />';              
+                }            
+                if(empty($evt['data']['reg_data']['forename']))
+                {
+                    $_error .= '- Forename field is empty<br /><br />';              
+                }
+                if(empty($evt['data']['reg_data']['lastname']))
+                {
+                    $_error .= '- Lastname field is empty<br /><br />';              
+                }            
+                if(empty($evt['data']['reg_data']['email']))
+                {
+                    $_error .= '- Email field is empty<br /><br />';              
+                }             
+                
+
+                if($_error === FALSE)
+                {
+                    // captcha class
+                    include( SF_BASE_DIR .'/admin/modules/user/class.user.php' );
+                    
+                    $user = & new user;
+                
+                    $data = array();
+                    $data['forename'] = $evt['data']['reg_data']['forename'];
+                    $data['lastname'] = $evt['data']['reg_data']['lastname'];
+                    $data['login']    = $evt['data']['reg_data']['login'];
+                    $data['passwd']   = md5($evt['data']['reg_data']['passwd1']);
+                    $data['email']    = $evt['data']['reg_data']['email'];
+                    $data['status']   = 0;
+                    $data['rights']   = 1;
+                    
+                    $_succ = &$GLOBALS['B']->$evt['data']['success_var'];
+                    
+                    if( FALSE === ($uid = $user->add_user( $data )))
+                    {
+                        $_error .= 'Login exists. Chose an other one';  
+                        $_succ   = FALSE;
+                    }
+                    else
+                    {
+                        $ustr = $user->add_registered_user_data( $uid ); 
+                        
+                        $header  = "From: {$B->sys['option']['email']}\r\n";
+                        $header .= "MIME-Version: 1.0\r\n";
+                        $header .= "Content-type: text/html; charset={$B->sys['option']['charset']}\r\n";
+                          
+                        $validate_msg = str_replace("(URL)", "<a href='http://{$B->sys['option']['url']}/index.php?tpl=register&md5_str={$ustr}'>http://{$B->sys['option']['url']}/index.php?tpl=register&md5_str={$ustr}</a>",$evt['data']['email_msg']);
+                        $validate_msg = str_replace("(EMAIL)", "<a href='mailto:{$B->sys['option']['email']}'>{$B->sys['option']['email']}</a>",$validate_msg);
+  
+                        if(FALSE === @mail($evt['data']['reg_data']['email'],$evt['data']['email_subject'],$validate_msg,$header))
+                        {
+                            trigger_error("Email couldnt be sended to registered user: {$evt['data']['reg_data']['email']}", E_USER_ERROR);
+                        }
+                        $_succ = TRUE;
+                    }
+                }
+                
+                if($_error !== FALSE)
+                {
+                    $_tpl = &$GLOBALS['B']->$evt['data']['var'];
+                    $_tpl = array();
+                    
+                    $_tpl['forename'] = $B->util->stripslashes($evt['data']['reg_data']['forename']); 
+                    $_tpl['lastname'] = $B->util->stripslashes($evt['data']['reg_data']['lastname']); 
+                    $_tpl['login']    = $B->util->stripslashes($evt['data']['reg_data']['login']); 
+                    $_tpl['email']    = $B->util->stripslashes($evt['data']['reg_data']['email']); 
+                }                
+            }
+            break;             
+        case EVT_VALIDATE:
+            if(isset($_GET['md5_str']))
+            {
+                $_succ = &$GLOBALS['B']->$evt['data']['success_var'];
+                $_succ = FALSE;
+                
+                // get var name to store the result
+                $_error = &$GLOBALS['B']->$evt['data']['error_var'];
+                $_error = FALSE;
+                
+                include( SF_BASE_DIR .'/admin/modules/user/class.user.php' );
+                $user = & new user;
+                if(FALSE === $user->auto_validate_registered_user( $md5_str ))
+                {
+                    $_error = str_replace("(EMAIL)", "<a href='mailto:{$B->sys['option']['email']}'>{$B->sys['option']['email']}</a>",$_error);              
+                }
+                else
+                {
+                     $_succ = str_replace("(URL)", "<a href='mailto:{$B->sys['option']['url']}'>{$B->sys['option']['url']}</a>",$_succ);   
+                }
+            }
+            break;          
     }
 }
 

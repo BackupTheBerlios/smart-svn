@@ -82,6 +82,19 @@ if( count($B->setup_error) == 0 )
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
+    // create table if it dosent exist
+    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}user_registered (
+            uid      INT(11) NOT NULL,
+            md5_str  CHAR(32) NOT NULL default '',
+            reg_date DATETIME NOT NULL default '0000-00-00 00:00:00')";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }
+
     // insert an administrator
     $forename  = $B->db->quoteSmart($B->util->stripSlashes($_POST['sysname']));
     $lastename = $B->db->quoteSmart($B->util->stripSlashes($_POST['syslastname']));

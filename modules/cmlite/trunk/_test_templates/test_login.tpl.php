@@ -1,8 +1,10 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>   
 <?php //check login data ?>
 <?php $B->M( MOD_USER, 
-             EVT_CHECK_LOGIN, 
-             array('urlvar' => $_GET['ret'], 'login' => $_POST['login_name'], 'passwd' => $_POST['password'])); ?> 
+             EVT_LOGIN, 
+             array('urlvar' => $_GET['ret'], 
+						       'login' => $_POST['login_name'], 
+									 'passwd' => $_POST['password'])); ?> 
 <html>
 <head>
 <meta http-equiv="expires" content="0">
@@ -10,7 +12,7 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta name="robots" content="noindex">
 <title>Login</title>
-<meta http-equiv="Content-Type" content="{$charset}">
+<meta http-equiv="Content-Type" content="<?php echo $B->sys['option']['charset']; ?>">
 <script language="JavaScript">
    function subok(s){
       s.value = "wait ...";
@@ -96,6 +98,12 @@
         <input type="submit" name="login" value="login" onclick="subok(this.form.login);" class="loginbutton">
       </td>
     </tr>
+  <tr align="left">
+    <td colspan="2" valign="middle" class="loginitem">
+		    <?php if($B->sys['option']['user']['allow_register'] == TRUE): ?>
+				<a href="index.php?tpl=register">not yet registered?</a>
+				<?php endif; ?></td>
+  </tr>
 </table>
 </form>
 </body>

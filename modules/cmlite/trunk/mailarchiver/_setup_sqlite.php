@@ -13,8 +13,9 @@
  * Sqlite setup of the user module
  */
 
-// Check if this file is included in the environement
-//
+/** 
+ * Check if this file is included in the environement
+ */
 if (!defined('SF_SECURE_INCLUDE'))
 {
     die('No Permission on'. __FILE__);
@@ -96,6 +97,16 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
+
+    // create index
+    $sql = "CREATE INDEX mailarchiver_lists_status ON mailarchiver_lists (status)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    } 
     
     // create table if it dosent exist
     $sql = "CREATE TABLE mailarchiver_messages (
@@ -114,6 +125,16 @@ if( count($B->setup_error) == 0 )
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
+    // create index
+    $sql = "CREATE INDEX mailarchiver_messages_lid ON mailarchiver_messages (lid)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    } 
+
     // create table if it dosent exist
     $sql = "CREATE TABLE mailarchiver_attach (
             aid      INTEGER NOT NULL PRIMARY KEY,
@@ -129,7 +150,26 @@ if( count($B->setup_error) == 0 )
     {
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
-    
+
+    // create index
+    $sql = "CREATE INDEX mailarchiver_attach_mid ON mailarchiver_attach (mid)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    } 
+
+    // create index
+    $sql = "CREATE INDEX mailarchiver_attach_lid ON mailarchiver_attach (lid)";
+
+    $result = $B->db->query($sql);
+
+    if (DB::isError($result))
+    {
+        $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    }     
     unset($sql);
 }
 
