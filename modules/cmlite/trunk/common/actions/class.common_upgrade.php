@@ -68,8 +68,9 @@ class common_upgrade
             {
                 trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
                 return FALSE;
-            }     
-
+            }  
+            // set cache lifetime value
+            $this->B->sys['cache']['lifetime']  = 3600;
         }
                
         return TRUE;

@@ -108,8 +108,8 @@ class common_sys_init
     
         // Check for upgrade  
         if(MOD_COMMON_VERSION != (string)$this->B->sys['module']['common']['version'])
-        {
-            // include here additional upgrade code
+        {                
+             // include here additional upgrade code
             $this->B->M( MOD_COMMON, 'upgrade' );        
         
             // set the new version num of this module
