@@ -80,7 +80,7 @@ class common_sys_init
             // switch to the admin section if we comes from the public section
             if(SF_SECTION == 'public')
             {
-                @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
+                @header('Location: '.SF_BASE_LOCATION.'/index.php');
                 exit;  
             }
             
@@ -101,7 +101,7 @@ class common_sys_init
                 
             // include here additional upgrade code
         }
-        
+     
         if( SF_SECTION == 'admin')
         {
             // sort handler array by name

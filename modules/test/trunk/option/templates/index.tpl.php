@@ -32,7 +32,7 @@
         <td width="76%" align="left" valign="top">
     <form action="index.php" method="post" name="email" id="email">    
         <input name="m" type="hidden" value="option">
-		<input name="tpl" type="hidden" value="index">
+        <input name="tpl" type="hidden" value="index">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
@@ -48,7 +48,7 @@
     </form> 
     <form action="index.php" method="post" name="title" id="title"> 
         <input type="hidden" name="tpl" id="id" value="index">
-        <input name="m" type="hidden" value="option">	   
+        <input name="m" type="hidden" value="option">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
@@ -65,7 +65,7 @@
     </form>  
     <form action="index.php" method="post" name="charset" id="charset"> 
         <input type="hidden" name="tpl" id="id" value="index">
-        <input name="m" type="hidden" value="option">	             
+        <input name="m" type="hidden" value="option">              
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Charset</span></td>
@@ -97,7 +97,7 @@
     </form>  
     <form action="index.php" method="post" name="tpl" id="tpl">
         <input type="hidden" name="tpl" id="id" value="index">
-        <input name="m" type="hidden" value="option">	    	      
+        <input name="m" type="hidden" value="option">             
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web page template groups</span></td>

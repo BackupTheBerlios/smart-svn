@@ -98,7 +98,7 @@ class option_view_index
             unset($root);
     
             // reload the option menu
-            @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=option&tpl=index');
+            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=option&tpl=index');
             exit;
         }      
     

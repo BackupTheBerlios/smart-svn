@@ -34,6 +34,6 @@
             <td align="left" valign="top">&nbsp;</font></td>
           </tr>     
           <tr>
-            <td align="left" valign="top"><font size="2"><a href="admin/index.php">Admin</a></font></td>
+            <td align="left" valign="top"><font size="2"><a href="index.php?admin=1">Admin</a></font></td>
           </tr>     
         </table>

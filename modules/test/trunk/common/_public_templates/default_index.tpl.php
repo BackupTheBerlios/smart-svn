@@ -49,23 +49,40 @@ body {
         <font face="Verdana, Arial, Helvetica, sans-serif">
         <h3><?php echo $B->tpl_welcome_string;  ?></h3></font>
         
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To understand
-            how event calls inside the templates interact with the corresponding
-            action classes of each module you have to study the templates. I
-            recommand you
-            to
-            start
-            with this
-            template 'default_index.tpl.php'. You will find the public templates
-            at the root folder of this SMART installation.</font></p>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This page is produced by
-              the index template (default_index.tpl.php). </font></p>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If no
-          $_REQUEST 'tpl' var is definded this template is loaded by default.</font></p>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Whats
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>The
+            process of creating a page:</strong></font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If
+              no <strong>tpl</strong> (template) url var is defined the default template is 'index'
+            -&gt; see: 'default_index.tpl.php'. But before parsing this template,
+            smart is looking if there is a 'class.view_index.php' class
+            file in the <strong>/view</strong> folder. If so, smart make an
+            instance of this class and execute the perform() function of this
+            class. In this function you have to assign all the variables, which
+            are used in this template. The goal of those view classes is to optain
+            the needed data from the model (modules) and assign the templates
+            variables with the optained data. After that the template just has
+            to echo this variables at the right places. </font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">To optain
+            the needed data from within the view class function &quot;perform()&quot;,
+             each module should
+              provide a couple of action classes, which perform on the event
+            requests.</font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>The
+              format of the template and the corresponting view class files.<br />
+            </strong><br />
+            <strong>Template:</strong> / [group name]_[template name].tpl.php<br />
+            <strong>View class:</strong> / view / class.view_[template name].php
+</font></p>
+        <p>&nbsp;</p>        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Whats
             new:</strong></font></p>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version
-              0.2.2a</em></font></p>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version <strong>0.3a</strong></em></font></p>
+        <ul>
+          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">added
+              view class for each template. </font></li>
+          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">modify
+              the admin front controller</font></li>
+        </ul>        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><em>Version
+                <strong>0.2.2a</strong></em></font></p>
         <ul>
           <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif">Rebuild
               the directory structure</font>
