@@ -27,7 +27,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_COMMON' , 'COMMON');
 
 // Version of this modul
-define ( 'MOD_COMMON_VERSION' , '0.1');
+define ( 'MOD_COMMON_VERSION' , '0.2');
 
 // register this handler                       
 if (FALSE == $B->register_handler( 
@@ -84,10 +84,11 @@ function common_event_handler( $evt )
 
 /* 
 Include and define here data, which are required by other modules.
-This means that you must define at least 3 variables: 
+This means that you must define at least these variables: 
 - SF_AUTH_MODULE
 - SF_OPTION_MODULE
 - SF_DEFAULT_MODULE
+- SF_TEMPLATE_MAIN
 For detailed info of this vars see below.
 
 Furthermore if you modules require a database connection or some class instances
@@ -99,20 +100,31 @@ or packages like PEAR, ADODB, ... you have to include those here.
 **** Module SET  CONFIG ****
 ****************************/
 
-// ### These 3 defines MUST be declared ###
+// ### These defines MUST be declared ###
 /**
  * The module (name) which takes the authentication part.
  */
-define('SF_AUTH_MODULE',                 'TEST');
+define('SF_AUTH_MODULE',      'TEST'); // required
 
 /**
  * The module (name) which takes the global options part.
  */
-define('SF_OPTION_MODULE',               'OPTION');
+define('SF_OPTION_MODULE',    'OPTION'); // required
 
 /**
  * The module (name) which should be loaded by default.
  */
-define('SF_DEFAULT_MODULE',              'DEFAULT');
+define('SF_DEFAULT_MODULE',   'DEFAULT'); // required
+
+/**
+ * The main admin template. All subtemplates from other modules are included here // required
+ */
+define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . '/admin/modules/common/templates/index.tpl.php');
+
+/**
+ * Media folder of this module set. (css, layout images, javascript)
+ */
+define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
+
 
 ?>

@@ -29,28 +29,28 @@ $B->_modified = FALSE;
     
 if (isset($_POST['update_main_options_url']))
 {
-    $B->sys['option']['url'] = $B->util->stripSlashes($_POST['site_url']);
+    $B->sys['option']['url'] = stripslashes($_POST['site_url']);
     $B->_modified = TRUE;
 }
 elseif (isset($_POST['update_main_options_email']))
 {
-    $B->sys['option']['email']        = $B->util->stripSlashes($_POST['site_email']);
+    $B->sys['option']['email']        = stripslashes($_POST['site_email']);
     $B->_modified = TRUE;
 } 
 elseif (isset($_POST['update_main_options_title']))
 {
-    $B->sys['option']['site_title'] = $B->util->stripSlashes($_POST['site_title']);
-    $B->sys['option']['site_desc']  = $B->util->stripSlashes($_POST['site_desc']);
+    $B->sys['option']['site_title'] = stripslashes($_POST['site_title']);
+    $B->sys['option']['site_desc']  = stripslashes($_POST['site_desc']);
     $B->_modified = TRUE;
 } 
 elseif (isset($_POST['update_main_options_charset']))
 {
-    $B->sys['option']['charset']    = $B->util->stripSlashes($_POST['charset']);
+    $B->sys['option']['charset']    = stripslashes($_POST['charset']);
     $B->_modified = TRUE;
 }  
 elseif (isset($_POST['update_main_options_tpl']))
 {
-    $B->sys['option']['tpl']        = $B->util->stripSlashes($_POST['tpl']);
+    $B->sys['option']['tpl']        = stripslashes($_POST['tpl']);
     $B->_modified = TRUE;
 }     
     
