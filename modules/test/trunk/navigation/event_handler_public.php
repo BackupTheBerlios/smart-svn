@@ -41,19 +41,21 @@ function navigation_event_handler( $evt )
 {
     global $B;
     
+    // build the whole class name
+    $class_name = 'NAVIGATION_'.$evt['code'];
+    
     // check if this object was previously declared
-    if(!is_object($B->$evt['code']))
+    if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/navigation/class.'.$evt['code'].'.php';
+        $class_file = SF_BASE_DIR . '/admin/modules/navigation/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
             // make instance
-            $B->$evt['code'] = & new $evt['code']();
+            $B->$class_name = & new $class_name();
             // perform the request
-            $B->$evt['code']->perform( $evt['data'] );
-            return TRUE;  
+            return $B->$class_name->perform( $evt['data'] );
         }
         else
         {
@@ -62,9 +64,8 @@ function navigation_event_handler( $evt )
     }
     else
     {
-        // perform the request if object exists
-        $B->$evt['code']->perform( $evt['data'] );
-        return TRUE; 
+        // perform the request if the requested object exists
+        return $B->$class_name->perform( $evt['data'] );
     }
 }
 
