@@ -40,11 +40,11 @@ $msg =& new Mail_IMAP();
 //User Class instance
 $B->marchiver = & new mailarchiver;
 
-$lists = $B->marchiver->get_lists( array('lid','emailserver','emailuser','emailpasswd','folder') );
+$lists = $B->marchiver->get_lists( array('lid','emailserver','folder') );
 
 foreach ($lists as $account)
 {
-    if (PEAR::isError($msg->connect('pop3://'.$account['emailuser'].':'.$account['emailpasswd'].'@'.$account['emailserver'].':110/INBOX')))
+    if (PEAR::isError($msg->connect($account['emailserver'])))
         trigger_error('Unable to build a connection', E_USER_ERROR);
 
     // Retrieve message count
@@ -75,7 +75,7 @@ foreach ($lists as $account)
             
             $data['lid']     = $account['lid'];
             $data['subject'] = $B->conn->qstr($msg->header[$mid]['subject'], magic_quotes_runtime());
-            $data['sender']  = $B->conn->qstr($msg->header[$mid]['from_personal'][0], magic_quotes_runtime());
+            $data['sender']  = $B->conn->qstr($msg->header[$mid]['reply_toaddress'], magic_quotes_runtime());
             $data['mdate']   = $B->conn->qstr(date('Y-m-d h:i:s', $msg->header[$mid]['udate']), magic_quotes_runtime());
             $data['mes_id']  = $B->conn->qstr(md5($msg->header[$mid]['message_id']), magic_quotes_runtime());
 
@@ -92,12 +92,27 @@ foreach ($lists as $account)
             }
 
             $mes_folder = FALSE;
+            $is_attach  = FALSE;
 
-            // Now the attachments
+            // check if there are attachments attachments
             if (isset($msg->attachPid[$mid]) && count($msg->attachPid[$mid]) > 0)
             {
+                $is_attach = TRUE;
                 // get list messages attachment folder string
                 $mes_folder = $B->util->unique_md5_str();
+                $data['folder']  = $B->conn->qstr($mes_folder, magic_quotes_runtime());
+            }
+            else
+            {
+                $data['folder']  = '0';
+            }
+            
+            if(FALSE === ($message_id = $B->marchiver->add_message( $data ))
+                trigger_error('Cannot add message: '.__FILE__.' '.__LINE__, E_USER_ERROR);
+
+            // Now the attachments
+            if ((TRUE === $is_attach) && ($message_id !== FALSE))
+            {
                 $path = SF_BASE_DIR . '/data/mailarchiver/'.$account['folder'].'/'. $mes_folder;
 
                 if(!@mkdir($path, 0775))
@@ -108,30 +123,25 @@ foreach ($lists as $account)
                 foreach ($msg->attachPid[$mid] as $i => $aid)
                 {
                    $pid = $msg->attachPid[$mid][$i];
-                   $filename = $msg->attachFname[$mid][$i];
-                   $filetype = $msg->attachFtype[$mid][$i];
-                   $filesize = $msg->attachFsize[$mid][$i];
+                   $att_data = array();
+                   
+                   $att_data['lid']  = $account['lid'];
+                   $att_data['file'] = $B->conn->qstr($msg->attachFname[$mid][$i], magic_quotes_runtime());
+                   $att_data['type'] = $B->conn->qstr($msg->attachFtype[$mid][$i], magic_quotes_runtime());
+                   $att_data['size'] = $B->conn->qstr($msg->attachFsize[$mid][$i], magic_quotes_runtime());
                    
                     // Parse header information
-                    //$msg->getHeaders($mid, $pid);
                     $msg->getParts($mid, $pid);
                     $body = $msg->getBody($mid, $pid);
-                    
-                    if($f = @fopen($path.'/'.$filename, 'wb'))
+
+                    if($f = @fopen($path.'/'.$att_data['file'], 'wb'))
                     {
-                        @fwrite($f, $body, $filesize);
+                        @fwrite($f, $body['message'], $att_data['size']);
                         @fclose($f);
+                        $B->marchiver->add_attach( $message_id, $att_data );
                     }
-                    
                 }
             }
-            if (FALSE !== $mes_folder)
-                $data['folder']  = $B->conn->qstr($mes_folder, magic_quotes_runtime());
-            else
-                $data['folder']  = '';
-
-            $B->marchiver->add_message( $data );
-
             // Clean up left over variables
             $msg->unsetParts($mid);
             $msg->unsetHeaders($mid);

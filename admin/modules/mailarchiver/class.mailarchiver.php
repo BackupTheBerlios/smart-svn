@@ -96,13 +96,11 @@ class mailarchiver
         $sql = '
             INSERT INTO 
                 '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
-                (name,email,emailserver,emailuser,emailpasswd,description,folder,status)
+                (name,email,emailserver,description,folder,status)
             VALUES
                 ('.$data['name'].',
                  '.$data['email'].',
                  '.$data['emailserver'].',
-                 '.$data['emailuser'].',
-                 '.$data['emailpasswd'].',
                  '.$data['description'].',
                  '.$data['folder'].',
                  '.$data['status'].')';
@@ -171,7 +169,16 @@ class mailarchiver
             WHERE
                 lid={$lid}";
         
-        return $GLOBALS['B']->conn->Execute($sql);        
+        $GLOBALS['B']->conn->Execute($sql);    
+        
+        // delete list messages
+        $sql = "
+            DELETE FROM 
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_attach
+            WHERE
+                lid={$lid}";
+        
+        $GLOBALS['B']->conn->Execute($sql);          
     }
     /**
      * add email message
@@ -181,12 +188,15 @@ class mailarchiver
      */     
     function add_message( &$data )
     {
+        $mid = $GLOBALS['B']->conn->GenID('sequence_add_message');
+        
         $sql = '
             INSERT INTO 
                 '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_messages
-                (lid,mes_id,sender,subject,mdate,body,folder)
+                (mid,lid,mes_id,sender,subject,mdate,body,folder)
             VALUES
-                ('.$data['lid'].',
+                ('.$mid.',
+                 '.$data['lid'].',
                  '.$data['mes_id'].',
                  '.$data['sender'].',
                  '.$data['subject'].',
@@ -194,8 +204,35 @@ class mailarchiver
                  '.$data['body'].',
                  '.$data['folder'].')';
 
-        return $GLOBALS['B']->conn->Execute($sql);
+        if(FALSE === $GLOBALS['B']->conn->Execute($sql))
+            return FALSE;
+        else
+            return $mid;
     }     
+    /**
+     * add email message
+     *
+     * @param array $data associative array of list data
+     * @return bool true or false
+     */     
+    function add_attach( $mid, $lid, &$data )
+    {
+        $aid = $GLOBALS['B']->conn->GenID('sequence_add_attach');
+        
+        $sql = '
+            INSERT INTO 
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_attach
+                (aid,mid,lid,file,size,type)
+            VALUES
+                ('.$aid.',
+                 '.$mid.',
+                 '.$lid.',
+                 '.$data['file'].',
+                 '.$data['size'].',
+                 '.$data['type'].')';
+
+        return $GLOBALS['B']->conn->Execute($sql);
+    }         
 }
 
 ?>

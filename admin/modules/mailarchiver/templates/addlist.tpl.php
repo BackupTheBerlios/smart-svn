@@ -15,42 +15,30 @@
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="name" type="text" id="name" size="40" maxlength="255" value="<?php echo $B->form_name; ?>">
+          <input name="name" type="text" id="name" size="80" maxlength="255" value="<?php echo $B->form_name; ?>">
         </td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Email Server</td>
+        <td align="left" valign="top" class="font10bold">Email Account/Server data </td>
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="emailserver" type="text" id="emailserver" size="40" maxlength="255" value="<?php echo $B->form_emailserver; ?>">
-        </td>
+          <input name="emailserver" type="text" id="emailserver" size="80" maxlength="1024" value="<?php echo $B->form_emailserver; ?>">
+</td>
       </tr>			
       <tr>
         <td align="left" valign="top" class="font10bold">Email to fetch</td>
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="email" type="text" id="email" size="40" maxlength="255" value="<?php echo $B->form_email; ?>">
+          <input name="email" type="text" id="email" size="80" maxlength="255" value="<?php echo $B->form_email; ?>">
         </td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10bold">Email account user</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top"><input name="emailuser" type="text" id="emailuser" size="40" maxlength="255" value="<?php echo $B->form_emailuser; ?>"></td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10bold">Email account password</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top"><input name="emailpasswd" type="text" id="emailpasswd" size="40" maxlength="255" value="<?php echo $B->form_emailpasswd; ?>"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Description</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="description" cols="40" rows="4" wrap="VIRTUAL" id="description"><?php echo $B->form_description; ?></textarea></td>
+        <td align="left" valign="top"><textarea name="description" cols="60" rows="4" wrap="VIRTUAL" id="description"><?php echo $B->form_description; ?></textarea></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Status</td>

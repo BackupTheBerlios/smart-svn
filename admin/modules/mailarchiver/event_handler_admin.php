@@ -60,7 +60,7 @@ function mailarchiver_event_handler( $evt )
             break;             
         case EVT_INIT: 
             // check for install or upgrade
-            if (MOD_MAILARCHIVER_VERSION != $B->sys['module']['mailarchiver']['version'])
+            if (MOD_MAILARCHIVER_VERSION != (string)$B->sys['module']['mailarchiver']['version'])
             {
                 $B->setup_error = array();
                 $B->conf_val = &$B->sys;

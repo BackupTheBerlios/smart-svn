@@ -31,8 +31,6 @@ if( count($B->setup_error) == 0 )
             description TEXT NOT NULL  default '',
             email       TEXT NOT NULL default '',
             emailserver TEXT NOT NULL default '',
-            emailuser   VARCHAR(255) NOT NULL default '',
-            emailpasswd VARCHAR(255) NOT NULL default '',
             folder      CHAR(32) NOT NULL,
             PRIMARY KEY     (lid),
             KEY status      (status))";
@@ -65,11 +63,13 @@ if( count($B->setup_error) == 0 )
     $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}mailarchiver_attach (
             aid      INT(11) NOT NULL auto_increment,
             mid      INT(11) NOT NULL,
+            lid      INT(11) NOT NULL,
             file     TEXT NOT NULL  default '',
             size     INT(11) NOT NULL,
             type     VARCHAR(200) NOT NULL  default '',
             PRIMARY KEY     (aid),
-            KEY mid         (mid))";
+            KEY mid         (mid),
+            KEY lid         (lid))";
 
     if ($B->conn->Execute($sql) === FALSE)
     {

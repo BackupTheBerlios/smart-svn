@@ -30,15 +30,15 @@ function deletelist(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="name" type="text" id="name" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['name'])); ?>">
+          <input name="name" type="text" id="name" size="80" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['name'])); ?>">
         </td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Email Server</td>
+        <td align="left" valign="top" class="font10bold">Email Account/Server</td>
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="emailserver" type="text" id="emailserver" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['emailserver'])); ?>">
+          <input name="emailserver" type="text" id="emailserver" size="80" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['emailserver'])); ?>">
         </td>
       </tr>			
       <tr>
@@ -46,26 +46,13 @@ function deletelist(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="email" type="text" id="email" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['email'])); ?>">
+          <input name="email" type="text" id="email" size="80" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['email'])); ?>">
         </td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10bold">Email account user</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top">
-          <input name="emailuser" type="text" id="emailuser" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['emailuser'])); ?>"></td>
-      </tr>
-      <tr>
-        <td align="left" valign="top" class="font10bold">Email account passwd </td>
-      </tr>
-      <tr>
-        <td align="left" valign="top"><input name="emailpasswd" type="text" id="emailpasswd" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['emailpasswd'])); ?>"></td>
       </tr>
         <td align="left" valign="top" class="font10bold">Description</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="description" cols="40" rows="4" wrap="VIRTUAL" id="description"><?php echo htmlspecialchars(stripslashes($B->tpl_data['description'])); ?></textarea></td>
+        <td align="left" valign="top"><textarea name="description" cols="60" rows="4" wrap="VIRTUAL" id="description"><?php echo htmlspecialchars(stripslashes($B->tpl_data['description'])); ?></textarea></td>
       </tr>			
       <tr>
         <td align="left" valign="top" class="font10bold">Status</td>
