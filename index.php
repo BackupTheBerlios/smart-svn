@@ -46,13 +46,11 @@ else
 }
 
 // Include the requested template
-include('templates_public/' . $B->tmp_tpl . '.tpl.php');
-$B->dbdata->close();
+include($B->sys['option']['tpl'].'_' . $B->tmp_tpl . '.tpl.php');
+
 // Send the output buffer to the client
 if( SF_OB == TRUE)
 {
     ob_end_flush();
 }
-
-
 ?>

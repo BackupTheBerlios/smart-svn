@@ -40,7 +40,12 @@ function option_event_handler( $evt )
 
     switch( $evt['code'] )
     {
-        case EVT_LOAD_INIT_OPTION:
+        case EVT_SETUP:
+            $B->conf_val['module']['option']['name']    = 'option';
+            $B->conf_val['module']['option']['version'] = '0.1';
+            $B->conf_val['module']['option']['info'] = '';
+            $B->conf_val['option']['tpl'] = 'test';
+            $B->conf_val['option']['url'] = '../index.php';
             break;      
         case EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           
