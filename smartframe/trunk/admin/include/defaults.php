@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 /**
  * error log types ('LOG|SHOW')
  */
-define('SF_ERROR_HANDLE',               'LOG');
+define('SF_ERROR_HANDLE',               'LOG|SHOW');
 
 /**
  * error reporting
@@ -35,7 +35,7 @@ define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
 /**
  * Allowed output buffering.
  */
-define('SF_OB',                          FALSE);
+define('SF_OB',                          TRUE);
 
 /**
  * Allowed output compression if available.
