@@ -47,20 +47,21 @@ class action
     }
  
     /**
-     * validate
+     * validate the action request
      *
      */
-    function validate()
+    function validate( $data = FALSE )
     {
         return TRUE;
     }  
     
     /**
-     * perform
+     * perform on the action request
      *
      */
-    function perform()
+    function perform( $data = FALSE )
     {
+       return TRUE;
     }  
 
     /**
