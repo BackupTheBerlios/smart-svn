@@ -27,7 +27,7 @@ $msg =& new Mail_IMAP();
 $B->earchive = & new earchive;
 
 // word indexer class
-include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
+include_once(SF_BASE_DIR.'/admin/modules/earchive/class.sfWordIndexer.php');
 $word_indexer = & new word_indexer();
 
 // get email accounts
