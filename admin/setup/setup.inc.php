@@ -59,7 +59,7 @@ if( SF_DEBUG == TRUE )
     $base->register( 'conf', __FILE__, __LINE__);
 
 //  set global config dir
-$base->conf->setConfigDir( SF_BASE_DIR . "/admin/setup" );
+$base->conf->setConfigDir( SF_BASE_DIR . "/admin/config" );
     
 //  instance of patTemplate
 $base->tpl = new patTemplate();
