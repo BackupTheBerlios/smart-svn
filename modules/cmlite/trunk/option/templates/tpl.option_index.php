@@ -163,14 +163,8 @@
       </tr>
     </table>        
         <?php 
-        // include otions templates of other modules
-        if(count($B->mod_option) > 0)
-        {
-            foreach($B->mod_option as $option)
-            {
-                include $option;
-            }
-        }
+        // execute option views of other modules
+        B( 'get_options' );
         ?>
     </td>
     <td width="24%" align="right" valign="top"></td>

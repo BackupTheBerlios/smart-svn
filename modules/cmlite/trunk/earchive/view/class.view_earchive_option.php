@@ -10,42 +10,34 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_user_option class 
+ * view_earchive_option class
  *
  */
- 
-class view_user_option extends view
+
+class view_earchive_option extends view
 {
      /**
      * Default template for this view
      * @var string $template
      */
-    var $template = 'user_option';
+    var $template = 'earchive_option';
     
      /**
      * Default template folder for this view
      * @var string $template_folder
      */    
-    var $template_folder = 'modules/user/templates/';
-  
+    var $template_folder = 'modules/earchive/templates/';
+    
     /**
-     * Set options for this module
+     * Execute the view of the template "tpl.earchive_option.php"
      *
-     * @param array $data
+     * @return bool true on success else false
      */
-    function perform( $data )
+    function perform()
     {
-        // set user options 
-        // this event comes from the option module (module_loader.php)
-        if(isset($_POST['update_user_options_allowreg']))
-        {
-            $this->B->sys['option']['user']['allow_register'] = (bool)$_POST['userallowregister'];
-            $this->B->sys['option']['user']['register_type']  = $_POST['userregistertype'];
-            $this->B->_modified = TRUE;
-        }
-        
+
         return TRUE;
-    }       
+    }    
 }
 
 ?>

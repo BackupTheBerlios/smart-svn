@@ -41,14 +41,13 @@ class earchive_get_options
     }
     
     /**
-     * Assign an array with the whole earchive options template path string
-     * This is a subtemplate of the options module main template
+     * Execute the option view of the earchive module
      *
      * @param array $data
      */
     function perform( $data )
     {      
-        $this->B->mod_option[] = $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'earchive', 'view' => 'option') );
+        M( MOD_SYSTEM, 'get_view', array('m' => 'earchive', 'view' => 'option') );
     } 
 }
 

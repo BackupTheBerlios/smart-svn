@@ -10,38 +10,26 @@
 // ----------------------------------------------------------------------
 
 /**
- * option_view_index class 
+ * view_option_index class 
  *
  */
 
-class option_view_index
+class view_option_index extends view
 {
-    /**
-     * Global system instance
-     * @var object $this->B
+     /**
+     * Default template for this view
+     * @var string $template
      */
-    var $B;
+    var $template = 'option_index';
+    
+     /**
+     * Default template folder for this view
+     * @var string $template_folder
+     */    
+    var $template_folder = 'modules/option/templates/';
     
     /**
-     * constructor
-     *
-     */
-    function option_view_index()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
-    /**
-     * Evaluate the option requests of the option template
+     * Evaluate the option requests of the option template tpl.option_index.php
      *
      * @param array $data
      */
@@ -54,12 +42,12 @@ class option_view_index
         $this->_update_main_options();
         
         // update options of other modules
-        $this->B->B( 'set_options' );
+        B( 'set_options' );
         
         // if some config are modified, write the config file and reload the page
         if($this->B->_modified == TRUE)
         {
-            $this->B->M( MOD_COMMON, 'sys_update_config', $this->B->sys );    
+            M( MOD_COMMON, 'sys_update_config', $this->B->sys );    
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=option');
             exit;
         }
@@ -72,10 +60,6 @@ class option_view_index
 
         // assign tpl array with available bad word lists
         $this->_get_bad_words_list();
-
-        // Load options templates from other modules    
-        $this->B->mod_option = array();
-        $this->B->B( 'get_options' );
 
         return TRUE;     
     } 
@@ -94,7 +78,7 @@ class option_view_index
         if(isset($_POST['update_clean_cache']))
         {
             // Delete cache data
-            $this->B->M( MOD_COMMON, 'cache_delete', array('group' => ''));
+            M( MOD_COMMON, 'cache_delete', array('group' => ''));
         }       
         elseif (isset($_POST['update_main_options_email']))
         {
@@ -127,10 +111,10 @@ class option_view_index
     function _get_bad_words_list()
     {
          // get actif bad words languages
-         $this->B->M( MOD_COMMON,
-                      'bad_words',
-                      array('get_bad_words_lang' => TRUE,
-                            'var'                => 'tpl_selected_lang'));
+         M( MOD_COMMON,
+            'bad_words',
+            array('get_bad_words_lang' => TRUE,
+                  'var'                => 'tpl_selected_lang'));
     
          // Get available language bad word list
          //
@@ -201,9 +185,9 @@ class option_view_index
          {
             foreach($_POST['selected_lang'] as $lang)
             {
-                $this->B->M( MOD_COMMON,
-                             'bad_words',
-                             array( 'delete_bad_words_lang' => $lang));            
+                M( MOD_COMMON,
+                   'bad_words',
+                   array( 'delete_bad_words_lang' => $lang));            
             }              
          }        
     }
