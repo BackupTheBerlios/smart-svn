@@ -23,7 +23,7 @@ class action_system_module_names extends action
      */
     function perform( $data )
     {            
-        $m_list = $GLOBALS['module_list'];
+        $m_list = $GLOBALS['sf_module_list'];
             
         // sort handler array by name
         ksort($m_list);

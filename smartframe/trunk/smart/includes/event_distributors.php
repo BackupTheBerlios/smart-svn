@@ -31,9 +31,9 @@
 
 /**
  * Array of registered modules
- * @var array $module_list
+ * @var array $sf_module_list
  */
-$module_list = array(); 
+$sf_module_list = array(); 
 
 
 /**
@@ -44,9 +44,9 @@ $module_list = array();
   */
 function is_module( $target )
 {
-    global $module_list;
+    global $sf_module_list;
     
-    return isset( $module_list[$target] );
+    return isset( $sf_module_list[$target] );
 }
 
 /**
@@ -58,14 +58,14 @@ function is_module( $target )
   */
 function register_module( $target, $descriptor )
 {
-    global $module_list;
+    global $sf_module_list;
     
-    if(isset( $module_list[$target] ))
+    if(isset( $sf_module_list[$target] ))
     {
         return FALSE;
     }
     
-    $module_list[$target] = $descriptor;
+    $sf_module_list[$target] = $descriptor;
     return TRUE;
 }
 
@@ -75,16 +75,21 @@ function register_module( $target, $descriptor )
   * @param string $target_id Name of the module.  
   * @param array $code Name of the module action class, which performs on this event.
   * @param mixed $data Additional data (optional).
+  * @param mixed $constructor_param Parameters passed to the action class constructor (optional).
+  * @param bool $instance Force a new instance if it exists (optional).
   * @return mixed FALSE if module dosent exist or isnt defined. null if an action class dosent exists
   */ 
-function M( $target_id, $code, $data = FALSE )
+function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $instance = FALSE )
 {
-    global $module_list;
+    global $sf_module_list;
 
     // check if such a module is registered
-    if(!isset( $module_list[$target_id]) )
+    if( !isset( $sf_module_list[$target_id] ) )
     {
-        trigger_error("This module isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        if(SF_DEBUG == TRUE)
+        {
+            trigger_error("This module isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
         return FALSE;
     }  
 
@@ -107,7 +112,7 @@ function M( $target_id, $code, $data = FALSE )
         {
             include_once($class_file);
             // make instance of the module action class
-            $GLOBALS[$class_name] = & new $class_name();
+            $GLOBALS[$class_name] = & new $class_name( $constructor_param );
             
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
@@ -122,8 +127,23 @@ function M( $target_id, $code, $data = FALSE )
             return NULL;
         }
     }
+    // if an instance was previously declared, use it here
     else
     {
+        // Force a new instance anyway
+        if( $instance == TRUE )
+        {
+            $i = 1;
+            while( isset($GLOBALS[$class_name . $i]) )
+            {
+                $i++;
+            }
+            $new_instance = $class_name . $i;
+            // make new instance of the module action class
+            $GLOBALS[$new_instance] = & new $class_name( $constructor_param );
+            $class_name = $new_instance;
+        }
+        
         // validate the request
         if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
         {
@@ -144,12 +164,15 @@ function M( $target_id, $code, $data = FALSE )
   */ 
 function & M_OBJ( $target_id, $code )
 {
-    global $module_list;
+    global $sf_module_list;
 
     // check if such a module is registered
-    if(!isset( $module_list[$target_id]) )
+    if(!isset( $sf_module_list[$target_id]) )
     {
-        trigger_error("This module isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        if(SF_DEBUG == TRUE)
+        {
+            trigger_error("This module isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
         return FALSE;
     }  
 
@@ -182,12 +205,14 @@ function & M_OBJ( $target_id, $code )
   *
   * @param array $code Message id to send to all modules.
   * @param mixed $data Additional data (optional).
+  * @param mixed $constructor_param Parameters passed to the action class constructor (optional).
+  * @param bool $instance Force a new instance if it exists (optional).  
   */ 
-function B( $code, $data = FALSE )
+function B( $code, $data = FALSE, $constructor_param = FALSE, $instance = FALSE )
 {
-    global $module_list; 
+    global $sf_module_list; 
 
-    foreach( $module_list as $target_id => $val )
+    foreach( $sf_module_list as $target_id => $val )
     {
         // build the whole class name
         $class_name = 'action_' . $target_id . '_' . $code;
@@ -208,22 +233,39 @@ function B( $code, $data = FALSE )
             {
                 include_once($class_file);
                 // make instance
-                $GLOBALS[$class_name] = & new $class_name();
+                $GLOBALS[$class_name] = & new $class_name( $constructor_param );
             
                 // validate the request
                 if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
                 {
+                    trigger_error("Validation fails on: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);               
                     continue;
                 }
                 // perform the request
                 $GLOBALS[$class_name]->perform( $data );
             }
         }
+        // if an instance was previously declared, use it here
         else
         {
+            // Force a new instance anyway
+            if( $instance == TRUE )
+            {
+                $i = 1;
+                while( isset($GLOBALS[$class_name . $i]) )
+                {
+                    $i++;
+                }
+                $new_instance = $class_name . $i;
+                // make new instance of the module action class
+                $GLOBALS[$new_instance] = & new $class_name( $constructor_param );
+                $class_name = $new_instance;
+            }
+            
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
             {
+                trigger_error("Validation fails on: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);                           
                 continue;
             }  
         
