@@ -31,7 +31,7 @@ class action_common_cache_get extends action
         {            
             include_once(SF_BASE_DIR . 'modules/common/PEAR/Lite.php');
             // Set a few options
-            $options = array( 'cacheDir' => SF_BASE_DIR . 'data/common/cache/',
+            $options = array( 'cacheDir' => SF_BASE_DIR . 'data/'.SF_BASE_MODULE.'/cache/',
                               'lifeTime' => 9999999,
                               'automaticSerialization' => TRUE);  
             // Create a Cache_Lite object
