@@ -44,24 +44,23 @@ class user_view_default
      * Execute the view of the template "default.tpl.php"
      * create the template variables
      *
-     * @return bool true on success else false
+     * @return bool true
+     * @todo pagination results
      */
     function perform()
     {
-        if(isset($_REQUEST['usr_rights']))
-            $this->B->tmp_rights = $_REQUEST['usr_rights'];
-        else
-            $this->B->tmp_rights = FALSE;
-
-        // the user class
-        include_once SF_BASE_DIR . 'modules/user/includes/class.user.php';
-
-        //User Class instance
-        $this->B->user = & new user; 
-
-        $this->B->tmp_fields = array('uid','rights','status','email','login','forename','lastname');
-        $this->B->all_users = $this->B->user->get_users( $this->B->tmp_fields, $this->B->tmp_rights );  
-
+        // get all users
+        $this->B->M( MOD_USER,
+                     'get_users',
+                     array( 'error'  => 'tpl_error',
+                            'result' => 'all_users',
+                            'fields' => array('uid',
+                                              'rights',
+                                              'status',
+                                              'email',
+                                              'login',
+                                              'forename',
+                                              'lastname')));
         return TRUE;
     }    
 }
