@@ -11,7 +11,7 @@ function deleteuser(f, mes)
         }
 }
 </script>
-<form name="edituser" method="post" action="index.php?admin=1&m=user&sec=edituser">
+<form name="edituser" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=user&sec=edituser">
 <input name="uid" type="hidden" value="<?php echo (int)$_REQUEST['uid']; ?>">
 <input name="modifyuserdata" type="hidden" value="true">
 <input name="rights_orig" type="hidden" value="<?php echo $B->tpl_data['rights']; ?>">
@@ -94,7 +94,7 @@ function deleteuser(f, mes)
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?admin=1&m=user">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=user">back</a></td>
   </tr>
 </table>
 </form>

@@ -4,7 +4,7 @@
   </tr>
   <tr>
     <td>
-  <form action="index.php?admin=1&m=option" method="post" name="allowreg" id="allowreg">
+  <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="allowreg" id="allowreg">
   <table width="100%"  border="0" cellspacing="2" cellpadding="2">
       <tr>
         <td colspan="2" align="left" valign="middle" class="optiontitle">Allow register </td>

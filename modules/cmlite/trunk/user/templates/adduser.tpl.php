@@ -1,4 +1,4 @@
-<form name="adduser" method="post" action="index.php?admin=1&m=user&sec=adduser">
+<form name="adduser" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=user&sec=adduser">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="57%" align="left" valign="top">    <table width="400" border="0" cellspacing="3" cellpadding="3">
