@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * DEFAULT_SYS_INIT class 
+ * default_sys_init class 
  *
  */
  
-class DEFAULT_SYS_INIT
+class default_sys_init
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class DEFAULT_SYS_INIT
      * constructor
      *
      */
-    function DEFAULT_SYS_INIT()
+    function default_sys_init()
     {
         $this->__construct();
     }
