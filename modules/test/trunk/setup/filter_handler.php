@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the filter module
-define( 'SETUP_FILTER' , 'SETUP' );
+define( 'SETUP_FILTER' , 'setup' );
 
 // register this filter                      
 if (FALSE == $B->register_filter( SETUP_FILTER,

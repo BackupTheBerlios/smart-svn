@@ -21,7 +21,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_SETUP' , 'SETUP');
+define ( 'MOD_SETUP' , 'setup');
 
 // Version of this module
 define ( 'MOD_SETUP_VERSION' , '0.2');
