@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * EARCHIVE module event handler
+ * earchive module event handler
  *
  */
 
@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_EARCHIVE' , 'EARCHIVE');
+define ( 'MOD_EARCHIVE' , 'earchive');
 
 // Version of this modul
 define ( 'MOD_EARCHIVE_VERSION' , '0.3');
@@ -42,13 +42,13 @@ function earchive_event_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'EARCHIVE_'.$evt['code'];    
+    $class_name = 'earchive_'.$evt['code'];    
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/earchive/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . 'modules/earchive/actions/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
@@ -57,20 +57,13 @@ function earchive_event_handler( $evt )
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
         }
-        else
-        {
-            if( SF_DEBUG == TRUE )
-            {
-                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
-            }
-            return FALSE;
-        } 
     }
     else
     {
         // perform the request if the requested object exists
         return $B->$class_name->perform( $evt['data'] );
     }
+    return TRUE;
 }
 
 ?>

@@ -10,15 +10,15 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_get_options class 
+ * common_sys_finish_update class 
  *
  */
  
-class user_get_options
+class common_sys_finish_update
 {
     /**
      * Global system instance
-     * @var object $B
+     * @var object $this->B
      */
     var $B;
     
@@ -26,7 +26,7 @@ class user_get_options
      * constructor
      *
      */
-    function user_get_options()
+    function common_sys_finish_update()
     {
         $this->__construct();
     }
@@ -41,15 +41,21 @@ class user_get_options
     }
     
     /**
-     * Assign an array with the whole user options template path string
-     * This is a subtemplate of the options module main template
+     * Control the main setup process
      *
      * @param array $data
      */
     function perform( $data )
-    {      
-        $this->B->mod_option[] = $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'user', 'tpl' => 'option') );
-    } 
+    {                 
+        // include PEAR Config class
+        include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
+
+        $c = new Config();
+        $root =& $c->parseConfig($this->B->sys, 'PHPArray');
+
+        // save the modified config array
+        $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));  
+    }    
 }
 
 ?>

@@ -13,7 +13,9 @@
  * option_view_index class 
  *
  */
- 
+
+include_once(SF_BASE_DIR.'modules/common/class.sfWordIndexer.php');
+
 class option_view_index
 {
     /**
@@ -50,9 +52,40 @@ class option_view_index
         // Init this variable
         $this->B->modul_options = FALSE;
 
+        $this->_check_main_update();
+        
+        // if some config are modified, write the config file and reload the page
+        if($this->B->_modified == TRUE)
+        {
+            // include PEAR Config class
+            include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
+
+            $c = new Config();
+            $root =& $c->parseConfig($this->B->sys, 'PHPArray');
+            $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));
+    
+            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=option');
+            exit;
+        }
+
+        $this->_update_bad_words_list();
+        
+        $this->_load_public_tpl_groups();
+
+        $this->_get_bad_words_list();
+
+        // Load options templates from other modules    
+        $this->B->mod_option = array();
+        $this->B->B( 'get_options' );
+
+        return TRUE;     
+    } 
+    
+    function _check_main_update()
+    {
         // init var - used if a config value has been modified
         $this->B->_modified = FALSE;
-    
+        
         // Empty public web cache
         if(isset($_POST['cleancache']))
         {
@@ -87,27 +120,50 @@ class option_view_index
         }  
         elseif (isset($_POST['update_main_options_tpl']))
         {
-            $this->B->sys['option']['tpl'] = $_POST['tpl'];
+            $this->B->sys['option']['tpl'] = $_POST['tplgroup'];
             $this->B->_modified = TRUE;
-        }     
-    
+        }   
+        
         // set options of other modules
         $this->B->B( 'set_options' );
- 
-        // if some config are modified, write the config file and reload the page
-        if($this->B->_modified == TRUE)
-        {
-            // include PEAR Config class
-            include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
+    }
 
-            $c = new Config();
-            $root =& $c->parseConfig($this->B->sys, 'PHPArray');
-            $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
+    function _get_bad_words_list()
+    {
+         // get actif bad words languages
+         $this->B->tpl_selected_lang = word_indexer::get_bad_words_lang();
     
-            @header('Location: '.SF_BASE_LOCATION.'index.php?admin=1&m=OPTION');
-            exit;
-        }
+         // Get available language bad word list
+         //
+         $directory =& dir(SF_BASE_DIR.'modules/option/bad_word');
 
+         $this->B->tpl_bad_word_lang = array();
+
+         while (false != ($filename = $directory->read()))
+         {
+             if ( ( $filename == "." ) || ( $filename == ".." ) )
+             {
+                 continue;
+             }            
+             // Test filename
+             //
+             if(TRUE == @is_file(SF_BASE_DIR.'modules/option/bad_word/'.$filename))
+             {
+                 // Extract language from file name
+                 if(preg_match("/^stop\.([^\.]+)/", $filename, $tmp))
+                 {
+                     // Check if language is installed
+                     if(FALSE == in_array($tmp[1], $this->B->tpl_selected_lang))
+                     {
+                         $this->B->tpl_bad_word_lang[] = $tmp[1];
+                     }
+                 }
+             }  
+         }    
+    }
+    
+    function _update_bad_words_list()
+    {
         // insert bad word languages list
         if(isset($_POST['update_main_options_badwordadd']) && !empty($_POST['bad_word_list']))
         {
@@ -139,11 +195,13 @@ class option_view_index
          // delete selected bad word languages
          elseif(isset($_POST['update_main_options_badworddel']) && isset($_POST['selected_lang']) && (count($_POST['selected_lang']) > 0))
          {
-            include_once(SF_BASE_DIR.'modules/common/includes/class.sfWordIndexer.php');
             foreach($_POST['selected_lang'] as $lang)
                 word_indexer::delete_bad_words_lang( $lang );              
-         }           
+         }        
+    }
     
+    function _load_public_tpl_groups()
+    {
          // Load the available public templates sets from the main folder 
          $this->B->templ = array();
          $directory =& dir(SF_BASE_DIR);
@@ -160,47 +218,8 @@ class option_view_index
              }
          }
 
-         $directory->close();
- 
-         include_once(SF_BASE_DIR.'modules/common/class.sfWordIndexer.php');
-    
-         // get actif bad words languages
-         $this->B->tpl_selected_lang = word_indexer::get_bad_words_lang();
-    
-         // Get available language bad word list
-         //
-         $directory =& dir(SF_BASE_DIR.'modules/option/bad_word');
-
-         $this->B->tpl_bad_word_lang = array();
-
-         while (false != ($filename = $directory->read()))
-         {
-             if ( ( $filename == "." ) || ( $filename == ".." ) )
-             {
-                 continue;
-             }            
-             // Test filename
-             //
-             if(TRUE == @is_file(SF_BASE_DIR.'modules/option/bad_word/'.$filename))
-             {
-                 // Extract language from file name
-                 if(preg_match("/^stop\.([^\.]+)/", $filename, $tmp))
-                 {
-                     // Check if language is installed
-                     if(FALSE == in_array($tmp[1], $this->B->tpl_selected_lang))
-                     {
-                         $this->B->tpl_bad_word_lang[] = $tmp[1];
-                     }
-                 }
-             }  
-         }
-
-         // Load options templates from other modules    
-         $this->B->mod_option = array();
-         $this->B->B( 'get_options' );
-
-         return TRUE;     
-    } 
+         $directory->close();    
+    }
 }
 
 ?>

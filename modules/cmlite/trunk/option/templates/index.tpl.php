@@ -30,7 +30,7 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-    <form action="index.php?m=OPTION" method="post" name="url" id="url">
+    <form action="index.php?admin=1&m=option" method="post" name="url" id="url">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">URL of the public page </span></td>
@@ -44,7 +44,7 @@
           </tr>
         </table> 
     </form>
-    <form action="index.php?m=OPTION" method="post" name="email" id="email">
+    <form action="index.php?admin=1&m=option" method="post" name="email" id="email">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
@@ -58,7 +58,7 @@
           </tr>
         </table>   
     </form> 
-    <form action="index.php?m=OPTION" method="post" name="title" id="title">    
+    <form action="index.php?admin=1&m=option" method="post" name="title" id="title">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
@@ -73,7 +73,7 @@
           </tr>
         </table> 
     </form>  
-    <form action="index.php?m=OPTION" method="post" name="charset" id="charset">              
+    <form action="index.php?admin=1&m=option" method="post" name="charset" id="charset">              
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Charset</span></td>
@@ -103,14 +103,14 @@
           </tr>
         </table> 
     </form>  
-    <form action="index.php?m=OPTION" method="post" name="tpl" id="tpl">      
+    <form action="index.php?admin=1&m=option" method="post" name="_tpl" id="_tpl">      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web pages template groups</span></td>
           </tr>
           <tr>
             <td width="13%" align="left" valign="top">
-               <select name="tpl">
+               <select name="tplgroup">
                   <?php foreach($B->templ as $_tpl):  ?>
                      <option value="<?php echo $_tpl; ?>" <?php if($_tpl==$B->sys['option']['tpl']) echo 'selected="selected"' ?>><?php echo $_tpl; ?></option>
                     <?php endforeach;  ?>
@@ -121,7 +121,7 @@
           </tr>
       </table> 
       </form>
-      <form action="index.php?m=OPTION" method="post" name="badword" id="badword"> 
+      <form action="index.php?admin=1&m=option" method="post" name="badword" id="badword"> 
       <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
               <td colspan="2" align="left" valign="top"><span class="optiontitle">Bad words language lists</span></td>

@@ -43,27 +43,32 @@ function subok(s){
               <td align="left" valign="top" class="style6">ADMIN </td>
             </tr>
           </table></td>
-          <td width="15%" align="right" valign="top" class="font10"><a href="../index.php">The public page</a></td>
+          <td width="15%" align="right" valign="top" class="font10"><a href="index.php">The public page</a></td>
           <td width="39%" align="right" valign="middle">
+		  <?php if($B->tpl_isLogged != FALSE): ?>
             <form action="index.php" method="post">
-                <select name="m" onChange="go('index.php?m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
+                <select name="m" onChange="go('index.php?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
                  <option value="">The Modules</option>
                  <?php foreach($B->tpl_mod_list as $h): ?>
                     <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
                  <?php endforeach; ?>
                 </select>
           </form>
+		  <?php endif; ?>&nbsp;
           </td>
           <td width="7%" align="right" valign="top">
-          <?php if($B->login != FALSE): ?>
-            <a href="index.php?logout=1" class="font14">Logout</a>
-          <?php endif; ?>
+          <?php if($B->tpl_isLogged != FALSE): ?>
+            <a href="index.php?logout=1&admin=1" class="font14">Logout</a>
+          <?php endif; ?>&nbsp;
           </td>
         </tr>
           </table></td>
   </tr>
   <tr>
-    <td width="20%" align="left" valign="top"><?php include( $B->module ); ?></td>
+    <td width="20%" align="left" valign="top">
+        <?php /* ### include the module view (template) ### */ ?>
+        <?php include( $B->M( MOD_COMMON, 'get_module_view' ) ); ?>    
+    </td>
   </tr>
   <tr>
       <td align="left" valign="top" bgcolor="#3399CC"><table width="100%"  border="0" cellspacing="2" cellpadding="2">

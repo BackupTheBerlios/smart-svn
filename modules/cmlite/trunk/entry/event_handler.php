@@ -24,12 +24,13 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_ENTRY' , 'ENTRY');
+define ( 'MOD_ENTRY' , 'entry');
 
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_ENTRY,
-                                   array ( 'module'        => MOD_ENTRY,
-                                           'event_handler' => 'entry_event_handler') ))
+                                   array ( 'module'          => MOD_ENTRY,
+                                           'event_handler'   => 'entry_event_handler',
+                                           'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_ENTRY.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
@@ -40,13 +41,13 @@ function entry_event_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'ENTRY_'.$evt['code'];
+    $class_name = 'entry_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/entry/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . 'modules/entry/actions/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
@@ -55,20 +56,13 @@ function entry_event_handler( $evt )
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
         }
-        else
-        {
-            if( SF_DEBUG == TRUE )
-            {
-                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
-            }        
-            return FALSE;
-        } 
     }
     else
     {
         // perform the request if the requested object exists
         return $B->$class_name->perform( $evt['data'] );
     }
+    return TRUE;
 }
 
 ?>

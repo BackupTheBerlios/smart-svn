@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * ENTRY_SYS_LOAD_MODULE class 
+ * earchive_sys_init class 
  *
  */
  
-class ENTRY_SYS_LOAD_MODULE
+class earchive_sys_init
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class ENTRY_SYS_LOAD_MODULE
      * constructor
      *
      */
-    function ENTRY_SYS_LOAD_MODULE()
+    function earchive_sys_init()
     {
         $this->__construct();
     }
@@ -41,15 +41,22 @@ class ENTRY_SYS_LOAD_MODULE
     }
     
     /**
-     * Perform on admin requests for this module
+     * Check if version number has changed and perfom additional upgarde code
+     * Furthermore assign array with module menu names for the top right
+     * module html seletor
      *
      * @param array $data
      */
     function perform( $data )
     {    
-        // set the base template for this module   
-        $this->B->module = SF_BASE_DIR . '/admin/modules/entry/templates/index.tpl.php';       
-    } 
+        // check for install or upgrade
+        if (MOD_EARCHIVE_VERSION != (string)$this->B->sys['module']['earchive']['version'])
+        {
+            // set the new version num of this module
+            $this->B->sys['module']['earchive']['version']  = MOD_EARCHIVE_VERSION;
+            $this->B->system_update_flag = TRUE;
+        }
+    }    
 }
 
 ?>

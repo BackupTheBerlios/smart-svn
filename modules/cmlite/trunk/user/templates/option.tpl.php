@@ -4,7 +4,7 @@
   </tr>
   <tr>
     <td>
-  <form action="index.php?m=OPTION" method="post" name="allowreg" id="allowreg">
+  <form action="index.php?admin=1&m=option" method="post" name="allowreg" id="allowreg">
   <table width="100%"  border="0" cellspacing="2" cellpadding="2">
       <tr>
         <td colspan="2" align="left" valign="middle" class="optiontitle">Allow register </td>
@@ -24,7 +24,7 @@
           auto          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <input name="userregistertype" type="radio" value="manual" <?php if($B->sys['option']['user']['register_type']=='manual') echo 'checked="checked"'; ?>/> 
           manual     
-</td>
+        </td>
         <td width="77%" align="left" valign="top"  class="optiondesc"><input type="submit" name="update_user_options_allowreg" value="update" onclick="subok(this.form.update_user_options_allowreg);"></td>
       </tr>     
     </table>

@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_get_options class 
+ * navigation_sys_init class 
  *
  */
  
-class user_get_options
+class navigation_sys_init
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class user_get_options
      * constructor
      *
      */
-    function user_get_options()
+    function navigation_sys_init()
     {
         $this->__construct();
     }
@@ -41,15 +41,20 @@ class user_get_options
     }
     
     /**
-     * Assign an array with the whole user options template path string
-     * This is a subtemplate of the options module main template
+     * Check if version number has changed and perfom additional upgarde code
      *
      * @param array $data
      */
     function perform( $data )
-    {      
-        $this->B->mod_option[] = $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'user', 'tpl' => 'option') );
-    } 
+    {
+        // Check for upgrade  
+        if(MOD_NAVIGATION_VERSION != (string)$this->B->sys['module']['navigation']['version'])
+        {        
+            // set the new version num of this module
+            $this->B->sys['module']['navigation']['version']  = MOD_NAVIGATION_VERSION;
+            $this->B->system_update_flag = TRUE;                    
+        }
+    }    
 }
 
 ?>

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Admin navigation module event handler
+ * navigation module event handler
  *
  */
 
@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_NAVIGATION' , 'NAVIGATION');
+define ( 'MOD_NAVIGATION' , 'navigation');
 
 // Version of this modul
 define ( 'MOD_NAVIGATION_VERSION' , '0.1');
@@ -48,7 +48,7 @@ function navigation_event_handler( $evt )
     if(!is_object($B->$class_name))
     {
         // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/navigation/class.'.$class_name.'.php';
+        $class_file = SF_BASE_DIR . 'modules/navigation/actions/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
@@ -57,20 +57,13 @@ function navigation_event_handler( $evt )
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
         }
-        else
-        {
-            if( SF_DEBUG == TRUE )
-            {
-                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
-            }        
-            return FALSE;
-        } 
     }
     else
     {
         // perform the request if the requested object exists
         return $B->$class_name->perform( $evt['data'] );
     }
+    return TRUE;
 }
 
 ?>
