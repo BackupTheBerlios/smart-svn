@@ -67,7 +67,7 @@ class action_navigation_get_node extends action
                 $this->B->wiki->setParseConf('Url', 'schemes', $options);                
                 
                 $this->B->wiki->setRenderConf('Xhtml', 'url', 'target', '_self');
-                $this->B->wiki->setRenderConf('Xhtml', 'image', 'base', 'data/media/');
+                $this->B->wiki->setRenderConf('Xhtml', 'image', 'base', '');
             }
             $_result['body'] = $this->B->wiki->transform($_result['body'], 'Xhtml');    
         }

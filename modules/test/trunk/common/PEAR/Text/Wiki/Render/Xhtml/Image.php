@@ -2,7 +2,7 @@
 class Text_Wiki_Render_Xhtml_Image extends Text_Wiki_Render {
 
     var $conf = array(
-        'base' => '',
+        'base' => '/',
         'css'  => null,
         'css_link' => null
     );
@@ -89,7 +89,7 @@ class Text_Wiki_Render_Xhtml_Image extends Text_Wiki_Render {
                 $imageFile = $src;
             } else {
                 // is a local file
-                $imageFile = $_SERVER['DOCUMENT_ROOT'] . $src;
+                $imageFile = $_SERVER['DOCUMENT_ROOT'] .'/'. $src;
             }
             
             // attempt to get the image size
