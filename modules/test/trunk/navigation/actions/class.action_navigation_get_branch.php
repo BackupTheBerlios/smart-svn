@@ -47,12 +47,22 @@ class action_navigation_get_branch extends action
             $this->B->node = & $node;     
         }        
 
-        // get child nodes of a given node id
-        $this->getBranch( $data['node'] ); 
+        // if node is not defined get top level nodes
+        if($data['node'] == 0)
+        {
+            $this->B->$data['node_title'] = FALSE;            
+        }
+        else
+        {
+            $this->B->$data['node_title'] = $this->B->node[$data['node']]['title'];
+            
+            // get child nodes of a given node id
+            $this->getBranch( $data['node'] ); 
         
-        $_result = $this->branch;
-        $this->branch = array();
-        $this->_x = 0;
+            $_result = $this->branch;
+            $this->branch = array();
+            $this->_x = 0;            
+        }
            
         return TRUE;
     }
@@ -73,7 +83,7 @@ class action_navigation_get_branch extends action
         }     
         
         // check if node exists
-        if(!file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
+        if(($data['node'] != 0 ) && !file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
         {
             $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
             return FALSE;            

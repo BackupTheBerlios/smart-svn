@@ -40,11 +40,12 @@ class view_navigation_default extends view
         {
             M( MOD_NAVIGATION, 
                'sort_node', 
-               array('node' => $_GET['dir_node'],
-                     'dir'  => $_GET['dir']));        
+               array('node'  => $_GET['dir_node'],
+                     'dir'   => $_GET['dir'],
+                     'error' => 'tpl_sort_error'));        
         }
         
-        if(!isset($_GET['node']))
+        if( !isset($_GET['node']) )
         {
             $node = 0;
         }
@@ -57,14 +58,16 @@ class view_navigation_default extends view
         M( MOD_NAVIGATION, 
            'get_childs', 
            array('result' => 'tpl_nodes',
-                 'node'   => $node));
+                 'node'   => $node,
+                 'error'  => 'tpl_childs_error'));
                  
         // assign the template array $B->tpl_nodes with navigation nodes
         M( MOD_NAVIGATION, 
            'get_branch', 
            array('result'     => 'tpl_branch',
                  'node_title' => 'tpl_node_title',
-                 'node'       => $node));                 
+                 'node'       => $node,
+                 'error'      => 'tpl_branch_error'));                 
            
         return TRUE;
     }   
