@@ -110,8 +110,8 @@ class option_view_index
         } 
         elseif (isset($_POST['update_main_options_title']))
         {
-            $this->B->sys['option']['site_title'] = htmlspecialchars($_POST['site_title'], ENT_QUOTES);
-            $this->B->sys['option']['site_desc']  = htmlspecialchars($_POST['site_desc'], ENT_QUOTES);
+            $this->B->sys['option']['site_title'] = htmlspecialchars(commonUtil::stripSlashes($_POST['site_title']), ENT_QUOTES);
+            $this->B->sys['option']['site_desc']  = htmlspecialchars(commonUtil::stripSlashes($_POST['site_desc']), ENT_QUOTES);
             $this->B->_modified = TRUE;
         } 
         elseif (isset($_POST['update_main_options_charset']))
