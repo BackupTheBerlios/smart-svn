@@ -14,16 +14,13 @@
  *
  */
 
-// tree class
-include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
-
 class action_navigation_get_childs extends action
 {
     /**
      * Fill up an array with navigation elements
      *
      * Structure of the $data array:
-     * $data['nav'] - name of the navigation array
+     * $data['result'] - name of the navigation array result
      * $data['status'] - status of the nodes to get
      *
      * @param array $data
@@ -42,16 +39,16 @@ class action_navigation_get_childs extends action
         }
 
         // check if a tree object exists
-        if(!is_object($this->B->tree))
+        if(!is_array($this->B->node))
         {
-            // load navigation nodes
-            $file = SF_BASE_DIR . 'data/navigation/nodes.php';     
-            
-            $this->B->tree = & new Tree($file);
-        }        
+            // load navigation nodes  
+            $node = array();
+            include ( SF_BASE_DIR . 'data/navigation/nodes.php' ); 
+            $this->B->node = & $node;     
+        }         
 
         // get child nodes of a given node id
-        $_result = $this->B->tree->getChildren( $data ); 
+        $_result = $this->getChildren( $data ); 
         
         return TRUE;
     }
@@ -72,7 +69,48 @@ class action_navigation_get_childs extends action
         }     
         
         return TRUE;
-    }       
+    } 
+    
+    /**
+     * get child nodes sorted by order
+     *
+     * @param array $data
+     */     
+    function & getChildren( & $data )
+    {
+        $tmp = array();
+        foreach ($this->B->node as $key => $val)
+        {
+            if( $val['parent_id'] == $data['node'] )
+            {
+                if( isset($data['status']) )
+                {
+                    if( $val['status'] == $data['status'] )
+                    {
+                        $tmp[$val['order']] = $key;
+                    }
+                    continue;
+                }
+                $tmp[$val['order']] = $key;
+            }
+        }
+        // ordered
+        ksort($tmp);
+        
+        $result = array();
+        
+        foreach ($tmp as $val)
+        {
+            $result[$val]['title']     = $this->B->node[$val]['title'];
+            $result[$val]['status']    = $this->B->node[$val]['status'];
+            $result[$val]['order']     = $this->B->node[$val]['order'];
+            $result[$val]['parent_id'] = $this->B->node[$val]['parent_id'];
+        }  
+        
+        unset($tmp);
+
+        return $result;
+    }        
 }
 
 ?>

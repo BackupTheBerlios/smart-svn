@@ -55,7 +55,7 @@ class action_navigation_get_branch extends action
         }
         else
         {
-            $this->B->$data['node_title'] = $this->B->tree->node[$data['node']]['title'];
+            $this->B->$data['node_title'] = $this->B->node[$data['node']]['title'];
         }
 
         // get child nodes of a given node id
