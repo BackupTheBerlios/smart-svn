@@ -225,7 +225,7 @@ function user_event_handler( $evt )
                     $_succ = TRUE;   
                 }
             }
-            break;          
+            break;  
     }
 }
 
