@@ -30,7 +30,7 @@ class action_navigation_update_node extends action
         
         // Update navigation node body
         $node  = SF_BASE_DIR . 'data/navigation/'.$data['node']; 
-        if (!is_int($this->fp->write  ( $node, $data['body'], FILE_MODE_WRITE, FILE_LOCK_EXCLUSIVE )))
+        if (!is_int($this->fp->write  ( $node, commonUtil::stripSlashes($data['body']), FILE_MODE_WRITE, FILE_LOCK_EXCLUSIVE )))
         {
             $this->B->$data['error'] = 'Could not write to file: '.$node;
             return FALSE;
@@ -43,14 +43,14 @@ class action_navigation_update_node extends action
         
         // init loop var
         $x = 0;
-        
+         //str_replace ( "'", "&#039;",commonUtil::stripSlashes($data['title']))
         // Look at the node id and assign the new title
         foreach($nav as $node)
         {
             list($id, $val) = each($node);
             if($data['node'] == $id)
             {
-                $nav[$x][$id]= array('title'  => str_replace ( "'", "&#039;",commonUtil::stripSlashes($data['title'])),
+                $nav[$x][$id]= array('title'  => str_replace ( "'", "&#039;",commonUtil::stripSlashes_special($data['title'])),
                                      'status' => $data['status']);
                 break;
             }
