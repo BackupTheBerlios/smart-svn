@@ -62,29 +62,15 @@ class system_get_public_view
         {
             $view = $_REQUEST['view'];
         }
-    
+
         // If no template request is done load the default template
         if (!isset($view))
         {
             $view = 'index';
-            // build the whole requested template file path
-            $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $view . '.tpl.php';           
         }
-        // error if the template name has a wrong format
-        elseif(preg_match("/[^a-z_]{1,30}/", $view))
-        {
-            $this->B->view_error = 'The requested template name "' . $view . '" has a wrong name format! Only chars a-z and underscores _ are accepted.';
-            
-            $view = 'error';  
-            
-            // build the whole requested template file path
-            $template_file = SF_BASE_DIR . 'error.tpl.php';
-        } 
-        else
-        {
-            // build the whole requested template file path
-            $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $view . '.tpl.php';
-        }
+
+        // init
+        $template_file = '';
 
         // build the whole file path to the view class file
         $view_class_file = SF_BASE_DIR . 'view/class.view_' . $view . '.php';
@@ -96,14 +82,38 @@ class system_get_public_view
             
             $view_class = 'view_'.$view;
             
-            $view = & new $view_class();
-            if( FALSE == $view->perform() )
+            $_view = & new $view_class();
+            if( FALSE === ($view_class_result = $_view->perform()) )
             {
                 // on error set the error template as default
                 $template_file = SF_BASE_DIR . 'error.tpl.php';
             }
+            elseif( TRUE !== $view_class_result )
+            {
+                // get new view from the view class
+                $view = & $view_class_result;
+            }
         }
-            
+    
+        // check if no error template file requested
+        if( empty($template_file) )
+        {
+            if(preg_match("/[^a-z_]{1,30}/", $view))
+            {
+                $this->B->view_error = 'The requested template name "' . $view . '" has a wrong name format! Only chars a-z and underscores _ are accepted.';
+                
+                $view = 'error';  
+                
+                // build the whole requested template file path
+                $template_file = SF_BASE_DIR . 'error.tpl.php';
+            } 
+            else
+            {
+                // build the whole requested template file path
+                $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $view . '.tpl.php';
+            }
+        }
+         
         // check if the requested template exist
         if (!@file_exists( $template_file ))
         {
