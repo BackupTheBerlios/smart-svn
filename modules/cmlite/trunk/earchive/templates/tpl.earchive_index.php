@@ -19,7 +19,13 @@
   <tr>
     <td width="86%" align="left" valign="top">
         <?php /* ### include the module view (template) ### */ ?>
-        <?php include( $B->M( MOD_COMMON, 'get_module_view', array('m' => 'earchive', 'view' => $_REQUEST['sec']) ) ); ?>            
+        <?php 
+            if(empty($_REQUEST['sec']))
+            {
+                $_REQUEST['sec'] = 'default';  
+            }
+            M( MOD_SYSTEM, 'get_view', array('m' => 'earchive', 'view' => $_REQUEST['sec']) ); 
+        ?>            
     </td>
   </tr>
 </table>
