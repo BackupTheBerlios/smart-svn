@@ -130,6 +130,10 @@ if( SF_DEBUG == TRUE )
 // set templates root dir
 $base->tpl->setRoot( SF_BASE_DIR  );
 
+// set cache directory
+$base->tpl->useTemplateCache( 'File', array('cacheFolder' => SF_BASE_DIR . '/admin/tmp/cache_' . SF_SECTION,
+                                            'lifetime'    => 'auto' ));
+
 // Event class instance
 $base->event = & new sfEvent;
 if( SF_DEBUG == TRUE )
