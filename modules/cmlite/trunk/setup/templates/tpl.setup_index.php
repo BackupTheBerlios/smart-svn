@@ -95,7 +95,7 @@ function subok(s){
     <?php if(!isset($_REQUEST['dbtype']) || ($_REQUEST['dbtype'] == 'mysql')): ?>    
     <table width="90%"  border="0" cellspacing="4" cellpadding="2">
       <tr bgcolor="#CCCCCC">
-        <td colspan="2" align="left" valign="top"><p><span class="subtitle">&nbsp;Database conect data</span></p>
+        <td colspan="2" align="left" valign="top"><p><span class="subtitle">&nbsp;Database connect data</span></p>
         </td>
       </tr>
       <tr>
