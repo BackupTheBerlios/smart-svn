@@ -63,7 +63,11 @@ function user_event_handler( $evt )
         case EVT_INIT:
             // Check for upgrade  
             if(MOD_USER_VERSION != (string)$B->sys['module']['user']['version'])
-                include(SF_BASE_DIR.'/admin/modules/user/upgrade.php');
+            {
+                // set the new version num of this module
+                $B->sys['module']['user']['version']  = MOD_USER_VERSION;
+                $B->system_update_flag = TRUE;            
+            }
             break;               
         case EVT_LOGOUT:  
             $B->session->destroy();

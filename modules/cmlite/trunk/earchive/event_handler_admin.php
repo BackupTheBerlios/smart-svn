@@ -62,13 +62,9 @@ function earchive_event_handler( $evt )
             // check for install or upgrade
             if (MOD_EARCHIVE_VERSION != (string)$B->sys['module']['earchive']['version'])
             {
-                $B->setup_error = array();
-                $B->conf_val = &$B->sys;
-                include(SF_BASE_DIR . '/admin/modules/earchive/_setup.php'); 
-                $B->conf->setConfigValues( $B->conf_val );
-                $B->conf->writeConfigFile( "config_system.xml.php", array('filetype' => 'xml', 'mode' => 'pretty') );               
-                if( count($B->setup_error) > 0 )
-                    trigger_error( "Setup/upgrade error: ".var_export($B->setup_error, TRUE)."\n".__FILE__."\n".__LINE__, E_USER_ERROR  );
+                // set the new version num of this module
+                $B->sys['module']['earchive']['version']  = MOD_EARCHIVE_VERSION;
+                $B->system_update_flag = TRUE;
             }       
             break; 
         case EVT_LOGOUT:  
