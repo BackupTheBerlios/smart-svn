@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_TEST' , 'TEST');
 
-// Version of this modul
+// Version of this module
 define ( 'MOD_TEST_VERSION' , '0.3');
 
 // register this handler                       
@@ -41,9 +41,22 @@ function test_event_handler( $evt )
 {
     global $B;
     
-    // build the whole class name
-    $class_name = 'TEST_'.$evt['code'];
-    
+    // accept only a string which contains the chars A-Z and _
+    if(preg_match("/[A-Z_]+/",$evt['code']))
+    {
+        // build the whole class name
+        $class_name = 'TEST_'.$evt['code'];
+    }
+    elseif( SF_DEBUG == TRUE )
+    {
+        trigger_error('This action '.$evt['code'].' isnt allowed. Only A-Z_ chars are accepted.: '.$class_file, E_USER_ERROR);
+        return FALSE;
+    } 
+    else
+    {
+        return FALSE;
+    }
+                
     // check if this object was previously declared
     if(!is_object($B->$class_name))
     {
@@ -59,8 +72,12 @@ function test_event_handler( $evt )
         }
         else
         {
+            if( SF_DEBUG == TRUE )
+            {
+                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
+            }        
             return FALSE;
-        } 
+        }  
     }
     else
     {

@@ -43,8 +43,21 @@ function common_event_handler( $evt )
 {
     global $B;
 
-    // build the whole class name
-    $class_name = 'COMMON_'.$evt['code'];
+    // accept only a string which contains the chars A-Z and _
+    if(preg_match("/[A-Z_]+/",$evt['code']))
+    {
+        // build the whole class name
+        $class_name = 'COMMON_'.$evt['code'];
+    }
+    elseif( SF_DEBUG == TRUE )
+    {
+        trigger_error('This action '.$evt['code'].' isnt allowed. Only A-Z_ chars are accepted.: '.$class_file, E_USER_ERROR);
+        return FALSE;
+    } 
+    else
+    {
+        return FALSE;
+    }
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
@@ -61,6 +74,10 @@ function common_event_handler( $evt )
         }
         else
         {
+            if( SF_DEBUG == TRUE )
+            {
+                trigger_error('This class file dosent exists: '.$class_file, E_USER_ERROR);
+            }        
             return FALSE;
         } 
     }
@@ -78,7 +95,7 @@ This means that you must define at least these variables:
 - SF_OPTION_MODULE
 - SF_DEFAULT_MODULE
 - SF_TEMPLATE_MAIN
-For detailed info of this vars see below.
+For detailed info of this vars see bellow.
 
 Furthermore if you modules require a database connection or some class instances
 or packages like PEAR, ADODB, ... you have to include those here.
