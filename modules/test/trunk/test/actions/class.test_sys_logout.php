@@ -50,9 +50,6 @@ class test_sys_logout
         // include here additional clean up code. 
         // destroying sessions,....
             
-        // exit to the main public page
-        @header('Location: '.SF_BASE_LOCATION.'/index.php');
-        exit;
     }    
 }
 

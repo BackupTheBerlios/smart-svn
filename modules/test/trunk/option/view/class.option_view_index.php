@@ -96,10 +96,6 @@ class option_view_index
           
             unset($c);
             unset($root);
-    
-            // reload the option menu
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=option&tpl=index');
-            exit;
         }      
     
         // Load the available public templates groups from the main folder 

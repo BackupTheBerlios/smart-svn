@@ -21,7 +21,7 @@
             <tr>
               <td align="left" valign="top"><p>Welcome to the SMART Framework
                   administration area. This area shouldnt be accessible by the
-                  grand public. You can switch to the public page <a href="index.php">here</a>.</p>
+                  grand public. You can switch to the public page <a href="<?php echo SF_CONTROLLER; ?>">here</a>.</p>
                 <p>This is the entry page of the admin module set, which run
                   under the SMART framework. In the top right corner you can
                   select

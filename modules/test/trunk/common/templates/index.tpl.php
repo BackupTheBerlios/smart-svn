@@ -43,7 +43,7 @@ function subok(s){
               <td align="left" valign="top" class="style6">Admin</td>
             </tr>
           </table></td>
-          <td width="15%" align="right" valign="top" class="font10"><a href="index.php">The public page</a></td>
+          <td width="15%" align="right" valign="top" class="font10"><a href="<?php echo SF_CONTROLLER; ?>">The public page</a></td>
           <td width="39%" align="right" valign="middle">
             <form action="index.php" method="post">
                 <select name="m" onChange="go('<?php echo SF_CONTROLLER; ?>?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value+'&tpl=index')">
