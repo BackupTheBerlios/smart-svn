@@ -111,7 +111,8 @@ body {
             to
             start
             with this
-            template 'default_index.tpl.php'.</font></p>
+            template 'default_index.tpl.php'. You will find the public templates
+            at the root folder of this SMART installation.</font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This page is produced by
               the index template (default_index.tpl.php). </font></p>
         <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">If no
