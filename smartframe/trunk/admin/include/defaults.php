@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 
 
 /**
- * error log types ('LOG|SHOW|DIE|MAIL')
+ * error log types ('LOG|SHOW')
  */
 define('SF_ERROR_HANDLE',               'SHOW|LOG');
 

@@ -129,7 +129,7 @@ class word_indexer
      * @param bool   $rebuild If TRUE it delete the whole index
      * @return bool  TRUE on success else FALSE
      */
-    function indexing_words( & $content, $db_table, $row_name, $row_value, $rebuild = FALSE )
+    function indexing_words( & $content, $db_table, $row, $rebuild = FALSE )
     {
         // Check if content string is empty
         if(empty($content))
@@ -146,16 +146,9 @@ class word_indexer
         }
 
         // Check if table row name is defined
-        if(empty($row_name))
+        if(!is_array($row) || (count($row) == 0))
         {
             trigger_error("Indexing row name not defined!!\nFILE:".__FILE__."/nLINE:".__LINE__,E_USER_WARNING); 
-            return FALSE;
-        }
-
-        // Check if table row value isset
-        if( $row_value < 1 )
-        {
-            trigger_error("Indexing invalide row value!!\nFILE:".__FILE__."/nLINE:".__LINE__,E_USER_WARNING); 
             return FALSE;
         }
 
@@ -179,10 +172,18 @@ class word_indexer
         $_insert_string = '';
         $_comma = '';
     
+        $_ins = '';
+        $row_name = '';
+        foreach($row as $key => $val)
+        {
+            $_ins .= ','.$val;
+            $row_name .= ','.$key;
+        }
+    
         // Build the INSERT string
         foreach( $_content as $value )
         {
-            $_insert_string .= $_comma.'('.crc32(htmlentities($value)).','.$row_value.') ';
+            $_insert_string .= $_comma.'('.crc32(htmlentities($value)).$_ins.') ';
             $_comma = ',';
         }
         
@@ -192,15 +193,16 @@ class word_indexer
         {
             if($rebuild == FALSE)
             {
+                list($row_n, $row_v) = each($row);
                 // Delete old content
-                $this->delete_words( $db_table, $row_name, $row_value );
+                $this->delete_words( $db_table, $row_n, $row_v );
             }
             
             // Insert new content
             $sql = "
                 INSERT INTO 
                     {$GLOBALS['B']->sys['db']['table_prefix']}{$db_table} 
-                    (word, {$row_name})
+                    (word {$row_name})
                 VALUES 
                     {$_insert_string}";
                 
