@@ -499,7 +499,9 @@ class earchive
     /**
      * get message attachments
      *
-     * @param array $data Col names of the attach db table and instructions
+     * @param int $mid Message ID
+     * @param array $fields Fields to fetch
+     * @return array
      */     
     function get_message_attach( $mid, $fields )
     {
@@ -543,6 +545,52 @@ class earchive
             }
         }
         return $_result;
+    }
+
+    /**
+     * get attachment
+     *
+     * @param int $aid Attach ID
+     * @param array $fields Fields to fetch
+     * @return array
+     */     
+    function get_attach( $aid, $fields )
+    {
+        $comma   = '';
+        $_fields = '';
+        foreach ($fields as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
+        }
+        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach 
+            WHERE 
+                aid={$aid}";
+        
+        $result = $GLOBALS['B']->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        } 
+        
+        $tmp = array();
+        
+        if(is_object($result))
+        {
+            $row = $result->FetchRow( DB_FETCHMODE_ASSOC );
+            
+            foreach($fields as $f)
+            {
+                $tmp[$f] = stripslashes($row[$f]);
+            }
+        }
+        return $tmp;
     }
     
     /**

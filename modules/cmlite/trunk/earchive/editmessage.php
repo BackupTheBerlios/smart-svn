@@ -64,7 +64,7 @@ if(isset($_POST['editmessage']))
             // get attachment files and delete them
             foreach($_POST['aid'] as $aid)
             {
-                $file = $B->earchive->get_message_attach( $aid, $fields );
+                $file = $B->earchive->get_attach( $aid, $fields );
                 @unlink($path.'/'.$file['file']);           
             }
         }
