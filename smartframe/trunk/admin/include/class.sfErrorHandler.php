@@ -58,9 +58,12 @@ class sfErrorHandler
                E_COMPILE_WARNING => "E_COMPILE_WARNING",
                E_USER_ERROR      => "E_USER_ERROR",
                E_USER_WARNING    => "E_USER_WARNING",
-               E_USER_NOTICE     => "E_USER_NOTICE",
-               E_STRICT          => "E_STRICT"
+               E_USER_NOTICE     => "E_USER_NOTICE"
                );
+        
+        if(version_compare ( phpversion(), '5.0', '>=') == 1)
+            $errortype[E_STRICT] = "E_STRICT";
+               
         // set of errors for which a var trace will be saved
         //$user_errors = array(E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE);
   
