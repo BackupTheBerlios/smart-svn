@@ -104,7 +104,9 @@ class view
     }  
 
     /**
-     * return errors as string
+     * render the template
+     * it build the wole path to the template and include it.
+     * and store on demande the template output in a container variable
      *
      */
     function renderTemplate()
