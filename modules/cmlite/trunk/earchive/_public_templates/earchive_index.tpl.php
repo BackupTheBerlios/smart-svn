@@ -99,8 +99,9 @@
                  </td>
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
-                        <td align="left" valign="top"><p class="pager">E-archive ist ein Verwaltungssystem mit dem man den Inhalt von Email Konten archivieren kann, inklusiv Attachments. Die Basis die das Ganze tr&auml;gt besteht aus einem Framework (<a href="http://smart.open-publisher.net">SMART</a>). E-archive ist nichts weiter als ein Modul dieses Frameworks. </p>
-                            <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios </a> </p>
+                        <td align="left" valign="top"><p class="pager">E-archive ist ein Verwaltungssystem mit dem man den Inhalt von Email Konten archivieren kann, inklusiv Attachments. Die Basis die das Ganze tr&auml;gt besteht aus einem Framework (<a href="http://smart.open-publisher.net">SMART</a>). E-archive ist nichts weiter als ein Modul dieses Frameworks. Zur Zeit befindet sich das Framework wie auch das E-archive Modul noch in einer Testphase die nicht abgeschlossen ist. Bis zur ersten stabilen Version werden u.a. im Optionsmenu einige Um&auml;nderungen durchgef&uuml;hrt sowie Caching-Features eingebaut. </p>
+                            <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850" target="_blank">Download E-archive from the project page at Berlios </a></p>
+                            <p class="pager"><a href="earchive-0.1a.zip">Or download from this server </a> </p>
                             <h4 class="pager">Installation:</h4>
                             <p class="pager">Nachdem das komprimierte Archiv ausgepackt wurde, muss der Inhalt des Hauptordners per ftp auf den Server hochgeladen werden. Dabei kann man E-archiv auch in ein Unterordner kopieren. Danach im Webbrowser den Ordner aufrufen wo sich das Ganze befindet. Es sollte nun ein Installationsmenu erscheinen.</p>
                             <h4 class="pager">Administration</h4>
@@ -137,7 +138,7 @@ NNTP: nntp://user:pass@mail.example.com:119/comp.test </li>
                                 <li class="pager"><strong>Email to fetch - </strong>Die Email die die Daten sammelt</li>
                                 <li class="pager"><strong>Description - </strong>Ausf&uuml;hrliche Beschreibung des Kontos </li>
                                 </ul>
-                            <p class="pager">Um jetzt das Konto automatisch abzufragen sollte &uuml;ber ein Cronjob die Datei <strong>/admin/modules/earchive/fetch_emails/fetch_emails.php </strong>aufgerufen werden. Man kann eigentlich soviele Konten einrichten wie man m&ouml;chte. Allerdings sollte die maximale Ausf&uuml;hrungszeit von php Skripte beachtet werden und gegebenfalls heraufsetzen. Alternativ dazu kann man diese Datei auch manuel im Optionsmenu aktivieren. Siehe &quot;OPTION&gt;fetch&nbsp;emails&quot;. </p>
+                            <p class="pager">Um jetzt das Konto automatisch abzufragen sollte &uuml;ber ein Cronjob die Datei <strong>/admin/modules/earchive/fetch_emails/fetch_emails.php </strong>aufgerufen werden. Man kann eigentlich soviele Konten einrichten wie man m&ouml;chte. Allerdings sollte die maximale Ausf&uuml;hrungszeit von php Skripte beachtet werden und gegebenfalls heraufsetzen. Alternativ dazu kann man das Abrufen der Emails auch manuell im Optionsmenu aktivieren. Siehe &quot;OPTION&gt;fetch&nbsp;emails&quot;. </p>
                             <h4 class="pager">Die Templates </h4>
                             <p class="pager">In den Templates wird das Layout f&uuml;r die &ouml;ffentlichen Webseiten festgelegt. Die Templates befinden sich im Hauptverzeichniss. F&uuml;r den Templatedateinamen muss folgendes Format eingehalten werden:<br />
                                 <strong>xxx_yyy.tpl.php <br />
@@ -151,17 +152,24 @@ NNTP: nntp://user:pass@mail.example.com:119/comp.test </li>
                                 <li class="pager"><strong>earchive_login.tpl.php - </strong>Diese Template wird automatisch aufgerufen wenn ein Besuchr versucht eine Liste aufzurufen die nur f&uuml;r registrierte Benutzer zug&auml;nglich ist. Der Templatename muss immer <strong>login</strong> sein.</li>
                                 <li class="pager"><strong>earchive_register.tpl.php - </strong>Falls ein Besucher nicht registriert ist kann er das hier tun falls im Optionsmenu es erlaubt wurde. </li>
                                 </ul>                            
-                            <p class="pager"><strong>earchive </strong>ist die Gruppe unter der die Templates zusammengefasst werden. Um eine neue Gruppe zu erstellen k&ouml;nnen die gleichen Templatenamen genommen werden aber mit einem anderen Gruppennamen. Das Optionsmenu erkennt wenn eine weitere Gruppe existiert und stellt sie zur Auswahl. </p>                            
-                            <p class="pager pager">In den Templates werden Funktionen benutzt um vom Earchivemodul die gew&uuml;nschten Daten zu erhalten. Bis auf weiteres siehe dazu die Templates. Eine genauere Beschreibung davon wird folgen. </p>
+                            <p class="pager"><strong>earchive </strong>ist die Gruppe unter der die Templates zusammengefasst werden. Um eine neue Gruppe zu erstellen, k&ouml;nnen die gleichen Templatenamen genommen werden aber mit einem anderen Gruppennamen. Das Optionsmenu erkennt wenn eine weitere Gruppe existiert und stellt sie zur Auswahl. </p>                            
+                            <p class="pager pager">In den Templates werden Funktionen benutzt um vom Earchivemodul die gew&uuml;nschten Daten zu erhalten. Bis auf weiteres siehe dazu den Aufbau der Templates. Eine genauere Beschreibung davon wird folgen. </p>
                             <p class="pager pager">Beim Erstellen der Templates sollte das Debugging eingeschaltet werden. Editiere dazu die Datei /admin/include/defaults.php Darin muss folgende Zeile so aussehen: <br />
                                 <strong>define('SF_ERROR_HANDLE',               'SHOW|LOG');</strong> was bedeutet, dass Fehler angezeigt werden. Desweiteren werden diese auch in eine Logdatei geschrieben die sich im /admin/logs befindet. In einer sp&auml;teren Version wird das Debugging im Optionsmenu verwaltet. </p>
                             <h4 class="pager pager pager">ToDO                            </h4>
                             <p class="pager">Was unbedingt in Ordnung gebracht werden muss:</p>
                             <ul>
                                 <li class="pager">L&ouml;schen bzw um&auml;ndern von Beitr&auml;gen und Attachments </li>
-                                <li class="pager">Bei mehreren und intensiv benutzten Listen muss die Preformance stimmen.  In E-archive wird auf PEAR DB gesetzt um soweit wie m&ouml;glich kompatibel zu mehreren Datenbankensystemen zu sein. Das schl&auml;gt sich nat&uuml;rlich negativ auf die Performance aus und das ganz heftig bei INSERT Operationen. Die &Uuml;berlegungen gehen dahin eine eigene Abstraktionsschnittstelle zu schreiben die nur f&uuml;r einige Systeme ausgelegt ist. Oder abwarten wie die Entwicklung mit PEAR MDB2 weitergeht. </li>
+                                <li class="pager">Bei mehreren und intensiv benutzten Listen muss die Preformance stimmen.  In E-archive wird auf PEAR DB gesetzt um soweit wie m&ouml;glich kompatibel zu mehreren Datenbankensystemen zu sein. Das schl&auml;gt sich nat&uuml;rlich negativ auf die Performance aus und das ganz heftig bei INSERT Operationen. Die &Uuml;berlegungen gehen dahin eine eigene Abstraktionsschnittstelle zu schreiben die nur f&uuml;r einige Systeme ausgelegt ist. Oder abwarten wie die Entwicklung mit PEAR MDB2 im Hinblick auf php5 weitergeht. </li>
                                 </ul>
-                            <h4 class="pager">Contact</h4>
+                            <h4 class="pager">Mitarbeiter gesucht</h4>
+                            <p class="pager">Wer Interesse hat an der Entwicklung bzw der Dokumentation des Projektes teilzunehmen kann sich bei mir melden. Die Vorraussetzungen sind:</p>
+                            <ul>
+                                <li class="pager">Gute php Kentnisse (vorzugsweise bessere als meine Eigenen) </li>
+                                <li class="pager">Wenn m&ouml;glich, Erfahrungen im Umgang mit verschiedenen Datenbank-Typen </li>
+                                <li class="pager">Einige Erfahrung mit dem Versionssystem Subversion </li>
+                                <li class="pager">Teamarbeit </li>
+                            </ul>                            <h4 class="pager">Contact</h4>
                             <p class="pager">Armand Turpel &lt;<a href="mailto:smart%20AT%20open-publisher.net">smart AT open-publisher.net</a>&gt; </p>
                             <h4 class="pager">Lizenz</h4>
                             <p class="pager">GPL</p>
