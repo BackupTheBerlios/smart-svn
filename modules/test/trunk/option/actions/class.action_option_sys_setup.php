@@ -27,8 +27,8 @@ class action_option_sys_setup extends action
         // The module name and version
         $this->B->conf_val['module']['option']['name']     = 'option';
         $this->B->conf_val['module']['option']['version']  = MOD_OPTION_VERSION;
-        $this->B->conf_val['module']['option']['mod_type'] = 'lite';
-        $this->B->conf_val['module']['option']['info']     = '';
+        $this->B->conf_val['module']['option']['mod_type'] = 'littlejo';
+
         // Set some options
         $this->B->conf_val['option']['tpl']  = SF_DEFAULT_TEMPLATE_FOLDER;
         $this->B->conf_val['option']['view'] = SF_DEFAULT_VIEW_FOLDER;     

@@ -27,8 +27,7 @@ class action_default_sys_setup extends action
         // The module name and version
         $this->B->conf_val['module']['default']['name']     = 'default';
         $this->B->conf_val['module']['default']['version']  = MOD_DEFAULT_VERSION;
-        $this->B->conf_val['module']['default']['mod_type'] = 'test';
-        $this->B->conf_val['module']['default']['info']     = 'This is the default module';
+        $this->B->conf_val['module']['default']['mod_type'] = 'littlejo';
         
         return $success;
     }    

@@ -35,8 +35,7 @@ class action_navigation_sys_setup extends action
         //
         $this->B->conf_val['module']['navigation']['name']     = 'navigation';
         $this->B->conf_val['module']['navigation']['version']  = MOD_NAVIGATION_VERSION;
-        $this->B->conf_val['module']['navigation']['mod_type'] = 'test';
-        $this->B->conf_val['module']['navigation']['info']     = 'This is the navigation modul';
+        $this->B->conf_val['module']['navigation']['mod_type'] = 'littlejo';
 
         // this directory must be writeable
         if(!is_writeable( SF_BASE_DIR . 'data/navigation' ))
