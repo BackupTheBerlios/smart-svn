@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the filter module
-define( 'NAVIGATION_FILTER' , 'NAVIGATION' );
+define( 'NAVIGATION_FILTER' , 'navigation' );
 
 // register this filter                      
 if (FALSE == $B->register_filter( NAVIGATION_FILTER,
@@ -39,7 +39,7 @@ function navigation_filter_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'NAVIGATION_FILTER_'.$evt['code'];
+    $class_name = 'navigation_filter_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))

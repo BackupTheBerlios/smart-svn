@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_NAVIGATION' , 'NAVIGATION');
+define ( 'MOD_NAVIGATION' , 'navigation');
 
 // Version of this module
 define ( 'MOD_NAVIGATION_VERSION' , '0.2');
@@ -42,7 +42,7 @@ function navigation_event_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'NAVIGATION_'.$evt['code'];
+    $class_name = 'navigation_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
