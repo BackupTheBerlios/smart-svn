@@ -46,7 +46,7 @@ function subok(s){
           <td width="15%" align="right" valign="top" class="font10"><a href="../index.php">The public page</a></td>
           <td width="39%" align="right" valign="middle">
             <form action="index.php" method="post">
-                <select name="m" onChange="go('index.php?m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
+                <select name="m" onChange="go('index.php?m='+this.form.m.options[this.form.m.options.selectedIndex].value+'&tpl=index')">
                  <option value="">The Modules</option>
                  <?php foreach($B->tpl_mod_list as $h): ?>
                     <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
@@ -63,7 +63,7 @@ function subok(s){
   <tr>
     <td width="20%" align="left" valign="top">
         <?php /* ### include the navigation menu view (template) ### */ ?>
-        <?php include( $B->M( MOD_COMMON, 'GET_MODULE_VIEW' ) ); ?>
+        <?php include( $B->M( MOD_COMMON, 'get_module_view' ) ); ?>
     </td>
   </tr>
   <tr>
