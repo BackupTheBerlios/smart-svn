@@ -4,6 +4,12 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?> 
 
 <?php 
+
+// stop output buffering
+// we dont need those headers which has been allready sended
+//
+while ( @ob_end_clean() );
+
 // send header and content
 $error = HTTP_Download::staticSend($B->attach_params, false);
 
