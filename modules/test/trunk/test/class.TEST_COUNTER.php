@@ -17,6 +17,14 @@
 class TEST_COUNTER
 {
     /**
+     * constructor
+     *
+     */
+    function TEST_COUNTER()
+    {
+    }
+    
+    /**
      * Fill up an array with (counter) numbers
      *
      * Structure of the $data array:

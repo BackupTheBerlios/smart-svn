@@ -23,7 +23,8 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_TEST' , 'TEST');
 
-// define a class functions which can be used from within a template
+// define classes which reacts on event calls from within a template through
+// the event handler class.
 define ( 'EVT_TEST_COUNTER' ,      'TEST_COUNTER');
 define ( 'EVT_TEST_CONTACT' ,      'TEST_CONTACT');
 
@@ -40,10 +41,6 @@ if (FALSE == $B->register_handler(MOD_TEST,
   * The handler function
   *
   * @param $evt array
-  *
-  * Structur of the $evt array:
-  *
-  *
   */
 function test_event_handler( $evt )
 {
@@ -58,7 +55,7 @@ function test_event_handler( $evt )
         {
             include_once($class_file);
             // make instance
-            $B->$evt['code'] = & new $evt['code'];
+            $B->$evt['code'] = & new $evt['code']();
             // perform the request
             $B->$evt['code']->perform( $evt['data'] );
             return TRUE;  

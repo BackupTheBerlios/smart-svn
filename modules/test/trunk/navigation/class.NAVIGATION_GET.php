@@ -10,37 +10,38 @@
 // ----------------------------------------------------------------------
 
 /**
- * TEST_CONTACT class 
+ * NAVIGATION_GET class 
  *
  */
  
-class TEST_CONTACT
+class NAVIGATION_GET
 {
     /**
      * constructor
      *
      */
-    function TEST_CONTACT()
+    function NAVIGATION_GET()
     {
     }
     
     /**
-     * Test contact 
-     * Fill up a string with contact data
+     * Fill up an array with navigation elements
      *
      * Structure of the $data array:
-     * $data['var']           - array name where to store contact data
+     * $data['var']           - array name where to store navigation array
      *
      * @param array $data
-     */  
+     */
     function perform( $data )
     {
             // get var name defined in the public template to store the result
             $_result = & $GLOBALS['B']->$data['var']; 
             
-            $_result  = "\nBuster Keaton\n41, Rue Tivoli,\nParis, France\n\n";
-            $_result .= "Email: {$GLOBALS['B']->sys['option']['email']}";     
-    }
+            // The navigation array
+            $_result = array( 'Counter'  => 'counter',
+                              'Contact'  => 'contact',
+                              'Site Map' => 'sitemap'); 
+    }    
 }
 
 ?>

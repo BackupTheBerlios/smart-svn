@@ -23,7 +23,8 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_NAVIGATION' , 'NAVIGATION');
 
-// define a handler function which can be used from within a template
+// define classes which reacts on event calls from within a template through
+// the event handler class.
 define ( 'EVT_NAVIGATION_GET' ,      'NAVIGATION_GET');
 
 
@@ -39,20 +40,31 @@ if (FALSE == $B->register_handler( MOD_NAVIGATION,
 function navigation_event_handler( $evt )
 {
     global $B;
-
-    switch( $evt['code'] )
+    
+    // check if this object was previously declared
+    if(!is_object($B->$evt['code']))
     {
-        case EVT_NAVIGATION_GET:
-        
-            // get var name defined in the public template to store the result
-            $_result = & $GLOBALS['B']->$evt['data']['var']; 
-            
-            // The navigation array
-            $_result = array( 'Counter'  => 'counter',
-                              'Contact'  => 'contact',
-                              'Site Map' => 'sitemap');
-            
-            break;              
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/navigation/class.'.$evt['code'].'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$evt['code'] = & new $evt['code']();
+            // perform the request
+            $B->$evt['code']->perform( $evt['data'] );
+            return TRUE;  
+        }
+        else
+        {
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if object exists
+        $B->$evt['code']->perform( $evt['data'] );
+        return TRUE; 
     }
 }
 
