@@ -11,8 +11,7 @@ function deletelist(f, mes)
         }
 }
 </script>
-<form name="deluser" method="post" action="index.php?admin=1&m=earchive&sec=editlist">
-<input name="lid" type="hidden" value="<?php echo $B->tpl_data['lid']; ?>">
+<form name="deluser" method="post" action="index.php?admin=1&m=earchive&sec=editlist&lid=<?php echo (int)$_REQUEST['lid']; ?>">
 <input name="dellist" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>

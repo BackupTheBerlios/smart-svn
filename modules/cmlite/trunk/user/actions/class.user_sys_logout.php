@@ -47,10 +47,7 @@ class user_sys_logout
      */
     function perform( $data )
     {            
-        // include here additional clean up code. 
-        // destroying sessions,....
-        $this->B->session->destroy();
-        
+        // include here additional clean up code.         
     }    
 }
 
