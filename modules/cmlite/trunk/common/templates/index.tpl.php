@@ -3,7 +3,7 @@
 <head>
 <meta name="robots" content="noindex,nofollow" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
-<link href="<?php if(defined('SF_MEDIA_FOLDER')) echo SF_MEDIA_FOLDER."/main.css"; else echo SF_DEFAULT_MEDIA_folder."/main.css"; ?>" rel="stylesheet" type="text/css" />
+<link href="modules/common/media/main.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {
