@@ -28,24 +28,36 @@ $this->B->conf_val['db']['passwd']       = $_POST['dbpasswd'];
 $this->B->conf_val['db']['name']         = $_POST['dbname'];
 $this->B->conf_val['db']['table_prefix'] = $_POST['dbtablesprefix'];
 
-// create db on demande
-if(isset($_POST['create_db']))
+// create db
+function db_create( & $B )
 {
-    if(FALSE === ($_conn = @mysql_connect($this->B->conf_val['db']['host'], $this->B->conf_val['db']['user'], $this->B->conf_val['db']['passwd'])))
+    if(FALSE == ($_conn = @mysql_connect($B->conf_val['db']['host'], $B->conf_val['db']['user'], $B->conf_val['db']['passwd'])))
     {
         trigger_error('Cannot connect to the database host: '.__FILE__.' '.__LINE__, E_USER_ERROR);
-        $this->B->setup_error[] = 'Cannot connect to the database host: '.__FILE__.' '.__LINE__;             
+        $B->setup_error[] = 'Cannot connect to the database host: '.__FILE__.' '.__LINE__;             
         return FALSE;
     }
-        
+    
     $sql = 'CREATE DATABASE IF NOT EXISTS ' . $_POST['dbname'];
-    if(FALSE === @mysql_query($sql, $_conn))
+    if(FALSE == @mysql_query($sql, $_conn))
     {
         trigger_error('Cannot create database: '.__FILE__.' '.__LINE__, E_USER_ERROR);
-        $this->B->setup_error[] = 'Cannot create database: '.__FILE__.' '.__LINE__;                     
+        $B->setup_error[] = 'Cannot create database: '.__FILE__.' '.__LINE__;                     
         return FALSE;
     }
     @mysql_close( $_conn );
+    return TRUE;
+}
+
+
+
+// create db on demande
+if(isset($_POST['create_db']))
+{
+    if(FALSE == ($success = db_create( $this->B )))
+    {
+        return FALSE;
+    }
 }
 
 $this->B->dsn = array('phptype'  => 'mysql',
@@ -65,6 +77,7 @@ if (DB::isError($this->B->db))
 {
     trigger_error($this->B->db->getMessage()."\n".$this->B->db->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
     $this->B->setup_error[] = 'Cannot connect to the database: '.__FILE__.' '.__LINE__ ; 
+    $success = FALSE;
     return FALSE;
 }
     
@@ -89,6 +102,7 @@ if (DB::isError($result))
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
     $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
+    return FALSE;
 }
 
 $result = $this->B->db->createSequence($this->B->conf_val['db']['table_prefix'].'user_seq_add_user');
@@ -98,6 +112,7 @@ if (DB::isError($result))
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
     $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
+    return FALSE;
 }
 
 // create table if it dosent exist
@@ -113,6 +128,7 @@ if (DB::isError($result))
     trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
     $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
+    return FALSE;
 }
 
 if($success != FALSE)
@@ -128,7 +144,8 @@ if($success != FALSE)
     if (DB::isError($uid)) 
     {
         trigger_error($uid->getMessage()."\n".$uid->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-        trigger_error($uid->getMessage(), E_USER_ERROR);
+        $success = FALSE;
+        return FALSE;
     }
     
     $sql = 'INSERT INTO '.$this->B->conf_val['db']['table_prefix'].'user_users 
@@ -142,6 +159,8 @@ if($success != FALSE)
     {
         trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        $success = FALSE;
+        return FALSE;
     } 
     unset($sql);
 }

@@ -11,7 +11,7 @@
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr bgcolor="#666699">
     <td align="left" valign="middle"><span class="style1">&nbsp;&nbsp;&nbsp;User Management</span></td>
-    <td align="right" valign="middle"><span class="style1"><a href="modules/user/docs/index.htm" target="_blank">help</a>&nbsp;</span></td>
+    <td align="right" valign="middle">&nbsp;</td>
   </tr>
   <tr>
     <td width="86%" colspan="2" align="left" valign="top">

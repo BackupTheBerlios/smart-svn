@@ -96,12 +96,7 @@ define('SF_DEFAULT_MODULE',              'entry');
  */
 define('SF_MEDIA_FOLDER',                'modules/common/media');
 
-/**
- * The main admin template. All subtemplates from other modules are included here
- */
-//define('SF_TEMPLATE_MAIN',               SF_BASE_DIR . 'modules/common/templates/index.tpl.php');
-
-
-// common util class to all modules
+// common util class for all modules
 include_once SF_BASE_DIR . 'modules/common/includes/class.commonUtil.php';
+
 ?>

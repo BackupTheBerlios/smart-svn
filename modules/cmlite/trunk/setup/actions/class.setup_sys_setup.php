@@ -63,10 +63,7 @@ class setup_sys_setup
         
         if($success == TRUE)
             $success = $this->B->M( MOD_EARCHIVE,     'sys_setup' );
-        /*
-        if($success == TRUE)
-            $success = $this->B->M( MOD_NAVIGATION,   'sys_setup' );
-        */
+
         if($success == TRUE)
             $success = $this->B->M( MOD_OPTION,       'sys_setup' );
     
