@@ -39,7 +39,7 @@ if(!is_object($B->cache))
                                       'cache_table' => $B->sys['db']['table_prefix'].'cache'));
 }
 // Delete all cache data
-$B->cache->flush('');
+$B->cache->flush('earchive');
 
 // fetch emails
 $B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );

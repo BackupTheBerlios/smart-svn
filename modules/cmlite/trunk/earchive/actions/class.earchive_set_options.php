@@ -63,7 +63,7 @@ class earchive_set_options
                                                         'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
             }
             // Delete all cache data
-            $this->B->cache->flush();
+            $this->B->cache->flush('earchive');
             
             $this->B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
         }          

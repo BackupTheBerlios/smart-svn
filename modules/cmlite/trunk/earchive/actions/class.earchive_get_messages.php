@@ -76,6 +76,7 @@ class earchive_get_messages
             $data['pager']['limit'] = 15;
         }        
 
+        // build pager links
         $this->_pager( $data['lid'], $data['pager'] );
         
         $sql = "
@@ -99,7 +100,7 @@ class earchive_get_messages
         if ($this->B->M( MOD_COMMON, 'cache_get',
                          array('result'     => $data['var'],
                                'cacheID'    => $sql.(string)$page,
-                               'cacheGroup' => 'earchive_get_messages'))) 
+                               'cacheGroup' => 'earchive'))) 
         {
             return TRUE;
         }
@@ -150,7 +151,7 @@ class earchive_get_messages
         if ($this->B->M( MOD_COMMON, 'cache_get',
                          array('result'     => $data['var'],
                                'cacheID'    => $lid.$_GET['pageID'],
-                               'cacheGroup' => 'earchive_get_messages'))) 
+                               'cacheGroup' => 'earchive'))) 
         {
             return TRUE;
         }
@@ -167,8 +168,7 @@ class earchive_get_messages
         
         // PEAR Pager class
         include_once(SF_BASE_DIR.'modules/common/PEAR/Pager/Sliding.php');
-   
-    
+       
         $params['totalItems'] = $result['num_rows'];
         
         if( empty($data['delta']) )

@@ -114,6 +114,7 @@ class common_sys_init
             $this->B->system_update_flag = TRUE;  
                 
             // include here additional upgrade code
+            $this->B->M( MOD_COMMON, 'upgrade' );
         }
      
         if( SF_SECTION == 'admin')

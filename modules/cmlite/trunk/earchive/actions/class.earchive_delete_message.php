@@ -110,7 +110,7 @@ class earchive_delete_message
                                                     'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
         }
         // Delete all cache data
-        $this->B->cache->flush();
+        $this->B->cache->flush('earchive');
         
         return TRUE;
     }    
