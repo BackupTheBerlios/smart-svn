@@ -1,4 +1,4 @@
-The test application little Jo, which you can download [./index.php?view=node&node=1147680337 here], comes with a few simple modules. It's a good starting point to learn how the system (SMART) works and it's an easy to use tool to manage a small site project and last but not least, a testing tool for SMART's active developers.
+The test application little Jo, which you can download [?view=node&node=1147680337 here], comes with a few simple modules. It's a good starting point to learn how the system (SMART) works and it's an easy to use tool to manage a small site project and last but not least, a testing tool for SMART's active developers.
 
 +++ default module
 This module provide no action classes, which you can use to build a web project. It does nothing else than printing the welcome page of the admin interface.

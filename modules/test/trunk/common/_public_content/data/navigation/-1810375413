@@ -1,0 +1,4 @@
+++++ Smart 0.8a / Little Jo 0.5
+- (Smart) fixed parse error in index_inc_view.php (P. Gapinski)
+- (Little Jo) fixed relative paths in public templates
+- modified smart public templates and set it to default

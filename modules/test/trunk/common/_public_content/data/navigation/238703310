@@ -1,7 +1,7 @@
 The controller takes care for that every thing in SMART is going on the right way. The controller entry script is **index.php**. This script takes the control over the system. 
 
 ++++ The live cycle of a request:
-A request is always related to how data should be represented (the view). Some data can be represented as a simple text page, html page, pdf, download or what ever. One  variable that the controller handles is the "view" variable. This variable define, which view class  the controller has to select.
+A request is always related to how data should be represented (the view). Some data can be represented as a simple text page, html page, pdf, download or what ever. One  global super variable that the controller handles is the "view" variable. This variable define, which view class the controller has to select.
 
 Let's look at Smart's processing of requests in more detail:
 
@@ -14,10 +14,8 @@ Let's look at Smart's processing of requests in more detail:
 * Execute the append methode of this view class. Here you can include filters which performs on the rendered template.
 * Output the result
 
-An other variable,which the contropller can handle is the **admin** variable. If this variable is defined, the controller knows that it has to load the views of the administration interface from a defined module.
+An other gobal super variable,which the controller can handle is the **admin** variable. If this variable is defined, the controller knows that it has to load the views of the administration interface from a defined module.
 **index.php?admin=1&m=test**
-Here the controller loads the view from the module "test".
-
-The controller load first the **index** view of the "common" module. This module is required. The index view render the index template of the "common" module. Every view of the other modules are included from the common module view. For indeep docs of the modules go [./index.php?view=node&node=671673398 here].
+Here the controller loads the view from the module "test". The controller load first the **index** view of the "common" module. This module is required. The index view render the index template of the "common" module. Every view of the other modules are included from the common module view. For indeep docs of the modules go [?view=node&node=671673398 here].
 
 Of course you have all the liberty over the design of the admin interface.   

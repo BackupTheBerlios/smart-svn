@@ -12,14 +12,14 @@ A module provide a couple of action classes and optionaly view classes and templ
 The file init.php serves to register a module.
 
 +++ SMART's init process
-You can find in the index.php controller file an "init" event, which launch the global initialisation process. Some point of this process are important to understand for those devs who intend to build there own modules.
+You can find in the index.php controller file an "init" broadcast event, which launch the global initialisation process. Some point of this process are important to understand for those devs who intend to build there own modules.
 
 The init.php file of each module is loaded during the SMART init process. See: /smart/includes/core.inc.php. A working module require such an init file. Without, the systeme knows nothing about this module.
 
 There is one module which is always required under a specific name:
 The **common** module.
 
-During the systeme init process, SMART launch an init broadcast event to all modules. Each module must provide an init action class **class.action_xxx_sys_init.php**, which is responsible for the own module initialisation. The **common** module is allways the first one in such a broadcast chain. The goal is, that in this module, you have to make all base initialisations, which are necessairy to get work your modules set. Example: Making database connection, Creating sessions ......
+During the systeme init process, SMART launch an init broadcast event to all modules. Each module can provide an init action class **class.action_xxx_sys_init.php**, which is responsible for the own module initialisation. The **common** module is allways the first one in such a broadcast chain. The goal is, that in this module, you have to make all base initialisations, which are necessairy to get work your modules set. Example: Making database connection, Creating sessions ......
 Furthermore, you have to check if the systeme setup was successfull done. If no, the common module have to launch a setup event. 
 See: /modules/common/actions/class.action_common_sys_init.php
 

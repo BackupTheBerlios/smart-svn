@@ -1,4 +1,4 @@
-In templates you have to output the content of the variables assigned by the perform() methode of the view class. You will find all templates in the **/templates_default** folder.  You are free to design your templates. The format of a template file name is:
+In templates you have to output the content of the variables assigned by the perform() methode of the related view class. You will find all templates in the **/templates_default** folder.  You are free to design your templates. The format of a template file name is:
 **tpl.xxx.php**
 Where xxx stands for the template name defined in the related view class variable $template.
 

@@ -1,0 +1,1 @@
+Currently the Pear package text_wiki cant handle utf_8 encoded chars. I hope it will be fixed in a next release. This affects only "Little Jo's" navigation module. 
