@@ -201,16 +201,18 @@ class view_option_index extends view
     {
          // Load the available public templates sets from the main folder 
          $this->B->templ = array();
+         
+         $this->B->templ[] = "/";
+         
          $directory =& dir(SF_BASE_DIR);
 
          while (false != ($itemname = $directory->read()))
          {
-             if (FALSE == is_dir(SF_BASE_DIR . '/' . $itemname))
+             if (TRUE == is_dir(SF_BASE_DIR . '/' . $itemname))
              {
-                if(preg_match("/(^[^_]+).*\.tpl\.php$/", $itemname, $tmp))
+                if(preg_match("/^templates_/", $itemname))
                 {
-                    if(($tmp[1] != 'error') && !in_array($tmp[1], $this->B->templ))
-                        $this->B->templ[] = $tmp[1];
+                    $this->B->templ[] = "/".$itemname;
                 }
              }
          }
