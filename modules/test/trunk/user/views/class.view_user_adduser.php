@@ -59,9 +59,9 @@ class view_user_adduser extends view
                                                  'passwd'   => commonUtil::stripSlashes($_POST['passwd']) ));
             
             // add new user data
-            if(FALSE !== M( MOD_USER,
-                             'add',
-                             $_data ))
+            if(SF_IS_VALID_ACTION == M( MOD_USER,
+                                        'add',
+                                        $_data ))
             {
                 // reload the user module on success
                 @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');

@@ -34,10 +34,10 @@
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="89%" align="left" valign="top">
-  <div class="tree"><?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation">Top</a>'; ?> /
+  <div class="tree"><?php echo '<a href="'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation">Top</a>'; ?> /
   <?php if(isset($B->tpl_branch) && is_array($B->tpl_branch)): ?>
   <?php  foreach($B->tpl_branch as $bnode): ?>
-      <?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&node='.$bnode['node'].'">'.$bnode['title'].'</a>'; ?> /
+      <?php echo '<a href="'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&node='.$bnode['node'].'">'.$bnode['title'].'</a>'; ?> /
   <?php endforeach; ?>
   <?php endif; ?>
     <?php if($B->tpl_node_title != FALSE): ?>
@@ -52,7 +52,7 @@
           <td width="1%" align="left" valign="top" class="itemnormal"><font size="1">
     <?php echo '<a href="'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&dir=down&dir_node='.$node_id.'&node='.$_GET['node'].'">down</a>'; ?>
     </font></td>
-          <td width="1%" align="left" valign="top" class="itemnormal"><font size="1"><?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&sec=editnode&edit_node='.$node_id.'&node='.$_GET['node'].'"'; ?>>edit</a></font></td>
+          <td width="1%" align="left" valign="top" class="itemnormal"><font size="1"><?php echo '<a href="'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&sec=editnode&edit_node='.$node_id.'&node='.$_GET['node'].'"'; ?>>edit</a></font></td>
           <td width="97%" align="left" valign="top" class="itemnormal">
               <?php echo '<a href="'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&node='.$node_id.'">'.$node['title'].'</a>'; ?></td>
       </tr>
