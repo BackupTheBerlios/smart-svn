@@ -83,7 +83,7 @@
                         </td>
                     </tr>
                     <tr>
-                      <td align="left" valign="top" class="leftnavlinks"><a href="admin/index.php">Admin</a></td>
+                      <td align="left" valign="top" class="leftnavlinks"><a href="index.php?admin=1">Admin</a></td>
                     </tr>                   
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks">&nbsp;</td>

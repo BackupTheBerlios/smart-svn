@@ -1,24 +1,24 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
-<?php //get all available email lists and store the result in the array $B->tpl_list ?>
+<?php /* get all available email lists and store the result in the array $B->tpl_list */ ?>
 <?php $B->M( MOD_EARCHIVE, 
-             'LISTS', 
-             array('var'    => 'tpl_list', 
-                   'fields' => array('lid','name','email','description','status'))); ?> 
-<?php //get the requested message and store the result in the array $B->tpl_msg ?>
+             'get_lists', 
+             array( 'var'    => 'tpl_list', 
+                    'fields' => array('lid','name','email','description','status'))); ?> 
+<?php /* get the requested message and store the result in the array $B->tpl_msg 
+         assign template vars with message data */ ?>
 <?php $B->M( MOD_EARCHIVE, 
-             'MESSAGE', 
-             array('var'    => 'tpl_msg', 
-                   'mid'    => (int)$_GET['mid'], 
-                   'lid'    => (int)$_GET['lid'], 
-                   'fields' => array('subject','sender','mdate','body','folder'))); ?>                       
-<?php //get the message attachments and store the result in the array $B->tpl_attach ?>
+             'get_message', 
+             array( 'mid'    => (int)$_GET['mid'], 
+                    'var'    => 'tpl_msg',
+                    'fields' => array('subject','sender','mdate','body','folder'))); ?>
+<?php /* get the message attachments and store the result in the array $B->tpl_attach */?>
 <?php $B->M( MOD_EARCHIVE, 
-             'MESSAGE_ATTACH', 
-             array('var'    => 'tpl_attach', 
-                   'mid'    => (int)$_GET['mid'], 
-                   'lid'    => (int)$_GET['lid'], 
-                   'fields' => array('aid','mid','lid','file','size','type'))); ?>
-<?php //Email obfuscation plugin  ?>
+             'get_attachments', 
+             array( 'var'    => 'tpl_attach', 
+                    'mid'    => (int)$_GET['mid'],  
+                    'fields' => array('aid', 'mid', 'lid', 'file', 'size', 'type'))); ?>
+                    
+<?php /* Email obfuscation plugin  */?>
 <?php include_once('plugins/function.mailto.php');  ?>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -88,7 +88,7 @@
                         </td>
                     </tr>
                     <tr>
-                      <td align="left" valign="top" class="leftnavlinks"><a href="admin/index.php">Admin</a></td>
+                      <td align="left" valign="top" class="leftnavlinks"><a href="index.php?admin=1">Admin</a></td>
                     </tr>                    
                     <tr>
                         <td align="left" valign="top" class="leftnavlinks">&nbsp;</td>
