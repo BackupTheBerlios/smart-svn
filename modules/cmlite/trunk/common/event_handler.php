@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_COMMON' , 'common');
 
 // Version of this module
-define ( 'MOD_COMMON_VERSION' , '0.5');
+define ( 'MOD_COMMON_VERSION' , '0.5.1');
 
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_COMMON,
