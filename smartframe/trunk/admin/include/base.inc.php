@@ -130,10 +130,7 @@ if ( $B->sys['info']['status'] !== TRUE )
     // the setup part
     if(FALSE === $B->M( MOD_SETUP, EVT_SETUP ))
     {
-        die("<b>It seems that there are no modules available.<br />
-             Min. required modules:<br />
-             - admin/modules/setup<br />
-             - admin/modules/user</b>");
+        die("<b>It seems that there is no setup module available. You have to install the setup module.</b>");
     }
 }
 

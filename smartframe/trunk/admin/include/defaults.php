@@ -35,7 +35,7 @@ define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
 /**
  * Allowed output buffering.
  */
-define('SF_OB',                          FALSE);
+define('SF_OB',                          TRUE);
 
 /**
  * Allowed output compression if available.
@@ -51,12 +51,7 @@ define('SF_FILE_MODE',                   0775);
 /**
  * Default template
  */
-define('SF_DEFAULT_TEMPLATE_GROUP',      'test');
-
-/**
- * Default template
- */
-define('SF_DEFAULT_MEDIA_folder',        'media');
+define('SF_DEFAULT_TEMPLATE_GROUP',      'default');
 
 /**
  * Event types.
