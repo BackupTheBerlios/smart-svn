@@ -325,7 +325,7 @@ class earchive
     function _pager( &$data )
     {
         // PEAR Pager class
-        include_once(SF_BASE_DIR.'/admin/modules/user/PEAR/Pager/Sliding.php');
+        include_once(SF_BASE_DIR.'/admin/modules/common/PEAR/Pager/Sliding.php');
         
         $sql = "
             SELECT

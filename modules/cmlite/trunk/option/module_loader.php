@@ -112,7 +112,7 @@ if(isset($_POST['update_main_options_badwordadd']) && !empty($_POST['bad_word_li
 // delete selected bad word languages
 elseif(isset($_POST['update_main_options_badworddel']) && isset($_POST['selected_lang']) && (count($_POST['selected_lang']) > 0))
 {
-     include_once(SF_BASE_DIR.'/admin/modules/earchive/class.sfWordIndexer.php');
+     include_once(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php');
      foreach($_POST['selected_lang'] as $lang)
          word_indexer::delete_bad_words_lang( $lang );              
 }           
@@ -135,7 +135,7 @@ while (false != ($dirname = $directory->read()))
 
 $directory->close();
 
-include_once(SF_BASE_DIR.'/admin/modules/earchive/class.sfWordIndexer.php');
+include_once(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php');
     
 // get actif bad words languages
 $B->tpl_selected_lang = word_indexer::get_bad_words_lang();
