@@ -124,7 +124,7 @@ function subok(s){
       <tr>
         <td align="left" valign="top"><span class="normal">Tables Prefix :</span></td>
         <td align="left" valign="top">
-          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($this->B->form_tableprefix)) echo 'smart_';else echo $B->form_tableprefix; ?>"/>
+          <input name="dbtablesprefix" type="text" size="50" maxlength="255" value="<?php if(empty($this->B->form_tableprefix)) echo 'smart_';else echo $this->B->form_tableprefix; ?>"/>
         </td>
       </tr>
     </table>
@@ -136,29 +136,29 @@ function subok(s){
       <tr>
         <td width="19%" align="left" valign="top"><span class="normal">Name:</span></td>
         <td width="81%" align="left" valign="top">
-          <input name="sysname" type="text" size="50" maxlength="255" value="<?php echo $this->B->form_sysname ?>"/>
+          <input name="username" type="text" size="50" maxlength="255" value="<?php echo $this->B->form_sysname ?>"/>
         </td>
       </tr>
       <tr>
         <td align="left" valign="top"><span class="normal">Lastname:</span></td>
         <td align="left" valign="top">
-          <input name="syslastname" type="text" size="50" maxlength="255" value="<?php echo $this->B->form_syslastname ?>"/>
+          <input name="userlastname" type="text" size="50" maxlength="255" value="<?php echo $this->B->form_syslastname ?>"/>
         </td>
       </tr>
       <tr>
         <td align="left" valign="top" class="normal">Login:</td>
-        <td align="left" valign="top"><input name="syslogin" type="text" id="login" size="50" maxlength="255" value="<?php echo $this->B->form_syslogin ?>"/></td>
+        <td align="left" valign="top"><input name="userlogin" type="text" id="userlogin" size="50" maxlength="255" value="<?php echo $this->B->form_syslogin ?>"/></td>
       </tr>
       <tr>
         <td align="left" valign="top"><span class="normal">Password:</span></td>
         <td align="left" valign="top">
-          <input name="syspassword1" type="password" size="50" maxlength="255" />
+          <input name="userpasswd1" type="password" size="50" maxlength="255" />
         </td>
       </tr>
       <tr>
         <td align="left" valign="top"><span class="normal">Retype password: </span></td>
         <td align="left" valign="top">
-          <input name="syspassword2" type="password" size="50" maxlength="255" />
+          <input name="userpasswd2" type="password" size="50" maxlength="255" />
         </td>
       </tr>
     </table></td>

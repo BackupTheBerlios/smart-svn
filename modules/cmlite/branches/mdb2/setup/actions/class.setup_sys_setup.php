@@ -49,27 +49,63 @@ class setup_sys_setup
     {    
         // Init error array
         $this->B->setup_error = array();
-
+        
         $success = TRUE;
-     
+                
         if($success == TRUE)
             $success = $this->B->M( MOD_SYSTEM,       'sys_setup' );
 
         if($success == TRUE)    
-            $success = $this->B->M( MOD_COMMON,       'sys_setup' );
+            $success = $this->B->M( MOD_COMMON,       
+                                    'sys_setup_validate', 
+                                    array( 'dbcreate' => $data['dbcreate'],
+                                    'dbtype'   => $data['dbtype'],
+                                    'dbuser'   => $data['dbuser'],
+                                    'dbpasswd' => $data['dbpasswd'],
+                                    'dbname'   => $data['dbname'],
+                                    'dbhost'   => $data['dbhost'],
+                                    'dbtablesprefix' => $data['dbtablesprefix']) );
+
+        if($success == TRUE)    
+            $success = $this->B->M( MOD_USER,         
+                                    'sys_setup_validate', 
+                                    array( 'username'     => $data['username'],
+                                           'userlastname' => $data['userlastname'],
+                                           'userlogin'    => $data['userlogin'],
+                                           'userpasswd1'  => $data['userpasswd1'],
+                                           'userpasswd2'  => $data['userpasswd2']) );
+
+
+        if($success == TRUE)    
+            $success = $this->B->M( MOD_COMMON,       
+                                    'sys_setup', 
+                                    array( 'dbcreate' => $data['dbcreate'],
+                                           'dbtype'   => $data['dbtype'],
+                                           'dbuser'   => $data['dbuser'],
+                                           'dbpasswd' => $data['dbpasswd'],
+                                           'dbname'   => $data['dbname'],
+                                           'dbhost'   => $data['dbhost'],
+                                           'dbtablesprefix' => $data['dbtablesprefix']) );
     
         if($success == TRUE)    
-            $success = $this->B->M( MOD_USER,         'sys_setup' );
-        
+            $success = $this->B->M( MOD_USER,         
+                                    'sys_setup', 
+                                    array( 'username'     => $data['username'],
+                                           'userlastname' => $data['userlastname'],
+                                           'userlogin'    => $data['userlogin'],
+                                           'userpasswd1'  => $data['userpasswd1'],
+                                           'userpasswd2'  => $data['userpasswd2']) );
+
+/*        
         if($success == TRUE)
             $success = $this->B->M( MOD_EARCHIVE,     'sys_setup' );
-
+*/
         if($success == TRUE)
             $success = $this->B->M( MOD_OPTION,       'sys_setup' );
     
         // close db connection if present
-        if(is_object($this->B->db))
-            $this->B->db->disconnect();
+        //if(is_object($this->B->db))
+            //$this->B->db->disconnect();
         
         // check on errors before proceed
         if( $success == TRUE )
@@ -85,6 +121,8 @@ class setup_sys_setup
         }  
         return $success;
     } 
+    
+
 }
 
 ?>

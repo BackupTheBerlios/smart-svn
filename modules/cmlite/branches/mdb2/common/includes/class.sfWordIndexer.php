@@ -157,34 +157,22 @@ class word_indexer
         // Split content text string in words
         $_content = $this->_split_words( $content );
         
-        $_insert_string = array();
-        $_comma = '';
-    
-        $_ins = '';
-        $row_name = array();
-        $row_name[] = 'word';
-        foreach($row as $key => $val)
-        {
-            $_ins .= ','.$val;
-            $row_name[] = $key;
-        }
+        $alldata = array();
+        $_insert_string = FALSE;
     
         // Build the INSERT string
         foreach( $_content as $value )
-        {
-            $_tmp = array();
-            $_tmp[] = $GLOBALS['B']->db->quoteSmart(crc32($value));
-            foreach($row as $key => $val)
-                $_tmp[] =  $val;
-            $_insert_string[] = $_tmp;
+        {        
+            $alldata[] = array(crc32($value), $row['mid'], $row['lid']);     
+            $_insert_string = TRUE;
         }
         
         // If insert string is not empty insert the words in the table
         //
-        if(!empty($_insert_string))
+        if( $_insert_string == TRUE )
         {
-            $sth = $GLOBALS['B']->db->autoPrepare($GLOBALS['B']->sys['db']['table_prefix'].$db_table, $row_name, DB_AUTOQUERY_INSERT);
-            
+            $prepared_query = $GLOBALS['B']->db->prepare('INSERT INTO '.$GLOBALS['B']->sys['db']['table_prefix'].$db_table.' VALUES(?,?,?)', array('integer', 'integer', 'integer'));
+
             if($rebuild == FALSE)
             {
                 list($row_n, $row_v) = each($row);
@@ -192,8 +180,8 @@ class word_indexer
                 $this->delete_words( $db_table, $row_n, $row_v );
             }
 
-            $result = &$GLOBALS['B']->db->executeMultiple($sth, $_insert_string);
-            if (DB::isError($result)) 
+            $result = &$GLOBALS['B']->db->executeMultiple($prepared_query, null, $alldata);
+            if (MDB2::isError($result)) 
             {
                     trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }
@@ -250,7 +238,7 @@ class word_indexer
 
         $res = $GLOBALS['B']->db->query($sql);                
 
-        while($result = &$res->FetchRow( DB_FETCHMODE_ASSOC ))
+        while($result = &$res->fetchRow( MDB2_FETCHMODE_ASSOC ))
         {
             $this->bad_word_array[stripslashes($result['word'])] = TRUE;
         }
@@ -272,7 +260,7 @@ class word_indexer
 
         $res = $GLOBALS['B']->db->query($sql);                
 
-        while($result = &$res->FetchRow( DB_FETCHMODE_ASSOC ))
+        while($result = &$res->FetchRow( MDB2_FETCHMODE_ASSOC ))
         {
             $selected_lang[] = $result['lang'];
         }

@@ -60,17 +60,47 @@ class common_sys_setup
         $this->B->conf_val['module']['common']['name']     = 'common';
         $this->B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
         $this->B->conf_val['module']['common']['mod_type'] = 'cmlite';
-        $this->B->conf_val['module']['common']['info']     = 'This is the common modul';
+        $this->B->conf_val['module']['common']['info']     = 'This is the common module';
+        
+        $this->B->conf_val['db']['type']         = $data['dbtype'];
+        $this->B->conf_val['db']['name']         = $data['dbname'];
+        $this->B->conf_val['db']['host']         = $data['dbhost'];
+        $this->B->conf_val['db']['user']         = $data['dbuser'];
+        $this->B->conf_val['db']['passwd']       = $data['dbpasswd'];
+        $this->B->conf_val['db']['table_prefix'] = $data['dbtablesprefix'];
 
-        if(!is_writeable( SF_BASE_DIR . 'modules/common/config' ))
+        if(!empty($data['dbcreate']))
         {
-            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/config';
-            $success = FALSE;
+            $this->B->dbmanager = $this->B->db->loadModule('manager', $this->B->db->dbmanager); 
+
+            if (MDB2::isError($result)) 
+            {
+                trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            }             
+
+            $success = $this->_create_db( $data['dbname'] );   
         }
-            
-        // if noting is going wrong $success is still TRUE else FALSE
-        // ex.: if creating db tables fails you must set this var to false
+        
+        if( $success == TRUE )
+        {
+            $this->B->db->setDatabase( $data['dbname'] );
+        }
+        
         return $success;  
+    }  
+    
+    function _create_db( $dbname )
+    {        
+        $result = $this->B->dbmanager->createDatabase( $dbname );
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            $this->B->setup_error[] = "Can not create database: ".$result->getMessage()."\n\nINFO: ".$_result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            return FALSE;
+        } 
+        
+        return TRUE;
     }    
 }
 

@@ -60,6 +60,9 @@ class common_sys_init
         ini_set( 'include_path', SF_BASE_DIR . 'modules/common/PEAR' . $tmp_separator . ini_get('include_path') );
         unset($tmp_separator); 
 
+        // include PEAR DB class
+        include_once( SF_BASE_DIR . 'modules/common/PEAR/MDB2.php');
+
         // init system config array
         $this->B->sys = array();
 
@@ -70,20 +73,17 @@ class common_sys_init
         // if setup was done
         if($this->B->sys['info']['status'] == TRUE)
         { 
-            // include PEAR DB class
-            include_once( SF_BASE_DIR . 'modules/common/PEAR/DB.php');        
-        
-            $this->B->dsn = array('phptype'  => $this->B->sys['db']['dbtype'],
+            $this->B->dsn = array('phptype'  => $this->B->sys['db']['type'],
                                   'username' => $this->B->sys['db']['user'],
                                   'password' => $this->B->sys['db']['passwd'],
                                   'hostspec' => $this->B->sys['db']['host'],
                                   'database' => $this->B->sys['db']['name']);
-
+            /*
             $this->B->dboptions = array('debug'       => 0,
                                         'portability' => DB_PORTABILITY_NONE);
-    
-            $this->B->db =& DB::connect($this->B->dsn, $this->B->dboptions, TRUE);
-            if (DB::isError($this->B->db)) 
+            */
+            $this->B->db =& MDB2::connect( $this->B->dsn );
+            if (MDB2::isError($this->B->db)) 
             {
                 trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );
             }

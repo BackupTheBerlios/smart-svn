@@ -61,25 +61,32 @@ class option_sys_setup
         $this->B->conf_val['option']['email'] = 'admin@foo.com';
         $this->B->conf_val['option']['charset'] = $_POST['charset'];
     
-        // create bad_words table for mysql or sqlite
-        if($_POST['dbtype'] == 'mysql')
-        {
-            // The bad words table. Words ignored by word indexer
-            $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}bad_words (
-                    word varchar(255) NOT NULL default '',
-                    lang varchar(4) NOT NULL default '')"; 
-        }
+        $this->_create_tables();
         
-        $result = $this->B->db->query($sql);
-
-        if (DB::isError($result))
-        {
-            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-            $success = FALSE;
-        }     
         return $success;    
     } 
+    
+    function _create_tables()
+    {
+        $table  = $this->B->conf_val['db']['table_prefix'] . 'bad_words';
+        
+        $fields = array( 'word'    => array( 'type'     => 'text',
+                                             'length'   => 255),
+                         'lang'    => array( 'type'     => 'text',
+                                             'length'   => 4) 
+                       );
+                       
+        $result = $this->B->dbmanager->createTable( $table, $fields );
+
+        if (MDB2::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            $this->B->setup_error[] = $result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+            return FALSE;
+        } 
+        
+        return TRUE;
+    }    
 }
 
 ?>
