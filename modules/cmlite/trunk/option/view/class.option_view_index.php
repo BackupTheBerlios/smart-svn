@@ -95,23 +95,9 @@ class option_view_index
         // Empty all cache data
         if(isset($_POST['update_clean_cache']))
         {
-            // Include cache and create instance
-            if(!is_object($this->B->cache))
-            {
-                include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache.php');            
-                $this->B->cache = new Cache('db', array('dsn'         => $this->B->dsn,
-                                                        'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
-            }
-            // Delete all cache data
-            $this->B->cache->flush('');
-        }
-        // cache lifetime
-        elseif(isset($_POST['update_cache_lifetime']))
-        {
-            $_cache_lifetime = abs((int)$_POST['cache_lifetime']);
-            $this->B->sys['cache']['lifetime'] = $_cache_lifetime;
-            $this->B->_modified = TRUE;
-        }        
+            // Delete cache data
+            $this->B->M( MOD_COMMON, 'cache_delete', array('group' => ''));
+        }       
         elseif (isset($_POST['update_main_options_email']))
         {
             $this->B->sys['option']['email'] = $_POST['site_email'];
