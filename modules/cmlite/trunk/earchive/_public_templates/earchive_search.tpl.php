@@ -6,8 +6,9 @@
 <?php //get the messages of the searching result and store the result in the array $B->tpl_msg ?>
 <?php $B->M( MOD_EARCHIVE, 
              EARCHIVE_SEARCH, 
-             array('var'=>'tpl_msg', 'search'=>$_REQUEST['search'], 'bool'=>'and', 'order' => 'mdate desc', 
-                   'limit' => 100, 'fields'=>array('mid','lid','subject','sender','mdate'))); ?>                        
+             array('var' => 'tpl_msg', 'search' => $_REQUEST['search'], 'bool' => 'and', 'order' => 'mdate desc', 
+                   'limit' => 100, 'fields' => array('mid','lid','subject','sender','mdate'),
+                   'get_list' => TRUE)); ?>                        
 <?php //Email obfuscation plugin  ?>
 <?php include_once('plugins/function.mailto.php');  ?>
 
@@ -118,7 +119,8 @@
                                       <div class='msgdate'>DATE: <?php echo $msg['mdate']; ?></div>
                                       <div class='msgfrom'>FROM: <?php echo mailto($msg['sender']); ?></div>
                                       <a href="index.php?tpl=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
-                                      <br /><br />
+                                      <div class='msgfrom'>E_archive: <a href="index.php?tpl=list&lid=<?php echo $msg['list_id']; ?>"><?php echo $msg['list_name']; ?></a></div>
+                    <br />
                                     <?php endforeach; ?>
                                   <?php else: ?>
                                       <div class='pager'>Search result 0</div>

@@ -90,7 +90,24 @@ class message_search extends earchive
         {
             $data['limit'] = 200;
         }
-            
+        
+        // Get also list name and archive (list) id
+        $_l_table = '';
+        $_l_where = '';
+        if( $data['get_list'] == TRUE )
+        {
+            $_fields .= " ,l.name AS list_name, l.lid AS list_id";
+            $_l_table = "{$GLOBALS['B']->sys['db']['table_prefix']}earchive_lists AS l,";
+            $_l_where = " AND l.lid=m.lid";
+        }
+        
+        // get messages only from specific archives
+        $this->_l_id = '';
+        if( !empty($data['list_id']) )
+        {
+            $this->_l_id = ' AND l.lid IN(' . $data['list_id'] . ') ';
+        }
+        
         // Build searching sql string if boolean between words = OR
         //
         if((strtolower($data['bool']) == 'or'))
@@ -130,7 +147,8 @@ class message_search extends earchive
                 AND
                     m.lid=l.lid
                 AND
-                    {$w_status}
+                    {$w_status} 
+                    {$this->_l_id}
                 AND 
                     {$text_sql}{$order} 
                 LIMIT {$data['limit']}";           
@@ -179,12 +197,13 @@ class message_search extends earchive
                     {$_fields}
                 FROM
                     {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages AS m,
+                    {$_l_table}
                     {$this->tmp_search_table} AS tmp
                 WHERE
-                    m.mid=tmp.mid {$order} 
+                    m.mid=tmp.mid {$_l_where} {$order}  
                 LIMIT {$data['limit']}";
         }
-            
+
         $result = $GLOBALS['B']->db->query($sql);
 
         if (DB::isError($result)) 
@@ -204,6 +223,11 @@ class message_search extends earchive
                 foreach($data['fields'] as $f)
                 {
                     $tmp[$f] = stripslashes($row[$f]);
+                }
+                if($data['get_list'] == TRUE)
+                {
+                    $tmp['list_name'] = stripslashes($row['list_name']);
+                    $tmp['list_id']   = stripslashes($row['list_id']);
                 }
                 $_result[] = $tmp;
             }
@@ -268,6 +292,7 @@ class message_search extends earchive
                 w.lid=l.lid
             AND 
                 {$w_status}
+                {$this->_l_id}
             AND 
                 {$word_sql}";
 
