@@ -52,8 +52,9 @@ class view_node extends view
         // of the node defined in $_GET['node']
         M( MOD_NAVIGATION, 
            'get_branch', 
-           array('result'     => 'tpl_branch',
-                 'node'       => (int)$_GET['node']));            
+           array('result' => 'tpl_branch',
+                 'error'  => 'tpl_branch_error',
+                 'node'   => (int)$_GET['node']));            
 
         // assign the template array $B->tpl_child_nodes with navigation child nodes
         // of node defined in $_GET['node']
@@ -62,6 +63,7 @@ class view_node extends view
            'get_childs', 
            array('result' => 'tpl_child_nodes',
                  'node'   => (int)$_GET['node'],
+                 'error'  => 'tpl_childs_error',
                  'status' => 2));
 
         return TRUE;
