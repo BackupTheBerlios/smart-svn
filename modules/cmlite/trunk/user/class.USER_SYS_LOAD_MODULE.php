@@ -84,11 +84,7 @@ class USER_SYS_LOAD_MODULE
                 }
                 // set the base template for this module feature
                 $this->B->section = SF_BASE_DIR . '/admin/modules/user/templates/adduser.tpl.php';
-                break;
-            case 'del_usr':
-                // Include default
-                include( SF_BASE_DIR."/admin/modules/user/deluser.php" );     
-                break;      
+                break;    
             default:
                 // set the base template for this module
                 $this->B->section = SF_BASE_DIR . '/admin/modules/user/templates/default.tpl.php';    
