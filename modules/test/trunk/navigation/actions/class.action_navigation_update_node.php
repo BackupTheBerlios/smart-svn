@@ -47,8 +47,7 @@ class action_navigation_update_node extends action
         // replace single and double quotes
         $search_array = array('\'','"');
         $replace_array = array('&#039;','&quot;');
-        
-         //str_replace ( "'", "&#039;",commonUtil::stripSlashes($data['title']))
+
         // Look at the node id and assign the new title
         foreach($nav as $node)
         {

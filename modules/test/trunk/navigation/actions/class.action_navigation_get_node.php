@@ -68,11 +68,16 @@ class action_navigation_get_node extends action
             }            
         } 
         
-        // apply nl2br on result body
-        if ($data['nl2br'] == TRUE)
+        // format text
+        if( $data['format'] == 'wikki' )
         {
-            $this->B->$data['body'] = nl2br($this->B->$data['body']);
-        }      
+            if(!is_object($this->B->wiki))
+            {
+                include_once(SF_BASE_DIR . 'modules/common/PEAR/Text/Wiki.php');
+                $this->B->wiki = & new Text_Wiki();
+            }
+            $this->B->$data['body'] = $this->B->wiki->transform($this->B->$data['body'], 'Xhtml');    
+        }
     }   
     
     /**

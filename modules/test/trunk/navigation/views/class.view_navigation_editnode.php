@@ -79,12 +79,10 @@ class view_navigation_editnode extends view
         // get navigation node         
         M( MOD_NAVIGATION, 
            'get_node', 
-           array('node'             => $_REQUEST['node'],
-                 'title'            => 'tpl_title',
-                 'body'             => 'tpl_body',
-                 'status'           => 'tpl_status',
-                 'nl2br'            => FALSE,
-                 'htmlspecialchars' => FALSE)); 
+           array('node'    => $_REQUEST['node'],
+                 'title'   => 'tpl_title',
+                 'body'    => 'tpl_body',
+                 'status'  => 'tpl_status')); 
 
         return  TRUE;
     }    
