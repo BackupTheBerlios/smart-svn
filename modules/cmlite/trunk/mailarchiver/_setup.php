@@ -25,7 +25,7 @@ if( count($B->setup_error) == 0)
     //create sqlite dir if it dosent exist
     if(!is_dir(SF_BASE_DIR . '/data/mailarchiver'))
     {
-        if(!@mkdir(SF_BASE_DIR . '/data/mailarchiver'))
+        if(!@mkdir(SF_BASE_DIR . '/data/mailarchiver', SF_DIR_MODE))
         {
             $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/data/mailarchiver';
         }

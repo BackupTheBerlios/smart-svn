@@ -46,7 +46,7 @@ if( count($B->setup_error) == 0 )
 
     $B->dsn = array('phptype'  => 'sqlite',
                     'database' => $db_file,
-                    'mode'     => '0775');
+                    'mode'     => SF_FILE_MODE);
 
     $B->dboptions = array('debug'       => 2,
                           'portability' => DB_PORTABILITY_ALL);

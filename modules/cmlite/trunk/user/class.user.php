@@ -112,7 +112,7 @@ class user
             return FALSE;
         }
 
-        $uid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'_seq_add_user');
+        $uid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'user_seq_add_user');
 
         if (DB::isError($uid)) 
         {

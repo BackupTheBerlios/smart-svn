@@ -73,7 +73,7 @@ function user_event_handler( $evt )
             $captcha_ttf_font = SF_BASE_DIR .'/admin/modules/user/captcha/ttf_font/activa.ttf';
     
             // Relative folder of captcha pictures
-            $captcha_pictures_folder = 'admin/tmp/captcha_pics/';
+            $captcha_pictures_folder = 'admin/tmp/captcha_pics';
     
             // Type of turing chars
             $captcha_char_type = 'num'; // or 'hex' 
@@ -85,6 +85,7 @@ function user_event_handler( $evt )
             $captcha->shadow = FALSE;    
 
             $B->captcha_turing_picture = $captcha->make_captcha();
+            @chmod(SF_BASE_DIR . '/' . $B->captcha_turing_picture, SF_FILE_MOD);
             $B->captcha_public_key     = $captcha->public_key;
 
             if($evt['data']['register'] != FALSE)

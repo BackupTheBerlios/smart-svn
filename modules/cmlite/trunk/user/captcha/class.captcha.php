@@ -93,12 +93,12 @@ class captcha
      * char angle random start
      * @var int $char_rangle_start
      */    
-    var $char_rangle_start = -15; 
+    var $char_rangle_start = -10; 
     /**
      * char angle random end
      * @var int $char_rangle_end
      */    
-    var $char_rangle_end = 15; 
+    var $char_rangle_end = 10; 
     /**
      * Background color random start
      * @var int $background_color_start
@@ -219,7 +219,7 @@ class captcha
         {
             $public=$this->public_key; 
         }
-        return $this->_basedir.'/'.$this->_captcha_pic_folder.$public.".jpg";
+        return $this->_basedir.'/'.$this->_captcha_pic_folder.'/'.$public.".jpg";
     }
     /**
      * generate_private
@@ -325,7 +325,7 @@ class captcha
         ImageJPEG($image, $this->get_filename(), 100);
         ImageDestroy($image);
         
-        return $this->_captcha_pic_folder.$this->public_key.'.jpg';
+        return $this->_captcha_pic_folder.'/'.$this->public_key.'.jpg';
     }
     /**
      * _delete_expired_files

@@ -40,6 +40,19 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
 
 if( count($B->setup_error) == 0 )
 {
+    //create sqlite dir if it dosent exist
+    if(!is_dir(SF_BASE_DIR . '/admin/tmp/captcha_pics'))
+    {
+        if(!@mkdir(SF_BASE_DIR . '/admin/tmp/captcha_pics', SF_DIR_MODE))
+        {
+            $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/admin/tmp/captcha_pics';
+        }
+        elseif(!@is_writeable( SF_BASE_DIR . '/admin/tmp/captcha_pics' ))
+        {
+            $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/captcha_pics';
+        }  
+    }
+    
     // include PEAR DB
     include_once( 'DB.php' ); 
     

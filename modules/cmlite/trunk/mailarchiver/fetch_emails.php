@@ -115,7 +115,7 @@ foreach ($lists as $account)
             {
                 $path = SF_BASE_DIR . '/data/mailarchiver/'.$account['folder'].'/'. $mes_folder;
 
-                if(!@mkdir($path, 0775))
+                if(!@mkdir($path, SF_DIR_MODE))
                 {
                     trigger_error('Unable to create list message folder', E_USER_ERROR);
                 }  
@@ -137,6 +137,7 @@ foreach ($lists as $account)
                     {
                         @fwrite($f, $body['message'], $att_data['size']);
                         @fclose($f);
+                        @chmod($path.'/'.$msg->attachFname[$mid][$i], SF_FILE_MODE);
                         $B->marchiver->add_attach( $message_id, $account['lid'], $att_data );
                     }
                 }
