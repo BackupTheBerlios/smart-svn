@@ -76,7 +76,7 @@ class action_common_sys_setup extends action
             }
             else
             {
-                if( !@copy(SF_BASE_DIR . 'smart/.htaccess', SF_BASE_DIR . 'data/common/config') )
+                if( !@copy(SF_BASE_DIR . 'smart/.htaccess', SF_BASE_DIR . 'data/common/config/.htaccess') )
                 {
                     trigger_error('Could not copy .htaccess to dir: '.SF_BASE_DIR . 'data/common/config', E_USER_WARNING);                
                 }
@@ -96,7 +96,7 @@ class action_common_sys_setup extends action
             }
             else
             {
-                if( !@copy(SF_BASE_DIR . 'smart/.htaccess', SF_BASE_DIR . 'data/common/cache') )
+                if( !@copy(SF_BASE_DIR . 'smart/.htaccess', SF_BASE_DIR . 'data/common/cache/.htaccess') )
                 {
                     trigger_error('Could not copy .htaccess to dir: '.SF_BASE_DIR . 'data/common/cache', E_USER_WARNING);                
                 }
