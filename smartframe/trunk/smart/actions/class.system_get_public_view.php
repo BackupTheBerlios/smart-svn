@@ -73,7 +73,7 @@ class system_get_public_view
         $template_file = '';
 
         // build the whole file path to the view class file
-        $view_class_file = SF_BASE_DIR . 'view/class.view_' . $view . '.php';
+        $view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $view . '.php';
 
         // include view class file of the requested template
         if( @file_exists( $view_class_file ) )
@@ -109,8 +109,16 @@ class system_get_public_view
             } 
             else
             {
+                // set template group
+                $template_group = $this->B->sys['option']['tpl'];
+                if( SF_TPL_GROUP != '' )
+                {
+                    $template_group = SF_TPL_GROUP;
+                    
+                }
+            
                 // build the whole requested template file path
-                $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $view . '.tpl.php';
+                $template_file = SF_BASE_DIR . SF_TPL_FOLDER . $template_group . '_' . $view . '.tpl.php';
             }
         }
          

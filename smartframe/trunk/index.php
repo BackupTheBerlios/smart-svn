@@ -9,12 +9,51 @@
 // To read the license please visit http://www.gnu.org/copyleft/gpl.html
 // ----------------------------------------------------------------------
 
-/**
- * Front Controller
- *
+/*
+ * Front Controller File Name
  */
+if(!defined( SF_CONTROLLER ))
+{
+   define('SF_CONTROLLER', 'index.php'); 
+}
 
 /*
+ * Relative path to SMART
+ */
+if(!defined( SF_RELATIVE_PATH ))
+{
+   define('SF_RELATIVE_PATH', './'); 
+}
+
+/*
+ * Fixed template group.
+ */
+if(!defined( SF_TPL_GROUP ))
+{
+   define('SF_TPL_GROUP', ''); 
+}
+
+/*
+ * Template folder.
+ */
+if(!defined( SF_TPL_FOLDER ))
+{
+   define('SF_TPL_FOLDER', ''); 
+}
+
+/*
+ * View folder.
+ */
+if(!defined( SF_VIEW_FOLDER ))
+{
+   define('SF_VIEW_FOLDER', 'view/'); 
+}
+
+/* #################################################### */
+/* ######### Dont change any thing below !!! ########## */
+/* #################################################### */
+/*
+
  * Secure include of files from this script
  */
 define('SF_SECURE_INCLUDE', 1);
@@ -59,11 +98,11 @@ if ( $_REQUEST['logout'] == '1' )
 
     if (SF_SECTION == 'admin')
     {
-        header ( 'Location: '.SF_BASE_LOCATION.'/index.php?admin=1' );
+        header ( 'Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1' );
     }
     else
     {
-        header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
+        header ( 'Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER );
     }
     exit;
 }
@@ -79,7 +118,7 @@ switch ( SF_SECTION )
             // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_update_config.php
             $B->M( SF_BASE_MODULE, 'sys_update_config', $B->sys );
             // reload admin section
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
             exit;    
         }   
         
