@@ -50,7 +50,7 @@ class action_navigation_update_node extends action
             list($id, $val) = each($node);
             if($data['node'] == $id)
             {
-                $nav[$x][$id]= array('title'  => htmlspecialchars($data['title'], ENT_QUOTES),
+                $nav[$x][$id]= array('title'  => str_replace ( "'", "&#039;",commonUtil::stripSlashes($data['title'])),
                                      'status' => $data['status']);
                 break;
             }

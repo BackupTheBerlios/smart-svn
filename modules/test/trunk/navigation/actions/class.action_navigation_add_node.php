@@ -45,7 +45,7 @@ class action_navigation_add_node extends action
         include(SF_BASE_DIR . 'data/navigation/nodes.php');
         
         // add new node
-        $nav[][$node_id] = array('title'  => htmlspecialchars($data['title'], ENT_QUOTES),
+        $nav[][$node_id] = array('title'  => str_replace ( "'", "&#039;",commonUtil::stripSlashes($data['title'])),
                                  'status' => 'drawt');
 
         // Update navigation node config file
