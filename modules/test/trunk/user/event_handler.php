@@ -31,7 +31,7 @@ define ( 'MOD_USER_VERSION' , '0.1');
 if (FALSE == register_handler( MOD_USER,
                                    array ( 'module'           => MOD_USER,
                                            'event_handler'    => 'user_event_handler',
-                                           'menu_visibility'  => FALSE) ))
+                                           'menu_visibility'  => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }   
