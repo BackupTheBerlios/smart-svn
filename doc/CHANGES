@@ -1,16 +1,21 @@
 CHANGES
 #######
 
+2004-06-16
+--------------
+-Added option module (A. Turpel)
+-Moved option loading from base.inc.php to the option module (A. Turpel)
+
 2004-06-14
 --------------
-Added pear/log (A. Turpel)
-Added error handler class.sfErrorHandler.php (A. Turpel)
+-Added pear/log (A. Turpel)
+-Added error handler class.sfErrorHandler.php (A. Turpel)
 
 2004-06-12
 --------------
-First version of setup (A. Turpel)
+-First version of setup (A. Turpel)
 
 2004-06-11
 --------------
-Initial import of the project files to repository (A. Turpel)
+-Initial import of the project files to repository (A. Turpel)
 
