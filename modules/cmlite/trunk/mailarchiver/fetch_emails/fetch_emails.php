@@ -41,6 +41,7 @@ $msg =& new Mail_IMAP();
 //User Class instance
 $B->marchiver = & new mailarchiver;
 
+// get email accounts
 $lists = $B->marchiver->get_lists( array('lid','emailserver','folder'), 'status>1' );
 
 foreach ($lists as $account)
@@ -74,9 +75,19 @@ foreach ($lists as $account)
             
             $data = array();
             
+            // get from address
+            if(($msg->header[$mid]['fromaddress'] != $msg->header[$mid]['reply_toaddress']) && !empty($msg->header[$mid]['reply_toaddress']))
+            {
+                $from = $msg->header[$mid]['reply_toaddress'];
+            }
+            else
+            {
+                $from = $msg->header[$mid]['fromaddress'];
+            }
+                   
             $data['lid']      = $account['lid'];
             $data['subject']  = $B->db->quoteSmart($B->util->decodeEmailHeader($msg->header[$mid]['subject']));
-            $data['sender']   = $B->db->quoteSmart($B->util->html_activate_links($msg->header[$mid]['reply_toaddress']));
+            $data['sender']   = $B->db->quoteSmart($B->util->html_activate_links($B->util->decodeEmailHeader($from)));
             $data['mdate']    = $B->db->quoteSmart(date('Y-m-d h:i:s', $msg->header[$mid]['udate']));
             
             $body = $msg->getBody($mid, $pid);

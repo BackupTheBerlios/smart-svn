@@ -5,9 +5,19 @@
 	font-weight: bold;
 	color: #FFFFFF;
 }
-.style3 {
+.optiondesc {
+	font-size: 10px;
+	color: #dddddd;
+	font-weight: bold;
+}
+.optiontitle {
 	font-size: 12px;
 	color: #3333CC;
+	font-weight: bold;
+}
+.optionmodtitle {
+	font-size: 14px;
+	color: #3333FF;
 	font-weight: bold;
 }
 -->
@@ -20,11 +30,10 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-				<?php if($B->modul_options === FALSE): ?>
 				<form action="index.php?m=OPTION" method="post" name="url" id="url">
 				<table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="style3">URL of the public page </span></td>
+            <td align="left" valign="top"><span class="optiontitle">URL of the public page </span></td>
           </tr>
           <tr>
             <td align="left" valign="top">						
@@ -35,7 +44,7 @@
         </table>
 				<table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="style3">Administrator email</span></td>
+            <td align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
           </tr>
           <tr>
             <td align="left" valign="top">
@@ -46,7 +55,7 @@
         </table>		
 				<table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="style3">Site title and description </span></td>
+            <td align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
           </tr>
           <tr>
             <td align="left" valign="top">	
@@ -58,7 +67,7 @@
         </table>				
 				<table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="style3">Charset</span></td>
+            <td align="left" valign="top"><span class="optiontitle">Charset</span></td>
           </tr>
           <tr>
             <td align="left" valign="top">
@@ -85,7 +94,7 @@
         </table>		
 				<table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td align="left" valign="top"><span class="style3">Public web pages templates</span></td>
+            <td align="left" valign="top"><span class="optiontitle">Public web pages templates</span></td>
           </tr>
           <tr>
             <td align="left" valign="top">
@@ -98,7 +107,17 @@
             </td>
           </tr>
         </table>		
-				<table width="100%"  border="0" cellspacing="4" cellpadding="4">
+		<?php 
+		// include otions templates of other modules
+		if(count($B->mod_option) > 0)
+		{
+			foreach($B->mod_option as $option)
+			{
+				include $option;
+			}
+		}
+		?>
+		<table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td align="left" valign="top">&nbsp;</td>
           </tr>
@@ -109,9 +128,6 @@
           </tr>
         </table>								
 				</form>
-				<?php else: ?>		
-				<?php echo $B->modul_options; ?>
-				<?php endif; ?>
 				</td>
         <td width="24%" align="right" valign="top"></td>
       </tr>

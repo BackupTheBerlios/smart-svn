@@ -73,8 +73,17 @@ function user_event_handler( $evt )
             @header('Location: index.php');
             exit;
             break; 
-        case EVT_LOAD_OPTIONS:       
-            break;               
+        case EVT_SET_OPTIONS:  
+            // set user options 
+            // this event comes from the option module (module_loader.php)
+            $B->sys['option']['user']['allow_register'] = (bool)$_POST['userallowregister'];
+            $B->sys['option']['user']['register_type']  = $_POST['userregistertype'];
+            break;             
+        case EVT_GET_OPTIONS:  
+            // get user options template 
+            // to include in the option module
+            $B->mod_option[] = SF_BASE_DIR.'/admin/modules/user/templates/option.tpl.php';
+            break;                
         case EVT_SETUP:       
             if( count($base->tmp_error) == 0 )
             {

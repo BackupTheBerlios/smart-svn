@@ -27,9 +27,12 @@ $B->modul_options = FALSE;
 // Show main options if no module feature is requested.
 if(!isset($_GET['mf']))
 {
-    // if update main options
     if (isset($_POST['update_main_options']))
     {
+        // set options of other modules
+        $B->B( EVT_SET_OPTIONS );
+        
+        // set main options
         $B->sys['option']['url']        = $B->util->stripSlashes($_POST['site_url']);
         $B->sys['option']['email']      = $B->util->stripSlashes($_POST['site_email']);
         $B->sys['option']['site_title'] = $B->util->stripSlashes($_POST['site_title']);
@@ -59,6 +62,10 @@ if(!isset($_GET['mf']))
     }
 
     $directory->close();
+
+    // Load options templates from other modules    
+    $B->mod_option = array();
+    $B->B( EVT_GET_OPTIONS );
 }
 else
 {

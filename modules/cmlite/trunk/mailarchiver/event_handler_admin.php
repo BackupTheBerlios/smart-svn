@@ -72,7 +72,7 @@ function mailarchiver_event_handler( $evt )
             }       
             break; 
         case EVT_LOGOUT:  
-            break;  
+            break;             
         case EVT_SETUP:       
             if( count($base->tmp_error) == 0 )
             {
