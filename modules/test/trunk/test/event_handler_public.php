@@ -44,7 +44,6 @@ function test_event_handler( $evt )
     {
         case EVT_TEST_COUNTER:
             // get var name defined in the public template to store the result
-            $GLOBALS['B']->$evt['data']['var'] = array();
             $_result = & $GLOBALS['B']->$evt['data']['var']; 
             
             // the result must be an array
