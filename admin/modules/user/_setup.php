@@ -23,112 +23,117 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Do setup 
 if( empty($_POST['sysname']) )
 {
-    $base->tmp_error[]['error'] = 'Sysadmin name field is empty!';
+    $B->setup_error[] = 'Sysadmin name field is empty!';
 }
 if( empty($_POST['syslastname']) )
 {
-    $base->tmp_error[]['error'] = 'Sysadmin lastname field is empty!';
+    $B->setup_error[] = 'Sysadmin lastname field is empty!';
 }
 if( empty($_POST['syslogin']) )
 {
-    $base->tmp_error[]['error'] = 'Sysadmin login field is empty!';
+    $B->setup_error[] = 'Sysadmin login field is empty!';
 }
 if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassword2']) )
 {
-    $base->tmp_error[]['error'] = 'Sysadmin password fields are empty or not equal!';
+    $B->setup_error[] = 'Sysadmin password fields are empty or not equal!';
 } 
 
-if( count($base->tmp_error) == 0 )
+if( count($B->setup_error) == 0 )
 {
-    switch($_POST['db_type'])
+    $sql = "CREATE TABLE user_groups (
+            gid  INTEGER NOT NULL PRIMARY KEY,
+            status TINYINT NOT NULL default '1',
+            name VARCHAR(50) NOT NULL,
+            desc TEXT NOT NULL default '')";
+
+    if( FALSE == $B->dbdata->query($sql) )
     {
-        case 'mysql':
-            // Create mysql tables
-            include( SF_BASE_DIR.'/admin/modules/user/init_mysql.php' );  
-            break;
-        case 'sqlite':
-            // Create sqlite tables
-            include( SF_BASE_DIR.'/admin/modules/user/init_sqlite.php' );        
-            break;   
-        default:
-            $base->tmp_error[]['error'] = 'The user module isnt supporting the selected database type!';        
-            break;
+        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
 
-    include_once(SF_BASE_DIR.'/admin/modules/user/patUser/include/patUser.php');
-    include_once(SF_BASE_DIR.'/admin/modules/user/class.sfPatUser.php');
+    $sql = "CREATE TABLE user_usersgroups (
+            uid INTEGER NOT NULL,
+            gid INTEGER NOT NULL)";
 
-    // patUser instance
-    $base->user = new sfPatUser( TRUE, "smartUserData", "{$_POST['table_prefix']}user_sequence" );
-
-    // set encrypting function
-    if(!$base->user->setCryptFunction( array( $base->util, "md5_crypter" ) ))
+    if( FALSE == $B->dbdata->query($sql) )
     {
-        patErrorManager::raiseError( "user", "setCryptFunction error", "File: ".__FILE__."\nLine: ".__LINE__ );    
+        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
 
-    $base->user->setAuthDbc( $base->db );
+    $sql = "CREATE TABLE user_users (
+            uid      INTEGER NOT NULL PRIMARY KEY,
+            status   TINYINT NOT NULL default '1',
+            login    VARCHAR(30) NOT NULL,
+            passwd   CHAR(32) NOT NULL,
+            forename VARCHAR(50) NOT NULL,
+            lastname VARCHAR(50) NOT NULL,
+            email    VARCHAR(300) NOT NULL default '',
+            desc     TEXT NOT NULL default '')";
 
-    //  this table stores all users
-    $base->user->setAuthTable( $base->tmp_table_prefix.'user' );
-
-    //  set required fieldnames
-    $base->user->setAuthFields( array( 'primary'   =>  'uid',
-                                       'username'  =>  'username',
-                                       'passwd'    =>  'passwd' ) );
-
-    //  this table stores group data
-    $base->user->setGroupTable( $base->tmp_table_prefix.'user_group' );
-    //  set fieldnames in the grouptable
-    $base->user->setGroupFields( array( 'primary'   =>  'gid',
-                                        'name'      =>  'name' ) );
-
-    //  this table stores group data
-    $base->user->setGroupRelTable( $base->tmp_table_prefix.'user_group_rel' );
-    //  set fieldnames in the user - group relation table
-    $base->user->setGroupRelFields( array( 'uid'   =>  'uid',
-                                           'gid'   =>  'gid' ) );
-
-    //  set tabel which stores permissions
-    $base->user->setPermTable( $base->tmp_table_prefix.'user_permission' );
-    //  set names of required fields and add an additional field 'part'
-    $base->user->setPermFields( array( 'id'      =>  'id',
-                                       'id_type' =>  'id_type',
-                                       'id_part' =>  'id_part',
-                                       'part'    =>  'part',
-                                       'perms'   =>  'perms' ) );
-    // add sysadmin group                            
-    $base->tmp_gid = $base->user->addGroup( array('name' => 'sysadmin') );
-    if(!$base->tmp_gid)
+    if( FALSE == $B->dbdata->query($sql) )
     {
-        patErrorManager::raiseError( "user", "add group error", "File: ".__FILE__."\nLine: ".__LINE__ );    
+        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
     }
 
-    // add sysadmin user
-    $base->tmp_uid = $base->user->addUser( 
-                          array( 'name'     => $_POST['sysname'],
-                                 'lastname' => $_POST['syslastname'],
-                                 'username' => $_POST['syslogin'],
-                                 'passwd'   => $_POST['syspassword1']) );
-    if(!$base->tmp_uid)
+    $sql = "CREATE TABLE user_permissions (
+            id          INTEGER NOT NULL default '0',
+            id_type     VARCHAR(6) NOT NULL default 'group',
+            part        VARCHAR(50) default NULL,
+            part_id     VARCHAR(100) default NULL,
+            perm_read   TINYINT default NULL,
+            perm_delete TINYINT default NULL,
+            perm_modify TINYINT default NULL,
+            perm_add    TINYINT default NULL)";
+
+    if( FALSE == $B->dbdata->query($sql) )
     {
-        patErrorManager::raiseError( "user", "add user error", "File: ".__FILE__."\nLine: ".__LINE__ );    
-    }    
+        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+    }
+
+    $sql = "INSERT INTO user_groups 
+                (name, status) 
+              VALUES 
+                ('SysAdmin','2')";
     
-    if(!$base->user->addUserToGroup( array( 'uid' => $base->tmp_uid, 'gid' => $base->tmp_gid ) ))
+    if( FALSE == $B->dbdata->query($sql) )
     {
-        patErrorManager::raiseError( "user", "add userTOgroup error", "File: ".__FILE__."\nLine: ".__LINE__ );    
-    }     
+        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+    }
+
+    $id_group = $B->dbdata->lastInsertId();
+
+    $forename  = $B->dbdata->escapeString($_POST['sysname']);
+    $lastename = $B->dbdata->escapeString($_POST['syslastname']);
+    $login     = $B->dbdata->escapeString($_POST['syslogin']);
+    $passwd    = md5($_POST['syspassword1']);
+
+    $sql = "INSERT INTO user_users 
+                (forename,lastname,login,passwd,status) 
+              VALUES 
+                ('{$forename}','{$lastename}','{$login}','{$passwd}','2')";
     
-    if(!$base->user->addPermission( array( 'id_type' => 'group',
-                                       'id'      => $base->tmp_gid,
-                                       'id_part' =>  0,
-                                       'part'    =>  '',
-                                       'perms'   => array( 'read', 'delete', 'modify', 'add' ) ) ))
+    if( FALSE == $B->dbdata->query($sql) )
     {
-        patErrorManager::raiseError( "user", "add permission error", "File: ".__FILE__."\nLine: ".__LINE__ );    
-    }     
+        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+    }
+
+    $id_user = $B->dbdata->lastInsertId();
+
+    $sql = "INSERT INTO user_usersgroups 
+                (uid, gid) 
+              VALUES 
+                ('{$id_user}','{$id_group}')";
     
+    if( FALSE == $B->dbdata->query($sql) )
+    {
+        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+    }
+    
+    $sql = "INSERT INTO modules (name,version) VALUES ('user','0.1')";
+    if( FALSE == $B->dbsystem->query($sql) )
+    {
+        $B->setup_error[] = $B->dbsystem->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+    }  
 }
 
 ?>
