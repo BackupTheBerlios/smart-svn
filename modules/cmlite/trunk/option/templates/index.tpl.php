@@ -34,7 +34,7 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-    <form action="index.php?admin=1&m=option" method="post" name="email" id="email">
+    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="email" id="email">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
@@ -48,7 +48,7 @@
           </tr>
         </table>   
     </form> 
-    <form action="index.php?admin=1&m=option" method="post" name="title" id="title">    
+    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="title" id="title">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
@@ -63,7 +63,7 @@
           </tr>
         </table> 
     </form>  
-    <form action="index.php?admin=1&m=option" method="post" name="charset" id="charset">              
+    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="charset" id="charset">              
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Charset</span></td>
@@ -93,7 +93,7 @@
           </tr>
         </table> 
     </form>  
-    <form action="index.php?admin=1&m=option" method="post" name="_tpl" id="_tpl">      
+    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_tpl" id="_tpl">      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web pages template groups</span></td>
@@ -111,7 +111,7 @@
           </tr>
       </table>
     </form>  
-    <form action="index.php?admin=1&m=option" method="post" name="_cache_clean" id="_cache_clean">    
+    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_cache_clean" id="_cache_clean">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Empty  Cache</span></td>
@@ -124,7 +124,7 @@
           </tr>
         </table>
     </form>
-      <form action="index.php?admin=1&m=option" method="post" name="badword" id="badword"> 
+      <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="badword" id="badword"> 
       <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
               <td colspan="2" align="left" valign="top"><span class="optiontitle">Bad words language lists</span></td>

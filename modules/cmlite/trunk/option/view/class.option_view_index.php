@@ -60,7 +60,7 @@ class option_view_index
         if($this->B->_modified == TRUE)
         {
             $this->B->M( MOD_COMMON, 'sys_update_config', $this->B->sys );    
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=option');
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=option');
             exit;
         }
 
