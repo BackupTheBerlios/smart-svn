@@ -31,13 +31,31 @@ class action_navigation_get_tree extends action
         // get var name defined in the public view to store the result
         $this->tree_result = & $this->B->$data['result']; 
 
+        if(!isset($data['node']))
+        {
+            $_node = 0;
+        }
+        else
+        {
+            $_node = $data['node'];
+        }
+
+        if(!isset($data['status']))
+        {
+            $status = FALSE;
+        }
+        else
+        {
+            $status = $data['status'];
+        }
+
         if(SF_SECTION == 'public')
         {
             // check if cache ID exists
             if ( M( MOD_COMMON, 
                     'cache_get',
                     array('result'     => $data['result'],
-                          'cacheID'    => SF_SECTION.$data['node'],
+                          'cacheID'    => SF_SECTION.'tree'.$_node.$status,
                           'cacheGroup' => 'navigation-tree'))) 
             {
                 return TRUE;
@@ -61,20 +79,8 @@ class action_navigation_get_tree extends action
 
         $this->_level = 0;        
 
-        $node = $data['node'];
-        if(!isset($data['node']))
-        {
-            $node = 0;
-        }
-
-        $status = $data['status'];
-        if(!isset($data['status']))
-        {
-            $status = FALSE;
-        }
-
         // get child nodes of a given node id
-        $this->_getTreeNodes( $node, $status ); 
+        $this->_getTreeNodes( $_node, $status ); 
 
         if(SF_SECTION == 'public')
         {
@@ -101,6 +107,12 @@ class action_navigation_get_tree extends action
             trigger_error("Wrong 'status' variable: ".$data['status']." Only 2 = 'publish' or 1 = 'drawt' are accepted.\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }     
+        // check if node exists
+        if(isset($data['node']) && !file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
+        {
+            $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
+            return FALSE;            
+        }   
         
         return TRUE;
     } 

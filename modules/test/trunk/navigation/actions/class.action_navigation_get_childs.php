@@ -39,7 +39,7 @@ class action_navigation_get_childs extends action
         }
 
         // check if a tree object exists
-        if(!is_array($this->B->node))
+        if(!isset($this->B->node))
         {
             // load navigation nodes  
             $node = array();
@@ -66,6 +66,13 @@ class action_navigation_get_childs extends action
         {
             trigger_error("Wrong 'status' variable: ".$data['status']." Only 2 = 'publish' or 1 = 'drawt' are accepted.\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
+        }   
+        
+        // check if node exists
+        if(isset($data['node']) && !file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
+        {
+            $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
+            return FALSE;            
         }     
         
         return TRUE;
