@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * The main admin file (admin front controller)
+ * Admin Front Controller
  *
  */
  
@@ -28,6 +28,9 @@ define ('SF_SECTION', 'admin');
 
 // Include the base file
 include (SF_BASE_DIR . 'smart/includes/core.inc.php');
+
+// Run the admin application logic of a module
+//
 
 // Send a init message to all registered handlers
 $B->B('SYS_INIT');
@@ -54,8 +57,6 @@ if ( (int)$_REQUEST['logout'] == 1 )
     exit;
 }
 
-// Run the application logic of an admin module
-//
 // check if the demanded module (handler) is registered else load default module
 if ( TRUE == $B->is_handler ($_REQUEST['m']))
 {
