@@ -1,7 +1,7 @@
-The controller takes care for that every thing in SMART is going on the right way. The controller entry script is **index.php**. This script takes the control over the system. Optionally you will have contact with the controller in the views. 
+The controller takes care for that every thing in SMART is going on the right way. The controller entry script is **index.php**. This script takes the control over the system. 
 
 ++++ The live cycle of a request:
-A request is always related to how data should be represented (the view). A view can be a simple text page, html page, pdf, download or how ever data should be represented. One  variable that the controller handles is the "view" variable.
+A request is always related to how data should be represented (the view). Some data can be represented as a simple text page, html page, pdf, download or what ever. One  variable that the controller handles is the "view" variable. This variable define, which view class  the controller has to select.
 
 Let's look at Smart's processing of requests in more detail:
 

@@ -1,4 +1,4 @@
-Often i have this feeling when reading some forum threats, that MVC create more confusions than transparency. [http://www.sitepoint.com/forums/showthread.php?t=239167 Here] is an example of such a discussion. One goal of SMART was to keep this principle as simple as possible but flexible. 
+Often i have this feeling when reading some forum threats, that MVC create more confusions than transparency. ([http://www.sitepoint.com/forums/showthread.php?t=239167 Example] of such a discussion.) One goal of SMART was to approaches this principle from a practical point of view and keep it simple but flexible. 
 
 SMART and so "little Jo" stands on 3 feeds:
 * Actions
@@ -9,18 +9,18 @@ SMART and so "little Jo" stands on 3 feeds:
 The design of a web page is defined in templates. In templates, php is only used to output (echo) the demanded data. You should keep as much as possible procedural code out of templates. See: [./index.php?view=node&node=671673398 templates] doc for more details. The template language is php. Why not using a template engine like Smarty? see: [http://www.phppatterns.com/index.php/article/articleview/4/1/1/ Harry Fuecks] and [http://www.massassi.com/php/articles/template_engines/ Brian Lozier].
 
 +++ Views
-Here we assemble the demanded data and assign variables, which the templates needs to output. Furthermore, here we define the template, which is associated with this view. Optionaly launching: authentication, prepend filters, append filters. Dont hit your head on the last items. Look at the [./index.php?view=node&node=-1203816644 views] doc for more details on this issue.
+Here we assemble the demanded data and assign variables, which the templates need to output. Furthermore, here we define the template, which is associated with this view. Optionaly launching: authentication, prepend filters, append filters. Dont hit your head on the last items. Look at the [./index.php?view=node&node=-1203816644 views] doc for more details on this issue.
 
 +++ Actions
-The job of actions can be very different. But in a short cut: Here we accomplish the job request, which is directed to a [./index.php?view=node&node=1282041485 module]. All this low level job, which can be very complex and difficult. Ex.: accessing data store. As a template and view programmer you will use actions like black boxes through event functions. You only have to know what should going in to receive an expected result. Furthermore before an action works on a request, it validate the transfered data. More on this issue at the [./index.php?view=node&node=150196115 actions] doc.
+The job of actions can be very different. But in a short cut: Here we accomplish the job request, which is directed to a [./index.php?view=node&node=1282041485 module]. All this low level job, which can be very complex and difficult. Ex.: accessing data store. As a template and view programmer you will use actions like black boxes through event functions. You only have to know what should going in to receive an expected result. Furthermore before an action works on a request, it validates the transfered data. More on this issue at the [./index.php?view=node&node=150196115 actions] doc.
 
 +++ Events
 One more point, which you should keep in mind are Events, which are the (super) glue that holds every thing in the system together. Events are always directed to module actions classes through an intermediat global function M(). - At least here, oop fetishists will leave the plot - . 
 
  Example:
-A view launch an event (ex.: get_childs), which said to the module "navigation"; "give me all child nodes with status 2 (published) of the node ID defined in $_GET['node']". So the event distributor loads the "navigation" module action class in
+In a view, an event (ex.: get_childs) is directed to the module "navigation"; "give me all child nodes with status 2 (published) of the node ID defined in $_GET['node']". So the event distributor loads the "navigation" module action class in
 "modules/navigation/actions/class.action_navigation_get_childs.php"
-, which make a connection to the data store (database), push the requested data in an array $B->tpl_child_nodes. The template does nothing else than loop through this data array and output its content.
+, which makes a connection to the data store (database), push the requested data in an array $B->tpl_child_nodes. The template does nothing else than loop through this data array and output its content.
 
 Here the event code in a view class:
 <code>
@@ -31,6 +31,6 @@ Here the event code in a view class:
                  'status' => 2));
 </code>
 
-As you can see in this example, the view holds the contact with modules actions classes through events. You can put as much events as you want in views, which holds contacts with many different modules. See: [./index.php?view=node&node=-1373560185 events] doc.
+As you can see in this example, the view holds the contact with modules actions classes through events. You can put as much events as you want in views, which hold contacts with many different modules. See: [./index.php?view=node&node=-1373560185 events] doc.
 
 [[image data/media/event.gif]]

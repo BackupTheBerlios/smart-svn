@@ -1,4 +1,4 @@
-You will find here all documents which gives you an overview of how SMART works. Its not complete but it should be possible to understand SMART's outline. Please use the [http://forum.open-publisher.net/ forum] for further questions.
+You will find here all documents which give you an overview of how SMART works. Its not complete but it should be possible to understand SMART's outline. Please use the [http://forum.open-publisher.net/ forum] for further questions.
 
 Take a look at the following diagram. It show you SMART's main design. SMART, which is build on the [http://wact.sourceforge.net/index.php/ModelViewController Model-View-Controller] principle, separate the bussines from the presentation logic. Or in other words; Data storage, accessing data, data presentation is done in clearly separated sections. Bad application design mix those sections with no clear plan, which leads into unmaintainable code.
 

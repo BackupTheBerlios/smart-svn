@@ -1,4 +1,4 @@
-A module provide a couple of action classes and optionaly views and templates to build its admin interface.
+A module provide a couple of action classes and optionaly view classes and templates to build its admin interface.
 
 +++ The file and folder structure of a module
 
@@ -14,7 +14,7 @@ The file init.php serves to register a module.
 +++ SMART's init process
 You can find in the index.php controller file an "init" event, which launch the global initialisation process. Some point of this process are important to understand for those devs who intend to build there own modules.
 
-The init.php file of each module is loaded during the SMART init process. See: /smart/includes/core.inc.php. So, a working module require such an init file. Without, the systeme knows nothing about this module.
+The init.php file of each module is loaded during the SMART init process. See: /smart/includes/core.inc.php. A working module require such an init file. Without, the systeme knows nothing about this module.
 
 There is one module which is always required under a specific name:
 The **common** module.
@@ -23,6 +23,6 @@ During the systeme init process, SMART launch an init broadcast event to all mod
 Furthermore, you have to check if the systeme setup was successfull done. If no, the common module have to launch a setup event. 
 See: /modules/common/actions/class.action_common_sys_init.php
 
-This is very important because SMART it self, without any module, has no build in high level functionalities.
+SMART it self, without any module, has no build in high level functionalities.
 
 Open "little JO's" common init file /modules/common/init.php in an editor. Scroll down to the point "Module SET  CONFIG". Here you have to define some config variables which are necessairy to get work the module set.
