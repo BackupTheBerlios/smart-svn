@@ -24,7 +24,7 @@ class view_node extends view
 
     /**
      * Execute the view of the template "templates_xxx/tpl.node.php"
-     * create the template variables
+     * Create the template variables
      *
      * @return bool true on success else false
      */
@@ -37,17 +37,32 @@ class view_node extends view
             $this->B->tpl_logged_user = $this->B->logged_user;
         }
         
-        /* get_node Event call. See: modules/navigation/actions/class.action_navigation_get_node.php 
-        It assign navigation node title template variables 
-        $B->tpl_title and body $B->tpl_body. */          
-         
+        // It assign navigation node template array $B->tpl_node
+        // with data of the node defined in $_GET['node'] with status 2=public
+        // the text body is formated by PEAR's text_wikki
         M( MOD_NAVIGATION, 
            'get_node', 
-           array('node'             => $_REQUEST['node'],
-                 'error'            => 'tpl_error',
-                 'result'           => 'tpl_node',
-                 'nstatus'          => 'publish',
-                 'format'           => 'wikki' )); 
+           array('node'   => (int)$_GET['node'],
+                 'error'  => 'tpl_error',
+                 'result' => 'tpl_node',
+                 'status' => 2,
+                 'format' => 'wikki' )); 
+
+        // assign the template array $B->tpl_branch with navigation branch nodes
+        // of the node defined in $_GET['node']
+        M( MOD_NAVIGATION, 
+           'get_branch', 
+           array('result'     => 'tpl_branch',
+                 'node'       => (int)$_GET['node']));            
+
+        // assign the template array $B->tpl_child_nodes with navigation child nodes
+        // of node defined in $_GET['node']
+        // which has the status 2=public
+        M( MOD_NAVIGATION, 
+           'get_childs', 
+           array('result' => 'tpl_child_nodes',
+                 'node'   => (int)$_GET['node'],
+                 'status' => 2));
 
         return TRUE;
     }
