@@ -90,7 +90,7 @@ if(count($lists) > 0)
                 $from = '';
                 
                 // check if header from_personal is available
-                if(isset($msg->header[$mid]['from_personal']) && (count($msg->header[$mid]['from_personal'])>0))
+                if(is_array($msg->header[$mid]['from_personal']))
                 {
                     // get the from string
                     foreach($msg->header[$mid]['from_personal'] as $f)
@@ -133,7 +133,7 @@ if(count($lists) > 0)
                 $data['lid']      = $account['lid'];
                 $data['subject']  = $B->db->quoteSmart($subject);
                 $data['sender']   = $B->db->quoteSmart($B->util->html_activate_links($from));
-                $data['mdate']    = $B->db->quoteSmart(date('Y-m-d h:i:s', $msg->header[$mid]['udate']));
+                $data['mdate']    = $B->db->quoteSmart(date('Y-m-d H:i:s', $msg->header[$mid]['udate']));
                 
                 $body = $msg->getBody($mid, $pid);
                 $mbody = '';

@@ -52,7 +52,7 @@ class user
         
         if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage(), E_USER_ERROR);
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }        
         
         $data = array();
@@ -137,7 +137,7 @@ class user
 
         if (DB::isError($res)) 
         {
-            trigger_error($res->getMessage(), E_USER_ERROR);
+            trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
         
         return $uid;
@@ -231,7 +231,7 @@ class user
 
         if (DB::isError($res)) 
         {
-            trigger_error($res->getMessage(), E_USER_ERROR);
+            trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }
         
@@ -307,7 +307,7 @@ class user
         
         if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage(), E_USER_ERROR);
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }        
         
         if(is_object($result))
