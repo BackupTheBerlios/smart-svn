@@ -102,4 +102,7 @@ define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . 'modules/common/templates/index.tpl
  */
 define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
 
+// common util class for all modules
+include_once SF_BASE_DIR . 'modules/common/includes/class.commonUtil.php';
+
 ?>
