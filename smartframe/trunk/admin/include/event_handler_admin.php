@@ -43,6 +43,10 @@ function system_event_handler( $evt )
         case EVT_INIT:
             // Assign registered module handlers
             $B->mod_list = array();
+            
+            // sort handler list by name
+            ksort($B->handler_list);
+            // assign template handler list array
             foreach ($B->handler_list as $key => $value)
             {
                 if(($value['module'] != 'SYSTEM') && ($value['module'] != 'SETUP'))

@@ -1,6 +1,10 @@
 CHANGES
 #######
 
+2004-08-11
+--------------
+- first pre alpha release 
+
 2004-07-28
 --------------
 - Add restriction check to the templates and event handlers
