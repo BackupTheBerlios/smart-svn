@@ -112,7 +112,7 @@ class option_view_index
             {
                 if(preg_match("/(^[^_]+).*\.tpl\.php$/", $dirname, $tmp))
                 {
-                    if(!in_array($tmp[1], $this->B->templ))
+                    if(($tmp[1] != 'error') && !in_array($tmp[1], $this->B->templ))
                         $this->B->templ[] = $tmp[1];
                 }
             }
