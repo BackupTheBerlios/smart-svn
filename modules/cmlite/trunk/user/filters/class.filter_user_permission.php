@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_filter_permission class 
+ * filter_user_permission class 
  *
  * The permission rights levels:
  * 
@@ -42,32 +42,8 @@
  *
  */
  
-class user_filter_permission
+class filter_user_permission extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function user_filter_permission()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Check user permission to execute user edit (modify) operations
      *
