@@ -12,7 +12,7 @@
 /**
  * Base Object class 
  *
- * It include event handler methods 
+ * It include event handler methods and serves to encapsulate global variables
  *
  */
  
@@ -102,9 +102,12 @@ class sfBase
             if(!function_exists($descriptor["event_handler"]))
             {
                 trigger_error("This handler function dosent exists: ".$descriptor['event_handler']."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);      
-            }        
-            // call the event handler function
-            $descriptor["event_handler"]($_event);
+            }
+            else
+            {
+                // call the event handler function
+                $descriptor["event_handler"]($_event);
+            }
         }   
     }    
 }
