@@ -1,1 +1,0 @@
-* "Little Jo's" navigation module - When including image references in navigation node bodies through text_wikki rules, SMART always creates an logs/error.log entry. This is a PEAR/text_wikki bug. I hope it can be fixed for a next release.

@@ -28,3 +28,10 @@ This event call is distributed to all modules. If such an action dosent exists i
 You should keep in mind, that an event is always related to a module action class. See: [./index.php?view=node&node=150196115 Actions].
 
 One characteristic of SMART is, that you havent be award to include the right class files to run a event call. SMART does this job for you. If a module is registered you can use all its action classes through event calls from anywhere of the system. Even from inside action classes you can release event calls, which are directed to other modules.
+
++++ Module action objects
+Starting with SMART version 0.7 it is possible to fetch a module action object. 
+<code>
+$action = M_OBJ( MOD_NAVIGATION, 'get_node');
+</code>
+Here $action is an instance of the module action 'get_node'. May this would be helpfull to solve more complex jobs. 

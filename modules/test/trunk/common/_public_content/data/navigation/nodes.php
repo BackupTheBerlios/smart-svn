@@ -51,8 +51,4 @@ $node['-1028336057']['title'] = 'Little Jo';
 $node['-1028336057']['status'] = 2;
 $node['-1028336057']['order'] = 4;
 $node['-1028336057']['parent_id'] = 0;
-$node['1442416127']['title'] = 'Known bugs';
-$node['1442416127']['status'] = 2;
-$node['1442416127']['order'] = 8;
-$node['1442416127']['parent_id'] = -1718159224;
 ?>
