@@ -73,7 +73,9 @@
           </td>
           <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
               <tr>
-                <td align="left" valign="top"><p class="pager">E-archive is a php script which is able to fetch email messages (+ attachments) from email inbox accounts and make those accessible through a public web page. It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>. E-archive is a module of this framework. <font color="#990000" size="2">E-archive isnt bug free. Some emails arent correctly recognized.</font></p>
+                <td align="left" valign="top"><p class="pager">E-archive is a php script which is able to fetch email messages (+ attachments) from email inbox accounts and make those accessible through a public web page. It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>. E-archive is a module of this framework. <font color="#990000" size="2"><br />
+                      <br />
+                    E-archive isnt bug free.  See <a href="#bugs">Bugs</a></font></p>
                   <p class="pager">Current Version 0.2.4b</p>
                   <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&release_id=4177" target="_blank">Download E-archive from the project page at Berlios</a></p>
                   <h3>Installation:</h3>
@@ -148,7 +150,7 @@
                     <li class="pager">Allow deleting messages older than a given date</li>
                     <li class="pager">Including advance searching strategies</li>
                   </ul>
-				  <h3>Bugs</h3>
+				  <h3><a name="bugs">Bugs</a></h3>
                   <p class="pager">The format of some emails isnt recognized correctly so that its body is empty. Hope that i can find the time to correct this. Any help on this issue is welcome. (The email fetching process is done in the following class:<br />
                     modules/earchive/actions/class.action_earchive_fetch_emails.php
                   )</p>
