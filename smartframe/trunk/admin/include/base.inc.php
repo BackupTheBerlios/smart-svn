@@ -78,7 +78,7 @@ while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
     if ( @is_dir( SF_BASE_DIR . '/admin/modules/'.$B->tmp_dirname) )
     {
         $B->tmp_evt_handler = SF_BASE_DIR . '/admin/modules/' . $B->tmp_dirname . '/event_handler.php';
-        
+
         if ( @is_file( $B->tmp_evt_handler ) )
         {
             include_once $B->tmp_evt_handler;

@@ -25,12 +25,17 @@ if (!defined('SF_SECURE_INCLUDE'))
 /**
  * error log types ('LOG|SHOW')
  */
-define('SF_ERROR_HANDLE',             'LOG');
+define('SF_ERROR_HANDLE',             'LOG|SHOW');
 
 /**
  * error reporting
  */
 define('SF_ERROR_REPORTING',          E_COMPILE_ERROR|E_ERROR|E_CORE_ERROR|E_PARSE);
+
+/**
+ * Set debug.
+ */
+define('SF_DEBUG',                    TRUE);
 
 /**
  * Allowed output buffering.
@@ -71,7 +76,6 @@ define('EVT_DEBUG',                   'SYS_DEBUG');
 define('EVT_SETUP',                   'SYS_SETUP');
 define('EVT_LOAD_INIT_OPTION',        'SYS_LOAD_INIT_OPTION');
 define('EVT_SETUP_FINISH',            'SYS_SETUP_FINISH');
-define('EVT_GET_OPTIONS',             'SYS_GET_OPTIONS');
 define('EVT_UPDATE',                  'SYS_UPDATE');
 
 

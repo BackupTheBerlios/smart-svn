@@ -17,6 +17,12 @@
 class SYSTEM_SYS_SETUP
 {
     /**
+     * Global system instance
+     * @var object $this->B
+     */
+    var $B;
+    
+    /**
      * constructor php4
      *
      */
@@ -31,6 +37,7 @@ class SYSTEM_SYS_SETUP
      */
     function __construct()
     {
+        $this->B = & $GLOBALS['B'];
     }
     
     /**
@@ -45,7 +52,7 @@ class SYSTEM_SYS_SETUP
             if(!is_writeable( SF_BASE_DIR . '/admin/logs' ))
             {
                 trigger_error("Must be writeable: " . SF_BASE_DIR . "/admin/logs\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                $GLOBALS['B']->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/logs';
+                $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/logs';
                 $success = FALSE;
             }
 
@@ -53,8 +60,8 @@ class SYSTEM_SYS_SETUP
             include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
 
             // set name and version of the framework
-            $GLOBALS['B']->conf_val['info']['name']    = $B->system_name;
-            $GLOBALS['B']->conf_val['info']['version'] = $B->system_version;
+            $this->B->conf_val['info']['name']    = $B->system_name;
+            $this->B->conf_val['info']['version'] = $B->system_version;
             return $success;
     }
 }

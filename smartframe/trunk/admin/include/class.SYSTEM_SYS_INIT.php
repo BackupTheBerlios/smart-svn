@@ -17,6 +17,12 @@
 class SYSTEM_SYS_INIT
 {
     /**
+     * Global system instance
+     * @var object $this->B
+     */
+    var $B;
+    
+    /**
      * constructor php4
      *
      */
@@ -31,6 +37,7 @@ class SYSTEM_SYS_INIT
      */
     function __construct()
     {
+        $this->B = & $GLOBALS['B'];
     }
     
     /**
@@ -40,14 +47,14 @@ class SYSTEM_SYS_INIT
      * @param array $data
      */  
     function perform( $data )
-    {
-            include_once(SF_BASE_DIR.'/admin/include/system_version.php');
+    {   
+            include_once(SF_BASE_DIR.'/admin/include/system_version.php');           
             // Check for upgrade  
-            if($GLOBALS['B']->system_version != (string)$GLOBALS['B']->sys['info']['version'])
+            if($this->B->system_version != (string)$this->B->sys['info']['version'])
             {
-                $GLOBALS['B']->sys['info']['name']    = $B->system_name;
-                $GLOBALS['B']->sys['info']['version'] = $B->system_version;
-                $GLOBALS['B']->system_update_flag = TRUE;  
+                $this->B->sys['info']['name']    = $this->B->system_name;
+                $this->B->sys['info']['version'] = $this->B->system_version;
+                $this->B->system_update_flag = TRUE;  
                 
                 // include additional upgrade code here
             }   
