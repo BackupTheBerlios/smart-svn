@@ -281,8 +281,7 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                                   is a stable release.</li>
                           </ul>
                             <h3>Get involved</h3>
-                            <p class="pager">Please contact me if you have interests
-                              to get involved in this project. Requirements:</p>
+                            <p class="pager">Requirements:</p>
                             <ul>
                                 <li class="pager"> PHP knowledge</li>
                                 <li class="pager">Experience with           
