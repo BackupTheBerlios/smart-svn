@@ -284,7 +284,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists_messages";
+                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages";
         
         $result = $GLOBALS['B']->db->query($sql);
 

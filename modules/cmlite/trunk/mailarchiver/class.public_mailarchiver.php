@@ -338,7 +338,17 @@ class mailarchiver
         $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
 
         $params['totalItems'] = $_result['num_rows'];
-        $params['perPage']    = $data['pager']['limit'];
+        
+        if(!empty($data['pager']['limit']))
+            $params['perPage']    = $data['pager']['limit'];
+        else
+            $params['perPage']    = 10;
+
+        if(!empty($data['pager']['delta']))
+            $params['delta']    = $data['pager']['delta'];
+        else
+            $params['delta']    = 2;
+            
         $pager = &new Pager_Sliding($params);
         $links = $pager->getLinks();
         $GLOBALS['B']->$data['pager']['var'] = $links['all'];    

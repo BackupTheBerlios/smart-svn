@@ -41,6 +41,10 @@ $msg =& new Mail_IMAP();
 //User Class instance
 $B->marchiver = & new mailarchiver;
 
+// word indexer class
+include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
+$word_indexer = & new word_indexer();
+
 // get email accounts
 $lists = $B->marchiver->get_lists( array('lid','emailserver','folder'), 'status>1' );
 
@@ -114,7 +118,7 @@ if(count($lists) > 0)
                 {
                     $data['body'] = $B->db->quoteSmart($body['message']);
                 }
-    
+        
                 $mes_folder = FALSE;
                 $is_attach  = FALSE;
     
@@ -131,11 +135,19 @@ if(count($lists) > 0)
                     $data['folder']  = '0';
                 }
                 
+                $_content = '';
+                
                 if(FALSE === ($message_id = $B->marchiver->add_message( $data )))
+                {
                     trigger_error('Cannot add message: '.var_export($data).__FILE__.' '.__LINE__, E_USER_ERROR);
-    
+                    continue;
+                }
+
+                $_content = $data['subject'].' '.$data['sender'].' '.$data['body'];
+                $word_indexer->indexing_words( $_content, 'mailarchiver_words_crc32', 'mid', $message_id);
+                
                 // Now the attachments
-                if ((TRUE === $is_attach) && ($message_id !== FALSE))
+                if (TRUE === $is_attach)
                 {
                     $path = SF_BASE_DIR . '/data/mailarchiver/'.$account['folder'].'/'. $mes_folder;
     
