@@ -10,20 +10,21 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_index class
+ * view_node class
  *
  */
  
-class view_index extends view
+class view_node extends view
 {
      /**
      * Default template
      * @var string $template
      */
-    var $template = 'index';
-        
+    var $template = 'node';
+
     /**
-     * Execute the view of the template "templates_xxx/tpl.index.php"
+     * Execute the view of the template "templates_xxx/tpl.node.php"
+     * create the template variables
      *
      * @return bool true on success else false
      */
@@ -35,9 +36,35 @@ class view_index extends view
             // assign a template variable with the name of the logged user.
             $this->B->tpl_logged_user = $this->B->logged_user;
         }
-        return TRUE;
-    } 
+        
+        /* get_node Event call. See: modules/navigation/actions/class.action_navigation_get_node.php 
+        It assign navigation node title template variables 
+        $B->tpl_title and body $B->tpl_body. */          
+         
+        M( MOD_NAVIGATION, 
+           'get_node', 
+           array('node'             => $_REQUEST['node'],
+                 'title'            => 'tpl_title',
+                 'body'             => 'tpl_body',
+                 'nl2br'            => TRUE,
+                 'htmlspecialchars' => FALSE)); 
 
+        return TRUE;
+    }
+    
+    /**
+     * authentication
+     *
+     */
+    function auth()
+    {
+        // Directed authentication event to the module handler, 
+        // which takes the authentication part
+        // The variable SF_AUTH_MODULE must be declared in the "common"
+        // module event_handler.php file
+        M( SF_AUTH_MODULE, 'auth' );
+    }
+    
     /**
      * prepend filter chain
      *
@@ -64,7 +91,7 @@ class view_index extends view
         // Directed intercepting filter event (auto_prepend)
         // see smart/actions/class.system_sys_prepend.php
         M( MOD_SYSTEM, 'sys_append' );    
-    }       
+    }     
 }
 
 ?>

@@ -12,6 +12,9 @@
 /**
  * view_navigation class
  *
+ * Here we dont need authentication, prepend or append filters
+ * since this view is included in other views, which do this job
+ *
  */
  
 class view_navigation extends view
@@ -30,12 +33,13 @@ class view_navigation extends view
      */
     function perform()
     {
-         /* Event to get the navigation menu entries from the navigation module action class. 
+         /* Event to get the navigation menu entries, with status "publish" from the navigation module action class. 
          See: modules/navigation/actions/class.action_navigation_get.php 
          The result is in the array $B->tpl_nav which is included as the site navigation menu. */
          M( MOD_NAVIGATION, 
             'get', 
-            array('var' => 'tpl_nav'));
+            array('nav'     => 'tpl_nav',
+                  'status'  => 'publish'));
         
         return TRUE;
     }    
