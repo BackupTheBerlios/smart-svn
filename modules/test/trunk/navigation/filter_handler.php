@@ -54,6 +54,7 @@ function navigation_filter_handler( $evt )
             // perform the request
             return $B->$class_name->perform( $evt['data'] );
         }
+        return FALSE;
     }
     else
     {
