@@ -36,10 +36,10 @@ class action_setup_sys_setup extends action
             
         if($success == TRUE)    
             $success = M( MOD_COMMON,       'sys_setup' );            
-        /*
+
         if($success == TRUE)
-            $success = M( MOD_EARCHIVE,     'sys_setup' );
-*/
+            $success = M( MOD_NAVIGATION,   'sys_setup' );
+
         if($success == TRUE)
             $success = M( MOD_OPTION,       'sys_setup' );
     
@@ -51,14 +51,14 @@ class action_setup_sys_setup extends action
         if( $success == TRUE )
         {
             // set default template group that com with this package
-            $this->B->conf_val['option']['tpl'] = 'earchive';    
+            $this->B->conf_val['option']['tpl'] = 'default';    
             $this->B->conf_val['info']['status'] = TRUE;
                 
             // update config file with the data array $this->B->conf_val        
             // see modules/SF_BASE_MODULE/actions/class.action_SF_BASE_MODULE_sys_update_config.php
             M( SF_BASE_MODULE, 
                'sys_update_config', 
-               array( 'data'      => $this->B->conf_val,
+               array( 'data'     => $this->B->conf_val,
                       'file'     => SF_BASE_DIR . 'modules/'.SF_BASE_MODULE.'/config/config.php',
                       'var_name' => 'this->B->sys',
                       'type'     => 'PHPArray') );     
