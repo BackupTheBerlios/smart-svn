@@ -40,6 +40,9 @@ if( $_POST['do_setup'] && (count($B->setup_error) == 0) )
     // set name and version of the framework
     $B->conf_val['info']['name']    = $B->system_name;
     $B->conf_val['info']['version'] = $B->system_version;
+    
+    $B->conf_val['info']['dbtype'] = $_POST['dbtype'];
+    
     // set default media folder of the framework
     $B->conf_val['option']['css_folder'] = 'default';
 }

@@ -48,6 +48,7 @@ function option_event_handler( $evt )
             // Set some options
             $B->conf_val['option']['tpl'] = 'test';
             $B->conf_val['option']['url'] = '../index.php';
+            $B->conf_val['option']['charset'] = $_POST['charset'];
             break;      
         case EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           

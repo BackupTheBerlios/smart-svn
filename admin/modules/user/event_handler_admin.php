@@ -51,6 +51,9 @@ function user_event_handler( $evt )
                 include(SF_BASE_DIR.'/admin/modules/user/login.php');
             break;
         case EVT_LOAD_MODULE:
+            // User rights class
+            include(SF_BASE_DIR.'/admin/modules/user/class.rights.php');          
+        
             // Load a module feature
             include(SF_BASE_DIR.'/admin/modules/user/module_loader.php');          
             break;             
@@ -100,18 +103,22 @@ define('SF_OPTION_MODULE',               'OPTION');
  */
 define('SF_DEFAULT_MODULE',              'ENTRY');
 
-
-// include sqlite class
-include_once( SF_BASE_DIR . '/admin/modules/user/class.Sqlite.php' );
-
-// User rights class
-include(SF_BASE_DIR.'/admin/modules/user/class.rights.php');          
-
-// class instance of sqlite if setup is done
+// class instance of DB if setup is done
 if($B->sys['info']['status'] == TRUE)
 {
-    // Connect to the main database
-    $B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
-    $B->dbdata->turboMode();
+    // include DB class
+    include_once( SF_BASE_DIR . '/admin/modules/user/class.'.$B->sys['info']['dbtype'].'.php' );
+
+    if($B->sys['info']['dbtype'] == 'sqlite')
+    {
+        // Connect to the main database
+        $B->db = & new DB(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
+        $B->db->turboMode();
+    }
+    if($B->sys['info']['dbtype'] == 'mysql')
+    {
+        // Connect to the mysql database
+        $B->db = & new DB($B->sys['info']['host'],$B->sys['info']['user'],$B->sys['info']['passwd'],$B->sys['info']['table_prefix']);
+    }    
 }
 ?>

@@ -20,15 +20,6 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on'. __FILE__);
 }
 
-if(!@mkdir(SF_BASE_DIR . '/data/db_sqlite'))
-{
-    $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/data/db_sqlite';
-}
-elseif(!@is_writeable( SF_BASE_DIR . '/data/db_sqlite' ))
-{
-    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/db_sqlite';
-}
-
 // Do setup 
 if( empty($_POST['sysname']) )
 {
@@ -49,46 +40,12 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
 
 if( count($B->setup_error) == 0 )
 {
-    @copy(SF_BASE_DIR . '/admin/include/.htaccess', SF_BASE_DIR . '/data/db_sqlite/.htaccess');
-    
-    // Connect to the main database
-    $B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');
-    $B->dbdata->turboMode();
-
-    $sql = "CREATE TABLE user_users (
-            uid      INTEGER NOT NULL PRIMARY KEY,
-            status   TINYINT NOT NULL default 1,
-            rights   TINYINT NOT NULL default 1,
-            login    VARCHAR(30) NOT NULL,
-            passwd   CHAR(32) NOT NULL,
-            forename VARCHAR(50) NOT NULL,
-            lastname VARCHAR(50) NOT NULL,
-            email    VARCHAR(300) NOT NULL default '',
-            desc     TEXT NOT NULL default '')";
-
-    if( FALSE == $B->dbdata->query($sql) )
-    {
-        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
-    }
-
-    $forename  = $B->dbdata->escapeString($_POST['sysname']);
-    $lastename = $B->dbdata->escapeString($_POST['syslastname']);
-    $login     = $B->dbdata->escapeString($_POST['syslogin']);
-    $passwd    = md5($_POST['syspassword1']);
-
-    $sql = "INSERT INTO user_users 
-                (forename,lastname,login,passwd,status,rights) 
-              VALUES 
-                ('{$forename}','{$lastename}','{$login}','{$passwd}',2,5)";
-    
-    if( FALSE == $B->dbdata->query($sql) )
-    {
-        $B->setup_error[] = $B->dbdata->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
-    }
+    // include sqlite setup
+    include_once( SF_BASE_DIR . '/admin/modules/user/_setup_'.$_POST['dbtype'].'.php' );    
     
     $B->conf_val['module']['user']['name']    = 'user';
     $B->conf_val['module']['user']['version'] = '0.1';
-    $B->conf_val['module']['user']['info'] = '';
+    $B->conf_val['module']['user']['info'] = '';    
 }
 
 ?>

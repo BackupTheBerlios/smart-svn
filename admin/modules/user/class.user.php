@@ -48,10 +48,10 @@ class user
             ORDER BY
                 rights DESC, lastname ASC";
         
-        $result = $GLOBALS['B']->dbdata->query($sql);
+        $result = $GLOBALS['B']->db->query($sql);
         
         $data = array();
-        while($row = $GLOBALS['B']->dbdata->getRow($result))
+        while($row = $GLOBALS['B']->db->getRow($result))
         {
             $tmp = array();
             foreach($fields as $f)
@@ -87,9 +87,9 @@ class user
             WHERE
                 uid={$uid}";
         
-        $result = $GLOBALS['B']->dbdata->query($sql);
+        $result = $GLOBALS['B']->db->query($sql);
         
-        return $GLOBALS['B']->dbdata->getRow($result);
+        return $GLOBALS['B']->db->getRow($result);
     } 
     
     /**
@@ -117,7 +117,7 @@ class user
                  '{$data['status']}',
                  '{$data['rights']}')";
         
-        $GLOBALS['B']->dbdata->query($sql);
+        $GLOBALS['B']->db->query($sql);
     } 
     /**
      * update user
@@ -149,7 +149,7 @@ class user
             WHERE
                 uid={$uid}";
         
-        $GLOBALS['B']->dbdata->query($sql);
+        $GLOBALS['B']->db->query($sql);
         
         return TRUE;
     } 
@@ -167,7 +167,7 @@ class user
             WHERE
                 uid={$uid}";
         
-        $GLOBALS['B']->dbdata->query($sql);
+        $GLOBALS['B']->db->query($sql);
     }
 
     /**
@@ -186,8 +186,8 @@ class user
             WHERE
                 login='{$login}'";
         
-        $result = $GLOBALS['B']->dbdata->query($sql);
-        return $GLOBALS['B']->dbdata->numRows($result);    
+        $result = $GLOBALS['B']->db->query($sql);
+        return $GLOBALS['B']->db->numRows($result);    
     }
 }
 

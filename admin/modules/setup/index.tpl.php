@@ -32,7 +32,6 @@
         <td width="19%" align="left" valign="top"><span class="normal">Database Type:</span></td>
         <td width="81%" align="left" valign="top">
           <select name="dbtype" id="dbtype">
-            <option value="mysql" selected="selected">MySql</option>
             <option value="sqlite">Sqlite</option>
           </select>
 </td>
