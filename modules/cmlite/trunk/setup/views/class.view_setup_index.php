@@ -34,7 +34,7 @@ class view_setup_index extends view
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {    
         // launch setup
         if( $_POST['do_setup'] )
