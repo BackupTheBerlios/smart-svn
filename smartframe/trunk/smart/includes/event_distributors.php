@@ -24,6 +24,9 @@
  * - Broadcast Event Distributor
  *   It directs an event to all modules
  *
+ *
+ * Furthermore one function to return an action object
+ *
  */
 
 /**
