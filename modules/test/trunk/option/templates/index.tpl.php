@@ -30,7 +30,7 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-    <form action="index.php" method="post" name="email" id="email">  
+    <form action="<?php echo SF_CONTROLLER; ?>" method="post" name="email" id="email">  
         <input name="admin" type="hidden" value="1">
         <input name="m" type="hidden" value="option">
         <input name="view" type="hidden" value="index">
@@ -47,7 +47,7 @@
           </tr>
         </table>   
     </form> 
-    <form action="index.php" method="post" name="title" id="title"> 
+    <form action="<?php echo SF_CONTROLLER; ?>" method="post" name="title" id="title"> 
         <input name="admin" type="hidden" value="1">
         <input type="hidden" name="view" id="id" value="index">
         <input name="m" type="hidden" value="option">    
@@ -65,7 +65,7 @@
           </tr>
         </table> 
     </form>  
-    <form action="index.php" method="post" name="charset" id="charset"> 
+    <form action="<?php echo SF_CONTROLLER; ?>" method="post" name="charset" id="charset"> 
         <input name="admin" type="hidden" value="1">
         <input type="hidden" name="view" id="id" value="index">
         <input name="m" type="hidden" value="option">              
@@ -98,7 +98,7 @@
           </tr>
         </table> 
     </form>  
-    <form action="index.php" method="post" name="view" id="view">
+    <form action="<?php echo SF_CONTROLLER; ?>" method="post" name="view" id="view">
         <input name="admin" type="hidden" value="1">
         <input type="hidden" name="view" id="id" value="index">
         <input name="m" type="hidden" value="option">             
