@@ -43,7 +43,7 @@ function setup_event_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'SETUP_'.$evt['code'];
+    $class_name = 'setup_'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))

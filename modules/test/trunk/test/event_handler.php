@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_TEST' , 'TEST');
+define ( 'MOD_TEST' , 'test');
 
 // Version of this module
 define ( 'MOD_TEST_VERSION' , '0.4');
@@ -42,7 +42,7 @@ function test_event_handler( $evt )
     global $B;
     
     // build the whole class name
-    $class_name = 'TEST_'.$evt['code'];
+    $class_name = 'test_'.$evt['code'];
         
     // check if this object was previously declared
     if(!is_object($B->$class_name))

@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the filter module
-define( 'TEST_FILTER' , 'TEST' );
+define( 'TEST_FILTER' , 'test' );
 
 // register this filter                      
 if (FALSE == $B->register_filter( TEST_FILTER,
@@ -39,7 +39,7 @@ function test_filter_handler( $evt )
     global $B;
 
     // build the whole class name
-    $class_name = 'TEST_FILTER_'.$evt['code'];
+    $class_name = 'test_filter'.$evt['code'];
     
     // check if this object was previously declared
     if(!is_object($B->$class_name))
