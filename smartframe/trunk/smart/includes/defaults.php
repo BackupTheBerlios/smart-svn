@@ -51,8 +51,8 @@ define('SF_COMMON_MODULE',            'common');
 /**
  * Default templates and views folder
  */
-define('SF_DEFAULT_TEMPLATE_FOLDER',   'templates_default');
-define('SF_DEFAULT_VIEW_FOLDER',       'views_default');
+define('SF_DEFAULT_TEMPLATE_FOLDER',   'templates_default/');
+define('SF_DEFAULT_VIEW_FOLDER',       'views_default/');
 /**
  * Template render flags
  */
