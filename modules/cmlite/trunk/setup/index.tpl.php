@@ -28,7 +28,7 @@ function subok(s){
 </script>
 </head>
 <body>
-<?php foreach($B->setup_error as $err) echo $err . '<br />'; ?>
+<?php if(count($B->setup_error)> 0){ foreach($B->setup_error as $err) echo $err . '<br />';} ?>
 <form name="setup" id="setup" method="post" action="index.php?dbtype=<?php echo $_REQUEST['dbtype']; ?>">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
