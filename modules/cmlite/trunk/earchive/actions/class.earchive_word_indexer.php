@@ -89,11 +89,11 @@ class earchive_word_indexer
         {
             if($data['mid'])
             {
-                $this->_delete_words( 'mid', $data['mid'] )
+                $this->_delete_words( 'mid', $data['mid'] );
             }
             elseif($data['lid'])
             {
-                $this->_delete_words( 'lid', $data['lid'] )
+                $this->_delete_words( 'lid', $data['lid'] );
             }
             return TRUE;
         }
