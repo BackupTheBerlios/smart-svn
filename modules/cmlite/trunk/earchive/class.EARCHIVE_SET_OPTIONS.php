@@ -50,16 +50,12 @@ class EARCHIVE_SET_OPTIONS
         // set user options 
         // this event comes from the option module (module_loader.php)
         if(isset($_POST['update_earchive_options_wordindex']) && !empty($_POST['earchive_rebuild_index']))
-        {
-            // the earchive class
-            include_once SF_BASE_DIR . '/admin/modules/earchive/class.earchive.php';
-            $earchiver = & new earchive; 
-                
+        {              
             include_once(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php');
             $word_indexer = & new word_indexer();
                 
             $fields = array('mid','lid','subject','body','sender');
-            $result = $earchiver->get_all_messages( $fields );
+            $result = $this->get_all_messages( $fields );
                 
             if(is_object($result))
             {
@@ -82,6 +78,36 @@ class EARCHIVE_SET_OPTIONS
              include_once SF_BASE_DIR . '/admin/modules/earchive/fetch_emails.php';             
          }
     } 
+    /**
+     * get all messages
+     *
+     * @param array $fields Field names of the list db table
+     * @return array Lists data 
+     */ 
+    function & get_all_messages( $fields )
+    {
+        $comma = '';
+        foreach ($fields as $f)
+        {
+            $_fields .= $comma.$f;
+            $comma = ',';
+        }
+        
+        $sql = "
+            SELECT
+                {$_fields}
+            FROM
+                {$this->B->sys['db']['table_prefix']}earchive_messages";
+        
+        $result = $this->B->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }
+
+        return $result;
+    }    
 }
 
 ?>

@@ -50,13 +50,13 @@ class earchive
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_lists
+                {$this->B->sys['db']['table_prefix']}earchive_lists
             WHERE
                 status>1
             ORDER BY
                 name ASC";
         
-        $result = $GLOBALS['B']->db->query($sql);
+        $result = $this->B->db->query($sql);
 
         if (DB::isError($result)) 
         {
@@ -64,8 +64,8 @@ class earchive
         }
         
         // get var name to store the result
-        $GLOBALS['B']->$data['var'] = array();
-        $_result                    = & $GLOBALS['B']->$data['var'];
+        $this->B->$data['var'] = array();
+        $_result                    = & $this->B->$data['var'];
         
         if(is_object($result))
         {
@@ -107,17 +107,17 @@ class earchive
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_lists
+                {$this->B->sys['db']['table_prefix']}earchive_lists
             WHERE
                 status>1                
             AND
                 lid={$data['lid']}";
 
         // get var name to store the result
-        $GLOBALS['B']->$data['var'] = array();
-        $_result                    = & $GLOBALS['B']->$data['var'];
+        $this->B->$data['var'] = array();
+        $_result                    = & $this->B->$data['var'];
 
-        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $_result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
         
         // check if authentication required
         if($_result['status'] == 3)
@@ -149,17 +149,17 @@ class earchive
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
+                {$this->B->sys['db']['table_prefix']}earchive_messages
             WHERE
                 mid={$data['mid']}                
             AND
                 lid={$data['lid']}";
 
         // get var name to store the result
-        $GLOBALS['B']->$data['var'] = array();
-        $_result                    = & $GLOBALS['B']->$data['var'];
+        $this->B->$data['var'] = array();
+        $_result                    = & $this->B->$data['var'];
 
-        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $_result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     } 
 
     /**
@@ -190,7 +190,7 @@ class earchive
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
+                {$this->B->sys['db']['table_prefix']}earchive_messages
             WHERE
                 lid={$data['lid']} 
             ORDER BY {$order}";
@@ -200,7 +200,7 @@ class earchive
         else
             $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
             
-        $result = $GLOBALS['B']->db->limitQuery($sql,$page,$data['pager']['limit']);
+        $result = $this->B->db->limitQuery($sql,$page,$data['pager']['limit']);
 
         if (DB::isError($result)) 
         {
@@ -208,8 +208,8 @@ class earchive
         }
 
         // get var name to store the result
-        $GLOBALS['B']->$data['var'] = array();
-        $_result                    = & $GLOBALS['B']->$data['var'];
+        $this->B->$data['var'] = array();
+        $_result                    = & $this->B->$data['var'];
 
         if(is_object($result))
         {
@@ -248,13 +248,13 @@ class earchive
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach 
+                {$this->B->sys['db']['table_prefix']}earchive_attach 
             WHERE 
                 mid={$data['mid']}
             ORDER BY
                 file ASC";
         
-        $result = $GLOBALS['B']->db->query($sql);
+        $result = $this->B->db->query($sql);
 
         if (DB::isError($result)) 
         {
@@ -262,8 +262,8 @@ class earchive
         }
         
         // get var name to store the result
-        $GLOBALS['B']->$data['var'] = array();
-        $_result                    = & $GLOBALS['B']->$data['var'];
+        $this->B->$data['var'] = array();
+        $_result                    = & $this->B->$data['var'];
         
         if(is_object($result))
         {
@@ -301,7 +301,7 @@ class earchive
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach
+                {$this->B->sys['db']['table_prefix']}earchive_attach
             WHERE
                 aid={$data['aid']} 
             AND
@@ -310,10 +310,10 @@ class earchive
                 lid={$data['lid']}";
 
         // get var name to store the result
-        $GLOBALS['B']->$data['var'] = array();
-        $_result                    = & $GLOBALS['B']->$data['var'];
+        $this->B->$data['var'] = array();
+        $_result                    = & $this->B->$data['var'];
 
-        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $_result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     } 
 
     /**
@@ -331,11 +331,11 @@ class earchive
             SELECT
                 count(lid) AS num_rows
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
+                {$this->B->sys['db']['table_prefix']}earchive_messages
             WHERE
                 lid={$data['lid']}";        
 
-        $_result = $GLOBALS['B']->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $_result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
 
         $params['totalItems'] = $_result['num_rows'];
         
@@ -351,7 +351,7 @@ class earchive
             
         $pager = &new Pager_Sliding($params);
         $links = $pager->getLinks();
-        $GLOBALS['B']->$data['pager']['var'] = $links['all'];    
+        $this->B->$data['pager']['var'] = $links['all'];    
     }
 
     /**
@@ -361,7 +361,7 @@ class earchive
      */     
     function _auth()
     {
-        if( $GLOBALS['B']->auth->is_user !== FALSE )
+        if( $this->B->auth->is_user !== FALSE )
         {
             return TRUE;
         }

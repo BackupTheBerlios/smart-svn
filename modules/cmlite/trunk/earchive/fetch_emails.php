@@ -24,7 +24,7 @@ include_once (SF_BASE_DIR . '/admin/modules/common/PEAR/MAIL/IMAP.php');
 $msg =& new Mail_IMAP();
 
 //User Class instance
-$B->earchive = & new earchive;
+$this->B->earchive = & new earchive;
 
 // word indexer class
 include_once(SF_BASE_DIR.'/admin/modules/common/class.sfWordIndexer.php');
@@ -33,10 +33,10 @@ $word_indexer = & new word_indexer();
 // earchive util class
 include_once(SF_BASE_DIR.'/admin/modules/earchive/class.util.php');
 
-$B->e_util = & new earchiveUtil;
+$this->B->e_util = & new earchiveUtil;
 
 // get email accounts
-$lists = $B->earchive->get_lists( array('lid','emailserver','folder'), 'status>1' );
+$lists = $this->B->earchive->get_lists( array('lid','emailserver','folder'), 'status>1' );
 
 if(count($lists) > 0)
 {
@@ -92,26 +92,26 @@ if(count($lists) > 0)
                         $x++;
                     }
                     // decode from string
-                    $from = $B->e_util->decodeEmailHeader($from);
+                    $from = $this->B->e_util->decodeEmailHeader($from);
                 }
                 else
                 {
                     // get from address
-                    $from = $B->e_util->decodeEmailHeader($msg->header[$mid]['fromaddress']).' '.$msg->header[$mid]['senderaddress'];
+                    $from = $this->B->e_util->decodeEmailHeader($msg->header[$mid]['fromaddress']).' '.$msg->header[$mid]['senderaddress'];
                     $from = str_replace("<","&lt;",$from);
                     $from = str_replace(">","&gt;",$from);
                 }
                 
                 // decode subject string                
-                $subject = $B->e_util->decodeEmailHeader($msg->header[$mid]['subject']);
+                $subject = $this->B->e_util->decodeEmailHeader($msg->header[$mid]['subject']);
                 
                 $subject = str_replace("<","&lt;",$subject);
                 $subject = str_replace(">","&gt;",$subject);               
                   
                 $data['lid']      = $account['lid'];
-                $data['subject']  = $B->db->quoteSmart($subject);
-                $data['sender']   = $B->db->quoteSmart($B->e_util->html_activate_links($from));
-                $data['mdate']    = $B->db->quoteSmart(date('Y-m-d H:i:s', $msg->header[$mid]['udate']));
+                $data['subject']  = $this->B->db->quoteSmart($subject);
+                $data['sender']   = $this->B->db->quoteSmart($this->B->e_util->html_activate_links($from));
+                $data['mdate']    = $this->B->db->quoteSmart(date('Y-m-d H:i:s', $msg->header[$mid]['udate']));
                 
                 $body = $msg->getBody($mid, $pid);
                 $mbody = '';
@@ -120,11 +120,11 @@ if(count($lists) > 0)
                 {
                     $mess = str_replace("<","&lt;",$body['message']);
                     $mess = str_replace(">","&gt;",$mess);
-                    $data['body'] = $B->db->quoteSmart(nl2br($B->e_util->html_activate_links($mess)));
+                    $data['body'] = $this->B->db->quoteSmart(nl2br($this->B->e_util->html_activate_links($mess)));
                 }
                 else
                 {
-                    $data['body'] = $B->db->quoteSmart($body['message']);
+                    $data['body'] = $this->B->db->quoteSmart($body['message']);
                 }
         
                 $mes_folder = FALSE;
@@ -136,7 +136,7 @@ if(count($lists) > 0)
                     $is_attach = TRUE;
                     // get list messages attachment folder string
                     $mes_folder = commonUtil::unique_md5_str();
-                    $data['folder']  = $B->db->quoteSmart($mes_folder);
+                    $data['folder']  = $this->B->db->quoteSmart($mes_folder);
                 }
                 else
                 {
@@ -145,7 +145,7 @@ if(count($lists) > 0)
                 
                 $_content = '';
                 
-                if(FALSE === ($message_id = $B->earchive->add_message( $data )))
+                if(FALSE === ($message_id = $this->B->earchive->add_message( $data )))
                 {
                     trigger_error('Cannot add message: '.var_export($data).__FILE__.' '.__LINE__, E_USER_ERROR);
                     continue;// switch to next message
@@ -170,8 +170,8 @@ if(count($lists) > 0)
                        $pid = $msg->attachPid[$mid][$i];
                        $att_data = array();
                        
-                       $att_data['file'] = $B->db->quoteSmart($B->e_util->decodeEmailHeader($msg->attachFname[$mid][$i]));
-                       $att_data['type'] = $B->db->quoteSmart($msg->attachFtype[$mid][$i]);
+                       $att_data['file'] = $this->B->db->quoteSmart($this->B->e_util->decodeEmailHeader($msg->attachFname[$mid][$i]));
+                       $att_data['type'] = $this->B->db->quoteSmart($msg->attachFtype[$mid][$i]);
                        $att_data['size'] = $msg->attachFsize[$mid][$i];
 
                         // Parse header information
@@ -183,7 +183,7 @@ if(count($lists) > 0)
                             @fwrite($f, $body['message'], $att_data['size']);
                             @fclose($f);
                             @chmod($path.'/'.$msg->attachFname[$mid][$i], SF_FILE_MODE);
-                            $B->earchive->add_attach( $message_id, $account['lid'], $att_data );
+                            $this->B->earchive->add_attach( $message_id, $account['lid'], $att_data );
                         }
                     }
                 }
