@@ -78,4 +78,15 @@ define('SF_OPTION_MODULE',               'OPTION');
  */
 define('SF_DEFAULT_MODULE',              'DEFAULT');
 
+// include system config array else forward to the admin section to start setup
+if(file_exists(SF_BASE_DIR . '/admin/modules/common/config/config.php'))
+{
+    include_once( SF_BASE_DIR . '/admin/modules/common/config/config.php' );  
+}
+else
+{
+    @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
+    exit;  
+}
+
 ?>

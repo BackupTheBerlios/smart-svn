@@ -121,6 +121,11 @@ or packages like PEAR, ADODB, ... you have to include those here.
 define('SF_AUTH_MODULE',      'TEST'); // required
 
 /**
+ * The module which play a base role required for all other modules.
+ */
+define('SF_BASE_MODULE',                 MOD_COMMON);
+
+/**
  * The module (name) which takes the global options part.
  */
 define('SF_OPTION_MODULE',    'OPTION'); // required
@@ -140,5 +145,34 @@ define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . '/admin/modules/common/templates/in
  */
 define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
 
+// get os related separator to set include path
+if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
+    $tmp_separator = ';';
+else
+    $tmp_separator = ':';
+
+// set include path to the PEAR packages
+ini_set( 'include_path', SF_BASE_DIR . '/admin/modules/common/PEAR' . $tmp_separator . ini_get('include_path') );
+unset($tmp_separator); 
+
+// init system config array
+$B->sys = array();
+
+// include system config array
+if(file_exists(SF_BASE_DIR . '/admin/modules/common/config/config.php'))
+    include_once( SF_BASE_DIR . '/admin/modules/common/config/config.php' );  
+
+// if setup was done
+if($B->sys['info']['status'] == TRUE)
+{ 
+    // here you may create db connection and start a session.
+    // .... things, which are required by all other modules
+    
+}
+// Set setup flag if setup wasnt done
+else
+{
+    define('_DO_SETUP', TRUE);
+}
 
 ?>

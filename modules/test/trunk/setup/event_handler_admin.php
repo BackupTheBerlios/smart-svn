@@ -77,8 +77,15 @@ function setup_event_handler( $evt )
                 {   
                     // write the system config file
                     $B->conf_val['info']['status'] = TRUE;
-                    $B->conf->setConfigValues( $B->conf_val );
-                    $B->conf->writeConfigFile( "config_system.xml.php", array('filetype' => 'xml', 'mode' => 'pretty') );
+        
+                    // include PEAR Config class
+                    include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
+
+                    $c = new Config();
+                    $root =& $c->parseConfig($B->conf_val, 'PHPArray');
+                    
+                    // write config array
+                    $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
         
                     @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
                     exit;  

@@ -60,9 +60,17 @@ $B->B( EVT_SET_OPTIONS );
 // if some config are modified, write the config file and reload the page
 if($B->_modified == TRUE)
 {
-    $B->conf->setConfigValues( $B->sys );
-    //  write a new file
-    $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
+    // include PEAR Config class
+    include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
+
+    $c = new Config();
+    $root =& $c->parseConfig($B->sys, 'PHPArray');
+                    
+    // write config array
+    $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
+    
+    unset($c);
+    unset($root);
     
     @header('Location: '.SF_BASE_LOCATION.'/admin/index.php?m=OPTION');
     exit;
