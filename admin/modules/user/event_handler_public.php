@@ -45,10 +45,29 @@ function user_event_handler( $evt )
     }
 }
 
-// include sqlite class
-include_once( SF_BASE_DIR . '/admin/modules/user/class.sfSqLite.php' );
+// Include all necessairy stuff to get work the module set
 
-if(file_exists(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php'))
+// ### These 3 defines MUST be declared ###
+/**
+ * The module (name) which takes the authentication part.
+ */
+define('SF_AUTH_MODULE',                 'USER');
+
+/**
+ * The module (name) which takes the global options part.
+ */
+define('SF_OPTION_MODULE',               'OPTION');
+
+/**
+ * The module (name) which should be loaded by default.
+ */
+define('SF_DEFAULT_MODULE',              'ENTRY');
+
+// include sqlite class
+include_once( SF_BASE_DIR . '/admin/modules/user/class.Sqlite.php' );
+
+// class instance of sqlite if setup is done
+if($B->sys['info']['status'] == TRUE)
 {
     // Connect to the main database
     $B->dbdata = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/smart_data.db.php');

@@ -41,9 +41,11 @@ function option_event_handler( $evt )
     switch( $evt['code'] )
     {
         case EVT_SETUP:
+            // The module name and version
             $B->conf_val['module']['option']['name']    = 'option';
             $B->conf_val['module']['option']['version'] = '0.1';
-            $B->conf_val['module']['option']['info'] = '';
+            $B->conf_val['module']['option']['info']    = '';
+            // Set some options
             $B->conf_val['option']['tpl'] = 'test';
             $B->conf_val['option']['url'] = '../index.php';
             break;      
