@@ -35,11 +35,12 @@ class view_common_index extends view
      */
     function perform()
     {    
-        // check permission to access this module
+        // check permission to access earchive (editor or admin privilegs required)
         if( FALSE == F( MOD_EARCHIVE, 'permission', array('action' => 'access')))
         {
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
-            exit;      
+            // switch to the login view of the user module
+            $_REQUEST['m']   = 'user';
+            $_REQUEST['sec'] = 'login';    
         }
 
         return TRUE;

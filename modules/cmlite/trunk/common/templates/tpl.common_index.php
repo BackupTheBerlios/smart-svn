@@ -58,7 +58,7 @@ function subok(s){
           </td>
           <td width="7%" align="right" valign="top">
           <?php if($B->is_logged != FALSE): ?>
-            <a href="<?php echo SF_CONTROLLER; ?>?logout=1&admin=1" class="font14">Logout</a>
+            <a href="<?php echo SF_CONTROLLER; ?>?view=logout" class="font14">Logout</a>
           <?php endif; ?>&nbsp;
           </td>
         </tr>
