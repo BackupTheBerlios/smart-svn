@@ -70,7 +70,7 @@ class common_cache_delete
         if(empty($id))
         {
             // Delete all cache data
-            $this->B->cache->flush($group);        
+            $this->B->cache->clean($group);        
         }
         else
         {

@@ -69,7 +69,7 @@ class common_cache_save
         }
         
         // save result to cache
-        $this->B->cache->save($this->B->$_id_name, $data['result'], $this->B->sys['cache']['lifetime'], $this->B->$_group_name);
+        $this->B->cache->save($data['result'], $this->B->$_id_name, $this->B->$_group_name);
 
         return TRUE;
     }   

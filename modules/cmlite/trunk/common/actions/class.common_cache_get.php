@@ -49,15 +49,20 @@ class common_cache_get
     {
         // get var name to store the result
         $result = & $this->B->$data['result'];
-        
+      
         // Include cache and create instance
         if(!is_object($this->B->cache))
-        {
-            include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache.php');            
-            $this->B->cache = new Cache('db', array('dsn'         => $this->B->dsn,
-                                                    'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
+        {            
+            include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache/Lite.php');
+            // Set a few options
+            $options = array( 'cacheDir' => SF_BASE_DIR . 'modules/common/tmp/cache/',
+                              'lifeTime' => (int)$this->B->sys['cache']['lifetime'] );  
+            // Create a Cache_Lite object
+            $this->B->cache = new Cache_Lite($options);
         }
-        
+
+
+
         $_id_name = 'cacheID_1';
         if(!empty($data['id_name']))
         {
@@ -65,7 +70,7 @@ class common_cache_get
         }
         
         // create cache ID
-        $this->B->$_id_name = $this->B->cache->generateID( $data['cacheID'] );
+        $this->B->$_id_name = md5( $data['cacheID'] );
 
         // set default cache id name value
         $_group_name = 'cacheGroup_1';
