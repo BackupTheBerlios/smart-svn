@@ -8,6 +8,7 @@ avant
 avec
 avoir
 bon
+bonne
 car
 ce
 cela
@@ -64,6 +65,7 @@ moins
 mon
 mot
 même
+net
 ni
 nommés
 notre

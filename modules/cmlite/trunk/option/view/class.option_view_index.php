@@ -14,8 +14,6 @@
  *
  */
 
-include_once(SF_BASE_DIR.'modules/common/includes/class.sfWordIndexer.php');
-
 class option_view_index
 {
     /**
@@ -129,7 +127,10 @@ class option_view_index
     function _get_bad_words_list()
     {
          // get actif bad words languages
-         $this->B->tpl_selected_lang = word_indexer::get_bad_words_lang();
+         $this->B->M( MOD_COMMON,
+                      'bad_words',
+                      array('get_bad_words_lang' => TRUE,
+                            'var'                => 'tpl_selected_lang'));
     
          // Get available language bad word list
          //
@@ -199,7 +200,11 @@ class option_view_index
          elseif(isset($_POST['update_main_options_badworddel']) && isset($_POST['selected_lang']) && (count($_POST['selected_lang']) > 0))
          {
             foreach($_POST['selected_lang'] as $lang)
-                word_indexer::delete_bad_words_lang( $lang );              
+            {
+                $this->B->M( MOD_COMMON,
+                             'bad_words',
+                             array( 'delete_bad_words_lang' => $lang));            
+            }              
          }        
     }
 
