@@ -46,7 +46,18 @@ class earchive_get_messages
      * @param array $data
      */
     function perform( & $data )
-    { 
+    {
+        // Include cache and create instance
+        if(!is_object($this->B->cache))
+        {
+            include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache.php');            
+            $this->B->cache = new Cache('db', array('dsn'         => $this->B->dsn,
+                                                    'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
+        }
+        
+        // get var name to store the result
+        $_result       = & $this->B->$data['var'];
+        
         if(empty($data['lid']) || empty($data['var']))
         {
             trigger_error("'lid' or 'var' is empty!\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
@@ -72,6 +83,8 @@ class earchive_get_messages
         {
             $data['pager']['limit'] = 15;
         }        
+
+        $this->_pager( $data['lid'], $data['pager'] );
         
         $sql = "
             SELECT
@@ -86,17 +99,25 @@ class earchive_get_messages
             $page = 0;
         else
             $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
-            
-        $result = $this->B->db->limitQuery( $sql, $page, $data['pager']['limit'] );
+        
+        // create cache ID
+        $cacheID = $this->B->cache->generateID($sql.(string)$page);
 
+        // check if cache ID exists
+        if ($_result = $this->B->cache->get($cacheID, 'earchive_get_messages')) 
+        {
+            return TRUE;
+        }
+
+        // init result array
+        $_result = array();
+                        
+        $result = $this->B->db->limitQuery( $sql, $page, $data['pager']['limit'] );
+        
         if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
-
-        // get var name to store the result
-        $this->B->$data['var'] = array();
-        $_result       = & $this->B->$data['var'];
 
         if(is_object($result))
         {
@@ -110,8 +131,9 @@ class earchive_get_messages
                 $_result[] = $tmp;
             }
         }
-        $this->_pager( $data['lid'], $data['pager'] );
-        
+        // save result to cache
+        $this->B->cache->save($cacheID, $_result, $this->B->sys['cache']['lifetime'], 'earchive_get_messages');
+       
         return TRUE;     
     } 
     
@@ -125,20 +147,33 @@ class earchive_get_messages
      */ 
     function _pager( $lid, & $data )
     {
-        // PEAR Pager class
-        include_once(SF_BASE_DIR.'modules/common/PEAR/Pager/Sliding.php');
+        // get var name to store the result
+        $_result       = & $this->B->$data['var'];
+               
+        // create cache ID
+        $cacheID = $this->B->cache->generateID($lid.$_GET['pageID']);
         
+        // check if cache ID exists
+        if ($_result = $this->B->cache->get($cacheID, 'earchive_get_messages')) 
+        {
+            return TRUE;                 
+        }
+
         $sql = "
             SELECT
                 count(lid) AS num_rows
             FROM
                 {$this->B->sys['db']['table_prefix']}earchive_messages
             WHERE
-                lid={$lid}";        
-
-        $_result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
-
-        $params['totalItems'] = $_result['num_rows'];
+                lid={$lid}";  
+        
+        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        
+        // PEAR Pager class
+        include_once(SF_BASE_DIR.'modules/common/PEAR/Pager/Sliding.php');
+   
+    
+        $params['totalItems'] = $result['num_rows'];
         
         if( empty($data['delta']) )
         {
@@ -146,12 +181,15 @@ class earchive_get_messages
         }        
         
         $params['perPage']    = $data['limit'];
-
+            
         $params['delta']      = $data['delta'];
             
         $pager = & new Pager_Sliding($params);
         $links = $pager->getLinks();
-        $this->B->$data['var'] = $links['all'];    
+        $_result = $links['all'];  
+        
+        // save result to cache
+        $this->B->cache->save($cacheID, $links['all'], $this->B->sys['cache']['lifetime'], 'earchive_get_messages');         
     }     
 }
 

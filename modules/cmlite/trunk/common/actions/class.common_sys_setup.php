@@ -61,6 +61,8 @@ class common_sys_setup
         $this->B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
         $this->B->conf_val['module']['common']['mod_type'] = 'cmlite';
         $this->B->conf_val['module']['common']['info']     = 'This is the common modul';
+        
+        $this->B->conf_val['cache']['lifetime'] = 3600;
 
         if(!is_writeable( SF_BASE_DIR . 'modules/common/config' ))
         {
