@@ -98,6 +98,7 @@ function M( $target_id, $code, $data = FALSE )
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
             {
+                trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
                 return FALSE;
             }
             // perform the request
@@ -109,6 +110,7 @@ function M( $target_id, $code, $data = FALSE )
         // validate the request
         if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
         {
+            trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
             return FALSE;
         }  
         
@@ -120,7 +122,7 @@ function M( $target_id, $code, $data = FALSE )
 /**
   * Send a broadcast event (to all modules and the system)
   *
-  * @param array $code Message id to send to all registered handler.
+  * @param array $code Message id to send to all modules.
   * @param mixed $data Additional data (optional).
   */ 
 function B( $code, $data = FALSE )
@@ -131,7 +133,7 @@ function B( $code, $data = FALSE )
     {
         // build the whole class name
         $class_name = 'action_' . $target_id . '_' . $code;
-    
+
         // check if this object was previously declared
         if(!is_object($GLOBALS[$class_name]))
         {
@@ -153,10 +155,11 @@ function B( $code, $data = FALSE )
                 // validate the request
                 if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
                 {
-                    return FALSE;
+                    trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
+                    continue;
                 }
                 // perform the request
-                return $GLOBALS[$class_name]->perform( $data );
+                $GLOBALS[$class_name]->perform( $data );
             }
         }
         else
@@ -164,11 +167,12 @@ function B( $code, $data = FALSE )
             // validate the request
             if( FALSE == $GLOBALS[$class_name]->validate( $data ) )
             {
-                return FALSE;
+                trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
+                continue;
             }  
         
             // perform the request if the requested object exists
-            return $GLOBALS[$class_name]->perform( $data );
+            $GLOBALS[$class_name]->perform( $data );
         }
     }
  
