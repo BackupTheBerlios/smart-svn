@@ -1,9 +1,9 @@
 CHANGES
 #######
 
-1004-10-15
+1004-10-17
 -----------
-- rebuild the admin controller
+- rebuild the admin and public front controller to one front controller
 
 2004-10-11
 -----------
