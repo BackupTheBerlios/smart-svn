@@ -17,7 +17,7 @@
 class action_navigation_get_childs extends action
 {
     /**
-     * Fill up an array with navigation elements
+     * Fill up an array with navigation childs elements
      *
      * Structure of the $data array:
      * $data['result'] - name of the navigation array result
@@ -67,12 +67,16 @@ class action_navigation_get_childs extends action
             trigger_error("Wrong 'status' variable: ".$data['status']." Only 2 = 'publish' or 1 = 'drawt' are accepted.\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }   
-        
+
         // check if node exists
         if(isset($data['node']) && !file_exists(SF_BASE_DIR . 'data/navigation/'.$data['node']))
         {
-            $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
-            return FALSE;            
+            // if 0 we are at the top level node. 0 is a virtual node, which dosent exists
+            if($data['node'] != 0)
+            {
+                $this->B->$data['error']  = 'Node '.$data['node'].' dosent exists';
+                return FALSE;  
+            }
         }     
         
         return TRUE;

@@ -37,16 +37,25 @@ class view_navigation_addnode extends view
     {    
         if ( isset($_POST['addnode']) )
         {
+            if(!isset($_REQUEST['node']))
+            {
+                $node = 0;
+            }
+            else
+            {
+                $node = (int)$_REQUEST['node'];
+            }
+            
             if ( TRUE == M( MOD_NAVIGATION, 
                             'add_node', 
                             array('title'     => commonUtil::stripSlashes($_POST['title']),
                                   'body'      => commonUtil::stripSlashes($_POST['body']),
                                   'status'    => (int)$_POST['status'],
-                                  'parent_id' => (int)$_REQUEST['node'],
+                                  'parent_id' => $node,
                                   'error'     => 'tpl_error')) )
             {  
                 // on success switch to the main navigation page
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation&node='.(int)$_REQUEST['node']);
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation&node='.(int)@$_REQUEST['node']);
                 exit;
             }
             else
