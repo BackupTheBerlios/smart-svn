@@ -11,6 +11,8 @@
 
 /**
  * default error view
+ * You can change this class to your needs. It is only a proposition on
+ * how to handle view errors.
  *
  */
  
@@ -24,6 +26,8 @@ class view_error extends view
 
     /**
      * Perform on the error view
+     *
+     * If some errors occure you will find them in $this->view_data['error']
      *
      * @return bool true 
      */
@@ -49,6 +53,7 @@ class view_error extends view
                 die('Circular error in : ' . __FILE__);
             }            
         }
+        // In non debug mode, load index view on error and trigger the error
         else
         {
             // Stop if there are circular errors
@@ -56,8 +61,15 @@ class view_error extends view
             {
                 die('Circular error in : ' . __FILE__);
             }
-            // In non debug mode, load index view on error
-            trigger_error( var_dump($this->view_data) , E_USER_WARNING);
+            
+            // get error array as string
+            ob_start();
+            print_r( $this->view_data );
+            $error = ob_get_clean();
+            
+            trigger_error( $error, E_USER_WARNING);
+            
+            // load index view
             M( MOD_SYSTEM, 'get_view', array('view' => 'index'));  
             exit;
         }
