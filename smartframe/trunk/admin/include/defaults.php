@@ -56,23 +56,23 @@ define('SF_DEFAULT_TEMPLATE_GROUP',      'default');
 /**
  * Event types.
  */
-define('EVT_TYPE_BROADCAST',          1);
-define('EVT_TYPE_DIRECTED' ,          2); 
+define('EVT_TYPE_BROADCAST',          'BROADCAST');
+define('EVT_TYPE_DIRECTED' ,          'DIRECTED'); 
 
 /**
  * Basic event codes.
  */
-define('EVT_AUTHENTICATE',            1);
-define('EVT_INIT',                    2);
-define('EVT_LOGOUT',                  3);
-define('EVT_LOAD_MODULE',             4);
-define('EVT_END',                     5);
-define('EVT_DEBUG',                   6);
-define('EVT_SETUP',                   7);
-define('EVT_LOAD_INIT_OPTION',        8);
-define('EVT_SETUP_FINISH',            9);
-define('EVT_GET_OPTIONS',             10);
-define('EVT_UPDATE',                  11);
+define('EVT_AUTHENTICATE',            'AUTHENTICATE');
+define('EVT_INIT',                    'INIT');
+define('EVT_LOGOUT',                  'LOGOUT');
+define('EVT_LOAD_MODULE',             'LOAD_MODULE');
+define('EVT_END',                     'END');
+define('EVT_DEBUG',                   'DEBUG');
+define('EVT_SETUP',                   'SETUP');
+define('EVT_LOAD_INIT_OPTION',        'LOAD_INIT_OPTION');
+define('EVT_SETUP_FINISH',            'SETUP_FINISH');
+define('EVT_GET_OPTIONS',             'GET_OPTIONS');
+define('EVT_UPDATE',                  'UPDATE');
 
 
 ?>
