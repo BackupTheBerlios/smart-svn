@@ -57,7 +57,7 @@ define('SF_BASE_LOCATION', $B->util->base_location());
 // Register all handlers
 //
 // register system event handler
-include_once (SF_BASE_DIR . '/admin/include/event_handler_' . SF_SECTION . '.php');
+include_once (SF_BASE_DIR . '/admin/include/event_handler.php');
 
 // check if the modules directory exists
 if(!is_dir(SF_BASE_DIR . '/admin/modules'))
@@ -77,7 +77,7 @@ while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
     }            
     if ( @is_dir( SF_BASE_DIR . '/admin/modules/'.$B->tmp_dirname) )
     {
-        $B->tmp_evt_handler = SF_BASE_DIR . '/admin/modules/' . $B->tmp_dirname . '/event_handler_' . SF_SECTION . '.php';
+        $B->tmp_evt_handler = SF_BASE_DIR . '/admin/modules/' . $B->tmp_dirname . '/event_handler.php';
         
         if ( @is_file( $B->tmp_evt_handler ) )
         {

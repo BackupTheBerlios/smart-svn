@@ -1,6 +1,12 @@
 CHANGES
 #######
 
+2004-09-24
+------------
+- replaced the "switch" "case" statements in event handler functions
+  by dynamic class load for each request. Therefore it is only
+  necessairy to use 1 event handler per module.
+
 2004-09-22
 ------------
 - removed the lib and config folder. (should be included in a module)
