@@ -16,7 +16,7 @@
 // | Authors: Stig Sæther Bakken <ssb@php.net>                            |
 // +----------------------------------------------------------------------+
 //
-// $Id: Builder.php,v 1.15 2004/03/04 13:37:37 chregu Exp $
+// $Id: Builder.php,v 1.16.2.1 2004/10/19 04:27:53 cellog Exp $
 
 require_once 'PEAR/Common.php';
 
@@ -198,6 +198,7 @@ class PEAR_Builder extends PEAR_Common
         $dir = getcwd();
         $this->log(2, "building in $dir");
         $this->current_callback = $callback;
+        putenv('PATH=' . $this->config->get('bin_dir') . ':' . getenv('PATH'));
         $err = $this->_runCommand("phpize", array(&$this, 'phpizeCallback'));
         if (PEAR::isError($err)) {
             return $err;

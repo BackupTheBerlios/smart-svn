@@ -18,7 +18,7 @@
 // |         Stephan Schmidt <schst@php-tools.net>                        |
 // +----------------------------------------------------------------------+
 //
-// $Id: Parser.php,v 1.14 2004/05/25 13:26:42 schst Exp $
+// $Id: Parser.php,v 1.15 2004/10/04 16:56:49 schst Exp $
 
 /**
  * XML Parser class.
@@ -581,7 +581,7 @@ class XML_Parser extends PEAR
     function funcEndHandler($xp, $elem)
     {
         $func = 'xmltag_' . $elem . '_';
-        if (method_exists($this, $func)) {
+        if (method_exists($this->_handlerObj, $func)) {
             call_user_func(array(&$this->_handlerObj, $func), $xp, $elem);
         }
     }
@@ -611,7 +611,7 @@ class XML_Parser extends PEAR
     }
 
 
-    // }}}
+    // }}}me
 }
 
 /**

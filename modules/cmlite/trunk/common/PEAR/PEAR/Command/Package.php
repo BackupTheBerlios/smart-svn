@@ -15,9 +15,10 @@
 // +----------------------------------------------------------------------+
 // | Authors: Stig Bakken <ssb@php.net>                                   |
 // |          Martin Jansen <mj@php.net>                                  |
+// |          Greg Beaver <cellog@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id: Package.php,v 1.60 2004/01/31 22:39:25 cellog Exp $
+// $Id: Package.php,v 1.61.2.5 2004/11/09 19:56:57 cellog Exp $
 
 require_once 'PEAR/Common.php';
 require_once 'PEAR/Command/Common.php';
@@ -155,7 +156,12 @@ use the "slide" option to move the release tag.
             'summary' => 'Run Regression Tests',
             'function' => 'doRunTests',
             'shortcut' => 'rt',
-            'options' => array(),
+            'options' => array(
+                'recur' => array(
+                    'shortopt' => 'r',
+                    'doc' => 'Run tests in child directories, recursively.  4 dirs deep maximum',
+                )
+            ),
             'doc' => '[testfile|dir ...]
 Run regression tests with PHP\'s regression testing script (run-tests.php).',
             ),
@@ -250,6 +256,9 @@ Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm
     {
         $this->output = '';
         include_once 'PEAR/Packager.php';
+        if (sizeof($params) < 1) {
+            $params[0] = "package.xml";
+        }
         $pkginfofile = isset($params[0]) ? $params[0] : 'package.xml';
         $packager =& new PEAR_Packager();
         $err = $warn = array();
@@ -264,12 +273,6 @@ Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm
         if (isset($options['showname'])) {
             $this->output = $result;
         }
-        /* (cox) What is supposed to do that code?
-        $lines = explode("\n", $this->output);
-        foreach ($lines as $line) {
-            $this->output .= $line."n";
-        }
-        */
         if (PEAR::isError($result)) {
             $this->output .= "Package failed: ".$result->getMessage();
         }
@@ -434,6 +437,44 @@ Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm
 
     function doRunTests($command, $options, $params)
     {
+        include_once 'PEAR/RunTest.php';
+        $log = new PEAR_Common;
+        $log->ui = &$this->ui; // slightly hacky, but it will work
+        $run = new PEAR_RunTest($log);
+        $tests = array();
+        if (isset($options['recur'])) {
+            $depth = 4;
+        } else {
+            $depth = 1;
+        }
+        foreach ($params as $p) {
+            if (is_dir($p)) {
+                $dir = System::find(array($p, '-type', 'f',
+                                            '-maxdepth', $depth,
+                                            '-name', '*.phpt'));
+                $tests = array_merge($tests, $dir);
+            } else {
+                $tests[] = $p;
+            }
+        }
+        foreach ($tests as $t) {
+            $run->run($t);
+        }
+        $failed = array();
+        foreach ($tests as $t) {
+            if ($run->run($t) == 'FAILED') {
+            	$failed[] = $t;
+            }
+        }
+        if (count($failed)) {
+    		$this->ui->outputData('FAILED TESTS:');
+        	foreach ($failed as $failure) {
+        		$this->ui->outputData($failure);
+        	}
+        }
+
+        return true;
+        /*
         $cwd = getcwd();
         $php = $this->config->get('php_bin');
         putenv("TEST_PHP_EXECUTABLE=$php");
@@ -463,6 +504,7 @@ Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm
             system($cmd);
         }
         return true;
+        */
     }
 
     // }}}
@@ -639,6 +681,10 @@ Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm
         $srcfiles = 0;
         foreach ($info['filelist'] as $name => $attr) {
 
+            if (!isset($attr['role'])) {
+                continue;
+            }
+            $name = preg_replace('![/:\\\\]!', '/', $name);
             if ($attr['role'] == 'doc') {
                 $info['doc_files'] .= " $name";
 
@@ -677,6 +723,7 @@ Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm
 
                 }
 
+                $name = str_replace('\\', '/', $name);
                 $info['files'] .= "$prefix/$name\n";
 
             }

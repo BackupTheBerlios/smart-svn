@@ -18,13 +18,19 @@
 // |          Martin Jansen <mj@php.net>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Downloader.php,v 1.14 2004/02/29 15:58:17 avsm Exp $
+// $Id: Downloader.php,v 1.17.2.1 2004/10/22 22:54:03 cellog Exp $
 
 require_once 'PEAR/Common.php';
 require_once 'PEAR/Registry.php';
 require_once 'PEAR/Dependency.php';
 require_once 'PEAR/Remote.php';
 require_once 'System.php';
+
+
+define('PEAR_INSTALLER_OK',       1);
+define('PEAR_INSTALLER_FAILED',   0);
+define('PEAR_INSTALLER_SKIPPED', -1);
+define('PEAR_INSTALLER_ERROR_NO_PREF_STATE', 2);
 
 /**
  * Administration class used to download PEAR packages and maintain the
@@ -62,7 +68,7 @@ class PEAR_Downloader extends PEAR_Common
 
     /**
      * Options from command-line passed to Install.
-     * 
+     *
      * Recognized options:<br />
      *  - onlyreqdeps   : install all required dependencies as well
      *  - alldeps       : install all dependencies, including optional
@@ -76,7 +82,7 @@ class PEAR_Downloader extends PEAR_Common
 
     /**
      * Downloaded Packages after a call to download().
-     * 
+     *
      * Format of each entry:
      *
      * <code>
@@ -91,7 +97,7 @@ class PEAR_Downloader extends PEAR_Common
 
     /**
      * Packages slated for download.
-     * 
+     *
      * This is used to prevent downloading a package more than once should it be a dependency
      * for two packages to be installed.
      * Format of each entry:
@@ -104,10 +110,10 @@ class PEAR_Downloader extends PEAR_Common
      * @var array
      */
     var $_toDownload = array();
-    
+
     /**
      * Array of every package installed, with names lower-cased.
-     * 
+     *
      * Format:
      * <code>
      * array('package1' => 0, 'package2' => 1, );
@@ -115,7 +121,7 @@ class PEAR_Downloader extends PEAR_Common
      * @var array
      */
     var $_installed = array();
-    
+
     /**
      * @var array
      * @access private
@@ -123,7 +129,7 @@ class PEAR_Downloader extends PEAR_Common
     var $_errorStack = array();
 
     // {{{ PEAR_Downloader()
-    
+
     function PEAR_Downloader(&$ui, $options, &$config)
     {
         $this->_options = $options;
@@ -152,7 +158,7 @@ class PEAR_Downloader extends PEAR_Common
         }
         parent::PEAR_Common();
     }
-    
+
     // }}}
     // {{{ configSet()
     function configSet($key, $value, $layer = 'user')
@@ -164,14 +170,14 @@ class PEAR_Downloader extends PEAR_Common
             $this->_preferredState = null;
         }
     }
-    
+
     // }}}
     // {{{ setOptions()
     function setOptions($options)
     {
         $this->_options = $options;
     }
-    
+
     // }}}
     // {{{ _downloadFile()
     /**
@@ -296,7 +302,7 @@ class PEAR_Downloader extends PEAR_Common
 
     /**
      * Retrieve a list of downloaded packages after a call to {@link download()}.
-     * 
+     *
      * Also resets the list of downloaded packages.
      * @return array
      */
@@ -321,7 +327,7 @@ class PEAR_Downloader extends PEAR_Common
     {
         return $this->doDownload($packages);
     }
-    
+
     // }}}
     // {{{ doDownload()
 
@@ -375,7 +381,8 @@ class PEAR_Downloader extends PEAR_Common
                     // there are no dependencies
                     continue;
                 }
-                foreach($alldeps as $info) {
+                $fail = false;
+                foreach ($alldeps as $info) {
                     if ($info['type'] != 'pkg') {
                         continue;
                     }
@@ -383,11 +390,18 @@ class PEAR_Downloader extends PEAR_Common
                     if ($ret === false) {
                         continue;
                     }
+                    if ($ret === 0) {
+                        $fail = true;
+                        continue;
+                    }
                     if (PEAR::isError($ret)) {
                         return $ret;
                     }
                     $deppackages[] = $ret;
                 } // foreach($alldeps
+                if ($fail) {
+                    $deppackages = array();
+                }
             }
 
             if (count($deppackages)) {
@@ -398,7 +412,7 @@ class PEAR_Downloader extends PEAR_Common
 
     // }}}
     // {{{ _downloadNonFile($pkgfile)
-    
+
     /**
      * @return false|PEAR_Error|string false if loop should be broken out of,
      *                                 string if the file was downloaded,
@@ -450,9 +464,9 @@ class PEAR_Downloader extends PEAR_Common
                 if ($version == 0) {
                     return $this->raiseError("No release with state '$state' found for '$pkgfile'");
                 }
-            // invalid postfix passed
+            // invalid suffix passed
             } else {
-                return $this->raiseError("Invalid postfix '-$version', be sure to pass a valid PEAR ".
+                return $this->raiseError("Invalid suffix '-$version', be sure to pass a valid PEAR ".
                                          "version number or release state");
             }
         // Guess what to download
@@ -460,17 +474,24 @@ class PEAR_Downloader extends PEAR_Common
             $states = $this->betterStates($this->_preferredState, true);
             $possible = false;
             $version = 0;
+            $higher_version = 0;
+            $prev_hi_ver = 0;
             foreach ($releases as $ver => $inf) {
                 if (in_array($inf['state'], $states) && version_compare("$version", "$ver") < 0) {
                     $version = $ver;
                     break;
-                }
+                } else {
+                    $ver = (string)$ver;
+                    if (version_compare($prev_hi_ver, $ver) < 0) {
+                        $prev_hi_ver = $higher_version = $ver;
+                    }
+				}
             }
             if ($version === 0 && !isset($this->_options['force'])) {
                 return $this->raiseError('No release with state equal to: \'' . implode(', ', $states) .
                                          "' found for '$pkgfile'");
             } elseif ($version === 0) {
-                $this->log(0, "Warning: $pkgfile is state '$inf[state]' which is less stable " .
+                $this->log(0, "Warning: $pkgfile is state '" . $releases[$higher_version]['state'] . "' which is less stable " .
                               "than state '$this->_preferredState'");
             }
         }
@@ -488,10 +509,10 @@ class PEAR_Downloader extends PEAR_Common
         $this->_toDownload[] = $pkgfile;
         return $this->_downloadFile($pkgfile, $version, $origpkgfile, $state);
     }
-    
+
     // }}}
     // {{{ _processDependency($package, $info, $mywillinstall)
-    
+
     /**
      * Process a dependency, download if necessary
      * @param array dependency information from PEAR_Remote call
@@ -548,7 +569,7 @@ class PEAR_Downloader extends PEAR_Common
             $savestate = array_shift($get);
             $this->pushError( "Release for '$package' dependency '$info[name]' " .
                 "has state '$savestate', requires '$state'");
-            return false;
+            return 0;
         }
         if (in_array(strtolower($info['name']), $this->_toDownload) ||
               isset($mywillinstall[strtolower($info['name'])])) {
@@ -581,7 +602,7 @@ class PEAR_Downloader extends PEAR_Common
         }
         return $info['name'];
     }
-    
+
     // }}}
     // {{{ _downloadCallback()
 
@@ -628,7 +649,7 @@ class PEAR_Downloader extends PEAR_Common
     }
     // }}}
     // {{{ pushError($errmsg, $code)
-    
+
     /**
      * @param string
      * @param integer
@@ -637,10 +658,10 @@ class PEAR_Downloader extends PEAR_Common
     {
         array_push($this->_errorStack, array($errmsg, $code));
     }
-    
+
     // }}}
     // {{{ getErrorMsgs()
-    
+
     function getErrorMsgs()
     {
         $msgs = array();
@@ -651,7 +672,7 @@ class PEAR_Downloader extends PEAR_Common
         $this->_errorStack = array();
         return $msgs;
     }
-    
+
     // }}}
 }
 // }}}

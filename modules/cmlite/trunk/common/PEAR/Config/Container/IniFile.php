@@ -15,7 +15,7 @@
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: IniFile.php,v 1.14 2003/11/29 09:31:26 mansion Exp $
+// $Id: IniFile.php,v 1.15 2004/10/19 00:57:59 ryansking Exp $
 
 /**
 * Config parser for PHP .ini files
@@ -120,7 +120,8 @@ class Config_Container_IniFile {
                           strpos($content, ',') !== false ||
                           strpos($content, ';') !== false ||
                           strpos($content, '"') !== false ||
-                          strpos($content, '%') !== false) {
+                          strpos($content, '%') !== false ||
+                          strpos($content, '~') !== false) {
                     $content = '"'.addslashes($content).'"';          
                 }
                 if ($count > 1) {

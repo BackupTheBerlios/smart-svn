@@ -15,7 +15,7 @@
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: PHPArray.php,v 1.21 2003/11/29 11:05:34 mansion Exp $
+// $Id: PHPArray.php,v 1.22 2004/08/07 10:22:00 mansion Exp $
 
 /**
 * Config parser for common PHP configuration array
@@ -143,14 +143,14 @@ class Config_Container_PHPArray {
                     $string .= $parentString."['#']";
                     foreach ($attributes as $attr => $val) {
                         $attrString .= $parentString."['@']"
-                                    ."['".$attr."'] = '".$val."';\n";
+                                    ."['".$attr."'] = '".addslashes($val)."';\n";
                     }
                 } else {
                     $string .= $parentString;
                 }
                 $string .= ' = ';
                 if (is_string($obj->content)) {
-                    $string .= "'".$obj->content."'";
+                    $string .= "'".addslashes($obj->content)."'";
                 } elseif (is_int($obj->content) || is_float($obj->content)) {
                     $string .= $obj->content;
                 } elseif (is_bool($obj->content)) {
@@ -166,7 +166,7 @@ class Config_Container_PHPArray {
                     $parentString = $this->_getParentString($obj);
                     foreach ($attributes as $attr => $val) {
                         $attrString .= $parentString."['@']"
-                                    ."['".$attr."'] = '".$val."';\n";
+                                    ."['".$attr."'] = '".addslashes($val)."';\n";
                     }
                 }
                 $string .= $attrString;

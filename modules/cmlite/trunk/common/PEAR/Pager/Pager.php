@@ -33,7 +33,7 @@
 // |          Lorenzo Alberton <l.alberton at quipo.it>                    |
 // +-----------------------------------------------------------------------+
 //
-// $Id: Pager.php,v 1.14 2004/04/15 18:10:00 quipo Exp $
+// $Id: Pager.php,v 1.15 2004/09/08 16:33:06 quipo Exp $
 
 /**
  * File Pager.php
@@ -47,7 +47,7 @@
  *
  * @author  Richard Heyes <richard@phpguru.org>,
  * @author  Lorenzo Alberton <l.alberton at quipo.it>
- * @version  $Id: Pager.php,v 1.14 2004/04/15 18:10:00 quipo Exp $
+ * @version  $Id: Pager.php,v 1.15 2004/09/08 16:33:06 quipo Exp $
  * @package Pager
  */
 class Pager
@@ -140,14 +140,15 @@ class Pager
             // assign factoried method to this for PHP 4
             eval('$this = Pager::factory($options);');
         } else { //php5 is case sensitive
-            $msg = 'In PHP5 you must use the "Pager::factory($params)" method'
+            $msg = 'Pager constructor is deprecated.'
+                  .' You must use the "Pager::factory($params)" method'
                   .' instead of "new Pager($params)"';
-            trigger_error($msg, E_USER_WARNING);
+            trigger_error($msg, E_USER_ERROR);
         }
     }
 
     // }}}
-    // {{{ _factory()
+    // {{{ factory()
 
     /**
      * Return a pager based on $mode and $options

@@ -18,18 +18,9 @@
 // |          Martin Jansen <mj@php.net>                                  |
 // +----------------------------------------------------------------------+
 //
-// $Id: Installer.php,v 1.148 2004/02/29 15:58:17 avsm Exp $
+// $Id: Installer.php,v 1.150.2.1 2004/10/22 23:03:53 cellog Exp $
 
-require_once 'PEAR/Common.php';
-require_once 'PEAR/Registry.php';
-require_once 'PEAR/Dependency.php';
 require_once 'PEAR/Downloader.php';
-require_once 'System.php';
-
-define('PEAR_INSTALLER_OK',       1);
-define('PEAR_INSTALLER_FAILED',   0);
-define('PEAR_INSTALLER_SKIPPED', -1);
-define('PEAR_INSTALLER_ERROR_NO_PREF_STATE', 2);
 
 /**
  * Administration class used to install PEAR packages and maintain the
@@ -174,7 +165,14 @@ class PEAR_Installer extends PEAR_Downloader
                 include_once "OS/Guess.php";
                 $os = new OS_Guess();
             }
-            if (!$os->matchSignature($atts['platform'])) {
+            if (strlen($atts['platform']) && $atts['platform']{0} == '!') {
+                $negate = true;
+                $platform = substr($atts['platform'], 1);
+            } else {
+                $negate = false;
+                $platform = $atts['platform'];
+            }
+            if ((bool) $os->matchSignature($platform) === $negate) {
                 $this->log(3, "skipped $file (meant for $atts[platform], we are ".$os->getSignature().")");
                 return PEAR_INSTALLER_SKIPPED;
             }
@@ -804,7 +802,14 @@ class PEAR_Installer extends PEAR_Downloader
                         $this->raiseError("Extension '$_ext_name' already loaded. Please unload it ".
                                           "in your php.ini file prior to install or upgrade it.");
                     }
-                    $dest = $this->config->get('ext_dir') . DIRECTORY_SEPARATOR . $bn;
+                    // extension dir must be created if it doesn't exist
+                    // patch by Tomas Cox (modified by Greg Beaver)
+                    $ext_dir = $this->config->get('ext_dir');
+                    if (!@is_dir($ext_dir) && !System::mkdir(array('-p', $ext_dir))) {
+                        $this->log(3, "+ mkdir -p $ext_dir");
+                        return $this->raiseError("failed to create extension dir '$ext_dir'");
+                    }
+                    $dest = $ext_dir . DIRECTORY_SEPARATOR . $bn;
                     $this->log(1, "Installing '$bn' at ext_dir ($dest)");
                     $this->log(3, "+ cp $ext[file] ext_dir ($dest)");
                     $copyto = $this->_prependPath($dest, $this->installroot);

@@ -62,12 +62,6 @@ class common_sys_setup
         $this->B->conf_val['module']['common']['mod_type'] = 'cmlite';
         $this->B->conf_val['module']['common']['info']     = 'This is the common modul';
 
-        if(!is_writeable( SF_BASE_DIR . 'modules/common/tmp/session_data' ))
-        {
-            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/modules/common/tmp/session_data';
-            $success = FALSE;
-        } 
-
         if(!is_writeable( SF_BASE_DIR . 'modules/common/config' ))
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/config';
