@@ -30,11 +30,10 @@ define ( 'MOD_COMMON' , 'COMMON');
 define ( 'MOD_COMMON_VERSION' , '0.3');
 
 // register this handler                       
-if (FALSE == $B->register_handler( 
-                            MOD_COMMON,
-                            array ( 'module'          => MOD_COMMON,
-                                    'event_handler'   => 'common_event_handler',
-                                    'menu_visibility' => FALSE) ))
+if (FALSE == $B->register_handler( MOD_COMMON,
+                                   array ( 'module'          => MOD_COMMON,
+                                           'event_handler'   => 'common_event_handler',
+                                           'menu_visibility' => FALSE) ))
 {
     trigger_error( 'The handler '.MOD_COMMON.' exist: '.__FILE__.' '.__LINE__, E_TEST_ERROR  );        
 }    

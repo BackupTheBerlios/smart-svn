@@ -27,10 +27,6 @@ define ( 'MOD_NAVIGATION' , 'NAVIGATION');
 // Version of this modul
 define ( 'MOD_NAVIGATION_VERSION' , '0.2');
 
-// define classes which reacts on event calls from inside a template through
-// the event handler class.
-define ( 'EVT_NAVIGATION_GET' ,      'GET');
-
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_NAVIGATION,
                                    array ( 'module'          => MOD_NAVIGATION,

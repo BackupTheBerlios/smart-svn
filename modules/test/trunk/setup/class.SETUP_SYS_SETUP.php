@@ -55,23 +55,23 @@ class SETUP_SYS_SETUP
         if( $_POST['do_setup'] )
         {
             // Send a setup message to the system handler
-            $success = $this->B->M( MOD_SYSTEM,           EVT_SETUP );
+            $success = $this->B->M( MOD_SYSTEM,           'SYS_SETUP' );
             
             // Send a setup message to the common handler
             if($success == TRUE)    
-                $success = $this->B->M( MOD_COMMON,       EVT_SETUP );
+                $success = $this->B->M( MOD_COMMON,       'SYS_SETUP' );
    
             // Send a setup message to the entry handler
             if($success == TRUE)    
-                $success = $this->B->M( MOD_DEFAULT,      EVT_SETUP );
+                $success = $this->B->M( MOD_DEFAULT,      'SYS_SETUP' );
     
             // Send a setup message to the test handler
             if($success == TRUE)
-                $success = $this->B->M( MOD_TEST,         EVT_SETUP );
+                $success = $this->B->M( MOD_TEST,         'SYS_SETUP' );
     
             // Send a setup message to the option handler
             if($success == TRUE)
-                $success = $this->B->M( MOD_OPTION,       EVT_SETUP );
+                $success = $this->B->M( MOD_OPTION,       'SYS_SETUP' );
         
             // check on errors before proceed
             if( $success == TRUE )

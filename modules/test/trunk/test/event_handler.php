@@ -25,19 +25,13 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_TEST' , 'TEST');
 
 // Version of this modul
-define ( 'MOD_TEST_VERSION' , '0.2');
-
-// define classes which reacts on event calls from within a template through
-// the event handler class.
-define ( 'EVT_TEST_COUNTER' ,      'COUNTER');
-define ( 'EVT_TEST_CONTACT' ,      'CONTACT');
+define ( 'MOD_TEST_VERSION' , '0.3');
 
 // register this handler                       
-if (FALSE == $B->register_handler( 
-                            MOD_TEST,
-                            array ( 'module'          => MOD_TEST,
-                                    'event_handler'   => 'test_event_handler',
-                                    'menu_visibility' => TRUE) ))
+if (FALSE == $B->register_handler( MOD_TEST,
+                                   array ( 'module'          => MOD_TEST,
+                                           'event_handler'   => 'test_event_handler',
+                                           'menu_visibility' => TRUE) ))
 {
     trigger_error( 'The handler '.MOD_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
