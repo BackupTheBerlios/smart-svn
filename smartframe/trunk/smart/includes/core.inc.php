@@ -77,15 +77,32 @@ else
 // include system module
 include_once (SF_BASE_DIR . 'smart/init.php');
 
+// check if a module was declared, which should play the last role in a broadcast event
+if( defined('SF_LAST_MODULE') )
+{
+    $B->tmp_last_module = SF_LAST_MODULE;
+}
+else
+{
+    $B->tmp_last_module = FALSE;
+}
+
+
 // include other modules init file
 //
 $B->tmp_directory =& dir( SF_BASE_DIR . 'modules');
 while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
 {
-    if ( ( $B->tmp_dirname == '.' ) || ( $B->tmp_dirname == '..' ) )
+    if ( ( $B->tmp_dirname == '.' ) || ( $B->tmp_dirname == '..' ) || ( $B->tmp_dirname == '.svn' ) )
     {
         continue;
-    }            
+    }     
+    // dont load last module here
+    if( $B->tmp_dirname == $B->tmp_last_module )
+    {
+        continue;
+    }
+    
     if ( ($B->tmp_dirname != SF_COMMON_MODULE) && @is_dir( SF_BASE_DIR . 'modules/'.$B->tmp_dirname) )
     {
         // include module init file
@@ -94,8 +111,27 @@ while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
         if ( @is_file( $B->tmp_mod_init ) )
         {
             include_once $B->tmp_mod_init;
-        }       
+        } 
+        else
+        {
+            die ("The module file {$B->tmp_mod_init} is missing!");
+        }
     }
+}
+// Load last module
+if( $B->tmp_last_module != FALSE )
+{
+    // include module init file
+    $B->tmp_mod_init = SF_BASE_DIR . 'modules/' . $B->tmp_last_module . '/init.php';
+
+    if ( @is_file( $B->tmp_mod_init ) )
+    {
+        include_once $B->tmp_mod_init;
+    } 
+    else
+    {
+        die ("The module file {$B->tmp_mod_init} is missing!");
+    }    
 }
 
 $B->tmp_directory->close();
