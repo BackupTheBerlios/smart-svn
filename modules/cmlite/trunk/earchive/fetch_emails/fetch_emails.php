@@ -54,7 +54,10 @@ if(count($lists) > 0)
     foreach ($lists as $account)
     {
         if (PEAR::isError($msg->connect($account['emailserver'])))
-            trigger_error('Unable to build a connection', E_USER_ERROR);
+        {
+            trigger_error('Unable to build a connection to: '.$account['emailserver'], E_USER_ERROR);
+            continue; // on error next list
+        }
     
         // Retrieve message count
         $msgcount = $msg->messageCount();

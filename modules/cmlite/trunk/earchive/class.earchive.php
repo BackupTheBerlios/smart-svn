@@ -197,7 +197,16 @@ class earchive
             WHERE
                 lid={$lid}";
         
-        $GLOBALS['B']->db->query($sql);          
+        $GLOBALS['B']->db->query($sql); 
+        
+        // delete list messages word indexes
+        $sql = "
+            DELETE FROM 
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_words_crc32
+            WHERE
+                lid={$lid}";
+        
+        $GLOBALS['B']->db->query($sql);        
     }
     /**
      * add email message
