@@ -66,10 +66,7 @@ class common_get_module_view
      * @return bool true on success or false on error
      */
     function validate( & $data )
-    {
-        // init error string
-        $this->B->tpl_error = FALSE;
-        
+    {  
         // check if the request is coming from the data array
         if( isset($data['m']) && isset($data['tpl']) )
         {
@@ -140,10 +137,10 @@ class common_get_module_view
        
         // build the whole file path to the module view class file
         $view_class_file = SF_BASE_DIR . 'modules/' . $this->_module . '/view/class.'.$this->_module.'_view_' . $this->_tpl . '.php';
-        
+      
         // include module view class file
         if( @file_exists( $view_class_file ) )
-        {
+        {  
             include_once( $view_class_file );
             
             $view_class = $this->_module . '_view_' . $this->_tpl;
@@ -153,13 +150,8 @@ class common_get_module_view
 
             if( FALSE == $view->perform( $data ) )
             {
-                $template_file = SF_BASE_DIR . 'error.tpl.php';
-                
-                if (!@file_exists( $template_file ))
-                {            
-                    // if no error template exists
-                    die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
-                }            
+                $this->B->tpl_error = "Class function perform() in file: \n\n{$view_class_file}\n\nreturn FALSE !!!";
+
                 // on error set the error template as default
                 return SF_BASE_DIR . 'error.tpl.php';
             }
@@ -168,16 +160,10 @@ class common_get_module_view
         // check if the requested template exist
         if (!@file_exists( $template_file ))
         {
-            $this->B->tpl_error = 'The requested template "' .$template_file. '" dosent exists!';
-            $template_file = SF_BASE_DIR . 'error.tpl.php';
-            
-            if (!@file_exists( $template_file ))
-            {            
-                // if no error template exists
-                die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
-            }    
+            $this->B->tpl_error = "The requested template \n\n{$template_file} \n\ndosent exists!";
+              
             // on error set the error template as default
-            return $template_file;
+            return SF_BASE_DIR . 'error.tpl.php';
         }
 
         return $template_file;

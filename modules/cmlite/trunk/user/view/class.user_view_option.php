@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * user_view_options class 
+ * user_view_option class 
  *
  */
  
-class user_view_options
+class user_view_option
 {
     /**
      * Global system instance
@@ -26,7 +26,7 @@ class user_view_options
      * constructor
      *
      */
-    function user_view_options()
+    function user_view_option()
     {
         $this->__construct();
     }
@@ -46,7 +46,7 @@ class user_view_options
      * @param array $data
      */
     function perform( $data )
-    {    exit;
+    {
         // set user options 
         // this event comes from the option module (module_loader.php)
         if(isset($_POST['update_user_options_allowreg']))
@@ -55,6 +55,8 @@ class user_view_options
             $this->B->sys['option']['user']['register_type']  = $_POST['userregistertype'];
             $this->B->_modified = TRUE;
         }
+        
+        return TRUE;
     } 
 }
 

@@ -51,7 +51,7 @@ class earchive_view_options
         if(isset($_POST['earchive_rebuild_index']))
         {
             $this->B->M( MOD_EARCHIVE, 'rebuild_words_index' );
-        }
+        }echo "fsdfsdfsdfs";exit;
         // fetch messages from email accounts 
         if(isset($_POST['earchive_fetch_emails']))
         {
