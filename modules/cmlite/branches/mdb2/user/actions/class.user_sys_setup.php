@@ -65,7 +65,12 @@ class user_sys_setup
         return $success;
     }
 
-    
+    /**
+     * Create admin user
+     *
+     * @param array $data
+     * @access privat
+     */    
     function _create_user( $data )
     {
         $uid = $this->B->db->nextId($this->B->conf_val['db']['table_prefix'].'user_seq_users');
@@ -102,7 +107,11 @@ class user_sys_setup
        
         return TRUE;    
     }
-    
+    /**
+     * Create user tables
+     *
+     * @access privat
+     */     
     function _create_tables()
     {
         $table  = $this->B->conf_val['db']['table_prefix'] . 'user_users';

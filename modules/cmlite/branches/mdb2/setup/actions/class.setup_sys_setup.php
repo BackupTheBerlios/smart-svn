@@ -55,6 +55,7 @@ class setup_sys_setup
         if($success == TRUE)
             $success = $this->B->M( MOD_SYSTEM,       'sys_setup' );
 
+        // connect to the database
         if($success == TRUE)    
             $success = $this->B->M( MOD_COMMON,       
                                     'sys_setup_validate', 
@@ -65,7 +66,8 @@ class setup_sys_setup
                                     'dbname'   => $data['dbname'],
                                     'dbhost'   => $data['dbhost'],
                                     'dbtablesprefix' => $data['dbtablesprefix']) );
-
+        
+        // validate user data
         if($success == TRUE)    
             $success = $this->B->M( MOD_USER,         
                                     'sys_setup_validate', 
@@ -103,10 +105,6 @@ class setup_sys_setup
         if($success == TRUE)
             $success = $this->B->M( MOD_OPTION,       'sys_setup' );
     
-        // close db connection if present
-        //if(is_object($this->B->db))
-            //$this->B->db->disconnect();
-        
         // check on errors before proceed
         if( $success == TRUE )
         {

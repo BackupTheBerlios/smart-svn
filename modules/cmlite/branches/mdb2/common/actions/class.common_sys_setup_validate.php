@@ -41,7 +41,7 @@ class common_sys_setup_validate
     }
     
     /**
-     * Do setup for this module
+     * Check if the databse server connection is valide
      *
      * @param array $data
      */
@@ -55,10 +55,7 @@ class common_sys_setup_validate
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/config';
             $success = FALSE;
         }
-            
-        // if noting is going wrong $success is still TRUE else FALSE
-        // ex.: if creating db tables fails you must set this var to false
-                        
+           
         $this->B->dsn = array( 'phptype'  => $data['dbtype'],
                                'username' => $data['dbuser'],
                                'password' => $data['dbpasswd'],
@@ -70,6 +67,7 @@ class common_sys_setup_validate
         }
 
         $this->B->db = & MDB2::connect( $this->B->dsn );
+        
         if (MDB2::isError($this->B->db)) 
         {
             trigger_error($this->B->db->getMessage()."\n".$this->B->db->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);

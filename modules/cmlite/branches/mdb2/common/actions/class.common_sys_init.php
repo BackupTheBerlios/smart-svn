@@ -78,10 +78,7 @@ class common_sys_init
                                   'password' => $this->B->sys['db']['passwd'],
                                   'hostspec' => $this->B->sys['db']['host'],
                                   'database' => $this->B->sys['db']['name']);
-            /*
-            $this->B->dboptions = array('debug'       => 0,
-                                        'portability' => DB_PORTABILITY_NONE);
-            */
+
             $this->B->db =& MDB2::connect( $this->B->dsn );
             if (MDB2::isError($this->B->db)) 
             {

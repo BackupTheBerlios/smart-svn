@@ -41,7 +41,7 @@ class user_sys_setup_validate
     }
     
     /**
-     * Do setup for this module
+     * Validate user data and dir check
      *
      * @param array $data
      */

@@ -69,6 +69,7 @@ class common_sys_setup
         $this->B->conf_val['db']['passwd']       = $data['dbpasswd'];
         $this->B->conf_val['db']['table_prefix'] = $data['dbtablesprefix'];
 
+        // Load db manager to create database
         if(!empty($data['dbcreate']))
         {
             $this->B->dbmanager = $this->B->db->loadModule('manager', $this->B->db->dbmanager); 
@@ -81,6 +82,7 @@ class common_sys_setup
             $success = $this->_create_db( $data['dbname'] );   
         }
         
+        // set the created database
         if( $success == TRUE )
         {
             $this->B->db->setDatabase( $data['dbname'] );
@@ -88,7 +90,12 @@ class common_sys_setup
         
         return $success;  
     }  
-    
+    /**
+     * Create database
+     *
+     * @param string $dbname Database name
+     * @access privat
+     */    
     function _create_db( $dbname )
     {        
         $result = $this->B->dbmanager->createDatabase( $dbname );
