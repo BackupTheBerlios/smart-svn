@@ -263,11 +263,15 @@ class Cache_Lite
                     }
                 }
             }
+            
             if ($doNotTestCacheValidity) {
                 if (file_exists($this->_file)) {
                     $data = $this->_read();
                 }
             } else {
+                if(!@file_exists($this->_file)) {
+                    return FALSE;
+                }
                 if (@filemtime($this->_file) > $this->_refreshTime) {
                     $data = $this->_read();
                 }
