@@ -40,7 +40,7 @@ define('SF_ERROR_REPORTING',             E_ALL ^E_NOTICE);
 /**
  * Allowed output buffering.
  */
-define('SF_OB',                          TRUE);
+define('SF_OB',                          FALSE);
 
 /**
  * Allowed output compression if available.
@@ -77,6 +77,7 @@ define('EVT_SETUP',                   7);
 define('EVT_LOAD_INIT_OPTION',        8);
 define('EVT_SETUP_FINISH',            9);
 define('EVT_GET_OPTIONS',             10);
+define('EVT_UPDATE',                  11);
 
 
 ?>

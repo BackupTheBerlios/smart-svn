@@ -45,11 +45,8 @@ function system_event_handler( $evt )
             // Check for upgrade  
             if($B->system_version != (string)$B->sys['info']['version'])
             {
-                $B->conf->setConfigValue( 'info', array('name'    => $B->system_name,
-                                                        'version' => $B->system_version,
-                                                        'status'  => TRUE));
-                //  write a new file
-                $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
+                $B->sys['info']['name']    = $B->system_name;
+                $B->sys['info']['version'] = $B->system_version;
             }
                 
             // Assign registered module handlers
@@ -67,7 +64,14 @@ function system_event_handler( $evt )
             }                 
             break; 
         case EVT_LOGOUT:  
-            break;    
+            break;  
+        case EVT_UPDATE: 
+            $B->conf->setConfigValues( $B->sys );
+            $B->conf->writeConfigFile( "config_system.xml.php", array('filetype' => 'xml', 'mode' => 'pretty') );
+        
+            @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
+            exit;         
+            break;              
         case EVT_SETUP:  
             $success = TRUE;
             include_once(SF_BASE_DIR.'/admin/include/_setup.php'); 

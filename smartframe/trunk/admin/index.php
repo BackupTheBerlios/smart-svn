@@ -36,6 +36,12 @@ $B->M( SF_AUTH_MODULE, EVT_AUTHENTICATE );
 // Send a init message to all registered handlers
 $B->B(EVT_INIT);
 
+// if an update was done this system event must be called to finish the update process
+if(isset($B->system_update_flag))
+{
+  $B->M( MOD_SYSTEM, EVT_UPDATE );
+}
+
 // Logout
 if ( $_REQUEST['logout'] == 1 )
 {
