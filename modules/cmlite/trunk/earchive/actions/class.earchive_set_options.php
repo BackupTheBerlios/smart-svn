@@ -46,16 +46,7 @@ class earchive_set_options
      * @param array $data
      */
     function perform( $data )
-    {    
-        // set the passID to external fetching emails 
-        if(isset($_POST['update_earchive_options_passID']))
-        {
-            if(!preg_match("/[^a-zA-Z0-9]+/", $_POST['passID']))
-            {
-                $this->B->sys['module']['earchive']['passID'] = $_POST['passID'];
-                $this->B->_modified = TRUE;
-            }
-        }    
+    {     
         // Rebuild the words index of all messages 
         if(isset($_POST['earchive_rebuild_index']))
         {
