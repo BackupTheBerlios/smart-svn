@@ -1,0 +1,104 @@
+body {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+a:link {
+    color: #3300CC;
+}
+a:visited {
+    color: #003399;
+}
+a:hover {
+    color: #FF0000;
+}
+a:active {
+    color: #663366;
+}
+.leftnavlinks {
+    font-size: 14px;
+    color: #333333;
+}
+.leftnavarchives {
+	font-size: 12px;
+	color: #333333;
+}
+.style3 {
+    color: #990000;
+    font-weight: bold;
+    font-size: 12px;
+}
+.vline {
+    border-top-width: thin;
+    border-right-width: thin;
+    border-bottom-width: thin;
+    border-left-width: thin;
+    border-top-style: none;
+    border-right-style: solid;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-top-color: #0066FF;
+    border-right-color: #0066FF;
+    border-bottom-color: #0066FF;
+    border-left-color: #0066FF;
+}
+.searchform {
+    font-size: 12px;
+    color: #0033FF;
+    background-color: #CCCCCC;
+}
+.topbar {
+    font-size: 12px;
+    font-weight: bold;
+    color: #CCCCCC;
+}
+a:visited.topbarlink {
+    font-size: 12px;
+    font-weight: bold;
+    color: #CCCCCC;
+}
+a:link.topbarlink {
+    font-size: 12px;
+    font-weight: bold;
+    color: #CCCCCC;
+}.msgdate {
+	font-size: 10px;
+	font-weight: normal;
+	color: #0033FF;
+}
+.msgfrom {
+	font-size: 10px;
+	color: #333333;
+}
+.msgtitle {
+	font-size: 14px;
+	font-weight: bold;
+}
+.pager {
+	font-size: 12px;
+}
+.footer {
+	font-size: 10px;
+	font-weight: bold;
+	color: #CCCCCC;
+}
+a:link.footer {
+	font-size: 10px;
+	font-weight: bold;
+	color: #CCCCCC;
+}
+.msgbody {
+	font-size: 12px;
+	color: #333333;
+	padding-top: 20px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.msgback {
+	font-size: 12px;
+	font-weight: bold;
+	text-align: right;
+}
