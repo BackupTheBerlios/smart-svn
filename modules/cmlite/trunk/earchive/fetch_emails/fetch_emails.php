@@ -33,7 +33,7 @@ include (SF_BASE_DIR . '/admin/include/base.inc.php');
 include_once (SF_BASE_DIR . '/admin/modules/earchive/class.earchive.php');
 
 // the PEAR IMAP class
-include_once (SF_BASE_DIR . '/admin/lib/PEAR/MAIL/IMAP.php');
+include_once (SF_BASE_DIR . '/admin/modules/user/PEAR/MAIL/IMAP.php');
 
 // Set up class, initiate a mailbox connection
 $msg =& new Mail_IMAP();
@@ -48,7 +48,7 @@ $word_indexer = & new word_indexer();
 // earchive util class
 include_once(SF_BASE_DIR.'/admin/modules/earchive/class.util.php');
 
-$B->e-util = & new earchiveUtil;
+$B->e_util = & new earchiveUtil;
 
 // get email accounts
 $lists = $B->earchive->get_lists( array('lid','emailserver','folder'), 'status>1' );
@@ -107,25 +107,25 @@ if(count($lists) > 0)
                         $x++;
                     }
                     // decode from string
-                    $from = $B->e-util->decodeEmailHeader($from);
+                    $from = $B->e_util->decodeEmailHeader($from);
                 }
                 else
                 {
                     // get from address
-                    $from = $B->e-util->decodeEmailHeader($msg->header[$mid]['fromaddress']).' '.$msg->header[$mid]['senderaddress'];
+                    $from = $B->e_util->decodeEmailHeader($msg->header[$mid]['fromaddress']).' '.$msg->header[$mid]['senderaddress'];
                     $from = str_replace("<","&lt;",$from);
                     $from = str_replace(">","&gt;",$from);
                 }
                 
                 // decode subject string                
-                $subject =$B->e-util->decodeEmailHeader($msg->header[$mid]['subject']);
+                $subject =$B->e_util->decodeEmailHeader($msg->header[$mid]['subject']);
                 
                 $subject = str_replace("<","&lt;",$subject);
                 $subject = str_replace(">","&gt;",$subject);               
                   
                 $data['lid']      = $account['lid'];
                 $data['subject']  = $B->db->quoteSmart($subject);
-                $data['sender']   = $B->db->quoteSmart($B->e-util->html_activate_links($from));
+                $data['sender']   = $B->db->quoteSmart($B->e_util->html_activate_links($from));
                 $data['mdate']    = $B->db->quoteSmart(date('Y-m-d H:i:s', $msg->header[$mid]['udate']));
                 
                 $body = $msg->getBody($mid, $pid);
@@ -135,7 +135,7 @@ if(count($lists) > 0)
                 {
                     $mess = str_replace("<","&lt;",$body['message']);
                     $mess = str_replace(">","&gt;",$mess);
-                    $data['body'] = $B->db->quoteSmart(nl2br($B->e-util->html_activate_links($mess)));
+                    $data['body'] = $B->db->quoteSmart(nl2br($B->e_util->html_activate_links($mess)));
                 }
                 else
                 {
@@ -150,7 +150,7 @@ if(count($lists) > 0)
                 {
                     $is_attach = TRUE;
                     // get list messages attachment folder string
-                    $mes_folder = $B->e-util->unique_md5_str();
+                    $mes_folder = $B->util->unique_md5_str();
                     $data['folder']  = $B->db->quoteSmart($mes_folder);
                 }
                 else
@@ -185,7 +185,7 @@ if(count($lists) > 0)
                        $pid = $msg->attachPid[$mid][$i];
                        $att_data = array();
                        
-                       $att_data['file'] = $B->db->quoteSmart($B->e-util->decodeEmailHeader($msg->attachFname[$mid][$i]));
+                       $att_data['file'] = $B->db->quoteSmart($B->e_util->decodeEmailHeader($msg->attachFname[$mid][$i]));
                        $att_data['type'] = $B->db->quoteSmart($msg->attachFtype[$mid][$i]);
                        $att_data['size'] = $msg->attachFsize[$mid][$i];
                        
