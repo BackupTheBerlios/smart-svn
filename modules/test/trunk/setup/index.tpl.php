@@ -44,8 +44,10 @@ function subok(s){
   </tr>
   <tr>
     <td align="center" valign="top"><p>This template is loaded from the setup
-        module event handler. In must cases you will find here a database setup form
-        (creating db tables) and a form to create an administrator user account.</p>
+        module: File 'index.tpl.php'. In must cases you will find here a database setup form
+        (creating db tables) and a form to create an administrator user account. After submit
+        this form the setup module will send setup event calls to all other modules. Each
+        module is responsible for its own setup proceedure.</p>
       <p>
         <input type="submit" name="do_setup" value="Submit" />
       </p></td>
