@@ -89,7 +89,7 @@ class setup_view_index
                 // write config array
                 $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));
         
-                @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
+                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
                 exit;  
             }
         }

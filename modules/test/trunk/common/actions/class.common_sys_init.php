@@ -80,12 +80,15 @@ class common_sys_init
             // switch to the admin section if we comes from the public section
             if(SF_SECTION == 'public')
             {
-                @header('Location: '.SF_BASE_LOCATION.'/index.php');
+                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
                 exit;  
             }
             
             // launch setup screen
             include( $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'setup', 'tpl' => 'index')) ); 
+
+            // add to the URLs and forms the "admin" variable.
+            output_add_rewrite_var('admin', '1');
             
             // Send the output buffer to the client
             ob_end_flush();
