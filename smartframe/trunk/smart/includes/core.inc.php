@@ -22,6 +22,10 @@ if (!defined( 'SF_SECURE_INCLUDE' ))
     die('no permission on ' . __FILE__);
 }
 
+// Start output buffering
+//
+@ob_start(); 
+
 // include default definitions
 include_once( SF_BASE_DIR . 'smart/includes/defaults.php' );
 
@@ -36,10 +40,6 @@ include_once( SF_BASE_DIR . 'smart/includes/class.base.php' );
 
 // create base container instance
 $B = & new Base;
-
-// Start output buffering
-//
-@ob_start(); 
 
 // set error handler
 $B->errorHandler   =  new ErrorHandler();
