@@ -43,7 +43,7 @@
                             <a href="index.php?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                             <?php if( $B->is_logged == TRUE ): ?>
-                            <a href="index.php?logout=1" class="topbarlink">logout</a>
+                            &nbsp;&nbsp;<a href="index.php?logout=1" class="topbarlink">logout</a>
                             <?php endif; ?>							
                         </td>
                         <td width="10%" align="left" valign="top">&nbsp;</td>
