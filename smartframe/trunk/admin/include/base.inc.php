@@ -97,6 +97,13 @@ $B->session = & new session();
 // register system event handler
 include_once (SF_BASE_DIR . '/admin/include/event_handler_' . SF_SECTION . '.php');
 
+// check the modules directory exist
+if(!is_dir(SF_BASE_DIR . '/admin/modules'))
+{
+    trigger_error("Missing ".SF_BASE_DIR . "/admin/modules directory: \nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+    die("<b>You have to install at least one module in the /admin/modules directory!</b>");
+}
+
 // Register module handlers
 //
 $B->tmp_directory =& dir( SF_BASE_DIR . '/admin/modules');
@@ -139,10 +146,10 @@ if ( $B->sys['info']['status'] !== TRUE )
     // the setup part
     if(FALSE === $B->M( MOD_SETUP, EVT_SETUP ))
     {
-        die("It seems that there are no modules available.<br />
+        die("<b>It seems that there are no modules available.<br />
              Min. required modules:<br />
              - admin/modules/setup<br />
-             - admin/modules/user");
+             - admin/modules/user</b>");
     }
 }
 
