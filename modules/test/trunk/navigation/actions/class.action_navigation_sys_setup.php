@@ -10,42 +10,18 @@
 // ----------------------------------------------------------------------
 
 /**
- * navigation_sys_setup class 
+ * action_navigation_sys_setup class 
  *
  */
  
-class navigation_sys_setup
-{
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function navigation_sys_setup()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
+class action_navigation_sys_setup
+{   
     /**
      * Do setup for this module
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {            
         // init the success var
         $success = TRUE;

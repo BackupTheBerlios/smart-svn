@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * navigation_sys_init class 
+ * action_navigation_sys_init class 
  *
  */
  
-class navigation_sys_init
+class action_navigation_sys_init extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function navigation_sys_init()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Check if version number has changed and perfom additional upgarde code
      *

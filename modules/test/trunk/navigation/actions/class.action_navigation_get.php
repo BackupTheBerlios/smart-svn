@@ -10,37 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * navigation_get class 
+ * action_navigation_get class 
  *
  */
  
-class navigation_get
+class action_navigation_get extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function navigation_get()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
-    
     /**
      * Fill up an array with navigation elements
      *
@@ -49,7 +24,7 @@ class navigation_get
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {
             // get var name defined in the public template to store the result
             $_result = & $this->B->$data['var']; 
