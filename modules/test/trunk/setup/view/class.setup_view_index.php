@@ -42,8 +42,7 @@ class setup_view_index
     
     /**
      * Execute the view of the template "index.tpl.php"
-     * create the template variables
-     * and listen to an action
+     * launch setup events of other modules
      *
      * @return bool true on success else false
      */
