@@ -63,7 +63,8 @@ function user_event_handler( $evt )
             // check if option allow_register is not set
             if($B->sys['option']['user']['allow_register'] == FALSE)
             {
-                return;
+                    @header('Location: '.SF_BASE_LOCATION.'/index.php');
+                    exit;  
             }            
             
             // captcha class
@@ -161,7 +162,7 @@ function user_event_handler( $evt )
                         {
                             $ustr = $user->add_registered_user_data( $uid ); 
                             
-                            $validate_msg = str_replace("(URL)", "<a href='http://{$B->sys['option']['url']}/index.php?tpl=register&md5_str={$ustr}'>http://{$B->sys['option']['url']}/index.php?tpl=register&md5_str={$ustr}</a>",$evt['data']['email_msg']);
+                            $validate_msg = str_replace("(URL)", "<a href='".SF_BASE_LOCATION."/index.php?tpl=register&md5_str={$ustr}'>".SF_BASE_LOCATION."/index.php?tpl=register&md5_str={$ustr}</a>",$evt['data']['email_msg']);
                             $validate_msg = str_replace("(EMAIL)", "<a href='mailto:{$B->sys['option']['email']}'>{$B->sys['option']['email']}</a>",$validate_msg);
  
                             if(FALSE === @mail($evt['data']['reg_data']['email'],$evt['data']['email_subject'],$validate_msg,$header))
@@ -180,7 +181,7 @@ function user_event_handler( $evt )
                         {
                             $subject = 'User validation needed';
                             $msg     = 'You have to validate a user registration:<br />';
-                            $msg     .= '<a href="http://'.$B->sys['option']['url'].'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'">http://'.$B->sys['option']['url'].'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'</a>';
+                            $msg     .= '<a href="'.SF_BASE_LOCATION.'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'">http://'.$B->sys['option']['url'].'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'</a>';
                             if(FALSE === @mail($B->sys['option']['email'],$subject,$msg,$header))
                             {
                                 trigger_error("Sending validation email fails.", E_USER_ERROR);
