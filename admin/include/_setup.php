@@ -19,18 +19,18 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Init error array
 $base->tmp_error = array();
 
-// Check directories access
+// Check directories accesses
 if(!is_writeable( SF_BASE_DIR . '/admin/config/' ))
 {
-    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/config/<br />';
+    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/config/';
 }
 if(!is_writeable( SF_BASE_DIR . '/admin/tmp/cache_admin/' ))
 {
-    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_admin/<br />';
+    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_admin/';
 }
 if(!is_writeable( SF_BASE_DIR . '/admin/tmp/cache_public/' ))
 {
-    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_public/<br />';
+    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_public/';
 }
 
 // Do setup 
@@ -39,19 +39,19 @@ if( $_POST['do_setup'] && (count($base->tmp_error) == 0) )
 
     if( empty($_POST['host']) )
     {
-        $base->tmp_error[]['error'] = 'Host field is empty!<br />';
+        $base->tmp_error[]['error'] = 'Host field is empty!';
     }
     if( empty($_POST['login']) )
     {
-        $base->tmp_error[]['error'] = 'Login field is empty!<br />';
+        $base->tmp_error[]['error'] = 'Login field is empty!';
     }
     if( ($_POST['password1'] != $_POST['password2']) )
     {
-        $base->tmp_error[]['error'] = 'Password fields are empty or not equal!<br />';
+        $base->tmp_error[]['error'] = 'Password fields are empty or not equal!';
     } 
     if( empty($_POST['db_name']) )
     {
-        $base->tmp_error[]['error'] = 'DB name field is empty!<br />';
+        $base->tmp_error[]['error'] = 'DB name field is empty!';
     }
   
     if( count($base->tmp_error) == 0 )

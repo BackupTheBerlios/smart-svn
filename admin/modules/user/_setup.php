@@ -23,19 +23,19 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Do setup 
 if( empty($_POST['sysname']) )
 {
-    $base->tmp_error[]['error'] = 'Sysadmin name field is empty!<br />';
+    $base->tmp_error[]['error'] = 'Sysadmin name field is empty!';
 }
 if( empty($_POST['syslastname']) )
 {
-    $base->tmp_error[]['error'] = 'Sysadmin lastname field is empty!<br />';
+    $base->tmp_error[]['error'] = 'Sysadmin lastname field is empty!';
 }
 if( empty($_POST['syslogin']) )
 {
-    $base->tmp_error[]['error'] = 'Sysadmin login field is empty!<br />';
+    $base->tmp_error[]['error'] = 'Sysadmin login field is empty!';
 }
 if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassword2']) )
 {
-    $base->tmp_error[]['error'] = 'Sysadmin password fields are empty or not equal!<br />';
+    $base->tmp_error[]['error'] = 'Sysadmin password fields are empty or not equal!';
 } 
 
 if( count($base->tmp_error) == 0 )
@@ -47,7 +47,7 @@ if( count($base->tmp_error) == 0 )
             include_once( SF_BASE_DIR.'/admin/modules/user/init_mysql.php' );        
             break;
         default:
-            $base->tmp_error[]['error'] = 'The user module isnt supporting the selected database type!<br />';        
+            $base->tmp_error[]['error'] = 'The user module isnt supporting the selected database type!';        
             break;
     }
 
@@ -100,7 +100,7 @@ if( count($base->tmp_error) == 0 )
     $base->user->addPermission( array( 'id_type' => 'group',
                                        'id'      => $base->tmp_gid,
                                        'id_part' =>  0,
-                                       'part'    =>  'a',
+                                       'part'    =>  '',
                                        'perms'   => array( 'read', 'delete', 'modify', 'add' ) ) );
     
 }
