@@ -73,7 +73,7 @@ class setup_view_index
             // Send a setup message to the option handler
             if($success == TRUE)
                 $success = $this->B->M( MOD_OPTION,       'sys_setup' );
-        
+
             // check on errors before proceed
             if( $success == TRUE )
             {   

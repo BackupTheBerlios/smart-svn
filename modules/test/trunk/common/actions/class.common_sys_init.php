@@ -85,7 +85,7 @@ class common_sys_init
             }
             
             // launch setup screen
-            include( $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'setup', 'tpl' => 'index')) ); 
+            include( $this->B->M( MOD_COMMON, 'get_module_view', array('m' => 'setup', 'view' => 'index')) ); 
 
             // add to the URLs and forms the "admin" variable.
             output_add_rewrite_var('admin', '1');
