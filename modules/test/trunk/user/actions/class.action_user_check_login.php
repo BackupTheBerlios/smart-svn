@@ -34,7 +34,7 @@ class action_user_check_login extends action
         }
         else
         {
-            return FAlSE;
+            return FALSE;
         }  
     } 
 }

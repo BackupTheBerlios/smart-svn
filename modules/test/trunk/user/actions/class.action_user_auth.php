@@ -53,7 +53,7 @@ class action_user_auth extends action
         }
         else
         {
-            $this->B->_is_logged = FAlSE;
+            $this->B->_is_logged = FALSE;
         }  
     } 
 }
