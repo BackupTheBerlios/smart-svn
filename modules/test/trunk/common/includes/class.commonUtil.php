@@ -17,6 +17,40 @@
 class commonUtil
 {
     /**
+     * Get the base location
+     *
+     * @return string base location
+     */
+    function base_location()
+    {
+        $base_dirname = dirname($_SERVER['PHP_SELF']);
+
+        if($base_dirname == '/' )
+            $base_dirname = '';
+
+        // Build the http protocol referrer
+        //
+        if(preg_match("/^http([s]?)/i", $_SERVER['SCRIPT_URI'], $tmp))
+        {
+            $http = 'http' . $tmp[1] . '://';
+        }
+        elseif(preg_match("/^http([s]?)/i", $_SERVER["HTTP_REFERER"], $tmp))
+        {
+            $http = 'http' . $tmp[1] . '://';
+        }
+        elseif(preg_match("/^on$/i", $_ENV["HTTPS"]))
+        {
+            $http = 'https://';
+        }    
+        else
+        {
+            $http = 'http://';
+        }    
+        
+        return $http . $_SERVER['HTTP_HOST'] . $base_dirname;
+    }  
+    
+    /**
      * Add slashes if magic_quotes are disabled
      *
      * @return string base location

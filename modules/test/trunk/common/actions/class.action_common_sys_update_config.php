@@ -24,6 +24,9 @@ class action_common_sys_update_config extends action
      * $data['file'] File to store
      * $data['var_name'] Name of the data array or ...
      * $data['type'] Data type
+     * $data['reload'] Reload page if true
+     *
+     * @param array $data
      */
     function perform( & $data)
     {                 
@@ -34,7 +37,15 @@ class action_common_sys_update_config extends action
         $root =& $c->parseConfig( $data['data'], $data['type'] );
 
         // save the modified config array
-        $c->writeConfig( $data['file'], $data['type'], array('name' => $data['var_name']) );  
+        $c->writeConfig( $data['file'], $data['type'], array('name' => $data['var_name']) );
+        
+        if( $data['reload'] == TRUE )
+        {
+           // reload page
+            @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_SECTION . '=1');
+            exit;          
+        }
+        return TRUE;
     }  
 }
 

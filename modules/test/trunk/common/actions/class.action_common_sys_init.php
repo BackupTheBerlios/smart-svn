@@ -38,6 +38,9 @@ class action_common_sys_init extends action
         ini_set( 'include_path', SF_BASE_DIR . 'modules/common/PEAR' . $tmp_separator . ini_get('include_path') );
         unset($tmp_separator); 
 
+        // Define base location
+        define('SF_BASE_LOCATION', commonUtil::base_location());
+
         // init system config array
         $this->B->sys = array();
 

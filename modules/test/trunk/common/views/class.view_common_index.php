@@ -73,9 +73,21 @@ class view_common_index extends view
      */
     function prependFilterChain()
     {
-        // Directed intercepting filter event (auto_prepend)
-        // see smart/actions/class.system_sys_prepend.php
-        M( MOD_SYSTEM, 'sys_prepend' );    
+        // if an update was done this event complete the update process
+        if(isset($this->B->system_update_flag))
+        {
+            // see modules/common/actions/class.action_common_sys_update_config.php
+            M( SF_BASE_MODULE, 
+               'sys_update_config', 
+               array( 'data'     => $this->B->sys,
+                      'file'     => SF_BASE_DIR . 'data/'.SF_BASE_MODULE.'/config/config.php',
+                      'var_name' => 'this->B->sys',
+                      'type'     => 'PHPArray',
+                      'reload'   => TRUE) );  
+        } 
+        
+        // send http headers to prevent browser caching
+        M( MOD_COMMON, 'add_headers' );          
     }        
 }
 
