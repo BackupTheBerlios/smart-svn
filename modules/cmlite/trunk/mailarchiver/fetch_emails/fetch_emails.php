@@ -78,16 +78,24 @@ foreach ($lists as $account)
             // get from address
             if(($msg->header[$mid]['fromaddress'] != $msg->header[$mid]['reply_toaddress']) && !empty($msg->header[$mid]['reply_toaddress']))
             {
-                $from = $msg->header[$mid]['reply_toaddress'];
+                $from = $B->util->decodeEmailHeader($msg->header[$mid]['reply_toaddress']);
             }
             else
             {
-                $from = $msg->header[$mid]['fromaddress'];
+                $from = $B->util->decodeEmailHeader($msg->header[$mid]['fromaddress']);
             }
-                   
+            
+            $from = str_replace("<","&lt;",$from);
+            $from = str_replace(">","&gt;",$from);   
+            
+            $subject =$B->util->decodeEmailHeader($msg->header[$mid]['subject']);
+            
+            $subject = str_replace("<","&lt;",$subject);
+            $subject = str_replace(">","&gt;",$subject);               
+              
             $data['lid']      = $account['lid'];
-            $data['subject']  = $B->db->quoteSmart($B->util->decodeEmailHeader($msg->header[$mid]['subject']));
-            $data['sender']   = $B->db->quoteSmart($B->util->html_activate_links($B->util->decodeEmailHeader($from)));
+            $data['subject']  = $B->db->quoteSmart($subject);
+            $data['sender']   = $B->db->quoteSmart($B->util->html_activate_links($from));
             $data['mdate']    = $B->db->quoteSmart(date('Y-m-d h:i:s', $msg->header[$mid]['udate']));
             
             $body = $msg->getBody($mid, $pid);
@@ -95,7 +103,9 @@ foreach ($lists as $account)
             
             if ($body['ftype'] == 'text/plain')
             {
-                $data['body'] = $B->db->quoteSmart(nl2br($B->util->html_activate_links($body['message'])));
+                $mess = str_replace("<","&lt;",$body['message']);
+                $mess = str_replace(">","&gt;",$mess);
+                $data['body'] = $B->db->quoteSmart(nl2br($B->util->html_activate_links($mess)));
             }
             else
             {
