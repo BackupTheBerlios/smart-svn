@@ -82,26 +82,6 @@ class action_common_sys_init extends action
                 
             // include here additional upgrade code
         }
-     
-        if( SF_SECTION == 'admin')
-        {
-            $h_list = $GLOBALS['handler_list'];
-            
-            // sort handler array by name
-            ksort($h_list);
-        
-            // assign template handler names array
-            // this array is used to build the modul select form of the admin menu
-            $this->B->tpl_mod_list = array();    
-
-            foreach ($h_list as $key => $value)
-            {
-                if( $value['menu_visibility'] == TRUE )
-                {
-                    $this->B->tpl_mod_list[$key] =  $value;
-                }
-            }
-        }
     }    
 }
 
