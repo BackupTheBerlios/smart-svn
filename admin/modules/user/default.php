@@ -21,8 +21,8 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on'. __FILE__);
 }
 
-// set the default template for this module
-$base->tpl->readTemplatesFromInput(  "admin/modules/user/templates/default.tpl.html" );    
-
+// set the base template for this module
+$base->tpl->assign( 'section', SF_BASE_DIR . "/admin/modules/user/templates/default.tpl.php" );    
+  
 
 ?>

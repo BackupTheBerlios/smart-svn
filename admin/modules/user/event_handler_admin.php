@@ -29,9 +29,7 @@ if (FALSE == $base->event->register_handler(
                             array ( 'module'        => SF_EVT_HANDLER_USER,
                                     'event_handler' => 'user_event_handler') ))
 {
-    patErrorManager::raiseError( 'handler',
-                                 'Handler exist', 
-                                 'The handler '.SF_EVT_HANDLER_USER.' exist: '.__FILE__.' '.__LINE__  );        
+    trigger_error( 'The handler '.SF_EVT_HANDLER_USER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }    
                                         
                                         
@@ -58,8 +56,8 @@ function user_event_handler( $evt )
         case SF_EVT_LOGOUT:  
             $base->user->logOut();
             break;  
-        case SF_EVT_SETUP:  
-            if( count($base->tmp_error_system) == 0 )
+        case SF_EVT_SETUP:       
+            if( count($base->tmp_error) == 0 )
             {
                 include(SF_BASE_DIR.'/admin/modules/user/_setup.php'); 
             }

@@ -38,26 +38,34 @@ if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassw
     $base->tmp_error[]['error'] = 'Sysadmin password fields are empty or not equal!';
 } 
 
-if( count($base->tmp_error, COUNT_RECURSIVE) == 0 )
+if( count($base->tmp_error) == 0 )
 {
     switch($_POST['db_type'])
     {
         case 'mysql':
-            // Include the base file
-            include_once( SF_BASE_DIR.'/admin/modules/user/init_mysql.php' );        
+            // Create mysql tables
+            include( SF_BASE_DIR.'/admin/modules/user/init_mysql.php' );  
             break;
+        case 'sqlite':
+            // Create sqlite tables
+            include( SF_BASE_DIR.'/admin/modules/user/init_sqlite.php' );        
+            break;   
         default:
             $base->tmp_error[]['error'] = 'The user module isnt supporting the selected database type!';        
             break;
     }
 
     include_once(SF_BASE_DIR.'/admin/modules/user/patUser/include/patUser.php');
+    include_once(SF_BASE_DIR.'/admin/modules/user/class.sfPatUser.php');
 
     // patUser instance
-    $base->user = new patUser( TRUE, "smartUserData", "{$_POST['table_prefix']}user_sequence" );
-    
+    $base->user = new sfPatUser( TRUE, "smartUserData", "{$_POST['table_prefix']}user_sequence" );
+
     // set encrypting function
-    $base->user->setCryptFunction( array( $base->util, "md5_crypter" ) );
+    if(!$base->user->setCryptFunction( array( $base->util, "md5_crypter" ) ))
+    {
+        patErrorManager::raiseError( "user", "setCryptFunction error", "File: ".__FILE__."\nLine: ".__LINE__ );    
+    }
 
     $base->user->setAuthDbc( $base->db );
 
@@ -89,22 +97,37 @@ if( count($base->tmp_error, COUNT_RECURSIVE) == 0 )
                                        'id_part' =>  'id_part',
                                        'part'    =>  'part',
                                        'perms'   =>  'perms' ) );
-                                       
+    // add sysadmin group                            
     $base->tmp_gid = $base->user->addGroup( array('name' => 'sysadmin') );
+    if(!$base->tmp_gid)
+    {
+        patErrorManager::raiseError( "user", "add group error", "File: ".__FILE__."\nLine: ".__LINE__ );    
+    }
 
-    
+    // add sysadmin user
     $base->tmp_uid = $base->user->addUser( 
                           array( 'name'     => $_POST['sysname'],
                                  'lastname' => $_POST['syslastname'],
                                  'username' => $_POST['syslogin'],
                                  'passwd'   => $_POST['syspassword1']) );
-                                 
-    $base->user->addUserToGroup( array( 'uid' => $base->tmp_uid, 'gid' => $base->tmp_gid ) );
-    $base->user->addPermission( array( 'id_type' => 'group',
+    if(!$base->tmp_uid)
+    {
+        patErrorManager::raiseError( "user", "add user error", "File: ".__FILE__."\nLine: ".__LINE__ );    
+    }    
+    
+    if(!$base->user->addUserToGroup( array( 'uid' => $base->tmp_uid, 'gid' => $base->tmp_gid ) ))
+    {
+        patErrorManager::raiseError( "user", "add userTOgroup error", "File: ".__FILE__."\nLine: ".__LINE__ );    
+    }     
+    
+    if(!$base->user->addPermission( array( 'id_type' => 'group',
                                        'id'      => $base->tmp_gid,
                                        'id_part' =>  0,
                                        'part'    =>  '',
-                                       'perms'   => array( 'read', 'delete', 'modify', 'add' ) ) );
+                                       'perms'   => array( 'read', 'delete', 'modify', 'add' ) ) ))
+    {
+        patErrorManager::raiseError( "user", "add permission error", "File: ".__FILE__."\nLine: ".__LINE__ );    
+    }     
     
 }
 
