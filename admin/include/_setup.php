@@ -26,9 +26,9 @@ if(!is_writeable( SF_BASE_DIR . '/data' ))
     $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data';
 }
 
-if(!is_writeable( SF_BASE_DIR . '/logs' ))
+if(!is_writeable( SF_BASE_DIR . '/admin/logs' ))
 {
-    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/logs';
+    $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/logs';
 }
 
 // the version to install

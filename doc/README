@@ -8,6 +8,8 @@ and some event handlers functions (call-back). See EVENT_HANDLER_DOC.
 
 Currently I'm working on a module set based on sqlite, which comes with this package.
 
+MySql is not yet supported, so dont select it in setup.
+
 
 Armand Turpel
 smart@open-publisher.net
