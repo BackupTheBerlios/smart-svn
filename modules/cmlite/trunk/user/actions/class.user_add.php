@@ -56,23 +56,13 @@ class user_add
             $error = 'Login exists';
             return FALSE;
         }
-
-        $uid = $this->B->db->nextId($this->B->sys['db']['table_prefix'].'user_seq_add_user');
-
-        if (DB::isError($uid)) 
-        {
-            trigger_error($uid->getMessage()."\n".$uid->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            $error = 'Unexpected error';
-            return FALSE;
-        }
         
         $sql = '
             INSERT INTO 
                 '.$this->B->sys['db']['table_prefix'].'user_users
-                (uid,forename,lastname,email,login,passwd,status,rights)
+                (forename,lastname,email,login,passwd,status,rights)
             VALUES
-                ('.$uid.',
-                 '.$data['user_data']['forename'].',
+                ('.$data['user_data']['forename'].',
                  '.$data['user_data']['lastname'].',
                  '.$data['user_data']['email'].',
                  '.$data['user_data']['login'].',
@@ -88,8 +78,12 @@ class user_add
             $error = 'Unexpected error';
             return FALSE;
         }
+
+        $sql = 'SELECT LAST_INSERT_ID() AS uid';
+        
+        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
        
-        return $uid;
+        return $result['uid'];
     } 
     /**
      * check if login exist

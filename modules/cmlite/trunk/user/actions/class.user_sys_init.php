@@ -50,11 +50,11 @@ class user_sys_init
         // Check for upgrade  
         if(MOD_USER_VERSION != (string)$this->B->sys['module']['user']['version'])
         {
+            $this->B->M(MOD_USER, 'upgrade');
+        
             // set the new version num of this module
             $this->B->sys['module']['user']['version'] = MOD_USER_VERSION;
             $this->B->system_update_flag = TRUE;  
-                
-            // include here additional upgrade code
         }       
     }    
 }

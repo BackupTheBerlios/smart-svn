@@ -49,8 +49,6 @@ function db_create( & $B )
     return TRUE;
 }
 
-
-
 // create db on demande
 if(isset($_POST['create_db']))
 {
@@ -83,7 +81,7 @@ if (DB::isError($this->B->db))
     
 // create table if it dosent exist
 $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}user_users (
-        uid      INT(11) NOT NULL default 0,
+        uid      INT(11) NOT NULL auto_increment,
         status   TINYINT NOT NULL default 1,
         rights   TINYINT NOT NULL default 1,
         login    VARCHAR(30) NOT NULL,
@@ -91,21 +89,11 @@ $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}use
         forename VARCHAR(50) NOT NULL,
         lastname VARCHAR(50) NOT NULL,
         email    TEXT NOT NULL,
-        KEY uid         (uid),
+        PRIMARY KEY uid (uid),
         KEY status      (status),
         KEY rights      (rights))";
 
 $result = $this->B->db->query($sql);
-
-if (DB::isError($result))
-{
-    trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-    $success = FALSE;
-    return FALSE;
-}
-
-$result = $this->B->db->createSequence($this->B->conf_val['db']['table_prefix'].'user_seq_add_user');
 
 if (DB::isError($result))
 {
@@ -139,19 +127,10 @@ if($success != FALSE)
     $login     = $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['syslogin']));
     $passwd    = $this->B->db->quoteSmart(md5($_POST['syspassword1']));
     
-    $uid = $this->B->db->nextId($this->B->conf_val['db']['table_prefix'].'user_seq_add_user');
-    
-    if (DB::isError($uid)) 
-    {
-        trigger_error($uid->getMessage()."\n".$uid->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-        $success = FALSE;
-        return FALSE;
-    }
-    
     $sql = 'INSERT INTO '.$this->B->conf_val['db']['table_prefix'].'user_users 
-                (uid,forename,lastname,login,passwd,status,rights,email) 
+                (forename,lastname,login,passwd,status,rights,email) 
               VALUES 
-                ('.$uid.','.$forename.','.$lastename.','.$login.','.$passwd.',2,5,"admin@foo.com")';
+                ('.$forename.','.$lastename.','.$login.','.$passwd.',2,5,"admin@foo.com")';
         
     $result = $this->B->db->query($sql);
 
