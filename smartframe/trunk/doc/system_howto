@@ -182,12 +182,12 @@ if (FALSE == $B->register_handler(MOD_TEST,
 //
 function test_event_handler( $evt )
 
+There must be a module named 'common', which include files and define
+vars that are common to all modules. That means you have to define 
+some variables and include necessary stuff to get work your modules.
+if your modules need PEAR or ADODB, you have to include this here.
 
-//One module must takes the leader role. That means you have to define 
-//some variables and include necessary stuff to get work your modules.
-//if your modules need PEAR or ADODB, you have to include this here.
-
-// ### These 3 defines MUST be declared ###
+// ### These 3 defines MUST be declared in the common event handler ###
 /**
  * The module (name) which takes the authentication part.
  */
