@@ -43,11 +43,12 @@ class system_filter_trim_output
     /**
      * Remove space before and after the template output
      *
-     * @param array $data
+     * @param string $content
+     * @return string filtered content
      */  
-    function perform( $data )
+    function perform( & $content )
     {
-        echo trim( ob_get_clean() );    
+        return trim( $content );  
     }
 }
 

@@ -41,22 +41,65 @@ class system_sys_append
     }
     
     /**
-    /**
      * Run filters and other stuff after the application logic  
      *
-     *
-     *
      * @param array $data
+     * @return string filtered page content
      */
     function perform( $data )
     {
-        // Manual order the filter priority 
+        // get the output buffer
+        $content = ob_get_contents();
+        ob_clean();
+        
+        switch( SF_SECTION )
+        {
+            case 'admin':
+                // run filters for the admin page
+                return $this->_filter_admin( $content );
+                break;
+            default:
+                // run filters for the public page
+                return $this->_filter_public( $content );
+                break;            
+        } 
+    }  
+
+    /**
+     * Run public filters 
+     *
+     * @param string $content
+     * @return string filtered page content
+     * @access privat
+     */    
+    function _filter_public( & $content )
+    {
+        // Manual order the filter flow 
     
         // Remove space before and after the template output
-        $this->B->F( SYSTEM_FILTER , 'trim_output' );
+        $content = $this->B->F( SYSTEM_FILTER , 'trim_output', $content );
 
         // email obfuscation
-        $this->B->F( SYSTEM_FILTER , 'email_obfuscating' );
+        $content = $this->B->F( SYSTEM_FILTER , 'email_obfuscating', $content  );  
+        
+        return $content;
+    }
+
+    /**
+     * Run admin filters 
+     *
+     * @param string $content
+     * @return string filtered page content
+     * @access privat
+     */    
+    function _filter_admin( & $content )
+    {
+        // Manual order the filter flow 
+    
+        // Remove space before and after the template output
+        $content = $this->B->F( SYSTEM_FILTER , 'trim_output', $content );
+
+        return $content;
     }    
 }
 

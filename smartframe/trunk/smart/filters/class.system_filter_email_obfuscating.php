@@ -43,11 +43,12 @@ class system_filter_email_obfuscating
     /**
      * EMAIL_OBFUSCATING
      *
-     * @param array $data
+     * @param string $content
+     * @return string filtered content
      */  
-    function perform( $data )
+    function perform( & $content )
     {
-        echo str_replace("@", " AT ", ob_get_clean() ); 
+        return str_replace("@", " AT ", $content );       
     }
 }
 

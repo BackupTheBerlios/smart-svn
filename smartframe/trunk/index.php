@@ -60,7 +60,7 @@ if ( $_REQUEST['logout'] == '1' )
 switch ( SF_SECTION )
 {
     case 'admin':  
-        // switch to the public page from within the admin page
+        // switch to the public page from within the admin section
         if($_REQUEST['view'] == 'public')
         {
             // reload public section
@@ -82,7 +82,6 @@ switch ( SF_SECTION )
         
         // add to the URLs and forms the "admin" variable.
         output_add_rewrite_var('admin', '1');
-        ob_flush();      
         
         break;
         
@@ -92,9 +91,10 @@ switch ( SF_SECTION )
       
         break;
 }
-
+  
 // Directed intercepting filter event (auto_append)
-$B->M( MOD_SYSTEM, 'sys_append' );   
+// echo the content
+echo $B->M( MOD_SYSTEM, 'sys_append' );   
 
 // Send the output buffer to the client
 ob_end_flush();
