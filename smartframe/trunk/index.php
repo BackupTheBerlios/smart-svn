@@ -53,12 +53,12 @@ $B->template_file = SF_BASE_DIR . '/' . $B->sys['option']['tpl'] . '_' . $B->tmp
 if (@file_exists( $B->template_file ))
 {
     // Include the requested template
-    include( $B->template_file );
+    include ( $B->template_file );
 }
 else
 {
     // on error
-    echo "The requested template file '{$B->template_file}' doent exist! Please contact the administrator {$B->sys['option']['email']}";
+    die ("The requested template file '{$B->template_file}' doent exist! Please contact the administrator {$B->sys['option']['email']}");
 }
 
 // Send the output buffer to the client
