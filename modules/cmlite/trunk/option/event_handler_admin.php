@@ -25,7 +25,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define ( 'MOD_OPTION' , 'OPTION');
 
 // Version of this modul
-define ( 'MOD_OPTION_VERSION' , '0.1');
+define ( 'MOD_OPTION_VERSION' , '0.1.2');
 
 // register this handler                       
 if (FALSE == $B->register_handler( 
