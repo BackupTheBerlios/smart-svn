@@ -28,7 +28,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 define('SF_ERROR_HANDLE',             'LOG');
 
 /**
- * error reporting ( add ^E_WARNING for official releases)
+ * error reporting
  */
 define('SF_ERROR_REPORTING',          E_ALL ^E_NOTICE);
 
