@@ -46,9 +46,10 @@ function option_event_handler( $evt )
         case EVT_SETUP:
             $success = TRUE;
             // The module name and version
-            $B->conf_val['module']['option']['name']    = 'option';
-            $B->conf_val['module']['option']['version'] = MOD_OPTION_VERSION;
-            $B->conf_val['module']['option']['info']    = '';
+            $B->conf_val['module']['option']['name']     = 'option';
+            $B->conf_val['module']['option']['version']  = MOD_OPTION_VERSION;
+            $B->conf_val['module']['option']['mod_type'] = 'lite';
+            $B->conf_val['module']['option']['info']     = '';
             // Set some options
             $B->conf_val['option']['tpl'] = SF_DEFAULT_TEMPLATE_GROUP;
             $B->conf_val['option']['url'] = SF_BASE_LOCATION;

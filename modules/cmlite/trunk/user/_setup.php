@@ -59,9 +59,10 @@ if( count($B->setup_error) == 0 )
     // include sqlite setup
     include_once( SF_BASE_DIR . '/admin/modules/user/_setup_'.$_POST['dbtype'].'.php' );    
     
-    $B->conf_val['module']['user']['name']    = 'user';
-    $B->conf_val['module']['user']['version'] = '0.1';
-    $B->conf_val['module']['user']['info'] = '';  
+    $B->conf_val['module']['user']['name']     = 'user';
+    $B->conf_val['module']['user']['version']  = '0.1';
+    $B->conf_val['module']['user']['mod_type'] = 'lite';
+    $B->conf_val['module']['user']['info']     = 'This is leader module of this module group. Author: Armand Turpel <smart AT open-publisher.net>';  
     
     $B->conf_val['db']['dbtype'] = $_POST['dbtype'];
     

@@ -20,7 +20,7 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on'. __FILE__);
 }
 
-//create sqlite dir if it dosent exist
+//create data folder
 if(!is_dir(SF_BASE_DIR . '/data/earchive'))
 {
     if(!@mkdir(SF_BASE_DIR . '/data/earchive', SF_DIR_MODE))
@@ -47,9 +47,10 @@ if($success == TRUE)
     // include db setup
     include_once( SF_BASE_DIR . '/admin/modules/earchive/_setup_'.$db_type.'.php' );    
 }
-
-$B->conf_val['module']['earchive']['name']    = 'Earchive';
-$B->conf_val['module']['earchive']['version'] = '0.1';
-$B->conf_val['module']['earchive']['info'] = 'Email messages archive';     
+// create configs info for this module
+$B->conf_val['module']['earchive']['name']     = 'Earchive';
+$B->conf_val['module']['earchive']['version']  = '0.1';
+$B->conf_val['module']['earchive']['mod_type'] = 'lite';
+$B->conf_val['module']['earchive']['info']     = 'Email messages archive. Author: Armand Turpel <smart AT open-publisher.net>';     
 
 ?>
