@@ -46,15 +46,15 @@ class USER_SYS_LOAD_MODULE
      * @param array $data
      */
     function perform( $data )
-    {    
-        // User rights class
-        include(SF_BASE_DIR.'/admin/modules/user/class.rights.php');  
-        
+    {           
         // the user class
         include_once SF_BASE_DIR . '/admin/modules/user/class.user.php';
 
         //User Class instance
         $this->B->user = & new user;
+
+        // User rights class
+        include(SF_BASE_DIR.'/admin/modules/user/class.rights.php');  
 
         // set the base template for this module
         $this->B->module = SF_BASE_DIR . '/admin/modules/user/templates/index.tpl.php'; 
