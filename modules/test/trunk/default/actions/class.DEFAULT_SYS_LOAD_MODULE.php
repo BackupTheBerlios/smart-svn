@@ -48,7 +48,7 @@ class DEFAULT_SYS_LOAD_MODULE
     function perform( $data )
     {
         // set the base template for this module   
-        $this->B->module = SF_BASE_DIR . '/admin/modules/default/templates/index.tpl.php';    
+        $this->B->module = SF_BASE_DIR . 'modules/default/templates/index.tpl.php';    
             
         return TRUE;
     }    

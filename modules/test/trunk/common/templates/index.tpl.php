@@ -3,7 +3,7 @@
 <head>
 <meta name="robots" content="noindex,nofollow" />
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $B->sys['option']['charset']; ?>" />
-<link href="modules/common/media/main.css" rel="stylesheet" type="text/css" />
+<link href="../modules/common/media/main.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
 .style4 {
