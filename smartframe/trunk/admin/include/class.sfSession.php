@@ -54,8 +54,9 @@ class session
 
             $this->http_scope = true;
             $this->http =& $GLOBALS['HTTP_SESSION_VARS'];
-        }        
+        } 
         
+        session_save_path ( SF_BASE_DIR . '/admin/tmp/session' );
         session_start();
     }
 
