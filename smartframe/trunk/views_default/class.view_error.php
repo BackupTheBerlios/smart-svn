@@ -34,7 +34,7 @@ class view_error extends view
         {
             // template error array
             $this->B->tpl_error = array();
-
+            
             if( is_array($this->view_data['error']) && count($this->view_data['error'] > 0))
             {
                 $this->B->tpl_error = & $this->view_data['error'];
