@@ -51,14 +51,39 @@ class SYSTEM_GET_ADMIN_VIEW
     function perform( $data )
     {
         // path to the main admin template
-        $tpl = SF_BASE_DIR . 'modules/' .SF_COMMON_MODULE. '/templates/index.tpl.php';
-    
-        if(!file_exists( $tpl ))
+        $template_file = SF_BASE_DIR . 'modules/' .SF_COMMON_MODULE. '/templates/index.tpl.php';
+        // build the whole file path to the view class file
+        $view_class_file = SF_BASE_DIR .SF_COMMON_MODULE. '/view/class.mod_view_index.php';
+
+        // include view class file of the requested template
+        if( @file_exists( $view_class_file ) )
         {
-            die('Missing main admin template: ' . $tpl);
+            include_once( $view_class_file );
+            
+            $view_class = 'mod_view_'.$data['tpl'];
+            
+            $view = & new $view_class();
+            if( FALSE == $view->perform() )
+            {
+                // on error set the error template as default
+                $template_file = SF_BASE_DIR . 'error.tpl.php';
+            }
+        }
+            
+        // check if the requested template exist
+        if (!@file_exists( $template_file ))
+        {
+            $this->B->tpl_error = 'The requested template "' .$template_file. '" dosent exists!';
+            $template_file = SF_BASE_DIR . 'error.tpl.php';
+            
+            if (!@file_exists( $template_file ))
+            {            
+                // on error
+                die ("The requested template file '{$template_file}' dosent exist! Please contact the administrator {$this->B->sys['option']['email']}");
+            }
         }
 
-        return $tpl;
+        return $template_file;
     }    
 }
 
