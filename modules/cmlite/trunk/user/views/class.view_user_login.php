@@ -71,43 +71,7 @@ class view_user_login extends view
     {
         $this->B->tpl_form = array();
         $this->B->tpl_form['login_name'] = htmlentities(commonUtil::stripSlashes($_POST['login_name']));     
-    } 
-    
-    /**
-     * disable prepend filter chain by overloading the methode of the parent class
-     *
-     */
-    function prependFilterChain()
-    { 
-        // do nothing
-    }  
-    
-    /**
-     * disable append filter chain by overloading the methode of the parent class
-     *
-     */
-    function appendFilterChain()
-    { 
-        // do nothing
-    } 
-    
-    /**
-     * disable authentication by overloading the methode of the parent class
-     *
-     */
-    function auth()
-    {  
-        // do nothing
-    }  
-    
-    /**
-     * disable logout by overloading the methode of the parent class
-     *
-     */
-    function logout()
-    { 
-        // do nothing
-    }        
+    }      
 }
 
 ?>
