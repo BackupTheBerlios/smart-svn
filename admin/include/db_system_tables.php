@@ -21,7 +21,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 $sql = "CREATE TABLE info ( 
-name VARCHAR(50) not null, 
+name    VARCHAR(50) not null, 
 version VARCHAR(50) not null)";
 
 if( FALSE == $B->dbsystem->query($sql) )
@@ -31,9 +31,9 @@ if( FALSE == $B->dbsystem->query($sql) )
 
 
 $sql = "CREATE TABLE modules (
-name VARCHAR(50) NOT NULL PRIMARY KEY, 
+name    VARCHAR(50) NOT NULL PRIMARY KEY, 
 version VARCHAR(20) NOT NULL, 
-info TEXT NOT NULL default '')";
+info    TEXT NOT NULL default '')";
 
 if( FALSE == $B->dbsystem->query($sql) )
 {
@@ -41,12 +41,23 @@ if( FALSE == $B->dbsystem->query($sql) )
 }
 
 $sql = "CREATE TABLE options ( 
-db_prefix VARCHAR(30) NOT NULL, 
-css_folder VARCHAR(30) NOT NULL)";
+db_prefix   VARCHAR(30) NOT NULL, 
+css_folder  VARCHAR(30) NOT NULL)";
 
 if( FALSE == $B->dbsystem->query($sql) )
 {
     $B->setup_error[] = $B->dbsystem->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
+}
+
+$sql = "CREATE TABLE sessions (
+            ses_id    varchar(32) NOT NULL default '',
+            ses_time  int(11) NOT NULL default '0',
+            ses_start int(11) NOT NULL default '0',
+            ses_value text NOT NULL)";
+
+if( FALSE == $B->dbsession->query($sql) )
+{
+    $B->setup_error[] = $B->dbsession->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
 }
 
 ?>

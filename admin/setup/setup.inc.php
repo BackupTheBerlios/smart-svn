@@ -42,6 +42,9 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
 // include sqlite class
 include_once( SF_BASE_DIR . '/admin/include/class.sfSqLite.php' );
 
+// include sqlite class
+include_once( SF_BASE_DIR . '/admin/include/class.sfSession.php' );
+
 // Load the util class
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
 

@@ -35,8 +35,14 @@ if( $_POST['do_setup'] && (count($B->setup_error) == 0) )
 { 
     // Connect to the database
     $B->dbsystem = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/system.db.php');
+    
+    // Connect to the database
+    $B->dbsession = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/session.db.php');
         
     include (SF_BASE_DIR . '/admin/include/db_system_tables.php');
+
+    /* Create new object of class */
+    $B->session = & new session();
     
     if (count($B->setup_error) == 0)
     {

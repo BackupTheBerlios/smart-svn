@@ -42,7 +42,7 @@ if( count($B->setup_error) == 0 )
 {
     $sql = "CREATE TABLE user_groups (
             gid  INTEGER NOT NULL PRIMARY KEY,
-            status TINYINT NOT NULL default '1',
+            status TINYINT NOT NULL default 1,
             name VARCHAR(50) NOT NULL,
             desc TEXT NOT NULL default '')";
 
@@ -62,7 +62,7 @@ if( count($B->setup_error) == 0 )
 
     $sql = "CREATE TABLE user_users (
             uid      INTEGER NOT NULL PRIMARY KEY,
-            status   TINYINT NOT NULL default '1',
+            status   TINYINT NOT NULL default 1,
             login    VARCHAR(30) NOT NULL,
             passwd   CHAR(32) NOT NULL,
             forename VARCHAR(50) NOT NULL,
@@ -110,7 +110,7 @@ if( count($B->setup_error) == 0 )
     $sql = "INSERT INTO user_users 
                 (forename,lastname,login,passwd,status) 
               VALUES 
-                ('{$forename}','{$lastename}','{$login}','{$passwd}','2')";
+                ('{$forename}','{$lastename}','{$login}','{$passwd}',2)";
     
     if( FALSE == $B->dbdata->query($sql) )
     {
@@ -118,11 +118,12 @@ if( count($B->setup_error) == 0 )
     }
 
     $id_user = $B->dbdata->lastInsertId();
+    $B->session->set('id_user', $id_user);
 
     $sql = "INSERT INTO user_usersgroups 
                 (uid, gid) 
               VALUES 
-                ('{$id_user}','{$id_group}')";
+                ({$id_user},{$id_group})";
     
     if( FALSE == $B->dbdata->query($sql) )
     {
@@ -133,7 +134,7 @@ if( count($B->setup_error) == 0 )
     if( FALSE == $B->dbsystem->query($sql) )
     {
         $B->setup_error[] = $B->dbsystem->get_error() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
-    }  
+    }   
 }
 
 ?>

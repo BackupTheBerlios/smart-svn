@@ -43,6 +43,7 @@ if( $_POST['do_setup'] )
     {      
         // Send a setup finish message to the system handler
         $B->B( EVT_HANDLER_SYSTEM, EVT_SETUP_FINISH );
+        session_write_close ();
         @header('Location: ../index.php');
         exit;  
     }

@@ -66,18 +66,16 @@ class sfUtil
         {
             return $var;
         }
-    }
+    }    
     /**
-     *  md5 password encrypting for patUser
+     * Make unique md5_string
      *
-     *
-     *  @access public
-     *  @param  string  $password
-     *  @return string  encrypted password
+     * @return string unique md5 string 
      */
-    function    md5_crypter( $password )
+    function unique_md5_str()
     {
-        return md5($password);
+        mt_srand((double) microtime()*1000000);
+        return md5(str_replace(".","",$_SERVER["REMOTE_ADDR"]) + mt_rand(100000,999999)+uniqid(microtime()));    
     }    
 }
 

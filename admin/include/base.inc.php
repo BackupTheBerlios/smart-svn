@@ -42,6 +42,9 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
 // include sqlite class
 include_once( SF_BASE_DIR . '/admin/include/class.sfSqLite.php' );
 
+// include session class
+include_once( SF_BASE_DIR . '/admin/include/class.sfSession.php' );
+
 // Load the util class
 include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
 
@@ -75,6 +78,13 @@ if ( !@file_exists(SF_BASE_DIR . '/data/db_sqlite/system.db.php' ) )
     }
     exit;          
 }
+
+// Connect to the session database
+$B->dbsession = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/session.db.php');
+$B->dbsession->turboMode();
+
+/* Create new object of session class */
+$B->session = & new session();
 
 // Connect to the system database
 $B->dbsys = & new SqLite(SF_BASE_DIR . '/data/db_sqlite/system.db.php');
