@@ -96,7 +96,7 @@
     <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_tpl" id="_tpl">      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
-            <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web pages template groups</span></td>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web pages template folders</span></td>
           </tr>
           <tr>
             <td width="13%" align="left" valign="top">
@@ -111,6 +111,24 @@
           </tr>
       </table>
     </form>  
+    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_view" id="_view">      
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+          <tr>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Public view folders</span></td>
+          </tr>
+          <tr>
+            <td width="13%" align="left" valign="top">
+               <select name="viewgroup">
+                  <?php foreach($B->viewfolder as $_view):  ?>
+                     <option value="<?php echo $_view; ?>" <?php if($_view==$B->sys['option']['view']) echo 'selected="selected"' ?>><?php echo $_view; ?></option>
+                    <?php endforeach;  ?>
+               </select>
+               &nbsp; 
+            </td>
+            <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_view" value="update" onclick="subok(this.form.update_main_options_view);"></td>
+          </tr>
+      </table>
+    </form>      
     <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_cache_clean" id="_cache_clean">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
