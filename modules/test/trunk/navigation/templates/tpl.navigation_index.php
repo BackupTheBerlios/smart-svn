@@ -1,3 +1,4 @@
+<?php if(!isset($_REQUEST['nodecoration'])): ?>
 <style type="text/css">
 <!--
 .style1 {
@@ -19,8 +20,11 @@
   </tr>
   <tr>
     <td width="86%" colspan="2" align="left" valign="top">
+        <?php endif; ?>
         <?php /* ### include the module view (template) ### */ ?>
         <?php M( MOD_SYSTEM, 'get_view', array('m' => 'navigation', 'view' => $_REQUEST['sec']) ); ?>        
+    <?php if(!isset($_REQUEST['nodecoration'])): ?>
     </td>
   </tr>
 </table>
+<?php endif; ?>
