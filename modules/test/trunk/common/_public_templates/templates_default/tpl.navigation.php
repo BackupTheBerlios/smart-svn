@@ -25,14 +25,14 @@
                    The navigation items array $B->tpl_nav.
                    is produced by the event call at the top of this template. 
                    -----------------------------------------------------------*/ ?>
-          <?php foreach($B->tpl_nav as $key => $val): ?>
+          <?php foreach($B->tpl_nav as $node): ?>
           <tr>
             <td align="left" valign="top">
               <font size="2">
-                <?php if($_REQUEST['view'] == $val): ?>
-                   <strong><?php echo $key; ?></strong>
+                <?php if($_REQUEST['node'] == $node['node']): ?>
+                   <strong><?php echo $node['title']; ?></strong>
                 <?php else: ?>
-                   <a href="<?php echo SF_CONTROLLER; ?>?view=<?php echo $val; ?>"><?php echo $key; ?></a>
+                   <a href="<?php echo SF_CONTROLLER; ?>?view=node&node=<?php echo $node['node']; ?>"><?php echo $node['title']; ?></a>
                 <?php endif; ?>
               </font>
             </td>

@@ -1,6 +1,6 @@
 <?php /*
  ### Default template ### 
-     see also /view/class.view_index.php
+     see also /view_default/class.view_node.php
 */ ?>
 
 <?php /* Only allow calling this template from whithin the application */ ?>
@@ -50,20 +50,13 @@ body {
         </td>
         <td width="85%" align="left" valign="top">
         <font face="Verdana, Arial, Helvetica, sans-serif">
-        <h3>SMART</h3></font>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">This package comes with a couple of simple modules to show you how SMART works. </font></p>
-        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">The following modules are installed:</font></p>
-        <ul>
-          <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">common - </font></strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">It is always required. It includes the base libraries, which are common to all other modules. E.g. PEAR, Session class, .... The event handler of this module define some base variables, such as, which module takes the authentication part, which module is loaded by default when switching to the admin area. Furthermore this module provide the top admin template. Any templates of other modules are included (subtemplates) in this template.</font></li>
-          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>default</strong> - this module is loaded by default. It only provide a welcome screen.</font></li>
-          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>navigation - </strong>It enable you to create and manage simple navigation nodes for a site.</font></li>
-          <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>option</strong> - here you can controle some global options</font></li>
-          <li><font size="2"><strong>setup</strong> -</font> <font size="2">this module controle the setup process</font></li>
-          <li><font size="2"><strong>user</strong> - a simple user management module</font></li>
-        </ul>        <p>&nbsp;</p>
-        <p align="center">&nbsp;</p>
-        <p>&nbsp;</p>
-        <p>&nbsp;</p>
+        
+        <!-- print title and body of a navigation node -->
+        
+        <h3><?php echo $B->tpl_title;  ?></h3></font>
+        <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif">
+            <?php echo $B->tpl_body;  ?>
+        </font></p>
         </td>
       </tr>
     </table></td>
