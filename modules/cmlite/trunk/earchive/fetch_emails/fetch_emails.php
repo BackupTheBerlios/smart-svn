@@ -33,7 +33,7 @@ include (SF_BASE_DIR . '/admin/include/base.inc.php');
 include_once (SF_BASE_DIR . '/admin/modules/earchive/class.earchive.php');
 
 // the PEAR IMAP class
-include_once ('MAIL/IMAP.php');
+include_once (SF_BASE_DIR . '/admin/lib/PEAR/MAIL/IMAP.php');
 
 // Set up class, initiate a mailbox connection
 $msg =& new Mail_IMAP();
