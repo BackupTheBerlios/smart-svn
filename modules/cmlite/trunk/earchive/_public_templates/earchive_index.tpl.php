@@ -105,15 +105,14 @@
               </td>
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
-                        <td align="left" valign="top"><p class="pager">E-archive
+                      <td align="left" valign="top"><p class="pager">E-archive
                             is a php script which is able to fetch email messages (+ attachments)
                             from email inbox accounts and make those accessible through a public web page.
                             It is build upon the framework <a href="http://smart.open-publisher.net">SMART</a>.
                             E-archive is a module of this framework.
-                            It is still in a test phase. So there is no garuantee
-                            that it is bug free.</p>
-                          <p class="pager">Current Version 0.1.8a</p>
-                          <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&release_id=4033" target="_blank">Download E-archive from the project page at Berlios</a></p>
+                            </p>
+                          <p class="pager">Current Version 0.2b</p>
+                          <p class="pager"><a href="http://developer.berlios.de/project/showfiles.php?group_id=1850&release_id=4058" target="_blank">Download E-archive from the project page at Berlios</a></p>
                             <h3>Installation:</h3>
                             <p class="pager">Transfer the extracted archive to
                               your web server. You can even install E-archive
@@ -121,31 +120,14 @@
                               directory. You should see an install menu. Follow
                               the instructions.</p>
                             <p><font size="2" face="Verdana, Arial, Helvetica, sans-serif"> PHP scripts must have write permissions to the following directories:</font></p>
-                            <ul>
+            <ul>
                               <li><font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>/logs</strong></font></li>
                               <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/modules/common/config</font></strong></li>
+                              <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/modules/common/tmp/cache</font></strong></li>
                               <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/modules/user/actions/captcha/pics</font></strong></li>
                               <li><strong><font size="2" face="Verdana, Arial, Helvetica, sans-serif">/smart/tmp/session_data</font></strong></li>
                             </ul>
-                            <h3>Upgrade from version 0.1.5a:</h3>
-                            <p class="pager">This version is based on <a href="http://smart.open-publisher.net" target="_blank">smart frame</a> 0.3.2a which was designed from the ground up. To upgrade from previous e-archive versions you have to:</p>
-                            <ul>
-                              <li><font size="2">make backup of the whole earchive database, files and folders</font></li>
-                              <li><font size="2">transfert the extracted archive to you webspace where the previous earchive version is.</font></li>
-                              <li><font size="2">copy the file from the folder:<br />
-                                /admin/modules/common/config/config.php
-                                    <br />
-                                    to the folder:<br />
-                                    modules/comon/config
-</font></li>
-                              <li><font size="2">change in all your templates the second parameter of the event call functions:<br />
-                                ACTION to 'action' ; so lowercase strings. If you use the original earchive templates you dont have to change anything.
-                              </font></li>
-                              <li><font size="2">point your browser to earchive. Check out if every thing is ok and proceed to the next step.</font></li>
-                              <li><font size="2">delete the following folders:<br />
-                              <strong>/admin</strong><br />
-                                <strong>/plugins</strong>                              </font></li>
-                          </ul>                            <h3>Administration</h3>
+                            <h3>Administration</h3>
                             <p class="pager">The following modules are installed:</p>
                             <ul class="pager">
                                 <li><strong>USER</strong> - User management.
@@ -274,10 +256,10 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                               menu. If you make change on the templates delivered with this package your should place the modified templates under an other group. Else you will delete your modifications when upgrade to a new earchive release.</p>                            
                             <h3>ToDO</h3>
                             <ul>
-                                <li class="pager">Add a template if a visitor
-                                  forgot account data.</li>
-                                <li class="pager">Switch to PEAR MDB2 if there
-                                  is a stable release.</li>
+                                <li class="pager">Add a template where a visitor can retrive
+                                  forgotten account data.</li>
+                                <li class="pager">Allow deleting messages older than a given date</li>
+                                <li class="pager">Including advance searching strategies</li>
                           </ul>
                             <h3>Get involved</h3>
                             <p class="pager">Requirements:</p>
@@ -293,13 +275,29 @@ NNTP: nntp://username:password@mail.example.com:119/comp.test </li>
                             <h3>Licence</h3>
                             <p class="pager">GPL</p>
                             <h3>Technical requirements</h3>
-                            <ul>
+            <ul>
                                 <li class="pager">PHP &gt; 4.3 </li>
                                 <li class="pager">MySql &gt; 3.23.xx</li>
                                 <li class="pager">GD php extension</li>
                                 <li class="pager">IMAP php extension</li>
                                 <li class="pager">XML php extension</li>
-                            </ul></td>
+                            </ul>
+							<h3>Upgrade from version 0.1.5a:</h3>
+							<p class="pager">This version is based on <a href="http://smart.open-publisher.net" target="_blank">smart frame</a> 0.3.2a which was designed from the ground up. To upgrade from previous e-archive versions you have to:</p>
+							<ul>
+                              <li><font size="2">make backup of the whole earchive database, files and folders</font></li>
+                              <li><font size="2">transfert the extracted archive to you webspace where the previous earchive version is.</font></li>
+                              <li><font size="2">copy the file from the folder:<br />
+    /admin/modules/common/config/config.php <br />
+    to the folder:<br />
+    modules/comon/config </font></li>
+                              <li><font size="2">change in all your templates the second parameter of the event call functions:<br />
+    ACTION to 'action' ; so lowercase strings. If you use the original earchive templates you dont have to change anything. </font></li>
+                              <li><font size="2">point your browser to earchive. Check out if every thing is ok and proceed to the next step.</font></li>
+                              <li><font size="2">delete the following folders:<br />
+                                    <strong>/admin</strong><br />
+                                    <strong>/plugins</strong> </font></li>
+					    </ul></td>
                   </tr>
                 </table></td>
             </tr>
