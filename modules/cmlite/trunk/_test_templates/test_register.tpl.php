@@ -3,9 +3,9 @@
 <?php $B->M( MOD_USER, 
              EVT_USER_REGISTER, 
              array('register'    => $_POST['do_register'],
-                   'var'         => 'tpl',
-                   'error_var'   => 'error',
-                   'success_var' => 'success',
+                   'form_var'    => 'tpl_form',
+                   'error_var'   => 'tpl_error',
+                   'success_var' => 'tpl_success',
                    'email_subject' => 'Your Smartframe registration',
                    'email_msg'     => 'You have to click on the link below to activate your account:<br /><br />(URL)<br /><br />Please contact the administrator on problems: (EMAIL).',
                    'reg_data' => array('login'    => $_POST['login'], 
@@ -16,9 +16,9 @@
                                        'email'    => $_POST['email']))); ?> 
 <?php $B->M( MOD_USER, 
              EVT_USER_VALIDATE, 
-             array('error_var'   => 'v_error',
+             array('error_var'   => 'tpl_v_error',
                    'error_msg'   => 'A unexpected error occured during your account validation. Please contact the administrator (EMAIL) or try again.',
-                   'success_var' => 'v_success',
+                   'success_var' => 'tpl_v_success',
                    'success_msg' => 'Your registration validation was successfull. You can now use restricted content on site (URL)')); ?>
 <html>
 <head>
@@ -85,37 +85,63 @@
 <body bgcolor="#FFFFFF" text="#000000" class="registerbody">
 <form name="form1" method="post" action="index.php?tpl=register">
   <table width="400" border="0" align="center" cellpadding="2" cellspacing="0" class="register">
+    <?php if(isset($B->tpl_v_error)||isset($B->tpl_v_success)) ): ?>
+        <tr align="center" valign="middle">
+        <?php if($B->tpl_v_success !== FALSE): ?>
+            <td colspan="2" class="registertitle">
+            <?php echo $B->tpl_v_success; ?>
+            </td>
+        <?php if($B->tpl_v_error !== FALSE): ?>
+            <td colspan="2" class="registererror">
+            <?php echo $B->tpl_v_error; ?>
+            </td>
+        <?php endif; ?>
+        </tr>
+    <?php else: ?>    
     <tr align="center" valign="middle">
       <td colspan="2" class="registertitle">Register
        </td>
     </tr>
-    
       <!-- if register success show thanks message else error message --> 
-      <?php if ($B->error !== FALSE):  ?>  
+      <?php if ($B->tpl_success === TRUE):  ?>  
        <tr align="center">
         <td colspan="2" valign="top" class="registererror">
-                <?php echo $B->error; ?>
+                Soon your will receive an email with further instructions to complete your account.
+        </td>
+       </tr>  
+      <?php elseif ($B->tpl_success === FALSE):  ?>  
+       <tr align="center">
+        <td colspan="2" valign="top" class="registererror">
+                An error occured during you registration.
+        </td>
+       </tr>        
+      <?php endif; ?>   
+      <!-- error message --> 
+      <?php if ($B->tpl_error !== FALSE):  ?>  
+       <tr align="center">
+        <td colspan="2" valign="top" class="registererror">
+                <?php echo $B->tpl_error; ?>
         </td>
        </tr>           
      <?php endif; ?>
      <tr>
        <td width="80%" align="left" valign="top" class="registeritem">
            Forename<br>
-                     <input type="text" name="forename" value="<?php echo htmlentities($B->tpl['forename']); ?>" maxlength="1024" size="40">
+                     <input type="text" name="forename" value="<?php echo htmlentities($B->tpl_form['forename']); ?>" maxlength="1024" size="40">
        </td>
        <td width="80%" align="left" valign="top" class="registeritem">&nbsp;</td>
      </tr>
      <tr>
        <td width="80%" align="left" valign="top" class="registeritem">
            Lastname<br>
-                     <input type="text" name="lastname" value="<?php echo htmlentities($B->tpl['lastname']); ?>" maxlength="1024" size="40">
+                     <input type="text" name="lastname" value="<?php echo htmlentities($B->tpl_form['lastname']); ?>" maxlength="1024" size="40">
        </td>
        <td width="80%" align="left" valign="top" class="registeritem">&nbsp;</td>
      </tr>
      <tr>
        <td width="80%" align="left" valign="top" class="registeritem">
            Login<br>
-                     <input type="text" name="login" value="<?php echo htmlentities($B->tpl['login']); ?>" maxlength="1024" size="40">
+                     <input type="text" name="login" value="<?php echo htmlentities($B->tpl_form['login']); ?>" maxlength="1024" size="40">
        </td>
        <td width="80%" align="left" valign="top" class="registeritem">&nbsp;</td>
      </tr>
@@ -136,7 +162,7 @@
      <tr>
        <td width="80%" align="left" valign="top" class="registeritem">
            Email<br>
-                     <input type="text" name="email" value="<?php echo htmlentities($B->tpl['email']); ?>" maxlength="1024" size="40">
+                     <input type="text" name="email" value="<?php echo htmlentities($B->tpl_form['email']); ?>" maxlength="1024" size="40">
        </td>
        <td width="80%" align="left" valign="top" class="registeritem">&nbsp;</td>
      </tr>
@@ -158,6 +184,7 @@
      <tr>
        <td colspan="2" class="registertext"><br /><b>INFO:</b><br /></td>
      </tr>
+     <?php endif; ?>
   </table>
 </form>
 </body>
