@@ -13,8 +13,6 @@
  * action_navigation_update_node class 
  *
  */
-// tree class
-include_once(SF_BASE_DIR . 'modules/common/includes/Tree.php');
 
 class action_navigation_delete_node extends action
 {
@@ -25,23 +23,22 @@ class action_navigation_delete_node extends action
      */
     function perform( $data = FALSE )
     {
-        // check if a tree object exists
-        if(!is_object($this->B->tree))
+        // check if a tree node array exists
+        if(!isset($this->node))
         {
             // load navigation nodes
-            $file = SF_BASE_DIR . 'data/navigation/nodes.php';     
-            
-            $this->B->tree = & new Tree($file);
-        } 
+            include_once SF_BASE_DIR . 'data/navigation/nodes.php';     
+            $this->node = & $node;
+        }
         
         // add node to the array
-        $this->B->tree->deleteNode( $data['node'] );
+        $this->deleteNode( $data['node'] );
 
         // Update navigation node config file
         // see modules/common/actions/class.action_common_sys_update_config.php
         M( SF_BASE_MODULE, 
            'sys_update_config', 
-           array( 'data'     => $this->B->tree->node,
+           array( 'data'     => $this->node,
                   'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
                   'var_name' => 'node',
                   'type'     => 'PHPArray') );
@@ -71,7 +68,110 @@ class action_navigation_delete_node extends action
         }     
         
         return TRUE;
-    }     
+    }  
+    /**
+     * delete node data
+     *
+     * @param int $node_id node id
+     */        
+    function deleteNode( $node_id )
+    {
+        // get node body text file path
+        $node_body  = SF_BASE_DIR . 'data/navigation/'.$node_id; 
+        // delete body text file
+        if (!@unlink( $node_body ))
+        {
+            trigger_error ('Could not unlink file: '.$node_body, E_USER_ERROR);
+        }
+        
+        // delete node array item
+        $tmp = array();
+        $tmp['node'] = $this->node[$node_id]['parent_id'];
+
+        unset( $this->node[$node_id] );
+        
+        // delete subtree
+        $this->deleteTree( $node_id );
+        
+        // get brother nodes from the deleted node
+        $_data = $this->getChildren( $tmp );
+        
+        // and reorder them
+        $_order = 1;
+        
+        foreach ($_data as $node => $val)
+        {
+            $this->node[$node]['order'] = $_order;
+            $_order++;
+        }        
+    }  
+    /**
+     * delete tree (subtree)
+     *
+     * @param int $parent_id parent id
+     */      
+    function deleteTree( $parent_id )
+    {
+        foreach($this->node as $node => $val)
+        {
+            if( $val['parent_id'] == $parent_id )
+            {
+                // delete node in array
+                unset($this->node[$node]);
+                
+                // get node body text file path
+                $node_body  = SF_BASE_DIR . 'data/navigation/'.$node; 
+                // delete body text file
+                if (!@unlink( $node_body ))
+                {
+                    trigger_error ('Could not unlink file: '.$node_body, E_USER_ERROR);
+                }
+                // recursive call
+                $this->deleteTree( $node );
+            }
+        }  
+        return;
+    }
+    /**
+     * get child nodes sorted by order
+     *
+     * @param array $data
+     */     
+    function & getChildren( & $data )
+    {
+        $tmp = array();
+        foreach ($this->node as $key => $val)
+        {
+            if( $val['parent_id'] == $data['node'] )
+            {
+                if( isset($data['status']) )
+                {
+                    if( $val['status'] == $data['status'] )
+                    {
+                        $tmp[$val['order']] = $key;
+                    }
+                    continue;
+                }
+                $tmp[$val['order']] = $key;
+            }
+        }
+        // ordered
+        ksort($tmp);
+        
+        $result = array();
+        
+        foreach ($tmp as $val)
+        {
+            $result[$val]['title']     = $this->node[$val]['title'];
+            $result[$val]['status']    = $this->node[$val]['status'];
+            $result[$val]['order']     = $this->node[$val]['order'];
+            $result[$val]['parent_id'] = $this->node[$val]['parent_id'];
+        }  
+        
+        unset($tmp);
+
+        return $result;
+    }    
 }
 
 ?>
