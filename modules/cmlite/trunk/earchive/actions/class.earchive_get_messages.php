@@ -99,7 +99,7 @@ class earchive_get_messages
         // check if cache ID exists
         if ($this->B->M( MOD_COMMON, 'cache_get',
                          array('result'     => $data['var'],
-                               'cacheID'    => $sql.(string)$page,
+                               'cacheID'    => SF_SECTION.$sql.(string)$page,
                                'cacheGroup' => 'earchive'))) 
         {
             return TRUE;
@@ -150,7 +150,7 @@ class earchive_get_messages
         // check if cache ID exists
         if ($this->B->M( MOD_COMMON, 'cache_get',
                          array('result'     => $data['var'],
-                               'cacheID'    => $lid.$_GET['pageID'],
+                               'cacheID'    => SF_SECTION.$lid.$_GET['pageID'],
                                'cacheGroup' => 'earchive'))) 
         {
             return TRUE;

@@ -109,12 +109,12 @@ class common_sys_init
         // Check for upgrade  
         if(MOD_COMMON_VERSION != (string)$this->B->sys['module']['common']['version'])
         {
+            // include here additional upgrade code
+            $this->B->M( MOD_COMMON, 'upgrade' );        
+        
             // set the new version num of this module
             $this->B->sys['module']['common']['version']  = MOD_COMMON_VERSION;
             $this->B->system_update_flag = TRUE;  
-                
-            // include here additional upgrade code
-            $this->B->M( MOD_COMMON, 'upgrade' );
         }
      
         if( SF_SECTION == 'admin')
