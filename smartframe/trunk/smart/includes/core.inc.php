@@ -32,9 +32,6 @@ include_once( SF_BASE_DIR . 'smart/includes/defaults.php' );
 // include sfErrorHandler
 include_once( SF_BASE_DIR . 'smart/includes/class.errorHandler.php' );
 
-// Load the util class
-include_once( SF_BASE_DIR . 'smart/includes/class.util.php' );
-
 // The base container object
 include_once( SF_BASE_DIR . 'smart/includes/class.base.php' );
 
@@ -51,13 +48,7 @@ include_once( SF_BASE_DIR . 'smart/includes/class.action.php' );
 $B = & new Base;
 
 // set error handler
-$B->errorHandler   =  new ErrorHandler();
-
-//  instance of the util class
-$B->util = & new Util;         
-     
-// Define the base location
-define('SF_BASE_LOCATION', $B->util->base_location());
+$B->errorHandler   =  & new ErrorHandler();
 
 // Register all modules
 //
