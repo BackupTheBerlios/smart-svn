@@ -1,3 +1,4 @@
+<?php if(!isset($_REQUEST['nodecoration'])): ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -66,6 +67,7 @@ function subok(s){
   </tr>
   <tr>
     <td width="20%" align="left" valign="top">
+	<?php endif; ?>
         <?php /* ### include the module view (template) ### */ ?>
         <?php
               if(empty($_REQUEST['m']))
@@ -74,6 +76,7 @@ function subok(s){
               }
               M( MOD_SYSTEM, 'get_view', array('m' => $_REQUEST['m'], 'view' => 'index') );         
         ?>
+	<?php if(!isset($_REQUEST['nodecoration'])): ?>	
     </td>
   </tr>
   <tr>
@@ -86,3 +89,4 @@ function subok(s){
 </table>
 </body>
 </html>
+<?php endif; ?>
