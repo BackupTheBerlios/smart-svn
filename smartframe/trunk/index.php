@@ -90,7 +90,6 @@ if(isset($B->system_update_flag))
     M( SF_BASE_MODULE, 
        'sys_update_config', 
        array( 'data'     => $B->sys,
-              'file'     => SF_BASE_DIR . 'modules/'.SF_BASE_MODULE.'/config/config.php',
               'var_name' => 'this->B->sys',
               'type'     => 'PHPArray') );
               
