@@ -23,7 +23,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_TEST' , 'TEST');
 
-// define a handler function which can be used from within a template
+// define a class functions which can be used from within a template
 define ( 'EVT_TEST_COUNTER' ,      'TEST_COUNTER');
 define ( 'EVT_TEST_CONTACT' ,      'TEST_CONTACT');
 
@@ -36,37 +36,43 @@ if (FALSE == $B->register_handler(MOD_TEST,
     trigger_error( 'The handler '.MOD_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 } 
 
-// The handler function
+/**
+  * The handler function
+  *
+  * @param $evt array
+  *
+  * Structur of the $evt array:
+  *
+  *
+  */
 function test_event_handler( $evt )
 {
     global $B;
-
-    switch( $evt['code'] )
+    
+    // check if this object was previously declared
+    if(!is_object($B->$evt['code']))
     {
-        case EVT_TEST_COUNTER:
-            // get var name defined in the public template to store the result
-            $_result = & $GLOBALS['B']->$evt['data']['var']; 
-            
-            // the result must be an array
-            $_result = array();
-            
-            // check if start/end counter are defined else set default values
-            if(empty($evt['data']['start_counter']))
-                $evt['data']['start_counter'] = 0;
-            if(empty($evt['data']['end_counter']))
-                $evt['data']['end_counter'] = 10;
-                
-            // assign counter vars
-            for($i=$evt['data']['start_counter'];$i<=$evt['data']['end_counter'];$i++)
-                $_result[] = $i;
-            break;  
-        case EVT_TEST_CONTACT: 
-            // get var name defined in the public template to store the result
-            $_result = & $GLOBALS['B']->$evt['data']['var']; 
-            
-            $_result  = "\nBuster Keaton\n41, Rue Tivoli,\nParis, France\n\n";
-            $_result .= "Email: {$B->sys['option']['email']}"; 
-        break;
+        // dynamic load the required class
+        $class_file = SF_BASE_DIR . '/admin/modules/test/class.'.$evt['code'].'.php';
+        if(file_exists($class_file))
+        {
+            include_once($class_file);
+            // make instance
+            $B->$evt['code'] = & new $evt['code'];
+            // perform the request
+            $B->$evt['code']->perform( $evt['data'] );
+            return TRUE;  
+        }
+        else
+        {
+            return FALSE;
+        } 
+    }
+    else
+    {
+        // perform the request if object exists
+        $B->$evt['code']->perform( $evt['data'] );
+        return TRUE; 
     }
 }
 
