@@ -66,7 +66,7 @@ if($success == TRUE)
 
 // create configs info for this module
 $B->conf_val['module']['earchive']['name']     = 'Earchive';
-$B->conf_val['module']['earchive']['version']  = '0.2';
+$B->conf_val['module']['earchive']['version']  = MOD_EARCHIVE_VERSION;
 $B->conf_val['module']['earchive']['mod_type'] = 'lite';
 $B->conf_val['module']['earchive']['info']     = 'Email messages archive. Author: Armand Turpel <smart AT open-publisher.net>';     
 

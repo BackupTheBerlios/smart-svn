@@ -87,7 +87,7 @@ if( $success == TRUE )
     }
     
     $B->conf_val['module']['user']['name']     = 'user';
-    $B->conf_val['module']['user']['version']  = '0.1';
+    $B->conf_val['module']['user']['version']  = MOD_USER_VERSION;
     $B->conf_val['module']['user']['mod_type'] = 'lite';
     $B->conf_val['module']['user']['info']     = 'This is leader module of this module group. Author: Armand Turpel <smart AT open-publisher.net>';  
     
