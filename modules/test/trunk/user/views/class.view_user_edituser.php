@@ -47,8 +47,7 @@ class view_user_edituser extends view
         }     
     
         // prepare data array
-        $_data = array( 'error'   => 'tpl_error',
-                        'user' => $_REQUEST['user'],
+        $_data = array( 'user' => $_REQUEST['user'],
                         'result'  => 'tpl_data');
                         
         // get user data
