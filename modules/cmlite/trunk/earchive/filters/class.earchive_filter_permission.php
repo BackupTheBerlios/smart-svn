@@ -74,7 +74,7 @@ class earchive_filter_permission
      * @return bool true on success else false
      */
     function perform( $data )
-    {    
+    {
         switch($data['action'])
         {
             case 'access':

@@ -23,10 +23,10 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the filter module
-define( 'EARCHIVE_FILTER' , 'user' );
+define( 'EARCHIVE_FILTER' , 'earchive' );
 
 // register this filter                      
-if (FALSE == $B->register_filter( USER_FILTER,
+if (FALSE == $B->register_filter( EARCHIVE_FILTER,
                                   array ( 'filter'         => EARCHIVE_FILTER,
                                           'filter_handler' => 'earchive_filter_handler') ))
 {
