@@ -61,12 +61,16 @@ class common_sys_setup
         $this->B->conf_val['module']['common']['version']  = MOD_COMMON_VERSION;
         $this->B->conf_val['module']['common']['mod_type'] = 'cmlite';
         $this->B->conf_val['module']['common']['info']     = 'This is the common modul';
-        
-        $this->B->conf_val['cache']['lifetime'] = 3600;
 
         if(!is_writeable( SF_BASE_DIR . 'modules/common/config' ))
         {
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/config';
+            $success = FALSE;
+        }
+
+        if(!is_writeable( SF_BASE_DIR . 'modules/common/tmp/cache' ))
+        {
+            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/cache';
             $success = FALSE;
         }
 
@@ -85,27 +89,7 @@ class common_sys_setup
                 trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
                 $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
                 $success = FALSE;
-            }          
-        
-            // The PEAR cache db table. 
-            $sql = "CREATE TABLE {$this->B->conf_val['db']['table_prefix']}cache (
-                      id          char(32) NOT NULL DEFAULT '',
-                      cachegroup  varchar(127) NOT NULL DEFAULT '',
-                      cachedata   blob NOT NULL DEFAULT '',
-                      userdata    varchar(255) NOT NULL DEFAULT '',
-                      expires     int(9) NOT NULL DEFAULT 0,
-                      changed     timestamp(14) NOT NULL,
-                      index (expires),
-                      primary key (id, cachegroup))";       
-        
-            $result = $this->B->db->query($sql);
-  
-            if (DB::isError($result))
-            {
-                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
-                $success = FALSE;
-            }    
+            }             
         }
         
         // if noting is going wrong $success is still TRUE else FALSE
