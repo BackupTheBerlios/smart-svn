@@ -592,6 +592,30 @@ class earchive
         }
         return $tmp;
     }
+
+    /**
+     * delete attachment db entry
+     *
+     * @param int $aid Attach ID
+     */ 
+    function delete_attach_db_entry( $aid )
+    {
+        if(empty($aid))
+          return;
+          
+        $sql = "
+            DELETE FROM 
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach
+            WHERE
+                aid={$aid}";  
+        
+        $result = $GLOBALS['B']->db->query($sql);
+
+        if (DB::isError($result)) 
+        {
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        }                 
+    }
     
     /**
      * update email list data

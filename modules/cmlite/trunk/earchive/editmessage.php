@@ -65,7 +65,8 @@ if(isset($_POST['editmessage']))
             foreach($_POST['aid'] as $aid)
             {
                 $file = $B->earchive->get_attach( $aid, $fields );
-                @unlink($path.'/'.$file['file']);           
+                @unlink($path.'/'.$file['file']); 
+                $B->earchive->delete_attach_db_entry( $aid );
             }
         }
         
