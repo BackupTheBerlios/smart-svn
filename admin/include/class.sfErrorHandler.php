@@ -9,14 +9,6 @@
 // To read the license please visit http://www.gnu.org/copyleft/gpl.html
 // ----------------------------------------------------------------------
 
-
-/**
- * custom sfErrorManager handler for the callback error handling mode
- *
- * @access      public
- * @package     default
- */
- 
 /**
  * custom sfErrorManager handler for the callback error handling mode
  *

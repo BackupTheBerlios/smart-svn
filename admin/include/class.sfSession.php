@@ -16,15 +16,25 @@
 
 class session
 {
-    /* Define the mysql table you wish to use with
-       this class, this table MUST exist. */
-    var $ses_table = "sessions";
+    /**
+    * @var bool This is true, if register_globals is true
+    */
+    var $global_scope;
+    /**
+     * @var bool True if the globale array HTTP_SESSION_VARS exist
+    */
+    var $http_scope;
+    /**
+     * @var array A reference on $HTTP_SESSION_VARS
+    */
+    var $http;   
 
-    /* Change to 'Y' if you want to connect to a db in
-       the _open function */
-    var $db_con = "Y";
-
-    function session()
+    /**
+     * Constructor
+     *
+     * @param string $session_name Name of the Session Cookie
+     */    
+    function session( $session_name = FALSE )
     {
         $this->_B = &$GLOBALS['B'];
         

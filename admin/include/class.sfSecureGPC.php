@@ -11,6 +11,7 @@
 
 /**
  * Secure GPC class 
+ * check validity of variables which comes from _GET _POST _COOKIE _REQUEST ...
  *
  * Check variables types
  */
@@ -19,6 +20,7 @@ class sfSecureGPC
 {
     /**
      * get
+     * check validity of a variable
      *
      * @param mixed $var Var to check.     
      * @param string $type Type of the variable.

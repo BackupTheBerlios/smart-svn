@@ -112,6 +112,7 @@ unset($B->tmp_evt_handler);
 // Check if setup was done
 if ( $B->sys['info']['status'] !== TRUE )
 {
+    // If calling from the pubilc page, switch to the admin page
     if( SF_SECTION != 'admin' )
     {
         @header('Location: admin/index.php');

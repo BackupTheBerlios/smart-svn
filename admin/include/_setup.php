@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * check db connection and write db connect config file config_db_connect.xml.php
+ * Setup of the system
  *
  */
 // Check if this file is included in the environement
@@ -31,10 +31,11 @@ include_once( SF_BASE_DIR . '/admin/include/system_version.php' );
 
 // Do setup if no error
 if( $_POST['do_setup'] && (count($B->setup_error) == 0) )
-{    
+{
+    // set name and version of the framework
     $B->conf_val['info']['name']    = $B->system_name;
     $B->conf_val['info']['version'] = $B->system_version;
-    
+    // set default media folder of the framework
     $B->conf_val['option']['css_folder'] = 'default';
 }
 

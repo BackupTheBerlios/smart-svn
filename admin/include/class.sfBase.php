@@ -12,7 +12,7 @@
 /**
  * Base Object class 
  *
- * 
+ * It include event handler methods 
  *
  */
  
