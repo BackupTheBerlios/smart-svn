@@ -12,6 +12,34 @@
 /**
  * user_filter_permission class 
  *
+ * The permission rights levels:
+ * 
+ * -
+ * 5 (ADMINISTRATOR)
+ * -
+ * # all permssion rights
+ *
+ * -
+ * 4 (EDITOR) 
+ * -
+ * # add user
+ * # modify user below level 4
+ * 
+ * -
+ * 3 (AUTHOR) 
+ * -
+ * # modify own user account
+ * 
+ * -
+ * 2 (CONTRIBUTOR) 
+ * -
+ * # modify own user account
+ *
+ * -
+ * 1 (RESTRICTED) 
+ * -
+ * # no admin rights
+ *
  */
  
 class user_filter_permission
