@@ -1,6 +1,6 @@
-<?php //### Index template. It is loaded by default if no template is defined. ### ?>
+<?php /* ### Index template. It is loaded by default if no template is defined. ### */ ?>
 
-<?php // ##### For a better usability we place the event calls at the top of each template #### ?>
+<?php /* ##### For a better usability we place the event calls at the top of each template #### */ ?>
 
 <?php /* A simple event call directed to the test module. It is a trivial example, but
          it show you how the following event call interact with the corresponding
@@ -66,12 +66,12 @@ body {
             <td align="left" valign="top">
              <font size="2">
               <?php if(!isset($_REQUEST['tpl'])): ?>
-                <strong>Home</strong>
+                  <strong>Home</strong>
               <?php else: ?>
-                <?php echo "<a href='index.php'>Home</a>"; ?>
+                  <?php echo "<a href='index.php'>Home</a>"; ?>
               <?php endif; ?>
              </font>
-            </td>
+            </td>  
           </tr>
           <?php /* -----------------------------------------------------------    
                    Print out the navigation menu.                            
@@ -83,9 +83,9 @@ body {
             <td align="left" valign="top">
               <font size="2">
                 <?php if($_REQUEST['tpl'] == $val): ?>
-                  <strong><?php echo $key; ?></strong>
+                   <strong><?php echo $key; ?></strong>
                 <?php else: ?>
-                  <a href="index.php?tpl=<?php echo $val; ?>"><?php echo $key; ?></a>
+                   <a href="index.php?tpl=<?php echo $val; ?>"><?php echo $key; ?></a>
                 <?php endif; ?>
               </font>
             </td>

@@ -1,8 +1,7 @@
-?php /* 
+<?php /* 
        Index template. It is loaded by default if no template is defined. 
-       This template is a member of the unavailable group. You can define this group
-       in the admin options menu.
-     */?>
+       This template is a member of the "unavailable" group. You can select this group
+       in the admin options menu. */?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

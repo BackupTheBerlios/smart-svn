@@ -1,6 +1,6 @@
-<?php //### Sitemap template. It is fetched by defining the url var tpl=sitemap ### ?>
+<?php /*### Sitemap template. It is fetched by defining the url var tpl=sitemap ### */ ?>
 
-<?php // ##### For a better usability we place the event calls at the top of each template #### ?>
+<?php /* ##### For a better usability we place the event calls at the top of each template #### */ ?>
 
 <?php /* Event to get the navigation menu entries from the navigation module. 
          See: /admin/modules/navigation/class.NAVIGATION_GET.php 
@@ -49,10 +49,10 @@ body {
           <tr>
             <td align="left" valign="top"><font size="2">
               <?php if(!isset($_REQUEST['tpl'])): ?>
-            <strong>Home</strong>
+                  <strong>Home</strong>
               <?php else: ?>
-            <?php echo "<a href='index.php'>Home</a>"; ?>
-            <?php endif; ?>
+                  <?php echo "<a href='index.php'>Home</a>"; ?>
+              <?php endif; ?>
       </font></td>
           </tr>
           <?php /* -----------------------------------------------------------    
@@ -64,9 +64,9 @@ body {
           <tr>
             <td align="left" valign="top"><font size="2">
             <?php if($_REQUEST['tpl'] == $val): ?>
-                <strong><?php echo $key; ?></strong>
-              <?php else: ?>
-            <a href="index.php?tpl=<?php echo $val; ?>"><?php echo $key; ?></a>
+                 <strong><?php echo $key; ?></strong>
+            <?php else: ?>
+                 <a href="index.php?tpl=<?php echo $val; ?>"><?php echo $key; ?></a>
             <?php endif; ?>
       </font></td>
           </tr>

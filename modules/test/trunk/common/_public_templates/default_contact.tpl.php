@@ -1,6 +1,6 @@
-<?php //### Contact template. It is fetched by defining the url var tpl=contact ### ?>
+<?php /* ### Contact template. It is fetched by defining the url var tpl=contact ### */ ?>
 
-<?php // ##### For a better usability we place the event calls at the top of each template #### ?>
+<?php /* ##### For a better usability we place the event calls at the top of each template #### */ ?>
 
 <?php /* Event to get the navigation menu entries from the navigation module. 
          See: /admin/modules/navigation/class.NAVIGATION_GET.php 
@@ -11,7 +11,7 @@
 
 <?php /* Contact Event call. See: /admin/modules/test/class.TEST_CONTACT.php 
          It assign contact data to the template var $B->tpl_contact which
-         is printed out bellow of this template. */ ?>          
+         is printed out below in this template. */ ?>          
 <?php $B->M( MOD_TEST, 
              'CONTACT', 
              array('var' => 'tpl_contact')); ?> 
@@ -56,10 +56,10 @@ body {
           <tr>
             <td align="left" valign="top"><font size="2">
               <?php if(!isset($_REQUEST['tpl'])): ?>
-            <strong>Home</strong>
+                 <strong>Home</strong>
               <?php else: ?>
-            <?php echo "<a href='index.php'>Home</a>"; ?>
-            <?php endif; ?>
+                 <?php echo "<a href='index.php'>Home</a>"; ?>
+              <?php endif; ?>
       </font></td>
           </tr>
           <?php /* -----------------------------------------------------------    
@@ -72,8 +72,8 @@ body {
             <td align="left" valign="top"><font size="2">
             <?php if($_REQUEST['tpl'] == $val): ?>
                 <strong><?php echo $key; ?></strong>
-              <?php else: ?>
-            <a href="index.php?tpl=<?php echo $val; ?>"><?php echo $key; ?></a>
+            <?php else: ?>
+                <a href="index.php?tpl=<?php echo $val; ?>"><?php echo $key; ?></a>
             <?php endif; ?>
       </font></td>
           </tr>
