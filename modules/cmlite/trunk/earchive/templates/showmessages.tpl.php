@@ -66,7 +66,7 @@
           <td>&nbsp;</td>
         </tr>
         <tr>
-          <td><input name="deletemess" type="submit" value="delete"></td>
+          <td><input name="deletemess" type="submit" value="delete" onclick="subok(this.form.deletemess);"></td>
         </tr>
     </table>
 	</td>

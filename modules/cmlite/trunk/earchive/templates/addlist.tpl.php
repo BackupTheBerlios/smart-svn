@@ -52,7 +52,7 @@
                 <input name="status" type="radio" value="3"> Registered</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="addlist" type="submit" id="addlist" value="Submit"></td>
+        <td align="left" valign="top"><input name="addlist" type="submit" id="addlist" value="Submit" onclick="subok(this.form.addlist);"></td>
       </tr>
     </table>
     </td>

@@ -69,7 +69,7 @@ function deletelist(f, mes)
                     </div></td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="editlist" type="submit" id="editlist" value="Submit"></td>
+        <td align="left" valign="top"><input name="editlist" type="submit" id="editlist" value="Submit" onclick="subok(this.form.editlist);"></td>
       </tr>
     </table>
     </td>
