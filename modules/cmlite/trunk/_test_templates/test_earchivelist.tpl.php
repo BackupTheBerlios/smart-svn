@@ -25,22 +25,22 @@ body {
     color: #333333;
 }
 .style4 {
-	font-size: 18px;
-	color: #CC0000;
-	font-weight: bold;
+    font-size: 18px;
+    color: #CC0000;
+    font-weight: bold;
 }
 .style5 {
   font-size: 14px;
-	color: #3366CC;
-	font-weight: bold;
+    color: #3366CC;
+    font-weight: bold;
 }
 .status {
   font-size: 10px;
-	color: #000000;
+    color: #000000;
 }
 .listdesc {
   font-size: 12px;
-	color: #000000;
+    color: #000000;
 }
 -->
 </style>
@@ -53,7 +53,7 @@ body {
 <?php $B->M( MOD_MAILARCHIVER, 
              MAILARCHIVER_LIST_MESSAGES, 
              array('var'=>'msg', 'lid'=>(int)$_GET['lid'], 'fields'=>array('mid','subject','sender','mdate'),
-						       'pager'=>array('var'=>'prevnext','limit'=>5), 'order' => 'mdate')); ?> 						 
+                               'pager'=>array('var'=>'prevnext','limit'=>5), 'order' => 'mdate')); ?>                        
 <body>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -63,20 +63,20 @@ body {
     <td align="left" valign="top"><table width="100%"  border="0" cellspacing="5" cellpadding="5">
       <tr>
         <td align="left" valign="top">
-          <p align="right" class="style2"> <a href="index.php">Main</a></p>
+          <p align="right" class="style2"> <a href="index.php?tpl=earchivemain">Back</a></p>
           <p class="style4">Mail archiver</p>
           <p class="style5">Messages of list: "<?php echo $B->list['name']; ?>"</p>
-					<?php if (count($B->msg) > 0): ?>
-					    <?php foreach($B->msg as $msg): ?>
+                    <?php if (count($B->msg) > 0): ?>
+                        <?php foreach($B->msg as $msg): ?>
                   <div class='status'>DATE: <?php echo $msg['mdate']; ?></div>
-									<div class='status'>FROM: <?php echo htmlentities($msg['sender']); ?></div>
-							    <a href="index.php?tpl=earchivemsg&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $B->list['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="style2"><?php echo $msg['subject']; ?></a>
-									<br /><br />
-					    <?php endforeach; ?>
-							<div class='listdesc'><?php echo $B->prevnext; ?></div>
-					<?php else: ?>
-					    <div class='listdesc'>Currently no messages available</div>
-					    <?php endif; ?>
+                                    <div class='status'>FROM: <?php echo htmlentities($msg['sender']); ?></div>
+                                <a href="index.php?tpl=earchivemsg&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $B->list['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="style2"><?php echo $msg['subject']; ?></a>
+                                    <br /><br />
+                        <?php endforeach; ?>
+                            <div class='listdesc'><?php echo $B->prevnext; ?></div>
+                    <?php else: ?>
+                        <div class='listdesc'>Currently no messages available</div>
+                        <?php endif; ?>
           </td>
       </tr>
     </table></td>

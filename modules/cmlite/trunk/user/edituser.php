@@ -86,16 +86,16 @@ if(isset($_POST['edituser']))
         // if no error occure, proceed ...
         if(empty($B->form_error))
         {
-            $B->tmp_data = array('forename' => $B->conn->qstr($B->util->stripSlashes($_POST['forename']), magic_quotes_runtime()),
-                                 'lastname' => $B->conn->qstr($B->util->stripSlashes($_POST['lastname']), magic_quotes_runtime()),
-                                 'email'    => $B->conn->qstr($B->util->stripSlashes($_POST['email']),    magic_quotes_runtime()),
+            $B->tmp_data = array('forename' => $B->db->quoteSmart($B->util->stripSlashes($_POST['forename'])),
+                                 'lastname' => $B->db->quoteSmart($B->util->stripSlashes($_POST['lastname'])),
+                                 'email'    => $B->db->quoteSmart($B->util->stripSlashes($_POST['email'])),
                                  'rights'   => (int)$_POST['rights'],
                                  'status'   => (int)$_POST['status']);
             
             // update password if it isnt empty
             if(!empty($_POST['passwd']))
             {
-                $B->tmp_data['passwd'] == $B->conn->qstr(md5($_POST['passwd']),   magic_quotes_runtime());
+                $B->tmp_data['passwd'] == $B->db->quoteSmart(md5($_POST['passwd']));
             }
             
             // update user data

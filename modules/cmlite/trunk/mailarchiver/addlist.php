@@ -62,11 +62,11 @@ else
     }
 
     // add new user
-    $B->tmp_data = array('name'        => $B->conn->qstr($B->util->stripSlashes($_POST['name']),       magic_quotes_runtime()),
-                         'emailserver' => $B->conn->qstr($B->util->stripSlashes($_POST['emailserver']),magic_quotes_runtime()),
-                         'email'       => $B->conn->qstr($B->util->stripSlashes($_POST['email']),      magic_quotes_runtime()),
-                         'description' => $B->conn->qstr($B->util->stripSlashes($_POST['description']),magic_quotes_runtime()),
-                         'folder'      => $B->conn->qstr($list_folder),
+    $B->tmp_data = array('name'        => $B->db->quoteSmart($B->util->stripSlashes($_POST['name'])),
+                         'emailserver' => $B->db->quoteSmart($B->util->stripSlashes($_POST['emailserver'])),
+                         'email'       => $B->db->quoteSmart($B->util->stripSlashes($_POST['email'])),
+                         'description' => $B->db->quoteSmart($B->util->stripSlashes($_POST['description'])),
+                         'folder'      => $B->db->quoteSmart($list_folder),
                          'status'      => (int)$_POST['status']);
              
     if((FALSE === $B->form_error) && (FALSE !== $B->marchiver->add_list($B->tmp_data)))
