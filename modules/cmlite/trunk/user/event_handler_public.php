@@ -181,7 +181,7 @@ function user_event_handler( $evt )
                         {
                             $subject = 'User validation needed';
                             $msg     = 'You have to validate a user registration:<br />';
-                            $msg     .= '<a href="'.SF_BASE_LOCATION.'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'">http://'.$B->sys['option']['url'].'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'</a>';
+                            $msg     .= '<a href="'.SF_BASE_LOCATION.'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'">'.$B->sys['option']['url'].'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'</a>';
                             if(FALSE === @mail($B->sys['option']['email'],$subject,$msg,$header))
                             {
                                 trigger_error("Sending validation email fails.", E_USER_ERROR);
