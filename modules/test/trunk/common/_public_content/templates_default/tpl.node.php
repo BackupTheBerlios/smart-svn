@@ -33,7 +33,7 @@ body {
 <style type="text/css">
 <!--
 .tree {
-	font-size: 14px;
+	font-size: 12px;
 	margin-top: 5px;
 	margin-right: 5px;
 	margin-bottom: 10px;
@@ -95,6 +95,21 @@ body {
 }
 -->
 </style>
+<style type="text/css">
+<!--
+.leftcol {
+	border-top-width: 0px;
+	border-right-width: 2px;
+	border-bottom-width: 0px;
+	border-left-width: 0px;
+	border-top-style: none;
+	border-right-style: solid;
+	border-bottom-style: none;
+	border-left-style: none;
+	border-right-color: #66CCFF;
+}
+-->
+</style>
 </head>
 
 <body>
@@ -115,7 +130,7 @@ body {
   <tr>
     <td><table width="100%" border="0" cellspacing="4" cellpadding="4">
       <tr>
-        <td width="15%" align="left" valign="top">
+        <td width="15%" align="left" valign="top" class="leftcol">
         <?php /* ### include the navigation menu view (template) ### */ ?>
         <?php M( MOD_SYSTEM, 'get_view', array('view' => 'navigation')); ?>
         </td>
