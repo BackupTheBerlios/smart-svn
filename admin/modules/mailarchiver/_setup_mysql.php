@@ -51,7 +51,7 @@ if( count($B->setup_error) == 0 )
             sender   TEXT NOT NULL  default '',
             mdate    DATETIME default '0000-00-00 00:00:00' NOT NULL,
             body     MEDIUMTEXT default '' NOT NULL,
-            folder   CHAR(32) NOT NULL,
+            folder   VARCHAR(32) default '' NOT NULL,
             PRIMARY KEY     (mid),
             KEY lid         (lid),
             KEY mes_id      (mes_id))";

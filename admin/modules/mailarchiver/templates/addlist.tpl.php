@@ -19,6 +19,14 @@
         </td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Email Server</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">
+          <input name="emailserver" type="text" id="emailserver" size="40" maxlength="255" value="<?php echo $B->form_emailserver; ?>">
+        </td>
+      </tr>			
+      <tr>
         <td align="left" valign="top" class="font10bold">Email to fetch</td>
       </tr>
       <tr>

@@ -74,21 +74,21 @@ foreach ($lists as $account)
             $data = array();
             
             $data['lid']     = $account['lid'];
-            $data['subject'] = $msg->header[$mid]['subject'];
-            $data['sender']  = $msg->header[$mid]['from_personal'][0];
-            $data['mdate']   = date('Y-m-d h:i:s', $msg->header[$mid]['udate']);
-            $data['mes_id']  = md5($msg->header[$mid]['message_id']);
+            $data['subject'] = $B->conn->qstr($msg->header[$mid]['subject'], magic_quotes_runtime());
+            $data['sender']  = $B->conn->qstr($msg->header[$mid]['from_personal'][0], magic_quotes_runtime());
+            $data['mdate']   = $B->conn->qstr(date('Y-m-d h:i:s', $msg->header[$mid]['udate']), magic_quotes_runtime());
+            $data['mes_id']  = $B->conn->qstr(md5($msg->header[$mid]['message_id']), magic_quotes_runtime());
 
             $body = $msg->getBody($mid, $pid);
             $mbody = '';
             
             if ($body['ftype'] == 'text/plain')
             {
-                $data['mbody'] = nl2br(htmlspecialchars($body['message']));
+                $data['body'] = $B->conn->qstr(nl2br(htmlspecialchars($body['message'])), magic_quotes_runtime());
             }
             else
             {
-                $data['mbody'] = $body['message'];
+                $data['body'] = $B->conn->qstr($body['message'], magic_quotes_runtime());
             }
 
             $mes_folder = FALSE;
@@ -98,7 +98,7 @@ foreach ($lists as $account)
             {
                 // get list messages attachment folder string
                 $mes_folder = $B->util->unique_md5_str();
-                $path = SF_BASE_DIR . '/data/mailarchiver/'.$account['folder']./. $mes_folder;
+                $path = SF_BASE_DIR . '/data/mailarchiver/'.$account['folder'].'/'. $mes_folder;
 
                 if(!@mkdir($path, 0775))
                 {
@@ -126,7 +126,9 @@ foreach ($lists as $account)
                 }
             }
             if (FALSE !== $mes_folder)
-                $data['folder']  = $mes_folder;
+                $data['folder']  = $B->conn->qstr($mes_folder, magic_quotes_runtime());
+            else
+                $data['folder']  = '';
 
             $B->marchiver->add_message( $data );
 
