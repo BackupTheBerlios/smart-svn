@@ -72,7 +72,7 @@ function register_module( $target, $descriptor )
   * @param string $target_id Name of the module.  
   * @param array $code Name of the module action class, which performs on this event.
   * @param mixed $data Additional data (optional).
-  * @return mixed FALSE if module dosent exist or isnt defined
+  * @return mixed FALSE if module dosent exist or isnt defined. null if an action class dosent exists
   */ 
 function M( $target_id, $code, $data = FALSE )
 {
@@ -115,6 +115,10 @@ function M( $target_id, $code, $data = FALSE )
             // perform on the request
             return $GLOBALS[$class_name]->perform( $data );
         }
+        else
+        {
+            return NULL;
+        }
     }
     else
     {
@@ -135,7 +139,7 @@ function M( $target_id, $code, $data = FALSE )
   *
   * @param string $target_id Name of the module.  
   * @param array $code Name of the module action class.
-  * @return mixed FALSE if requested module action class dosent exist or module action object
+  * @return mixed null if requested module action class dosent exist or module action object
   */ 
 function & M_OBJ( $target_id, $code )
 {
@@ -168,8 +172,7 @@ function & M_OBJ( $target_id, $code )
     }
     else
     {
-        trigger_error("Module class dosent exists: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
-        return FALSE;
+        return NULL;
     }
 }
 
