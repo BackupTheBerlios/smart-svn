@@ -49,15 +49,9 @@ class system_sys_prepend
     function perform( $data )
     {
         // Manual order the filter priority 
-    
-        // detect spam bots
-        $this->B->F( SYSTEM_FILTER , 'spam_bots' );
 
         // add headers
-        $this->B->F( SYSTEM_FILTER , 'add_headers' );
-        
-        // do logging
-        $this->B->F( SYSTEM_FILTER , 'logging' );  
+        $this->B->F( SYSTEM_FILTER , 'add_headers' ); 
     }    
 }
 
