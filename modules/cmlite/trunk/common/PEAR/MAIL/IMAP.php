@@ -260,7 +260,8 @@ class Mail_IMAP {
             } else {
                 $this->error->push(MAIL_IMAP_ERROR, 'error', null, 'Invalid imap resource passed to constructor.');
             }
-        } else {
+        }
+        elseif( !is_null($connection) ) {
             $this->connect($connection, $get_info);
         }
     }
