@@ -23,6 +23,12 @@ class action_common_cache_save extends action
      */
     function perform( & $data )
     {
+        // disable cache
+        if ( $this->B->sys['option']['cache'] != TRUE )
+        {
+            return TRUE;
+        }
+        
         // Include cache and create instance
         if(!is_object($this->B->cache))
         {
@@ -49,21 +55,6 @@ class action_common_cache_save extends action
 
         return TRUE;
     } 
-    /**
-     * validate data
-     *
-     * @param array $data
-     */    
-    function validate( & $data )
-    {
-        // disable cache by returning false
-        if ( $this->B->sys['option']['cache'] != TRUE )
-        {
-            return FALSE;
-        }
-        
-        return TRUE;
-    }
 }
 
 ?>

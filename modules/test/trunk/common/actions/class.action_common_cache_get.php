@@ -23,6 +23,12 @@ class action_common_cache_get extends action
      */
     function perform( & $data )
     {
+        // disable cache
+        if ( $this->B->sys['option']['cache'] != TRUE )
+        {
+            return TRUE;
+        }
+        
         // get var name to store the result
         $result = & $this->B->$data['result'];
       
@@ -68,22 +74,6 @@ class action_common_cache_get extends action
         }
         return FALSE;
     } 
-    
-    /**
-     * validate data
-     *
-     * @param array $data
-     */    
-    function validate( & $data )
-    {
-        // disable cache by returning false
-        if ( $this->B->sys['option']['cache'] != TRUE )
-        {
-            return FALSE;
-        }
-        
-        return TRUE;
-    }
 }
 
 ?>
