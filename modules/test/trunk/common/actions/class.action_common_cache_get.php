@@ -26,7 +26,7 @@ class action_common_cache_get extends action
         // disable cache
         if ( $this->B->sys['option']['cache'] != TRUE )
         {
-            return TRUE;
+            return FALSE;
         }
         
         // get var name to store the result
