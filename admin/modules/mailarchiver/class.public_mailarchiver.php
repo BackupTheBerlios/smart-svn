@@ -20,12 +20,11 @@ class mailarchiver
      * get all lists
      *
      * @param array $fields Field names of the list db table
-     * @return array Lists data 
      */ 
-    function get_lists( $fields )
-    {       
+    function get_lists( $data )
+    {
         $comma = '';
-        foreach ($fields as $f)
+        foreach ($data['fields'] as $f)
         {
             $_fields .= $comma.$f;
             $comma = ',';
@@ -41,21 +40,22 @@ class mailarchiver
         
         $result = $GLOBALS['B']->conn->Execute($sql);
         
-        $data = array();
+        // get var name to store the result
+        $GLOBALS['B']->$data['var'] = array();
+        $_result                    = & $GLOBALS['B']->$data['var'];
         
         if(is_object($result))
         {
             while($row = $result->FetchRow())
             {
                 $tmp = array();
-                foreach($fields as $f)
+                foreach($data['fields'] as $f)
                 {
                     $tmp[$f] = stripslashes($row[$f]);
                 }
-                $data[] = $tmp;
+                $_result[] = $tmp;
             }
         }
-        return $data;
     }
 
     /**
@@ -96,11 +96,10 @@ class mailarchiver
         $sql = '
             INSERT INTO 
                 '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
-                (name,email,emailserver,emailuser,emailpasswd,description,folder,status)
+                (name,email,emailuser,emailpasswd,description,folder,status)
             VALUES
                 ('.$data['name'].',
                  '.$data['email'].',
-                 '.$data['emailserver'].',
                  '.$data['emailuser'].',
                  '.$data['emailpasswd'].',
                  '.$data['description'].',
@@ -173,29 +172,6 @@ class mailarchiver
         
         return $GLOBALS['B']->conn->Execute($sql);        
     }
-    /**
-     * add email message
-     *
-     * @param array $data associative array of list data
-     * @return bool true or false
-     */     
-    function add_message( &$data )
-    {
-        $sql = '
-            INSERT INTO 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_messages
-                (lid,mes_id,sender,subject,mdate,body,folder)
-            VALUES
-                ('.$data['lid'].',
-                 '.$data['mes_id'].',
-                 '.$data['sender'].',
-                 '.$data['subject'].',
-                 '.$data['mdate'].',
-                 '.$data['body'].',
-                 '.$data['folder'].')';
-
-        return $GLOBALS['B']->conn->Execute($sql);
-    }     
 }
 
 ?>

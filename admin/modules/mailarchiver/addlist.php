@@ -31,6 +31,7 @@ if(FALSE == mailarchiver_rights::ask_access_to_list())
 // Init form field values
 $B->form_error = FALSE;
 $B->form_name = '';
+$B->form_emailserver   = '';
 $B->form_emailuser   = '';
 $B->form_email       = '';
 $B->form_emailpasswd = '';
@@ -46,6 +47,7 @@ if(
 {
     // if empty assign form field with old values
     $B->form_name        = htmlspecialchars($B->util->stripSlashes($_POST['name']));
+    $B->form_emailserver = htmlspecialchars($B->util->stripSlashes($_POST['emailserver']));
     $B->form_emailuser   = htmlspecialchars($B->util->stripSlashes($_POST['emailuser']));
     $B->form_email       = htmlspecialchars($B->util->stripSlashes($_POST['email']));
     $B->form_emailpasswd = htmlspecialchars($B->util->stripSlashes($_POST['emailpasswd']));
@@ -66,6 +68,7 @@ else
 
     // add new user
     $B->tmp_data = array('name'        => $B->conn->qstr($B->util->stripSlashes($_POST['name']),       magic_quotes_runtime()),
+                         'emailserver' => $B->conn->qstr($B->util->stripSlashes($_POST['emailserver']),magic_quotes_runtime()),
                          'emailuser'   => $B->conn->qstr($B->util->stripSlashes($_POST['emailuser']),  magic_quotes_runtime()),
                          'email'       => $B->conn->qstr($B->util->stripSlashes($_POST['email']),      magic_quotes_runtime()),
                          'emailpasswd' => $B->conn->qstr($B->util->stripSlashes($_POST['emailpasswd']),magic_quotes_runtime()),

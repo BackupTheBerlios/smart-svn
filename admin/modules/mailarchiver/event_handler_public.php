@@ -14,29 +14,35 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'MOD_TEST' ,      'TEST');
-define ( 'TEST_GET_TEXT' , '1');
+define ( 'MOD_MAILARCHIVER' ,      'MAILARCHIVER');
+
+// define template functions of this modul
+define ( 'MAILARCHIVER_GET_LISTS' , '1');
 
 // register this handler                       
-if (FALSE == $B->register_handler(MOD_TEST,
-                           array ( 'module'        => MOD_TEST,
-                                   'event_handler' => 'test_event_handler') ))
+if (FALSE == $B->register_handler(MOD_MAILARCHIVER,
+                           array ( 'module'        => MOD_MAILARCHIVER,
+                                   'event_handler' => 'mailarchiver_event_handler') ))
 {
-    trigger_error( 'The handler '.MOD_TEST.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
+    trigger_error( 'The handler '.MOD_MAILARCHIVER.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
 // The handler function
-function test_event_handler( $evt )
+function mailarchiver_event_handler( $evt )
 {
     global $B;
 
     switch( $evt["code"] )
-    {          
-        case SF_EVT_INIT: 
-             break;  
-        case TEST_GET_TEXT: 
-             return 'this is a text';
-             break;                
+    {            
+        case MAILARCHIVER_GET_LISTS: 
+            if(!is_object($B->marchiver))
+            {
+                // mailarchiver rights class
+                include_once(SF_BASE_DIR.'/admin/modules/mailarchiver/class.public_mailarchiver.php');           
+                $B->marchiver = & new mailarchiver;
+            }
+            return $B->marchiver->get_lists( $evt['data'] );
+            break;                
     }
 }
 

@@ -34,6 +34,14 @@ function deletelist(f, mes)
         </td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Email Server</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">
+          <input name="emailserver" type="text" id="emailserver" size="40" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['emailserver'])); ?>">
+        </td>
+      </tr>			
+      <tr>
         <td align="left" valign="top" class="font10bold">Email to fetch</td>
       </tr>
       <tr>
