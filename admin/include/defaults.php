@@ -61,6 +61,10 @@ define('SF_OB_GZHANDLER',                "ob_gzhandler");
  */
 define('SF_AUTH_MODULE',                 'user');
 
+/**
+ * The module (name) which takes the global options part.
+ */
+define('SF_OPTION_MODULE',               'option');
 
 /**
  * The module (name) which should be loaded by default.
@@ -85,6 +89,7 @@ define('SF_EVT_LOAD_MODULE',             4);
 define('SF_EVT_END',                     5);
 define('SF_EVT_DEBUG',                   6);
 define('SF_EVT_SETUP',                   7);
+define('SF_EVT_LOAD_INIT_OPTION',        8);
 
 
 ?>
