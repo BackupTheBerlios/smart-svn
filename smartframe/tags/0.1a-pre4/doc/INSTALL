@@ -1,0 +1,14 @@
+Smart PHP Framework install instructions
+---------------------------------------------
+
+The package works with sqlite and mysql.
+
+If you select sqlite during setup, the extension mod_sqlite must be enabled in php.ini to get
+work the modules which comes with this package. In php5 this is a default setting.
+
+
+Point your browser to the location where you extracted Smart.
+If nothing is going wrong you can see a setup page.
+
+A. Turpel
+smart@open-publisher.net

@@ -1,0 +1,60 @@
+CHANGES
+#######
+
+2004-08-11
+--------------
+- first pre alpha release 
+
+2004-07-28
+--------------
+- Add restriction check to the templates and event handlers
+
+2004-07-27
+--------------
+- reorganisation of the repository. Description will follow later
+
+2004-07-25
+--------------
+- replaced adodb by PEAR DB
+- added mailarchiver module
+
+2004-07-21
+--------------
+- update options module
+- fixed user modul errors
+
+2004-07-19
+--------------
+- The test modules use adodb
+
+2004-07-12
+--------------
+- Removed completely any template engine since
+  the framework is a template engine.
+- Rewrote the base system.
+- The test modules are based on sqlite. Not yet finish
+- Moved setup folder to the module folder. Setup is a module
+
+2004-06-29
+--------------
+- Deleted pattools  (A. Turpel)
+- Added Savant2 template engine  (A. Turpel)
+
+2004-06-16
+--------------
+-Added option module (A. Turpel)
+-Moved option loading from base.inc.php to the option module (A. Turpel)
+
+2004-06-14
+--------------
+-Added pear/log (A. Turpel)
+-Added error handler class.sfErrorHandler.php (A. Turpel)
+
+2004-06-12
+--------------
+-First version of setup (A. Turpel)
+
+2004-06-11
+--------------
+-Initial import of the project files to repository (A. Turpel)
+

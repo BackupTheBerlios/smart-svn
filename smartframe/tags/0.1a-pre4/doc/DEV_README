@@ -1,0 +1,62 @@
+Smart PHP Framework instructions for developers
+-----------------------------------------------------
+
+Structur of the smart svn repository
+#######################
+
+The repository is split into the base smart framework and the modules.
+
+- smart
+    - smartframe
+        - branches
+        - tags
+        - trunk
+    - modules
+        - cmlite
+            - branches
+            - tags
+            - trunk
+
+
+How to get a working copy of smart from the svn repository?
+######################################
+
+Create a folder which is accessible by the apache server:
+Example: "test"
+This is the root folder.
+
+Checkout smartframe to this folder "test":
+svn://svn.berlios.de/svnroot/repos/smart/smartframe/trunk
+This is the base framework. It wont work without modules. 
+
+On your local machine switch to the folder:
+test/admin/
+and create a folder "modules"
+this folder isnt versioned by svn and you schould never import it to the repository.
+
+Now switch to this "modules" folder and checkout the modules:
+svn://svn.berlios.de/svnroot/repos/smart/modules/cmlite/trunk
+
+To install the templates copy:
+test/admin/modules/_templates/-all-files
+to the root directory of smartframe
+test/
+
+Point your browser to this folder and you should see a setup page.
+
+It is important to remember the repository organisation, if you make commits 
+of files of the base smartwork or the modules. 
+
+
+CM-Lite is a set of simple modules.
+Planned modules are:
+- User (user management)
+- Option (options management - preferences)
+- Setup (main setup of the modules)
+- Mailarchiver (Mailinglist archiver)
+- Article (Articles management)
+
+Test-M is a set of modules to introduce developers in the module concept.
+
+A. Turpel
+smart@open-publisher.net
