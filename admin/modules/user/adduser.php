@@ -37,11 +37,11 @@ if(
     empty($_POST['login'])||
     empty($_POST['passwd']))
 {
-    $B->form_forename = $B->util->htmlentities($B->util->stripSlashes($_POST['forename']));
-    $B->form_lastname = $B->util->htmlentities($B->util->stripSlashes($_POST['lastname']));
-    $B->form_email    = $B->util->htmlentities($B->util->stripSlashes($_POST['email']));
-    $B->form_login    = $B->util->htmlentities($B->util->stripSlashes($_POST['login']));
-    $B->form_passwd   = $B->util->htmlentities($B->util->stripSlashes($_POST['passwd']));
+    $B->form_forename = htmlspecialchars($B->util->stripSlashes($_POST['forename']));
+    $B->form_lastname = htmlspecialchars($B->util->stripSlashes($_POST['lastname']));
+    $B->form_email    = htmlspecialchars($B->util->stripSlashes($_POST['email']));
+    $B->form_login    = htmlspecialchars($B->util->stripSlashes($_POST['login']));
+    $B->form_passwd   = htmlspecialchars($B->util->stripSlashes($_POST['passwd']));
     $B->form_rights   = $_POST['rights'];
     $B->form_status   = $_POST['status'];
     
@@ -64,11 +64,11 @@ else
     }
     else
     {
-        $B->form_forename = $B->util->htmlentities($B->util->stripSlashes($_POST['forename']));
-        $B->form_lastname = $B->util->htmlentities($B->util->stripSlashes($_POST['lastname']));
-        $B->form_email    = $B->util->htmlentities($B->util->stripSlashes($_POST['email']));
-        $B->form_login    = $B->util->htmlentities($B->util->stripSlashes($_POST['login']));
-        $B->form_passwd   = $B->util->htmlentities($B->util->stripSlashes($_POST['passwd']));
+        $B->form_forename = htmlspecialchars($B->util->stripSlashes($_POST['forename']));
+        $B->form_lastname = htmlspecialchars($B->util->stripSlashes($_POST['lastname']));
+        $B->form_email    = htmlspecialchars($B->util->stripSlashes($_POST['email']));
+        $B->form_login    = htmlspecialchars($B->util->stripSlashes($_POST['login']));
+        $B->form_passwd   = htmlspecialchars($B->util->stripSlashes($_POST['passwd']));
         $B->form_rights   = $_POST['rights'];
         $B->form_status   = $_POST['status'];   
     
