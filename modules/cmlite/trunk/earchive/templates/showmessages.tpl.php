@@ -27,7 +27,7 @@
         <td width="97%" align="left" valign="top">
           <div class='font10'>DATE: <?php echo $msg['mdate']; ?></div>
           <div class='font10'>FROM: <?php echo $msg['sender']; ?></div>
-          <a href="index.php?m=EARCHIVE&mf=edit_mess&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="font12bold"><?php echo $msg['subject']; ?></a>
+          <a href="index.php?m=EARCHIVE&mf=edit_mess&mid=<?php echo $msg['mid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="font12bold"><?php echo $msg['subject']; ?></a>
         </td>
       </tr>
       <?php endforeach; ?>
