@@ -105,8 +105,35 @@
             </td>
             <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_tpl" value="update" onclick="subok(this.form.update_main_options_tpl);"></td>
           </tr>
-      </table> 
-      </form>
+      </table>
+    </form>  
+    <form action="index.php?admin=1&m=option" method="post" name="_cache_lifetime" id="_cache_lifetime"> 	  
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+          <tr>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Cache lifetime in seconds</span></td>
+          </tr>
+          <tr>
+            <td width="9%" align="left" valign="top">
+              <input name="cache_lifetime" type="text" size="6" maxlength="6" value="<?php echo $B->sys['cache']['lifetime']; ?>">
+&nbsp; </td>
+            <td width="91%" align="left" valign="top"><input type="submit" name="update_cache_lifetime" value="update" onclick="subok(this.form.update_cache_lifetime);">
+            </td>
+          </tr>
+        </table>
+    </form>  
+    <form action="index.php?admin=1&m=option" method="post" name="_cache_clean" id="_cache_clean"> 	  
+        <table width="100%"  border="0" cellspacing="4" cellpadding="4">
+          <tr>
+            <td colspan="2" align="left" valign="top"><span class="optiontitle">Empty  Cache</span></td>
+          </tr>
+          <tr>
+            <td width="2%" align="left" valign="top">&nbsp;
+ </td>
+            <td width="98%" align="left" valign="top"><input type="submit" name="update_clean_cache" value="empty cache" onclick="subok(this.form.update_clean_cache);">
+            </td>
+          </tr>
+        </table>
+    </form>
       <form action="index.php?admin=1&m=option" method="post" name="badword" id="badword"> 
       <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>

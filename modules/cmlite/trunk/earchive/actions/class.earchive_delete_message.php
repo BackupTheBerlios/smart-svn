@@ -101,6 +101,16 @@ class earchive_delete_message
                 mid={$data['mid']}";
         
         $this->B->db->query($sql);     
+
+        // Include cache and create instance
+        if(!is_object($this->B->cache))
+        {
+            include_once(SF_BASE_DIR . 'modules/common/PEAR/Cache.php');            
+            $this->B->cache = new Cache('db', array('dsn'         => $this->B->dsn,
+                                                    'cache_table' => $this->B->sys['db']['table_prefix'].'cache'));
+        }
+        // Delete all cache data
+        $this->B->cache->flush();
         
         return TRUE;
     }    
