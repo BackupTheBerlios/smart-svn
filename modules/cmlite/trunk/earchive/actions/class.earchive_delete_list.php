@@ -103,13 +103,13 @@ class earchive_delete_list
         $this->B->db->query($sql);  
 
         // Delete message words index of this list
-        $this->B->M( MOD_EARCHIVE, 
-                     'word_indexer', 
-                     array( 'delete_words' => TRUE,
-                            'lid'          => (int)$data['lid']));      
+        M( MOD_EARCHIVE, 
+           'word_indexer', 
+           array( 'delete_words' => TRUE,
+                  'lid'          => (int)$data['lid']));      
 
         // Delete cache data
-        $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
+        M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
         
         return TRUE;
     }    

@@ -101,10 +101,10 @@ class earchive_word_indexer
         // get bad words
         if( !isset($this->B->tmp_get_bad_words) )
         {         
-            $this->B->M( MOD_COMMON, 
-                         'bad_words',
-                         array('get_bad_words' => TRUE,
-                               'var'           => 'bad_word_array'));
+            M( MOD_COMMON, 
+               'bad_words',
+               array('get_bad_words' => TRUE,
+                     'var'           => 'bad_word_array'));
                                
             $this->B->tmp_get_bad_words = TRUE;
         }

@@ -70,7 +70,7 @@ class earchive_search
      * @param array $data
      */
     function perform( $data )
-    {    
+    {
         // Clear/init array
         // Load bad word (stopwords) list
         $this->get_bad_words();

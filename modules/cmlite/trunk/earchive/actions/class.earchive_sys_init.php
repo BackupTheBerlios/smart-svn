@@ -52,7 +52,7 @@ class earchive_sys_init
         // check for install or upgrade
         if (MOD_EARCHIVE_VERSION != (string)$this->B->sys['module']['earchive']['version'])
         {
-            $this->B->M( MOD_EARCHIVE, 'upgrade');     
+            M( MOD_EARCHIVE, 'upgrade');     
             
             // set the new version num of this module
             $this->B->sys['module']['earchive']['version']  = MOD_EARCHIVE_VERSION;

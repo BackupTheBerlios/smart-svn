@@ -48,11 +48,11 @@ class earchive_have_access
     function perform( & $data )
     {
         /* get list status */
-        $this->B->M( MOD_EARCHIVE, 
-                     'get_list', 
-                     array( 'lid'    => $data['lid'],       
-                            'var'    => 'tmp_list', 
-                            'fields' => array('status'))); 
+        M( MOD_EARCHIVE, 
+           'get_list', 
+           array( 'lid'    => $data['lid'],       
+                  'var'    => 'tmp_list', 
+                  'fields' => array('status'))); 
     
         if( ($this->B->tmp_list['status'] == 3) && ($this->B->is_logged === FALSE) )
         {

@@ -79,7 +79,7 @@ class earchive_update_list
         } 
         
         // Delete cache data
-        $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));        
+        M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));        
         
         return TRUE;     
     }    

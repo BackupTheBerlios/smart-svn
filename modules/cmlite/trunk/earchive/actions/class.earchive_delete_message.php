@@ -53,18 +53,18 @@ class earchive_delete_message
         }
         
         // get message folder and lid
-        $this->B->M( MOD_EARCHIVE, 
-                     'get_message', 
-                     array( 'mid'    => $data['mid'], 
-                            'var'    => 'm_data',
-                            'fields' => array('lid','folder')));   
+        M( MOD_EARCHIVE, 
+           'get_message', 
+           array( 'mid'    => $data['mid'], 
+                  'var'    => 'm_data',
+                  'fields' => array('lid','folder')));   
 
         // get list folder
-        $this->B->M( MOD_EARCHIVE, 
-                     'get_list', 
-                     array( 'lid'    => $this->B->m_data['lid'], 
-                            'var'    => 'l_data',
-                            'fields' => array('lid','folder')));
+        M( MOD_EARCHIVE, 
+           'get_list', 
+           array( 'lid'    => $this->B->m_data['lid'], 
+                  'var'    => 'l_data',
+                  'fields' => array('lid','folder')));
         
         // build whole path to message folder
         $path = SF_BASE_DIR.'/data/earchive/'.$this->B->l_data['folder'].'/'.$this->B->m_data['folder'];
@@ -104,13 +104,13 @@ class earchive_delete_message
         }         
         
         // Delete message words from the search index
-        $this->B->M( MOD_EARCHIVE, 
-                     'word_indexer', 
-                     array( 'delete_words' => TRUE,
-                            'mid'          => (int)$data['mid']));   
+        M( MOD_EARCHIVE, 
+           'word_indexer', 
+           array( 'delete_words' => TRUE,
+                  'mid'          => (int)$data['mid']));   
 
         // Delete cache data
-        $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
+        M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
         
         return TRUE;
     }    

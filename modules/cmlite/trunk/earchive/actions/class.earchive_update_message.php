@@ -68,7 +68,7 @@ class earchive_update_message
         
         foreach($data['fields'] as $key => $val)
         {
-            $set .= $comma.$key.'='.$val;
+            $set .= $comma.$key.'='.$this->B->db->quoteSmart($val);
             $comma = ',';
         }
         
@@ -89,7 +89,7 @@ class earchive_update_message
         }     
 
         // Delete cache data
-        $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
+        M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));
         
         return TRUE;
     }

@@ -47,16 +47,28 @@ class earchive_add_message
      */
     function perform( & $data )
     { 
+        foreach ($data as $key => $value)
+        {
+            if(empty($value))
+            {
+                $data[$value] = '';
+            }
+            if($key != 'lid')
+            {
+                $data[$key] = $this->B->db->quoteSmart($data[$value]);
+            }
+        }
+    
         $sql = '
             INSERT INTO 
                 '.$this->B->sys['db']['table_prefix'].'earchive_messages
                 (lid,message_id,root_id,parent_id,enc_type,sender,subject,mdate,body,folder,header)
             VALUES
                 ('.$data['lid'].',
-                 "'.$data['message_id'].'",
-                 "'.$data['root_id'].'",
-                 "'.$data['parent_id'].'",
-                 "'.$data['enc_type'].'",
+                 '.$data['message_id'].',
+                 '.$data['root_id'].',
+                 '.$data['parent_id'].',
+                 '.$data['enc_type'].',
                  '.$data['sender'].',
                  '.$data['subject'].',
                  '.$data['mdate'].',

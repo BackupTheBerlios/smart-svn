@@ -59,12 +59,12 @@ class earchive_rebuild_words_index
                 $content .= commonUtil::stripslashes($row['subject']);
                 $content .= commonUtil::stripslashes($row['body']);
                 
-                $this->B->M( MOD_EARCHIVE, 
-                             'word_indexer', 
-                             array( 'content' => $content,
-                                    'mid'     => $row['mid'], 
-                                    'lid'     => $row['lid'], 
-                                    'rebuild' => true));      
+                M( MOD_EARCHIVE, 
+                   'word_indexer', 
+                   array( 'content' => $content,
+                          'mid'     => $row['mid'], 
+                          'lid'     => $row['lid'], 
+                          'rebuild' => true));      
             }
             return TRUE;
         } 

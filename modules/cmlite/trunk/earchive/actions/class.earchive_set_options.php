@@ -50,15 +50,15 @@ class earchive_set_options
         // Rebuild the words index of all messages 
         if(isset($_POST['update_earchive_options_wordindex']))
         {
-            $this->B->M( MOD_EARCHIVE, 'rebuild_words_index' );
+            M( MOD_EARCHIVE, 'rebuild_words_index' );
         }
         // fetch messages from email accounts 
         if(isset($_POST['update_earchive_options_fetchemails']))
         {
-            $this->B->M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
+            M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );
             
             // Delete cache data
-            $this->B->M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));            
+            M( MOD_COMMON, 'cache_delete', array('group' => 'earchive'));            
         }   
         // enable to fetch raw headers from emails 
         if (isset($_POST['update_earchive_options_rawheaders']))

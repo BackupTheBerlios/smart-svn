@@ -100,10 +100,11 @@ class earchive_get_messages
             $page = ($_GET['pageID'] - 1) * $data['pager']['limit'];
 
         // check if cache ID exists
-        if ($this->B->M( MOD_COMMON, 'cache_get',
-                         array('result'     => $data['var'],
-                               'cacheID'    => SF_SECTION.$sql.(string)$page,
-                               'cacheGroup' => 'earchive'))) 
+        if ( M( MOD_COMMON, 
+                'cache_get',
+                array('result'     => $data['var'],
+                      'cacheID'    => SF_SECTION.$sql.(string)$page,
+                      'cacheGroup' => 'earchive'))) 
         {
             return TRUE;
         }
@@ -140,8 +141,9 @@ class earchive_get_messages
         }
         
         // save result to cache
-        $this->B->M( MOD_COMMON, 'cache_save',
-                     array('result' => $this->_result));
+        M( MOD_COMMON, 
+           'cache_save',
+           array('result' => $this->_result));
                      
         return TRUE;     
     } 
@@ -160,10 +162,11 @@ class earchive_get_messages
         $_result       = & $this->B->$data['var'];
 
         // check if cache ID exists
-        if ($this->B->M( MOD_COMMON, 'cache_get',
-                         array('result'     => $data['var'],
-                               'cacheID'    => SF_SECTION.$lid.$_GET['mode'].$_GET['pageID'],
-                               'cacheGroup' => 'earchive'))) 
+        if (M( MOD_COMMON, 
+               'cache_get',
+               array('result'     => $data['var'],
+                     'cacheID'    => SF_SECTION.$lid.$_GET['mode'].$_GET['pageID'],
+                     'cacheGroup' => 'earchive'))) 
         {
             return TRUE;
         }
@@ -197,8 +200,9 @@ class earchive_get_messages
         $_result = $links['all'];  
 
         // save result to cache
-        $this->B->M( MOD_COMMON, 'cache_save',
-                     array('result' => $links['all']));
+        M( MOD_COMMON, 
+           'cache_save',
+           array('result' => $links['all']));
     } 
     /**
      * get childrens of a message_id

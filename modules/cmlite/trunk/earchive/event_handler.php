@@ -28,7 +28,7 @@ define ( 'MOD_EARCHIVE' , 'earchive');
 define ( 'MOD_EARCHIVE_VERSION' , '0.4.3');
 
 // register this handler                       
-if (FALSE == $B->register_handler( MOD_EARCHIVE,
+if (FALSE == register_handler( MOD_EARCHIVE,
                                    array ( 'module'           => MOD_EARCHIVE,
                                            'event_handler'    => 'earchive_event_handler',
                                            'menu_visibility'  => TRUE) ))
@@ -39,13 +39,11 @@ if (FALSE == $B->register_handler( MOD_EARCHIVE,
 // The handler function
 function earchive_event_handler( $evt )
 {
-    global $B;
-
     // build the whole class name
     $class_name = 'earchive_'.$evt['code'];    
     
     // check if this object was previously declared
-    if(!is_object($B->$class_name))
+    if(!is_object($GLOBALS[$class_name]))
     {
         // dynamic load the required class
         $class_file = SF_BASE_DIR . 'modules/earchive/actions/class.'.$class_name.'.php';
@@ -53,15 +51,15 @@ function earchive_event_handler( $evt )
         {
             include_once($class_file);
             // make instance
-            $B->$class_name = & new $class_name();
+            $GLOBALS[$class_name] = & new $class_name();
             // perform the request
-            return $B->$class_name->perform( $evt['data'] );
+            return $GLOBALS[$class_name]->perform( $evt['data'] );
         }
     }
     else
     {
         // perform the request if the requested object exists
-        return $B->$class_name->perform( $evt['data'] );
+        return $GLOBALS[$class_name]->perform( $evt['data'] );
     }
     return TRUE;
 }
