@@ -1,8 +1,4 @@
 <?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
-<?php // caching takes effect right now ?>
-<?php $B->M( MOD_SYSTEM, 
-             SF_EVT_START_OUTPUT_CACHE, 
-             array('id' => 'lid'.(int)$_GET['lid'].(int)$_GET['pageID'], 'lifetime' => 3600)); ?> 
 <?php //get all available email lists and store the result in the array $B->tpl_list ?>
 <?php $B->M( MOD_EARCHIVE, 
              EARCHIVE_LISTS, 
@@ -169,5 +165,3 @@
 </table>
 </body>
 </html>
-<?php // END of the page to cache ?>
-<?php $B->M( MOD_SYSTEM, SF_EVT_END_OUTPUT_CACHE ); ?>
