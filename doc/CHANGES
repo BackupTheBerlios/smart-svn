@@ -1,10 +1,16 @@
 CHANGES
 #######
 
-2004-06-11
+2004-06-14
 --------------
-Initial import of the project files to repository (A. Turpel)
+Added pear/log (A. Turpel)
+Added error handler class.sfErrorHandler.php (A. Turpel)
 
 2004-06-12
 --------------
 First version of setup (A. Turpel)
+
+2004-06-11
+--------------
+Initial import of the project files to repository (A. Turpel)
+
