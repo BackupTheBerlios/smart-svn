@@ -1,6 +1,10 @@
 CHANGES
 #######
 
+2004-09-5
+-------------
+- add dir to store sessions
+
 2004-08-24
 --------------
 - add - delete/modify email messages
