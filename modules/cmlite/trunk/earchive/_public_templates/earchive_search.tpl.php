@@ -62,7 +62,10 @@
             <tr>
                 <td width="19%" align="center" valign="top" class="vline">
                   <?php /* ### include the navigation menu view (template) ### */ ?>
-                  <?php include( $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')) ); ?>
+                  <?php // perform the view class and return its object
+                        $view = $B->M( MOD_SYSTEM, 'get_public_view', array('view' => 'navigation')); 
+                        include( $view->getTemplate() );
+                  ?>
                 </td>
                 <td width="81%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="0">
                     <tr>
