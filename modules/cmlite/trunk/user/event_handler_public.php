@@ -160,7 +160,10 @@ function user_event_handler( $evt )
                         if($B->sys['option']['user']['register_type'] == 'auto')
                         {
                             $ustr = $user->add_registered_user_data( $uid ); 
-                                
+                            
+                            $validate_msg = str_replace("(URL)", "<a href='http://{$B->sys['option']['url']}/index.php?tpl=register&md5_str={$ustr}'>http://{$B->sys['option']['url']}/index.php?tpl=register&md5_str={$ustr}</a>",$evt['data']['email_msg']);
+                            $validate_msg = str_replace("(EMAIL)", "<a href='mailto:{$B->sys['option']['email']}'>{$B->sys['option']['email']}</a>",$validate_msg);
+ 
                             if(FALSE === @mail($evt['data']['reg_data']['email'],$evt['data']['email_subject'],$validate_msg,$header))
                             {
                                 trigger_error("Email couldnt be sended to registered user: {$evt['data']['reg_data']['email']}", E_USER_ERROR);
