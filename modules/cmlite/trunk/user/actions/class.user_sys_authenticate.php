@@ -12,6 +12,28 @@
 /**
  * user_sys_authenticate class 
  *
+ * The variables produced by the authentication process:
+ *
+ * $B->is_logged
+ * -------------
+ * If a user was successfully authenticated this variable is set to TRUE.
+ * Else this variable is set to FALSE.
+ *
+ * $B->logged_user_rights
+ * ----------------------
+ * User rights of the logged user
+ *
+ * $B->logged_id_user
+ * ------------------
+ * ID of the logged user
+ *
+ * $B->logged_user_forename
+ * $B->logged_user_lastname
+ * $B->logged_user_login
+ * ---------------------
+ * Lastname, forename and login of the logged user
+ * 
+ *
  */
  
 class user_sys_authenticate
@@ -60,7 +82,7 @@ class user_sys_authenticate
         else
         {
             $this->B->is_logged = $this->_is_logged;
-
+            return TRUE;
         }
     } 
     
