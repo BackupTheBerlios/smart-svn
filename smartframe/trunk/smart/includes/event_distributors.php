@@ -112,7 +112,7 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
         {
             include_once($class_file);
             
-            // check if such an instance exists and try create a new one
+            // force to create a new instane
             if( $instance == TRUE )
             {
                 $i = 1;
@@ -141,6 +141,10 @@ function M( $target_id, $code, $data = FALSE, $constructor_param = FALSE, $insta
         }
         else
         {
+            if(SF_DEBUG == TRUE)
+            {
+                trigger_error("This action dosent exists: ".$class_file."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            }        
             return SF_NO_ACTION;
         }
     }
@@ -241,7 +245,7 @@ function B( $code, $data = FALSE, $constructor_param = FALSE, $instance = FALSE 
             {
                 include_once($class_file);
                 
-                // check if such an instance exists and try create a new one
+                // force to create a new instance
                 if( $instance == TRUE )
                 {
                     $i = 1;
