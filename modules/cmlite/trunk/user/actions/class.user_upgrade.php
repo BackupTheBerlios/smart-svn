@@ -55,10 +55,9 @@ class user_upgrade
             $sql = "ALTER TABLE 
                         {$this->B->sys['db']['table_prefix']}user_users 
                     CHANGE uid uid INT(11) NOT NULL auto_increment,
-                    DROP INDEX uid,
                     ADD PRIMARY KEY (uid),
-                    ADD KEY login   (login),
-                    ADD KEY passwd  (passwd)";      
+                    ADD INDEX (login),
+                    ADD INDEX (passwd)";      
         
             $result = $this->B->db->query($sql);
 
