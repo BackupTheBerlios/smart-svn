@@ -47,8 +47,8 @@ function default_event_handler( $evt )
     // check if this object was previously declared
     if(!is_object($B->$class_name))
     {
-        // dynamic load the required class
-        $class_file = SF_BASE_DIR . '/admin/modules/default/event/class.'.$class_name.'.php';
+        // dynamic load the required action class
+        $class_file = SF_BASE_DIR . '/admin/modules/default/action/class.'.$class_name.'.php';
         if(file_exists($class_file))
         {
             include_once($class_file);
