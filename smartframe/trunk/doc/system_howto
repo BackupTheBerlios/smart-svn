@@ -1,0 +1,250 @@
+How to write modules for the SMART framework?
+______________________________________________
+
+
+First you have to download the smartframe-test.zip from
+http://developer.berlios.de/projects/smart/ , which contains
+the base framework and a couple of simple modules. On base of this test package
+this doc will explain you the principle of this framework.
+
+After unpack the zip archive you should point your navigator to the directory
+where the unzipped package lies. You should see a setup page.
+
+NOTICE: This package and the modules dont require any db conection or other
+external script packages (PEAR , ....).
+
+
+The base SMART directory structure
+-----------------------------------
+- admin
+  - config
+  - include
+  - lib
+  - logs
+  - media
+  - modules
+    - entry
+    - option
+    - setup
+    - test
+  - tmp
+- data
+- doc
+- plugins
+- index.php
+- test_index.tpl.php
+- test_showvars.tpl.php
+
+There is a template engine included in SMART which enable you to separate the
+content from the design. It isnt an external template solution like Smarty,
+Savant or patTemplate but a solution which was never planned but which
+inevitable arised from the internal logic of this software. So, a surprise!
+
+The root directory contains an index.php file. This file control the base
+behavior of the web pages which are accessible by any visitor and load a
+demanded template. If no template is defined in the url, index.php
+load a template called 'index'. In this case this would be the file
+'test_index.tpl.php'. To load an other
+template you have to define the variable 'tpl' in the url.
+Ex. http://www.foo.com/index.php?tpl=showvars
+Here index.php load the template test_showvars.tpl.php
+
+The templates are the main place where you can control the program logic on what
+is going on in a clean and simple way. But be award. There is no extra template
+language you have to learn. The template language is PHP. Later we will explain
+you how this works.
+
+Of course there is also an administration part. May you have written modules to
+manage users or articles. Every thing which is related to the admin part lies in
+the /admin folder.
+
+
+What all those admin folders contains?
+---------------------------------------
+
+/config
+This folder contains, after the setup, a file 'config_system.xml.php' which was
+produced during the setup proceedure. It contains some configurations
+definitions, which are necessairy to get work the whole thing.
+You will find here also a 'cache' folder. For performance issues, the
+configuration file isnt always loaded but readed from a cache, which you will
+find in the '/admin/config/cache' folder.
+
+/include
+Here you will find some base classes, which are required by the base system
+
+/lib
+external packages for the base system. (not the modules) If you need PEAR for
+your modules you should include it in one of the module folder which takes the
+leader part.
+ex.: /admin/modules/my_leader_module/PEAR/
+
+/logs
+This folder may contains log files produced by the base system or the modules.
+ex.: error_log
+
+/media
+css, images, javascripts for the base admin part. not the modules. Module
+related data should be included from inside the module folders
+
+/modules
+here you can include your modules
+ex.: /modules/article/
+     /modules/usermanagement/
+
+/tmp
+temporary files produced by the system.
+
+
+The main system files
+---------------------
+The public and the admin pages are loaded and controled through a index.php
+file, which you can find in the root and the /admin folder. Both files include a
+second file /admin/include/base.inc.php. This file takes the base initialization
+part.  This means:
+- Load default variable declarations
+- Start output buffering and data compression
+- Include system classes
+- Load the configuration file
+- Set an error handler
+- Make an instance ($B) of the base class which contains functions to distribute
+  broadcast and directed events. It serve also to encapsulate variables. In
+  SMART there arent global defined vars. All vars should be members of this
+  instance.
+- Starting session
+- Load the module event handler functions
+- Check if setup was done
+
+If the system is starting it looks if the setup was done. If not it looks
+for a file '/admin/setup/event_handler_admin.php which controle the
+setup process. So there must be always a module named 'setup'.
+
+
+The module concept
+------------------
+Each module contains a file named event_handler_admin.php or/and
+event_handler_public.php with a function which controls the behavior for this
+module of the public web pages or the admin web pages. These functions are never
+called directly but always through functions of the system base class in
+/admin/include/class.sfBase.php.
+This technical mechanism is named as 'call back'. The module handler functions
+are registered during the init process in the file /admin/include/base.inc.php
+and calling (calling back) on demande. This function mechanisn enable the
+system to include plug and play modules. Even during a running application you
+can include a new module without edit a couple of config files. We name here
+'call back' a module function, releasing an EVENT. There are 2 kind
+of events:
+- Broadcast events are distributed to all registered module event handlers
+- Directed events are distributed to a specific modul handler function
+
+Examples:
+$B->B( EVT_INIT );
+sends a broadcast event to all module handler functions and activate the init
+process of each module
+
+$B->M( MOD_TEST, EVT_LOAD_MODULE);
+sends a directed event to the module 'test' which set the test module in his
+normal function state.
+
+
+The event handler functions in details
+--------------------------------------
+If a module should serves some funtionalities to the admin and the public area
+it must contains at least 2 files.
+event_handler_admin.php - control the behavior of a module for the admin area.
+evant_handler_public.php - control the behavior of a module for the public area.
+
+Lets take the file event_handler_public.php of the 'test' module to show
+you how it works.
+
+// Name of the event handler
+// if you want to send a directed event to this module
+// you can identify this module by this defined variable
+define ( 'MOD_TEST' , 'TEST');
+
+// define a handler function which can be used from within a template
+// in this case a counter
+define ( 'EVT_TEST_COUNTER' ,      'TEST_COUNTER');
+
+// tell to the system that this handler exist
+// this is very important. Without, the system know
+// nothing about this handler
+if (FALSE == $B->register_handler(MOD_TEST,
+                           array ( 'module'        => MOD_TEST,
+                                   'event_handler' => 'test_event_handler') ));
+                                   
+// The handler function
+// In this function you have to include the code which evaluate a request
+// from within a template
+//
+function test_event_handler( $evt )
+
+
+//One module must takes the leader role. That means you have to define 
+//some variables and include necessairy stuff to get work your modules.
+//if your modules needs PEAR or ADODB, you have to include this here.
+
+// ### These 3 defines MUST be declared ###
+/**
+ * The module (name) which takes the authentication part.
+ */
+define('SF_AUTH_MODULE',                 'TEST');
+
+/**
+ * The module (name) which takes the global options part.
+ */
+define('SF_OPTION_MODULE',               'OPTION');
+
+/**
+ * The module (name) which should be loaded by default.
+ */
+define('SF_DEFAULT_MODULE',              'ENTRY');
+
+                                   
+
+The public templates
+--------------------
+You will find the public templates in the main root folder. The templates file
+name are of the form:
+xxx_yyy.tpl.php
+where xxx stay for the template group and yyy for the template name.
+The group name give you the possibility to create your web page in different
+designs. The option module which comes with this test package recognize if there
+are more groups. So you can switch between different groups (designs) from
+within the option module menu. The template name is important to identify a
+specific template from within an other template. You have to declare a 'tpl' var
+to load a specific template:
+Example: index.php?tpl=article
+will load the template groupname_article.tpl.php
+There must be always an index template eg. groupname_index.tpl.php, which is
+loaded if no templatename is declared.
+
+The EVENT concept is also applicated in the public web templates. With this
+powerfull feature you can control the behavior of a template with all the
+flexibility of PHP but in a clean way.
+
+To have a closer lock, edit the public test templates.
+
+
+The admin templates
+-------------------
+For the administration part, each module provide its own template set. Each
+module template is a subtemplate of the main admin template which you can find
+in /admin/index.tpl.php.
+How to include a module subtemplate?
+First you have to declare a 'switch' subsection in the module admin handler
+function 'event_handler_admin.php':
+ case EVT_LOAD_MODULE:
+which must contains at the end the subtemplate to load. Ex.
+$B->module = SF_BASE_DIR . '/admin/modules/test/templates/index.tpl.php';
+
+How to release such a EVT_LOAD_MODULE event?
+by declaring a GP var 'm'. Example of a GET var declaration:
+http://www.foo.com/admin/index.php?m=TEST
+The system evaluate the var 'm', release a module event which is directed to the
+module defined in the var 'm' and activate the switch subsection EVT_LOAD_MODULE
+of the focused module. 'm' stays for 'module'.
+
+
+
+
