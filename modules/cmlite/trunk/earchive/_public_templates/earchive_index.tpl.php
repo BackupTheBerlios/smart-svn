@@ -175,6 +175,7 @@ NNTP: nntp://user:pass@mail.example.com:119/comp.test </li>
                                 <li class="pager">MySql &gt; 3.23.xx</li>
                                 <li class="pager">IMAP php extension</li>
                                 <li class="pager">XML php extension</li>
+                                <li class="pager">GD php extension </li>
                             </ul></td>
                     </tr>
                 </table></td>
