@@ -37,10 +37,10 @@ class action_navigation_sys_setup extends action
         if($success == TRUE)
         {
             // create db tables
-            if(file_exists(SF_BASE_DIR . 'modules/navigation/sys_setup/_setup_'.$_POST['dbtype'].'.php'))
+            if(file_exists(SF_BASE_DIR . 'modules/navigation/actions/sys_setup/_setup_'.$_POST['dbtype'].'.php'))
             {
                 // include mysql setup
-                include_once( SF_BASE_DIR . 'modules/navigation/sys_setup/_setup_'.$_POST['dbtype'].'.php' );    
+                include_once( SF_BASE_DIR . 'modules/navigation/actions/sys_setup/_setup_'.$_POST['dbtype'].'.php' );    
             }
             else
             {
