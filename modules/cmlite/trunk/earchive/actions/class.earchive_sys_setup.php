@@ -65,13 +65,6 @@ class earchive_sys_setup
             }  
         }
 
-        if(!file_exists(SF_BASE_DIR.'modules/common/includes/class.sfWordIndexer.php'))
-        {
-            trigger_error("File missing: Earchive depends on the following class: ".SF_BASE_DIR."/admin/modules/common/class.sfWordIndexer.php\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-            $this->B->setup_error[] = "File missing: Earchive depends on the following class: ".SF_BASE_DIR."/admin/modules/common/class.sfWordIndexer.php";
-            $success = FALSE;
-        }
-
         if(!isset($_POST['dbtype']))
             $db_type = $this->B->sys['db']['dbtype'];
         else
