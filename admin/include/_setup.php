@@ -1,7 +1,13 @@
 <?php
-
-
-
+// ----------------------------------------------------------------------
+// Smart (PHP Framework)
+// Copyright (c) 2004
+// by Armand Turpel < smart@open-publisher.net >
+// http://smart.open-publisher.net/
+// ----------------------------------------------------------------------
+// LICENSE GPL
+// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// ----------------------------------------------------------------------
 
 // Check if this file is included in the environement
 //
@@ -10,31 +16,45 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on '. __FILE__);
 }
 
-// Init error var
-$base->tmp_error_system = array();
+// Init error array
+$base->tmp_error = array();
+
+// Check directories access
+if(!is_writeable( SF_BASE_DIR . '/admin/config/' ))
+{
+    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/config/<br />';
+}
+if(!is_writeable( SF_BASE_DIR . '/admin/tmp/cache_admin/' ))
+{
+    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_admin/<br />';
+}
+if(!is_writeable( SF_BASE_DIR . '/admin/tmp/cache_public/' ))
+{
+    $base->tmp_error[]['error'] = 'Must be writeable: ' . SF_BASE_DIR . '/admin/tmp/cache_public/<br />';
+}
 
 // Do setup 
-if( $_POST['do_setup'] )
+if( $_POST['do_setup'] && (count($base->tmp_error) == 0) )
 {
 
     if( empty($_POST['host']) )
     {
-        $base->tmp_error_system['host'] = 'Host field is empty!<br />';
+        $base->tmp_error[]['error'] = 'Host field is empty!<br />';
     }
     if( empty($_POST['login']) )
     {
-        $base->tmp_error_system['login'] = 'Login field is empty!<br />';
+        $base->tmp_error[]['error'] = 'Login field is empty!<br />';
     }
     if( ($_POST['password1'] != $_POST['password2']) )
     {
-        $base->tmp_error_system['pass'] = 'Password fields are empty or not equal!<br />';
+        $base->tmp_error[]['error'] = 'Password fields are empty or not equal!<br />';
     } 
     if( empty($_POST['db_name']) )
     {
-        $base->tmp_error_system['db_name'] = 'DB name field is empty!<br />';
+        $base->tmp_error[]['error'] = 'DB name field is empty!<br />';
     }
   
-    if( count($base->tmp_error_system) == 0 )
+    if( count($base->tmp_error) == 0 )
     {
         // set db resource
         $base->dsn = $_POST['db_type'].'://'.$_POST['login'].':'.$_POST['password'].'@'.$_POST['host'].'/'.$_POST['db_name'];
@@ -43,7 +63,7 @@ if( $_POST['do_setup'] )
         $base->db = & DB::connect($base->dsn);
         if (DB::isError($base->db)) 
         {
-            $base->tmp_error_system['db'] = $base->db->getMessage();
+            $base->tmp_error[]['error'] = $base->db->getMessage();
         }        
 
         if( count($base->tmp_error) == 0 )
@@ -61,21 +81,7 @@ if( $_POST['do_setup'] )
             
             $base->tmp_table_prefix = $_POST['table_prefix'];
         }
-        else
-        {
-            // Assign module handler name
-            //$base->tpl->addRows( 'setup', 'error', $base->tmp_error_system );
-        }
     }
-    else
-    {
-        // Assign module handler name
-        //$base->tpl->addRows( 'setup', 'error', $base->tmp_error_system );    
-    }
-      //var_dump($base->tmp_error_system);  exit;
 }
-
-  
-
 
 ?>

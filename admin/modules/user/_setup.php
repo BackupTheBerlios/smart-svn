@@ -23,22 +23,22 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Do setup 
 if( empty($_POST['sysname']) )
 {
-    $base->tmp_error_system['sysname'] = 'Sysadmin name field is empty!<br />';
+    $base->tmp_error[]['error'] = 'Sysadmin name field is empty!<br />';
 }
 if( empty($_POST['syslastname']) )
 {
-    $base->tmp_error_system['syslastname'] = 'Sysadmin lastname field is empty!<br />';
+    $base->tmp_error[]['error'] = 'Sysadmin lastname field is empty!<br />';
 }
 if( empty($_POST['syslogin']) )
 {
-    $base->tmp_error_system['syslogin'] = 'Sysadmin login field is empty!<br />';
+    $base->tmp_error[]['error'] = 'Sysadmin login field is empty!<br />';
 }
 if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassword2']) )
 {
-    $base->tmp_error_system['syspass'] = 'Sysadmin password fields are empty or not equal!<br />';
+    $base->tmp_error[]['error'] = 'Sysadmin password fields are empty or not equal!<br />';
 } 
 
-if( count($base->tmp_error_system) == 0 )
+if( count($base->tmp_error) == 0 )
 {
     switch($_POST['db_type'])
     {
@@ -47,7 +47,7 @@ if( count($base->tmp_error_system) == 0 )
             include_once( SF_BASE_DIR.'/admin/modules/user/init_mysql.php' );        
             break;
         default:
-            $base->tmp_error_system['sql_user'] = 'The user module isnt supporting the selected database type!<br />';        
+            $base->tmp_error[]['error'] = 'The user module isnt supporting the selected database type!<br />';        
             break;
     }
 
