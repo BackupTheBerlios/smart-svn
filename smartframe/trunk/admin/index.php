@@ -29,13 +29,14 @@ define ('SF_SECTION', 'admin');
 // Include the base file
 include (SF_BASE_DIR . 'smart/includes/core.inc.php');
 
-// Run the admin application logic of a module
-//
+// send an authentication event to the handler which takes
+// the authentication part
+$B->M( SF_AUTH_MODULE, 'sys_authenticate' );
 
 // Send a init message to all registered handlers
 $B->B('sys_init');
 
-// if an update was done this event must be called to finish the update process
+// if an update was done this event finish the update process
 if(isset($B->system_update_flag))
 {
     $B->M( SF_BASE_MODULE, 'sys_finish_update' );
@@ -43,10 +44,6 @@ if(isset($B->system_update_flag))
     @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
     exit;    
 }
-
-// send an authentication event to the handler which takes
-// the authentication part
-$B->M( SF_AUTH_MODULE, 'sys_authenticate' );
 
 // Logout
 if ( (int)$_REQUEST['logout'] == 1 )
@@ -57,7 +54,7 @@ if ( (int)$_REQUEST['logout'] == 1 )
     exit;
 }
 
-// proceed the admin view and return the admin template
+// get the admin view
 include( $B->M( MOD_SYSTEM, 'get_admin_view') ); 
 
 ob_end_flush ();
