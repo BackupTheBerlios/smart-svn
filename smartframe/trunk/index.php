@@ -23,7 +23,7 @@ if(!defined( SF_CONTROLLER ))
 }
 
 /*
- * Relative path to SMART
+ * Relative path to SMART example: 'test/'
  */
 if(!defined( SF_RELATIVE_PATH ))
 {
@@ -31,7 +31,7 @@ if(!defined( SF_RELATIVE_PATH ))
 }
 
 /*
- * Fixed template group.
+ * Fixed template group. example: 'test'
  */
 if(!defined( SF_TPL_GROUP ))
 {
@@ -39,7 +39,7 @@ if(!defined( SF_TPL_GROUP ))
 }
 
 /*
- * Template folder.
+ * Template folder. example: 'test/'
  */
 if(!defined( SF_TPL_FOLDER ))
 {
@@ -47,7 +47,7 @@ if(!defined( SF_TPL_FOLDER ))
 }
 
 /*
- * View folder.
+ * View folder. example: 'test/'
  */
 if(!defined( SF_VIEW_FOLDER ))
 {
@@ -57,8 +57,8 @@ if(!defined( SF_VIEW_FOLDER ))
 /* #################################################### */
 /* ######### Dont change any thing below !!! ########## */
 /* #################################################### */
-/*
 
+/*
 /* 
  *Secure include of files from this script
  */
