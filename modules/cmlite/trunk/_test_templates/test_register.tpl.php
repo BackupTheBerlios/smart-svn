@@ -85,14 +85,14 @@
 <body bgcolor="#FFFFFF" text="#000000" class="registerbody">
 <form name="form1" method="post" action="index.php?tpl=register">
   <table width="400" border="0" align="center" cellpadding="2" cellspacing="0" class="register">
-    <?php if(isset($B->tpl_v_error)||isset($B->tpl_v_success)): ?>
+    <?php if(isset($B->tpl_v_error) || isset($B->tpl_v_success)): ?>
         <tr align="center" valign="middle">
         <?php if($B->tpl_v_success == TRUE): ?>
             <td colspan="2" class="registertitle">
-            Your registration is now complete. You can access restricted content on site <?php echo $B->sys['option']['url']; ?>
+            Your registration is now complete. You can access restricted content on site <a href="http://<?php echo $B->sys['option']['url']; ?>"><?php echo $B->sys['option']['url']; ?></a>
             </td>
 		<?php endif; ?>
-        <?php if($B->tpl_v_error !== FALSE): ?>
+        <?php if($B->tpl_v_error == TRUE): ?>
             <td colspan="2" class="registererror">
             An error occured during your registration. Please contact the administrator <a href="mailto:<?php echo $B->sys['option']['email']; ?>"><?php echo $B->sys['option']['email']; ?></a> or try again.
             </td>

@@ -179,8 +179,8 @@ function user_event_handler( $evt )
                         elseif($B->sys['option']['user']['register_type'] == 'manual')
                         {
                             $subject = 'User validation needed';
-                            $msg     = 'You have to validate a user registration:';
-                            $msg     .= '<a href="'.$B->sys['option']['url'].'">'.$B->sys['option']['url'].'/?tpl=USER&mf=edit_usr&uid='.$uid.'</a>';
+                            $msg     = 'You have to validate a user registration:<br />';
+                            $msg     .= '<a href="http://'.$B->sys['option']['url'].'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'">http://'.$B->sys['option']['url'].'/admin/index.php?m=USER&mf=edit_usr&uid='.$uid.'</a>';
                             if(FALSE === @mail($B->sys['option']['email'],$subject,$msg,$header))
                             {
                                 trigger_error("Sending validation email fails.", E_USER_ERROR);
@@ -207,21 +207,21 @@ function user_event_handler( $evt )
             if(isset($_GET['md5_str']))
             {
                 $_succ = &$GLOBALS['B']->$evt['data']['success_var'];
-                $_succ = FALSE;
+                $_succ = NULL;
                 
                 // get var name to store the result
                 $_error = &$GLOBALS['B']->$evt['data']['error_var'];
-                $_error = FALSE;
+                $_error = NULL;
                 
                 include( SF_BASE_DIR .'/admin/modules/user/class.user.php' );
                 $user = & new user;
                 if(FALSE === $user->auto_validate_registered_user( $_GET['md5_str'] ))
                 {
-                    $_error = str_replace("(EMAIL)", "<a href='mailto:{$B->sys['option']['email']}'>{$B->sys['option']['email']}</a>",$_error);              
+                    $_error = TRUE;              
                 }
                 else
                 {
-                     $_succ = str_replace("(URL)", "<a href='mailto:{$B->sys['option']['url']}'>{$B->sys['option']['url']}</a>",$_succ);   
+                    $_succ = TRUE;   
                 }
             }
             break;          
