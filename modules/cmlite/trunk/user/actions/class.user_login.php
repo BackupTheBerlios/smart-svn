@@ -57,6 +57,7 @@ class user_login
                 exit;                
             }
         }
+        return FALSE;
     } 
 }
 
