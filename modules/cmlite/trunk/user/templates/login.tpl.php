@@ -66,16 +66,27 @@
   <tr> 
       <td width="26%" valign="top" align="left" class="loginitem">
             Login<br>
-            <input type="text" name="login_name" maxlength="1000" size="25"></td>
-      <td width="74%" valign="top" align="left"> 
+            <input type="text" name="login_name" maxlength="1000" size="25" value="<?php echo $B->tpl_form['login_name']; ?>"></td>
+      <td width="74%" valign="top" align="center">
+	  <?php if ($B->tpl_error !== FALSE):  ?>  
+        <span class="loginerror">
+             <?php echo $B->tpl_error; ?>
+        </span>        
+	  <?php endif; ?>	
     </td>
   </tr>
   <tr> 
       <td width="26%" valign="top" align="left" class="loginitem">
             Passwd<br>
             <input type="password" name="password" size="25" maxlength="100"></td>
-      <td width="74%" valign="top" align="center" class="logintext">
+      <td width="74%" valign="middle" align="center" class="logintext">
     </td>
+  </tr>
+  <tr>
+    <td valign="top" align="left" class="loginitem">Turing Key<br>
+      <input type="text" name="captcha_turing_key" value="" maxlength="5" size="25">
+      <input type="hidden" name="captcha_public_key" value="<?php echo $B->tpl_public_key; ?>" maxlength="5" size="40"></td>
+    <td valign="top" align="center" class="logintext"><span class="logintext"><img src="<?php echo $B->tpl_captcha_pic; ?>" border="1"></span></td>
   </tr>
   <tr align="center"> 
       <td width="26%" colspan="2" valign="middle"><br>
