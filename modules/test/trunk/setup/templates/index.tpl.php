@@ -45,7 +45,7 @@ function subok(s){
   <tr>
     <td align="center" valign="top"><p align="left">This template is loaded from the <strong>setup</strong>        module: </p>
       <p align="left">File <strong>'modules/setup/templates/index.tpl.php'</strong>. </p>
-      <p align="left">In must cases you will find here a database setup form
+      <p align="left">In most cases you will find here a database setup form
             (creating db tables) and a form to create an administrator user account. After submit
             this form the setup module will send setup event calls to all other modules. Each
             module is responsible for its own setup proceedure. </p>
