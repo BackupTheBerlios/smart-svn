@@ -61,6 +61,11 @@ class common_upgrade
                 trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
                 return FALSE;
             }  
+            
+            if(!is_writeable( SF_BASE_DIR . 'modules/common/tmp/cache' ))
+            {
+                trigger_error('Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/cache', E_USER_ERROR);
+            }            
         }
                
         return TRUE;
