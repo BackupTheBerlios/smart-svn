@@ -23,7 +23,7 @@ if(!defined( SF_CONTROLLER ))
 }
 
 /*
- * Relative path to SMART example: 'test/'
+ * Relative path to SMART. Example: 'test/'
  */
 if(!defined( SF_RELATIVE_PATH ))
 {
@@ -82,21 +82,6 @@ else
 // Broadcast init event to all registered modules
 // see modules/xxx/actions/class.xxx_sys_init.php
 B( 'sys_init' );
-
-// if an update was done this event complete the update process
-if(isset($B->system_update_flag))
-{
-    // see modules/SF_BASE_MODULE/actions/class.action_SF_BASE_MODULE_sys_update_config.php
-    M( SF_BASE_MODULE, 
-       'sys_update_config', 
-       array( 'data'     => $B->sys,
-              'var_name' => 'this->B->sys',
-              'type'     => 'PHPArray') );
-              
-    // reload page
-    @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_SECTION . '=1');
-    exit;    
-}  
 
 // Directed system event to execute the demanded view
 // see: smart/actions/class.system_get_view.php

@@ -19,6 +19,7 @@
 class action_system_get_view extends action
 {
     /**
+     * - check if an update was done and if so reload the page
      * - validate the view request
      * - build the whole name of the requested view classe
      * - build the whole path to the requested view class
@@ -29,6 +30,22 @@ class action_system_get_view extends action
      */
     function validate( & $data )
     {
+        // if an update was done this event complete the update process
+        if(isset($this->B->system_update_flag))
+        {
+            // see modules/SF_BASE_MODULE/actions/class.action_SF_BASE_MODULE_sys_update_config.php
+            M( SF_BASE_MODULE, 
+               'sys_update_config', 
+               array( 'data'     => $this->B->sys,
+                      'file'     => SF_BASE_DIR . 'data/'.SF_BASE_MODULE.'/config/config.php',
+                      'var_name' => 'this->B->sys',
+                      'type'     => 'PHPArray') );
+              
+            // reload page
+            @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_SECTION . '=1');
+            exit;    
+        }  
+    
         /*
          * Set public view folder.
          */

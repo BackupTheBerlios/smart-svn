@@ -11,70 +11,81 @@
 
 /**
  *
- * Contains event distributor functions
+ * Contains event distributor functions and a module register function
+ * 
+ * Those distributor functions dynamically loads module action classes, 
+ * make instances, execute there validate and there perform methodes.
+ *
+ * Currently there are 2 distributor functions:
+ * 
+ * - Directed Event Distributor
+ *   It directs an event to a specific module
+ *
+ * - Broadcast Event Distributor
+ *   It directs an event to all modules
  *
  */
 
 /**
- * Array of registered handler
- * @var array $handler_list
+ * Array of registered modules
+ * @var array $module_list
  */
-$handler_list = array(); 
+$module_list = array(); 
 
 
 /**
-  * Check if a handler exist
+  * Check if a module exist
   *
-  * @param string $target Name of a handler.
+  * @param string $target Name of a module.
   * @return bool true or false.
   */
-function is_handler( $target )
+function is_module( $target )
 {
-    global $handler_list;
+    global $module_list;
     
-    return isset( $handler_list[$target] );
+    return isset( $module_list[$target] );
 }
 
 /**
-  * Handler register methode
+  * Module register methode
   *
-  * @param string $target Name of the handler. 
-  * @param array $descriptor Array of identification data of the handler.
-  * @param bool True on success else false
+  * @param string $target Name of the module. 
+  * @param array $descriptor Array of module identification data.
+  * @param bool True on success else false (if module was previously declared)
   */
 function register_module( $target, $descriptor )
 {
-    global $handler_list;
+    global $module_list;
     
-    if(isset( $handler_list[$target] ))
+    if(isset( $module_list[$target] ))
     {
         return FALSE;
     }
     
-    $handler_list[$target] = $descriptor;
+    $module_list[$target] = $descriptor;
     return TRUE;
 }
 
 /**
   * Send a directed event (to a module or to the system)
   *
-  * @param string $target_id Name of the handler.  
-  * @param array $code Message id to send to the registered handler.
+  * @param string $target_id Name of the module.  
+  * @param array $code Name of the module action class, which performs on this event.
   * @param mixed $data Additional data (optional).
-  * @return mixed FALSE if handler dosent exist or isnt defined
+  * @return mixed FALSE if module dosent exist or isnt defined
   */ 
 function M( $target_id, $code, $data = FALSE )
 {
-    global $handler_list;
+    global $module_list;
 
-    // check if such a handler is registered
-    if(!isset( $handler_list[$target_id]) )
+    // check if such a module is registered
+    if(!isset( $module_list[$target_id]) )
     {
-        trigger_error("This handler function isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        trigger_error("This module isnt defined: ".$target_id."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         return FALSE;
     }  
 
-    // build the whole class name
+    // build the whole module action class name
     $class_name = 'action_' . $target_id . '_' . $code;
     
     // check if this object was previously declared
@@ -82,7 +93,7 @@ function M( $target_id, $code, $data = FALSE )
     {
         // path to the modules action class 
         $class_file = SF_BASE_DIR . 'modules/' . $target_id . '/actions/class.'.$class_name.'.php';
-        // path to the system action class
+        // path to the system action class if the target was the system module
         if( $target_id == 'system' )
         {
             // dynamic load the required class 
@@ -92,7 +103,7 @@ function M( $target_id, $code, $data = FALSE )
         if(file_exists($class_file))
         {
             include_once($class_file);
-            // make instance
+            // make instance of the module action class
             $GLOBALS[$class_name] = & new $class_name();
             
             // validate the request
@@ -101,7 +112,7 @@ function M( $target_id, $code, $data = FALSE )
                 trigger_error("Validation fails on class: ".$class_name."\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_WARNING);
                 return FALSE;
             }
-            // perform the request
+            // perform on the request
             return $GLOBALS[$class_name]->perform( $data );
         }
     }
@@ -127,9 +138,9 @@ function M( $target_id, $code, $data = FALSE )
   */ 
 function B( $code, $data = FALSE )
 {
-    global $handler_list; 
+    global $module_list; 
 
-    foreach( $handler_list as $target_id => $val )
+    foreach( $module_list as $target_id => $val )
     {
         // build the whole class name
         $class_name = 'action_' . $target_id . '_' . $code;
