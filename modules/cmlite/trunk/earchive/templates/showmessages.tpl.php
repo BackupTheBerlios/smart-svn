@@ -3,22 +3,22 @@
   <tr>
     <td width="89%" align="left" valign="top">
 	<table width="100%"  border="0" cellspacing="4" cellpadding="4">
-      <?php //show top pager links  ?>
-      <?php if(!empty($B->tpl_messages_pager)): ?>
       <tr>
         <td colspan="2" align="left" valign="top" class="itemnormal">Messages of list <strong><?php echo $B->tpl_list['name']; ?></strong></td>
       </tr>
+      <?php //show top pager links  ?>
+      <?php if(!empty($B->tpl_messages_pager)): ?>	  
       <tr>
         <td width="3%" colspan="2" align="left" valign="top">
           <div class='font12'><?php echo $B->tpl_messages_pager; ?></div>
         </td>
         </tr>
+		<?php endif; ?>
       <tr>
         <td colspan="2" align="left" valign="top">
           <hr/>
         </td>
         </tr>
-      <?php endif; ?>
       <?php //show messages  ?>
       <?php if (count($B->tpl_messages) > 0): ?>
       <?php foreach($B->tpl_messages as $msg): ?>	  
