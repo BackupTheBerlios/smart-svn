@@ -49,7 +49,7 @@ class action_system_get_view extends action
         /*
          * Set public view folder.
          */
-        if(!defined( SF_VIEW_FOLDER ))
+        if(!defined( 'SF_VIEW_FOLDER' ))
         {
            define('SF_VIEW_FOLDER', $this->B->sys['option']['view']); 
         }
@@ -57,7 +57,7 @@ class action_system_get_view extends action
        /**
         * Set public template folder
         */
-        if(!defined( SF_TPL_FOLDER ))
+        if(!defined( 'SF_TPL_FOLDER' ))
         {
            define('SF_TPL_FOLDER', $this->B->sys['option']['tpl']); 
         }
@@ -182,14 +182,17 @@ class action_system_get_view extends action
         if( FALSE == $view_obj->perform() )
         {
             // if error get the error view object
-            $view_obj = $this->_error_view( $view_obj );
+            $view_obj->error();
         }
 
         // render a template ???
         if ( SF_TEMPLATE_RENDER == $view_obj->render_template )
         {
             // render the template
-            $view_obj->renderTemplate();   
+            if( FALSE == $view_obj->renderTemplate() ) 
+            {
+                $view_obj->error();
+            }
         }    
        
         // Launch view related append filter chain
@@ -203,40 +206,6 @@ class action_system_get_view extends action
 
         return TRUE;
     } 
-    
-    /**
-     * Build the error view
-     * - make instance of the view class
-     * - execute the view related prepend filter chain
-     * - preform on the view class
-     * - return the view object
-     *
-     *
-     * @param object $view_obj original view object
-     * @return object error view object
-     */    
-    function & _error_view( & $view_obj )
-    {
-        // build the whole file path to the view class file
-        $view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $view_obj->error_view . '.php';
-
-        // include view class file of the requested template
-        if( !@file_exists( $view_class_file ) )
-        {
-            die( "Error view class dosent exists: " . $view_class_file );  
-        } 
-            
-        // include the requested view class
-        include_once( $view_class_file );
-        
-        // build the class name and make instance
-        $error_view_class = 'view_'.$view_obj->error_view;          
-        $error_view_obj   = & new $error_view_class();            
-       
-        $error_view_obj->perform( $view_obj );  
-        
-        return $error_view_obj;
-    }
 }
 
 ?>

@@ -92,7 +92,7 @@ function M( $target_id, $code, $data = FALSE )
     $class_name = 'action_' . $target_id . '_' . $code;
     
     // check if this object was previously declared
-    if(!is_object($GLOBALS[$class_name]))
+    if( !isset($GLOBALS[$class_name]) )
     {
         // path to the modules action class 
         $class_file = SF_BASE_DIR . 'modules/' . $target_id . '/actions/class.'.$class_name.'.php';
@@ -195,7 +195,7 @@ function B( $code, $data = FALSE )
         $class_name = 'action_' . $target_id . '_' . $code;
 
         // check if this object was previously declared
-        if(!is_object($GLOBALS[$class_name]))
+        if( !isset($GLOBALS[$class_name]) )
         {
             // path to the modules action class 
             $class_file = SF_BASE_DIR . 'modules/' . $target_id . '/actions/class.'.$class_name.'.php';

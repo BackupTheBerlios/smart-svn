@@ -28,12 +28,28 @@ class view_error extends view
      * @param object $view_obj Object of the view from which the error occurs
      * @return bool true 
      */
-    function perform( $view_obj = FALSE )
+    function perform()
     {
-        if (is_object( $view_obj ))
+        if( SF_DEBUG == TRUE )
         {
-            // assign template error var
-            $this->B->view_error = nl2br( $view_obj->getError() );
+            // template error array
+            $this->B->tpl_error = array();
+
+            if( is_array($this->view_data['error']) && count($this->view_data['error'] > 0))
+            {
+                $this->B->tpl_error = & $this->view_data['error'];
+            }
+            else
+            {
+                $this->B->tpl_error = array('unexpected Error' => 'Check log file');
+            }
+        }
+        else
+        {
+            // In non debug mode, load index view on error
+            trigger_error( var_dump($this->view_data) , E_USER_WARNING);
+            M( MOD_SYSTEM, 'get_view', array('view' => 'index'));  
+            exit;
         }
 
         return TRUE;

@@ -15,6 +15,6 @@
 <body>
 <p><font size="5" face="Verdana, Arial, Helvetica, sans-serif"><strong>ERROR</strong></font>
 </p>
-<p><font color="#990000" size="3" face="Verdana, Arial, Helvetica, sans-serif"><pre><?php echo $B->view_error; ?></pre></font></p>
+<p><font color="#990000" size="3" face="Verdana, Arial, Helvetica, sans-serif"><pre><?php echo print_r($B->tpl_error); ?></pre></font></p>
 </body>
 </html>

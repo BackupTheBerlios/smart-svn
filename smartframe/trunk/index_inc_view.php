@@ -21,7 +21,7 @@
 /*
  * Front Controller File Name (this file)
  */
-if(!defined( SF_CONTROLLER ))
+if(!defined( 'SF_CONTROLLER' ))
 {
    define('SF_CONTROLLER', 'index_inc_view.php'); 
 }
@@ -29,7 +29,7 @@ if(!defined( SF_CONTROLLER ))
 /*
  * Relative path to SMART
  */
-if(!defined( SF_RELATIVE_PATH ))
+if(!defined( 'SF_RELATIVE_PATH' ))
 {
    define('SF_RELATIVE_PATH', './'); 
 }
@@ -38,7 +38,7 @@ if(!defined( SF_RELATIVE_PATH ))
  * Force to use the views folder, independed of the sys config settings.
  */
 /*
-if(!defined( SF_VIEW_FOLDER ))
+if(!defined( 'SF_VIEW_FOLDER' ))
 {
    define('SF_VIEW_FOLDER', 'views_default/'); 
 }
@@ -48,7 +48,7 @@ if(!defined( SF_VIEW_FOLDER ))
  * Force to use the templates folder, independed of the sys config settings.
  */
 /*
-if(!defined( SF_TPL_FOLDER ))
+if(!defined( 'SF_TPL_FOLDER' ))
 {
    define('SF_TPL_FOLDER', 'templates_default/'); 
 }

@@ -26,7 +26,7 @@ class view
      * Error array
      * @var array $errors
      */
-    var $errors = array();
+    var $error = array();
 
      /**
      * Default error view
@@ -126,7 +126,8 @@ class view
         $tpl = SF_BASE_DIR . $this->template_folder . 'tpl.' . $this->template . '.php';
         if ( !@file_exists( $tpl ) )
         {
-            die('Template dosent exists: ' . $tpl);
+            $this->error[] = array('renderTemplate' => 'Template dosent exists: ' . $tpl);
+            return FALSE;
         }
 
 
@@ -143,23 +144,22 @@ class view
         {
             include( $tpl );
         }
-
-    }
-    
-    /**
-     * get errors as string
-     *
-     */
-    function & getError()
-    {   
-        $error_str = "";
-        foreach ($this->errors as $key => $val)
-        { 
-            $error_str .= $key . "\n" . $val . "\n\n";  
-        }
         
-        return $error_str;
-    }    
+        return TRUE;
+    }
+
+    /**
+     * Call default error view
+     */    
+    function error()
+    {
+        M( MOD_SYSTEM, 
+           'get_view',
+           array( 'view'  => $this->error_view,
+                  'error' => $this->error) );
+                  
+        exit;
+    }   
 }
 
 ?>

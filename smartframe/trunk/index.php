@@ -17,7 +17,7 @@
 /*
  * Front Controller File Name (this file)
  */
-if(!defined( SF_CONTROLLER ))
+if(!defined( 'SF_CONTROLLER' ))
 {
    define('SF_CONTROLLER', 'index.php'); 
 }
@@ -25,7 +25,7 @@ if(!defined( SF_CONTROLLER ))
 /*
  * Relative path to SMART. Example: 'test/'
  */
-if(!defined( SF_RELATIVE_PATH ))
+if(!defined( 'SF_RELATIVE_PATH' ))
 {
    define('SF_RELATIVE_PATH', './'); 
 }
@@ -34,7 +34,7 @@ if(!defined( SF_RELATIVE_PATH ))
  * Force to use the views folder, independed of the sys config settings.
  */
 /*
-if(!defined( SF_VIEW_FOLDER ))
+if(!defined( 'SF_VIEW_FOLDER' ))
 {
    define('SF_VIEW_FOLDER', 'views_default/'); 
 }
@@ -44,7 +44,7 @@ if(!defined( SF_VIEW_FOLDER ))
  * Force to use the template folder, independed of the sys config settings.
  */
 /*
-if(!defined( SF_TPL_FOLDER ))
+if(!defined( 'SF_TPL_FOLDER' ))
 {
    define('SF_TPL_FOLDER', 'templates_default/'); 
 }
@@ -57,7 +57,7 @@ if(!defined( SF_TPL_FOLDER ))
 /* 
  * Secure include of files from this script
  */
-if(!defined( SF_SECURE_INCLUDE ))
+if(!defined( 'SF_SECURE_INCLUDE' ))
 {
     define('SF_SECURE_INCLUDE', 1);
 }
@@ -70,7 +70,7 @@ define('SF_BASE_DIR', dirname(__FILE__) . '/');
 include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
 // Define section area
-if ($_REQUEST['admin'] == '1')
+if ( isset($_REQUEST['admin']) )
 {
     define('SF_SECTION', 'admin');  
 }
@@ -88,6 +88,6 @@ B( 'sys_init' );
 M( MOD_SYSTEM, 'get_view' );
 
 // Send the output buffer to the client
-while (@ob_end_flush());
+while( ob_get_level() ) @ob_end_flush() ;
 
 ?>

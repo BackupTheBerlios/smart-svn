@@ -30,12 +30,12 @@ define('SF_ERROR_HANDLE',             'LOG');
 /**
  * error reporting
  */
-define('SF_ERROR_REPORTING',          E_ALL ^E_NOTICE);
+define('SF_ERROR_REPORTING',          E_ALL);
 
 /**
- * Set debug.
+ * Set debug mode.
  */
-define('SF_DEBUG',                    FALSE);
+define('SF_DEBUG',                    TRUE);
 
 /**
  * The common module name. This module is required!

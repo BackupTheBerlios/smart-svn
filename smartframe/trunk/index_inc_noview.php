@@ -21,7 +21,7 @@
 /*
  * Front Controller File Name (this file)
  */
-if(!defined( SF_CONTROLLER ))
+if(!defined( 'SF_CONTROLLER' ))
 {
    define('SF_CONTROLLER', 'index_inc_noview.php'); 
 }
@@ -29,7 +29,7 @@ if(!defined( SF_CONTROLLER ))
 /*
  * Relative path to SMART
  */
-if(!defined( SF_RELATIVE_PATH ))
+if(!defined( 'SF_RELATIVE_PATH' ))
 {
    define('SF_RELATIVE_PATH', './'); 
 }
