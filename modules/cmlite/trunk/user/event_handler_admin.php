@@ -116,7 +116,7 @@ define('SF_DEFAULT_MODULE',              'ENTRY');
 if($B->sys['info']['status'] == TRUE)
 {
     // include PEAR DB class
-    include_once( 'DB.php');
+    include_once( SF_BASE_DIR . '/admin/lib/PEAR/DB.php');
         
     // if sqlite set host to the db file
     if($B->sys['db']['dbtype'] == 'sqlite')
