@@ -27,10 +27,7 @@ include_once( SF_BASE_DIR . '/admin/include/defaults.php' );
 
 // Start output buffering
 //
-if ( SF_OB == TRUE )
-{
-    ob_start( SF_OB_GZHANDLER ); 
-}
+ob_start( SF_OB_GZHANDLER ); 
 
 // include sfSecureGPC
 include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
@@ -54,10 +51,13 @@ $B->util = & new sfUtil;
 // Define the base location
 define('SF_BASE_LOCATION', $B->util->base_location());
 
-// Register all handlers
+// Register all common handlers and filter handlers
 //
 // register system event handler
 include_once (SF_BASE_DIR . '/admin/include/event_handler.php');
+
+// register system filter handler
+include_once (SF_BASE_DIR . '/admin/include/filter_handler.php');
 
 // check if the modules directory exists
 if(!is_dir(SF_BASE_DIR . '/admin/modules'))
@@ -66,7 +66,7 @@ if(!is_dir(SF_BASE_DIR . '/admin/modules'))
     die("<b>You have to install at least one module in the /admin/modules directory!</b>");
 }
 
-// Register module handlers
+// include module handlers and filters
 //
 $B->tmp_directory =& dir( SF_BASE_DIR . '/admin/modules');
 while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
@@ -77,18 +77,27 @@ while (false != ($B->tmp_dirname = $B->tmp_directory->read()))
     }            
     if ( @is_dir( SF_BASE_DIR . '/admin/modules/'.$B->tmp_dirname) )
     {
+        // include common handler
         $B->tmp_evt_handler = SF_BASE_DIR . '/admin/modules/' . $B->tmp_dirname . '/event_handler.php';
 
         if ( @is_file( $B->tmp_evt_handler ) )
         {
             include_once $B->tmp_evt_handler;
         }  
+        
+        // include filter handler
+        $B->tmp_filter_handler = SF_BASE_DIR . '/admin/modules/' . $B->tmp_dirname . '/filter_handler.php';
+        
+        if ( @is_file( $B->tmp_filter_handler ) )
+        {
+            include_once $B->tmp_filter_handler;
+        }        
     }
 }
 
 $B->tmp_directory->close();
 unset($B->tmp_evt_handler);
 unset($B->tmp_directory);
-unset($B->tmp_evt_handler);
+unset($B->tmp_filter_handler);
 
 ?>

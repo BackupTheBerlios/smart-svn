@@ -29,10 +29,14 @@ define('SF_SECTION', 'public');
 // Include the base file
 include( SF_BASE_DIR . "/admin/include/base.inc.php" );
 
-// Send a authentication message to the event handlers which takes the authentication part
+// Directed intercepting filter event (auto_prepend)
+$B->M( MOD_SYSTEM, 'SYS_PREPEND' );
+
+// Directed authentication event to the module handler, 
+// which takes the authentication part
 $B->M( SF_AUTH_MODULE, 'SYS_AUTHENTICATE' );
 
-// Send a init message to all registered event handlers
+// Broadcast init event to all registered event handlers
 $B->B( 'SYS_INIT' );
 
 // If no template request is done load the default template
@@ -64,9 +68,10 @@ else
     die ("The requested template file '{$B->template_file}' dosent exist! Please contact the administrator {$B->sys['option']['email']}");
 }
 
+// Directed intercepting filter event (auto_append)
+$B->M( MOD_SYSTEM, 'SYS_APPEND' );
+
 // Send the output buffer to the client
-if ( SF_OB == TRUE)
-{
-    ob_end_flush();
-}
+ob_end_flush();
+
 ?>
