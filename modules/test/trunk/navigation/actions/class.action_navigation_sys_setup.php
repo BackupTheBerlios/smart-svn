@@ -14,7 +14,7 @@
  *
  */
  
-class action_navigation_sys_setup
+class action_navigation_sys_setup extends action
 {   
     /**
      * Do setup for this module
