@@ -27,24 +27,28 @@ define('SF_BASE_DIR', dirname(dirname(dirname(__FILE__))));
 define ('SF_SECTION', 'admin');
 
 // Include the base file
-include( SF_BASE_DIR."/admin/include/base.inc.php" );
-
-
-
-
-// Send a setup message to all registered handlers
-$base->event->broadcast_run( SF_EVT_SETUP );
-
-// if there are some errors
-if( count($base->tmp_error_system) == 0 )
-{
-    // Assign errors
-    //$base->tpl->addRows( 'error', array($base->tmp_error_system) );
-}
+include( SF_BASE_DIR."/admin/setup/setup.inc.php" );
 
 // set the base template for this module
-$base->tpl->readTemplatesFromInput(  "/admin/setup/index.tpl.html" );    
+$base->tpl->readTemplatesFromInput(  "/admin/setup/index.tpl.html" ); 
 
+// launch setup
+if( $_POST['do_setup'] )
+{
+    // Send a setup message to all registered handlers
+    $base->event->broadcast_run( SF_EVT_SETUP );
+    
+    // if there are no errors go to the admin section
+    if( isset($base->tmp_error_system) && (count($base->tmp_error_system) == 0) )
+    {    
+        @header('Location: ../index.php');
+        exit;  
+    }
+}
+else
+{
+
+}
 
 //  Output all templates
 $base->tpl->displayParsedTemplate();

@@ -10,12 +10,12 @@
 // ----------------------------------------------------------------------
 
 /*
- * The base include file
+ * The base setup include file
  *
  */
 
 /*
- * Check if this script is included in the  environment
+ * Check if this script is included in the smart environment
  */
 if (!defined( 'SF_SECURE_INCLUDE' ))
 {

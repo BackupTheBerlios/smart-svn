@@ -51,6 +51,7 @@ if( $_POST['do_setup'] )
             $base->tmp_config = array( 'smart.host'         => $_POST['host'],
                                        'smart.login'        => $_POST['login'],
                                        'smart.password'     => $_POST['password1'],
+                                       'smart.db_type'      => $_POST['db_type'],
                                        'smart.db_name'      => $_POST['db_name'],
                                        'smart.table_prefix' => $_POST['table_prefix'] );
      

@@ -46,9 +46,6 @@ if( count($base->tmp_error_system) == 0 )
             // Include the base file
             include_once( SF_BASE_DIR.'/admin/modules/user/init_mysql.php' );        
             break;
-        case 'sqllite':
-            //include_once( SF_BASE_DIR.'/admin/modules/user/init_sqllite.php' ); 
-            break;
         default:
             $base->tmp_error_system['sql_user'] = 'The user module isnt supporting the selected database type!<br />';        
             break;

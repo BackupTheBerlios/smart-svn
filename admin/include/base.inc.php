@@ -84,7 +84,7 @@ $base->design_style = $base->conf->getConfigValue('option.design_style');
 $base->conf->parseConfigFile( "config_db_connect.xml.php" );
     
 //  get all config db values
-$base->db_data = $base->conf->getConfigValue('database.'.$base->db_connect);
+$base->db_data = $base->conf->getConfigValue( $base->db_connect );
 
 // set db resource
 $base->dsn = $base->db_data['db_type'].'://'.$base->db_data['db_user'].':'.$base->db_data['db_pass'].'@'.$base->db_data['db_host'].'/'.$base->db_data['db_name'].'';

@@ -34,7 +34,7 @@ $base->event->register_handler( SF_EVT_HANDLER_SYSTEM,
 function system_event_handler( $evt )
 {
     global $base;
-
+    
     switch( $evt["code"] )
     {            
         case SF_EVT_INIT:
@@ -42,7 +42,7 @@ function system_event_handler( $evt )
             break; 
         case SF_EVT_LOGOUT:  
             break;    
-        case SF_EVT_SETUP: 
+        case SF_EVT_SETUP:         
             include_once(SF_BASE_DIR.'/admin/include/_setup.php');          
             break;             
       
