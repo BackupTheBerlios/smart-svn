@@ -10,36 +10,24 @@
 // ----------------------------------------------------------------------
 
 /**
- * setup_view_index class of the template "index.tpl.php"
+ * view_setup_index class of the template "index.tpl.php"
  *
  */
  
-class setup_view_index
+class view_setup_index extends view
 {
-    /**
-     * Global system instance
-     * @var object $B
+     /**
+     * Default template for this view
+     * @var string $template
      */
-    var $B;
+    var $template = 'setup_index';
     
-    /**
-     * constructor
-     *
-     */
-    function setup_view_index()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
+     /**
+     * Default template folder for this view
+     * @var string $template_folder
+     */    
+    var $template_folder = 'modules/setup/templates/';
+     
     /**
      * Execute the view of the template "index.tpl.php"
      * launch setup events of other modules
@@ -56,23 +44,23 @@ class setup_view_index
         if( $_POST['do_setup'] )
         {
             // Send a setup message to the system handler
-            $success = $this->B->M( MOD_SYSTEM,           'sys_setup' );
+            $success = M( MOD_SYSTEM,           'sys_setup' );
             
             // Send a setup message to the common handler
             if($success == TRUE)    
-                $success = $this->B->M( MOD_COMMON,       'sys_setup' );
+                $success = M( MOD_COMMON,       'sys_setup' );
    
             // Send a setup message to the entry handler
             if($success == TRUE)    
-                $success = $this->B->M( MOD_DEFAULT,      'sys_setup' );
+                $success = M( MOD_DEFAULT,      'sys_setup' );
     
             // Send a setup message to the test handler
             if($success == TRUE)
-                $success = $this->B->M( MOD_TEST,         'sys_setup' );
+                $success = M( MOD_TEST,         'sys_setup' );
     
             // Send a setup message to the option handler
             if($success == TRUE)
-                $success = $this->B->M( MOD_OPTION,       'sys_setup' );
+                $success = M( MOD_OPTION,       'sys_setup' );
 
             // check on errors before proceed
             if( $success == TRUE )
