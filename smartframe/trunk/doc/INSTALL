@@ -1,14 +1,9 @@
 Smart PHP Framework install instructions
 ---------------------------------------------
 
-The package works with sqlite and mysql.
+If you downloaded only the raw framework you have to create or install at least a setup and a user module. The raw framework only manage modules. It has no build in high level functionalities.
 
-If you select sqlite during setup, the extension mod_sqlite must be enabled in php.ini to get
-work the modules which comes with this package. In php5 this is a default setting.
-
-
-Point your browser to the location where you extracted Smart.
-If nothing is going wrong you can see a setup page.
+If this package contains modules, you have to point your navigator to the the folder where you uploaded the extracted framework. A setup menu should appear.
 
 A. Turpel
 smart@open-publisher.net

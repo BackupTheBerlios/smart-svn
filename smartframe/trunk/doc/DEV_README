@@ -27,7 +27,7 @@ This is the root folder.
 
 Checkout smartframe to this folder "test":
 svn://svn.berlios.de/svnroot/repos/smart/smartframe/trunk
-This is the base framework. It wont work without modules. 
+This is the base (raw) framework.  
 
 On your local machine switch to the folder:
 test/admin/
@@ -37,9 +37,14 @@ this folder isnt versioned by svn and you schould never import it to the reposit
 Now switch to this "modules" folder and checkout the modules:
 svn://svn.berlios.de/svnroot/repos/smart/modules/cmlite/trunk
 
-To install the templates copy:
+To install the default templates copy:
 test/admin/modules/_templates/-all-files
 to the root directory of smartframe
+test/
+
+If you want to test templates from the earchive module you have to copy the whole content from:
+/admin/modules/earchive/_public_templates
+to the root directory
 test/
 
 Point your browser to this folder and you should see a setup page.
@@ -47,16 +52,12 @@ Point your browser to this folder and you should see a setup page.
 It is important to remember the repository organisation, if you make commits 
 of files of the base smartwork or the modules. 
 
+The current available modules:
 
-CM-Lite is a set of simple modules.
-Planned modules are:
 - User (user management)
 - Option (options management - preferences)
 - Setup (main setup of the modules)
-- Mailarchiver (Mailinglist archiver)
-- Article (Articles management)
-
-Test-M is a set of modules to introduce developers in the module concept.
+- Earchive (Email archiver)
 
 A. Turpel
 smart@open-publisher.net

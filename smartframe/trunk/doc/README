@@ -1,7 +1,7 @@
 README
 #######
 
-This is a very pre alpha version of a php framework.
+This is a alpha version of a php framework.
 
 The framework has a module structured concept based on a event distributor class
 and some event handlers functions (call-back). See EVENT_HANDLER_DOC. 
