@@ -1,12 +1,12 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart (PHP Framework)
-// Copyright (c) 2004
+// Smart PHP Framework
+// Copyright (c) 2004, 2005
 // by Armand Turpel < smart@open-publisher.net >
 // http://smart.open-publisher.net/
 // ----------------------------------------------------------------------
-// LICENSE GPL
-// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// GNU LESSER GENERAL PUBLIC LICENSE
+// To read the license please visit http://www.gnu.org/licenses/lgpl.txt
 // ----------------------------------------------------------------------
 
 // Check if this file is included in the environement

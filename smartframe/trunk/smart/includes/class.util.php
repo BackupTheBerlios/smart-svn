@@ -24,7 +24,7 @@ class Util
     function base_location()
     {
         $base_dirname = dirname($_SERVER['PHP_SELF']);
-        
+
         if($base_dirname == '/' )
             $base_dirname = '';
 
