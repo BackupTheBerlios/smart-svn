@@ -5,6 +5,9 @@
  *
  * To execute this view you have to add the url variable "passID"
  * You can change this passID in the admin area
+ *
+ * Please dont delete this view. Possible cronjobs make use of this view.
+ * 
  * 
  */
 
