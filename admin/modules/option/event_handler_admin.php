@@ -30,9 +30,7 @@ if (FALSE == $base->event->register_handler(
                            array ( 'module'        => SF_EVT_HANDLER_OPTION,
                                    'event_handler' => 'option_event_handler') ))
 {
-    patErrorManager::raiseError( 'handler',
-                                 'Handler exist', 
-                                 'The handler '.SF_EVT_HANDLER_OPTION.' exist: '.__FILE__.' '.__LINE__  );        
+    trigger_error( 'The handler '.SF_EVT_HANDLER_OPTION.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
 // The handler function
@@ -43,34 +41,19 @@ function option_event_handler( $evt )
     switch( $evt['code'] )
     {
         case SF_EVT_LOAD_INIT_OPTION:
-            //  parse global config options file
-            $base->conf->loadCachedConfig( 'config_options.xml' );
-
-            //  get the db name set
-            $base->db_connect = $base->conf->getConfigValue('option.db');
-            if( SF_DEBUG == TRUE ) $base->register( 'db_connect', __FILE__, __LINE__);
-
-            //  get the public template folder name
-            $base->tpl_folder = $base->conf->getConfigValue('option.templates_folder');
-            if( SF_DEBUG == TRUE ) $base->register( 'tpl_folder', __FILE__, __LINE__);
-
-            // get charset
-            $base->charset = $base->conf->getConfigValue('option.charset');
-            if( SF_DEBUG == TRUE ) $base->register( 'charset', __FILE__, __LINE__);
-            $base->tpl->addVar( SF_SECTION, 'charset', $base->charset );
-
-            // get css folder
-            $base->design_style = $base->conf->getConfigValue('option.design_style');
-            if( SF_DEBUG == TRUE ) $base->register( 'design_style', __FILE__, __LINE__);
-            $base->tpl->addVar( SF_SECTION, 'design_style', $base->design_style );
-
-            //  parse config db file
-            $base->conf->loadCachedConfig( 'config_db_connect.xml.php' );
-    
-            //  get all config db values
-            $base->db_data = $base->conf->getConfigValue( 'db.' . $base->db_connect );
-            if( SF_DEBUG == TRUE ) $base->register( 'db_data', __FILE__, __LINE__);
-                
+            // get all system options
+            $base->sql = "SELECT * FROM options";
+            if(!$base->result = sqlite_unbuffered_query($base->dbconn_system, $base->sql))
+            {
+                trigger_error("ERROR: " . @sqlite_error_string(@sqlite_last_error ( $base->dbconn_system )) . "\nFILE: " . __FILE__ . "\nLINE: " . __LINE__ . "\n\n");
+            }
+            
+            $row = sqlite_fetch_array($base->result, SQLITE_ASSOC);
+            foreach($row as $key => $value)
+            {
+                $base->tpl->assign($key, $value);
+            }
+            
             break;      
         case SF_EVT_LOAD_MODULE:
             include(SF_BASE_DIR.'/admin/modules/option/module_loader.php');           
