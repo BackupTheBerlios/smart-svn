@@ -62,7 +62,7 @@ class system_get_admin_view
         {
             include_once( $view_class_file );
             
-            $view_class = 'mod_view_'.$data['tpl'];
+            $view_class = 'mod_view_'.$data['view'];
             
             $view = & new $view_class();
             if( FALSE == $view->perform() )

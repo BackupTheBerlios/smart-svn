@@ -54,28 +54,28 @@ class system_get_public_view
     {
         // Check if the reuested template is internal defined
         // else fetch the name from an external var (gpc)
-        if( isset($data['tpl']) )
+        if( isset($data['view']) )
         {
-            $tpl = $data['tpl'];
+            $view = $data['view'];
         }
         else
         {
-            $tpl = $_REQUEST['tpl'];
+            $view = $_REQUEST['view'];
         }
     
         // If no template request is done load the default template
-        if (!isset($tpl))
+        if (!isset($view))
         {
-            $tpl = 'index';
+            $view = 'index';
             // build the whole requested template file path
-            $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $tpl . '.tpl.php';           
+            $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $view . '.tpl.php';           
         }
         // error if the template name has a wrong format
-        elseif(preg_match("/[^a-z_]{1,30}/", $tpl))
+        elseif(preg_match("/[^a-z_]{1,30}/", $view))
         {
-            $this->B->tpl_error = 'The requested template name "' . $tpl . '" has a wrong name format! Only chars a-z and underscores _ are accepted.';
+            $this->B->view_error = 'The requested template name "' . $view . '" has a wrong name format! Only chars a-z and underscores _ are accepted.';
             
-            $tpl = 'error';  
+            $view = 'error';  
             
             // build the whole requested template file path
             $template_file = SF_BASE_DIR . 'error.tpl.php';
@@ -83,18 +83,18 @@ class system_get_public_view
         else
         {
             // build the whole requested template file path
-            $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $tpl . '.tpl.php';
+            $template_file = SF_BASE_DIR . $this->B->sys['option']['tpl'] . '_' . $view . '.tpl.php';
         }
 
         // build the whole file path to the view class file
-        $view_class_file = SF_BASE_DIR . 'view/class.view_' . $tpl . '.php';
+        $view_class_file = SF_BASE_DIR . 'view/class.view_' . $view . '.php';
 
         // include view class file of the requested template
         if( @file_exists( $view_class_file ) )
         {
             include_once( $view_class_file );
             
-            $view_class = 'view_'.$tpl;
+            $view_class = 'view_'.$view;
             
             $view = & new $view_class();
             if( FALSE == $view->perform() )
@@ -107,7 +107,7 @@ class system_get_public_view
         // check if the requested template exist
         if (!@file_exists( $template_file ))
         {
-            $this->B->tpl_error = 'The requested template "' .$template_file. '" dosent exists!';
+            $this->B->view_error = 'The requested template "' .$template_file. '" dosent exists!';
             $template_file = SF_BASE_DIR . 'error.tpl.php';
             
             if (!@file_exists( $template_file ))
