@@ -37,6 +37,7 @@ As you can see in this example, the view holds the contact with modules actions 
 +++ Including Smart in exsisting projects
 It is possible to include Smart in existing php projects. Open your exsisting php project file and paste the following code in:
 <code>
+    define('SF_SECURE_INCLUDE', 1);
     // the file name of your exsisting project
     define('SF_CONTROLLER', 'my_other_project.php');
     // relative path to Smart
@@ -50,5 +51,5 @@ You will find in Smart's root folder 3 front controller types:
 Take this if you want to include the whole thing.
 ++++ index_inc_view.php 
 smart without the admin section. just the public views and templates
-++++ index_no_view.php
+++++ index_inc_noview.php
 take this if you want to use only the action classes through the global event functions.
