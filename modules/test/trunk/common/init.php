@@ -73,11 +73,6 @@ define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . 'modules/common/templates/index.tpl
 define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
 
 /**
- * Enable caching - true or false
- */
-define('SF_CACHE',             FALSE);
-
-/**
  * Default dir and file mode
  */
 define('SF_DIR_MODE',                 0775);

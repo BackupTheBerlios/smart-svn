@@ -42,6 +42,8 @@ class action_common_sys_setup extends action
 
         // setup directories
         //
+        $old_umask = @umask(0);
+        
         if( !is_dir( SF_BASE_DIR . 'data' ) )
         {
             $this->B->setup_error[] = 'This directory must exists: ' . SF_BASE_DIR . 'data';
@@ -105,7 +107,9 @@ class action_common_sys_setup extends action
             $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/common/config/';
             $success = FALSE;
         }       
-            
+        
+        @umask($old_umask);
+        
         // if noting is going wrong $success is still TRUE else FALSE
         // ex.: if creating db tables fails you must set this var to false
         return $success;  
