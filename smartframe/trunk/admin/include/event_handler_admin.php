@@ -41,6 +41,17 @@ function system_event_handler( $evt )
     switch( $evt["code"] )
     {            
         case EVT_INIT:
+            include_once(SF_BASE_DIR.'/admin/include/system_version.php');
+            // Check for upgrade  
+            if($B->system_version != (string)$B->sys['info']['version'])
+            {
+                $B->conf->setConfigValue( 'info', array('name'    => $B->system_name,
+                                                        'version' => $B->system_version,
+                                                        'status'  => TRUE));
+                //  write a new file
+                $B->conf->writeConfigFile( 'config_system.xml.php', array('comment' => 'Main config file', 'filetype' => 'xml', 'mode' => 'pretty') );
+            }
+                
             // Assign registered module handlers
             $B->mod_list = array();
             

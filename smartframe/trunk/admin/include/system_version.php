@@ -18,6 +18,6 @@ if (!defined('SF_SECURE_INCLUDE'))
 
 // System Name and Version
 $B->system_name    = 'Smart Frame';
-$B->system_version = '0.1a';
+$B->system_version = '0.1.1a';
 
 ?>
