@@ -27,6 +27,9 @@ define ( 'SF_EVT_HANDLER_USER' , 'user');
 $base->event->register_handler( SF_EVT_HANDLER_USER,
                                 array ( "module"        => SF_EVT_HANDLER_USER,
                                         "event_handler" => "user_event_handler") );
+                                        
+                                        
+                                        
 // The handler function
 function user_event_handler( $evt )
 {

@@ -36,8 +36,6 @@ function option_event_handler( $evt )
     switch( $evt['code'] )
     {
         case SF_EVT_LOAD_INIT_OPTION:
-            // include patConfiguration
-            include_once( SF_BASE_DIR . '/admin/lib/patConfiguration/include/patConfiguration.php' );
             // pat configurator instance    
             $base->conf = new patConfiguration (array(
                                          'configDir'     => SF_BASE_DIR . '/admin/config',

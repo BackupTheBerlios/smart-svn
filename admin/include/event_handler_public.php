@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the event handler
-define ( 'SF_EVT_HANDLER_SYSTEM' , 'system');
+define ( 'SF_EVT_HANDLER_SYSTEM' , 'system' );
 
 // register this handler                       
 $base->event->register_handler( SF_EVT_HANDLER_SYSTEM,

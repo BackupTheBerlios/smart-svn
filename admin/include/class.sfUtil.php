@@ -49,6 +49,24 @@ class sfUtil
         }    
         return $http . $_SERVER['HTTP_HOST'] . $base_dirname;
     }
+    /**
+     * Add slashes if magic_quotes are disabled
+     *
+     * @return string base location
+     */ 
+    function addSlashes( $var )
+    {
+        $magicQuote = get_magic_quotes_gpc();
+
+        if ( $magicQuote == 0 )
+        {   
+            return addslashes($var);
+        }
+        else
+        {
+            return $var;
+        }
+    }        
 }
 
 ?>

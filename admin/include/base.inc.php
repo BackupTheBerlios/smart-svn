@@ -27,7 +27,7 @@ include_once( SF_BASE_DIR . '/admin/include/defaults.php' );
 
 // Start output buffering
 //
-if( SF_OB == TRUE )
+if ( SF_OB == TRUE )
 {
     ob_start( SF_OB_GZHANDLER ); 
 }
@@ -35,13 +35,16 @@ if( SF_OB == TRUE )
 // The base object
 include_once( SF_BASE_DIR . '/admin/include/class.sfObject.php' );
 $base = & new sfObject;
-if( SF_DEBUG == TRUE ) $base->register( 'base', __FILE__, __LINE__);//remove
+if ( SF_DEBUG == TRUE ) $base->register( 'base', __FILE__, __LINE__);//remove
 
 // include pear db
 include_once( 'DB.php' );
 
 // include Log class
 include_once( SF_BASE_DIR . '/admin/lib/PEAR/Log/Log.php' );
+
+// include sfSecureGPC
+include_once( SF_BASE_DIR . '/admin/include/class.sfSecureGPC.php' );
 
 // include sfErrorHandler
 include_once( SF_BASE_DIR . '/admin/include/class.sfErrorHandler.php' );
@@ -63,7 +66,7 @@ include_once( SF_BASE_DIR . '/admin/include/class.sfUtil.php' );
 
 // set error handler
 $base->errorHandler   =  new sfErrorHandler();
-if( SF_DEBUG == TRUE ) $base->register( 'errorHandler', __FILE__, __LINE__);//remove    
+if ( SF_DEBUG == TRUE ) $base->register( 'errorHandler', __FILE__, __LINE__);//remove    
 patErrorManager::setErrorHandling( E_ALL , 'callback', array( $base->errorHandler, 'sfDebug' ) );
 
 /*
@@ -72,10 +75,10 @@ patErrorManager::setErrorHandling( E_ALL , 'callback', array( $base->errorHandle
 define('SF_BASE_LOCATION', sfUtil::base_location());
 
 // Check if setup was done
-if(!@is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php'))
+if (!@is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php'))
 {
     // redirect to setup
-    if(SF_SECTION != 'admin')
+    if (SF_SECTION != 'admin')
     {
         @header('Location: ' . SF_BASE_LOCATION . '/admin/setup/');
     }
@@ -88,7 +91,7 @@ if(!@is_file(SF_BASE_DIR . '/admin/config/config_db_connect.xml.php'))
 
 //  instance of patTemplate
 $base->tpl = new patTemplate();
-if( SF_DEBUG == TRUE ) $base->register( 'tpl', __FILE__, __LINE__);//remove
+if ( SF_DEBUG == TRUE ) $base->register( 'tpl', __FILE__, __LINE__);//remove
 
 // set templates root dir
 $base->tpl->setRoot( SF_BASE_DIR  );
@@ -99,7 +102,7 @@ $base->tpl->useTemplateCache( 'File', array('cacheFolder' => SF_BASE_DIR . '/adm
 
 // Event class instance
 $base->event = & new sfEvent;
-if( SF_DEBUG == TRUE ) $base->register( 'event', __FILE__, __LINE__);//remove
+if ( SF_DEBUG == TRUE ) $base->register( 'event', __FILE__, __LINE__);//remove
 
 // Register all handlers
 //
@@ -118,7 +121,7 @@ while (false != ($base->tmp_dirname = $base->tmp_directory->read()))
     if ( @is_dir( SF_BASE_DIR . '/admin/modules/'.$base->tmp_dirname) )
     {
         $base->tmp_evt_handler = SF_BASE_DIR . '/admin/modules/' . $base->tmp_dirname . '/event_handler_' . SF_SECTION . '.php';
-        if( @is_file( $base->tmp_evt_handler ) )
+        if ( @is_file( $base->tmp_evt_handler ) )
         {
             include_once $base->tmp_evt_handler;
         }  
@@ -131,13 +134,13 @@ unset($base->tmp_directory);
 unset($base->tmp_evt_handler);
 
 // Check if option handler is installed (required)
-if( FALSE == $base->event->is_handler(SF_OPTION_MODULE) )
+if ( FALSE == $base->event->is_handler(SF_OPTION_MODULE) )
 {
     patErrorManager::raiseError( "sf:handler", 'Missing handler', SF_OPTION_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__ );
 }
 
 // Check if user authentication handler is installed (required)
-if( FALSE == $base->event->is_handler(SF_AUTH_MODULE) )
+if ( FALSE == $base->event->is_handler(SF_AUTH_MODULE) )
 {
     patErrorManager::raiseError( "sf:handler", 'Missing handler', SF_AUTH_MODULE . "handler is missing on \nFile: ".__FILE__."\nLine: ".__LINE__ );
 }

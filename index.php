@@ -35,11 +35,15 @@ $base->event->broadcast_run( SF_EVT_INIT );
 // If no template request is done load the default template
 if(!isset($_REQUEST['tpl']))
 {
-    $_REQUEST['tpl'] = 'index';
+    $base->tmp_tpl = 'index';
+}
+else
+{
+    $base->tmp_tpl = sfSecureGPC::get( $_REQUEST['tpl'], 'string' );
 }
 
 // set the base template for this module
-$base->tpl->readTemplatesFromInput(  "{$base->tpl_folder}/{$_REQUEST['tpl']}.tpl.html" );    
+$base->tpl->readTemplatesFromInput(  "{$base->tpl_folder}/{$base->tmp_tpl}.tpl.html" );    
 
 //  Output all templates
 $base->tpl->displayParsedTemplate();
