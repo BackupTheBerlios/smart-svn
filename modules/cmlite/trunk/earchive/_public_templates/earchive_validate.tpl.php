@@ -72,7 +72,7 @@
         <div align="center" class="loginerror"><?php echo $B->tpl_validation_message; ?></div>
     </td>
   </tr>
-  <?php if($this->B->tpl_is_valid === TRUE): ?>
+  <?php if($B->tpl_is_valid === TRUE): ?>
   <tr align="left">
     <td align="center" valign="middle" class="loginitem"><a href="index.php">Procceed</a> </td>
   </tr>

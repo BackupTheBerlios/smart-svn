@@ -82,7 +82,7 @@ class view_attach
                      'contenttype'           => $this->B->tpl_attach['type'],
                      'contentdisposition'    => array(HTTP_DOWNLOAD_ATTACHMENT, stripslashes($this->B->tpl_attach['file'])),
                      );
-  
+
         return TRUE;
     }    
 }

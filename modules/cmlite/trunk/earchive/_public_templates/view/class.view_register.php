@@ -54,8 +54,9 @@ class view_register
             exit;  
         }   
         
-        // init template error var
+        // init template vars
         $this->B->tpl_error = FALSE;
+        $this->B->tpl_success = NULL;
         
         // create capcha picture and public key
         $this->B->M( MOD_USER,
@@ -76,12 +77,11 @@ class view_register
                 return TRUE;
             }
                    
-            if(FALSE === $this->B->M( MOD_USER, 
+            if(FALSE == $this->B->M( MOD_USER, 
                          'register', 
                          array('register'    => $_POST['do_register'],
                                'error_var'   => 'tpl_error',
-                               'success_var' => 'tpl_success',
-                               'email_subject' => 'Your Smartframe registration',
+                               'email_subject' => 'Your Earchive registration',
                                'email_msg'     => 'You have to click on the link below to activate your account:<br /><br />(URL)<br /><br />Please contact the administrator on problems: (EMAIL).',
                                'reg_data' => array('login'    => $_POST['login'], 
                                                    'passwd1'  => $_POST['passwd1'],
@@ -90,9 +90,11 @@ class view_register
                                                    'lastname' => $_POST['lastname'],
                                                    'email'    => $_POST['email']))))
             {
+                $this->B->tpl_success = 'fail';
                 $this->_reset_form_data();
                 return TRUE;            
             }
+            $this->B->tpl_success = 'ok';
         }
         return TRUE;
     }    

@@ -65,27 +65,13 @@
 </head>
 <body bgcolor="#FFFFFF" text="#000000" class="registerbody">
 <form name="form1" method="post" action="index.php?view=register&url=<?php echo $_GET['url'] ?>">
-  <table width="400" border="0" align="center" cellpadding="2" cellspacing="0" class="register">
-    <?php if(isset($B->tpl_v_error) || isset($B->tpl_v_success)): ?>
-        <tr align="center" valign="middle">
-        <?php if($B->tpl_v_success == TRUE): ?>
-            <td colspan="2" class="registertitle">
-            Your registration is now complete. You can access restricted content on site <a href="<?php echo $B->sys['option']['url']; ?>"><?php echo $B->sys['option']['url']; ?></a>
-            </td>
-    <?php endif; ?>
-        <?php if($B->tpl_v_error == TRUE): ?>
-            <td colspan="2" class="registererror">
-            An error occured during your registration. Please contact the administrator <a href="mailto:<?php echo $B->sys['option']['email']; ?>"><?php echo $B->sys['option']['email']; ?></a> or try again.
-            </td>
-        <?php endif; ?>
-        </tr>
-    <?php else: ?>    
+  <table width="400" border="0" align="center" cellpadding="2" cellspacing="0" class="register">  
     <tr align="center" valign="middle">
       <td colspan="2" class="registertitle">Register
        </td>
     </tr>
       <!-- if register success show thanks message else error message --> 
-      <?php if ($B->tpl_success === TRUE):  ?>  
+      <?php if ($B->tpl_success == 'ok'):  ?>  
        <tr align="center">
         <td colspan="2" valign="top" class="registererror">
       <?php if($B->sys['option']['user']['register_type'] == 'auto'): ?>
@@ -95,7 +81,7 @@
       <?php endif; ?>
         </td>
        </tr>  
-      <?php elseif ($B->tpl_success === FALSE):  ?>  
+      <?php elseif ($B->tpl_success == 'fail'):  ?>  
        <tr align="center">
         <td colspan="2" valign="top" class="registererror">
                 An error occured during your registration. Please contact the administrator <a href="mailto:<?php echo $B->sys['option']['email']; ?>"><?php echo $B->sys['option']['email']; ?></a> or try again.
@@ -110,6 +96,7 @@
         </td>
        </tr>           
      <?php endif; ?>
+	 <?php if ($B->tpl_success != 'ok'):  ?>
      <tr>
        <td width="80%" align="left" valign="top" class="registeritem">
            Forename<br>
@@ -167,6 +154,11 @@
        <td width="80%" colspan="2"><br>
        <input type="submit" name="do_register" value="submit" onclick="subok(this.form.do_register);">       </td>
      </tr>
+	 <?php else: ?>
+     <tr align="center" valign="middle">
+       <td width="80%" colspan="2"><br>
+           <a href="index.php" class="registeritem">Back to the site</a> </td>
+       </tr>	
      <?php endif; ?>
   </table>
 </form>

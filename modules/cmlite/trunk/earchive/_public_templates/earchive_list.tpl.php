@@ -33,8 +33,8 @@
                     <tr>
                         <td width="14%" align="left" valign="middle" class="topbar">
                             <?php //Show user name if the visitor is a registered user ?>
-                            <?php if($B->auth->is_user): ?>
-                              Hi,&nbsp;<?php echo $B->user_lastname.'&nbsp;'.$B->user_forename; ?>
+                            <?php if($B->is_logged == TRUE): ?>
+                              Hi,&nbsp;<?php echo $B->logged_user_lastname.'&nbsp;'.$B->logged_user_forename; ?>
                             <?php endif; ?>
                         </td>
                         <td width="26%" align="left" valign="middle">
@@ -42,6 +42,9 @@
                             <?php if( ($B->is_logged == FALSE) && ($B->sys['option']['user']['allow_register'] == TRUE) ): ?>
                             <a href="index.php?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
+                            <?php if( $B->is_logged == TRUE ): ?>
+                            <a href="index.php?logout=1" class="topbarlink">logout</a>
+                            <?php endif; ?>							
                         </td>
                         <td width="10%" align="left" valign="top">&nbsp;</td>
                         <form name="esearch" id="esearch" method="post" action="index.php?view=search">
