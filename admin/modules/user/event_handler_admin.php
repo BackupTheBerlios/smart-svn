@@ -62,7 +62,7 @@ function user_event_handler( $evt )
             break;             
         case EVT_INIT:
             // Check for upgrade  
-            if(MOD_USER_VERSION != $B->sys['module']['user']['version'])
+            if(MOD_USER_VERSION != (string)$B->sys['module']['user']['version'])
                 include(SF_BASE_DIR.'/admin/modules/user/upgrade.php');
                         
             // Name of this module set
