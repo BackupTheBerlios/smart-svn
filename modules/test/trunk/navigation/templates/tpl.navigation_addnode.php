@@ -27,7 +27,7 @@
         <td align="left" valign="top"><input name="title" type="text" id="title" size="90" maxlength="1024" value="<?php echo $B->tpl_title; ?>"></td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Body</td>
+        <td align="left" valign="top" class="font10bold">Body &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;( use <a href="http://wiki.ciaweb.net/yawiki/index.php?area=Text_Wiki&page=WikiRules" target="_blank">text_wikki</a> markdown language to format body text )</td>
       </tr>
       <tr>
         <td align="left" valign="top"><textarea name="body" cols="90" rows="15" wrap="VIRTUAL" id="body"><?php echo $B->tpl_body; ?></textarea></td>
