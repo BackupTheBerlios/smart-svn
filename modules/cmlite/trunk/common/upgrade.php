@@ -14,6 +14,10 @@
  *
  */
 
+/*
+ * Secure include of files from this script
+ */
+define ('SF_SECURE_INCLUDE', 1);
 
 // Define the absolute path to the Framework base
 //
@@ -49,7 +53,7 @@ if($B->system_version == '0.1.5a' && @file_exists(SF_BASE_DIR . '/admin/config/c
     //  read config file from cache
     //  if cache is not valid, original file will be read and cache created
     $conf->loadCachedConfig( 'config_system.xml.php', array('filetype'=>'xml') );
-    $sys = $B->conf->getConfigValue();
+    $sys = $conf->getConfigValue();
 
     // include PEAR Config class
     include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
@@ -64,8 +68,11 @@ if($B->system_version == '0.1.5a' && @file_exists(SF_BASE_DIR . '/admin/config/c
 
     $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
 
+    // The patErrorManager class
+    include_once( SF_BASE_DIR . '/admin/modules/common/class.commonUtil.php' );
+
     $util = & new commonUtil;
-    $util->delete_dir_tree( SF_BASE_DIR . '/admin/modules/common/config' );
+    $util->delete_dir_tree( SF_BASE_DIR . '/admin/config' );
     $util->delete_dir_tree( SF_BASE_DIR . '/admin/lib' );
     
     @header('Location: ../../index.php');

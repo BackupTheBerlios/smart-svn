@@ -114,7 +114,18 @@ function common_event_handler( $evt )
             // if noting is going wrong $success is still TRUE else FALSE
             // ex.: if creating db tables fails you must set this var to false
             return $success;        
-            break;            
+            break;  
+        case EVT_UPDATE: 
+            // include PEAR Config class
+            include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
+
+            $c = new Config();
+            $root =& $c->parseConfig($B->conf_val, 'PHPArray');
+            $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
+        
+            @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
+            exit;         
+            break;               
     } 
 }
 
@@ -122,11 +133,16 @@ function common_event_handler( $evt )
 **** Module SET  CONFIG ****
 ****************************/
 
-// ### These 3 defines MUST be declared ###
+// ### These defines MUST be declared ###
 /**
  * The module (name) which takes the authentication part.
  */
 define('SF_AUTH_MODULE',                 'USER');
+
+/**
+ * The module which play a base role required for all other modules.
+ */
+define('SF_BASE_MODULE',                 MOD_COMMON);
 
 /**
  * The module (name) which takes the global options part.
