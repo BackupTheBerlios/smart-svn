@@ -27,7 +27,7 @@ function go(x){
         <td width="760" bgcolor="#0066FF">
             <table width="100%"  border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                    <td width="3%"><img src="<?php echo SF_RELATIVE_PATH; ?>media/logo.gif" width="760" height="64" /></td>
+                    <td width="3%"><img src="<?php echo SF_RELATIVE_PATH; ?>media_default/logo.gif" width="760" height="64" /></td>
                 </tr>
             </table></td>
         <td width="44" bgcolor="#0066FF">&nbsp;</td>
@@ -35,7 +35,7 @@ function go(x){
     <tr>
         <td align="left" valign="middle" bgcolor="#333333"><table width="760"  border="0" cellspacing="0" cellpadding="0">
             <tr>
-                <td width="21%"><img src="<?php echo SF_RELATIVE_PATH; ?>media/empty.gif" alt="" name="empty" width="8" height="25" id="empty" /></td>
+                <td width="21%"><img src="<?php echo SF_RELATIVE_PATH; ?>media_default/empty.gif" alt="" name="empty" width="8" height="25" id="empty" /></td>
                 <td width="79%" align="right" valign="middle"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td width="14%" align="left" valign="middle" class="topbar">
