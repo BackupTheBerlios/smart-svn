@@ -86,7 +86,7 @@ class user_view_adduser
                                                   'add',
                                                   $_data )))
             {
-                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user&sec=edituser&uid='.$user_id);
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user&sec=edituser&uid='.$user_id);
                 exit; 
             }
             else

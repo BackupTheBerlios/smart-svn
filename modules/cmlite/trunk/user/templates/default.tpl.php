@@ -17,7 +17,7 @@
                 <?php endif; ?>
                 </td>
                 <td width="60%" align="left" valign="top" class="itemnormal">
-                 <?php echo '<a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=user&sec=edituser&uid='.$usr['uid'].'">'.$usr['lastname'].' '.$usr['forename'].'</a> (<a href="mailto:'.$usr['email'].'">'.$usr['login'].'</a>)'; ?></td>
+                 <?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=user&sec=edituser&uid='.$usr['uid'].'">'.$usr['lastname'].' '.$usr['forename'].'</a> (<a href="mailto:'.$usr['email'].'">'.$usr['login'].'</a>)'; ?></td>
                 <td width="38%" align="left" valign="top" class="itemsmall">
                  <?php if($usr['rights']==1): ?>
                  Registered

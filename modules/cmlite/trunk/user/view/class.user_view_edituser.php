@@ -152,7 +152,7 @@ class user_view_edituser
                                         array( 'error'   => 'tpl_error',
                                                'user_id' => (int) $_POST['uid'])))
                 {
-                    @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user');
+                    @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
                     exit;   
                 }
             }
@@ -283,7 +283,7 @@ class user_view_edituser
                                  'update',
                                  $_data))
         {
-            @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=user');
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
             exit;
         }   
         return TRUE;
