@@ -50,7 +50,7 @@ class action
      * validate the action request
      *
      */
-    function validate( $data = FALSE )
+    function validate( & $data )
     {
         return TRUE;
     }  
@@ -59,7 +59,7 @@ class action
      * perform on the action request
      *
      */
-    function perform( $data = FALSE )
+    function perform( & $data )
     {
        return TRUE;
     }  
