@@ -49,19 +49,25 @@ function subok(s){
             this form the setup module will send setup event calls to all other modules. Each
             module is responsible for its own setup proceedure. You can login into the admin area with <strong>login: admin</strong> and <strong>password: admin</strong></p>
       <p align="left">Please be shure that the following directories and files are writeable:</p>
-      <ul>
-        <li>
-          <div align="left">/data</div>
-        </li>      
+      <ul>     
         <li>
           <div align="left">/data/captcha</div>
         </li>
+        <li>
+          <div align="left">/data/common/cache</div>
+        </li>  
+        <li>
+          <div align="left">/data/common/config</div>
+        </li>           
         <li>
           <div align="left">/data/navigation</div>
         </li>
         <li>
           <div align="left">/data/navigation/all files</div>
-        </li>               
+        </li> 
+        <li>
+          <div align="left">/data/media</div>
+        </li>          
         <li>
           <div align="left">/logs</div>
         </li>

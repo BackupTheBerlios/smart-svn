@@ -17,7 +17,7 @@ newwindow= window.open('<?php echo SF_CONTROLLER; ?>?admin=1&nodecoration=1&m=na
 <style type="text/css">
 <!--
 .optsel {
-	background-color: #CCCCCC;
+  background-color: #CCCCCC;
 }
 -->
 </style>
