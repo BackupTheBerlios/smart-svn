@@ -37,11 +37,11 @@ class action_navigation_get_node extends action
         if(SF_SECTION == 'public')
         {
             // check if cache ID exists
-            if ( SF_IS_VALID_ACTION == M( MOD_COMMON, 
-                                          'cache_get',
-                                          array('result'     => $data['result'],
-                                                'cacheID'    => SF_SECTION.$data['node'],
-                                                'cacheGroup' => 'navigation'))) 
+            if ( M( MOD_COMMON, 
+                    'cache_get',
+                    array('result'     => $data['result'],
+                          'cacheID'    => SF_SECTION.$data['node'],
+                          'cacheGroup' => 'navigation'))) 
             {
                 return SF_IS_VALID_ACTION;
             }  
