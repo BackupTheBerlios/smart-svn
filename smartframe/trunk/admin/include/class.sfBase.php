@@ -12,7 +12,7 @@
 /**
  * Base Object class 
  *
- * It include event handler methods and serves to encapsulate global variables
+ * It include event handler methods
  *
  */
  
@@ -23,6 +23,7 @@ class sfBase
      * @var array $handler_list
      */
     var $handler_list = array(); 
+    
     /**
       * Check if a handler exist
       *

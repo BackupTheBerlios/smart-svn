@@ -12,8 +12,6 @@
 /**
  * custom sfErrorManager handler for the callback error handling mode
  *
- * @package     default
- * @author      Armand Turpel <smart@open-publisher.net>
  */
 class sfErrorHandler
 {
@@ -81,7 +79,6 @@ class sfErrorHandler
     * logging
     *
     * @param string $error
-    * @param string $error_base
     * @access privat
     */     
     function _log( &$error )

@@ -18,7 +18,7 @@
 //
 if (!defined('SF_SECURE_INCLUDE'))
 {
-    die('No Permission on'. __FILE__);
+    die('No Permission on '. __FILE__);
 }
 
 
@@ -56,23 +56,23 @@ define('SF_DEFAULT_TEMPLATE_GROUP',      'default');
 /**
  * Event types.
  */
-define('EVT_TYPE_BROADCAST',          'BROADCAST');
-define('EVT_TYPE_DIRECTED' ,          'DIRECTED'); 
+define('EVT_TYPE_BROADCAST',          'SYSTEM_BROADCAST');
+define('EVT_TYPE_DIRECTED' ,          'SYSTEM_DIRECTED'); 
 
 /**
  * Basic event codes.
  */
-define('EVT_AUTHENTICATE',            'AUTHENTICATE');
-define('EVT_INIT',                    'INIT');
-define('EVT_LOGOUT',                  'LOGOUT');
-define('EVT_LOAD_MODULE',             'LOAD_MODULE');
-define('EVT_END',                     'END');
-define('EVT_DEBUG',                   'DEBUG');
-define('EVT_SETUP',                   'SETUP');
-define('EVT_LOAD_INIT_OPTION',        'LOAD_INIT_OPTION');
-define('EVT_SETUP_FINISH',            'SETUP_FINISH');
-define('EVT_GET_OPTIONS',             'GET_OPTIONS');
-define('EVT_UPDATE',                  'UPDATE');
+define('EVT_AUTHENTICATE',            'SYS_AUTHENTICATE');
+define('EVT_INIT',                    'SYS_INIT');
+define('EVT_LOGOUT',                  'SYS_LOGOUT');
+define('EVT_LOAD_MODULE',             'SYS_LOAD_MODULE');
+define('EVT_END',                     'SYS_END');
+define('EVT_DEBUG',                   'SYS_DEBUG');
+define('EVT_SETUP',                   'SYS_SETUP');
+define('EVT_LOAD_INIT_OPTION',        'SYS_LOAD_INIT_OPTION');
+define('EVT_SETUP_FINISH',            'SYS_SETUP_FINISH');
+define('EVT_GET_OPTIONS',             'SYS_GET_OPTIONS');
+define('EVT_UPDATE',                  'SYS_UPDATE');
 
 
 ?>

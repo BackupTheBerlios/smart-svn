@@ -32,18 +32,10 @@ if (FALSE == $B->register_handler(MOD_SYSTEM,
     trigger_error( 'The handler '.MOD_SYSTEM.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
 
-// The handler function
+// The handler function // does currently nothing
 function system_event_handler( $evt )
 {
     global $B;
-
-    switch( $evt['code'] )
-    {            
-        case SF_EVT_INIT:                     
-            break;             
-        case SF_EVT_LOGOUT:  
-            break;               
-    }
 }
 
 ?>
