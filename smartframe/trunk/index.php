@@ -21,13 +21,13 @@ define('SF_SECURE_INCLUDE', 1);
 
 // Define the absolute path to SMART
 //
-define('SF_BASE_DIR', dirname(__FILE__));
+define('SF_BASE_DIR', dirname(__FILE__) . '/');
 
 // Define section area
 define('SF_SECTION', 'public');
 
 // Include the base file
-include( SF_BASE_DIR . '/admin/include/base.inc.php' );
+include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
 
 // Directed intercepting filter event (auto_prepend)
 $B->M( MOD_SYSTEM, 'SYS_PREPEND' );
@@ -39,34 +39,8 @@ $B->M( SF_AUTH_MODULE, 'SYS_AUTHENTICATE' );
 // Broadcast init event to all registered event handlers
 $B->B( 'SYS_INIT' );
 
-// If no template request is done load the default template
-if (!isset($_REQUEST['tpl']))
-{
-    $B->tmp_tpl = 'index';
-}
-else
-{
-    // get the requested template name and check if it contains only chars a-z
-    if (FALSE === ($B->tmp_tpl = sfSecureGPC::get( $_REQUEST['tpl'], 'string' )))
-    {
-        trigger_error( "WRONG VAR FORMAT: tpl\nVALUE: " . $_REQUEST['tpl'] . "\nFILE: " . __FILE__ . "\nLINE:" . __LINE__  );    
-    }
-}
-
-// build the whole requested template file path
-$B->template_file = SF_BASE_DIR . '/' . $B->sys['option']['tpl'] . '_' . $B->tmp_tpl . '.tpl.php';
-
-// check if the requested template exist
-if (@file_exists( $B->template_file ))
-{
-    // Include the requested template
-    include ( $B->template_file );
-}
-else
-{
-    // on error
-    die ("The requested template file '{$B->template_file}' dosent exist! Please contact the administrator {$B->sys['option']['email']}");
-}
+// get the public view (template)
+include( $B->M( MOD_SYSTEM, 'GET_PUBLIC_VIEW') ); 
 
 // Directed intercepting filter event (auto_append)
 $B->M( MOD_SYSTEM, 'SYS_APPEND' );
