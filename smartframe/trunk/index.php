@@ -53,7 +53,7 @@ $B->M( SF_AUTH_MODULE, 'sys_authenticate' );
 // Logout
 if ( $_REQUEST['logout'] == '1' )
 {
-    // each module can do clean ups before logout
+    // each module can do clean up before logout
     // see modules/xxx/actions/class.xxx_sys_logout.php
     $B->B('sys_logout');
     
@@ -76,8 +76,8 @@ switch ( SF_SECTION )
         // if an update was done this event finish the update process
         if(isset($B->system_update_flag))
         {
-            // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_finish_update.php
-            $B->M( SF_BASE_MODULE, 'sys_finish_update' );
+            // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_update_config.php
+            $B->M( SF_BASE_MODULE, 'sys_update_config' );
             // reload admin section
             @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
             exit;    
