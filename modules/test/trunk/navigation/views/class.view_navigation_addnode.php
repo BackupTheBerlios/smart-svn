@@ -41,7 +41,7 @@ class view_navigation_addnode extends view
                             'add_node', 
                             array('title'     => commonUtil::stripSlashes($_POST['title']),
                                   'body'      => commonUtil::stripSlashes($_POST['body']),
-                                  'status'    => 1,
+                                  'status'    => (int)$_POST['status'],
                                   'parent_id' => (int)$_REQUEST['node'],
                                   'error'     => 'tpl_error')) )
             {  

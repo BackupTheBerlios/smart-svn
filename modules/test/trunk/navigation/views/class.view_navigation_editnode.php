@@ -58,11 +58,12 @@ class view_navigation_editnode extends view
             
             if ( TRUE == M( MOD_NAVIGATION, 
                             'update_node', 
-                            array('node'   => (int)$_REQUEST['edit_node'],
-                                  'title'  => $_POST['title'],
-                                  'body'   => $_POST['body'],
-                                  'status' => (int)$_POST['status'],
-                                  'error'  => 'tpl_error')) )
+                            array('node'      => (int)$_REQUEST['edit_node'],
+                                  'title'     => $_POST['title'],
+                                  'body'      => $_POST['body'],
+                                  'parent_id' => $_POST['parent_id'],
+                                  'status'    => (int)$_POST['status'],
+                                  'error'     => 'tpl_error')) )
             {  
                 // on success switch to the main navigation page
                 @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation&node='.$_REQUEST['node']);
@@ -83,6 +84,11 @@ class view_navigation_editnode extends view
                  'result' => 'tpl_node',
                  'status' => 'tpl_status')); 
 
+        // get navigation node         
+        M( MOD_NAVIGATION, 
+           'get_tree', 
+           array('result' => 'tpl_tree')); 
+                 
         return  TRUE;
     }    
 

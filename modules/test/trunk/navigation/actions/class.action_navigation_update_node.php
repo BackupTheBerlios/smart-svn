@@ -49,7 +49,9 @@ class action_navigation_update_node extends action
 
         // Delete cache data
         M( MOD_COMMON, 'cache_delete', array( 'id'    => 'public'.$data['node'],
-                                              'group' => 'navigation'));                                            
+                                              'group' => 'navigation'));  
+        // Delete cache data
+        M( MOD_COMMON, 'cache_delete', array('group' => 'navigation-tree'));                                                
         
         return TRUE;
     }   

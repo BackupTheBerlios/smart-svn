@@ -37,6 +37,17 @@ function deletenode(f, mes)
         </select></td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Parent Node</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold"><select name="parent_id" size="1" id="parent_id">
+         <option value="0">Top</option>   
+      <?php foreach($B->tpl_tree as $val):  ?>
+          <option value="<?php echo $val['node']; ?>" <?php if($val['node'] == $B->tpl_node['parent_id'] ) echo 'selected="selected"'; ?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
+        <?php endforeach; ?>
+    </select></td>
+      </tr>   
+      <tr>
         <td align="left" valign="top" class="font10bold">Title</td>
       </tr>
       <tr>
@@ -46,7 +57,7 @@ function deletenode(f, mes)
         <td align="left" valign="top" class="font10bold">Body</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="body" cols="90" rows="25" id="body"><?php echo $B->tpl_node['body']; ?></textarea></td>
+        <td align="left" valign="top"><textarea name="body" cols="90" rows="15" id="body"><?php echo $B->tpl_node['body']; ?></textarea></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font9"> 

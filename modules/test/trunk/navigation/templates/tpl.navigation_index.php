@@ -14,7 +14,7 @@
 </style>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr bgcolor="#666699">
-    <td align="left" valign="middle"><span class="style1">&nbsp;&nbsp;&nbsp;Site Navigation Management &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="style3">module version: <?php echo $B->sys['module']['navigation']['version']; ?></span></td>
+    <td align="left" valign="middle"><span class="style1">&nbsp;&nbsp;&nbsp;Site Navigation Nodes Management &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="style3">module version: <?php echo $B->sys['module']['navigation']['version']; ?></span></td>
     <td align="right" valign="middle">&nbsp;</td>
   </tr>
   <tr>

@@ -45,6 +45,13 @@ class action_navigation_delete_node extends action
                   'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
                   'var_name' => 'node',
                   'type'     => 'PHPArray') );
+
+
+        // Delete cache data
+        M( MOD_COMMON, 'cache_delete', array( 'id'    => 'public'.$data['node'],
+                                              'group' => 'navigation'));  
+        // Delete cache data
+        M( MOD_COMMON, 'cache_delete', array('group' => 'navigation-tree'));  
         
         return TRUE;
     } 

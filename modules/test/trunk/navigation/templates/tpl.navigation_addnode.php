@@ -12,6 +12,15 @@
          </td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Status</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold"><select name="status" size="1" id="status">
+          <option value="2" <?php if($B->tpl_node['status'] == 2) echo 'selected="selected"'; ?>>Publish</option>
+          <option value="1" <?php if($B->tpl_node['status'] == 1) echo 'selected="selected"'; ?>>Drawt</option>
+        </select></td>
+      </tr>	  
+      <tr>
         <td align="left" valign="top" class="font10bold">Title</td>
       </tr>
       <tr>
@@ -21,7 +30,7 @@
         <td align="left" valign="top" class="font10bold">Body</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="body" cols="90" rows="20" wrap="VIRTUAL" id="body"><?php echo $B->tpl_body; ?></textarea></td>
+        <td align="left" valign="top"><textarea name="body" cols="90" rows="15" wrap="VIRTUAL" id="body"><?php echo $B->tpl_body; ?></textarea></td>
       </tr>
       <tr>
         <td align="left" valign="top"><input name="addnode" type="submit" id="addnode" value="Submit"></td>

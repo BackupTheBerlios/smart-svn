@@ -38,7 +38,7 @@ class action_navigation_get_tree extends action
                     'cache_get',
                     array('result'     => $data['result'],
                           'cacheID'    => SF_SECTION.$data['node'],
-                          'cacheGroup' => 'navigation'))) 
+                          'cacheGroup' => 'navigation-tree'))) 
             {
                 return TRUE;
             }  
@@ -49,8 +49,7 @@ class action_navigation_get_tree extends action
             
             //$this->B->tree = & new Tree($file);
             
-            if(!isset( $this->tree_result ))
-            {
+
                 // order the node tree by order
                 $this->_tmp_array = array();
                 $s=0;
@@ -63,11 +62,22 @@ class action_navigation_get_tree extends action
             
                 ksort($this->_tmp_array);
  
-                $this->_level = 0;
-            }            
+                $this->_level = 0;        
+
+        $node = $data['node'];
+        if(!isset($data['node']))
+        {
+            $node = 0;
+        }
+
+        $status = $data['status'];
+        if(!isset($data['status']))
+        {
+            $status = FALSE;
+        }
 
         // get child nodes of a given node id
-        $this->_getTreeNodes(); 
+        $this->_getTreeNodes( $node, $status ); 
 
         if(SF_SECTION == 'public')
         {
@@ -110,7 +120,7 @@ class action_navigation_get_tree extends action
         {
             if( $val['parent_id'] == $parent_id )
             {
-                if( !empty($status) )
+                if( FALSE != $status )
                 {
                     if( $status == $val['status'] )
                     {
