@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * setup_sys_setup class 
+ * SETUP_SYS_SETUP class 
  *
  */
  
@@ -56,22 +56,22 @@ class setup_sys_setup
             $success = TRUE;
      
             if($success == TRUE)
-                $success = $this->B->M( MOD_SYSTEM,       'SYS_SETUP' );
+                $success = $this->B->M( MOD_SYSTEM,       'sys_setup' );
 
             if($success == TRUE)    
-                $success = $this->B->M( MOD_COMMON,       'SYS_SETUP' );
+                $success = $this->B->M( MOD_COMMON,       'sys_setup' );
     
             if($success == TRUE)    
-                $success = $this->B->M( MOD_USER,         'SYS_SETUP' );
+                $success = $this->B->M( MOD_USER,         'sys_setup' );
         
             if($success == TRUE)
-                $success = $this->B->M( MOD_EARCHIVE,     'SYS_SETUP' );
+                $success = $this->B->M( MOD_EARCHIVE,     'sys_setup' );
             
             if($success == TRUE)
-                $success = $this->B->M( MOD_NAVIGATION,   'SYS_SETUP' );
+                $success = $this->B->M( MOD_NAVIGATION,   'sys_setup' );
         
             if($success == TRUE)
-                $success = $this->B->M( MOD_OPTION,       'SYS_SETUP' );
+                $success = $this->B->M( MOD_OPTION,       'sys_setup' );
     
             // close db connection if present
             if(is_object($this->B->db))
@@ -83,15 +83,10 @@ class setup_sys_setup
                 // set default template group that com with this package
                 $this->B->conf_val['option']['tpl'] = 'earchive';    
                 $this->B->conf_val['info']['status'] = TRUE;
-  
-                // include PEAR Config class
-                include_once( SF_BASE_DIR . '/admin/modules/common/PEAR/Config.php');
-
-                $c = new Config();
-                $root =& $c->parseConfig($this->B->conf_val, 'PHPArray');
-                $c->writeConfig(SF_BASE_DIR . '/admin/modules/common/config/config.php', 'PHPArray', array('name' => 'B->sys'));
-        
-                @header('Location: '.SF_BASE_LOCATION.'/admin/index.php');
+                
+                $this->B->M( MOD_COMMON, 'sys_update_config' ); 
+                
+                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
                 exit;  
             }
             else
@@ -105,18 +100,7 @@ class setup_sys_setup
                 $this->B->form_syslogin    = htmlspecialchars(commonUtil::stripSlashes($_POST['syslogin']));
             }
         }   
-
-        // Include the setup template
-        include(  SF_BASE_DIR . '/admin/modules/setup/index.tpl.php' ); 
-
-        // Send the output buffer to the client
-        if( SF_OB == TRUE)
-        {
-            ob_end_flush();
-        }
-
-        // Basta
-        exit;
+        return TRUE;
     } 
 }
 

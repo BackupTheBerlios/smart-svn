@@ -43,7 +43,7 @@ class option_view_index
     }
     
     /**
-     * Perform on admin requests for this module
+     * Evaluate the option requests of the option template
      *
      * @param array $data
      */
@@ -52,26 +52,27 @@ class option_view_index
         // Init this variable
         $this->B->modul_options = FALSE;
 
-        $this->_check_main_update();
+        // update the main options on demande
+        $this->_update_main_options();
+        
+        // update options of other modules
+        $this->B->B( 'set_options' );
         
         // if some config are modified, write the config file and reload the page
         if($this->B->_modified == TRUE)
         {
-            // include PEAR Config class
-            include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
-
-            $c = new Config();
-            $root =& $c->parseConfig($this->B->sys, 'PHPArray');
-            $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));
-    
+            $this->B->M( MOD_COMMON, 'sys_update_config' );    
             @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1&m=option');
             exit;
         }
 
+        // update language bad words list
         $this->_update_bad_words_list();
         
+        // assign tpl array with available public template groups
         $this->_load_public_tpl_groups();
 
+        // assign tpl array with available bad word lists
         $this->_get_bad_words_list();
 
         // Load options templates from other modules    
@@ -80,8 +81,13 @@ class option_view_index
 
         return TRUE;     
     } 
-    
-    function _check_main_update()
+
+    /**
+     * Update main options
+     *
+     * @access privat
+     */    
+    function _update_main_options()
     {
         // init var - used if a config value has been modified
         $this->B->_modified = FALSE;
@@ -123,11 +129,13 @@ class option_view_index
             $this->B->sys['option']['tpl'] = $_POST['tplgroup'];
             $this->B->_modified = TRUE;
         }   
-        
-        // set options of other modules
-        $this->B->B( 'set_options' );
     }
 
+    /**
+     * Assign tpl array with all available bad word lists
+     *
+     * @access privat
+     */ 
     function _get_bad_words_list()
     {
          // get actif bad words languages
@@ -161,7 +169,12 @@ class option_view_index
              }  
          }    
     }
-    
+
+    /**
+     * Add language bad words in db table
+     *
+     * @access privat
+     */     
     function _update_bad_words_list()
     {
         // insert bad word languages list
@@ -199,22 +212,27 @@ class option_view_index
                 word_indexer::delete_bad_words_lang( $lang );              
          }        
     }
-    
+
+    /**
+     * Assign template array with all available public template groups
+     *
+     * @access privat
+     */     
     function _load_public_tpl_groups()
     {
          // Load the available public templates sets from the main folder 
          $this->B->templ = array();
          $directory =& dir(SF_BASE_DIR);
 
-         while (false != ($dirname = $directory->read()))
+         while (false != ($itemname = $directory->read()))
          {
-             if (FALSE == is_dir(SF_BASE_DIR . '/' . $dirname))
+             if (FALSE == is_dir(SF_BASE_DIR . '/' . $itemname))
              {
-                 if(preg_match("/(^[^_]+).*\.tpl\.php$/", $dirname, $tmp))
-                 {
-                     if(!in_array($tmp[1], $this->B->templ))
-                         $this->B->templ[] = $tmp[1];
-                 }
+                if(preg_match("/(^[^_]+).*\.tpl\.php$/", $itemname, $tmp))
+                {
+                    if(($tmp[1] != 'error') && !in_array($tmp[1], $this->B->templ))
+                        $this->B->templ[] = $tmp[1];
+                }
              }
          }
 

@@ -6,12 +6,31 @@
 <link href="modules/setup/setup.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
 <!--
+body,td,th {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+.title {
+  color: #CCFF66;
+  font-weight: bold;
+  font-size: 14px;
+}
+.subtitle {
+  font-size: 12px;
+  color: #990000;
+  font-weight: bold;
+}
+.normal {font-size: 12px}
 .subtitle {
     font-size: 12px;
     color: #990000;
     font-weight: bold;
 }
-.normal {font-size: 12px}
 .style1 {color: #990000; font-size: 12px;}
 -->
 </style>
