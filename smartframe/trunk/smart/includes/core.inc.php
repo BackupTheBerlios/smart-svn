@@ -55,7 +55,7 @@ define('SF_BASE_LOCATION', $B->util->base_location());
 if(!is_dir(SF_BASE_DIR . 'modules'))
 {
     trigger_error("Missing ".SF_BASE_DIR . "modules directory: \nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    die("<b>You have to install at least one module in the /smart/modules directory!</b>");
+    die("<b>You have to install at least one module in the /modules directory!</b>");
 }
 
 // A "common" must be loaded first
