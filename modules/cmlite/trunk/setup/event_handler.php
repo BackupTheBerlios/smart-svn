@@ -24,6 +24,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_SETUP' , 'setup');
 
+// Version of this modul
+define ( 'MOD_SETUP_VERSION' , '0.4');
+
 // register this handler                       
 if (FALSE == $B->register_handler( 
                             MOD_SETUP,

@@ -26,6 +26,9 @@ if (!defined('SF_SECURE_INCLUDE'))
 // Name of the event handler
 define ( 'MOD_ENTRY' , 'entry');
 
+// Version of this modul
+define ( 'MOD_ENTRY_VERSION' , '0.4');
+
 // register this handler                       
 if (FALSE == $B->register_handler( MOD_ENTRY,
                                    array ( 'module'          => MOD_ENTRY,
