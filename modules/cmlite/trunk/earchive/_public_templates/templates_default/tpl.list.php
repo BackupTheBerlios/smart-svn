@@ -50,7 +50,7 @@ function go(x){
                             <a href="<?php echo SF_CONTROLLER; ?>?view=register" class="topbarlink">register</a>
                             <?php endif; ?>
                             <?php if( $B->is_logged == TRUE ): ?>
-                            &nbsp;&nbsp;<a href="<?php echo SF_CONTROLLER; ?>?logout=1" class="topbarlink">logout</a>
+                            &nbsp;&nbsp;<a href="<?php echo SF_CONTROLLER; ?>?view=logout" class="topbarlink">logout</a>
                             <?php endif; ?>             
                         </td>
                        <form name="mode" id="mode" method="post" action="">
