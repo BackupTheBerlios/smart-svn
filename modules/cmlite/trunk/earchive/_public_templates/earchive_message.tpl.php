@@ -1,25 +1,7 @@
-<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
-<?php /* get all available email lists and store the result in the array $B->tpl_list */ ?>
-<?php $B->M( MOD_EARCHIVE, 
-             'get_lists', 
-             array( 'var'    => 'tpl_list', 
-                    'fields' => array('lid','name','email','description','status'))); ?> 
-<?php /* get the requested message and store the result in the array $B->tpl_msg 
-         assign template vars with message data */ ?>
-<?php $B->M( MOD_EARCHIVE, 
-             'get_message', 
-             array( 'mid'    => (int)$_GET['mid'], 
-                    'var'    => 'tpl_msg',
-                    'fields' => array('subject','sender','mdate','body','folder'))); ?>
-<?php /* get the message attachments and store the result in the array $B->tpl_attach */?>
-<?php $B->M( MOD_EARCHIVE, 
-             'get_attachments', 
-             array( 'var'    => 'tpl_attach', 
-                    'mid'    => (int)$_GET['mid'],  
-                    'fields' => array('aid', 'mid', 'lid', 'file', 'size', 'type'))); ?>
-                    
-<?php /* Email obfuscation plugin  */?>
-<?php include_once('plugins/function.mailto.php');  ?>
+<?php /* message Template. See also /view/class.view_message.php */ ?>
+
+<?php /* Only allow calling this template from whithin the application */ ?>
+<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?> 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -127,9 +109,9 @@
                                   <div class='msgback'><a href="javascript:history.back();">Back</a></div>
                                   <?php if (count($B->tpl_msg) > 0): ?>
                                     <div class='msgdate'>DATE: <?php echo $B->tpl_msg['mdate']; ?></div>
-                                    <div class='msgfrom'>FROM: <?php echo mailto($B->tpl_msg['sender']); ?></div>
+                                    <div class='msgfrom'>FROM: <?php echo $B->tpl_msg['sender']; ?></div>
                                     <div class="msgtitle"><?php echo $B->tpl_msg['subject']; ?></div>
-                                    <div class="msgbody"><?php echo mailto($B->tpl_msg['body']); ?></div>
+                                    <div class="msgbody"><?php echo $B->tpl_msg['body']; ?></div>
                                   <?php endif; ?>                               
                                  </td>
                             </tr>

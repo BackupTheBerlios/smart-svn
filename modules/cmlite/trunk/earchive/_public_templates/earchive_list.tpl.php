@@ -1,21 +1,7 @@
-<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
-<?php /* get all available email lists and store the result in the array $B->tpl_list */?>
-<?php $B->M( MOD_EARCHIVE, 
-             'get_lists', 
-             array( 'var' => 'tpl_list', 
-                    'fields' => array('lid','name','email','description','status'))); ?> 
-<?php /* get the messages of the requested email list and store the result in the array $B->tpl_msg 
-         assign template vars with message data */?>
-<?php $B->M( MOD_EARCHIVE, 
-             'get_messages', 
-             array( 'lid'    => (int)$_GET['lid'], 
-                    'var'    => 'tpl_msg',
-                    'fields' => array('mid','lid','subject','sender','mdate'),
-                    'order'  => 'mdate DESC',
-                    'pager'  => array('var' => 'tpl_prevnext', 'limit' => 15, 'delta' => 3))); ?>
+<?php /* list Template. See also /view/class.view_list.php */ ?>
 
-<?php //Email obfuscation plugin function  ?>
-<?php include_once('plugins/function.mailto.php');  ?>
+<?php /* Only allow calling this template from whithin the application */ ?>
+<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?> 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -136,7 +122,7 @@
                                   <?php if (count($B->tpl_msg) > 0): ?>
                                     <?php foreach($B->tpl_msg as $msg): ?>
                                       <div class='msgdate'>DATE: <?php echo $msg['mdate']; ?></div>
-                                      <div class='msgfrom'>FROM: <?php echo mailto($msg['sender']); ?></div>
+                                      <div class='msgfrom'>FROM: <?php echo $msg['sender']; ?></div>
                                       <a href="index.php?tpl=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
                                       <br /><br />
                                     <?php endforeach; ?>

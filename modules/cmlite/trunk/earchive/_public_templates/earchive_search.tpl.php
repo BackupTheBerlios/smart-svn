@@ -1,21 +1,7 @@
-<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?>  
-<?php //get all available email lists and store the result in the array $B->tpl_list ?>
-<?php $B->M( MOD_EARCHIVE, 
-             'get_lists', 
-             array( 'var'    => 'tpl_list', 
-                    'fields' => array('lid','name','email','description','status'))); ?> 
-<?php //get the messages of the searching result and store the result in the array $B->tpl_msg ?>
-<?php $B->M( MOD_EARCHIVE, 
-             'search', 
-             array( 'var'      => 'tpl_msg', 
-                    'search'   => $_REQUEST['search'], 
-                    'bool'     => 'and', 
-                    'order'    => 'mdate desc', 
-                    'limit'    => 100, 
-                    'fields'   => array('mid','lid','subject','sender','mdate'),
-                    'get_list' => TRUE)); ?>                        
-<?php //Email obfuscation plugin  ?>
-<?php include_once('plugins/function.mailto.php');  ?>
+<?php /* search Template. See also /view/class.view_search.php */ ?>
+
+<?php /* Only allow calling this template from whithin the application */ ?>
+<?php if (!defined('SF_SECURE_INCLUDE')) exit; ?> 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -122,7 +108,7 @@
                                   <?php if (count($B->tpl_msg) > 0): ?>
                                     <?php foreach($B->tpl_msg as $msg): ?>
                                       <div class='msgdate'>DATE: <?php echo $msg['mdate']; ?></div>
-                                      <div class='msgfrom'>FROM: <?php echo mailto($msg['sender']); ?></div>
+                                      <div class='msgfrom'>FROM: <?php echo $msg['sender']; ?></div>
                                       <a href="index.php?tpl=message&mid=<?php echo $msg['mid']; ?>&lid=<?php echo $msg['lid']; ?>&pageID=<?php echo $_GET['pageID']; ?>" class="msgtitle"><?php echo $msg['subject']; ?></a>
                                       <div class='msgfrom'>E_archive: <a href="index.php?tpl=list&lid=<?php echo $msg['list_id']; ?>"><?php echo $msg['list_name']; ?></a></div>
                     <br />
