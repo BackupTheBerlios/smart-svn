@@ -1,6 +1,11 @@
 CHANGES
 #######
 
+2004-10-11
+-----------
+- add filter handlers
+- add prepend and append events to the front controller
+
 2004-10-04
 -----------
 - Second argument of event call functions are strings. This facilitate the creation
