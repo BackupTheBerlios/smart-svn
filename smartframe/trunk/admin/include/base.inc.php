@@ -59,7 +59,7 @@ define('SF_BASE_LOCATION', $B->util->base_location());
 // register system event handler
 include_once (SF_BASE_DIR . '/admin/include/event_handler_' . SF_SECTION . '.php');
 
-// check the modules directory exist
+// check if the modules directory exists
 if(!is_dir(SF_BASE_DIR . '/admin/modules'))
 {
     trigger_error("Missing ".SF_BASE_DIR . "/admin/modules directory: \nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
