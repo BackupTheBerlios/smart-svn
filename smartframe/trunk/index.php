@@ -31,12 +31,24 @@ if(!defined( SF_RELATIVE_PATH ))
 }
 
 /*
- * View folder.
+ * Force views folder, independed of the sys config settings.
  */
+/*
 if(!defined( SF_VIEW_FOLDER ))
 {
    define('SF_VIEW_FOLDER', 'views_default/'); 
 }
+*/
+
+/*
+ * Force templates folder, independed of the sys config settings.
+ */
+/*
+if(!defined( SF_TPL_FOLDER ))
+{
+   define('SF_TPL_FOLDER', 'templates_default/'); 
+}
+*/
 
 /* #################################################### */
 /* ######### Dont change any thing below !!! ########## */

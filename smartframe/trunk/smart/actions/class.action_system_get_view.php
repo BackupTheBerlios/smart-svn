@@ -36,11 +36,22 @@ class action_system_get_view extends action
      * @return object the requested view object
      */
     function perform( $data )
-    {       
+    {
+        /*
+         * Set public view folder.
+         */
+        if(!defined( SF_VIEW_FOLDER ))
+        {
+           define('SF_VIEW_FOLDER', $this->B->sys['option']['view']); 
+        }
+
        /**
-        * Set template folder
+        * Set public template folder
         */
-        define('SF_TPL_FOLDER', $this->B->sys['option']['tpl']); 
+        if(!defined( SF_TPL_FOLDER ))
+        {
+           define('SF_TPL_FOLDER', $this->B->sys['option']['tpl']); 
+        }
         
         // we need the global container object in this function as $B
         // in order to access templates variables e.g. $B->tpl_test
@@ -103,7 +114,7 @@ class action_system_get_view extends action
         else
         {
             // build the whole file path to the view class file
-            $view_class_file = SF_BASE_DIR . $this->view_folder . 'class.view_' . $view . '.php';
+            $view_class_file = SF_BASE_DIR . SF_VIEW_FOLDER . 'class.view_' . $view . '.php';
         }
         
         // check if view class file exists
