@@ -67,8 +67,8 @@ class option_view_index
         } 
         elseif ( $_POST['action'] == 'update title' )
         {
-            $this->B->sys['option']['site_title'] = htmlspecialchars($_POST['site_title'], ENT_QUOTES);
-            $this->B->sys['option']['site_desc']  = htmlspecialchars($_POST['site_desc'], ENT_QUOTES);
+            $this->B->sys['option']['site_title'] = htmlspecialchars(stripslashes($_POST['site_title']), ENT_QUOTES);
+            $this->B->sys['option']['site_desc']  = htmlspecialchars(stripslashes($_POST['site_desc']), ENT_QUOTES);
             $this->B->_modified = TRUE;
         } 
         elseif ( $_POST['action'] == 'update charset' )
