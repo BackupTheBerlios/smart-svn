@@ -41,7 +41,7 @@ class user_login
     }
     
     /**
-     * Set options for this module
+     * check login and password
      *
      * @param array $data
      */
@@ -53,7 +53,7 @@ class user_login
             if(FALSE !== auth::checklogin($data['login'], $data['passwd']))
             {
                 $query = base64_decode($data['urlvar']);
-                @header('Location: '.SF_BASE_LOCATION.'/index.php'.$query);
+                @header('Location: '.SF_BASE_LOCATION.'/index.php?'.$query);
                 exit;                
             }
         }
