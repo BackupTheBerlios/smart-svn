@@ -56,12 +56,6 @@ class system_sys_setup
             $success = FALSE;
         }
 
-        if(!is_writeable( SF_BASE_DIR . 'smart/tmp/session_data' ))
-        {
-            $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'smart/tmp/session_data';
-            $success = FALSE;
-        } 
-
         // the version to install
         include_once( SF_BASE_DIR . 'smart/includes/system_version.php' );
 
