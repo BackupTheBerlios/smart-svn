@@ -16,6 +16,10 @@ function deletefile(f, mes)
         }
         }
 }
+function select_text(f)
+{
+		document.forms[f].media_file_path.select();
+}
 </script>
 
 </head>
@@ -30,10 +34,12 @@ function deletefile(f, mes)
 	  <?php if($B->tpl_error != FALSE): ?>
 	  <tr>
 	    <td>&nbsp;</td>
+	    <td>&nbsp;</td>
 	    <td align="right" valign="top"><?php echo $B->tpl_error; ?></td>
 	    </tr>
 		<?php endif; ?>
 	  <tr>
+	    <td>&nbsp;</td>
 	    <td>&nbsp;</td>
 	    <td align="right" valign="top">
 		<form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=media_manager&nodecoration=1" method="post" enctype="multipart/form-data" name="form1">
@@ -44,15 +50,19 @@ function deletefile(f, mes)
 	    </tr>
 	  <tr>
 	    <td>&nbsp;</td>
+	    <td>&nbsp;</td>
 	    <td align="right" valign="top">&nbsp;</td>
 	    </tr>
+	  <?php $formx = 0; ?>
       <?php foreach($B->tpl_media_files as $media):  ?>
-	  <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=media_manager&nodecoration=1" method="post">
+	  <?php $formx++; ?>
+	  <form name="x<?php echo $formx; ?>" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=media_manager&nodecoration=1" method="post">
 	  <tr>
-        <td width="8%">
+        <td width="7%" align="center" valign="top">
           <input type="button" name="del" id="del" value="delete" onclick="deletefile(this.form, 'Delete this media file? <?php echo htmlentities($media['file']);  ?>');">
         </td> 
-        <td width="92%">
+        <td width="4%" align="center" valign="top"><input type="button" name="select" value="S" onclick="select_text('x<?php echo $formx;  ?>');"></td>
+        <td width="89%" align="left" valign="top">
 		<input name="delete_file" type="hidden" value="">
 		<input name="media_file" type="hidden" value="<?php echo htmlentities($media['file']);  ?>">
 		<input name="media_file_path" type="text" value="<?php echo htmlentities($media['path']);  ?>" size="70" maxlength="1000" readonly="true">
