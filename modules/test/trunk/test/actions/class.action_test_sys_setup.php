@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * test_sys_setup class 
+ * action_test_sys_setup class 
  *
  */
  
-class test_sys_setup
+class action_test_sys_setup extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function test_sys_setup()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Do setup for this module
      *

@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * test_contact class 
+ * action_test_contact class 
  *
  */
  
-class test_contact
+class action_test_contact extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function test_contact()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Test contact 
      * Fill up a string with contact data
@@ -49,7 +25,7 @@ class test_contact
      *
      * @param array $data
      */  
-    function perform( $data )
+    function perform( $data = FALSE )
     {
         // get var name defined in the public template to store the result
         $_result = & $this->B->$data['var']; 

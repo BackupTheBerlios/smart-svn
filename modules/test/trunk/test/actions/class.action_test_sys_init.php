@@ -10,46 +10,28 @@
 // ----------------------------------------------------------------------
 
 /**
- * test_sys_logout class 
+ * action_test_sys_init class 
  *
  */
  
-class test_sys_logout
+class action_test_sys_init extends action
 {
     /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function test_sys_logout()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
-    /**
-     * If a logout request was done
+     * Check if version number has changed and perfom additional upgarde code
      *
      * @param array $data
      */
     function perform( $data )
-    {            
-        // include here additional clean up code. 
-        // destroying sessions,....
-            
+    {
+        // Check for upgrade  
+        if(MOD_TEST_VERSION != (string)$this->B->sys['module']['test']['version'])
+        {
+            // set the new version num of this module
+            $this->B->sys['module']['test']['version'] = MOD_TEST_VERSION;
+            $this->B->system_update_flag = TRUE;  
+                
+            // include here additional upgrade code
+        }
     }    
 }
 

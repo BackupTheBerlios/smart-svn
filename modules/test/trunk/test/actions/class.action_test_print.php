@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * test_print class 
+ * action_test_print class 
  *
  */
  
-class test_print
+class action_test_print extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function test_print()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Assign a string passed from a template event call
      * to a template variable
@@ -51,7 +27,7 @@ class test_print
      *
      * @param array $data
      */  
-    function perform( $data )
+    function perform( $data = FALSE )
     {
         // get var name defined in the public template to store the result
         $_result = & $this->B->$data['var']; 

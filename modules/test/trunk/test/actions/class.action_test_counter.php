@@ -10,36 +10,12 @@
 // ----------------------------------------------------------------------
 
 /**
- * test_counter class 
+ * action_test_counter class 
  *
  */
  
-class test_counter
+class action_test_counter extends action
 {
-    /**
-     * Global system instance
-     * @var object $B
-     */
-    var $B;
-    
-    /**
-     * constructor
-     *
-     */
-    function test_counter()
-    {
-        $this->__construct();
-    }
-
-    /**
-     * constructor php5
-     *
-     */
-    function __construct()
-    {
-        $this->B = & $GLOBALS['B'];
-    }
-    
     /**
      * Fill up an array with (counter) numbers
      *
@@ -50,7 +26,7 @@ class test_counter
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {
         // get var name defined in the public template to store the result
         $_result = & $this->B->$data['var']; 
