@@ -61,7 +61,7 @@ if (@file_exists( $B->template_file ))
 else
 {
     // on error
-    die ("The requested template file '{$B->template_file}' doent exist! Please contact the administrator {$B->sys['option']['email']}");
+    die ("The requested template file '{$B->template_file}' dosent exist! Please contact the administrator {$B->sys['option']['email']}");
 }
 
 // Send the output buffer to the client
