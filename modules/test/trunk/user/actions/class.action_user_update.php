@@ -24,15 +24,22 @@ class action_user_update extends action
      */
     function perform( $data )
     {
-        // assign system array with user date
+        // check to update the password
         if(isset($data['passwd']))
         {
             $this->B->sys['user'][$data['user']]['passwd'] = md5($data['passwd']);
         }
+        // assign new email
         $this->B->sys['user'][$data['user']]['email']  = $data['email'];
         
-        // update the system config file
-        M( SF_BASE_MODULE, 'sys_update_config', $this->B->sys );
+        // update config file with new user data        
+        // see modules/SF_BASE_MODULE/actions/class.action_SF_BASE_MODULE_sys_update_config.php
+        M( SF_BASE_MODULE, 
+           'sys_update_config', 
+           array( 'data'     => $this->B->sys,
+                  'file'     => SF_BASE_DIR . 'modules/'.SF_BASE_MODULE.'/config/config.php',
+                  'var_name' => 'this->B->sys',
+                  'type'     => 'PHPArray') );
         
         return TRUE;
     } 

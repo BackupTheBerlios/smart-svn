@@ -47,6 +47,7 @@ class view_user_adduser extends view
             // check if required fields are empty
             if (FALSE == $this->_check_empty_fields())
             {
+                // reset form fields on error
                 $this->_reset_old_fields_data();
                 return TRUE;
             }            
@@ -62,11 +63,13 @@ class view_user_adduser extends view
                              'add',
                              $_data ))
             {
+                // reload the user module on success
                 @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
                 exit; 
             }
             else
             {
+                // reset form fields on error
                 $this->_reset_old_fields_data();
                 return TRUE;                
             }
@@ -86,7 +89,7 @@ class view_user_adduser extends view
         // check if some fields are empty
         if( empty($_POST['login']) || empty($_POST['passwd']) )
         {        
-            $this->B->tpl_error = 'You have fill out the email and password fields!';
+            $this->B->tpl_error = 'You have fill out the login and password fields!';
             return FALSE;
         }  
         return TRUE;

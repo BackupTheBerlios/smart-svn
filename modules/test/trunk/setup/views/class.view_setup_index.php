@@ -72,15 +72,15 @@ class view_setup_index extends view
                 // write the system config file
                 $this->B->conf_val['info']['status'] = TRUE;
         
-                // include PEAR Config class
-                include_once( SF_BASE_DIR . 'modules/common/PEAR/Config.php');
-
-                $c = new Config();
-                $root =& $c->parseConfig($this->B->conf_val, 'PHPArray');
-                    
-                // write config array
-                $c->writeConfig(SF_BASE_DIR . 'modules/common/config/config.php', 'PHPArray', array('name' => 'this->B->sys'));
-        
+                // update config file with the data array $this->B->conf_val        
+                // see modules/SF_BASE_MODULE/actions/class.action_SF_BASE_MODULE_sys_update_config.php
+                M( SF_BASE_MODULE, 
+                    'sys_update_config', 
+                     array( 'data'      => $this->B->conf_val,
+                             'file'     => SF_BASE_DIR . 'modules/'.SF_BASE_MODULE.'/config/config.php',
+                             'var_name' => 'this->B->sys',
+                             'type'     => 'PHPArray') );     
+                             
                 @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
                 exit;  
             }

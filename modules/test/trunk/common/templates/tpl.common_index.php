@@ -79,7 +79,7 @@ function subok(s){
   <tr>
       <td align="left" valign="top" bgcolor="#3399CC"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
           <tr>
-              <td><span class="font9 style8">&copy; 2004 Armand Turpel <a href="mailto:smart@open-publisher.net">smart@open-publisher.net</a>. Project site -&gt; <a href="http://smart.open-publisher.net" target="_blank">SMART</a>. Released under the <a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GNU Public License</a></span></td>
+              <td><span class="font9 style8">&copy; 2005 Armand Turpel <a href="mailto:smart@open-publisher.net">smart@open-publisher.net</a>. Project site -&gt; <a href="http://smart.open-publisher.net" target="_blank">SMART</a>. Released under the <a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">GNU Public License</a></span></td>
           </tr>
       </table></td>
   </tr>

@@ -36,7 +36,7 @@ class action_option_sys_setup extends action
         $this->B->conf_val['option']['site_title'] = 'Site title';
         $this->B->conf_val['option']['site_desc']  = 'My first site';
         $this->B->conf_val['option']['email']   = 'admin@foo.com';
-        $this->B->conf_val['option']['charset'] = 'ISO-8859-1';
+        $this->B->conf_val['option']['charset'] = 'utf8';
      
         return $success;    
     } 
