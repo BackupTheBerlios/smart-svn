@@ -116,11 +116,22 @@ define('SF_OPTION_MODULE',               'OPTION');
  */
 define('SF_DEFAULT_MODULE',              'ENTRY');
 
+// get os related separator to set include path
+if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
+    $tmp_separator = ';';
+else
+    $tmp_separator = ':';
+
+// set include path to the PEAR packages which is included in smartframe
+ini_set( 'include_path', SF_BASE_DIR . '/admin/modules/user/PEAR' . $tmp_separator . ini_get('include_path') );
+unset($tmp_separator);
+
+
 // class instance of DB if setup is done
 if($B->sys['info']['status'] == TRUE)
 {
     // include PEAR DB class
-    include_once( SF_BASE_DIR . '/admin/lib/PEAR/DB.php');
+    include_once( SF_BASE_DIR . '/admin/modules/user/PEAR/DB.php');
         
     // if sqlite set host to the db file
     if($B->sys['db']['dbtype'] == 'sqlite')
