@@ -21,7 +21,7 @@ class action_user_sys_logout extends action
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {            
         // include here additional clean up code.  
         // destroying sessions,....

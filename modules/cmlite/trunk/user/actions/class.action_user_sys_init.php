@@ -21,7 +21,7 @@ class action_user_sys_init extends action
      *
      * @param array $data
      */
-    function perform( $data )
+    function perform( $data = FALSE )
     {
         // Check for upgrade  
         if(MOD_USER_VERSION != (string)$this->B->sys['module']['user']['version'])
