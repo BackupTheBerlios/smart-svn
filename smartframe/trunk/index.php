@@ -36,20 +36,25 @@ else
     define('SF_SECTION', 'public');   
 }
 
-// Broadcast init event to all registered event handlers
+// Broadcast init event to all registered module event handlers
+// see modules/xxx/actions/class.xxx_sys_init.php
 $B->B( 'sys_init' );
 
 // Directed intercepting filter event (auto_prepend)
+// see smart/actions/class.system_sys_prepend.php
 $B->M( MOD_SYSTEM, 'sys_prepend' );
 
 // Directed authentication event to the module handler, 
 // which takes the authentication part
+// The variable SF_AUTH_MODULE must be declared in the "common"
+// module event_handler.php file
 $B->M( SF_AUTH_MODULE, 'sys_authenticate' );
 
 // Logout
 if ( $_REQUEST['logout'] == '1' )
 {
     // each module can do clean ups before logout
+    // see modules/xxx/actions/class.xxx_sys_logout.php
     $B->B('sys_logout');
     header ( 'Location: '.SF_BASE_LOCATION.'/index.php' );
     exit;
@@ -63,6 +68,7 @@ switch ( SF_SECTION )
         // if an update was done this event finish the update process
         if(isset($B->system_update_flag))
         {
+            // see modules/SF_BASE_MODULE/actions/class.SF_BASE_MODULE_sys_finish_update.php
             $B->M( SF_BASE_MODULE, 'sys_finish_update' );
             // reload admin section
             @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
@@ -70,18 +76,21 @@ switch ( SF_SECTION )
         }   
         
         // get the admin view (template)
+        // see smart/actions/class.system_get_admin_view.php
         include( $B->M( MOD_SYSTEM, 'get_admin_view') ); 
    
         break;
         
     default:
         // get the public view (template)
+        // see smart/actions/class.system_get_admin_view.php
         include( $B->M( MOD_SYSTEM, 'get_public_view') ); 
       
         break;
 }
   
 // Directed intercepting filter event (auto_append)
+// see smart/actions/class.system_sys_append.php
 $B->M( MOD_SYSTEM, 'sys_append' );   
 
 // Send the output buffer to the client
