@@ -39,7 +39,7 @@ if($_POST['dellist'] == 1)
     //
     if(TRUE == earchive_rights::ask_access_to_delete_list())
     {
-        $B->earchiver->delete_list((int)$_REQUEST['lid']);
+        $B->earchive->delete_list((int)$_REQUEST['lid']);
         @header('Location: index.php?m=EARCHIVE');
         exit;
     }    
@@ -71,7 +71,7 @@ if(isset($_POST['editlist']))
                              'status'      => (int)$_POST['status']);
             
         // update list data
-        if(FALSE !== $B->earchiver->update_list((int)$_REQUEST['lid'], $B->tmp_data))
+        if(FALSE !== $B->earchive->update_list((int)$_REQUEST['lid'], $B->tmp_data))
         {
             @header('Location: index.php?m=EARCHIVE');
             exit;
@@ -87,7 +87,7 @@ else
 {
     // get list data
     $B->tmp_fields = array('lid','name','status','email','emailserver','description');
-    $B->tpl_data = $B->earchiver->get_list( (int)$_REQUEST['lid'], $B->tmp_fields );
+    $B->tpl_data = $B->earchive->get_list( (int)$_REQUEST['lid'], $B->tmp_fields );
     unset($B->tmp_fields);
 }
 

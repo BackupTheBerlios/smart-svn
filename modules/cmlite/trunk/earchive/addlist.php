@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // check if the user of this request have rights
-if(FALSE == mailarchiver_rights::ask_access_to_list())
+if(FALSE == earchive_rights::ask_access_to_list())
 {
     @header('Location: index.php');
     exit;
@@ -56,7 +56,7 @@ else
     // get list messages attachment folder string
     $list_folder = $B->util->unique_md5_str();
 
-    if(!@mkdir(SF_BASE_DIR . '/data/mailarchiver/' . $list_folder, 0775))
+    if(!@mkdir(SF_BASE_DIR . '/data/earchive/' . $list_folder, 0775))
     {
         $B->form_error = 'Cannot create list messages attachment folder! Contact the administrator.';
     }
@@ -69,9 +69,9 @@ else
                          'folder'      => $B->db->quoteSmart($list_folder),
                          'status'      => (int)$_POST['status']);
              
-    if((FALSE === $B->form_error) && (FALSE !== $B->marchiver->add_list($B->tmp_data)))
+    if((FALSE === $B->form_error) && (FALSE !== $B->earchive->add_list($B->tmp_data)))
     {
-        @header('Location: index.php?m=MAILARCHIVER');
+        @header('Location: index.php?m=EARCHIVE');
         exit;
     }
 }

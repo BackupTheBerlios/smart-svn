@@ -11,7 +11,7 @@ function deletelist(f, mes)
         }
 }
 </script>
-<form name="deluser" method="post" action="index.php?m=MAILARCHIVER&mf=edit_list">
+<form name="deluser" method="post" action="index.php?m=EARCHIVE&mf=edit_list">
 <input name="lid" type="hidden" value="<?php echo $B->tpl_data['lid']; ?>">
 <input name="dellist" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
@@ -40,7 +40,7 @@ function deletelist(f, mes)
         <td align="left" valign="top">
           <input name="emailserver" type="text" id="emailserver" size="80" maxlength="255" value="<?php echo htmlspecialchars(stripslashes($B->tpl_data['emailserver'])); ?>">
         </td>
-      </tr>			
+      </tr>         
       <tr>
         <td align="left" valign="top" class="font10bold">Email to fetch</td>
       </tr>
@@ -53,7 +53,7 @@ function deletelist(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top"><textarea name="description" cols="60" rows="4" wrap="VIRTUAL" id="description"><?php echo htmlspecialchars(stripslashes($B->tpl_data['description'])); ?></textarea></td>
-      </tr>			
+      </tr>         
       <tr>
         <td align="left" valign="top" class="font10bold">Status</td>
       </tr>
@@ -64,7 +64,7 @@ function deletelist(f, mes)
     Inactif &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <input name="status" type="radio" value="2" <?php if($B->tpl_data['status']==2) echo 'checked'; ?>> 
     Actif&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-	  <input name="status" type="radio" value="3" <?php if($B->tpl_data['status']==3) echo 'checked'; ?>> Registered						
+      <input name="status" type="radio" value="3" <?php if($B->tpl_data['status']==3) echo 'checked'; ?>> Registered                        
     <div align="right"><input name="delete" type="button" id="delete" value="Delete this email list" onclick="deletelist(this.form, 'Delete this list?');">
                     </div></td>
       </tr>
@@ -73,7 +73,7 @@ function deletelist(f, mes)
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?m=MAILARCHIVER">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="index.php?m=EARCHIVE">back</a></td>
   </tr>
 </table>
 </form>

@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 include_once SF_BASE_DIR . '/admin/modules/earchive/class.earchive.php';
 
 //User Class instance
-$B->earchiver = & new earchive;
+$B->earchive = & new earchive;
 
 // set the base template for this module
 $B->module = SF_BASE_DIR . '/admin/modules/earchive/templates/index.tpl.php';  
@@ -62,7 +62,7 @@ switch($_REQUEST['mf'])
         $B->section = SF_BASE_DIR . '/admin/modules/earchive/templates/default.tpl.php';    
 
         $B->tmp_fields = array('lid','status','email','name','description');
-        $B->all_lists = $B->earchiver->get_lists( $B->tmp_fields );  
+        $B->all_lists = $B->earchive->get_lists( $B->tmp_fields );  
 }
 
 ?>

@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * The mailarchiver class 
+ * The earchive class 
  *
  */
  
-class mailarchiver
+class earchive
 {
     /**
      * get all lists
@@ -40,7 +40,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists 
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_lists 
                 {$where} 
             ORDER BY
                 name ASC";
@@ -89,7 +89,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_lists
             WHERE
                 lid={$lid}";
         
@@ -104,7 +104,7 @@ class mailarchiver
      */     
     function add_list( $data )
     {
-        $lid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_seq_add_list');
+        $lid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'earchive_seq_add_list');
 
         if (DB::isError($lid)) 
         {
@@ -113,7 +113,7 @@ class mailarchiver
         
         $sql = '
             INSERT INTO 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'earchive_lists
                 (lid,name,email,emailserver,description,folder,status)
             VALUES
                 ('.$lid.',
@@ -145,7 +145,7 @@ class mailarchiver
         
         $sql = '
             UPDATE 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_lists
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'earchive_lists
             SET
                 '.$set.'
             WHERE
@@ -164,7 +164,7 @@ class mailarchiver
         // get attachments folder
         $fields = array('folder');
         $data = $this->get_list( $lid, $fields );
-        $path = SF_BASE_DIR.'/data/mailarchiver/'.$data['folder'];
+        $path = SF_BASE_DIR.'/data/earchive/'.$data['folder'];
         
         if(!empty($data['folder']) && @is_dir($path))
         {   
@@ -175,7 +175,7 @@ class mailarchiver
         // delete list
         $sql = "
             DELETE FROM 
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_lists
             WHERE
                 lid={$lid}";
         
@@ -184,7 +184,7 @@ class mailarchiver
         // delete list messages
         $sql = "
             DELETE FROM 
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
             WHERE
                 lid={$lid}";
         
@@ -193,7 +193,7 @@ class mailarchiver
         // delete list messages
         $sql = "
             DELETE FROM 
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_attach
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach
             WHERE
                 lid={$lid}";
         
@@ -207,7 +207,7 @@ class mailarchiver
      */     
     function add_message( &$data )
     {
-        $mid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_seq_add_message');
+        $mid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'earchive_seq_add_message');
 
         if (DB::isError($mid)) 
         {
@@ -216,7 +216,7 @@ class mailarchiver
         
         $sql = '
             INSERT INTO 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_messages
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'earchive_messages
                 (mid,lid,sender,subject,mdate,body,folder)
             VALUES
                 ('.$mid.',
@@ -244,7 +244,7 @@ class mailarchiver
      */     
     function add_attach( $mid, $lid, &$data )
     {
-        $aid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_seq_add_attach');
+        $aid = $GLOBALS['B']->db->nextId($GLOBALS['B']->sys['db']['table_prefix'].'earchive_seq_add_attach');
 
         if (DB::isError($aid)) 
         {
@@ -253,7 +253,7 @@ class mailarchiver
         
         $sql = '
             INSERT INTO 
-                '.$GLOBALS['B']->sys['db']['table_prefix'].'mailarchiver_attach
+                '.$GLOBALS['B']->sys['db']['table_prefix'].'earchive_attach
                 (aid,mid,lid,file,size,type)
             VALUES
                 ('.$aid.',
@@ -284,7 +284,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages";
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages";
         
         $result = $GLOBALS['B']->db->query($sql);
 

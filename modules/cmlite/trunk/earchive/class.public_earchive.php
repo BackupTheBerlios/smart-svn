@@ -10,8 +10,8 @@
 // ----------------------------------------------------------------------
 
 /**
- * The mailarchiver class provide methods to use by
- * the public event handler of this module "mailarchiver".
+ * The earchive class provide methods to use by
+ * the public event handler of this module "earchive".
  *
  * Each method is calling with a $data param which is an array
  * that contains variables that the method needs to provide
@@ -29,7 +29,7 @@
  *
  */
  
-class mailarchiver
+class earchive
 {
     /**
      * get all email lists
@@ -50,7 +50,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_lists
             WHERE
                 status>1
             ORDER BY
@@ -107,7 +107,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_lists
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_lists
             WHERE
                 status>1                
             AND
@@ -149,7 +149,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
             WHERE
                 mid={$data['mid']}                
             AND
@@ -190,7 +190,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
             WHERE
                 lid={$data['lid']} 
             ORDER BY {$order}";
@@ -248,7 +248,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_attach 
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach 
             WHERE 
                 mid={$data['mid']}
             ORDER BY
@@ -301,7 +301,7 @@ class mailarchiver
             SELECT
                 {$_fields}
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_attach
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_attach
             WHERE
                 aid={$data['aid']} 
             AND
@@ -331,7 +331,7 @@ class mailarchiver
             SELECT
                 count(lid) AS num_rows
             FROM
-                {$GLOBALS['B']->sys['db']['table_prefix']}mailarchiver_messages
+                {$GLOBALS['B']->sys['db']['table_prefix']}earchive_messages
             WHERE
                 lid={$data['lid']}";        
 

@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 if( count($B->setup_error) == 0 )
 {
     // delete the user_users table if it exist
-    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='mailarchiver_lists'";
+    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='earchive_lists'";
     $result = $B->db->query($sql);
 
     if (DB::isError($result))
@@ -34,7 +34,7 @@ if( count($B->setup_error) == 0 )
 
     if($result->numRows() == 1)
     {
-        $sql = "DROP TABLE mailarchiver_lists";
+        $sql = "DROP TABLE earchive_lists";
         if ( FALSE === $B->conn->Execute($sql))
         {
             $B->setup_error[] = $B->conn->ErrorMsg() . "\nFILE: " . __FILE__ . "\nLINE: ". __LINE__;
@@ -42,7 +42,7 @@ if( count($B->setup_error) == 0 )
     }
     
     // delete the user_users table if it exist
-    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='mailarchiver_messages'";
+    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='earchive_messages'";
     $result = $B->db->query($sql);
 
     if (DB::isError($result))
@@ -52,7 +52,7 @@ if( count($B->setup_error) == 0 )
 
     if($result->numRows() == 1)
     {
-        $sql = "DROP TABLE mailarchiver_messages";
+        $sql = "DROP TABLE earchive_messages";
         $result = $B->db->query($sql);
 
         if (DB::isError($result))
@@ -62,7 +62,7 @@ if( count($B->setup_error) == 0 )
     }
     
     // delete the user_users table if it exist
-    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='mailarchiver_attach'";
+    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='earchive_attach'";
     $result = $B->db->query($sql);
 
     if (DB::isError($result))
@@ -72,7 +72,7 @@ if( count($B->setup_error) == 0 )
 
     if($result->numRows() == 1)
     {
-        $sql = "DROP TABLE mailarchiver_attach";
+        $sql = "DROP TABLE earchive_attach";
         $result = $B->db->query($sql);
 
         if (DB::isError($result))
@@ -82,7 +82,7 @@ if( count($B->setup_error) == 0 )
     }    
 
     // delete the user_users table if it exist
-    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='mailarchiver_words_crc32'";
+    $sql = "SELECT tbl_name FROM sqlite_master where tbl_name='earchive_words_crc32'";
     $result = $B->db->query($sql);
 
     if (DB::isError($result))
@@ -92,7 +92,7 @@ if( count($B->setup_error) == 0 )
 
     if($result->numRows() == 1)
     {
-        $sql = "DROP TABLE mailarchiver_words_crc32";
+        $sql = "DROP TABLE earchive_words_crc32";
         $result = $B->db->query($sql);
 
         if (DB::isError($result))
@@ -102,7 +102,7 @@ if( count($B->setup_error) == 0 )
     } 
     
     // create the user_users table
-    $sql = "CREATE TABLE mailarchiver_lists (
+    $sql = "CREATE TABLE earchive_lists (
             lid         INTEGER NOT NULL PRIMARY KEY,
             status      TINYINT NOT NULL default 1,
             name        VARCHAR(50) NOT NULL default '',
@@ -119,7 +119,7 @@ if( count($B->setup_error) == 0 )
     }
 
     // create index
-    $sql = "CREATE INDEX mailarchiver_lists_status ON mailarchiver_lists (status)";
+    $sql = "CREATE INDEX earchive_lists_status ON earchive_lists (status)";
 
     $result = $B->db->query($sql);
 
@@ -129,7 +129,7 @@ if( count($B->setup_error) == 0 )
     } 
     
     // create table if it dosent exist
-    $sql = "CREATE TABLE mailarchiver_messages (
+    $sql = "CREATE TABLE earchive_messages (
             mid      INTEGER NOT NULL PRIMARY KEY,
             lid      INT(11) NOT NULL,
             subject  TEXT NOT NULL default '',
@@ -146,7 +146,7 @@ if( count($B->setup_error) == 0 )
     }
 
     // create index
-    $sql = "CREATE INDEX mailarchiver_messages_lid ON mailarchiver_messages (lid)";
+    $sql = "CREATE INDEX earchive_messages_lid ON earchive_messages (lid)";
 
     $result = $B->db->query($sql);
 
@@ -156,7 +156,7 @@ if( count($B->setup_error) == 0 )
     } 
 
     // create table if it dosent exist
-    $sql = "CREATE TABLE mailarchiver_attach (
+    $sql = "CREATE TABLE earchive_attach (
             aid      INTEGER NOT NULL PRIMARY KEY,
             mid      INT(11) NOT NULL,
             lid      INT(11) NOT NULL,
@@ -172,7 +172,7 @@ if( count($B->setup_error) == 0 )
     } 
 
     // create index
-    $sql = "CREATE INDEX mailarchiver_attach_mid ON mailarchiver_attach (mid)";
+    $sql = "CREATE INDEX earchive_attach_mid ON earchive_attach (mid)";
 
     $result = $B->db->query($sql);
 
@@ -182,7 +182,7 @@ if( count($B->setup_error) == 0 )
     } 
 
     // create index
-    $sql = "CREATE INDEX mailarchiver_attach_lid ON mailarchiver_attach (lid)";
+    $sql = "CREATE INDEX earchive_attach_lid ON earchive_attach (lid)";
 
     $result = $B->db->query($sql);
 
@@ -191,7 +191,7 @@ if( count($B->setup_error) == 0 )
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     } 
     
-    $sql = "CREATE TABLE mailarchiver_words_crc32 (
+    $sql = "CREATE TABLE earchive_words_crc32 (
               word int(11) NOT NULL default 0,
               mid  int(11) NOT NULL default 0,
               lid  int(11) NOT NULL default 0)";

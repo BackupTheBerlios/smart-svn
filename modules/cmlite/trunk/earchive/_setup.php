@@ -23,15 +23,15 @@ if (!defined('SF_SECURE_INCLUDE'))
 if( count($B->setup_error) == 0)
 {  
     //create sqlite dir if it dosent exist
-    if(!is_dir(SF_BASE_DIR . '/data/mailarchiver'))
+    if(!is_dir(SF_BASE_DIR . '/data/earchive'))
     {
-        if(!@mkdir(SF_BASE_DIR . '/data/mailarchiver', SF_DIR_MODE))
+        if(!@mkdir(SF_BASE_DIR . '/data/earchive', SF_DIR_MODE))
         {
-            $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/data/mailarchiver';
+            $B->setup_error[] = 'Cant make dir: ' . SF_BASE_DIR . '/data/earchive';
         }
-        elseif(!@is_writeable( SF_BASE_DIR . '/data/mailarchiver' ))
+        elseif(!@is_writeable( SF_BASE_DIR . '/data/earchive' ))
         {
-            $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/mailarchiver';
+            $B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . '/data/earchive';
         }  
     }
 
@@ -42,11 +42,11 @@ if( count($B->setup_error) == 0)
     
 
     // include db setup
-    include_once( SF_BASE_DIR . '/admin/modules/mailarchiver/_setup_'.$db_type.'.php' );    
+    include_once( SF_BASE_DIR . '/admin/modules/earchive/_setup_'.$db_type.'.php' );    
     
-    $B->conf_val['module']['mailarchiver']['name']    = 'mailarchiver';
-    $B->conf_val['module']['mailarchiver']['version'] = '0.1';
-    $B->conf_val['module']['mailarchiver']['info'] = '';     
+    $B->conf_val['module']['earchive']['name']    = 'Earchive';
+    $B->conf_val['module']['earchive']['version'] = '0.1';
+    $B->conf_val['module']['earchive']['info'] = 'Email messages archive';     
 }
 
 ?>

@@ -24,7 +24,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 if( count($B->setup_error) == 0 )
 {      
     // create table if it dosent exist
-    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}mailarchiver_lists (
+    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_lists (
             lid         INT(11) NOT NULL auto_increment,
             status      TINYINT NOT NULL default 1,
             name        VARCHAR(255) NOT NULL default '',
@@ -43,7 +43,7 @@ if( count($B->setup_error) == 0 )
     }
     
     // create table if it dosent exist
-    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}mailarchiver_messages (
+    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_messages (
             mid      INT(11) NOT NULL auto_increment,
             lid      INT(11) NOT NULL,
             subject  TEXT NOT NULL  default '',
@@ -62,7 +62,7 @@ if( count($B->setup_error) == 0 )
     }
 
     // create table if it dosent exist
-    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}mailarchiver_attach (
+    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_attach (
             aid      INT(11) NOT NULL auto_increment,
             mid      INT(11) NOT NULL,
             lid      INT(11) NOT NULL,
@@ -80,7 +80,7 @@ if( count($B->setup_error) == 0 )
         $B->setup_error[] = $result->getMessage()."\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     }
 
-    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}mailarchiver_words_crc32 (
+    $sql = "CREATE TABLE IF NOT EXISTS {$B->conf_val['db']['table_prefix']}earchive_words_crc32 (
               word int(11) NOT NULL default 0,
               mid  int(11) NOT NULL default 0,
               lid  int(11) NOT NULL default 0)";

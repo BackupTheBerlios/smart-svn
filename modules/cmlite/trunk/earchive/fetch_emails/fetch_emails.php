@@ -30,7 +30,7 @@ define ('SF_SECTION', 'admin');
 include (SF_BASE_DIR . '/admin/include/base.inc.php');
 
 // the user class
-include_once (SF_BASE_DIR . '/admin/modules/mailarchiver/class.mailarchiver.php');
+include_once (SF_BASE_DIR . '/admin/modules/earchive/class.earchive.php');
 
 // the PEAR IMAP class
 include_once ('MAIL/IMAP.php');
@@ -39,14 +39,14 @@ include_once ('MAIL/IMAP.php');
 $msg =& new Mail_IMAP();
 
 //User Class instance
-$B->marchiver = & new mailarchiver;
+$B->earchive = & new earchive;
 
 // word indexer class
 include_once(SF_BASE_DIR.'/admin/include/class.sfWordIndexer.php');
 $word_indexer = & new word_indexer();
 
 // get email accounts
-$lists = $B->marchiver->get_lists( array('lid','emailserver','folder'), 'status>1' );
+$lists = $B->earchive->get_lists( array('lid','emailserver','folder'), 'status>1' );
 
 if(count($lists) > 0)
 {
@@ -137,7 +137,7 @@ if(count($lists) > 0)
                 
                 $_content = '';
                 
-                if(FALSE === ($message_id = $B->marchiver->add_message( $data )))
+                if(FALSE === ($message_id = $B->earchive->add_message( $data )))
                 {
                     trigger_error('Cannot add message: '.var_export($data).__FILE__.' '.__LINE__, E_USER_ERROR);
                     continue;// switch to next message
@@ -145,12 +145,12 @@ if(count($lists) > 0)
 
                 // index content
                 $_content = $data['subject'].' '.$data['sender'].' '.$data['body'];
-                $word_indexer->indexing_words( $_content, 'mailarchiver_words_crc32', array('mid' => $message_id, 'lid' => $account['lid']));
+                $word_indexer->indexing_words( $_content, 'earchive_words_crc32', array('mid' => $message_id, 'lid' => $account['lid']));
                 
                 // Now the attachments
                 if (TRUE === $is_attach)
                 {
-                    $path = SF_BASE_DIR . '/data/mailarchiver/'.$account['folder'].'/'. $mes_folder;
+                    $path = SF_BASE_DIR . '/data/earchive/'.$account['folder'].'/'. $mes_folder;
     
                     if(!@mkdir($path, SF_DIR_MODE))
                     {
@@ -175,7 +175,7 @@ if(count($lists) > 0)
                             @fwrite($f, $body['message'], $att_data['size']);
                             @fclose($f);
                             @chmod($path.'/'.$msg->attachFname[$mid][$i], SF_FILE_MODE);
-                            $B->marchiver->add_attach( $message_id, $account['lid'], $att_data );
+                            $B->earchive->add_attach( $message_id, $account['lid'], $att_data );
                         }
                     }
                 }
