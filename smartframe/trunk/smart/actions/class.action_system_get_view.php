@@ -173,13 +173,13 @@ class action_system_get_view extends action
         $view_obj   = & new $view_class( $data );
 
         // Launch view related authentication
-        $view_obj->auth(  $data  ); 
+        $view_obj->auth(); 
 
         // Launch view related prepend filter chain
-        $view_obj->prependFilterChain( $data ); 
+        $view_obj->prependFilterChain(); 
         
         // perform on the view
-        if( FALSE == $view_obj->perform( $data ) )
+        if( FALSE == $view_obj->perform() )
         {
             // if error get the error view object
             $view_obj = $this->_error_view( $view_obj );
@@ -189,11 +189,11 @@ class action_system_get_view extends action
         if ( SF_TEMPLATE_RENDER == $view_obj->render_template )
         {
             // render the template
-            $view_obj->renderTemplate( $data );   
+            $view_obj->renderTemplate();   
         }    
        
         // Launch view related append filter chain
-        $view_obj->appendFilterChain( $data );   
+        $view_obj->appendFilterChain();   
         
         // Output template buffer if present
         if( TRUE == $view_obj->tpl_use_buffer )
