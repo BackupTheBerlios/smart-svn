@@ -28,18 +28,28 @@ class action_user_get extends action
         $this->B->$data['result'] = FALSE;
         $result                   = & $this->B->$data['result'];
         
-        // check if this user exists
-        if(!isset($this->B->sys['user'][$data['user']]))
-        {
-            return FALSE;
-        }
-        
         // get the user data
         $result['login'] = $data['user'];
         $result['email'] = $this->B->sys['user'][$data['user']]['email'];
         
         return TRUE;
     } 
+    /**
+     * validate the parameters passed in the data array
+     *
+     * @param array $data
+     * @return bool
+     */    
+    function validate(  $data = FALSE  )
+    {
+        // check if this user exists
+        if(!isset($this->B->sys['user'][$data['user']]))
+        {
+            return FALSE;
+        }      
+        
+        return TRUE;
+    }      
 }
 
 ?>
