@@ -35,8 +35,8 @@ class action_system_module_names extends action
 
         foreach ($m_list as $key => $value)
         {
-            // only module with an visible interface
-            if( isset($value['menu_visibility']) && $value['menu_visibility'] == $data['menu_visibility'] )
+            // only module with a visible interface
+            if( isset($value['menu_visibility']) && ($value['menu_visibility'] == $data['menu_visibility']) )
             {
                 $result[$key] =  $value;
             }
