@@ -12,6 +12,10 @@
 /**
  * Base Object class 
  *
+ * The functions of this class are used to register
+ * vars, objects.
+ * 
+ *
  */
  
 class sfObject
@@ -29,21 +33,23 @@ class sfObject
      * @param string $var Var name.     
      * @param string $file File name where ther var is declared.
      * @param string $line Line number
-     * @return mixed true if not yet registered else info string of the previous declared var
      */
     function register( $var, $file, $line )
     {
-        if(FALSE == ($_dump = $this->_is_registered( $var, $file, $line )))
+        if( FALSE == $this->is_registered( $var ) )
         {
             $this->_registered_vars[$var] = array('file' => $file, 'line' => $line);
-            return TRUE;
         }
         else
         {
-            return $_dump;
+            patErrorManager::raiseError( "reg:error", "Register error: {$var}", "Var: {$var}\nFILE: {$file}\nLINE: {$line}\n is registered in: \nFILE: ".$this->_registered_vars[$var]['file']."\nLINE: ".$this->_registered_vars[$var]['line']);
         }
     }
-
+    /**
+     * unregister
+     *
+     * @param string $var Var name.     
+     */
     function unregister( $var )
     {
         unset($this->_registered_vars[$var]); 
@@ -53,41 +59,22 @@ class sfObject
         }
         unset($this->$var);
     }
-    
-    function _is_registered( $var, $file, $line )
+    /**
+     * isregister 
+     *
+     * @param string $var Var name.     
+     */    
+    function is_registered( $var )
     {
         if(isset($this->_registered_vars[$var]))
         {
-            $_dump  = "WARNING: Double Var Declaration<br /><br />";
-            $_dump .= "DEC VAR: " .$var."<br />";
-            $_dump .= "DEC FILE: ".$file."<br />";
-            $_dump .= "DEC LINE: ".$line."<br />"; 
-            $_dump .= "<br>Was previously declared:<br /><br />"; 
-            $_dump .= $this->dump($var);
-            return $_dump;
+            return TRUE;
         }
         else
         {
             return FALSE;
         }
     }
-    
-    function dump( $var )
-    {
-        if(isset($this->_registered_vars[$var]))
-        {
-            $_dump = "VAR: ".$var."<br />";
-            $_dump .= "FILE: ".$this->_registered_vars[$var]['file']."<br />";
-            $_dump .= "LINE: ".$this->_registered_vars[$var]['line']."<br />";
-            $_dump .= var_dump( $this->$var );    
-            return $_dump;
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
-  
 }
 
 ?>
