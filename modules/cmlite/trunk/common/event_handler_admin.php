@@ -117,6 +117,11 @@ define('SF_OPTION_MODULE',               'OPTION');
  */
 define('SF_DEFAULT_MODULE',              'ENTRY');
 
+/**
+ * Media folder of this module set. (css, layout images, javascript)
+ */
+define('SF_MEDIA_FOLDER',                'modules/common/media');
+
 // get os related separator to set include path
 if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
     $tmp_separator = ';';

@@ -6,11 +6,11 @@
       <tr>
         <td width="2%" align="left" valign="top">
                 <?php if($usr['status']==1): ?>
-                <img src="media/default/inactif.png" width="21" height="21">
+                <img src="<?php echo SF_MEDIA_FOLDER."/inactif.png"; ?>" width="21" height="21">
                 <?php elseif($usr['status']==2): ?>
-                 <img src="media/default/actif.png" width="21" height="21">              
+                 <img src="<?php echo SF_MEDIA_FOLDER."/actif.png"; ?>" width="21" height="21">              
                 <?php elseif($usr['status']==0): ?>
-                 <img src="media/default/demande.png" width="21" height="21"> 
+                 <img src="<?php echo SF_MEDIA_FOLDER."/demande.png"; ?>" width="21" height="21"> 
                 <?php endif; ?>
                 </td>
                 <td width="60%" align="left" valign="top" class="itemnormal">
