@@ -67,7 +67,7 @@ class action_common_sys_init extends action
             // switch to the admin section if we comes from the public section
             if(SF_SECTION == 'public')
             {
-                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1');
                 exit;  
             }
             

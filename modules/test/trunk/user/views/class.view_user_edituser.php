@@ -56,7 +56,7 @@ class view_user_edituser extends view
                        $_data ))
         {
             // if this user dosent exists reload the user module
-            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
             exit;         
         }
          
@@ -109,7 +109,7 @@ class view_user_edituser extends view
                               array( 'error' => 'tpl_error',
                                      'user'  => urldecode($_POST['user']))))
                 {
-                    @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
+                    @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
                     exit;   
                 }
             }
@@ -141,7 +141,7 @@ class view_user_edituser extends view
                        'update',
                        $_data))
         {
-            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
             exit;
         }   
         return TRUE;

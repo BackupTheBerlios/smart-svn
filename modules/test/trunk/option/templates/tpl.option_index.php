@@ -34,7 +34,7 @@
     <td width="86%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="76%" align="left" valign="top">
-    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="email" id="email">
+    <form action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=option" method="post" name="email" id="email">
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Administrator email</span></td>
@@ -48,7 +48,7 @@
           </tr>
         </table>   
     </form> 
-    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="title" id="title">    
+    <form action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=option" method="post" name="title" id="title">    
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Site title and description </span></td>
@@ -63,7 +63,7 @@
           </tr>
         </table> 
     </form>  
-    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_tpl" id="_tpl">      
+    <form action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=option" method="post" name="_tpl" id="_tpl">      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Public web pages template folders</span></td>
@@ -81,7 +81,7 @@
           </tr>
       </table>
     </form>  
-    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_view" id="_view">      
+    <form action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=option" method="post" name="_view" id="_view">      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td colspan="2" align="left" valign="top"><span class="optiontitle">Public view folders</span></td>
@@ -99,7 +99,7 @@
           </tr>
       </table>
     </form>  
-    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_view" id="_view">      
+    <form action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=option" method="post" name="_view" id="_view">      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td height="26" colspan="2" align="left" valign="top"><span class="optiontitle">Cache enabled</span></td>
@@ -114,7 +114,7 @@
           </tr>
       </table>
     </form>      
-    <form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=option" method="post" name="_view" id="_view">      
+    <form action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=option" method="post" name="_view" id="_view">      
         <table width="100%"  border="0" cellspacing="4" cellpadding="4">
           <tr>
             <td height="26" colspan="2" align="left" valign="top"><span class="optiontitle">Cache delete</span></td>
@@ -126,7 +126,7 @@
             <td width="87%" align="left" valign="top"><input type="submit" name="update_main_options_cache_delete" value="delete" onclick="subok(this.form.update_main_options_cache_delete);"></td>
           </tr>
       </table>
-    </form>     	  	                   
+    </form>                              
         </td>
         <td width="24%" align="right" valign="top"></td>
       </tr>

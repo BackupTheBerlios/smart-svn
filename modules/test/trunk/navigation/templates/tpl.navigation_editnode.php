@@ -12,7 +12,7 @@ function deletenode(f, mes)
 }
 function media_manager(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=550,height=450';
-newwindow= window.open('<?php echo SF_CONTROLLER; ?>?admin=1&nodecoration=1&m=navigation&sec=media_manager','',mm); }
+newwindow= window.open('<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&nodecoration=1&m=navigation&sec=media_manager','',mm); }
 </script>
 <style type="text/css">
 <!--
@@ -22,7 +22,7 @@ newwindow= window.open('<?php echo SF_CONTROLLER; ?>?admin=1&nodecoration=1&m=na
 -->
 </style>
 
-<form name="edituser" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=editnode">
+<form name="edituser" method="post" action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=navigation&sec=editnode">
 <input name="edit_node" type="hidden" value="<?php echo $_REQUEST['edit_node']; ?>">
 <input name="node" type="hidden" value="<?php echo $_REQUEST['node']; ?>">
 <input name="modifynodedata" type="hidden" value="true">
@@ -85,7 +85,7 @@ newwindow= window.open('<?php echo SF_CONTROLLER; ?>?admin=1&nodecoration=1&m=na
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&node=<?php echo $_REQUEST['node']; ?>">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=navigation&node=<?php echo $_REQUEST['node']; ?>">back</a></td>
   </tr>
 </table>
 </form>

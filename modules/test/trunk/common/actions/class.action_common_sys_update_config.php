@@ -42,7 +42,7 @@ class action_common_sys_update_config extends action
         if( $data['reload'] == TRUE )
         {
            // reload page
-            @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_SECTION . '=1');
+            @header('Location: ' . SF_BASE_LOCATION . '/' . SF_CONTROLLER . '?' . SF_ADMIN_CODE . '=1');
             exit;          
         }
         return SF_IS_VALID_ACTION;

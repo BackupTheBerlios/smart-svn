@@ -1,9 +1,9 @@
 <script language="JavaScript" type="text/JavaScript">
 function media_manager(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=550,height=450';
-newwindow= window.open('<?php echo SF_CONTROLLER; ?>?admin=1&nodecoration=1&m=navigation&sec=media_manager','',mm); }
+newwindow= window.open('<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&nodecoration=1&m=navigation&sec=media_manager','',mm); }
 </script>
-<form name="addnode" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=addnode&node=<?php echo $_REQUEST['node']; ?>">
+<form name="addnode" method="post" action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=navigation&sec=addnode&node=<?php echo $_REQUEST['node']; ?>">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="57%" align="left" valign="top">    <table width="400" border="0" cellspacing="3" cellpadding="3">
@@ -47,7 +47,7 @@ newwindow= window.open('<?php echo SF_CONTROLLER; ?>?admin=1&nodecoration=1&m=na
       </tr>
     </table>
     </td>
-    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation">back</a></td>
+    <td width="43%" align="left" valign="top" class="font10bold"><a href="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=navigation">back</a></td>
   </tr>
 </table>
 </form>

@@ -52,7 +52,7 @@ class view_navigation_editnode extends view
                     return TRUE;
                 }   
                 // on success switch to the main navigation page
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation&node='.$_REQUEST['node']);
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&node='.$_REQUEST['node']);
                 exit;
             }
             
@@ -66,7 +66,7 @@ class view_navigation_editnode extends view
                                   'error'     => 'tpl_error')) )
             {  
                 // on success switch to the main navigation page
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=navigation&node='.$_REQUEST['node']);
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&node='.$_REQUEST['node']);
                 exit;
             }
             else

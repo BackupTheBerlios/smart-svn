@@ -33,7 +33,7 @@ class action_user_check_login extends action
             {
                 return SF_IS_VALID_ACTION;
             }
-            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1');
             exit;
         }
         else

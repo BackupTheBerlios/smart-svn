@@ -55,7 +55,7 @@ class view_option_index extends view
                       'var_name' => 'this->B->sys',
                       'type'     => 'PHPArray') );
         
-            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=option');
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=option');
             exit;
         }
         

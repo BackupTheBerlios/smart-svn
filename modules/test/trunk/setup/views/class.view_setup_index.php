@@ -81,7 +81,7 @@ class view_setup_index extends view
                             'var_name' => 'this->B->sys',
                             'type'     => 'PHPArray') );     
                              
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1');
                 exit;  
             }
         }
@@ -99,7 +99,7 @@ class view_setup_index extends view
         // the setup process once again.
         if( $this->B->sys['info']['status'] )
         {
-            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
+            @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1');
             exit;          
         }
     }    

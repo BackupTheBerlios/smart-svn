@@ -64,7 +64,7 @@ class view_user_adduser extends view
                              $_data ))
             {
                 // reload the user module on success
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1&m=user');
+                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
                 exit; 
             }
             else

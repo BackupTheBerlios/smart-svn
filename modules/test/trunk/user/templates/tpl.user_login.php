@@ -52,7 +52,7 @@
 -->
 </style>
 <br />
-<form name="form1" method="post" action="<?php echo SF_CONTROLLER; ?>?admin=1">
+<form name="form1" method="post" action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>">
   <table width="32%" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
     <tr align="center" valign="middle">
       <td colspan="2" class="logintitle">Admin Login</td>

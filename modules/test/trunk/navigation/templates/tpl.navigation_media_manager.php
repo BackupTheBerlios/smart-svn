@@ -18,7 +18,7 @@ function deletefile(f, mes)
 }
 function select_text(f)
 {
-		document.forms[f].media_file_path.select();
+    document.forms[f].media_file_path.select();
 }
 </script>
 
@@ -31,45 +31,45 @@ function select_text(f)
   </tr>
   <tr>
     <td><table width="100%" border="0" cellspacing="0" cellpadding="2">
-	  <?php if($B->tpl_error != FALSE): ?>
-	  <tr>
-	    <td>&nbsp;</td>
-	    <td>&nbsp;</td>
-	    <td align="right" valign="top"><?php echo $B->tpl_error; ?></td>
-	    </tr>
-		<?php endif; ?>
-	  <tr>
-	    <td>&nbsp;</td>
-	    <td>&nbsp;</td>
-	    <td align="right" valign="top">
-		<form action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=media_manager&nodecoration=1" method="post" enctype="multipart/form-data" name="form1">
-		<input type="submit" name="upload" value="upload">
+    <?php if($B->tpl_error != FALSE): ?>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td align="right" valign="top"><?php echo $B->tpl_error; ?></td>
+      </tr>
+    <?php endif; ?>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td align="right" valign="top">
+    <form action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=navigation&sec=media_manager&nodecoration=1" method="post" enctype="multipart/form-data" name="form1">
+    <input type="submit" name="upload" value="upload">
             &nbsp;&nbsp;&nbsp;&nbsp; <input type="file" name="file">
         </form>
         </td>
-	    </tr>
-	  <tr>
-	    <td>&nbsp;</td>
-	    <td>&nbsp;</td>
-	    <td align="right" valign="top">&nbsp;</td>
-	    </tr>
-	  <?php $formx = 0; ?>
+      </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td align="right" valign="top">&nbsp;</td>
+      </tr>
+    <?php $formx = 0; ?>
       <?php foreach($B->tpl_media_files as $media):  ?>
-	  <?php $formx++; ?>
-	  <form name="x<?php echo $formx; ?>" action="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=media_manager&nodecoration=1" method="post">
-	  <tr>
+    <?php $formx++; ?>
+    <form name="x<?php echo $formx; ?>" action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m=navigation&sec=media_manager&nodecoration=1" method="post">
+    <tr>
         <td width="7%" align="center" valign="top">
           <input type="button" name="del" id="del" value="delete" onclick="deletefile(this.form, 'Delete this media file? <?php echo htmlentities($media['file']);  ?>');">
         </td> 
         <td width="4%" align="center" valign="top"><input type="button" name="select" value="S" onclick="select_text('x<?php echo $formx;  ?>');"></td>
         <td width="89%" align="left" valign="top">
-		<input name="delete_file" type="hidden" value="">
-		<input name="media_file" type="hidden" value="<?php echo htmlentities($media['file']);  ?>">
-		<input name="media_file_path" type="text" value="<?php echo htmlentities($media['path']);  ?>" size="65" maxlength="1000" readonly="true">
-		</td>
+    <input name="delete_file" type="hidden" value="">
+    <input name="media_file" type="hidden" value="<?php echo htmlentities($media['file']);  ?>">
+    <input name="media_file_path" type="text" value="<?php echo htmlentities($media['path']);  ?>" size="65" maxlength="1000" readonly="true">
+    </td>
       </tr>
-	  </form>
-	  <?php endforeach;  ?>
+    </form>
+    <?php endforeach;  ?>
     </table>
     </td>
   </tr>

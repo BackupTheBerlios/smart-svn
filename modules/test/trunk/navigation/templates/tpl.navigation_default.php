@@ -47,18 +47,18 @@
     <table width="100%"  border="0" cellspacing="2" cellpadding="2">
       <tr>
         <td width="1%" align="left" valign="top" class="itemnormal"><font size="1">
-    <?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&dir=up&dir_node='.$node_id.'&node='.$_GET['node'].'">up</a>'; ?>
+    <?php echo '<a href="'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&dir=up&dir_node='.$node_id.'&node='.$_GET['node'].'">up</a>'; ?>
     </font></td>
           <td width="1%" align="left" valign="top" class="itemnormal"><font size="1">
-    <?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&dir=down&dir_node='.$node_id.'&node='.$_GET['node'].'">down</a>'; ?>
+    <?php echo '<a href="'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&dir=down&dir_node='.$node_id.'&node='.$_GET['node'].'">down</a>'; ?>
     </font></td>
           <td width="1%" align="left" valign="top" class="itemnormal"><font size="1"><?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&sec=editnode&edit_node='.$node_id.'&node='.$_GET['node'].'"'; ?>>edit</a></font></td>
           <td width="97%" align="left" valign="top" class="itemnormal">
-              <?php echo '<a href="'.SF_CONTROLLER.'?admin=1&m=navigation&node='.$node_id.'">'.$node['title'].'</a>'; ?></td>
+              <?php echo '<a href="'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=navigation&node='.$node_id.'">'.$node['title'].'</a>'; ?></td>
       </tr>
     </table>
     <?php endforeach; ?>
     </td>
-    <td width="11%" align="center" valign="top" class="itemnormal"><a href="<?php echo SF_CONTROLLER; ?>?admin=1&m=navigation&sec=addnode&node=<?php echo $_GET['node']; ?>">add node </a></td>
+    <td width="11%" align="center" valign="top" class="itemnormal"><a href="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1' ?>&m=navigation&sec=addnode&node=<?php echo $_GET['node']; ?>">add node </a></td>
   </tr>
 </table>

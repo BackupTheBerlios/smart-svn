@@ -48,7 +48,7 @@ function subok(s){
           <td width="39%" align="right" valign="middle">
             <?php if($B->_is_logged == TRUE): ?>
             <form action="index.php" method="post">
-                <select name="m" onChange="go('<?php echo SF_CONTROLLER; ?>?admin=1&m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
+                <select name="m" onChange="go('<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
                  <option value="">The Modules</option>
                  <?php foreach($B->tpl_mod_list as $h): ?>
                     <option value='<?php echo $h['module']; ?>'><?php echo $h['module']; ?></option>
