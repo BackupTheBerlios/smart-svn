@@ -42,7 +42,10 @@ class action_navigation_sort_node extends action
                array( 'data'     => $this->B->node,
                       'file'     => SF_BASE_DIR . 'data/navigation/nodes.php',
                       'var_name' => 'node',
-                      'type'     => 'PHPArray') );    
+                      'type'     => 'PHPArray') );  
+                      
+            // Delete cache data
+            M( MOD_COMMON, 'cache_delete', array('group' => 'navigation-tree'));                   
         }
         return TRUE;
     }  
