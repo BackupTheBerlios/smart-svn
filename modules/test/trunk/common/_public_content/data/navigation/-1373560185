@@ -29,9 +29,41 @@ You should keep in mind, that an event is always related to a module action clas
 
 One characteristic of SMART is, that you haven’t be award to include the right class files to run a event call. SMART does this job for you. If a module is registered you can use all its action classes through event calls from anywhere of the system. Even from inside action classes you can release event calls, which are directed to other modules.
 
++++ Extended format of event functions
+**Module directed event:**
+<code>
+ M( MOD_XXX,           // Module (defined in module init files)
+    'action_name',     // Module action name (string)     
+    $data,             // Data passed to the action (mixed)
+    $constructor_data, // Data passed to the action constructor (mixed)
+    $force_instance    // Force a new action instance even if it exists (bool)
+  );
+</code>
+
+The 2 first arguments are required. The 3 last arguments are optional. The third argument is passed to the action class perform() and validate() methode. The fourth argument is passed to the action class constructor if such a constructor support this. (Not every action classe needs constructor parameters.) 
+
+Smart use existing action class instances. It is possible that in some action classes occurs conflicts when they are called twice in one script. If this happen, you should call the action classe with the last parameter TRUE, means force a new action class instance.
+
++++++ Returned codes of M()
+# SF_NO_MODULE if such a module dosent exists and it triggers an error if SF_DEBUG is set. 
+# SF_NO_VALID_ACTION if the validation of an action fails. 
+# SF_NO_ACTION if a called module action file dosent exists, and it triggers an error if SF_DEBUG is set.
+
+**Module broadcast event:**
+<code>
+ B( 'action_name',     // Module action name (string)
+    $data,             // Data passed to the action (mixed)
+    $constructor_data, // Data passed to the action constructor (mixed)
+    $force_instance    // Force a new action instance even if it exists (bool)
+  );
+</code>
+
+The first argument is required. The 3 last arguments are optional.
+
 +++ Module action objects
 Starting with SMART version 0.7 it is possible to fetch a module action object. 
 <code>
 $action = M_OBJ( MOD_NAVIGATION, 'get_node');
 </code>
+
 Here $action is an instance of the module action 'get_node'. May this would be helpful to solve more complex jobs.
