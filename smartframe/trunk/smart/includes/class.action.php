@@ -32,16 +32,16 @@ class action
      * constructor php4
      *
      */
-    function action()
+    function action( $data = FALSE )
     {
-        $this->__construct();
+        $this->__construct( $data );
     }
 
     /**
      * constructor php5
      *
      */
-    function __construct()
+    function __construct( &$data )
     {
         $this->B = & $GLOBALS['B'];
     }
@@ -62,21 +62,6 @@ class action
     function perform( & $data )
     {
        return SF_IS_VALID_ACTION;
-    }  
-
-    /**
-     * get errors as string
-     *
-     */
-    function & getError()
-    {   
-        $error_str = "";
-        foreach ($this->errors as $key => $val)
-        { 
-            $error_str .= $key . "\n" . $val . "\n\n";  
-        }
-        
-        return $error_str;
     }    
 }
 
