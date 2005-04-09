@@ -1,3 +1,9 @@
+++++ Smart 1.0.1a / Little Jo 0.8
+# Smart - added error codes > /smart/includes/defaults.php
+# Smart - added admin string > /smart/includes/defaults.php
+# Smart - added 2 event distribution functions parameters. Data passed to the action constructor and force a new action instance
+# Little Jo - added error code to the action classes
+
 ++++ Smart 1.0a / Little Jo 0.7
 # Smart - changed license from gpl to lgpl (GNU LESSER GENERAL PUBLIC LICENSE)
 # Smart/Little Jo - fixed E_NOTICE messages

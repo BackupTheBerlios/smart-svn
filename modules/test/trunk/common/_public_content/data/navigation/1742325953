@@ -1,0 +1,1 @@
+There are some attempts to port SMART to php5. But there is not yet any concrete plan how to do that.  A php5 version must be as easy usable to use as the current version with the benefits of the extended object model.
