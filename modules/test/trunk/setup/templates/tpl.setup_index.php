@@ -34,7 +34,7 @@ function subok(s){
         <?php echo $error; ?><br><br>
     <?php endforeach; ?>
 <?php endif; ?>
-<form name="setup" id="setup" method="post" action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE."=1&view=setup" ?>
+<form name="setup" id="setup" method="post" action="<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&view=setup'; ?>">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
     <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">Smart Frame Setup </span></td>
