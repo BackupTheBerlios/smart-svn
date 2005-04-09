@@ -137,9 +137,9 @@ class view_user_edituser extends view
         }
             
         // update user data
-        if(SF_IS_VALID_ACTION = M( MOD_USER,
-                                   'update',
-                                   $_data))
+        if(SF_IS_VALID_ACTION == M( MOD_USER,
+                                    'update',
+                                    $_data))
         {
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
             exit;
