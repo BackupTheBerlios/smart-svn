@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Admin COMMON module event handler
+ * Admin COMMON module init
  * This module does some init proccess and include 
  * external static libraries needed by other modules
  *
@@ -23,61 +23,19 @@ if (!defined('SF_SECURE_INCLUDE'))
     die('No Permission on ' . __FILE__);
 }
 
-// Name of the event handler
+// Name of the module
 define ( 'MOD_COMMON' , 'common');
 
-// Version of this modul
-define ( 'MOD_COMMON_VERSION' , '0.3');
+// Version of this module
+define ( 'MOD_COMMON_VERSION' , '0.4');
 
-// register this handler                       
-if (FALSE == register_handler( MOD_COMMON,
+// register this module                       
+if (FALSE == register_module( MOD_COMMON,
                                array ( 'module'          => MOD_COMMON,
-                                       'event_handler'   => 'common_event_handler',
                                        'menu_visibility' => FALSE) ))
 {
-    trigger_error( 'The handler '.MOD_COMMON.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
-}    
-                                                                          
-// The handler function
-function common_event_handler( $evt )
-{
-    // build the whole class name
-    $class_name = 'action_common_'.$evt['code'];
-        
-    // check if this object was previously declared
-    if(!is_object($GLOBALS[$class_name]))
-    {
-        // dynamic load the required class
-        $class_file = SF_BASE_DIR . 'modules/common/actions/class.'.$class_name.'.php';
-        if(file_exists($class_file))
-        {
-            include_once($class_file);
-            // make instance
-            $GLOBALS[$class_name] = & new $class_name();
-            
-            // validate the request
-            if( FALSE == $GLOBALS[$class_name]->validate( $evt['data'] ) )
-            {
-                return FALSE;
-            }
-            // perform the request
-            return $GLOBALS[$class_name]->perform( $evt['data'] );
-        }
-    }
-    else
-    {
-        // validate the request
-        if( FALSE == $GLOBALS[$class_name]->validate( $evt['data'] ) )
-        {
-            return FALSE;
-        }  
-        
-        // perform the request if the requested object exists
-        return $GLOBALS[$class_name]->perform( $evt['data'] );
-    }
-    return TRUE;
+    trigger_error( 'The module '.MOD_COMMON.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }
-
 
 /***************************
 **** Module SET  CONFIG ****
@@ -113,6 +71,12 @@ define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . 'modules/common/templates/index.tpl
  * Media folder of this module set. (css, layout images, javascript)
  */
 define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
+
+/**
+ * Default dir and file mode
+ */
+define('SF_DIR_MODE',                 0775);
+define('SF_FILE_MODE',                0775);
 
 /**
  * Get get_magic_quotes_gpc

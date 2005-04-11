@@ -61,7 +61,7 @@ class action_common_bad_words extends action
 
         $res = $this->B->db->query($sql);                
 
-        while($result = $res->FetchRow( DB_FETCHMODE_ASSOC ))
+        while($result = $res->FetchRow( MDB2_FETCHMODE_ASSOC ))
         {
             $this->result[trim(stripslashes($result['word']))] = TRUE;
         }
@@ -83,7 +83,7 @@ class action_common_bad_words extends action
 
         $res = $this->B->db->query($sql);                
 
-        while($result = &$res->FetchRow( DB_FETCHMODE_ASSOC ))
+        while($result = &$res->FetchRow( MDB2_FETCHMODE_ASSOC ))
         {
             $this->result[] = $result['lang'];
         }
