@@ -87,17 +87,19 @@ class action_earchive_get_messages extends action
 
         // init result array
         $this->_result = array();
-                        
-        $result = $this->B->db->limitQuery( $sql, $page, $data['pager']['limit'] );
         
-        if (DB::isError($result)) 
+        $this->B->db->loadModule('extended')
+        
+        $result = $this->B->db->extended->limitQuery($sql, null, $page, $data['pager']['limit']);
+        
+        if (MDB2::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
 
         if(is_object($result))
         {
-            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+            while($row = $result->fetchRow( MDB2_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)
@@ -155,7 +157,8 @@ class action_earchive_get_messages extends action
             WHERE
                 lid={$lid} {$_where}";  
         
-        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $res = $this->B->db->query($sql);
+        $result = $res->fetchRow( MDB2_FETCHMODE_ASSOC );
         
         // PEAR Pager class
         include_once(SF_BASE_DIR.'modules/common/PEAR/Pager/Sliding.php');
@@ -201,13 +204,13 @@ class action_earchive_get_messages extends action
             
         $result = $this->B->db->query($sql);
 
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }            
         
-        while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
+        while($row = $result->fetchRow( MDB2_FETCHMODE_ASSOC ))
         {
             $tmp = array();
             foreach($data['fields'] as $f)

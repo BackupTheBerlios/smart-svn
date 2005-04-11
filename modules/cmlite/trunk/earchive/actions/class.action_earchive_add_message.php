@@ -54,17 +54,19 @@ class action_earchive_add_message extends action
 
         $result = $this->B->db->query($sql);
         
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }   
         
         $sql = 'SELECT LAST_INSERT_ID() AS mid';
         
-        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $result = $this->B->db->query($sql);
+        
+        $res = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
        
-        return $result['mid'];
+        return $res['mid'];
     }  
 }
 

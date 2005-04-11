@@ -39,7 +39,7 @@ class action_earchive_delete_list extends action
         
         $result = $this->B->db->query($sql);     
 
-        $row = &$result->FetchRow( DB_FETCHMODE_ASSOC );
+        $row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC );
         
         $folder = $row['folder'];
         

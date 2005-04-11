@@ -30,7 +30,7 @@ class action_earchive_have_access extends action
                   'var'    => 'tmp_list', 
                   'fields' => array('status'))); 
     
-        if( ($this->B->tmp_list['status'] == 3) && ($this->B->is_logged === FALSE) )
+        if( ($this->B->tmp_list['status'] == 3) && ($this->B->is_logged == FALSE) )
         {
                 $query = base64_encode($this->_getQueryString());
                 @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?view=login&url='.$query);

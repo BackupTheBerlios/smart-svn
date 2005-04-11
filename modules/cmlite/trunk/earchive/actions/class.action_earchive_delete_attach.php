@@ -39,7 +39,8 @@ class action_earchive_delete_attach extends action
             WHERE
                 mid={$data['mid']}";
 
-        $m_data = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $result = $this->B->db->query($sql);
+        $m_data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
         
         // get list folder of message
         $sql = "
@@ -50,7 +51,8 @@ class action_earchive_delete_attach extends action
             WHERE
                 lid={$m_data['lid']}";
         
-        $l_data = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $result = $this->B->db->query($sql);
+        $l_data = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
 
         // full path of message data folder
         $path = SF_BASE_DIR.'data/earchive/'.$l_data['folder'].'/'.$m_data['folder'];
@@ -66,7 +68,8 @@ class action_earchive_delete_attach extends action
                 WHERE 
                     aid={$data['aid']}";
         
-        $row = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
+        $result = $this->B->db->query($sql);
+        $row    = $result->fetchRow(MDB2_FETCHMODE_ASSOC);
         
         // delete attachment file
         if(!@unlink($path.'/'.$row['file']))
@@ -83,9 +86,9 @@ class action_earchive_delete_attach extends action
         
         $result = $this->B->db->query($sql);
         
-        if (DB::isError($result)) 
+        if (MDB2::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }        
     
         return TRUE;
