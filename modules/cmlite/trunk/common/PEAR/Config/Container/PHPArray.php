@@ -15,7 +15,7 @@
 // | Authors: Bertrand Mansion <bmansion@mamasam.com>                     |
 // +----------------------------------------------------------------------+
 //
-// $Id: PHPArray.php,v 1.22 2004/08/07 10:22:00 mansion Exp $
+// $Id: PHPArray.php,v 1.23 2005/02/10 06:02:40 ryansking Exp $
 
 /**
 * Config parser for common PHP configuration array
@@ -106,12 +106,28 @@ class Config_Container_PHPArray {
                     $container->setContent($value);
                     break;
                 default:
-                    if (is_array($value)) {
+/*                    if (is_array($value)) {
                         $section =& $container->createSection($key);
                         $this->_parseArray($value, $section);
                     } else {
                         $container->createDirective($key, $value);
+                    }*/
+
+                    if (is_array($value)) {
+                        if (is_integer(key($value))) {
+                            foreach ($value as $nestedValue) {
+                                $section =& $container->createSection($key);
+                                $this->_parseArray($nestedValue, $section);
+                            }
+                        } else {
+
+                            $section =& $container->createSection($key);
+                            $this->_parseArray($value, $section);
+                        }
+                    } else {
+                        $container->createDirective($key, $value);
                     }
+                                                                                                                                                                
             }
         }
     } // end func _parseArray

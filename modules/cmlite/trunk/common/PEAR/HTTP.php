@@ -16,7 +16,7 @@
 // |          Michael Wallner <mike@php.net>                              |
 // +----------------------------------------------------------------------+
 //
-// $Id: HTTP.php,v 1.30 2004/07/14 08:04:32 mike Exp $
+// $Id: HTTP.php,v 1.42 2005/02/15 19:15:39 mike Exp $
 
 /**
  * HTTP
@@ -27,7 +27,7 @@
  * @category    HTTP
  * @license     PHP License
  * @access      public
- * @version     $Revision: 1.30 $
+ * @version     $Revision: 1.42 $
  */
 class HTTP
 {
@@ -107,14 +107,16 @@ class HTTP
         $matches = array();
         if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
             foreach (explode(',', $_SERVER['HTTP_ACCEPT_LANGUAGE']) as $lang) {
-                @list($l, $q) = array_map('strtolower', 
-                    array_map('trim', explode(';', $lang)));
+                $lang = array_map('trim', explode(';', $lang));
+                if (isset($lang[1])) {
+                    $l = strtolower($lang[0]);
+                    $q = (float) str_replace('q=', '', $lang[1]);
+                } else {
+                    $l = strtolower($lang[0]);
+                    $q = null;
+                }
                 if (isset($supp[$l])) {
-                    if (isset($q)) {
-                        $matches[$l] = (float) str_replace('q=', '', $q);
-                    } else {
-                        $matches[$l] = 1000 - count($matches);
-                    }
+                    $matches[$l] = isset($q) ? $q : 1000 - count($matches);
                 }
             }
         }
@@ -207,8 +209,9 @@ class HTTP
     /**
      * Redirect
      * 
-     * This function redirects the client.  This is done by issuing
-     * a "Location" header and exiting if wanted.
+     * This function redirects the client. This is done by issuing
+     * a "Location" header and exiting if wanted.  If you set $rfc2616 to true
+     * HTTP will output a hypertext note with the location of the redirect.
      * 
      * @static 
      * @access  public 
@@ -216,15 +219,22 @@ class HTTP
      *                  have already been sent.
      * @param   string  $url URL where the redirect should go to.
      * @param   bool    $exit Whether to exit immediately after redirection.
+     * @param   bool    $rfc2616 Wheter to output a hypertext note where we're
+     *                  redirecting to (Redirecting to <a href="...">...</a>.)
      */
-    function redirect($url, $exit = true)
+    function redirect($url, $exit = true, $rfc2616 = false)
     {
         if (headers_sent()) {
             return false;
         }
         
-        header('Location: '. HTTP::absoluteURI($url));
+        $url = HTTP::absoluteURI($url);
+        header('Location: '. $url);
         
+        if (    $rfc2616 && isset($_SERVER['REQUEST_METHOD']) &&
+                $_SERVER['REQUEST_METHOD'] != 'HEAD') {
+            printf('Redirecting to: <a href="%s">%s</a>.', $url, $url);
+        }
         if ($exit) {
             exit;
         }
@@ -253,8 +263,11 @@ class HTTP
      * @param   string  $protocol Protocol to use when redirecting URIs.
      * @param   integer $port A new port number.
      */
-    function absoluteURI($url, $protocol = null, $port = null)
+    function absoluteURI($url = null, $protocol = null, $port = null)
     {
+        // filter CR/LF
+        $url = str_replace(array("\r", "\n"), ' ', $url);
+        
         // Mess around with already absolute URIs
         if (preg_match('!^([a-z0-9]+)://!i', $url)) {
             if (empty($protocol) && empty($port)) {
@@ -278,30 +291,46 @@ class HTTP
         }
 
         if (empty($protocol)) {
-            $protocol = isset($_SERVER['HTTPS']) ? 'https' : 'http';
+            if (isset($_SERVER['HTTPS']) && !strcasecmp($_SERVER['HTTPS'], 'on')) {
+                $protocol = 'https';
+            } else {
+                $protocol = 'http';
+            }
             if (!isset($port) || $port != intval($port)) {
-                $port = $_SERVER['SERVER_PORT'];
+                $port = isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : 80;
             }
         }
         
+        if ($protocol == 'http' && $port == 80) {
+            unset($port);
+        }
+        if ($protocol == 'https' && $port == 443) {
+            unset($port);
+        }
+
         $server = $protocol .'://'. $host . (isset($port) ? ':'. $port : '');
+        
+        if (!strlen($url)) {
+            $url = isset($_SERVER['REQUEST_URI']) ? 
+                $_SERVER['REQUEST_URI'] : $_SERVER['PHP_SELF'];
+        }
         
         if ($url{0} == '/') {
             return $server . $url;
         }
         
         // Check for PATH_INFO
-        if (isset($_SERVER['PATH_INFO'])) {
+        if (isset($_SERVER['PATH_INFO']) && $_SERVER['PHP_SELF'] != $_SERVER['PATH_INFO']) {
             $path = dirname(substr($_SERVER['PHP_SELF'], 0, -strlen($_SERVER['PATH_INFO'])));
         } else {
             $path = dirname($_SERVER['PHP_SELF']);
         }
         
-        if (substr($path, -1) != '/') {
+        if (substr($path = strtr($path, '\\', '/'), -1) != '/') {
             $path .= '/';
         }
         
-        return $server . strtr($path, '\\', '/') . $url;
+        return $server . $path . $url;
     }
 
     /**
