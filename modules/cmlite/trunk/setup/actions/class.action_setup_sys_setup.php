@@ -38,7 +38,7 @@ class action_setup_sys_setup extends action
             $success = M( MOD_COMMON,       'sys_setup' );            
 
         if($success == TRUE)
-            $success = M( MOD_NAVIGATION,   'sys_setup' );
+            $success = M( MOD_EARCHIVE,     'sys_setup' );
 
         if($success == TRUE)
             $success = M( MOD_OPTION,       'sys_setup' );
@@ -59,7 +59,7 @@ class action_setup_sys_setup extends action
             M( SF_BASE_MODULE, 
                'sys_update_config', 
                array( 'data'     => $this->B->conf_val,
-                      'file'     => SF_BASE_DIR . 'modules/'.SF_BASE_MODULE.'/config/config.php',
+                      'file'     => SF_BASE_DIR . 'data/'.SF_BASE_MODULE.'/config/config.php',
                       'var_name' => 'this->B->sys',
                       'type'     => 'PHPArray') );     
                 
