@@ -35,22 +35,22 @@ class action_earchive_add_message extends action
             }
         }
     
-        $sql = '
+        $sql = "
             INSERT INTO 
-                '.$this->B->sys['db']['table_prefix'].'earchive_messages
+                ".$this->B->sys['db']['table_prefix']."earchive_messages
                 (lid,message_id,root_id,parent_id,enc_type,sender,subject,mdate,body,folder,header)
             VALUES
-                ('.$data['lid'].',
-                 '.$data['message_id'].',
-                 '.$data['root_id'].',
-                 '.$data['parent_id'].',
-                 '.$data['enc_type'].',
-                 '.$data['sender'].',
-                 '.$data['subject'].',
-                 '.$data['mdate'].',
-                 '.$data['body'].',
-                 '.$data['folder'].',
-                 '.$data['header'].')';
+                (".$data["lid"].",
+                 ".$data["message_id"].",
+                 ".$data["root_id"].",
+                 ".$data["parent_id"].",
+                 ".$data["enc_type"].",
+                 ".$data["sender"].",
+                 ".$data["subject"].",
+                 ".$data["mdate"].",
+                 ".$data["body"].",
+                 ".$data["folder"].",
+                 ".$data["header"].")";
 
         $result = $this->B->db->query($sql);
         
