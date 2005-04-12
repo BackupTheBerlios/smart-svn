@@ -28,31 +28,31 @@ class action_user_sys_setup extends action
         if( empty($_POST['sysname']) )
         {
             $this->B->setup_error[] = 'Sysadmin name field is empty!';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }
         if( empty($_POST['syslastname']) )
         {
             $this->B->setup_error[] = 'Sysadmin lastname field is empty!';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }
         if( empty($_POST['syslogin']) )
         {
             $this->B->setup_error[] = 'Sysadmin login field is empty!';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         }
         if( empty($_POST['syspassword1']) || ($_POST['syspassword1'] != $_POST['syspassword2']) )
         {
             $this->B->setup_error[] = 'Sysadmin password fields are empty or not equal!';
-            $success = FALSE;
+            $success = SF_NO_VALID_ACTION;
         } 
   
         if( $success == TRUE )
         {
             //create captcha_pics dir if it dosent exist
-            if(!is_writeable( SF_BASE_DIR . 'modules/user/actions/captcha/pics' ))
+            if(!is_writeable( SF_BASE_DIR . 'data/captcha' ))
             {
-                $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'modules/user/actions/captcha/pics';
-                $success = FALSE;
+                $this->B->setup_error[] = 'Must be writeable: ' . SF_BASE_DIR . 'data/captcha';
+                $success = SF_NO_VALID_ACTION;
             }  
     
             if($success == TRUE)
@@ -66,7 +66,7 @@ class action_user_sys_setup extends action
                 else
                 {
                     $this->B->setup_error[] = 'USER module: This db type isnt supported: ' . $_POST['dbtype'];
-                    $success = FALSE;
+                    $success = SF_NO_VALID_ACTION;
                 }
             }
     

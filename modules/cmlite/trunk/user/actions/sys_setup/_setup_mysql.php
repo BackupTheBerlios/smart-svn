@@ -64,16 +64,13 @@ $this->B->dsn = array('phptype'  => 'mysql',
                 'hostspec' => $this->B->conf_val['db']['host'],
                 'database' => $this->B->conf_val['db']['name']);
 
-$this->B->dboptions = array('debug'       => 2,
-                      'portability' => DB_PORTABILITY_ALL);
-
 // include PEAR DB class
-include_once( SF_BASE_DIR . 'modules/common/PEAR/DB.php');  
+include_once( SF_BASE_DIR . 'modules/common/PEAR/MDB2.php');  
     
-$this->B->db =& DB::connect($this->B->dsn, $this->B->dboptions);
-if (DB::isError($this->B->db))
+$this->B->db =& MDB2::connect( $this->B->dsn );
+if (MDB2::isError($this->B->db))
 {
-    trigger_error($this->B->db->getMessage()."\n".$this->B->db->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+    trigger_error($this->B->db->getMessage()."\n".$this->B->db->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
     $this->B->setup_error[] = 'Cannot connect to the database: '.__FILE__.' '.__LINE__ ; 
     $success = FALSE;
     return FALSE;
@@ -97,10 +94,10 @@ $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}use
 
 $result = $this->B->db->query($sql);
 
-if (DB::isError($result))
+if (MDB2::isError($result))
 {
-    trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    trigger_error($result->getMessage()."\n".$result->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
     return FALSE;
 }
@@ -113,10 +110,10 @@ $sql = "CREATE TABLE IF NOT EXISTS {$this->B->conf_val['db']['table_prefix']}use
 
 $result = $this->B->db->query($sql);
 
-if (DB::isError($result))
+if (MDB2::isError($result))
 {
-    trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+    trigger_error($result->getMessage()."\n".$result->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+    $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
     $success = FALSE;
     return FALSE;
 }
@@ -124,22 +121,22 @@ if (DB::isError($result))
 if($success != FALSE)
 {
     // insert an administrator
-    $forename  = $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['sysname']));
-    $lastename = $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['syslastname']));
-    $login     = $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['syslogin']));
-    $passwd    = $this->B->db->quoteSmart(md5($_POST['syspassword1']));
+    $forename  = $this->B->db->escape(commonUtil::stripSlashes($_POST['sysname']));
+    $lastename = $this->B->db->escape(commonUtil::stripSlashes($_POST['syslastname']));
+    $login     = $this->B->db->escape(commonUtil::stripSlashes($_POST['syslogin']));
+    $passwd    = $this->B->db->escape(md5($_POST['syspassword1']));
     
-    $sql = 'INSERT INTO '.$this->B->conf_val['db']['table_prefix'].'user_users 
+    $sql = "INSERT INTO ".$this->B->conf_val["db"]["table_prefix"]."user_users 
                 (forename,lastname,login,passwd,status,rights,email) 
               VALUES 
-                ('.$forename.','.$lastename.','.$login.','.$passwd.',2,5,"admin@foo.com")';
+                (".$forename.",".$lastename.",".$login.",".$passwd.",2,5,"admin@foo.com")";
         
     $result = $this->B->db->query($sql);
 
-    if (DB::isError($result))
+    if (MDB2::isError($result))
     {
-        trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-        $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+        trigger_error($result->getMessage()."\n".$result->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+        $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
         $success = FALSE;
         return FALSE;
     } 

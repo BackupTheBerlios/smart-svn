@@ -219,7 +219,7 @@ class captcha
         {
             $public=$this->public_key; 
         }
-        return $this->_basedir.'modules/user/actions/captcha/pics/'.$public.".jpg";
+        return $this->_basedir.'data/captcha/'.$public.".jpg";
     }
     /**
      * generate_private
@@ -335,7 +335,7 @@ class captcha
      */    
     function _delete_expired_files()
     {
-        $directory = & dir($this->_basedir.'modules/user/actions/captcha/pics');
+        $directory = & dir($this->_basedir.'data/captcha');
     
         while (false != ($filename = $directory->read()))
         {
@@ -343,12 +343,13 @@ class captcha
             {
                 continue;
             }     
-            $file = $this->_basedir.'/'.$filename;
+            $file = $this->_basedir.'data/captcha/'.$filename;
+
             if(TRUE == is_file($file))
             {
                 if((time()-$this->captcha_picture_expire) > filemtime($file))
                 {
-                        unlink($file);
+                        @unlink($file);
                 } 
             }  
         }
