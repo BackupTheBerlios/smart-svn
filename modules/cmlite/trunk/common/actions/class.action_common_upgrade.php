@@ -38,9 +38,9 @@ class action_common_upgrade extends action
                 return FALSE;
             }  
             
-            if(!is_writeable( SF_BASE_DIR . 'modules/common/tmp/cache' ))
+            if(!is_writeable( SF_BASE_DIR . 'data/common/cache' ))
             {
-                trigger_error('Must be writeable: ' . SF_BASE_DIR . 'modules/common/tmp/cache', E_USER_ERROR);
+                trigger_error('Must be writeable: ' . SF_BASE_DIR . 'data/common/cache', E_USER_ERROR);
             }            
         }
 

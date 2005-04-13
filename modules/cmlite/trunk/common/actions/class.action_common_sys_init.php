@@ -34,13 +34,16 @@ class action_common_sys_init extends action
         // set include path to the PEAR packages
         ini_set( 'include_path', SF_BASE_DIR . 'modules/common/PEAR' . $tmp_separator . ini_get('include_path') );
         unset($tmp_separator); 
+        
+        // Define base location
+        define('SF_BASE_LOCATION', commonUtil::base_location());
 
         // init system config array
         $this->B->sys = array();
 
         // include system config array $this->B->sys
-        if(file_exists(SF_BASE_DIR . 'modules/common/config/config.php'))
-            include_once( SF_BASE_DIR . 'modules/common/config/config.php' );  
+        if(file_exists(SF_BASE_DIR . 'data/common/config/config.php'))
+            include_once( SF_BASE_DIR . 'data/common/config/config.php' );  
 
         // if setup was done
         if($this->B->sys['info']['status'] == TRUE)
