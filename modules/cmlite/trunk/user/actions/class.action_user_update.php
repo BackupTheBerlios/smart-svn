@@ -31,21 +31,21 @@ class action_user_update extends action
         
         foreach($data['user_data'] as $key => $val)
         {
-            $set .= $comma.$key.'='.$this->B->db->escape( $val );
+            $set .= $comma.$key.'='.$this->B->db->quoteSmart( $val );
             $comma = ',';
         }
         
-        $sql = "
+        $sql = '
             UPDATE 
-                ".$this->B->sys['db']['table_prefix']."user_users
+                '.$this->B->sys['db']['table_prefix'].'user_users
             SET
-                ".$set."
+                '.$set.'
             WHERE
-                uid=".(int)$data['user_id'];
+                uid='.(int)$data['user_id'];
         
         $result = $this->B->db->query($sql);
         
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
@@ -64,13 +64,13 @@ class action_user_update extends action
         // check if all requested fields exists
         if (FALSE == $this->_accepted_fields ( $data ) )
         {
-            return SF_NO_VALID_ACTION;
+            return FALSE;
         }
 
         if(!is_int($data['user_id']))
         {
             $this->B->$data['error'] = 'user_id must be an int value';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }
                                   
         // Check user data field values
@@ -79,85 +79,85 @@ class action_user_update extends action
         if( isset($data['user_data']['passwd']) && (($str_len < 3) || ($str_len > 20)) )
         {
             $this->B->$data['error'] = 'Only 3-20 password chars are accepted.';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }
         
         if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user_data']['passwd']) )
         {
             $this->B->$data['error'] = 'Login entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }        
     
         if(empty($data['user_data']['forename']))
         {
             $this->B->$data['error'] = 'Forename is empty';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }
 
         $str_len = strlen( $data['user_data']['forename'] );
         if( $str_len > 30 )
         {
             $this->B->$data['error'] = 'Max 30 forename chars are accepted.';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }
         
         if(empty($data['user_data']['lastname']))
         {
             $this->B->$data['error'] = 'Lastname is empty';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         } 
 
         $str_len = strlen( $data['user_data']['lastname'] );
         if( $str_len > 30 )
         {
             $this->B->$data['error'] = 'Max 30 lastname chars are accepted.';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }
 
         if( empty($data['user_data']['email']) )
         {
             $this->B->$data['error'] = 'Email entry is empty!';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         } 
 
         $str_len = strlen( $data['user_data']['email'] );
         if( $str_len > 500 )
         {
             $this->B->$data['error'] = 'Max 500 email chars are accepted.';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }
 
         if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['user_data']['email']) )
         {
             $this->B->$data['error'] = 'Email entry is not correct!';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         } 
         
         if(!is_int($data['user_data']['status']))
         {
             $this->B->$data['error'] = 'Status value must an int';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         } 
         
         if( ($data['user_data']['status'] < 0) || ($data['user_data']['status'] > 2) )
         {
             $this->B->$data['error'] = 'Status value must be between 0 an 2';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }         
         
         if(!is_int($data['user_data']['rights']))
         {
             $this->B->$data['error'] = 'Rights value must an int';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }        
 
         if( ($data['user_data']['rights'] < 1) || ($data['user_data']['rights'] > 5) )
         {
             $this->B->$data['error'] = 'Rights value must be between 1 an 5';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }  
         
-        return SF_IS_VALID_ACTION;
+        return TRUE;
     } 
 
     /**

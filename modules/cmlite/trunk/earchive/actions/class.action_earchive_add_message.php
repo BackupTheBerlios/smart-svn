@@ -35,38 +35,36 @@ class action_earchive_add_message extends action
             }
         }
     
-        $sql = "
+        $sql = '
             INSERT INTO 
-                ".$this->B->sys['db']['table_prefix']."earchive_messages
+                '.$this->B->sys['db']['table_prefix'].'earchive_messages
                 (lid,message_id,root_id,parent_id,enc_type,sender,subject,mdate,body,folder,header)
             VALUES
-                (".$data["lid"].",
-                 ".$data["message_id"].",
-                 ".$data["root_id"].",
-                 ".$data["parent_id"].",
-                 ".$data["enc_type"].",
-                 ".$data["sender"].",
-                 ".$data["subject"].",
-                 ".$data["mdate"].",
-                 ".$data["body"].",
-                 ".$data["folder"].",
-                 ".$data["header"].")";
+                ('.$data['lid'].',
+                 '.$data['message_id'].',
+                 '.$data['root_id'].',
+                 '.$data['parent_id'].',
+                 '.$data['enc_type'].',
+                 '.$data['sender'].',
+                 '.$data['subject'].',
+                 '.$data['mdate'].',
+                 '.$data['body'].',
+                 '.$data['folder'].',
+                 '.$data['header'].')';
 
         $result = $this->B->db->query($sql);
         
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }   
         
         $sql = 'SELECT LAST_INSERT_ID() AS mid';
         
-        $result = $this->B->db->query($sql);
-        
-        $res = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
+        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
        
-        return $res['mid'];
+        return $result['mid'];
     }  
 }
 

@@ -70,7 +70,7 @@ class view_common_index extends view
     {
         // Directed intercepting filter event (auto_prepend)
         // see smart/actions/class.system_sys_prepend.php
-        //M( MOD_SYSTEM, 'sys_prepend' );    
+        M( MOD_SYSTEM, 'sys_prepend' );    
     }      
 }
 

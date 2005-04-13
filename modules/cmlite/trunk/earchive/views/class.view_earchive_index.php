@@ -36,7 +36,7 @@ class view_earchive_index extends view
     function perform()
     {
         // check permission to access this module
-        if( FALSE == M( MOD_EARCHIVE, 'permission', array('action' => 'access')))
+        if( FALSE == F( MOD_EARCHIVE, 'permission', array('action' => 'access')))
         {
             @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?admin=1');
             exit;      

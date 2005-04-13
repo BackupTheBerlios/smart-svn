@@ -196,9 +196,9 @@ class action_earchive_search extends action
 
         $result = $this->B->db->query($sql);
 
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
 
         // get var name to store the result
@@ -207,7 +207,7 @@ class action_earchive_search extends action
 
         if(is_object($result))
         {
-            while($row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC ))
+            while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)
@@ -288,7 +288,7 @@ class action_earchive_search extends action
 
         $result = $this->B->db->query($sql);
                
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nSQL: ".$sql."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }    
@@ -297,7 +297,7 @@ class action_earchive_search extends action
             
         if(is_object($result))
         {
-            while($row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC ))
+            while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $data[] = $row['mid'];
             }
@@ -324,12 +324,12 @@ class action_earchive_search extends action
                 {$this->B->sys['db']['table_prefix']}bad_words";
 
         $result = $this->B->db->query($sql);    
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nSQL: ".$sql."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }            
 
-        while($row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC ))
+        while($row = &$result->FetchRow( DB_FETCHMODE_ASSOC ))
         {
             $this->bad_word_array[stripslashes($row['word'])] = TRUE;
         }
@@ -347,7 +347,7 @@ class action_earchive_search extends action
         
         $result = $this->B->db->query($sql);
                
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nSQL: ".$sql."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
@@ -372,7 +372,7 @@ class action_earchive_search extends action
                 
         $result = $this->B->db->query($sql);
                
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
             trigger_error($result->getMessage()."\n\nSQL: ".$sql."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;

@@ -18,7 +18,7 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                           |
 // +--------------------------------------------------------------------+
 //
-// $Id: PEAR.php,v 1.82.2.6 2005/01/01 05:24:51 cellog Exp $
+// $Id: PEAR.php,v 1.82.2.4 2004/10/22 05:53:36 cellog Exp $
 //
 
 define('PEAR_ERROR_RETURN',     1);
@@ -59,7 +59,7 @@ $GLOBALS['_PEAR_destructor_object_list'] = array();
 $GLOBALS['_PEAR_shutdown_funcs']         = array();
 $GLOBALS['_PEAR_error_handler_stack']    = array();
 
-@ini_set('track_errors', true);
+ini_set('track_errors', true);
 
 /**
  * Base class for other PEAR classes.  Provides rudimentary
@@ -164,9 +164,10 @@ class PEAR
             if (method_exists($this, $destructor)) {
                 global $_PEAR_destructor_object_list;
                 $_PEAR_destructor_object_list[] = &$this;
-                if (!isset($GLOBALS['_PEAR_SHUTDOWN_REGISTERED'])) {
+                static $registered = false;
+                if (!$registered) {
                     register_shutdown_function("_PEAR_call_destructors");
-                    $GLOBALS['_PEAR_SHUTDOWN_REGISTERED'] = true;
+                    $registered = true;
                 }
                 break;
             } else {

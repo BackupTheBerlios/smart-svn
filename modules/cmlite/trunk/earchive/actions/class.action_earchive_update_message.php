@@ -44,23 +44,23 @@ class action_earchive_update_message extends action
         
         foreach($data['fields'] as $key => $val)
         {
-            $set .= $comma.$key."=".$this->B->db->escape($val);
+            $set .= $comma.$key.'='.$this->B->db->quoteSmart($val);
             $comma = ',';
         }
         
-        $sql = "
+        $sql = '
             UPDATE 
-                ".$this->B->sys['db']['table_prefix']."earchive_messages
+                '.$this->B->sys['db']['table_prefix'].'earchive_messages
             SET
-                ".$set."
+                '.$set.'
             WHERE
-                mid=".$data['mid'];
+                mid='.$data['mid'];
         
         $result = $this->B->db->query($sql);
         
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }     
 

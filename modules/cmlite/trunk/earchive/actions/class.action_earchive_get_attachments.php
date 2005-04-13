@@ -52,16 +52,16 @@ class action_earchive_get_attachments extends action
 
         $result = $this->B->db->query($sql);
 
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }
         
         $_result = array();
         
         if(is_object($result))
         {
-            while($row = $result->fetchRow( MDB2_FETCHMODE_ASSOC ))
+            while($row = $result->FetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $tmp = array();
                 foreach($data['fields'] as $f)

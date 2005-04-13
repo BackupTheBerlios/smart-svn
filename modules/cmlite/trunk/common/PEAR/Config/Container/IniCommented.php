@@ -15,7 +15,7 @@
 // | Author: Bertrand Mansion <bmansion@mamasam.com>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: IniCommented.php,v 1.19 2004/11/23 04:57:55 ryansking Exp $
+// $Id: IniCommented.php,v 1.18 2004/10/19 00:57:59 ryansking Exp $
 
 /**
 * Config parser for PHP .ini files with comments
@@ -69,7 +69,7 @@ class Config_Container_IniCommented {
             } elseif (preg_match('/^\s*$/', $line)) {
                 // a blank line
                 $currentSection->createBlank();
-			} elseif (preg_match('/^\s*([a-zA-Z0-9_\-\.\s]*)\s*=\s*(.*)\s*$/', $line, $match)) {
+            } elseif (preg_match('/^\s*([a-zA-Z0-9_\-\.\s]*)\s*=\s*(.*)\s*$/', $line, $match)) {
                 // a directive
                 
                 $values = $this->_quoteAndCommaParser($match[2]);
@@ -80,7 +80,7 @@ class Config_Container_IniCommented {
                 if (count($values)) {
                     foreach($values as $value) {
                         if ($value[0] == 'normal') {
-                            $currentSection->createDirective(trim($match[1]), $value[1]);
+                            $currentSection->createDirective($match[1], $value[1]);
                         }
                         if ($value[0] == 'comment') {
                             $currentSection->createComment(substr($value[1], 1));
@@ -282,7 +282,7 @@ class Config_Container_IniCommented {
                         $childrenCount[$obj->name]++;
                     } else {
                         $childrenCount[$obj->name] = 0;
-                        $commaString[$obj->name] = $obj->name.' = ';
+                        $commaString[$obj->name] = $obj->name.'=';
                     }
                     if ($childrenCount[$obj->name] == $count-1) {
                         // Clean the static for future calls to toString
@@ -293,7 +293,7 @@ class Config_Container_IniCommented {
                         $commaString[$obj->name] .= $content.', ';
                     }
                 } else {
-                    $string = $obj->name.' = '.$content."\n";
+                    $string = $obj->name.'='.$content."\n";
                 }
                 break;
             case 'section':

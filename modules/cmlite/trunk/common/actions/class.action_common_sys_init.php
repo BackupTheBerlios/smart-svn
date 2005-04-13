@@ -35,15 +35,12 @@ class action_common_sys_init extends action
         ini_set( 'include_path', SF_BASE_DIR . 'modules/common/PEAR' . $tmp_separator . ini_get('include_path') );
         unset($tmp_separator); 
 
-        // Define base location
-        define('SF_BASE_LOCATION', commonUtil::base_location());
-
         // init system config array
         $this->B->sys = array();
 
         // include system config array $this->B->sys
-        if(file_exists(SF_BASE_DIR . 'data/common/config/config.php'))
-            include_once( SF_BASE_DIR . 'data/common/config/config.php' );  
+        if(file_exists(SF_BASE_DIR . 'modules/common/config/config.php'))
+            include_once( SF_BASE_DIR . 'modules/common/config/config.php' );  
 
         // if setup was done
         if($this->B->sys['info']['status'] == TRUE)
@@ -56,11 +53,14 @@ class action_common_sys_init extends action
                                   'password' => $this->B->sys['db']['passwd'],
                                   'hostspec' => $this->B->sys['db']['host'],
                                   'database' => $this->B->sys['db']['name']);
+
+            $this->B->dboptions = array('debug'       => 0,
+                                        'portability' => DB_PORTABILITY_NONE);
     
-            $this->B->db = & MDB2::connect($this->B->dsn);
-            if (MDB2::isError($this->B->db)) 
+            $this->B->db =& DB::connect($this->B->dsn, $this->B->dboptions, TRUE);
+            if (DB::isError($this->B->db)) 
             {
-                trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__.$this->B->db->getMessage(), E_USER_ERROR  );
+                trigger_error( 'Cannot connect to the database: '.__FILE__.' '.__LINE__, E_USER_ERROR  );
             }
 
             // include session class
@@ -73,6 +73,13 @@ class action_common_sys_init extends action
         // else launch setup
         else
         {
+            // switch to the admin section if we come from the public section
+            if(SF_SECTION == 'public')
+            {
+                @header('Location: '.SF_BASE_LOCATION.'/index.php?admin=1');
+                exit;  
+            }
+           
             // launch setup screen
             M( MOD_SYSTEM, 'get_view', array('m' => 'setup', 'view' => 'index')); 
             
@@ -94,16 +101,16 @@ class action_common_sys_init extends action
      
         if( SF_SECTION == 'admin')
         {
-            $m_list = $GLOBALS['module_list'];
+            $h_list = $GLOBALS['handler_list'];
             
             // sort handler array by name
-            ksort($m_list);
+            ksort($h_list);
         
             // assign template handler names array
             // this array is used to build the modul select form of the admin menu
             $this->B->tpl_mod_list = array();    
 
-            foreach ($m_list as $key => $value)
+            foreach ($h_list as $key => $value)
             {
                 if( $value['menu_visibility'] == TRUE )
                 {

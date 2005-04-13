@@ -59,10 +59,10 @@ class action_common_sys_setup extends action
         
             $result = $this->B->db->query($sql);
 
-            if (MDB2::isError($result))
+            if (DB::isError($result))
             {
-                trigger_error($result->getMessage()."\n".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
-                $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                $this->B->setup_error[] = $result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__;
                 $success = FALSE;
             }             
         }

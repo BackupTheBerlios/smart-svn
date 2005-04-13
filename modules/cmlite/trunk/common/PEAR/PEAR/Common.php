@@ -17,7 +17,7 @@
 // |          Tomas V.V.Cox <cox@idecnet.com>                             |
 // +----------------------------------------------------------------------+
 //
-// $Id: Common.php,v 1.126.2.2 2004/12/27 07:04:19 cellog Exp $
+// $Id: Common.php,v 1.126.2.1 2004/10/19 04:20:58 cellog Exp $
 
 require_once 'PEAR.php';
 require_once 'Archive/Tar.php';
@@ -69,7 +69,7 @@ $GLOBALS['_PEAR_Common_dependency_types'] = array('pkg','ext','php','prog','ldli
  * Valid dependency relations
  * @var array
  */
-$GLOBALS['_PEAR_Common_dependency_relations'] = array('has','eq','lt','le','gt','ge','not', 'ne');
+$GLOBALS['_PEAR_Common_dependency_relations'] = array('has','eq','lt','le','gt','ge','not');
 
 /**
  * Valid file roles
@@ -1129,30 +1129,17 @@ class PEAR_Common extends PEAR
                 if (!empty($d['optional'])) {
                     if (!in_array($d['optional'], array('yes', 'no'))) {
                         $errors[] = "dependency $i: invalid relation optional attribute '$d[optional]', should be one of: yes no";
-                    } else {
-                        if (($d['rel'] == 'not' || $d['rel'] == 'ne') && $d['optional'] == 'yes') {
-                            $errors[] = "dependency $i: 'not' and 'ne' dependencies cannot be " .
-                                "optional";
-                        }
                     }
                 }
-                if ($d['rel'] != 'not' && $d['rel'] != 'has' && empty($d['version'])) {
+                if ($d['rel'] != 'has' && empty($d['version'])) {
                     $warnings[] = "dependency $i: missing version";
-                } elseif (($d['rel'] == 'not' || $d['rel'] == 'has') && !empty($d['version'])) {
-                    $warnings[] = "dependency $i: version ignored for `$d[rel]' dependencies";
-                }
-                if ($d['rel'] == 'not' && !empty($d['version'])) {
-                    $warnings[] = "dependency $i: 'not' defines a total conflict, to exclude " .
-                        "specific versions, use 'ne'";
+                } elseif ($d['rel'] == 'has' && !empty($d['version'])) {
+                    $warnings[] = "dependency $i: version ignored for `has' dependencies";
                 }
                 if ($d['type'] == 'php' && !empty($d['name'])) {
                     $warnings[] = "dependency $i: name ignored for php type dependencies";
                 } elseif ($d['type'] != 'php' && empty($d['name'])) {
                     $errors[] = "dependency $i: missing name";
-                }
-                if ($d['type'] == 'php' && $d['rel'] == 'not') {
-                    $errors[] = "dependency $i: PHP dependencies cannot use 'not' " .
-                        "rel, use 'ne' to exclude versions";
                 }
                 $i++;
             }

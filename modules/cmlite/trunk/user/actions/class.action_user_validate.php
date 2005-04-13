@@ -39,8 +39,7 @@ class action_user_validate extends action
             WHERE
                 md5_str='{$data['md5_str']}'";
         
-        $result = $this->B->db->query($sql);
-        $row    = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
+        $row = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
         
         if(!isset($row['uid']))
         {
@@ -84,14 +83,14 @@ class action_user_validate extends action
         
         $result = $this->B->db->query($sql);
         
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n".$result->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
         }        
         
         if(is_object($result))
         {        
-            while($row = &$result->fetchRow( MDB2_FETCHMODE_ASSOC ))
+            while($row = &$result->fetchRow( DB_FETCHMODE_ASSOC ))
             {
                 $sql = "
                     DELETE FROM 

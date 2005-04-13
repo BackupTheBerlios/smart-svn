@@ -47,8 +47,7 @@ class action_earchive_get_attach extends action
         $this->B->$data['var'] = array();
         $_result               = & $this->B->$data['var'];
 
-        $result = $this->B->db->query($sql);
-        $_result = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
+        $_result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
     }
 }
 

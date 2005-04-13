@@ -25,7 +25,11 @@ define ('SF_BASE_DIR', dirname(dirname(dirname(dirname(__FILE__)))) . '/');
 
 
 // Include the base file
-include( SF_BASE_DIR . 'index_inc_noview.php' );
+include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
+
+// Broadcast init event to all registered module event handlers
+// see modules/xxx/actions/class.xxx_sys_init.php
+B( 'sys_init' );
 
 // fetch emails
 M( MOD_EARCHIVE, 'fetch_emails', array('status' => 'status>1') );

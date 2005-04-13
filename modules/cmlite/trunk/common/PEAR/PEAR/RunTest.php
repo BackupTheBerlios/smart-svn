@@ -18,7 +18,7 @@
 // |                                                                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: RunTest.php,v 1.3.2.4 2005/02/17 17:47:55 cellog Exp $
+// $Id: RunTest.php,v 1.3.2.2 2004/11/09 19:55:49 cellog Exp $
 //
 
 /**
@@ -59,7 +59,7 @@ class PEAR_RunTest
     //  Run an individual test case.
     //
 
-    function run($file, $ini_settings = '')
+    function run($file)
     {
         $cwd = getcwd();
         $conf = &PEAR_Config::singleton();
@@ -72,10 +72,10 @@ class PEAR_RunTest
 
         // Load the sections of the test file.
         $section_text = array(
-            'TEST'    => '(unnamed test)',
-            'SKIPIF'  => '',
-            'GET'     => '',
-            'ARGS'    => '',
+            'TEST'   => '(unnamed test)',
+            'SKIPIF' => '',
+            'GET'    => '',
+            'ARGS'   => '',
         );
 
         if (!is_file($file) || !$fp = fopen($file, "r")) {
@@ -161,25 +161,14 @@ class PEAR_RunTest
 
         $args = $section_text['ARGS'] ? ' -- '.$section_text['ARGS'] : '';
 
+        $ini_settings='';
         $cmd = "$php$ini_settings -f $tmp_file$args 2>&1";
         if (isset($this->_logger)) {
             $this->_logger->log(2, 'Running command "' . $cmd . '"');
         }
+        $out = `$cmd`;
+        @unlink($tmp_post);
 
-        $savedir = getcwd(); // in case the test moves us around
-        if (isset($section_text['RETURNS'])) {
-            ob_start();
-            system($cmd, $return_value);
-            $out = ob_get_contents();
-            ob_end_clean();
-            @unlink($tmp_post);
-            $section_text['RETURNS'] = (int) trim($section_text['RETURNS']);
-            $returnfail = ($return_value != $section_text['RETURNS']);
-        } else {
-            $out = `$cmd`;
-            $returnfail = false;
-        }
-        chdir($savedir);
         // Does the output match what is expected?
         $output = trim($out);
         $output = preg_replace('/\r\n/', "\n", $output);
@@ -207,7 +196,7 @@ class PEAR_RunTest
             print(str_repeat('=', 80) . "\n");
             var_dump($output);
     */
-            if (!$returnfail && preg_match("/^$wanted_re\$/s", $output)) {
+            if (preg_match("/^$wanted_re\$/s", $output)) {
                 @unlink($tmp_file);
                 $this->_logger->log(0, "PASS $tested$info");
                 if (isset($old_php)) {
@@ -221,7 +210,7 @@ class PEAR_RunTest
             $wanted = preg_replace('/\r\n/',"\n",$wanted);
         // compare and leave on success
             $ok = (0 == strcmp($output,$wanted));
-            if (!$returnfail && $ok) {
+            if ($ok) {
                 @unlink($tmp_file);
                 $this->_logger->log(0, "PASS $tested$info");
                 if (isset($old_php)) {
@@ -238,24 +227,13 @@ class PEAR_RunTest
             $this->_logger->log(0, "FAIL $tested$info");
         }
 
-        if (isset($section_text['RETURNS'])) {
-            $GLOBALS['__PHP_FAILED_TESTS__'][] = array(
+        $GLOBALS['__PHP_FAILED_TESTS__'][] = array(
                             'name' => $file,
                             'test_name' => $tested,
                             'output' => ereg_replace('\.phpt$','.log', $file),
                             'diff'   => ereg_replace('\.phpt$','.diff', $file),
-                            'info'   => $info,
-                            'return' => $return_value
+                            'info'   => $info
                             );
-        } else {
-            $GLOBALS['__PHP_FAILED_TESTS__'][] = array(
-                            'name' => $file,
-                            'test_name' => $tested,
-                            'output' => ereg_replace('\.phpt$','.log', $file),
-                            'diff'   => ereg_replace('\.phpt$','.diff', $file),
-                            'info'   => $info,
-                            );
-        }
 
         // write .exp
         if (strpos($log_format,'E') !== FALSE) {
@@ -283,9 +261,7 @@ class PEAR_RunTest
             if (!$log = fopen($logname,'w')) {
                 return PEAR::raiseError("Cannot create test log - $logname");
             }
-            fwrite($log, $this->generate_diff($wanted, $output,
-                isset($section_text['RETURNS']) ? array(trim($section_text['RETURNS']),
-                    $return_value) : null));
+            fwrite($log, $this->generate_diff($wanted,$output));
             fclose($log);
         }
 
@@ -302,14 +278,6 @@ $wanted
 $output
 ---- FAILED
 ");
-            if ($returnfail) {
-                fwrite($log,"
----- EXPECTED RETURN
-$section_text[RETURNS]
----- ACTUAL RETURN
-$return_value
-");
-            }
             fclose($log);
             //error_report($file,$logname,$tested);
         }
@@ -321,7 +289,7 @@ $return_value
         return $warn ? 'WARNED' : 'FAILED';
     }
 
-    function generate_diff($wanted, $output, $return_value)
+    function generate_diff($wanted,$output)
     {
         $w = explode("\n", $wanted);
         $o = explode("\n", $output);
@@ -333,12 +301,7 @@ $return_value
         foreach($o1 as $idx => $val) $o2[sprintf("%03d>",$idx)] = sprintf("%03d+ ", $idx+1).$val;
         $diff = array_merge($w2, $o2);
         ksort($diff);
-        if ($return_value) {
-            $extra = "##EXPECTED: $return_value[0]\r\n##RETURNED: $return_value[1]";
-        } else {
-            $extra = '';
-        }
-        return implode("\r\n", $diff) . $extra;
+        return implode("\r\n", $diff);
     }
 
     //

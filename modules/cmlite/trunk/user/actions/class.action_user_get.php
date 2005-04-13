@@ -45,13 +45,11 @@ class action_user_get extends action
             WHERE
                 uid={$data['user_id']}";
         
-        $res = $this->B->db->query($sql);
+        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
         
-        $result = $res->fetchRow( MDB2_FETCHMODE_ASSOC );
-        
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n".$result->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             $error = 'Unexpected error';
             return $result = FALSE;
         } 
@@ -81,7 +79,9 @@ class action_user_get extends action
             exit;            
         }   
 
-        return SF_IS_VALID_ACTION;
+        
+        
+        return TRUE;
     }
     
     /**

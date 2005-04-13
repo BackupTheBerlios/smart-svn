@@ -41,17 +41,16 @@ class action_earchive_fetch_emails extends action
 
         // get all available lists
         M( MOD_EARCHIVE, 
-                     'get_lists', 
-                     array( 'var'    => 'all_lists',
-                            'status' => $status,
-                            'fields' => array('lid','emailserver','folder')));        
+           'get_lists', 
+           array( 'var'    => 'all_lists',
+                  'status' => $status,
+                  'fields' => array('lid','emailserver','folder')));        
 
         if(count($this->B->all_lists) > 0)
         {            
             // loop through the email accounts
             foreach ($this->B->all_lists as $account)
             {
-
                 if (!$this->_msg->connect($account['emailserver']))
                 {
                     $_error  = $this->_msg->alerts()."\n";
@@ -59,7 +58,7 @@ class action_earchive_fetch_emails extends action
                     trigger_error("Unable to build a connection to: ".$account['emailserver']."\n\n".$_error, E_USER_ERROR);
                     continue; // on error next list
                 }
-                
+
                 $this->_fetch_messages( $account );      
                 $this->_msg->expunge();             
             }            
@@ -87,49 +86,58 @@ class action_earchive_fetch_emails extends action
             for ($mid = 1; $mid <= $msgcount; $mid++)
             {
                 // init message data array
-                $this->_message_data = array( 'lid'        => 0,
-                                              'message_id' => '',
-                                              'root_id'    => '',
-                                              'parent_id'  => '',
-                                              'enc_type'   => '',
-                                              'sender'     => '',
-                                              'subject'    => '',
-                                              'mdate'      => '',
-                                              'body'       => '',
-                                              'folder'     => '',
-                                              'header'     => '');
-                
+                $this->_message_data = array( 'lid'        => $account['lid'],
+                                              'message_id' => "",
+                                              'root_id'    => "",
+                                              'parent_id'  => "",
+                                              'enc_type'   => "",
+                                              'sender'     => "",
+                                              'subject'    => "",
+                                              'mdate'      => "",
+                                              'body'       => "",
+                                              'folder'     => "",
+                                              'header'     => "");
+
+                // add blank message in db table to get message id
+                $message_id = M( MOD_EARCHIVE, 'add_message', $this->_message_data ); 
+
                 // Parse header information
                 $this->_msg->getHeaders( $mid );
-                echo $this->_msg->msg['pid'].' ';
+                // fetch header data
+                $this->_fetch_headers  ( $mid );  
+                
                 // Parse inline/attachment information specific to this part id
                 //
                 // See member variables begining with in or attach for
-                // available information, false, array('retrieve_all' => TRUE)
+                // available information
                 $this->_msg->getParts($mid);
-    
-
-                // fetch header data
-                $this->_fetch_headers  ( $mid );  
+                //echo $this->_msg->msg[$mid]['pid'];
+                //echo '<pre>';var_dump($this->_msg); echo '</pre><br><br><br>';
+                
+                
+                $this->_msg->getParts($mid, $this->_msg->msg[$mid]['pid']);
+                
+                //echo '<pre>';var_dump($this->_msg->msg); echo '</pre>';
+                
                 // fetch body data
                 $this->_fetch_body     ( $mid );
                 
-                // list id of this message
-                $this->_message_data['lid'] = $account['lid'];
-                
-                $this->_message_data['folder'] = $this->B->db->escape($_folder = commonUtil::unique_md5_str());
+                $this->_message_data['folder'] = $_folder = commonUtil::unique_md5_str();
                 
                 if($this->B->sys['module']['earchive']['get_header'] == TRUE)
                 {
-                    $this->_message_data['header'] = $this->B->db->escape($this->_msg->getRawHeaders( $mid ));
+                    $this->_message_data['header'] = $this->_msg->getRawHeaders( $mid );
                 }
                 else
                 {
                     $this->_message_data['header'] = "'".""."'";
                 }
                 
-                // add message in db table
-                if(FALSE == ($message_id = M( MOD_EARCHIVE, 'add_message', $this->_message_data ) ))
+                // update message in db table
+                if(FALSE == (M( MOD_EARCHIVE, 
+                                'update_message', 
+                                array('mid'    => $message_id,
+                                      'fields' => $this->_message_data ) )))
                 {
                     // Clean up left over variables
                     $this->_msg->unsetParts($mid);
@@ -151,10 +159,10 @@ class action_earchive_fetch_emails extends action
                 $_content = $this->_message_data['subject'].' '.$this->_message_data['sender'].' '.$this->_message_data['body'];
                 // indexing content
                 M( MOD_EARCHIVE, 
-                             'word_indexer', 
-                             array( 'content' => $_content,
-                                    'mid'     => $message_id, 
-                                    'lid'     => $account['lid']));   
+                   'word_indexer', 
+                   array( 'content' => $_content,
+                          'mid'     => $message_id, 
+                          'lid'     => $account['lid']));   
             }
         }
     }
@@ -189,16 +197,16 @@ class action_earchive_fetch_emails extends action
                 $_file = $this->_decodeEmailHeader($this->_msg->msg[$mid]['at']['fname'][$i]);
                 
                 $att_data['path_file'] = $path.'/'.$_file;
-                $att_data['file']      = $this->B->db->escape($_file);
-                $att_data['type']      = $this->B->db->escape($this->_msg->msg[$mid]['at']['ftype'][$i]);
+                $att_data['file']      = $this->B->db->quoteSmart($_file);
+                $att_data['type']      = $this->B->db->quoteSmart($this->_msg->msg[$mid]['at']['ftype'][$i]);
                 $att_data['size']      = $this->_msg->msg[$mid]['at']['fsize'][$i];
                 $att_data['mid']       = $message_id;
                 $att_data['lid']       = $account['lid'];
                 $att_data['content']   = $body['message'];
                 
                 M( MOD_EARCHIVE,
-                             'add_attach',
-                             $att_data);                             
+                   'add_attach',
+                   $att_data);                             
             }
         }
         return TRUE;
@@ -217,19 +225,20 @@ class action_earchive_fetch_emails extends action
         {
             foreach($this->_msg->msg[$mid]['in']['pid'] as $i => $inid)
             {
-                $body = $this->_msg->getBody( $mid, $this->_msg->msg[$mid]['in']['pid'][$i] );
-
-                $this->_message_data['body'] .= $body['message'];
+                if( @preg_match("/^text/", $this->_msg[$mid]['in']['ftype'][$i]) )
+                {
+                    $body = $this->_msg->getBody( $mid, $this->_msg->msg[$mid]['in']['pid'][$i] );
+                    $this->_message_data['body'] .= $body['message'];
+                    $this->_message_data['enc_type'] = $body['ftype'];
+                }
             }
         }
         else
         {
             $body = $this->_msg->getBody( $mid );
-            $this->_message_data['body'] .= $body['message'];                  
+            $this->_message_data['body'] .= $body['message'];  
+            $this->_message_data['enc_type'] = $body['ftype'];
         }
-        
-        $this->_message_data['enc_type'] = $body['ftype'];
-        $this->_message_data['body'] = $this->B->db->escape($this->_message_data['body']);
         
         return TRUE;
     }
@@ -303,9 +312,9 @@ class action_earchive_fetch_emails extends action
             }
         }
         
-        $this->_message_data['sender']  = $this->B->db->escape($this->_html_activate_links($this->_message_data['sender']));
-        $this->_message_data['subject'] = $this->B->db->escape($this->_message_data['subject']);
-        $this->_message_data['mdate']   = $this->B->db->escape(date('Y-m-d H:i:s', $this->_msg->header[$mid]['udate']));
+        $this->_message_data['sender']  = $this->_html_activate_links($this->_message_data['sender']);
+        $this->_message_data['subject'] = $this->_message_data['subject'];
+        $this->_message_data['mdate']   = date('Y-m-d H:i:s', $this->_msg->header[$mid]['udate']);
     
         return TRUE;
     }

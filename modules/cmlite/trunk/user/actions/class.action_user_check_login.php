@@ -24,8 +24,8 @@ class action_user_check_login extends action
     function perform( & $data )
     {    
         // get login and password in sql conform format
-        $passwd = $this->B->db->escape( md5($data['passwd']) );
-        $login  = $this->B->db->escape( $data['login']       );
+        $passwd = $this->B->db->quoteSmart( md5($data['passwd']) );
+        $login  = $this->B->db->quoteSmart( $data['login']       );
         
         $sql = "SELECT 
                     uid,
@@ -43,7 +43,7 @@ class action_user_check_login extends action
      
         if($result->numRows() == 1)
         {
-            $row = $result->fetchRow( MDB2_FETCHMODE_ASSOC );
+            $row = $result->fetchRow( DB_FETCHMODE_ASSOC );
             
             // set session data
             $this->B->session->set('xxxxx',    TRUE);
@@ -95,15 +95,15 @@ class action_user_check_login extends action
         if( @preg_match("/[^a-zA-Z0-9]/", $data['login']) )
         {
             $this->B->$data['error'] = 'Login entry is not correct! Only 3-30 chars a-zA-Z0-9 are accepted.';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }
         if( @preg_match("/[^a-zA-Z0-9]/", $data['passwd']) )
         {
             $this->B->$data['error'] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9 are accepted.';
-            return SF_NO_VALID_ACTION;        
+            return FALSE;        
         }  
         
-        return SF_IS_VALID_ACTION;
+        return TRUE;
     }
 }
 

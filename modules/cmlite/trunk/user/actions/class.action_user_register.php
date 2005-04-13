@@ -33,11 +33,11 @@ class action_user_register extends action
         }
            
         $_data = array( 'error'     => 'tmp_error',
-                        'user_data' => array('forename' => $this->B->db->escape(commonUtil::stripSlashes($data['reg_data']['forename'])),
-                                             'lastname' => $this->B->db->escape(commonUtil::stripSlashes($data['reg_data']['lastname'])),
-                                             'email'    => $this->B->db->escape(commonUtil::stripSlashes($data['reg_data']['email'])),
-                                             'login'    => $this->B->db->escape(commonUtil::stripSlashes($data['reg_data']['login'])),
-                                             'passwd'   => $this->B->db->escape(md5($data['reg_data']['passwd1'])),
+                        'user_data' => array('forename' => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['forename'])),
+                                             'lastname' => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['lastname'])),
+                                             'email'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['email'])),
+                                             'login'    => $this->B->db->quoteSmart(commonUtil::stripSlashes($data['reg_data']['login'])),
+                                             'passwd'   => $this->B->db->quoteSmart(md5($data['reg_data']['passwd1'])),
                                              'rights'   => 1,
                                              'status'   => 1));
                
@@ -107,9 +107,9 @@ class action_user_register extends action
         
         $res = $this->B->db->query($sql);
 
-        if (MDB2::isError($res)) 
+        if (DB::isError($res)) 
         {
-            trigger_error($res->getMessage()."\n".$res->getCode()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($res->getMessage()."\n".$res->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }
         

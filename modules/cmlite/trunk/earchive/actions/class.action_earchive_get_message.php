@@ -48,12 +48,11 @@ class action_earchive_get_message extends action
             WHERE
                 mid={$data['mid']}";
         
-        $res = $this->B->db->query($sql);
-        $result = $res->fetchRow( MDB2_FETCHMODE_ASSOC );
+        $result = $this->B->db->getRow($sql, array(), DB_FETCHMODE_ASSOC);
 
-        if (MDB2::isError($result)) 
+        if (DB::isError($result)) 
         {
-            trigger_error($result->getMessage()."\n\nINFO: ".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+            trigger_error($result->getMessage()."\n\nINFO: ".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             return FALSE;
         }
 

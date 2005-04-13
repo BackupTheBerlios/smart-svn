@@ -35,9 +35,9 @@ class action_earchive_upgrade extends action
         
             $result = $this->B->db->query($sql);
 
-            if (MDB2::isError($result))
+            if (DB::isError($result))
             {
-                trigger_error($result->getMessage()."\n".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }   
             
             // drop sequence table. 
@@ -46,9 +46,9 @@ class action_earchive_upgrade extends action
         
             $result = $this->B->db->query($sql);
 
-            if (MDB2::isError($result))
+            if (DB::isError($result))
             {
-                trigger_error($result->getMessage()."\n".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }   
             
             // Add autoincrement and primary key to uid. 
@@ -60,9 +60,9 @@ class action_earchive_upgrade extends action
         
             $result = $this->B->db->query($sql);
 
-            if (MDB2::isError($result))
+            if (DB::isError($result))
             {
-                trigger_error($result->getMessage()."\n".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }   
             
             // drop sequence table. 
@@ -71,9 +71,9 @@ class action_earchive_upgrade extends action
         
             $result = $this->B->db->query($sql);
 
-            if (MDB2::isError($result))
+            if (DB::isError($result))
             {
-                trigger_error($result->getMessage()."\n".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }    
             
             // Add autoincrement and primary key to uid. 
@@ -84,9 +84,9 @@ class action_earchive_upgrade extends action
         
             $result = $this->B->db->query($sql);
 
-            if (MDB2::isError($result))
+            if (DB::isError($result))
             {
-                trigger_error($result->getMessage()."\n".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }   
             
             // drop sequence table. 
@@ -95,9 +95,9 @@ class action_earchive_upgrade extends action
         
             $result = $this->B->db->query($sql);
 
-            if (MDB2::isError($result))
+            if (DB::isError($result))
             {
-                trigger_error($result->getMessage()."\n".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }              
         }
         // version prior to 0.4.3
@@ -117,9 +117,9 @@ class action_earchive_upgrade extends action
         
             $result = $this->B->db->query($sql); 
 
-            if (MDB2::isError($result))
+            if (DB::isError($result))
             {
-                trigger_error($result->getMessage()."\n".$result->code()."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
+                trigger_error($result->getMessage()."\n".$result->userinfo."\n\nFILE: ".__FILE__."\nLINE: ".__LINE__, E_USER_ERROR);
             }   
             
             $this->B->sys['module']['earchive']['get_header'] = false;

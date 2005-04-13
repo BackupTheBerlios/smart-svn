@@ -17,62 +17,13 @@
 class commonUtil
 {
     /**
-     * Get the base location
-     *
-     * @return string base location
-     */
-    function base_location()
-    {
-        $base_dirname = dirname($_SERVER['PHP_SELF']);
-
-        if($base_dirname == '/' )
-            $base_dirname = '';
-
-        if(isset($_SERVER['SCRIPT_URI']))
-        {
-            $referer = $_SERVER['SCRIPT_URI'];
-        }
-        elseif(isset($_SERVER["HTTP_REFERER"]))
-        {
-            $referer = $_SERVER["HTTP_REFERER"];
-        }
-        elseif(isset($_ENV["HTTPS"]))
-        {
-            $referer = $_ENV["HTTPS"];
-        }
-        else
-        {
-            $referer = 'http://';
-        }
-        
-        // Build the http protocol referrer
-        //
-        if(preg_match("/^http([s]?)/i", $referer, $tmp))
-        {
-            $http = 'http' . $tmp[1] . '://';
-        }
-        elseif(preg_match("/^on$/i", $referer))
-        {
-            $http = 'https://';
-        }    
-        else
-        {
-            $http = $referer;
-        }    
-        
-        return $http . $_SERVER['HTTP_HOST'] . $base_dirname;
-    }  
-    
-    /**
      * Add slashes if magic_quotes are disabled
      *
      * @return string base location
      */ 
     function addSlashes( $var )
     {
-        $magicQuote = get_magic_quotes_gpc();
-
-        if ( $magicQuote == 0 )
+        if ( SF_MAGIC_QUOTES_GPC == 0 )
         {   
             return addslashes($var);
         }
@@ -89,9 +40,7 @@ class commonUtil
      */ 
     function stripSlashes( $var )
     {
-        $magicQuote = get_magic_quotes_gpc();
-
-        if ( $magicQuote == 0 )
+        if ( SF_MAGIC_QUOTES_GPC == 0 )
         {   
             return $var;
         }
@@ -103,8 +52,7 @@ class commonUtil
 
     function stripSlashes_special( $var )
     {
-        $var = commonUtil::stripSlashes($var);
-        return preg_replace("/\\\\/","",$var);
+        return stripslashes(preg_replace("/(\\\\)([^'\"])/","\\1\\\\\\2",$var));
     }
     
     /**
