@@ -18,7 +18,7 @@
 // |          Greg Beaver <cellog@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id: Package.php,v 1.61.2.5 2004/11/09 19:56:57 cellog Exp $
+// $Id: Package.php,v 1.61.2.7 2005/02/17 17:47:55 cellog Exp $
 
 require_once 'PEAR/Common.php';
 require_once 'PEAR/Command/Common.php';
@@ -160,7 +160,16 @@ use the "slide" option to move the release tag.
                 'recur' => array(
                     'shortopt' => 'r',
                     'doc' => 'Run tests in child directories, recursively.  4 dirs deep maximum',
-                )
+                ),
+                'ini' => array(
+                    'shortopt' => 'i',
+                    'doc' => 'actual string of settings to pass to php in format " -d setting=blah"',
+                    'arg' => 'SETTINGS'
+                ),
+                'realtimelog' => array(
+                    'shortopt' => 'l',
+                    'doc' => 'Log test runs/results as they are run',
+                ),
             ),
             'doc' => '[testfile|dir ...]
 Run regression tests with PHP\'s regression testing script (run-tests.php).',
@@ -447,6 +456,9 @@ Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm
         } else {
             $depth = 1;
         }
+        if (!count($params)) {
+            $params[] = '.';
+        }
         foreach ($params as $p) {
             if (is_dir($p)) {
                 $dir = System::find(array($p, '-type', 'f',
@@ -454,57 +466,99 @@ Wrote: /usr/src/redhat/RPMS/i386/PEAR::Net_Socket-1.0-1.i386.rpm
                                             '-name', '*.phpt'));
                 $tests = array_merge($tests, $dir);
             } else {
-                $tests[] = $p;
+                if (!@file_exists($p)) {
+                    if (!preg_match('/\.phpt$/', $p)) {
+                        $p .= '.phpt';
+                    }
+                    $dir = System::find(array(dirname($p), '-type', 'f',
+                                                '-maxdepth', $depth,
+                                                '-name', $p));
+                    $tests = array_merge($tests, $dir);
+                } else {
+                    $tests[] = $p;
+                }
             }
         }
-        foreach ($tests as $t) {
-            $run->run($t);
+        $ini_settings = '';
+        if (isset($options['ini'])) {
+            $ini_settings .= $options['ini'];
         }
-        $failed = array();
+        if (isset($_ENV['TEST_PHP_INCLUDE_PATH'])) {
+            $ini_settings .= " -d include_path={$_ENV['TEST_PHP_INCLUDE_PATH']}";
+        }
+        if ($ini_settings) {
+            $this->ui->outputData('Using INI settings: "' . $ini_settings . '"');
+        }
+        $skipped = $passed = $failed = array();
+        $this->ui->outputData('Running ' . count($tests) . ' tests', $command);
+        $start = time();
+        if (isset($options['realtimelog'])) {
+            @unlink('run-tests.log');
+        }
         foreach ($tests as $t) {
-            if ($run->run($t) == 'FAILED') {
+            if (isset($options['realtimelog'])) {
+                $fp = @fopen('run-tests.log', 'a');
+                if ($fp) {
+                    fwrite($fp, "Running test $t...");
+                    fclose($fp);
+                }
+            }
+            $result = $run->run($t, $ini_settings);
+            if (OS_WINDOWS) {
+                for($i=0;$i<2000;$i++) {
+                    $i = $i; // delay - race conditions on windows
+                }
+            }
+            if (isset($options['realtimelog'])) {
+                $fp = @fopen('run-tests.log', 'a');
+                if ($fp) {
+                    fwrite($fp, "$result\n");
+                    fclose($fp);
+                }
+            }
+            if ($result == 'FAILED') {
             	$failed[] = $t;
             }
+            if ($result == 'PASSED') {
+            	$passed[] = $t;
+            }
+            if ($result == 'SKIPPED') {
+            	$skipped[] = $t;
+            }
         }
+        $total = date('i:s', time() - $start);
         if (count($failed)) {
-    		$this->ui->outputData('FAILED TESTS:');
+            $output = "TOTAL TIME: $total\n";
+            $output .= count($passed) . " PASSED TESTS\n";
+            $output .= count($skipped) . " SKIPPED TESTS\n";
+    		$output .= count($failed) . " FAILED TESTS:\n";
         	foreach ($failed as $failure) {
-        		$this->ui->outputData($failure);
+        		$output .= $failure . "\n";
+        	}
+            if (isset($options['realtimelog'])) {
+                $fp = @fopen('run-tests.log', 'a');
+            } else {
+                $fp = @fopen('run-tests.log', 'w');
+            }
+            if ($fp) {
+                fwrite($fp, $output, strlen($output));
+                fclose($fp);
+                $this->ui->outputData('wrote log to "' . realpath('run-tests.log') . '"', $command);
+            }
+        } elseif (@file_exists('run-tests.log') && !@is_dir('run-tests.log')) {
+            @unlink('run-tests.log');
+        }
+        $this->ui->outputData('TOTAL TIME: ' . $total);
+        $this->ui->outputData(count($passed) . ' PASSED TESTS', $command);
+        $this->ui->outputData(count($skipped) . ' SKIPPED TESTS', $command);
+        if (count($failed)) {
+    		$this->ui->outputData(count($failed) . ' FAILED TESTS:', $command);
+        	foreach ($failed as $failure) {
+        		$this->ui->outputData($failure, $command);
         	}
         }
 
         return true;
-        /*
-        $cwd = getcwd();
-        $php = $this->config->get('php_bin');
-        putenv("TEST_PHP_EXECUTABLE=$php");
-        // all core PEAR tests use this constant to determine whether they should be run or not
-        putenv("PHP_PEAR_RUNTESTS=1");
-        $ip = ini_get("include_path");
-        $ps = OS_WINDOWS ? ';' : ':';
-        $run_tests = $rtsts = $this->config->get('php_dir') . DIRECTORY_SEPARATOR . 'run-tests.php';
-        if (!file_exists($run_tests)) {
-            $run_tests = PEAR_INSTALL_DIR . DIRECTORY_SEPARATOR . 'run-tests.php';
-            if (!file_exists($run_tests)) {
-                return $this->raiseError("No run-tests.php file found. Please copy this ".
-                                                "file from the sources of your PHP distribution to $rtsts");
-            }
-        }
-        if (OS_WINDOWS) {
-            // note, this requires a slightly modified version of run-tests.php
-            // for some setups
-            // unofficial download location is in the pear-dev archives
-            $argv = $params;
-            array_unshift($argv, $run_tests);
-            $argc = count($argv);
-            include $run_tests;
-        } else {
-            $plist = implode(' ', $params);
-            $cmd = "$php -d include_path=$cwd$ps$ip -f $run_tests -- $plist";
-            system($cmd);
-        }
-        return true;
-        */
     }
 
     // }}}
