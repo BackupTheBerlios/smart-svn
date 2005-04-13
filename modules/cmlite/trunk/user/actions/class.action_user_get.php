@@ -79,9 +79,7 @@ class action_user_get extends action
             exit;            
         }   
 
-        
-        
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
     
     /**

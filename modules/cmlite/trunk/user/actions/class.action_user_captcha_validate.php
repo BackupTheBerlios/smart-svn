@@ -33,13 +33,13 @@ class action_user_captcha_validate extends action
         $_error = & $this->B->$data['error_var'];
 
         // Captcha privat key!!!
-        $captcha_privat_key = md5(implode('',file(SF_BASE_DIR.'modules/common/config/config.php')));
+        $captcha_privat_key = md5(implode('',file(SF_BASE_DIR.'data/common/config/config.php')));
         
         // The ttf font to create turing chars images
         $captcha_ttf_font = SF_BASE_DIR .'modules/user/actions/captcha/ttf_font/activa.ttf';
     
         // Relative folder of captcha pictures
-        $captcha_pictures_folder = SF_RELATIVE_PATH . 'modules/user/actions/captcha/pics';
+        $captcha_pictures_folder = SF_RELATIVE_PATH . 'data/captcha';
     
         // Type of turing chars
         $captcha_char_type = 'num'; // or 'hex' 

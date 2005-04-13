@@ -142,10 +142,10 @@ class action_user_register extends action
         
         if($this->_error !== FALSE)
         {
-            return FALSE;
+            return SF_NO_VALID_ACTION;
         }
         
-        return TRUE;
+        return SF_IS_VALID_ACTION;
     }
 }
 
