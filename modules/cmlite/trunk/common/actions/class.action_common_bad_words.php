@@ -27,15 +27,15 @@ class action_common_bad_words extends action
         $this->B->$data['var'] = array();
         $this->result          = & $this->B->$data['var'];       
         
-        if($data['get_bad_words'])
+        if( isset($data['get_bad_words']) )
         { 
             $this->_get_bad_words(); 
         }
-        elseif($data['get_bad_words_lang'])
+        elseif( isset($data['get_bad_words_lang']) )
         { 
             $this->_get_bad_words_lang(); 
         }
-        elseif($data['delete_bad_words_lang'])
+        elseif( isset($data['delete_bad_words_lang']) )
         { 
             $this->_delete_bad_words_lang( $data['delete_bad_words_lang'] ); 
         }        

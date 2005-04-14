@@ -64,12 +64,12 @@ $this->B->dsn = array('phptype'  => 'mysql',
                 'hostspec' => $this->B->conf_val['db']['host'],
                 'database' => $this->B->conf_val['db']['name']);
 
-$this->B->dboptions = array('debug'       => 2,
-                      'portability' => DB_PORTABILITY_ALL);
-
 // include PEAR DB class
 include_once( SF_BASE_DIR . 'modules/common/PEAR/DB.php');  
-    
+  
+$this->B->dboptions = array('debug'       => 2,
+                      'portability' => DB_PORTABILITY_ALL);  
+  
 $this->B->db =& DB::connect($this->B->dsn, $this->B->dboptions);
 if (DB::isError($this->B->db))
 {

@@ -38,7 +38,7 @@ class action_setup_sys_setup extends action
             $success = M( MOD_COMMON,       'sys_setup' );            
 
         if($success == TRUE)
-            $success = M( MOD_NAVIGATION,   'sys_setup' );
+            $success = M( MOD_EARCHIVE,     'sys_setup' );
 
         if($success == TRUE)
             $success = M( MOD_OPTION,       'sys_setup' );

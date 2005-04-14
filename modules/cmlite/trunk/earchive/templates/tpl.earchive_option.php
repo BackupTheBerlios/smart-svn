@@ -32,7 +32,7 @@
       <td colspan="2" align="left" valign="middle" class="optiontitle">Also fetch raw headers of emails</td>
     </tr>
     <tr>
-      <td width="4%" align="left" valign="top"  class="optiondesc"><input name="earchive_fetch_headers" type="checkbox" value="true" <?php if($B->sys['module']['earchive']['get_header'] == TRUE) echo 'checked="checked"'; ?>>
+      <td width="4%" align="left" valign="top"  class="optiondesc"><input name="earchive_fetch_headers" type="checkbox" value="true" <?php if(isset($B->sys['module']['earchive']['get_header']) && ($B->sys['module']['earchive']['get_header'] == TRUE)) echo 'checked="checked"'; ?>>
 </td>
       <td width="96%" align="left" valign="top"  class="optiondesc"><input type="submit" name="update_earchive_options_rawheaders" value="update" onclick="subok(this.form.update_earchive_options_rawheaders);">
       </td>

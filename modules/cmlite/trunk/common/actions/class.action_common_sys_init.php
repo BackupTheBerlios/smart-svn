@@ -46,7 +46,7 @@ class action_common_sys_init extends action
             include_once( SF_BASE_DIR . 'data/common/config/config.php' );  
 
         // if setup was done
-        if($this->B->sys['info']['status'] == TRUE)
+        if(isset($this->B->sys['info']['status']) && $this->B->sys['info']['status'] == TRUE)
         { 
             // include PEAR DB class
             include_once( SF_BASE_DIR . 'modules/common/PEAR/DB.php');        
@@ -104,18 +104,18 @@ class action_common_sys_init extends action
      
         if( SF_SECTION == 'admin')
         {
-            $h_list = $GLOBALS['handler_list'];
+            $m_list = $GLOBALS['sf_module_list'];
             
             // sort handler array by name
-            ksort($h_list);
+            ksort($m_list);
         
             // assign template handler names array
             // this array is used to build the modul select form of the admin menu
             $this->B->tpl_mod_list = array();    
 
-            foreach ($h_list as $key => $value)
+            foreach ($m_list as $key => $value)
             {
-                if( $value['menu_visibility'] == TRUE )
+                if( isset($value['menu_visibility']) && ($value['menu_visibility'] == TRUE) )
                 {
                     $this->B->tpl_mod_list[$key] =  $value;
                 }

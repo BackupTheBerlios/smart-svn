@@ -22,7 +22,7 @@ if (!defined('SF_SECURE_INCLUDE'))
 }
 
 // Name of the module
-define ( 'MOD_COMMON' , 'user');
+define ( 'MOD_COMMON' , 'common');
 
 // Version of this module
 define ( 'MOD_COMMON_VERSION' , '0.4');
@@ -30,7 +30,7 @@ define ( 'MOD_COMMON_VERSION' , '0.4');
 // register this module                       
 if (FALSE == register_module( MOD_COMMON,
                               array ( 'module'           => MOD_COMMON,
-                                      'menu_visibility'  => TRUE) ))
+                                      'menu_visibility'  => FALSE) ))
 {
     trigger_error( 'The module '.MOD_COMMON.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
 }   
@@ -51,6 +51,11 @@ define('SF_AUTH_MODULE',      'user'); // required
 define('SF_BASE_MODULE',      MOD_COMMON); // required
 
 /**
+ * The module which play a base role required for all other modules.
+ */
+define('SF_LAST_MODULE',      'user'); // required
+
+/**
  * The module (name) which takes the global options part.
  */
 define('SF_OPTION_MODULE',    'option'); // required
@@ -69,6 +74,12 @@ define('SF_TEMPLATE_MAIN',     SF_BASE_DIR . 'modules/common/templates/index.tpl
  * Media folder of this module set. (css, layout images, javascript)
  */
 define('SF_MEDIA_FOLDER',     'modules/common/media'); // optional
+
+/**
+ * Default dir and file mode
+ */
+define('SF_DIR_MODE',                 0775);
+define('SF_FILE_MODE',                0775);
 
 /**
  * Get get_magic_quotes_gpc

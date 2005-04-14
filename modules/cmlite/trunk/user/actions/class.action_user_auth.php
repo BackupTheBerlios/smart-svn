@@ -30,7 +30,40 @@ class action_user_auth extends action
      * @param array $data
      */
     function perform( $data = FALSE )
-    {        
+    {  
+        // check if user logged id exists
+        if(!$this->B->session->exists('user_logged_uid'))
+        {
+            $this->_is_logged = FALSE;
+        }      
+        else
+        {
+            // get session data to verify if this session is valide
+            $this->B->user_logged_uid    = $this->B->session->get('user_logged_uid');
+            $this->B->user_logged_login  = $this->B->session->get('user_logged_login');
+            $user_logged_hashid          = $this->B->session->get('user_logged_hashid');
+
+            // create a unique user hash id
+            $compare_hashid = md5( $this->B->sys['system']['hashid'] . 
+                                   $this->B->user_logged_login . 
+                                   $this->B->user_logged_uid .
+                                   $_SERVER['HTTP_USER_AGENT'] . 
+                                   $_SERVER['HTTP_ACCEPT_CHARSET'] );
+
+            // compare the two hash id's
+            if( $user_logged_hashid != $compare_hashid )
+            {
+                // delete all session vars
+                $this->B->session->del_all();
+            
+                $this->_is_logged = FALSE;       
+            }
+            else
+            {
+                $this->_is_logged = TRUE;            
+            }
+        }
+        
         if( (SF_SECTION == 'admin') && (FALSE == $this->_is_logged) )
         {
             $_REQUEST['view'] = 'login';
@@ -44,48 +77,6 @@ class action_user_auth extends action
             $this->B->user_is_logged     = $this->_is_logged;
             $this->B->user_logged_rights = $this->B->session->get('user_logged_rights');
             return TRUE;
-        }
-    } 
-    
-    /**
-     * Validate this user session (authentication)
-     *
-     * @return TRUE allways
-     */    
-    function validate( $data = FALSE )
-    {
-        // check if user logged id exists
-        if(!$this->B->session->exists('user_logged_uid'))
-        {
-            $this->_is_logged = FALSE;
-            return TRUE;
-        }      
-
-        // get session data to verify if this session is valide
-        $this->B->user_logged_uid    = $this->B->session->get('user_logged_uid');
-        $this->B->user_logged_login  = $this->B->session->get('user_logged_login');
-        $user_logged_hashid          = $this->B->session->get('user_logged_hashid');
-
-        // create a unique user hash id
-        $compare_hashid = md5( $this->B->sys['system']['hashid'] . 
-                               $this->B->user_logged_login . 
-                               $this->B->user_logged_uid .
-                               $_SERVER['HTTP_USER_AGENT'] . 
-                               $_SERVER['HTTP_ACCEPT_CHARSET'] );
-
-        // compare the two hash id's
-        if( $user_logged_hashid != $compare_hashid )
-        {
-            // delete all session vars
-            $this->B->session->del_all();
-            
-            $this->_is_logged = FALSE;
-            return TRUE;        
-        }
-        else
-        {
-            $this->_is_logged = TRUE;
-            return TRUE;              
         }
     }    
 }
