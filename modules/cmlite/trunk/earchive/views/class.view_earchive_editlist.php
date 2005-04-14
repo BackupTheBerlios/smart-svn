@@ -44,7 +44,7 @@ class view_earchive_editlist extends view
             // check if the user of this request try to delete a list
             // with rights other than administrator 5.
             //
-            if( TRUE == F( MOD_EARCHIVE, 'permission', array('action' => 'delete')))
+            if( TRUE == M( MOD_EARCHIVE, 'permission', array('action' => 'delete')))
             {
                 M( MOD_EARCHIVE, 
                    'delete_list', 
