@@ -34,6 +34,8 @@ class action_earchive_get_list extends action
         $result                = & $this->B->$data['var'];              
         
         $comma = '';
+        $_fields = '';
+        
         foreach ($data['fields'] as $f)
         {
             $_fields .= $comma.$f;

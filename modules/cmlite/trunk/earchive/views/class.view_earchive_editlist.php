@@ -39,7 +39,7 @@ class view_earchive_editlist extends view
         $this->B->form_error = FALSE;
 
         // delete list
-        if($_POST['dellist'] == 1)
+        if(isset($_POST['dellist']) && ($_POST['dellist'] == 1))
         {
             // check if the user of this request try to delete a list
             // with rights other than administrator 5.

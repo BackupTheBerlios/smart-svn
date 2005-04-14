@@ -62,7 +62,6 @@ class view_earchive_addlist extends view
                              'emailserver' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['emailserver'])),
                              'email'       => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['email'])),
                              'description' => $this->B->db->quoteSmart(commonUtil::stripSlashes($_POST['description'])),
-                             'folder'      => $this->B->db->quoteSmart($list_folder),
                              'status'      => (int)$_POST['status']);
              
                 if(TRUE === M( MOD_EARCHIVE, 'add_list', $this->B->tmp_data))

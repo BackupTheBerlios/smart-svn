@@ -48,7 +48,7 @@ class action_earchive_get_messages extends action
         }        
 
         $_where = '';
-        if( $data['mode'] == 'tree' )
+        if( isset($data['mode']) && ($data['mode'] == 'tree') )
         {
             $_where = " AND root_id='' ";
             if( !isset($data['fields']['root_id']) )
@@ -137,11 +137,24 @@ class action_earchive_get_messages extends action
         // get var name to store the result
         $_result       = & $this->B->$data['var'];
 
+        $_getmode = '';
+        $_getpage = '';
+        
+        if(isset($_GET['mode']))
+        {
+            $_getmode = $_GET['mode'];
+        }
+        
+        if(isset($_GET['pageID']))
+        {
+            $_getpage = $_GET['pageID'];
+        }        
+        
         // check if cache ID exists
         if (M( MOD_COMMON, 
                'cache_get',
                array('result'     => $data['var'],
-                     'cacheID'    => SF_SECTION.$lid.$_GET['mode'].$_GET['pageID'],
+                     'cacheID'    => SF_SECTION.$lid.$_getmode.$_getpage,
                      'cacheGroup' => 'earchive'))) 
         {
             return TRUE;
