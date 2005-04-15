@@ -22,12 +22,21 @@ class action_common_email_obfuscating extends action
      * @param string $content
      * @return string filtered content
      */  
-    function perform()
+    function perform( $data = FALSE )
     {
-        $this->B->tpl_buffer_content = str_replace("@", " AT ", $this->B->tpl_buffer_content );   
-        
+        switch($data['type'])
+        {
+            case '40':
+                $this->B->tpl_buffer_content = preg_replace("/(href=[\"\']mailto:[^@]+)@/", "\\1%40", $this->B->tpl_buffer_content );
+                $this->B->tpl_buffer_content = str_replace("@", " [&#". ord('@').";] ", $this->B->tpl_buffer_content );
+                break;
+            case 'at':
+            case 'default':
+                $this->B->tpl_buffer_content = str_replace("@", " [@] ", $this->B->tpl_buffer_content );   
+                break;            
+        }
         return SF_IS_VALID_ACTION;
-    }
+    }    
 }
 
 ?>
