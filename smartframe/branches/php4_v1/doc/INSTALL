@@ -1,0 +1,13 @@
+Smart PHP Framework install instructions
+---------------------------------------------
+
+If you downloaded only the raw framework you have to create or install some modules. The raw framework only manage
+modules. It has no build in high level application functionalities.
+
+If downloaded the test package, you have to point your navigator to the folder
+where you uploaded the extracted framework archive. A setup menu should appear.
+
+Suggestions and bug reports are welcome.
+
+A. Turpel
+smart@open-publisher.net
