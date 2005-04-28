@@ -10,13 +10,21 @@
 // ----------------------------------------------------------------------
 
 /**
- * Base Object class (Container)
- *
+ * Parent factory view class
  *
  */
  
-class Base
+class SmartViewFactory extends SmartObject
 {
+    /**
+     * Model object
+     */
+    protected $model;
+    
+    public function __construct( $model )
+    {
+        $this->model = $model;
+    }
 }
 
 ?>

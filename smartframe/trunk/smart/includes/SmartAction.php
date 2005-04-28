@@ -10,59 +10,53 @@
 // ----------------------------------------------------------------------
 
 /**
- * default action. Parent class of every action class
+ * Parent action from which all child actions extends
  *
  */
- 
-class action
+
+class SmartAction extends SmartObject
 {
     /**
-     * Global system instance
-     * @var object $B
+     * Data passed to the Constructor
+     * @var mixed $constructorData
      */
-    var $B;
-
-    /**
-     * Error array
-     * @var array $errors
-     */
-    var $errors = array();
+    public $constructorData;
     
     /**
-     * constructor php4
-     *
+     * Smart Model
+     * @var object $model
      */
-    function action( $data = FALSE )
-    {
-        $this->__construct( $data );
-    }
+    public $model;    
 
     /**
-     * constructor php5
+     * constructor
      *
+     * @param mixed $data Data passed to the constructor
      */
-    function __construct( &$data )
+    function __construct( $data = FALSE )
     {
-        $this->B = & $GLOBALS['B'];
+        $this->constructorData = $data;
     }
- 
+
     /**
      * validate the action request
      *
+     * @param mixed $data
      */
-    function validate( & $data )
+    function validate( $data = FALSE )
     {
-        return SF_IS_VALID_ACTION;
-    }  
-    
+        return TRUE;
+    }
+
     /**
      * perform on the action request
      *
+     * @param mixed $data
      */
-    function perform( & $data )
+    function perform( $data = FALSE )
     {
-       return SF_IS_VALID_ACTION;
-    }    
+       return TRUE;
+    }
 }
 
 ?>

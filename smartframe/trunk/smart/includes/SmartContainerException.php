@@ -9,15 +9,18 @@
 // To read the license please visit http://www.gnu.org/licenses/lgpl.txt
 // ----------------------------------------------------------------------
 
-// Check if this file is included in the environement
-//
-if (!defined('SF_SECURE_INCLUDE'))
+/**
+ * Container Exception 
+ *
+ */
+class SmartContainerException extends SmartException
 {
-    die('No Permission on '. __FILE__);
-}
+    public function __construct ($message = null, $code = 0)
+    {
+        parent::__construct($message, $code);
 
-// System Name and Version
-$this->B->system_name    = 'Smart Frame';
-$this->B->system_version = '1.0.1a';
+        $this->setName( 'SmartContainerException' );
+    }
+}
 
 ?>

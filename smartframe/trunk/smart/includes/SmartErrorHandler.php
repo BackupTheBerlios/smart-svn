@@ -10,33 +10,24 @@
 // ----------------------------------------------------------------------
 
 /**
- * custom sfErrorManager handler for the callback error handling mode
+ * custom Error Handler
  *
  */
-class ErrorHandler
-{
+class SmartErrorHandler
+{   
    /**
-    * constructor php4
-    * set php error handler callback function
-    */
-    function ErrorHandler()
-    {
-        $this->__construct();    
-    }
-    
-   /**
-    * constructor php5
+    * constructor
+    *
     * set php error handler callback function
     */    
     function __construct()
     {
-        set_error_handler(array( &$this, '_php_error_handler' ));
-    }
-
+        set_error_handler     (array( &$this, '_php_error_handler' ));
+    }  
+    
    /**
     * php error handler
     *
-    * @access privat
     */    
     function _php_error_handler( $errno, $errstr, $errfile, $errline )
     {
@@ -45,7 +36,7 @@ class ErrorHandler
             return;
         }
         
-        $errortype = array (
+        $errtype = array (
                E_ERROR           => "E_ERROR",
                E_WARNING         => "E_WARNING",
                E_PARSE           => "E_PARSE",
@@ -56,42 +47,42 @@ class ErrorHandler
                E_COMPILE_WARNING => "E_COMPILE_WARNING",
                E_USER_ERROR      => "E_USER_ERROR",
                E_USER_WARNING    => "E_USER_WARNING",
-               E_USER_NOTICE     => "E_USER_NOTICE"
+               E_USER_NOTICE     => "E_USER_NOTICE",
+               E_STRICT          => "E_STRICT"
                );
-        
-        if(version_compare ( phpversion(), '5.0', '>=') == 1)
-            $errortype[E_STRICT] = "E_STRICT";
                
-        // set of errors for which a var trace will be saved
-        //$user_errors = array(E_USER_ERROR, E_USER_WARNING, E_USER_NOTICE);
-  
-        $err  = "\nDATETIME: " . date("Y-m-d H:i:s", time()) . "\n";
-        $err .= "\nPHP_ERRNO: " . $errno . "\n";
-        $err .= "PHP_ERROR_TYPE: " . $errortype[$errno] . "\n";
-        $err .= "PHP_ERROR_FILE: " . $errfile . "\n";
-        $err .= "PHP_ERROR_LINE: " . $errline . "\n";
-        $err .= "PHP_ERROR_MESSAGE: " . $errstr . "\n";
+        // set of errors for which a var trace will be saved  
+        $message  = "\nPHP_ERROR: "    . date("Y-m-d H:i:s", time()) . "\n";
+        $message .= "\nPHP_ERRNO: "    . $errno . "\n";
+        $message .= "PHP_ERROR_TYPE: " . $errtype[$errno] . "\n";
+        $message .= "FILE: "           . $errfile . "\n";
+        $message .= "LINE: "           . $errline . "\n";
+        $message .= "MESSAGE: "        . $errstr . "\n";
 
-        $this->_log( $err );
+        $this->_log( $message );
     }   
     
    /**
     * logging
     *
-    * @param string $error
-    * @access privat
+    * @param string $message
     */     
-    function _log( &$error )
+    function _log( & $message )
     {
-        // Log this error to file
-        if(strstr(SF_ERROR_HANDLE, 'LOG'))
+        // Log this message to file
+        if(strstr(SMART_MESSAGE_HANDLE, 'LOG'))
         {
-            error_log($error."\n\n", 3, SF_BASE_DIR . 'logs/error.log');
+            error_log($message."\n\n", 3, SMART_LOGS_PATH . 'error.log');
         }  
-        // Print this error
-        if(strstr(SF_ERROR_HANDLE, 'SHOW'))
+        // Print this message
+        if(strstr(SMART_MESSAGE_HANDLE, 'SHOW'))
         {
-            echo '<div style="backgound-color:#ffffff;">'.nl2br($error).'</div><br />';
+            echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
+                              font-size: 10px;
+                              color: #990000;
+                              background-color: #CCCCCC;
+                              padding: 5px;
+                              border: thin solid #666666;">'.$message.'</pre><br />';
         }         
     }
 }

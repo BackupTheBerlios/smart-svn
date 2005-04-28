@@ -17,19 +17,19 @@
 
 // Check if this file is included in the SMART environement
 //
-if (!defined('SF_SECURE_INCLUDE'))
+if (!defined('SMART_SECURE_INCLUDE'))
 {
-    die('No Permission on'. __FILE__);
+    die('No Permission');
 }
 
 // Name of the module
-define( 'MOD_SYSTEM' , 'system' );
+define( 'SMART_MOD_SYSTEM' , 'system' );
+// Version of the module
+define( 'SMART_MOD_SYSTEM_VERSION' , SMART_VERSION );
 
 // register this module                       
-if (FALSE == register_module( MOD_SYSTEM,
-                              array ( 'module' => MOD_SYSTEM) ))
-{
-    trigger_error( 'The module '.MOD_SYSTEM.' exist: '.__FILE__.' '.__LINE__, E_USER_ERROR  );        
-}
+$this->model->register( SMART_MOD_SYSTEM,
+                       array ( 'active'     => TRUE,
+                               'visibility' => FALSE ) );
 
 ?>

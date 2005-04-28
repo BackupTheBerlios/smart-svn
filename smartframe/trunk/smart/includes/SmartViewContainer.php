@@ -10,23 +10,14 @@
 // ----------------------------------------------------------------------
 
 /**
- * action_system_sys_logout class 
+ * Smart view container class
+ *
  *
  */
  
-class action_system_sys_logout extends action
+class SmartViewContainer extends SmartContainer
 {
-    /**
-     * If a logout request was done
-     *
-     * @param array $data
-     */
-    function perform( $data )
-    {            
-        // include here additional clean up code. 
-
-        return SF_IS_VALID_ACTION;
-    }    
+    public $vars;
 }
 
 ?>
