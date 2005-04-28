@@ -17,26 +17,26 @@
 /*
  * Front Controller File Name (this file)
  */
-if(!defined( 'SF_CONTROLLER' ))
+if(!defined( 'SMART_CONTROLLER' ))
 {
-   define('SF_CONTROLLER', 'index.php'); 
+   define('SMART_CONTROLLER', 'index.php'); 
 }
 
 /*
  * Relative path to SMART. Example: 'test/'
  */
-if(!defined( 'SF_RELATIVE_PATH' ))
+if(!defined( 'SMART_RELATIVE_PATH' ))
 {
-   define('SF_RELATIVE_PATH', './'); 
+   define('SMART_RELATIVE_PATH', './'); 
 }
 
 /*
  * Force to use the views folder, independed of the sys config settings.
  */
 /*
-if(!defined( 'SF_VIEW_FOLDER' ))
+if(!defined( 'SMART_VIEW_FOLDER' ))
 {
-   define('SF_VIEW_FOLDER', 'views_default/'); 
+   define('SMART_VIEW_FOLDER', 'views_default/'); 
 }
 */
 
@@ -44,9 +44,9 @@ if(!defined( 'SF_VIEW_FOLDER' ))
  * Force to use the template folder, independed of the sys config settings.
  */
 /*
-if(!defined( 'SF_TPL_FOLDER' ))
+if(!defined( 'SMART_TPL_FOLDER' ))
 {
-   define('SF_TPL_FOLDER', 'templates_default/'); 
+   define('SMART_TPL_FOLDER', 'templates_default/'); 
 }
 */
 
@@ -57,37 +57,20 @@ if(!defined( 'SF_TPL_FOLDER' ))
 /* 
  * Secure include of files from this script
  */
-if(!defined( 'SF_SECURE_INCLUDE' ))
+if(!defined( 'SMART_SECURE_INCLUDE' ))
 {
-    define('SF_SECURE_INCLUDE', 1);
+    define('SMART_SECURE_INCLUDE', 1);
 }
 
 // Define the absolute path to SMART
 //
-define('SF_BASE_DIR', dirname(__FILE__) . '/');
+define('SMART_BASE_DIR', dirname(__FILE__) . '/');
 
 // Include the system core file
-include( SF_BASE_DIR . 'smart/includes/core.inc.php' );
+include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
 
-// Define section area
-if ( isset($_REQUEST[ SF_ADMIN_CODE ]) )
-{
-    define('SF_SECTION', 'admin');  
-}
-else
-{
-    define('SF_SECTION', 'public'); 
-}
+$smartController = SmartController::newInstance('SmartWebController');
 
-// Broadcast init event to all registered modules
-// see modules/xxx/actions/class.xxx_sys_init.php
-B( 'sys_init' );
-
-// Directed system event to execute the demanded view
-// see: smart/actions/class.system_get_view.php
-M( MOD_SYSTEM, 'get_view' );
-
-// Send the output buffer to the client
-@ob_end_flush();
+$smartController->dispatch();
 
 ?>
