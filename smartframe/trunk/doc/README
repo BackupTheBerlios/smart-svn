@@ -1,15 +1,5 @@
 README
 #######
 
-This is the alpha version of a php framework.
-
-You should download the smart framework with some test modules
-to learn how it works. The job of the raw framework is to
-manage modules based on a event handler mechanism.
-
-Please visite the Smart project site:
-http://smart.open-publisher.net
-
-
-Armand Turpel
-smart@open-publisher.net
+For developers:
+Checkout a php5 version of Smart from the trunk branch.
