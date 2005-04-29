@@ -91,7 +91,10 @@ class SmartPublicViewFactory extends SmartViewFactory
             // include template container
             if( $view->renderTemplate == SMART_TEMPLATE_RENDER )
             {
-                $tplContainer = SmartContainer::newInstance('SmartTplContainer');
+                // parent template container class
+                include_once( SMART_BASE_DIR . 'smart/includes/SmartTplContainer.php' );
+                // get template container object
+                $tplContainer = SmartContainer::newInstance( $view->templateEngine );
                 // aggregate this object
                 $tplContainer->viewLoader = $this;
                 // aggregate this container variable to store template variables

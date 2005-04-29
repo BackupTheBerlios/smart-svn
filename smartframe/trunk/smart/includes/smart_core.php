@@ -71,6 +71,11 @@ define('SMART_LOGS_PATH',                SMART_BASE_DIR . 'logs/');
 define('SMART_COMMON_MODULE',            'common');
 
 /**
+ * Name of the default template class
+ */
+define('SMART_DEFAULT_TEMPLATE_ENGINE',  'SmartTplContainerPhp');
+
+/**
  * Default templates and views folder
  */
 define('SMART_DEFAULT_TEMPLATE_FOLDER',   'templates_default/');

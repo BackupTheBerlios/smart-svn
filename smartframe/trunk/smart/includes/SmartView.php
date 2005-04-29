@@ -59,6 +59,12 @@ class SmartView extends SmartObject
     public $templateFolder = FALSE;
 
      /**
+     * Template engine
+     * @var string $templateEngine
+     */
+    public $templateEngine = SMART_DEFAULT_TEMPLATE_ENGINE;
+
+     /**
      * Data container passed to the view
      * @var mixed $view_data
      */

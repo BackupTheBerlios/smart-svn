@@ -22,7 +22,7 @@ class SmartTplContainer extends SmartContainer
      *
      * @var mixed $vars
      */
-    public $vars;
+    public $vars = NULL;
     
     /**
      * View loader object
@@ -30,6 +30,13 @@ class SmartTplContainer extends SmartContainer
      * @var object $viewLoader
      */
     public $viewLoader;    
+
+    /**
+     * Template buffer content
+     *
+     * @var string tplBufferContent
+     */
+    public $tplBufferContent = '';    
     
     /**
      * render the template
@@ -37,25 +44,6 @@ class SmartTplContainer extends SmartContainer
      */
     function renderTemplate()
     {
-        // get reference of the template variables
-        $tpl = & $this->vars;
-        // get reference of the view loader methode to include
-        // nested views in templates
-        $viewLoader = & $this->viewLoader;
-        
-        // build the whole file path to the TEMPLATE file
-        $template = SMART_BASE_DIR . $this->templateFolder . '/tpl.' . $this->template . '.php';
-        if ( !@file_exists( $template ) )
-        {
-            throw new SmartTplException("Template dosent exists: ".$template, SMART_NO_TEMPLATE);
-        }
-
-        $this->tplBufferContent = '';
-        ob_start();
-
-        include( $template );
-
-        $this->tplBufferContent = ob_get_clean();
     } 
 }
 
