@@ -31,7 +31,7 @@ class SmartErrorHandler
     */    
     function _php_error_handler( $errno, $errstr, $errfile, $errline )
     {
-        if ((SF_ERROR_REPORTING & $errno) == 0)
+        if ((SMART_ERROR_REPORTING & $errno) == 0)
         {
             return;
         }

@@ -38,16 +38,6 @@ class SmartWebController extends SmartController
     {
         // parent construct run the base init process common to all controllers
         parent::__construct();
-
-        // get view request
-        if( !isset($_REQUEST['view']) || empty($_REQUEST['view']) )
-        {
-            $this->viewRequest = SMART_DEFAULT_VIEW;
-        }
-        else
-        {
-            $this->validateViewName( $_REQUEST['view'] );
-        }
     }
     
     /**
@@ -68,6 +58,16 @@ class SmartWebController extends SmartController
 
         // set the public view folder
         $this->view->viewFolder = $this->model->getConfigVar( 'common', 'publicViewFolder' );
+
+        // get view request
+        if( !isset($_REQUEST['view']) || empty($_REQUEST['view']) )
+        {
+            $this->viewRequest = SMART_DEFAULT_VIEW;
+        }
+        else
+        {
+            $this->validateViewName( $_REQUEST['view'] );
+        }
 
         // build the view methode
         $methode = ucfirst($this->viewRequest);
@@ -97,7 +97,7 @@ class SmartWebController extends SmartController
             return;
         }
 
-        if(!@file_exists(SMART_BASE_DIR . 'views_' . $this->view->view_folder . '/SmartView' . $view_name . '.php'))
+        if(!@file_exists(SMART_BASE_DIR . 'views_' . $this->view->viewFolder . '/SmartView' . $view_name . '.php'))
         {
             $this->viewRequest      = 'error';
             $this->viewRequestError = 'View dosent exists: ' . SMART_BASE_DIR . 'views_' . $view_folder . '/view.' . $view_name . '.php';

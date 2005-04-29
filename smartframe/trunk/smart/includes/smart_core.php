@@ -40,7 +40,7 @@ define('SMART_MESSAGE_HANDLE',           'LOG|SHOW');
 /**
  * error reporting
  */
-define('SMART_ERROR_REPORTING',          E_ALL ^ E_NOTICE);
+define('SMART_ERROR_REPORTING',          E_ALL | E_STRICT);
 
 /**
  * Set debug mode.
@@ -97,25 +97,25 @@ define('SMART_NO_VIEW',                  1004);
 define('SMART_ACTION_ERROR',             1005);
 
 
-// abstract smart object class
+// smart object class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartObject.php' );
 
 // smart exceptions
 include_once( SMART_BASE_DIR . 'smart/includes/SmartException.php' );
 
-// include sfErrorHandler
+// include smartErrorHandler
 include_once( SMART_BASE_DIR . 'smart/includes/SmartErrorHandler.php' );
 
 // The base container object
 include_once( SMART_BASE_DIR . 'smart/includes/SmartContainer.php' );
 
-// abstract action class
+// action class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartAction.php' );
 
 // model class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartModel.php' );
 
-// model class
+// controller class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartController.php' );
 
 ?>

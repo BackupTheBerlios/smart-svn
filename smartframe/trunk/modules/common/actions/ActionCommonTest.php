@@ -40,7 +40,7 @@ class ActionCommonTest extends SmartAction
      *
      * @param mixed $data Data passed to this action
      */
-    public function perform( $data )
+    public function perform( $data = FALSE )
     {
         // Here we assign a variable with some content
         // The action caller has to evaluate its content
@@ -65,7 +65,7 @@ class ActionCommonTest extends SmartAction
      *              if it isnt possible to proceed.
      *              Here the Exception catch have to react
      */
-    public function validate( $data )
+    public function validate( $data = FALSE )
     {
         /*************************************
          * 2 Examples of validation failures *

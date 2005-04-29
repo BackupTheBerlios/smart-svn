@@ -38,7 +38,7 @@ class SmartView extends SmartObject
      * Default error view
      * @var string $error_view
      */
-    var $errorView = 'error';
+    public $errorView = 'error';
 
      /**
      * Template related to this view
@@ -50,19 +50,19 @@ class SmartView extends SmartObject
      * Template render flag
      * @var bool $render_template
      */
-    var $renderTemplate = SMART_TEMPLATE_RENDER; // or SMART_TEMPLATE_RENDER_NONE
+    public $renderTemplate = SMART_TEMPLATE_RENDER; // or SMART_TEMPLATE_RENDER_NONE
 
      /**
      * Template folder
      * @var bool $template_folder
      */
-    var $templateFolder = FALSE;
+    public $templateFolder = FALSE;
 
      /**
      * Data container passed to the view
      * @var mixed $view_data
      */
-    var $viewData = FALSE;
+    public $viewData = FALSE;
 
     /**
      * constructor php5

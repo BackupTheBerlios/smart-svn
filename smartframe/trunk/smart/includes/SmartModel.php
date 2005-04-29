@@ -141,6 +141,19 @@ class SmartModel extends SmartObject
 
         $class_name = 'Action'.$action;
 
+        if( !isset( $args[0] ) ) 
+        {
+            $args[0] = NULL;
+        }
+        if( !isset( $args[1] ) ) 
+        {
+            $args[1] = NULL;
+        }
+        if( !isset( $args[2] ) ) 
+        {
+           $args[2] = NULL;
+        } 
+        
         try
         { 
             if( !isset($this->$class_name) || ($args[2] == TRUE) )

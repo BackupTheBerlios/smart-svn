@@ -30,6 +30,19 @@ class SmartPublicViewFactory extends SmartViewFactory
         // build the whole view class name
         $requestedView = 'View'.$view;
 
+        if( !isset( $args[0] ) ) 
+        {
+            $args[0] = NULL;
+        }
+        if( !isset( $args[1] ) ) 
+        {
+            $args[1] = NULL;
+        }
+        if( !isset( $args[2] ) ) 
+        {
+           $args[2] = NULL;
+        } 
+
         try
         {
             if( !isset($this->$requestedView) || ($args[2] == TRUE) )

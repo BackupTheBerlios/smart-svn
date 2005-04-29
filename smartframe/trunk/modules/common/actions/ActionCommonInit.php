@@ -20,7 +20,7 @@ class ActionCommonInit extends SmartAction
      * Run init process of this module
      *
      */
-    public function perform()
+    public function perform( $data = FALSE )
     {
         // Check if a setup was successful done else launch setup > 'setup' module
         
