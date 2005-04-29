@@ -86,7 +86,7 @@ class SmartWebController extends SmartController
     /**
      * Validate view request name.
      *
-     * @see __construct() 
+     * @see dispatch() 
      */
     private function validateViewName( $view_name )
     {
@@ -97,10 +97,10 @@ class SmartWebController extends SmartController
             return;
         }
 
-        if(!@file_exists(SMART_BASE_DIR . 'views_' . $this->view->viewFolder . '/SmartView' . $view_name . '.php'))
+        if(!@file_exists(SMART_BASE_DIR . $this->view->viewFolder . '/View' . $view_name . '.php'))
         {
             $this->viewRequest      = 'error';
-            $this->viewRequestError = 'View dosent exists: ' . SMART_BASE_DIR . 'views_' . $view_folder . '/view.' . $view_name . '.php';
+            $this->viewRequestError = 'View dosent exists: ' . SMART_BASE_DIR . $this->view->viewFolder . '/view.' . $view_name . '.php';
             return;
         }
 
