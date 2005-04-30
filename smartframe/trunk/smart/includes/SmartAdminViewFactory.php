@@ -159,6 +159,12 @@ class SmartAdminViewFactory extends SmartViewFactory
 
             return FALSE;
         }
+        catch(SmartModelException $e)
+        {
+            $e->performStackTrace();
+
+            return FALSE;
+        }         
         catch(SmartTplException $e)
         {
             $e->performStackTrace();
