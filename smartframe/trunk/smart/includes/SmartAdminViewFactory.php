@@ -10,14 +10,14 @@
 // ----------------------------------------------------------------------
 
 /**
- * Public view factory.
+ * Admin view factory.
  *
  */
 
-class SmartPublicViewFactory extends SmartViewFactory
+class SmartAdminViewFactory extends SmartViewFactory
 {
     /**
-     * dynamic call of public view objects
+     * dynamic call of admin view objects
      *
      * @param string $view View name
      * @param array $args Arguments passed to the view. 
@@ -25,10 +25,13 @@ class SmartPublicViewFactory extends SmartViewFactory
      * $args[1] passed to the constructor
      * $args[2] bool true = force a new instance
      */
-    public function __call( $view, $args )
+    public function __call( $view_name, $args )
     {
+        // 
+        $view_match = $this->split_view_name( $view_name );
+        
         // build the whole view class name
-        $requestedView = 'View'.ucfirst($view);
+        $requestedView = 'View'.$view_name;
 
         if( !isset( $args[0] ) ) 
         {
@@ -48,7 +51,7 @@ class SmartPublicViewFactory extends SmartViewFactory
             if( !isset($this->$requestedView) || ($args[2] == TRUE) )
             {
                 // path to the modules view class
-                $class_file = SMART_BASE_DIR . $this->viewFolder .'/'.$requestedView.'.php';
+                $class_file = SMART_BASE_DIR . 'modules/'. strtolower($view_match[1]) . '/views/View' . $view_name . '.php';
 
                 if(@file_exists($class_file))
                 {
@@ -148,7 +151,7 @@ class SmartPublicViewFactory extends SmartViewFactory
             // echo the context
             echo $tplContainer->tplBufferContent;
             
-            return TRUE;            
+            return TRUE; 
         }
         catch(SmartViewException $e)
         {
@@ -156,19 +159,31 @@ class SmartPublicViewFactory extends SmartViewFactory
 
             return FALSE;
         }
-        catch(SmartModelException $e)
-        {
-            $e->performStackTrace();
-
-            return FALSE;
-        }         
         catch(SmartTplException $e)
         {
             $e->performStackTrace();
 
             return FALSE;
         }        
-    } 
+    }
+    
+    /**
+     * Split view call name into module and view name
+     *
+     * @param string $view View call name
+     * @return array [0] = Module name / [1] View name
+     */ 
+    private function split_view_name( $view )
+    {
+        if(@preg_match("/([A-Z]{1}[a-z0-9]+)([a-zA-Z0-9]+)/", $view, $view_match))
+        {
+            return $view_match;
+        }
+        else
+        {
+            throw new SmartViewException('Wrong admin view call name: ' . $view, SMART_DIE);
+        }
+    }      
 }
 
 ?>

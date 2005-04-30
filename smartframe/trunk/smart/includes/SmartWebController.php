@@ -30,17 +30,6 @@ class SmartWebController extends SmartController
     private $viewRequestError = FALSE;    
     
     /**
-     * Web Controller construct
-     *
-     * Call parent constructor and validate view request
-     */
-    public function __construct ()
-    {
-        // parent construct run the base init process common to all controllers
-        parent::__construct();
-    }
-    
-    /**
      * Dispatch the request.
      *
      */
@@ -48,7 +37,7 @@ class SmartWebController extends SmartController
     {
         // parent view class
         include_once( SMART_BASE_DIR . 'smart/includes/SmartView.php' );
-        // Include view runner parent and its child class
+        // Include view parent factory class and its child class
         include_once( SMART_BASE_DIR . 'smart/includes/SmartViewFactory.php' );
         include_once( SMART_BASE_DIR . 'smart/includes/SmartPublicViewFactory.php' );
 
@@ -62,24 +51,27 @@ class SmartWebController extends SmartController
         // get view request
         if( !isset($_REQUEST['view']) || empty($_REQUEST['view']) )
         {
-            $this->viewRequest = SMART_DEFAULT_VIEW;
+            $viewRequest = SMART_DEFAULT_VIEW;
         }
         else
         {
-            $this->validateViewName( $_REQUEST['view'] );
+            $viewRequest = $_REQUEST['view'];
         }
 
-        // build the view methode
-        $methode = ucfirst($this->viewRequest);
+        // validate view request
+        if(FALSE == ($methode = $this->validateViewName( $viewRequest )))
+        {
+            $methode = SMART_ERROR_VIEW;
+            $this->view->$methode( array('error' => $this->viewRequestError) );
+            ob_end_flush();
+            exit;
+        }
         
         // Launch the view
-        if( FALSE == $this->viewRequestError )
+        if( FALSE == $this->view->$methode() )
         {
-            $this->view->$methode();
-        }
-        else
-        {
-            $this->view->$methode( array('error' => $this->viewRequestError) );
+            $methode = SMART_ERROR_VIEW;
+            $this->view->$methode( array('error' => 'Unexpected error. Please check log files') );
         }
         ob_end_flush();
     }
@@ -92,20 +84,17 @@ class SmartWebController extends SmartController
     {
         if(preg_match("/[^a-zA-Z0-9_]/", $view_name))
         {
-            $this->viewRequest      = 'error';
             $this->viewRequestError = 'Wrong view fromat: ' . $view_name;
-            return;
+            return FALSE;
         }
 
-        if(!@file_exists(SMART_BASE_DIR . $this->view->viewFolder . '/View' . $view_name . '.php'))
+        if(!@file_exists(SMART_BASE_DIR . $this->view->viewFolder . '/View' . ucfirst($view_name) . '.php'))
         {
-            $this->viewRequest      = 'error';
             $this->viewRequestError = 'View dosent exists: ' . SMART_BASE_DIR . $this->view->viewFolder . '/view.' . $view_name . '.php';
-            return;
+            return FALSE;
         }
 
-        $this->viewRequest  = $view_name;
-        return;
+        return $view_name;
     }
 }
 

@@ -154,63 +154,54 @@ class SmartModel extends SmartObject
            $args[2] = NULL;
         } 
         
-        try
-        { 
-            if( !isset($this->$class_name) || ($args[2] == TRUE) )
+        if( !isset($this->$class_name) || ($args[2] == TRUE) )
+        {
+            // path to the modules action class
+            $class_file = SMART_BASE_DIR . 'modules/'.strtolower($action_match[1]).'/actions/'.$class_name.'.php';
+
+            if(@file_exists($class_file))
             {
-                // path to the modules action class
-                $class_file = SMART_BASE_DIR . 'modules/'.strtolower($action_match[1]).'/actions/'.$class_name.'.php';
+                include_once($class_file);
 
-                if(@file_exists($class_file))
+                // force a new instance
+                if( $args[2] == TRUE )
                 {
-                    include_once($class_file);
-
-                    // force a new instance
-                    if( $args[2] == TRUE )
+                    $i = 1;
+                    $new_instance = $class_name . $i;
+                        
+                    while( isset($this->new_instance) )
                     {
-                        $i = 1;
+                        $i++;
                         $new_instance = $class_name . $i;
-                        
-                        while( isset($this->new_instance) )
-                        {
-                            $i++;
-                            $new_instance = $class_name . $i;
-                        }
-                        
-                        // make new instance of the module action class
-                        $this->$new_instance = new $class_name( $args[1] );
-                        $class_name = & $new_instance;
                     }
-                    else
-                    {
-                        // make instance of the module action class
-                        $this->$class_name = new $class_name( $args[1] );
-                    }
+                        
+                    // make new instance of the module action class
+                    $this->$new_instance = new $class_name( $args[1] );
+                    $class_name = & $new_instance;
                 }
                 else
                 {
-                    return SMART_NO_ACTION;
+                    // make instance of the module action class
+                    $this->$class_name = new $class_name( $args[1] );
                 }
             }
-            
-            // aggregate the model object to the action object
-            $this->$class_name->model = $this;
-            
-            // validate the request
-            if( FALSE == $this->$class_name->validate( $args[0] ) )
+            else
             {
-                return SMART_NO_VALID_ACTION;
+                return SMART_NO_ACTION;
             }
-
-            // perform the request if the requested object exists
-            return $this->$class_name->perform( $args[0] );
         }
-        catch(SmartModelException $e)
+            
+        // aggregate the model object to the action object
+        $this->$class_name->model = $this;
+            
+        // validate the request
+        if( FALSE == $this->$class_name->validate( $args[0] ) )
         {
-            $e->performStackTrace();
-
-            return $e->getCode();
+            return SMART_NO_VALID_ACTION;
         }
+
+        // perform the request if the requested object exists
+        return $this->$class_name->perform( $args[0] );
     }
 
     /**
