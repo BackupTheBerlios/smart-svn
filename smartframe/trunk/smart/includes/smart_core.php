@@ -100,6 +100,8 @@ define('SMART_NO_VALID_ACTION',          1002);
 define('SMART_NO_TEMPLATE',              1003);
 define('SMART_NO_VIEW',                  1004);
 define('SMART_ACTION_ERROR',             1005);
+define('SMART_VIEW_ERROR',               1006);
+define('SMART_TEMPLATE_ERROR',           1006);
 
 
 // smart object class

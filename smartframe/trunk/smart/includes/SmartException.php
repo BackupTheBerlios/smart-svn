@@ -81,7 +81,7 @@ class SmartException extends Exception
             error_log($message."\n\n", 3, SMART_LOGS_PATH . 'error.log');
         }  
         // Print this message
-        if(strstr(SMART_MESSAGE_HANDLE, 'SHOW'))
+        if(strstr(SMART_MESSAGE_HANDLE, 'SHOW') && (SMART_DEBUG == TRUE ))
         {
             echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
                               font-size: 10px;

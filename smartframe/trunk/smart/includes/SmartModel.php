@@ -131,58 +131,46 @@ class SmartModel extends SmartObject
     /**
      * dynamic call of model action classe (Factory)
      *
+     * @param string $module Module name
      * @param string $action Action name
-     * @param array $args Arguments passed to the action ($args[1] passed to the constructor)
+     * @param mixed $data Data passed to the action
+     * @param mixed $constructor_data Data passed to the action constructor
+     * @param bool $force_instance If true force a new instance even if it exists
      * @return mixed Action result
      */    
-    public function __call( $action, &$args )
+    public function action( $module, $action, $data = FALSE, $constructor_data = FALSE, $force_instance = FALSE )
     {
-        $action_match = $this->split_action_name( $action );
-
-        $class_name = 'Action'.$action;
-
-        if( !isset( $args[0] ) ) 
-        {
-            $args[0] = NULL;
-        }
-        if( !isset( $args[1] ) ) 
-        {
-            $args[1] = NULL;
-        }
-        if( !isset( $args[2] ) ) 
-        {
-           $args[2] = NULL;
-        } 
+        $class_name = 'Action'.ucfirst($module).ucfirst($action);
         
-        if( !isset($this->$class_name) || ($args[2] == TRUE) )
+        if( !isset($this->$class_name) || ($force_instance == TRUE) )
         {
             // path to the modules action class
-            $class_file = SMART_BASE_DIR . 'modules/'.strtolower($action_match[1]).'/actions/'.$class_name.'.php';
+            $class_file = SMART_BASE_DIR . 'modules/'.$module.'/actions/'.$class_name.'.php';
 
             if(@file_exists($class_file))
             {
                 include_once($class_file);
 
                 // force a new instance
-                if( $args[2] == TRUE )
+                if( $force_instance == TRUE )
                 {
                     $i = 1;
                     $new_instance = $class_name . $i;
                         
-                    while( isset($this->new_instance) )
+                    while( isset($this->$new_instance) )
                     {
                         $i++;
                         $new_instance = $class_name . $i;
                     }
                         
                     // make new instance of the module action class
-                    $this->$new_instance = new $class_name( $args[1] );
+                    $this->$new_instance = new $class_name( $constructor_data );
                     $class_name = & $new_instance;
                 }
                 else
                 {
                     // make instance of the module action class
-                    $this->$class_name = new $class_name( $args[1] );
+                    $this->$class_name = new $class_name( $constructor_data );
                 }
             }
             else
@@ -195,49 +183,30 @@ class SmartModel extends SmartObject
         $this->$class_name->model = $this;
             
         // validate the request
-        if( FALSE == $this->$class_name->validate( $args[0] ) )
+        if( FALSE == $this->$class_name->validate( $data ) )
         {
             return SMART_NO_VALID_ACTION;
         }
 
         // perform the request if the requested object exists
-        return $this->$class_name->perform( $args[0] );
+        return $this->$class_name->perform( $data );
     }
 
     /**
-     * broadcast an action
+     * broadcast an action event
      *
      * @param string $action Action name
      * @param mixed $data Data passed to the action perfom() and validate() methode
      * @param mixed $data Data passed to the action constructor
-     * @param bool $instance Force new action instances
+     * @param bool $force_instance Force new action instances
      */ 
-    public function broadcast( $action, $data = FALSE, $constructor_data = FALSE, $instance = FALSE )
+    public function broadcast( $action, $data = FALSE, $constructor_data = FALSE, $force_instance = FALSE )
     {
         foreach($this->registeredModules as $module => $data)
         {
-            $mod_action = ucfirst($module).ucfirst($action);
-            $this->$mod_action( $data, $constructor_data, $instance );
+            $this->action( $module, $action,$data, $constructor_data, $force_instance );
         }
-    }
-
-    /**
-     * Split action call into module and action name
-     *
-     * @param string $action Action call name
-     * @return array [0] = Module name / [1] Action name
-     */ 
-    private function split_action_name( $action )
-    {
-        if(@preg_match("/([A-Z]{1}[a-z0-9]+)([a-zA-Z0-9]+)/", $action, $action_match))
-        {
-            return $action_match;
-        }
-        else
-        {
-            throw new SmartModelException('Wrong action call name: ' . $action, SMART_NO_ACTION);
-        }
-    }    
+    } 
 }
 
 ?>
