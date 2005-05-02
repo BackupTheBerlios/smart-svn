@@ -41,7 +41,10 @@ class ViewIndex extends SmartView
     {
         // run test action of the common module
         // it assign a template variable with content
-        $this->model->CommonTest( array( 'result' => & $this->tplVar ) );
+        $this->model->action( SMART_MOD_COMMON, 
+                              'test', 
+                              array( 'result' => & $this->tplVar,
+                                     'message' => 'This message comes from the index view (views_default/ViewIndex.php)') );
 
         return TRUE;
     }
@@ -53,7 +56,7 @@ class ViewIndex extends SmartView
     function auth()
     {
         // Here we call the authentication action of the user module
-        // $this->model->UserAuth();
+        // $this->model->action( SMART_MOD_USER, 'auth' );
     }
 
     /**
@@ -63,7 +66,7 @@ class ViewIndex extends SmartView
     function prependFilterChain()
     {
         // Here we call a filter action of the common module to prevent browser caching
-        // $this->model->CommonFilterNoCache();    
+        // $this->model->action( SMART_MOD_COMMON, 'filterDisableBrowserCache');    
     }
 
     /**
@@ -73,7 +76,7 @@ class ViewIndex extends SmartView
     function appendFilterChain( & $outputBuffer )
     {
         // Here we call a filter action of the common module that trims the html output
-        // $this->model->CommonFilterTrim( $outputBuffer );        
+        // $this->model->action( SMART_MOD_COMON, 'filterTrim' );        
     }
 }
 

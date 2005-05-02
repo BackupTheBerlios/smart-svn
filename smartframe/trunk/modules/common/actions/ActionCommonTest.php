@@ -45,7 +45,7 @@ class ActionCommonTest extends SmartAction
         // Here we assign a variable with some content
         // The action caller has to evaluate its content
         //
-        $data['result'] = "Hello World";
+        $data['result']['message'] = $data['message'];
     }
     
     /**

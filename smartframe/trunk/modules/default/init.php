@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Common module init
+ * Default module init
  *
  */
 
@@ -18,21 +18,17 @@
 //
 if (!defined('SMART_SECURE_INCLUDE'))
 {
-    die('No Permission on ' . __FILE__);
+    if(SMART_DEBUG == TRUE) die('No Permission on ' . __FILE__); else exit;
 }
 
 // Name of the module
-define ( 'SMART_MOD_COMMON' , 'common');
+define ( 'SMART_MOD_DEFAULT' , 'default');
 
 // Version of this module
-define ( 'SMART_MOD_COMMON_VERSION' , '0.1');
+define ( 'SMART_MOD_DEFAULT_VERSION' , '0.1');
 
 // register this module                       
-$this->model->register( SMART_MOD_COMMON, array ( 'active'     => TRUE, 
-                                                  'visibility' => FALSE ) );
-// Default module
-define ( 'SMART_DEFAULT_MODULE' ,      'default');
+$this->model->register( SMART_MOD_DEFAULT, array ( 'active'     => TRUE, 
+                                                   'visibility' => TRUE ) );
 
-// Default module view
-define ( 'SMART_DEFAULT_View' ,        'index');
 ?>
