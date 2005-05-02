@@ -16,12 +16,12 @@
 class SmartWebController extends SmartController
 {
     /**
-     * Name of the view
+     * View factory object
      *
-     * @var string $viewReques
+     * @var object $view
      */
-    private $viewRequest;  
-    
+    private $view;  
+         
     /**
      * Dispatch the request.
      *

@@ -16,18 +16,11 @@
 class SmartWebAdminController extends SmartController
 {
     /**
-     * Name of the view
+     * View factory object
      *
-     * @var string $viewReques
+     * @var object $view
      */
-    private $viewRequest;
-
-    /**
-     * Error string when an view error occurs
-     *
-     * @var string $viewRequestError
-     */    
-    private $viewRequestError = FALSE;    
+    private $view;  
     
     /**
      * Dispatch the request.
@@ -41,22 +34,46 @@ class SmartWebAdminController extends SmartController
         include_once( SMART_BASE_DIR . 'smart/includes/SmartViewFactory.php' );
         include_once( SMART_BASE_DIR . 'smart/includes/SmartAdminViewFactory.php' );
 
-        // create a view factory instance
-        // this instance aggregates the model object
-        $view = new SmartAdminViewFactory( $this->model );
-
-        // Build the view methode name of the "index" view of the "common" module
-        $methode = ucfirst( SMART_COMMON_MODULE ) . 'Index';
-        
-        // execute this view
-        if(FALSE == $view->$methode())
+        try
         {
-            $methode = ucfirst( SMART_COMMON_MODULE ) . 'Error';
-            $view->$methode( array('error' => 'Unexpected error. Please check log files') );        
+            // create a view factory instance
+            // this instance aggregates the model object
+            $this->view = new SmartAdminViewFactory( $this->model );
+
+            // Build the view methode name of the "index" view of the "common" module
+            $methode = ucfirst( SMART_COMMON_MODULE ) . 'Index';
+            
+            // Execute the index view of a common module
+            $this->view->$methode();
         }
-       
+        catch(SmartViewException $e)
+        {
+            $e->performStackTrace(); 
+            $this->userErrorView();
+        }
+        catch(SmartModelException $e)
+        {
+            $e->performStackTrace();
+            $this->userErrorView();
+        }         
+        catch(SmartTplException $e)
+        {
+            $e->performStackTrace(); 
+            $this->userErrorView();
+        }         
+        
         ob_end_flush();
     }
+    
+    /**
+     * Web user error view is executed if an exception arrise
+     *
+     */    
+    private function userErrorView()
+    {
+        $methode = ucfirst( SMART_COMMON_MODULE ) . 'Error';
+        $this->view->$methode( array('error' => 'Unexpected error. Please contact the administrator') );    
+    }     
 }
 
 ?>
