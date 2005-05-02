@@ -46,131 +46,108 @@ class SmartAdminViewFactory extends SmartViewFactory
            $args[2] = NULL;
         } 
 
-        try
+        if( !isset($this->$requestedView) || ($args[2] == TRUE) )
         {
-            if( !isset($this->$requestedView) || ($args[2] == TRUE) )
+            // path to the modules view class
+            $class_file = SMART_BASE_DIR . 'modules/'. strtolower($view_match[1]) . '/views/View' . $view_name . '.php';
+
+            if(@file_exists($class_file))
             {
-                // path to the modules view class
-                $class_file = SMART_BASE_DIR . 'modules/'. strtolower($view_match[1]) . '/views/View' . $view_name . '.php';
+                include_once($class_file);
 
-                if(@file_exists($class_file))
+                // force a new instance
+                if( $args[2] == TRUE )
                 {
-                    include_once($class_file);
-
-                    // force a new instance
-                    if( $args[2] == TRUE )
+                    $i = 1;
+                    $requestedView = $requestedView . $i;
+                    while( isset($this->$requestedView) )
                     {
-                        $i = 1;
+                        $i++;
                         $requestedView = $requestedView . $i;
-                        while( isset($this->$requestedView) )
-                        {
-                            $i++;
-                            $requestedView = $requestedView . $i;
-                        }
-                        // make new instance of the module view class
-                        $this->$requestedView = new $requestedView( $args[1] );
                     }
-                    else
-                    {
-                        // make instance of the module view class
-                        $this->$requestedView = new $requestedView( $args[1] );
-                    }
+                    // make new instance of the module view class
+                    $this->$requestedView = new $requestedView( $args[1] );
                 }
                 else
                 {
-                    throw new SmartViewException("View dosent exists: ".$class_file, SMART_NO_VIEW);
+                    // make instance of the module view class
+                    $this->$requestedView = new $requestedView( $args[1] );
                 }
             }
-           
-            // alias to the view object
-            $view = $this->$requestedView;
-            
-            // Aggregate model object
-            $view->model = $this->model;
-
-            // Aggregate view loader object
-            //$view->viewLoader = $this;
-            
-            // include template container
-            if( $view->renderTemplate == SMART_TEMPLATE_RENDER )
+            else
             {
-                // parent template container class
-                include_once( SMART_BASE_DIR . 'smart/includes/SmartTplContainer.php' );
-                // get template container object
-                $tplContainer = SmartContainer::newInstance( SMART_TEMPLATE_ENGINE );
-                // aggregate this object
-                $tplContainer->viewLoader = $this;
-                // aggregate this container variable to store template variables
-                $view->tplVar = & $tplContainer->vars; 
+                throw new SmartViewException("View dosent exists: ".$class_file, SMART_NO_VIEW);
             }
+        }
+        
+        // alias to the view object
+        $view = $this->$requestedView;
+          
+        // Aggregate model object
+        $view->model = $this->model;
 
-            // Aggregate view container object
-            $viewContainer = SmartContainer::newInstance('SmartViewContainer');
-            // use this to pass variables inside the view(s)
-            $view->viewVar = & $viewContainer->vars;
+        // Aggregate view loader object
+        //$view->viewLoader = $this;
+            
+        // include template container
+        if( $view->renderTemplate == SMART_TEMPLATE_RENDER )
+        {
+            // parent template container class
+            include_once( SMART_BASE_DIR . 'smart/includes/SmartTplContainer.php' );
+            // get template container object
+            $tplContainer = SmartContainer::newInstance( SMART_TEMPLATE_ENGINE );
+            // aggregate this object
+            $tplContainer->viewLoader = $this;
+            // aggregate this container variable to store template variables
+            $view->tplVar = & $tplContainer->vars; 
+        }
 
-            // pass parameter data to the view
-            $view->viewData = $args[0];
+        // Aggregate view container object
+        $viewContainer = SmartContainer::newInstance('SmartViewContainer');
+        // use this to pass variables inside the view(s)
+        $view->viewVar = & $viewContainer->vars;
+
+        // pass parameter data to the view
+        $view->viewData = $args[0];
             
-            // run authentication
-            $view->auth();
+        // run authentication
+        $view->auth();
             
-            // run view prepended filters
-            $view->prependFilterChain();
+        // run view prepended filters
+        $view->prependFilterChain();
             
-            // perform on the main job
-            $view->perform();
+        // perform on the main job
+        $view->perform();
             
-            // render a template if needed
-            if ( SMART_TEMPLATE_RENDER == $view->renderTemplate )
+        // render a template if needed
+        if ( SMART_TEMPLATE_RENDER == $view->renderTemplate )
+        {
+            // set template name
+            $tplContainer->template = $view->template;
+               
+            // which template folder to use?
+            if( $view->templateFolder != FALSE )
             {
-                // set template name
-                $tplContainer->template = $view->template;
-                
-                // which template folder to use?
-                if( $view->templateFolder != FALSE )
-                {
-                    $tplContainer->templateFolder = $view->templateFolder;
-                }
-                else if(!defined('SMART_TPL_FOLDER'))
-                {
-                    $tplContainer->templateFolder = $this->model->getConfigVar('common', 'publicTemplateFolder');
-                }
-                else if(defined('SMART_TPL_FOLDER'))
-                { 
-                    $tplContainer->templateFolder = SMART_TPL_FOLDER;
-                }                
-                
-                // render the template
-                $tplContainer->renderTemplate();
+                $tplContainer->templateFolder = $view->templateFolder;
+            }
+            else if(!defined('SMART_TPL_FOLDER'))
+            {
+                $tplContainer->templateFolder = $this->model->getConfigVar('common', 'publicTemplateFolder');
+            }
+            else if(defined('SMART_TPL_FOLDER'))
+            { 
+                $tplContainer->templateFolder = SMART_TPL_FOLDER;
             }                
-            
-            // run append filters
-            $view->appendFilterChain( $tplContainer->tplBufferContent );
-            
-            // echo the context
-            echo $tplContainer->tplBufferContent;
-            
-            return TRUE; 
-        }
-        catch(SmartViewException $e)
-        {
-            $e->performStackTrace();
-
-            return FALSE;
-        }
-        catch(SmartModelException $e)
-        {
-            $e->performStackTrace();
-
-            return FALSE;
-        }         
-        catch(SmartTplException $e)
-        {
-            $e->performStackTrace();
-
-            return FALSE;
-        }        
+                
+            // render the template
+            $tplContainer->renderTemplate();
+        }                
+           
+        // run append filters
+        $view->appendFilterChain( $tplContainer->tplBufferContent );
+           
+        // echo the context
+        echo $tplContainer->tplBufferContent;       
     }
     
     /**
