@@ -1,12 +1,12 @@
 <?php
 
-class SmartTplException extends SmartException
+class SmartCacheException extends SmartException
 {
     public function __construct ($message = null, $code = 0)
     {
         parent::__construct($message, $code);
 
-        $this->setName( 'SmartTplException' );
+        $this->setName( 'SmartCacheException' );
     }
 }
 

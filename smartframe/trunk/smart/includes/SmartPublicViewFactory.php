@@ -112,7 +112,16 @@ class SmartPublicViewFactory extends SmartViewFactory
             
         // run view prepended filters
         $view->prependFilterChain();
-            
+        
+        if( $view->cacheExpire != 0 )
+        {
+            $cache = SmartCache::newInstance('SmartFileViewCache');
+            if($cache->cacheIdExists( $view->cacheExpire ))
+            {
+                return;
+            }
+        }
+        
         // perform on the main job
         $view->perform();
             
@@ -142,10 +151,17 @@ class SmartPublicViewFactory extends SmartViewFactory
             
         // run append filters
         $view->appendFilterChain( $tplContainer->tplBufferContent );
+
+        if($view->cacheExpire != 0)
+        {
+            $cache->cacheWrite( $tplContainer->tplBufferContent );
+        }
             
         // echo the context
         echo $tplContainer->tplBufferContent;                
     } 
+    
+
 }
 
 ?>

@@ -74,7 +74,11 @@ class SmartWebController extends SmartController
             $e->performStackTrace(); 
             $this->userErrorView();
         } 
-
+        catch(SmartCacheException $e)
+        {
+            $e->performStackTrace(); 
+            $this->userErrorView();
+        } 
         ob_end_flush();
     }
     /**

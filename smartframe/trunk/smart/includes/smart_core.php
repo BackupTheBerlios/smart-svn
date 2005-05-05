@@ -81,6 +81,14 @@ define('SMART_TEMPLATE_ENGINE',          'SmartTplContainerPhp');
 define('SMART_DEFAULT_TEMPLATE_FOLDER',   'templates_default/');
 define('SMART_DEFAULT_VIEW_FOLDER',       'views_default/');
 
+/**
+ * Cache folder.
+ */
+define('SMART_CACHE_PATH',                SMART_BASE_DIR . 'cache/');
+
+/**
+ * Default views.
+ */
 define('SMART_DEFAULT_VIEW',              'index');
 define('SMART_ERROR_VIEW',                'error');
 
@@ -124,5 +132,8 @@ include_once( SMART_BASE_DIR . 'smart/includes/SmartModel.php' );
 
 // controller class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartController.php' );
+
+// cache class
+include_once( SMART_BASE_DIR . 'smart/includes/SmartCache.php' );
 
 ?>

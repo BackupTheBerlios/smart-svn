@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * default view. Parent class of every view class
+ * Parent class of every view class
  *
  */
 
@@ -44,7 +44,7 @@ class SmartView extends SmartObject
      * Template related to this view
      * @var string $template
      */
-    private $template = '';
+    public $template = '';
 
      /**
      * Template render flag
@@ -64,8 +64,14 @@ class SmartView extends SmartObject
      */
     public $viewData = FALSE;
 
+     /**
+     * Cache expire time
+     * @var int $cacheExpire 0 = cache disabled
+     */
+    public $cacheExpire = 10;
+
     /**
-     * constructor php5
+     * constructor
      *
      */
     function __construct()
