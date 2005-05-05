@@ -116,7 +116,7 @@ class SmartPublicViewFactory extends SmartViewFactory
         if( $view->cacheExpire != 0 )
         {
             $cache = SmartCache::newInstance('SmartFileViewCache');
-            if($cache->cacheIdExists( $view->cacheExpire ))
+            if($cache->cacheIdExists( $view->cacheExpire, $requestedView))
             {
                 return;
             }

@@ -68,7 +68,7 @@ class SmartView extends SmartObject
      * Cache expire time
      * @var int $cacheExpire 0 = cache disabled
      */
-    public $cacheExpire = 10;
+    public $cacheExpire = 0;
 
     /**
      * constructor
