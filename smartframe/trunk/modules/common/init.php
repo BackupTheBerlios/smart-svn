@@ -18,7 +18,7 @@
 //
 if (!defined('SMART_SECURE_INCLUDE'))
 {
-    die('No Permission on ' . __FILE__);
+    if(SMART_DEBUG) die('No Permission on ' . __FILE__); else exit;
 }
 
 // Name of the module

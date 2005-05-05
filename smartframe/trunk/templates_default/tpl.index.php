@@ -16,5 +16,6 @@
 <p><font size="5" face="Verdana, Arial, Helvetica, sans-serif"><strong>Index</strong></font>
 </p>
 <p><font color="#990000" size="3" face="Verdana, Arial, Helvetica, sans-serif"><pre><?php print_r( $tpl ); ?></pre></font></p>
+<?php $viewLoader->test(); ?>
 </body>
 </html>

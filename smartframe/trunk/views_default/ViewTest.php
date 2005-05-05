@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewIndex class
+ * ViewTest class
  * Every view must extends SmartView
  *
  * The parent variables are:
@@ -22,18 +22,25 @@
  * $renderTemplate - Is there a template associated with this view?
  *                   SMART_TEMPLATE_RENDER or SMART_TEMPLATE_RENDER_NONE
  * $viewData - Data passed to this view by the caller
+ * $cacheExpire - Expire time of this view cache
  */
 
-class ViewIndex extends SmartView
+class ViewTest extends SmartView
 {
      /**
      * Template of this view
      * @var string $template
      */
-    public $template = 'index';
-public $cacheExpire = 4;
+    public $template = 'test';
+
+     /**
+     * Cache expire time
+     * @var int $cacheExpire 0 = cache disabled
+     */
+    public $cacheExpire = 10;
+
     /**
-     * Execute the view of the template "templates_xxx/tpl.index.php"
+     * Execute the view of the template "templates_xxx/tpl.test.php"
      *
      * @return bool true on success else false
      */
@@ -44,19 +51,9 @@ public $cacheExpire = 4;
         $this->model->action( SMART_MOD_COMMON, 
                               'test', 
                               array( 'result' => & $this->tplVar,
-                                     'message' => 'This message comes from the index view (views_default/ViewIndex.php)') );
+                                     'message' => 'This message comes from the test view (views_default/ViewTest.php)') );
 
         return TRUE;
-    }
-
-    /**
-     * authentication
-     *
-     */
-    function auth()
-    {
-        // Here we call the authentication action of the user module
-        // $this->model->action( SMART_MOD_USER, 'auth' );
     }
 
     /**
