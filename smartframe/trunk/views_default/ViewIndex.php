@@ -31,7 +31,7 @@ class ViewIndex extends SmartView
      * @var string $template
      */
     public $template = 'index';
-public $cacheExpire = 4;
+
     /**
      * Execute the view of the template "templates_xxx/tpl.index.php"
      *
