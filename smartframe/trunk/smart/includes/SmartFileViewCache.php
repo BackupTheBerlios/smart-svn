@@ -59,9 +59,9 @@ class SmartFileViewCache extends SmartCache
      *
      * @var int $expire expire time stamp
      */   
-    public function cacheIdExists( $expire, $viewId )
+    public function cacheIdExists( $expire, & $viewId )
     {
-        $this->cacheFile = SMART_CACHE_PATH.md5($_SERVER['PHP_SELF'].$viewId);
+        $this->cacheFile = SMART_CACHE_PATH.md5($viewId);
         $this->cacheTimeFile = $this->cacheFile . 'time';
 
         if( file_exists($this->cacheTimeFile)  )
