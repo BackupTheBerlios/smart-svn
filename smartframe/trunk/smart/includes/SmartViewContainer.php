@@ -17,7 +17,7 @@
  
 class SmartViewContainer extends SmartContainer
 {
-    public $vars;
+    public $vars = array();
 }
 
 ?>

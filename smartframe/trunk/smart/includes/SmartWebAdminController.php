@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /*
- * Web controller class
+ * Web Admin controller class
  *
  */
 class SmartWebAdminController extends SmartController
@@ -35,13 +35,16 @@ class SmartWebAdminController extends SmartController
         include_once( SMART_BASE_DIR . 'smart/includes/SmartAdminViewFactory.php' );
 
         try
-        {
+        {        
             // create a view factory instance
             // this instance aggregates the model object
             $this->view = new SmartAdminViewFactory( $this->model );
 
             // Build the view methode name of the "index" view of the "common" module
             $methode = ucfirst( SMART_COMMON_MODULE ) . 'Index';
+
+            // run broadcast action init event to every module
+            $this->model->broadcast( 'init' );
             
             // Execute the index view of a common module
             $this->view->$methode();
@@ -61,6 +64,10 @@ class SmartWebAdminController extends SmartController
             $e->performStackTrace(); 
             $this->userErrorView();
         }         
+        catch(SmartForwardViewException $e)
+        {
+            $this->view->{$e->view}($e->data, $e->constructorData);  
+        }
         
         ob_end_flush();
     }
@@ -72,7 +79,7 @@ class SmartWebAdminController extends SmartController
     private function userErrorView()
     {
         $methode = ucfirst( SMART_COMMON_MODULE ) . 'Error';
-        $this->view->$methode( array('error' => 'Unexpected error. Please contact the administrator') );    
+        $this->view->$methode();    
     }     
 }
 

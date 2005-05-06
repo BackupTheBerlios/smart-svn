@@ -153,9 +153,6 @@ class SmartController extends SmartObject
         {
            $e->performStackTrace();
         }
-        
-        // run broadcast action init event to every module
-        $this->model->broadcast( 'init' );   
     }
 
     /**

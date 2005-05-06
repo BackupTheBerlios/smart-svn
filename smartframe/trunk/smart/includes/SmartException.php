@@ -155,5 +155,21 @@ class SmartCacheException extends SmartException
     }
 }
 
+class SmartForwardViewException extends Exception
+{
+    public $view;
+    public $data;
+    public $constructorData;
+    
+    public function __construct ($module, $view = 'index', $data = FALSE, $constructorData = FALSE)
+    {
+        parent::__construct(NULL,0);
 
+        $this->view = ucfirst($module).ucfirst($view);
+        $this->data = & $data;
+        $this->constructorData = & $constructorData;
+        
+        ob_clean();
+    }   
+}
 ?>
