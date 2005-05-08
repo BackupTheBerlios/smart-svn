@@ -93,6 +93,22 @@ class SmartException extends Exception
     }
 }
 
+class SmartExceptionLog
+{
+    public static function log( $e )
+    {
+        $message  = "EXCEPTION: ".date("Y-m-d H:i:s", time())."\n";
+        $message .= "VERSION: "  .SMART_VERSION."\n";       
+        $message .= "MESSAGE: "  .$e->getMessage()."\n";
+        $message .= "CODE: "     .$e->getCode()."\n"; 
+        $message .= "FILE: "     .$e->getFile()."\n"; 
+        $message .= "LINE: "     .$e->getLine()."\n";
+        $message .= "TRACE: \n"  .var_export($e->getTrace(), TRUE)."\n";
+        
+        @error_log($message."\n\n", 3, SMART_LOGS_PATH . 'error.log');
+    }
+}
+
 class SmartTplException extends SmartException
 {
     public function __construct ($message = null, $code = 0)

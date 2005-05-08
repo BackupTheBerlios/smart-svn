@@ -95,7 +95,7 @@ class SmartWebController extends SmartController
 
         if(!@file_exists(SMART_BASE_DIR . $this->view->viewFolder . '/View' . ucfirst($view_name) . '.php'))
         {
-            throw new SmartViewException('View dosent exists: ' . SMART_BASE_DIR . $this->view->viewFolder . '/view.' . $view_name . '.php', SMART_VIEW_ERROR);
+            throw new SmartViewException('View dosent exists: ' . SMART_BASE_DIR . $this->view->viewFolder . '/View' . ucfirst($view_name) . '.php', SMART_VIEW_ERROR);
         }
 
         return $view_name;

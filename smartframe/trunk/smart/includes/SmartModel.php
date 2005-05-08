@@ -202,9 +202,9 @@ class SmartModel extends SmartObject
      */ 
     public function broadcast( $action, $data = FALSE, $constructor_data = FALSE, $force_instance = FALSE )
     {
-        foreach($this->registeredModules as $module => $data)
+        foreach($this->registeredModules as $module => $dat)
         {
-            $this->action( $module, $action,$data, $constructor_data, $force_instance );
+            $this->action( $module, $action, $data, $constructor_data, $force_instance );
         }
     } 
 }

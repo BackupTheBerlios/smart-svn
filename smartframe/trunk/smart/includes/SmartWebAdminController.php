@@ -68,7 +68,7 @@ class SmartWebAdminController extends SmartController
         {
             $this->view->{$e->view}($e->data, $e->constructorData);  
         }
-        
+
         ob_end_flush();
     }
     
