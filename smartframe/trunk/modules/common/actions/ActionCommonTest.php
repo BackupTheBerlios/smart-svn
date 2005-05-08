@@ -95,7 +95,7 @@ class ActionCommonTest extends SmartAction
         
         *
         */
-        
+
         return TRUE;
     }    
 }

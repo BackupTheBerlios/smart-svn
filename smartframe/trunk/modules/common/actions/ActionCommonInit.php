@@ -22,8 +22,17 @@ class ActionCommonInit extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        // Check if a setup was successful done else launch setup > 'setup' module
         
+        // Check if a setup was successfull done else launch setup > 'setup' module
+
+        if(file_exists(SMART_CONFIG_PATH . 'config.php'))
+        {
+            include_once(SMART_CONFIG_PATH . 'config.php');
+        }
+        else
+        {
+            throw new SmartForwardViewException( SMART_MOD_SETUP );        
+        }
         
         // module configuration array
         // usually fetched from a database table

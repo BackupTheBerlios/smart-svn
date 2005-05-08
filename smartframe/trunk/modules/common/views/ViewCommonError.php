@@ -22,14 +22,11 @@ class ViewCommonError extends SmartView
     public $template = 'error';
 
     /**
-     * Fetch error string
+     * Does nothing. The end user error page is static.
      *
      */
     function perform()
     {
-        // assign error as template variable
-        // 
-        $this->tplVar = $this->viewData;
     }
 }
 
