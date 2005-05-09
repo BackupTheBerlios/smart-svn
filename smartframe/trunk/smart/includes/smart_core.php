@@ -30,6 +30,16 @@ if (!defined( 'SMART_SECURE_INCLUDE' ))
 $SmartConfig = array();
 
 /**
+ * Name of the admin web controller
+ */
+$SmartConfig['admin_web_controller'] = 'admin.php';
+
+/**
+ * Name of the public web controller
+ */
+$SmartConfig['public_web_controller'] = 'index.php';
+
+/**
  * Path to the config dir
  */
 $SmartConfig['config_path'] = SMART_BASE_DIR . 'config/';
