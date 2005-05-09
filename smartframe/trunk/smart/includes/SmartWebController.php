@@ -28,11 +28,6 @@ class SmartWebController extends SmartController
      */
     public function dispatch()
     { 
-        if(!@file_exists($this->config['config_path'] . 'dbConfig.php'))
-        {
-            die('Setup not yet done.');
-        }
-        
         // parent view class
         include_once( SMART_BASE_DIR . 'smart/includes/SmartView.php' );
         // Include view parent factory class and its child class
@@ -88,6 +83,15 @@ class SmartWebController extends SmartController
             $e->performStackTrace(); 
             $this->userErrorView();
         } 
+        catch(SmartForwardPublicViewException $e)
+        {
+            $this->view->{$e->view}($e->data, $e->constructorData);  
+        }        
+        catch(SmartForwardAdminViewException $e)
+        {
+            die('Setup not yet done. Please run the admin web controller');
+        }     
+        
         ob_end_flush();
     }
     /**
