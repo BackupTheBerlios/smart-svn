@@ -24,8 +24,6 @@ if (!defined('SMART_SECURE_INCLUDE'))
 
 // Name of the module
 define( 'SMART_MOD_SYSTEM' , 'system' );
-// Version of the module
-define( 'SMART_MOD_SYSTEM_VERSION' , SMART_VERSION );
 
 // register this module                       
 $this->model->register( SMART_MOD_SYSTEM,

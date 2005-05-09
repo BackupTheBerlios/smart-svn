@@ -15,6 +15,8 @@
  */
 class SmartException extends Exception
 {
+    public $flag = array();
+    
     /**
      * Constructor
      *
@@ -51,8 +53,7 @@ class SmartException extends Exception
      */
     public function performStackTrace()
     {
-        $exceptionMessage  = "EXCEPTION: ".date("Y-m-d H:i:s", time())."\n";
-        $exceptionMessage .= "VERSION: "  .SMART_VERSION."\n";       
+        $exceptionMessage  = "EXCEPTION: ".date("Y-m-d H:i:s", time())."\n";     
         $exceptionMessage .= "NAME: "     .$this->getName()."\n";
         $exceptionMessage .= "MESSAGE: "  .$this->getMessage()."\n";
         $exceptionMessage .= "CODE: "     .$this->getCode()."\n"; 
@@ -62,7 +63,7 @@ class SmartException extends Exception
 
         $this->_log( $exceptionMessage );
         
-        if( SMART_DEBUG == TRUE )
+        if( $this->flag['debug'] == TRUE )
         {
             die('code execution halted');
         }
@@ -76,12 +77,12 @@ class SmartException extends Exception
     function _log( & $message )
     {
         // write this message to file
-        if(strstr(SMART_MESSAGE_HANDLE, 'LOG'))
+        if(strstr($this->flag['message_handle'], 'LOG'))
         {
-            error_log($message."\n\n", 3, SMART_LOGS_PATH . 'error.log');
+            error_log($message."\n\n", 3, $this->flag['logs_path'] . 'error.log');
         }  
         // Print this message
-        if(strstr(SMART_MESSAGE_HANDLE, 'SHOW') && (SMART_DEBUG == TRUE ))
+        if(strstr($this->flag['message_handle'], 'SHOW') && ($this->flag['debug'] == TRUE ))
         {
             echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
                               font-size: 10px;
@@ -97,15 +98,14 @@ class SmartExceptionLog
 {
     public static function log( $e )
     {
-        $message  = "EXCEPTION: ".date("Y-m-d H:i:s", time())."\n";
-        $message .= "VERSION: "  .SMART_VERSION."\n";       
+        $message  = "EXCEPTION: ".date("Y-m-d H:i:s", time())."\n";       
         $message .= "MESSAGE: "  .$e->getMessage()."\n";
         $message .= "CODE: "     .$e->getCode()."\n"; 
         $message .= "FILE: "     .$e->getFile()."\n"; 
         $message .= "LINE: "     .$e->getLine()."\n";
         $message .= "TRACE: \n"  .var_export($e->getTrace(), TRUE)."\n";
         
-        @error_log($message."\n\n", 3, SMART_LOGS_PATH . 'error.log');
+        @error_log($message."\n\n", 3, $e->flag['logs_path'] . 'error.log');
     }
 }
 
@@ -171,7 +171,7 @@ class SmartCacheException extends SmartException
     }
 }
 
-class SmartForwardViewException extends Exception
+class SmartForwardAdminViewException extends Exception
 {
     public $view;
     public $data;
@@ -182,6 +182,24 @@ class SmartForwardViewException extends Exception
         parent::__construct(NULL,0);
 
         $this->view = ucfirst($module).ucfirst($view);
+        $this->data = & $data;
+        $this->constructorData = & $constructorData;
+       
+        ob_clean();
+    }   
+}
+
+class SmartForwardPublicViewException extends Exception
+{
+    public $view;
+    public $data;
+    public $constructorData;
+    
+    public function __construct ($view = 'index', $data = FALSE, $constructorData = FALSE)
+    {
+        parent::__construct(NULL,0);
+
+        $this->view = ucfirst($view);
         $this->data = & $data;
         $this->constructorData = & $constructorData;
         

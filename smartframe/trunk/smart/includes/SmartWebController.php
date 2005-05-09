@@ -27,7 +27,7 @@ class SmartWebController extends SmartController
      *
      */
     public function dispatch()
-    {
+    { 
         // parent view class
         include_once( SMART_BASE_DIR . 'smart/includes/SmartView.php' );
         // Include view parent factory class and its child class
@@ -36,17 +36,17 @@ class SmartWebController extends SmartController
 
         try
         {
+            // run broadcast action init event to every module
+            $this->model->broadcast( 'init' );
+
             // create a viewRunner instance
             // this instance aggregates the model object
-            $this->view = new SmartPublicViewFactory( $this->model );
-
-            // set the public view folder
-            $this->view->viewFolder = $this->model->getConfigVar( 'common', 'publicViewFolder' );
+            $this->view = new SmartPublicViewFactory( $this->model, $this->config );
 
             // get view request
             if( !isset($_REQUEST['view']) || empty($_REQUEST['view']) )
             {
-                $viewRequest = SMART_DEFAULT_VIEW;
+                $viewRequest = $this->config['default_view'];
             }
             else
             {
@@ -55,27 +55,31 @@ class SmartWebController extends SmartController
 
             // validate view request
             $methode = $this->validateViewName( $viewRequest );
-        
+       
             // execute the requested view
             $this->view->$methode();        
         }
         catch(SmartViewException $e)
         {
+            $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
             $this->userErrorView();
         }
         catch(SmartModelException $e)
         {
+            $this->setExceptionFlags( $e );
             $e->performStackTrace();
             $this->userErrorView();
         }         
         catch(SmartTplException $e)
         {
+            $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
             $this->userErrorView();
         } 
         catch(SmartCacheException $e)
         {
+            $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
             $this->userErrorView();
         } 
@@ -90,12 +94,12 @@ class SmartWebController extends SmartController
     {
         if(preg_match("/[^a-zA-Z0-9_]/", $view_name))
         {
-            throw new SmartViewException('Wrong view fromat: ' . $view_name, SMART_VIEW_ERROR);
+            throw new SmartViewException('Wrong view fromat: ' . $view_name);
         }
 
-        if(!@file_exists(SMART_BASE_DIR . $this->view->viewFolder . '/View' . ucfirst($view_name) . '.php'))
+        if(!@file_exists(SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php'))
         {
-            throw new SmartViewException('View dosent exists: ' . SMART_BASE_DIR . $this->view->viewFolder . '/View' . ucfirst($view_name) . '.php', SMART_VIEW_ERROR);
+            throw new SmartViewException('View dosent exists: ' . SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php');
         }
 
         return $view_name;
@@ -107,7 +111,7 @@ class SmartWebController extends SmartController
      */    
     private function userErrorView()
     {
-        $methode = SMART_ERROR_VIEW;
+        $methode = $this->config['error_view'];
         $this->view->$methode( array('error' => 'Unexpected error. Please contact the administrator') );    
     }    
 }

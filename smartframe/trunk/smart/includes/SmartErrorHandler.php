@@ -15,14 +15,18 @@
  */
 class SmartErrorHandler
 {   
+    private $config;
+
    /**
     * constructor
     *
     * set php error handler callback function
     */    
-    function __construct()
+    function __construct( & $config )
     {
         set_error_handler     (array( &$this, '_php_error_handler' ));
+        
+        $this->config = $config;
     }  
     
    /**
@@ -30,12 +34,7 @@ class SmartErrorHandler
     *
     */    
     function _php_error_handler( $errno, $errstr, $errfile, $errline )
-    {
-        if ((SMART_ERROR_REPORTING & $errno) == 0)
-        {
-            return;
-        }
-        
+    {        
         $errtype = array (
                E_ERROR           => "E_ERROR",
                E_WARNING         => "E_WARNING",
@@ -70,12 +69,12 @@ class SmartErrorHandler
     function _log( & $message )
     {
         // Log this message to file
-        if(strstr(SMART_MESSAGE_HANDLE, 'LOG'))
+        if(strstr($this->config['message_handle'], 'LOG'))
         {
-            error_log($message."\n\n", 3, SMART_LOGS_PATH . 'error.log');
+            error_log($message."\n\n", 3, $this->config['logs_path'] . 'error.log');
         }  
         // Print this message
-        if(strstr(SMART_MESSAGE_HANDLE, 'SHOW'))
+        if(strstr($this->config['message_handle'], 'SHOW'))
         {
             echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
                               font-size: 10px;

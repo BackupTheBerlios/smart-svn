@@ -28,6 +28,12 @@ class SmartAction extends SmartObject
      */
     public $model;    
 
+     /**
+     * Smart main configuration array
+     * @var array $config
+     */
+    private $config;   
+
     /**
      * constructor
      *

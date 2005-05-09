@@ -30,54 +30,54 @@ if (!defined( 'SMART_SECURE_INCLUDE' ))
 
 
 /**
- * Path to the config dir.
- * (Do not remove the original /config directory even if you set
- *  here an other config path)
- * If you change the folder path make shure that this directory 
- * is writeable by php.
+ * Path to the config dir
  */
-define('SMART_CONFIG_PATH',              SMART_BASE_DIR . 'config/');
-
+$SmartConfig['config_path'] = SMART_BASE_DIR . 'config/';
 /**
  * Idem for the directory of log files.
  */
- define('SMART_LOGS_PATH',               SMART_BASE_DIR . 'logs/');
-    
-/**
- * Idem for the cache folder.
- */
-define('SMART_CACHE_PATH',               SMART_BASE_DIR . 'cache/');        
+$SmartConfig['logs_path'] = SMART_BASE_DIR . 'logs/';
 
 /**
- * Default public template and view folders
+ * Cache folder.
  */
-define('SMART_DEFAULT_TEMPLATE_FOLDER',  'templates_default/');
-define('SMART_DEFAULT_VIEW_FOLDER',      'views_default/');
+$SmartConfig['cache_path'] = SMART_BASE_DIR . 'cache/';
+    
+/**
+ * The common module name. This module is required!
+ */
+$SmartConfig['base_module'] = 'common';
+  
+/**
+ * Name of the template engine class
+ */
+$SmartConfig['template_engine'] = 'SmartTplContainerPhp';
+
+/**
+ * Default templates and views folder
+ */
+$SmartConfig['default_template_folder'] = 'templates_default/';
+$SmartConfig['default_view_folder'] = 'views_default/';
 
 /**
  * Default views.
  */
-define('SMART_DEFAULT_VIEW',             'index');
-define('SMART_ERROR_VIEW',               'error');
-    
+$SmartConfig['default_view'] = 'index';
+$SmartConfig['error_view'] = 'error';
+
 /**
  * message log types ('LOG|SHOW')
  */
-define('SMART_MESSAGE_HANDLE',           'LOG');
-  
+$SmartConfig['message_handle'] = 'LOG|SHOW';
+ 
 /**
  * error reporting
  */
-define('SMART_ERROR_REPORTING',          E_ALL | E_STRICT);
+$SmartConfig['error_reporting'] = E_ALL | E_STRICT;
 
 /**
  * Set debug mode.
  */
-define('SMART_DEBUG',                    FALSE);    
-
-/**
- * Name of the template engine class
- */
-define('SMART_TEMPLATE_ENGINE',          'SmartTplContainerPhp');
+$SmartConfig['debug'] = TRUE; 
 
 ?>

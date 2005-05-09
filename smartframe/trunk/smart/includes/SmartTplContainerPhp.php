@@ -33,9 +33,9 @@ class SmartTplContainerPhp extends SmartTplContainer
         $template = SMART_BASE_DIR . $this->templateFolder . '/tpl.' . $this->template . '.php';
         if ( !@file_exists( $template ) )
         {
-            throw new SmartTplException("Template dosent exists: ".$template, SMART_NO_TEMPLATE);
+            throw new SmartTplException("Template dosent exists: ".$template);
         }
-
+ 
         ob_start();
 
         include( $template );

@@ -21,9 +21,15 @@ class SmartViewFactory extends SmartObject
      */
     protected $model;
     
-    public function __construct( $model )
+    /**
+     * Main Smart Config Array
+     */
+    protected $config;    
+    
+    public function __construct( $model, & $config )
     {
-        $this->model = $model;
+        $this->model  = $model;
+        $this->config = $config;
     }
 }
 

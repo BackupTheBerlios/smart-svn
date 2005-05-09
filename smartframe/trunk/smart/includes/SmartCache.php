@@ -17,28 +17,40 @@
  
 class SmartCache extends SmartObject
 {
+    public $config;
+    
+    /**
+     * Constructor
+     *
+     * @param string $config Main Smart configuration array
+     */
+    function __construct( & $config )
+    {
+        $this->config = $config;
+    }
+    
     /**
      * Retrieve a new Cache instance.
      *
      * @param string $class Cache class name.
      */
-    public static function newInstance($class)
+    public static function newInstance($class, $config)
     {
         $class_file = SMART_BASE_DIR . 'smart/includes/'.$class.'.php';
                 
         if(!@file_exists($class_file))
         {
-            throw new SmartCacheException($class_file.' dosent exists', SMART_DIE);
+            throw new SmartCacheException($class_file.' dosent exists');
         }
                 
         include_once($class_file);
                 
         // the class exists
-        $object = new $class();
+        $object = new $class( $config );
 
         if (!($object instanceof SmartCache))
         {
-            throw new SmartCacheException($class.' dosent extends SmartCache', SMART_DIE);
+            throw new SmartCacheException($class.' dosent extends SmartCache');
         }
 
         // register and return singleton instance

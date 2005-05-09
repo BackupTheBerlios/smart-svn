@@ -35,13 +35,13 @@ class SmartWebAdminController extends SmartController
         include_once( SMART_BASE_DIR . 'smart/includes/SmartAdminViewFactory.php' );
 
         try
-        {        
+        {      
             // create a view factory instance
             // this instance aggregates the model object
-            $this->view = new SmartAdminViewFactory( $this->model );
+            $this->view = new SmartAdminViewFactory( $this->model, $this->config );
 
             // Build the view methode name of the "index" view of the "common" module
-            $methode = ucfirst( SMART_COMMON_MODULE ) . 'Index';
+            $methode = ucfirst( $this->config['base_module'] ) . 'Index';
 
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );
@@ -51,20 +51,23 @@ class SmartWebAdminController extends SmartController
         }
         catch(SmartViewException $e)
         {
+            $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
             $this->userErrorView();
         }
         catch(SmartModelException $e)
         {
+            $this->setExceptionFlags( $e );
             $e->performStackTrace();
             $this->userErrorView();
         }         
         catch(SmartTplException $e)
         {
+            $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
             $this->userErrorView();
         }         
-        catch(SmartForwardViewException $e)
+        catch(SmartForwardAdminViewException $e)
         {
             $this->view->{$e->view}($e->data, $e->constructorData);  
         }
@@ -78,7 +81,7 @@ class SmartWebAdminController extends SmartController
      */    
     private function userErrorView()
     {
-        $methode = ucfirst( SMART_COMMON_MODULE ) . 'Error';
+        $methode = ucfirst( $this->config['base_module'] ) . 'Error';
         $this->view->$methode();    
     }     
 }

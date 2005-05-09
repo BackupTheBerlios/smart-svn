@@ -46,7 +46,7 @@ class SmartPublicViewFactory extends SmartViewFactory
         if( !isset($this->$requestedView) || ($args[2] == TRUE) )
         {
             // path to the modules view class
-            $class_file = SMART_BASE_DIR . $this->viewFolder .'/'.$requestedView.'.php';
+            $class_file = SMART_BASE_DIR . $this->model->config['views_folder'] .'/'.$requestedView.'.php';
 
             if(@file_exists($class_file))
             {
@@ -82,17 +82,20 @@ class SmartPublicViewFactory extends SmartViewFactory
             
         // Aggregate model object
         $view->model = $this->model;
+        
+        // Aggregate the main configuration array
+        $view->config = & $this->model->config;
 
         // Aggregate view loader object
         //$view->viewLoader = $this;
            
         // include template container
-        if( $view->renderTemplate == SMART_TEMPLATE_RENDER )
+        if( $view->renderTemplate == TRUE )
         {
             // parent template container class
             include_once( SMART_BASE_DIR . 'smart/includes/SmartTplContainer.php' );
             // get template container object
-            $tplContainer = SmartContainer::newInstance( SMART_TEMPLATE_ENGINE );
+            $tplContainer = SmartContainer::newInstance( $this->model->config['template_engine'], $this->model->config );
             // aggregate this object
             $tplContainer->viewLoader = $this;
             // aggregate this container variable to store template variables
@@ -100,7 +103,7 @@ class SmartPublicViewFactory extends SmartViewFactory
         }
 
         // Aggregate view container object
-        $viewContainer = SmartContainer::newInstance('SmartViewContainer');
+        $viewContainer = SmartContainer::newInstance('SmartViewContainer', $this->model->config);
         // use this to pass variables inside the view(s)
         $view->viewVar = & $viewContainer->vars;
 
@@ -115,7 +118,7 @@ class SmartPublicViewFactory extends SmartViewFactory
         
         if( $view->cacheExpire != 0 )
         {
-            $cache = SmartCache::newInstance('SmartFileViewCache');
+            $cache = SmartCache::newInstance('SmartFileViewCache', $this->model->config);
             $cacheid = $requestedView.serialize($args).serialize($_REQUEST).$_SERVER['PHP_SELF'];
             if($cache->cacheIdExists( $view->cacheExpire, $cacheid))
             {
@@ -127,7 +130,7 @@ class SmartPublicViewFactory extends SmartViewFactory
         $view->perform();
             
         // render a template if needed
-        if ( SMART_TEMPLATE_RENDER == $view->renderTemplate )
+        if ( TRUE == $view->renderTemplate )
         {
             // set template name
             $tplContainer->template = $view->template;
@@ -139,7 +142,7 @@ class SmartPublicViewFactory extends SmartViewFactory
             }
             else if(!defined('SMART_TPL_FOLDER'))
             {
-                $tplContainer->templateFolder = $this->model->getConfigVar('common', 'publicTemplateFolder');
+                $tplContainer->templateFolder = $this->model->config['templates_folder'];
             }
             else if(defined('SMART_TPL_FOLDER'))
             { 

@@ -33,7 +33,7 @@ class ViewSetupIndex extends SmartView
      *
      */
     public function perform( $data = FALSE )
-    {
+    { 
         // Init setup_config array
         $this->viewVar['setup_config'] = array();
         // Init setup_error array
@@ -45,17 +45,17 @@ class ViewSetupIndex extends SmartView
             try
             {
                 // Send a broadcast setup message to all modules  
-                $this->model->broadcast( 'setup', 
+                $this->model->broadcast( $this->model->config['setup_module'], 
                                          array('request' => & $_REQUEST,
                                                'config'  => & $this->viewVar['setup_config']) );            
 
                 // write config file with database connection settings      
-                $this->model->action( SMART_MOD_COMMON, 
+                $this->model->action( $this->model->config['base_module'], 
                                       'setDbConfig', 
                                       array( 'dbConnect' => & $this->viewVar['setup_config']['db']) );     
                 
                 // on success forward to the main admin interface view
-                throw new SmartForwardViewException( SMART_MOD_COMMON );
+                throw new SmartForwardViewException( $this->model->config['base_module'] );
             }
             catch(SQLException $e)
             {
@@ -208,7 +208,7 @@ class ViewSetupIndex extends SmartView
      */    
     private function rollback()
     {
-        $this->model->broadcast( 'setup', 
+        $this->model->broadcast( $this->model->config['setup_module'], 
                                  array('rollback' => TRUE,
                                        'request'  => & $_REQUEST) );    
     }

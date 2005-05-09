@@ -27,7 +27,7 @@ class SmartAdminViewFactory extends SmartViewFactory
      */
     public function __call( $view_name, $args )
     {
-        // 
+        // split view name into module and view
         $view_match = $this->split_view_name( $view_name );
         
         // build the whole view class name
@@ -76,7 +76,7 @@ class SmartAdminViewFactory extends SmartViewFactory
             }
             else
             {
-                throw new SmartViewException("View dosent exists: ".$class_file, SMART_NO_VIEW);
+                throw new SmartViewException("View dosent exists: ".$class_file);
             }
         }
         
@@ -86,16 +86,19 @@ class SmartAdminViewFactory extends SmartViewFactory
         // Aggregate model object
         $view->model = $this->model;
 
+        // Aggregate the main configuration array
+        $view->config = & $this->model->config;
+
         // Aggregate view loader object
         //$view->viewLoader = $this;
             
         // include template container
-        if( $view->renderTemplate == SMART_TEMPLATE_RENDER )
+        if( $view->renderTemplate == TRUE )
         {
             // parent template container class
             include_once( SMART_BASE_DIR . 'smart/includes/SmartTplContainer.php' );
             // get template container object
-            $tplContainer = SmartContainer::newInstance( SMART_TEMPLATE_ENGINE );
+            $tplContainer = SmartContainer::newInstance( $this->model->config['template_engine'], $this->model->config );
             // aggregate this object
             $tplContainer->viewLoader = $this;
             // aggregate this container variable to store template variables
@@ -103,7 +106,7 @@ class SmartAdminViewFactory extends SmartViewFactory
         }
 
         // Aggregate view container object
-        $viewContainer = SmartContainer::newInstance('SmartViewContainer');
+        $viewContainer = SmartContainer::newInstance('SmartViewContainer', $this->model->config );
         // use this to pass variables inside the view(s)
         $view->viewVar = & $viewContainer->vars;
 
@@ -118,10 +121,10 @@ class SmartAdminViewFactory extends SmartViewFactory
             
         // perform on the main job
         $view->perform();
-            
+           
         // render a template if needed
-        if ( SMART_TEMPLATE_RENDER == $view->renderTemplate )
-        {
+        if ( TRUE == $view->renderTemplate )
+        { 
             // set template name
             $tplContainer->template = $view->template;
                
@@ -129,10 +132,6 @@ class SmartAdminViewFactory extends SmartViewFactory
             if( $view->templateFolder != FALSE )
             {
                 $tplContainer->templateFolder = $view->templateFolder;
-            }
-            else if(!defined('SMART_TPL_FOLDER'))
-            {
-                $tplContainer->templateFolder = $this->model->getConfigVar('common', 'publicTemplateFolder');
             }
             else if(defined('SMART_TPL_FOLDER'))
             { 
@@ -142,7 +141,7 @@ class SmartAdminViewFactory extends SmartViewFactory
             // render the template
             $tplContainer->renderTemplate();
         }                
-           
+          
         // run append filters
         $view->appendFilterChain( $tplContainer->tplBufferContent );
            
@@ -164,7 +163,7 @@ class SmartAdminViewFactory extends SmartViewFactory
         }
         else
         {
-            throw new SmartViewException('Wrong admin view call name: ' . $view, SMART_DIE);
+            throw new SmartViewException('Wrong admin view call name: ' . $view);
         }
     }      
 }

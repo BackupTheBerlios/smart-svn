@@ -23,16 +23,16 @@ class ActionCommonSetDbConfig extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        if(!$fp = @fopen(SMART_CONFIG_PATH . 'dbConnect.php', 'w'))
+        if(!$fp = @fopen($this->model->config['config_path'] . 'dbConnect.php', 'w'))
         {
-           throw new Exception("Cant open file to write: ". SMART_CONFIG_PATH . "dbConnect.php", 2 );
+           throw new Exception("Cant open file to write: ". $this->model->config['config_path'] . "dbConnect.php", 2 );
         }
          
         $connect_str = $this->buildContent( $data );
         
         if( !@fwrite($fp, $connect_str) )
         {
-            throw new Exception("Cant write file: ". SMART_CONFIG_PATH . "dbConnect.php", 2 );
+            throw new Exception("Cant write file: ". $this->model->config['config_path'] . "dbConnect.php", 2 );
         }
         
         @fclose($fp);
@@ -45,9 +45,9 @@ class ActionCommonSetDbConfig extends SmartAction
      */
     public function validate( $data = FALSE )
     {
-        if( !@is_writeable(SMART_CONFIG_PATH) )
+        if( !@is_writeable($this->model->config['config_path']) )
         {
-            throw new Exception("Config folder isnt writeable. Check permission on: ". SMART_CONFIG_PATH, 2 );
+            throw new Exception("Config folder isnt writeable. Check permission on: ". $this->model->config['config_path'], 2 );
         }
 
         return TRUE;

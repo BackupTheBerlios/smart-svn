@@ -13,7 +13,7 @@
  * Init action of the common module 
  *
  */
- 
+
 class ActionCommonInit extends SmartAction
 {
     /**
@@ -22,26 +22,65 @@ class ActionCommonInit extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        
+                
         // Check if a setup was successfull done else launch setup > 'setup' module
 
-        if(file_exists(SMART_CONFIG_PATH . 'config.php'))
+        if(file_exists($this->config['config_path'] . 'dbConnect.php'))
         {
-            include_once(SMART_CONFIG_PATH . 'config.php');
+            include_once($this->config['config_path'] . 'dbConnect.php');
         }
         else
         {
-            throw new SmartForwardViewException( SMART_MOD_SETUP );        
+            throw new SmartForwardAdminViewException( $this->config['setup_module'] );        
         }
-        
-        // module configuration array
-        // usually fetched from a database table
-        $config = array('publicViewFolder'     => 'views_default',
-                        'publicTemplateFolder' => 'templates_default');
-                        
-        // Set module configuration variables
-        $this->model->addConfigVar( 'common', $config );    
+
+        // set db config vars
+        $this->config['dbtype']        = 'mysql';
+        $this->config['dbhost']        = $db['dbhost'];
+        $this->config['dbuser']        = $db['dbuser'];
+        $this->config['dbpasswd']      = $db['dbpasswd'];
+        $this->config['dbname']        = $db['dbname'];
+        $this->config['dbTablePrefix'] = $db['dbTablePrefix'];
+
+        // set database variables
+        $dsn = array( 'phptype'  => 'mysql',
+                      'hostspec' => $db['dbhost'],
+                      'username' => $db['dbuser'],
+                      'password' => $db['dbpasswd'],
+                      'database' => $db['dbname']);
+
+        try
+        {
+            $this->model->db = Creole::getConnection($dsn);
+        }
+        catch(SQLException $e)
+        {
+            // if no database connection stop here
+            throw new SmartModelException( $e->getNativeError() );
+        }
+       
+        $this->loadConfig(); 
+
     } 
+
+    /**
+     * Load config values
+     *
+     */    
+    private function loadConfig()
+    {
+        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}common_config";
+        
+        $rs = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
+        
+        $rs->first();
+        $fields = $rs->getRow();
+
+        foreach($fields as $key => $val)
+        {
+            $this->config[$key] = $val;      
+        } 
+    }
 }
 
 ?>

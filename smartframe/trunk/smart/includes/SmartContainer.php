@@ -25,13 +25,30 @@ class SmartContainer extends SmartObject
     private static $instance = array();
 
     /**
+     * Main Smart Config array
+     *
+     * @var array $config
+     */            
+    private $config;
+
+    /**
+     * Constructor
+     *
+     * @param array $config Main Smart config array
+     */  
+    function __construct( & $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
      * set object variable
      */        
     public function __set( $name, $value)
     {
-        if( (SMART_DEBUG == TRUE) && isset( $this->$name) )
+        if( ($this->config['debug'] == TRUE) && isset( $this->$name) )
         {
-            throw new SmartContainerException( "Value {$name} was previously declared" ,SMART_DIE);            
+            throw new SmartContainerException( "Value {$name} was previously declared");            
         }
         
         $this->$name = $value;
@@ -55,8 +72,9 @@ class SmartContainer extends SmartObject
      * Retrieve a new Container instance.
      *
      * @param string $class Container class name.
+     * @param array $config Main Smart config array
      */
-    public static function newInstance($class)
+    public static function newInstance($class, $config)
     {
         if (!isset(self::$instance[$class]))
         {
@@ -66,17 +84,17 @@ class SmartContainer extends SmartObject
                 
                 if(!@file_exists($class_file))
                 {
-                    throw new SmartContainerException($class_file.' dosent exists', SMART_DIE);
+                    throw new SmartContainerException($class_file.' dosent exists');
                 }
                 
                 include_once($class_file);
                 
                 // the class exists
-                $object = new $class();
+                $object = new $class( $config );
 
                 if (!($object instanceof SmartContainer))
                 {
-                    throw new SmartContainerException($class.' dosent extends SmartContainer', SMART_DIE);
+                    throw new SmartContainerException($class.' dosent extends SmartContainer');
                 }
 
                 // register and return singleton instance

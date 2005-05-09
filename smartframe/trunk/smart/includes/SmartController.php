@@ -29,6 +29,13 @@ class SmartController extends SmartObject
      * @var object $model
      */        
     public $model;
+    
+    /**
+     * Main Smart Config array
+     *
+     * @var array $config
+     */        
+    public $config;    
 
     /**
      * Controller construct
@@ -37,32 +44,37 @@ class SmartController extends SmartObject
      *
      * Here we register the modules, create some base class instances
      * and run a broadcast init event to all modules
+     * 
+     * @param array $config Main Smart config array
      */
-    function __construct()
+    function __construct( & $config )
     {
         try
         {
             // set error reporting
-            error_reporting(SMART_ERROR_REPORTING);
+            error_reporting( E_ALL | E_STRICT);
+            
+            // set reference to the config array
+            $this->config = $config;
 
             // create base smart container instance
-            $SmartContainer = new SmartContainer;
+            $SmartContainer = new SmartContainer( $config );
 
             // create smart model instance
-            $this->model = new SmartModel;
+            $this->model = new SmartModel( $config );          
 
             // create user-defined error handler
-            new SmartErrorHandler;
+            new SmartErrorHandler( $config );
 
             // check if the modules directory exists
             if(!is_dir(SMART_BASE_DIR . 'modules'))
             {
-                throw new SmartInitException("Missing '".SMART_BASE_DIR . "modules' directory.", SMART_DIE);
+                throw new SmartInitException("Missing '".SMART_BASE_DIR . "modules' directory.");
             }
 
             // A "common" module must be loaded and registered first
             //
-            $mod_common = SMART_BASE_DIR . 'modules/' . SMART_COMMON_MODULE . '/init.php';
+            $mod_common = SMART_BASE_DIR . 'modules/' . $this->config['base_module'] . '/init.php';
 
             if(file_exists( $mod_common ))
             {
@@ -71,7 +83,7 @@ class SmartController extends SmartObject
             }
             else
             {
-                throw new SmartInitException("The module '/modules/{$mod_common}/init.php'  must be installed!", SMART_DIE);
+                throw new SmartInitException("The module '/modules/{$mod_common}/init.php'  must be installed!");
             }
 
             // Include smart system init.php
@@ -85,13 +97,13 @@ class SmartController extends SmartObject
             }
             else
             {
-                throw new SmartInitException("The system module '/smart/init.php'  must be installed!", SMART_DIE);
+                throw new SmartInitException("The system module '/smart/init.php'  must be installed!");
             }
 
             // check if a module was declared, which should play the last role in a broadcast action event
-            if( defined('SMART_LAST_MODULE') )
+            if( isset($this->config['last_module']) )
             {
-                $last_module = SMART_LAST_MODULE;
+                $last_module = $this->config['last_module'];
             }
             else
             {
@@ -114,7 +126,7 @@ class SmartController extends SmartObject
                     continue;
                 }
 
-                 if ( ($tmp_dirname != SMART_COMMON_MODULE) && @is_dir( SMART_BASE_DIR . 'modules/'.$tmp_dirname) )
+                 if ( ($tmp_dirname != $this->config['base_module']) && @is_dir( SMART_BASE_DIR . 'modules/'.$tmp_dirname) )
                  {
                       // include module init file
                       $mod_init = SMART_BASE_DIR . 'modules/' . $tmp_dirname . '/init.php';
@@ -140,7 +152,7 @@ class SmartController extends SmartObject
                 }
                 else
                 {
-                    throw new SmartInitException("The 'last' module file '{$mod_init}' is missing!", SMART_DIE);
+                    throw new SmartInitException("The 'last' module file '{$mod_init}' is missing!");
                 }
             }
 
@@ -154,13 +166,26 @@ class SmartController extends SmartObject
            $e->performStackTrace();
         }
     }
+    /**
+     * Set exception flags.
+     *
+     * @param object $e Exception 
+     */
+    protected function setExceptionFlags( $e )
+    {
+        $e->flag = array('debug'          => $this->config['debug'],
+                         'logs_path'      => $this->config['logs_path'],
+                         'message_handle' => $this->config['message_handle']);  
+        return;
+    }
 
     /**
      * Retrieve a new Controller instance.
      *
      * @param string $class Controller class name.
+     * @param array $config Main Smart config array
      */
-    public static function newInstance($class)
+    public static function newInstance($class, & $config)
     {
         try
         {
@@ -170,28 +195,28 @@ class SmartController extends SmartObject
                 
                 if(!@file_exists($class_file))
                 {
-                    throw new SmartInitException($class_file.' dosent exists', SMART_DIE);
+                    throw new SmartInitException($class_file.' dosent exists');
                 }
                 
                 include_once($class_file);
                 
-                $object = new $class();
+                $object = new $class( $config );
 
                 if (!($object instanceof SmartController))
                 {
-                    throw new SmartInitException($class.' dosent extends SmartController', SMART_DIE);
+                    throw new SmartInitException($class.' dosent extends SmartController');
                 }
 
                 // set singleton instance
                 self::$instance = $object;
-
+ 
                 return $object;
             } 
             else
             {
                 $type = get_class(self::$instance);
 
-                throw new SmartInitException('Controller instance exists: '.$type, SMART_DIE);
+                throw new SmartInitException('Controller instance exists: '.$type);
             }
 
         } catch (SmartInitException $e)

@@ -29,10 +29,16 @@ class SmartView extends SmartObject
     public $viewVar = FALSE;
 
     /**
-     * ActionRunner object
-     * @var object $Action
+     * The model object
+     * @var object $model
      */
     public $model;
+    
+     /**
+     * Smart main configuration array
+     * @var array $config
+     */
+    public $config;   
 
      /**
      * Default error view
@@ -50,7 +56,7 @@ class SmartView extends SmartObject
      * Template render flag
      * @var bool $render_template
      */
-    public $renderTemplate = SMART_TEMPLATE_RENDER; // or SMART_TEMPLATE_RENDER_NONE
+    public $renderTemplate = TRUE;
 
      /**
      * Template folder

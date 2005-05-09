@@ -29,10 +29,20 @@ class SmartModel extends SmartObject
     public $db;
     
     /**
-     * Modules Configuration array
-     * @var array $configVars
+     * Main Smart configuration array
+     * @var array $config
      */  
-    private $configVars = array();
+    public $config;
+
+    /**
+     * Model constructor
+     * 
+     * @param array $config Main Smart config array
+     */
+    function __construct( & $config )
+    {
+        $this->config = $config;
+    }
 
     /**
      * register a module
@@ -45,7 +55,7 @@ class SmartModel extends SmartObject
             $this->registeredModules[$module] = $data;
             return TRUE;
         }
-        throw new SmartInitException("Duplicate error of module name: '{$module}'", SMART_DIE);
+        throw new SmartInitException("Duplicate error of module name: '{$module}'");
     }  
 
     /**
@@ -104,12 +114,12 @@ class SmartModel extends SmartObject
      */     
     public function addConfigVar( $module, & $data )
     {
-        if( !isset($this->configVars[$module]) )
+        if( !isset($this->config[$module]) )
         {
-            $this->configVars[$module] = $data;
+            $this->config[$module] = $data;
             return TRUE;
         }
-        throw new SmartInitException('Module config array exists: '.$module, SMART_DIE);
+        throw new SmartInitException('Module config array exists: '.$module);
     }
     
     /**
@@ -121,9 +131,9 @@ class SmartModel extends SmartObject
      */     
     public function getConfigVar( $module = FALSE, $var_name = FALSE )
     {
-        if( isset($this->configVars[$module][$var_name]) )
+        if( isset($this->config[$module][$var_name]) )
         {
-            return $this->configVars[$module][$var_name];
+            return $this->config[$module][$var_name];
         }
         return NULL;
     }
@@ -136,7 +146,7 @@ class SmartModel extends SmartObject
      * @param mixed $data Data passed to the action
      * @param mixed $constructor_data Data passed to the action constructor
      * @param bool $force_instance If true force a new instance even if it exists
-     * @return mixed Action result
+     * @return bool True on success else false
      */    
     public function action( $module, $action, $data = FALSE, $constructor_data = FALSE, $force_instance = FALSE )
     {
@@ -181,11 +191,14 @@ class SmartModel extends SmartObject
             
         // aggregate the model object to the action object
         $this->$class_name->model = $this;
+
+        // Aggregate the main configuration array
+        $this->$class_name->config = & $this->config;
             
         // validate the request
         if( FALSE == $this->$class_name->validate( $data ) )
         {
-            return SMART_NO_VALID_ACTION;
+            return FALSE;
         }
 
         // perform the request if the requested object exists
