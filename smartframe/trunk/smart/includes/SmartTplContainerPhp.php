@@ -28,14 +28,14 @@ class SmartTplContainerPhp extends SmartTplContainer
         // get reference of the view loader methode to include
         // nested views in templates
         $viewLoader = & $this->viewLoader;
-        
+         
         // build the whole file path to the TEMPLATE file
         $template = SMART_BASE_DIR . $this->templateFolder . '/tpl.' . $this->template . '.php';
         if ( !@file_exists( $template ) )
         {
             throw new SmartTplException("Template dosent exists: ".$template);
         }
- 
+  
         ob_start();
 
         include( $template );

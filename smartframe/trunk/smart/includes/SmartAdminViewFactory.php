@@ -121,7 +121,7 @@ class SmartAdminViewFactory extends SmartViewFactory
             
         // perform on the main job
         $view->perform();
-           
+          
         // render a template if needed
         if ( TRUE == $view->renderTemplate )
         { 
@@ -137,7 +137,7 @@ class SmartAdminViewFactory extends SmartViewFactory
             { 
                 $tplContainer->templateFolder = SMART_TPL_FOLDER;
             }                
-                
+               
             // render the template
             $tplContainer->renderTemplate();
         }                

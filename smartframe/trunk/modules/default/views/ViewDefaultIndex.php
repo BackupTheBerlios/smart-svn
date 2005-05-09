@@ -36,7 +36,7 @@ class ViewDefaultIndex extends SmartView
     {
         // run test action of the common module
         // it assign a template variable with content
-        $this->model->action( SMART_MOD_COMMON, 
+        $this->model->action( 'common', 
                               'test', 
                               array( 'result'  => & $this->tplVar,
                                      'message' => 'This message comes from the default module' ) );

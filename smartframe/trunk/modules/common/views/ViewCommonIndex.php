@@ -37,7 +37,7 @@ class ViewCommonIndex extends SmartView
         // set default module
         if(!isset($_REQUEST['module']))
         {
-            $module = SMART_DEFAULT_MODULE;    
+            $module = $this->config['default_module'];    
         }
         // set default view
         if(!isset($_REQUEST['view']))
@@ -47,9 +47,9 @@ class ViewCommonIndex extends SmartView
         
         // build module view name
         $this->tplVar['view'] = ucfirst($module).ucfirst($view);
-        
+       
         // validate module view name
-        $this->validateViewName( $this->tplVar['view'], $module, $view );
+        $this->validateViewName( $this->tplVar['view'], $module, $view ); 
     }  
 
     /**
@@ -61,12 +61,12 @@ class ViewCommonIndex extends SmartView
     {
         if(preg_match("/[^a-zA-Z0-9_]/", $moduleView))
         {
-            throw new SmartViewException('Wrong view fromat: ' . $moduleView, SMART_VIEW_ERROR);
+            throw new SmartViewException('Wrong view fromat: ' . $moduleView);
         }
 
         if(!@file_exists(SMART_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php'))
         {
-            throw new SmartViewException('View dosent exists: ' . SMART_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php', SMART_VIEW_ERROR);
+            throw new SmartViewException('View dosent exists: ' . SMART_BASE_DIR . '/modules/' . $module . '/views/View' . $moduleView . '.php');
         }
     }
     

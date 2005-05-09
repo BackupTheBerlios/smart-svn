@@ -18,17 +18,10 @@
 //
 if (!defined('SMART_SECURE_INCLUDE'))
 {
-    if(SMART_DEBUG == TRUE) die('No Permission on ' . __FILE__); else exit;
+    die('No Permission');
 }
 
-// Name of the module
-define ( 'SMART_MOD_DEFAULT' , 'default');
-
-// Version of this module
-define ( 'SMART_MOD_DEFAULT_VERSION' , '0.1');
-
 // register this module                       
-$this->model->register( SMART_MOD_DEFAULT, array ( 'active'     => TRUE, 
-                                                   'visibility' => TRUE ) );
-
+$this->model->register( 'default', array ( 'active'     => TRUE, 
+                                           'visibility' => TRUE ) );
 ?>

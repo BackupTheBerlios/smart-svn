@@ -21,15 +21,9 @@ if (!defined('SMART_SECURE_INCLUDE'))
     if(SMART_DEBUG == TRUE) die('No Permission on ' . __FILE__); else exit;
 }
 
-// Name of the module
-define ( 'SMART_MOD_USER' , 'user');
-
-// Version of this module
-define ( 'SMART_MOD_USER_VERSION' , '0.1');
-
 // register this module                       
-$this->model->register( SMART_MOD_USER, array ( 'active'     => TRUE, 
-                                                'visibility' => TRUE ) );
+$this->model->register( 'user', array ( 'active'     => TRUE, 
+                                        'visibility' => TRUE ) );
 // User role definitions
 define ( 'SMART_MOD_USER_ROLE_ADMIN' ,     1);
 define ( 'SMART_MOD_USER_ROLE_EDITOR' ,    20);
