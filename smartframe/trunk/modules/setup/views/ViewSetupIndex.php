@@ -55,7 +55,11 @@ class ViewSetupIndex extends SmartView
                                       array( 'dbConnect' => & $this->viewVar['setup_config']['db']) );     
                 
                 // on success forward to the main admin interface view
-                throw new SmartForwardViewException( $this->model->config['base_module'] );
+                
+                // reload the admin interface
+                ob_clean();
+                @header('Location: ' . $this->config['admin_web_controller']);
+                exit;
             }
             catch(SQLException $e)
             {
