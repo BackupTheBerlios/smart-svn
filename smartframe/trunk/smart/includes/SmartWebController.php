@@ -28,6 +28,11 @@ class SmartWebController extends SmartController
      */
     public function dispatch()
     { 
+        if(!@file_exists($this->config['config_path'] . 'dbConfig.php'))
+        {
+            die('Setup not yet done.');
+        }
+        
         // parent view class
         include_once( SMART_BASE_DIR . 'smart/includes/SmartView.php' );
         // Include view parent factory class and its child class
