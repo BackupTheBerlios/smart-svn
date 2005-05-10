@@ -64,6 +64,11 @@ $SmartConfig['base_module'] = 'common';
 $SmartConfig['setup_module'] = 'setup';
   
 /**
+ * Name of the cache type class
+ */
+$SmartConfig['cache_type'] = 'SmartFileViewCache';
+
+/**
  * Name of the template engine class
  */
 $SmartConfig['template_engine'] = 'SmartTplContainerPhp';

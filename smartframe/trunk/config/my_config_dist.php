@@ -56,6 +56,11 @@ $SmartConfig['cache_path'] = SMART_BASE_DIR . 'cache/';
  * The common module name. This module is required!
  */
 $SmartConfig['base_module'] = 'common';
+
+/**
+ * Name of the cache type class
+ */
+$SmartConfig['cache_type'] = 'SmartFileViewCache';
   
 /**
  * Name of the template engine class

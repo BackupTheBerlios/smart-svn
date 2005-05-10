@@ -115,10 +115,10 @@ class SmartPublicViewFactory extends SmartViewFactory
             
         // run view prepended filters
         $view->prependFilterChain();
-        
+     
         if( $view->cacheExpire != 0 )
         {
-            $cache = SmartCache::newInstance('SmartFileViewCache', $this->model->config);
+            $cache = SmartCache::newInstance($this->config['cache_type'], $this->model->config);
             $cacheid = $requestedView.serialize($args).serialize($_REQUEST).$_SERVER['PHP_SELF'];
             if($cache->cacheIdExists( $view->cacheExpire, $cacheid))
             {
