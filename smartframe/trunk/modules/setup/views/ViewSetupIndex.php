@@ -57,13 +57,12 @@ class ViewSetupIndex extends SmartView
                 
                 if($result != TRUE)
                 {
-                    throw new SmartModelSetupException($error);
+                    throw new Exception($error);
                 }
                 
-                // on success forward to the main admin interface view
                 // reload the admin interface
                 ob_clean();
-               @header('Location: ' . $this->config['admin_web_controller']);
+                @header('Location: ' . $this->config['admin_web_controller']);
                 exit;
             }
             catch(SQLException $e)
@@ -79,7 +78,7 @@ class ViewSetupIndex extends SmartView
                 SmartExceptionLog::log( $e );
                 $this->tplVar['setup_error'][] = 'Database connection error: ' . $e->getMessage();             
             }   
-            catch(SmartModelSetupException $e)
+            catch(Exception $e)
             {
                 SmartExceptionLog::log( $e );
 

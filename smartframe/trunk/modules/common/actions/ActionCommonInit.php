@@ -22,7 +22,7 @@ class ActionCommonInit extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-                
+                    
         // Check if a setup was successfull done else launch setup > 'setup' module
         if(file_exists($this->config['config_path'] . 'dbConnect.php'))
         {
@@ -58,6 +58,7 @@ class ActionCommonInit extends SmartAction
             throw new SmartModelException( $e->getNativeError() );
         }
        
+        // load global config variables of the common module   
         $this->loadConfig(); 
 
     } 

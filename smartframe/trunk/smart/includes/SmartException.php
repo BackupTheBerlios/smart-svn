@@ -191,14 +191,6 @@ class SmartForwardAdminViewException extends Exception
     }   
 }
 
-class SmartModelSetupException extends Exception
-{
-    public function __construct ($message = '', $code = 0)
-    {
-        parent::__construct($message,$code);
-    }   
-}
-
 class SmartForwardPublicViewException extends Exception
 {
     public $view;
