@@ -50,15 +50,20 @@ class ViewSetupIndex extends SmartView
                                                'config'  => & $this->viewVar['setup_config']) );            
 
                 // write config file with database connection settings      
-                $this->model->action( $this->model->config['base_module'], 
-                                      'setDbConfig', 
-                                      array( 'dbConnect' => & $this->viewVar['setup_config']['db']) );     
+                $result = $this->model->action( $this->config['base_module'], 
+                                                'setDbConfig', 
+                                                array( 'dbConnect' => & $this->viewVar['setup_config']['db'],
+                                                       'error'     => ($error = FALSE)) );     
+                
+                if($result != TRUE)
+                {
+                    throw new SmartModelSetupException($error);
+                }
                 
                 // on success forward to the main admin interface view
-                
                 // reload the admin interface
                 ob_clean();
-                @header('Location: ' . $this->config['admin_web_controller']);
+               @header('Location: ' . $this->config['admin_web_controller']);
                 exit;
             }
             catch(SQLException $e)
@@ -69,22 +74,18 @@ class ViewSetupIndex extends SmartView
                 // Rollback all module setup actions 
                 $this->rollback();
             }  
-            catch(Exception $e)
+            catch(SmartModelException $e)
             {
-                $code = $e->getCode();
-                
-                //Database connection error
-                if($code == 1)
-                {
-                    $this->tplVar['setup_error'][] = 'Database connection error: ' . $e->getMessage();
-                }
-                // error write php file with db connection data
-                elseif($code == 2)
-                {
-                    $this->tplVar['setup_error'][] = $e->getMessage();
-                    $this->rollback();
-                }                
-            }             
+                SmartExceptionLog::log( $e );
+                $this->tplVar['setup_error'][] = 'Database connection error: ' . $e->getMessage();             
+            }   
+            catch(SmartModelSetupException $e)
+            {
+                SmartExceptionLog::log( $e );
+
+                $this->tplVar['setup_error'][] = $e->getMessage();
+                $this->rollback();
+            }            
         }
 
         // Fill up the form field variables with posted data        

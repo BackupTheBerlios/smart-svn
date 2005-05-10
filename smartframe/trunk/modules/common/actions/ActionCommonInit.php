@@ -24,7 +24,6 @@ class ActionCommonInit extends SmartAction
     {
                 
         // Check if a setup was successfull done else launch setup > 'setup' module
-
         if(file_exists($this->config['config_path'] . 'dbConnect.php'))
         {
             include_once($this->config['config_path'] . 'dbConnect.php');

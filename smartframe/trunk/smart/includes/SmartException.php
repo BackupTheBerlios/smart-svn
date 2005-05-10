@@ -176,16 +176,26 @@ class SmartForwardAdminViewException extends Exception
     public $view;
     public $data;
     public $constructorData;
+    public $broadcast;
     
-    public function __construct ($module, $view = 'index', $data = FALSE, $constructorData = FALSE)
+    public function __construct ($module, $view = 'index', $data = FALSE, $constructorData = FALSE, $broadcast = FALSE)
     {
         parent::__construct(NULL,0);
+
+        $this->broadcast = $broadcast;
 
         $this->view = ucfirst($module).ucfirst($view);
         $this->data = & $data;
         $this->constructorData = & $constructorData;
-       
         ob_clean();
+    }   
+}
+
+class SmartModelSetupException extends Exception
+{
+    public function __construct ($message = '', $code = 0)
+    {
+        parent::__construct($message,$code);
     }   
 }
 
@@ -203,7 +213,7 @@ class SmartForwardPublicViewException extends Exception
         $this->data = & $data;
         $this->constructorData = & $constructorData;
         
-        ob_clean();
+       // ob_clean();
     }   
 }
 ?>

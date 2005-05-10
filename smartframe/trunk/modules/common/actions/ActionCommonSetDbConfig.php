@@ -25,14 +25,16 @@ class ActionCommonSetDbConfig extends SmartAction
     {
         if(!$fp = @fopen($this->model->config['config_path'] . 'dbConnect.php', 'w'))
         {
-           throw new Exception("Cant open file to write: ". $this->model->config['config_path'] . "dbConnect.php", 2 );
+           $data['error'] = "Cant open file to write: ". $this->model->config['config_path'] . "dbConnect.php";
+           return FALSE;
         }
          
         $connect_str = $this->buildContent( $data );
         
         if( !@fwrite($fp, $connect_str) )
         {
-            throw new Exception("Cant write file: ". $this->model->config['config_path'] . "dbConnect.php", 2 );
+           $data['error'] = "Cant write file: ". $this->model->config['config_path'] . "dbConnect.php";
+           return FALSE;        
         }
         
         @fclose($fp);
@@ -47,7 +49,8 @@ class ActionCommonSetDbConfig extends SmartAction
     {
         if( !@is_writeable($this->model->config['config_path']) )
         {
-            throw new Exception("Config folder isnt writeable. Check permission on: ". $this->model->config['config_path'], 2 );
+           $data['error'] = "Config folder isnt writeable. Check permission on: ". $this->model->config['config_path'];
+           return FALSE;             
         }
 
         return TRUE;

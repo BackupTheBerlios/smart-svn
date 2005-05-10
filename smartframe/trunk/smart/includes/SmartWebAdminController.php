@@ -69,8 +69,13 @@ class SmartWebAdminController extends SmartController
         }         
         catch(SmartForwardAdminViewException $e)
         {
+            // run broadcast action init event to every module if demanded
+            if(TRUE == $e->broadcast)
+            {
+                $this->model->broadcast( 'init' );
+            }
             $this->view->{$e->view}($e->data, $e->constructorData);  
-        }
+        }      
 
         ob_end_flush();
     }
