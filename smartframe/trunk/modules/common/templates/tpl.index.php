@@ -57,7 +57,7 @@ function subok(s){
             <?php endif; ?>
           </td>
           <td width="7%" align="right" valign="top">
-              <a href="<?php echo $tpl['publicWebController']; ?>?view=logout" class="font14">Logout</a>
+              <a href="<?php echo $tpl['adminWebController']; ?>?mod=user&view=adminLogout" class="font14">Logout</a>
           </td>
         </tr>
           </table></td>

@@ -52,13 +52,13 @@ class ViewCommonIndex extends SmartView
             $module = $this->loginModule; 
         }
         // if no request set default module
-        elseif(!isset($_REQUEST['module']))
+        elseif(!isset($_REQUEST['mod']))
         {
             $module = $this->config['default_module'];    
         }
         else
         {
-            $module = $_REQUEST['module'];    
+            $module = $_REQUEST['mod'];    
         }
 
         // Set the view which takes the login part

@@ -50,9 +50,7 @@ final class SmartSessionHandler
                                            WHERE session_id = '$id'", 
                                            ResultSet::FETCHMODE_ASSOC);
         $result->first();
-        //$result->get('session_data')
         $f = $result->getRow();
-        //var_dump($f['session_data']);
         return $f['session_data'];
     }
   
