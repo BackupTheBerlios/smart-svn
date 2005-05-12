@@ -24,7 +24,7 @@ class ActionNavigationSetup extends SmartAction
     {
         if(isset($data['rollback']))
         {
-            $this->rollback();
+            $this->rollback($data);
             return TRUE;
         }
         
@@ -80,11 +80,11 @@ class ActionNavigationSetup extends SmartAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback()
+    public function rollback( &$data )
     {
         $sql = "DROP TABLE IF EXISTS 
-                    {$data['config']['db']['dbTablePrefix']}navigation_node,
-                    {$data['config']['db']['dbTablePrefix']}navigation_node_media";
+                    {$data['request']['dbtablesprefix']}navigation_node,
+                    {$data['request']['dbtablesprefix']}navigation_node_media";
         $this->model->db->executeUpdate($sql);  
     }
 }

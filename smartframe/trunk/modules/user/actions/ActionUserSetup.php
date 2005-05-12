@@ -24,7 +24,7 @@ class ActionUserSetup extends SmartAction
     {
         if(isset($data['rollback']))
         {
-            $this->rollback();
+            $this->rollback( $data );
             return TRUE;
         }
         
@@ -96,11 +96,11 @@ class ActionUserSetup extends SmartAction
      * Delete db tables of this module 
      *
      */    
-    public function rollback()
+    public function rollback( & $data )
     {
         $sql = "DROP TABLE IF EXISTS 
-                    {$data['config']['db']['dbTablePrefix']}user_user,
-                    {$data['config']['db']['dbTablePrefix']}user_register";
+                    {$data['request']['dbtablesprefix']}user_user,
+                    {$data['request']['dbtablesprefix']}user_register";
         $this->model->db->executeUpdate($sql);  
     }    
 }

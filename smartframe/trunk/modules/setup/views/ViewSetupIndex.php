@@ -43,9 +43,9 @@ class ViewSetupIndex extends SmartView
         if( isset($_POST['do_setup']) && (TRUE == $this->validate()) )
         {
             try
-            {
+            { 
                 // Send a broadcast setup message to all modules  
-                $this->model->broadcast( $this->model->config['setup_module'], 
+                $this->model->broadcast( 'setup', 
                                          array('request' => & $_REQUEST,
                                                'config'  => & $this->viewVar['setup_config']) );            
 
@@ -80,6 +80,7 @@ class ViewSetupIndex extends SmartView
             }   
             catch(Exception $e)
             {
+                $e->flag['logs_path'] = $this->model->config['logs_path'];
                 SmartExceptionLog::log( $e );
 
                 $this->tplVar['setup_error'][] = $e->getMessage();
@@ -212,7 +213,7 @@ class ViewSetupIndex extends SmartView
      */    
     private function rollback()
     {
-        $this->model->broadcast( $this->model->config['setup_module'], 
+        $this->model->broadcast( 'setup', 
                                  array('rollback' => TRUE,
                                        'request'  => & $_REQUEST) );    
     }

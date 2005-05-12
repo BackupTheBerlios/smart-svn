@@ -22,6 +22,11 @@ class ActionCommonSetup extends SmartAction
      */
     public function perform( $data = FALSE )
     {
+        if(!isset($data['rollback']))
+        {
+            $this->checkFolders();
+        }
+        
         $data['config']['db']['dbTablePrefix'] = SmartCommonUtil::stripSlashes($data['request']['dbtablesprefix']);    
         $data['config']['db']['dbtype']        = 'mysql';
         $data['config']['db']['dbhost']        = SmartCommonUtil::stripSlashes($data['request']['dbhost']);
@@ -43,13 +48,13 @@ class ActionCommonSetup extends SmartAction
         catch(SQLException $e)
         {
             // if no database connection stop here
-            throw new Exception( $e->getNativeError(), 1 );
+            throw new Exception( $e->getNativeError());
         }
         
         // Rollback if there are somme error in other modules setup actions
         if(isset($data['rollback']))
         {
-            $this->rollback();
+            $this->rollback($data);
             return TRUE;
         }
 
@@ -91,19 +96,48 @@ class ActionCommonSetup extends SmartAction
 
         return TRUE;
     } 
+    /**
+     * Check if folders are writeable
+     *
+     */ 
+    private function checkFolders()
+    {
+        $captcha_folder = SMART_BASE_DIR . 'data/common/captcha';
+        if(!is_writeable($captcha_folder))
+        {
+            throw new Exception('Must be global readable, and writeable by php scripts: '.$captcha_folder);    
+        }
+
+        $config_folder = $this->model->config['config_path'];
+        if(!is_writeable($config_folder))
+        {
+            throw new Exception('Must be writeable by php scripts: '.$config_folder);    
+        }
+
+        $logs_folder = $this->model->config['logs_path'];
+        if(!is_writeable($logs_folder))
+        {
+            die('Must be writeable by php scripts: '.$logs_folder.'. Correct this and reload the page!');    
+        }
+        $cache_folder = $this->model->config['cache_path'];
+        if(!is_writeable($cache_folder))
+        {
+            throw new Exception('Must be writeable by php scripts: '.$cache_folder);    
+        }      
+    }
     
     /**
      * Rollback setup
      * Delete db tables of this module 
      *
      */    
-    public function rollback()
+    public function rollback( &$data )
     {
         if(is_resource($this->model->db))
         {
             $sql = "DROP TABLE IF EXISTS 
-                        {$data['config']['db']['dbTablePrefix']}common_module,
-                        {$data['config']['db']['dbTablePrefix']}common_config";
+                        {$data['request']['dbtablesprefix']}common_module,
+                        {$data['request']['dbtablesprefix']}common_config";
             $this->model->db->executeUpdate($sql); 
         }
     }     
