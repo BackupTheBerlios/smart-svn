@@ -17,6 +17,18 @@
 class ViewCommonIndex extends SmartView
 {
      /**
+     * Login Module to load
+     * @var mixed $loginModule
+     */
+    private $loginModule = FALSE;
+
+     /**
+     * Login View to load
+     * @var mixed $loginView
+     */
+    private $loginView = FALSE;
+    
+     /**
      * Default template for this view
      * @var string $template
      */
@@ -29,27 +41,53 @@ class ViewCommonIndex extends SmartView
     public $templateFolder = 'modules/common/templates/';
     
     /**
-     * Execute the view
+     * Execute the main view
      *
      */
-    function perform()
+    public function perform()
     {
-        // set default module
-        if(!isset($_REQUEST['module']))
+        // Set the module which takes the login part
+        if($this->loginModule != FALSE)
+        {
+            $module = $this->loginModule; 
+        }
+        // if no request set default module
+        elseif(!isset($_REQUEST['module']))
         {
             $module = $this->config['default_module'];    
         }
-        // set default view
-        if(!isset($_REQUEST['view']))
+        else
+        {
+            $module = $_REQUEST['module'];    
+        }
+
+        // Set the view which takes the login part
+        if($this->loginView != FALSE)
+        {
+            $view = $this->loginView; 
+        }        
+        // if no request set default view
+        elseif(!isset($_REQUEST['view']))
         {
             $view = 'index';    
         }    
+        else
+        {
+            $view = $_REQUEST['view'];    
+        }
         
-        // build module view name
+        // assign the template variable with the requested view
         $this->tplVar['view'] = ucfirst($module).ucfirst($view);
        
         // validate module view name
         $this->validateViewName( $this->tplVar['view'], $module, $view ); 
+        
+        // assign some template variables
+        $this->tplVar['requestedModule'] = $module;
+        $this->tplVar['moduleList'] = $this->model->getModules();
+        $this->tplVar['charset']    = $this->config['charset'];
+        $this->tplVar['publicWebController'] = $this->config['public_web_controller'];
+        $this->tplVar['adminWebController']  = $this->config['admin_web_controller'];
     }  
 
     /**
@@ -74,11 +112,67 @@ class ViewCommonIndex extends SmartView
      * authentication
      *
      */
-    function auth()
+    public function auth()
     {
-
+        // if both variables contain NULL, means that the user isnt authenticated.
+        // the prependFilterChain() function check the permission
+        $this->viewVar['loggedUserId']   = $this->model->session->get('loggedUserId');
+        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');
     }
+ 
+    /**
+     * Execute Prepended filter chain
+     *
+     */
+    public function prependFilterChain()
+    {
+        $this->checkPermission();
+    } 
+
+    /**
+     * Check permission to access the admin section
+     *
+     */
+    private function checkPermission()
+    {
+        // if login user id dosent exists set login target
+        if($this->viewVar['loggedUserId'] === NULL)
+        {
+            $this->setLoginTarget();
+        }
         
+        // User Role flags
+        // Admin  = 20
+        // Editor = 40
+        // Author = 60
+        // Contributor = 80
+        // Webuser = 100
+        //
+        // Webuser (100) hasnt access to the admin section
+        //
+        if(($this->viewVar['loggedUserRole'] === NULL) || 
+           ($this->viewVar['loggedUserRole'] >= 100))
+        {
+            $this->setLoginTarget();
+        }
+        else
+        {
+            // set template variable
+            $this->tplVar['isUserLogged'] = TRUE;
+        }    
+    }
+
+    /**
+     * Set login module name and view name
+     *
+     */    
+    private function setLoginTarget()
+    {
+        $this->loginModule = 'user';
+        $this->loginView   = 'login';
+        // set template variable
+        $this->tplVar['isUserLogged'] = FALSE;
+    }
 }
 
 ?>

@@ -49,7 +49,7 @@ class SmartAction extends SmartObject
      *
      * @param mixed $data
      */
-    function validate( $data = FALSE )
+    public function validate( $data = FALSE )
     {
         return TRUE;
     }
@@ -59,7 +59,7 @@ class SmartAction extends SmartObject
      *
      * @param mixed $data
      */
-    function perform( $data = FALSE )
+    public function perform( $data = FALSE )
     {
        return TRUE;
     }

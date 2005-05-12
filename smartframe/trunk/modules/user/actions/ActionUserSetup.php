@@ -33,7 +33,7 @@ class ActionUserSetup extends SmartAction
                    `login`        varchar(20) NOT NULL default '',
                    `passwd`       char(32) NOT NULL,
                    `role`         int(11) NOT NULL default 10,
-                   `status`       int(11) NOT NULL default 0,
+                   `status`       int(11) NOT NULL default 1,
                    `lock`         int(11) NOT NULL default 0,
                    `lock_time`    datetime NOT NULL default '0000-00-00 00:00:00',
                    `access`       datetime NOT NULL default '0000-00-00 00:00:00',
@@ -62,16 +62,18 @@ class ActionUserSetup extends SmartAction
         $this->model->db->executeUpdate($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}user_user
-                   (`login`, `name`, `lastname`, `passwd`)
+                   (`login`, `name`, `lastname`, `passwd`,`status`, `role`)
                   VALUES
-                   (?,?,?,?)";
+                   (?,?,?,?,?,?)";
         $stmt = $this->model->db->prepareStatement($sql);  
 
         $stmt->setString(1, SmartCommonUtil::stripSlashes($data['request']['syslogin']));
         $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysname']));
         $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
         $stmt->setString(4, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
-
+        $stmt->setInt(5, 2);
+        $stmt->setInt(6, 20);
+        
         $stmt->executeUpdate();
         
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module

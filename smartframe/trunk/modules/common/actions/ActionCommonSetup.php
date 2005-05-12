@@ -52,6 +52,13 @@ class ActionCommonSetup extends SmartAction
             $this->rollback();
             return TRUE;
         }
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_session (
+                 `session_id` varchar(32) NOT NULL default '', 
+                 `modtime` int(11) NOT NULL default '0',
+                 `session_data` text NOT NULL default '',
+                 PRIMARY KEY   (`session_id`))";
+        $this->model->db->executeUpdate($sql);
             
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_config (
                  `charset` varchar(255) NOT NULL default '',

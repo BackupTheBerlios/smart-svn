@@ -33,6 +33,12 @@ class SmartView extends SmartObject
      * @var object $model
      */
     public $model;
+
+    /**
+     * The session object
+     * @var object $session
+     */
+    public $session;
     
      /**
      * Smart main configuration array

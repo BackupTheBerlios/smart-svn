@@ -41,7 +41,13 @@ require_once(SMART_BASE_DIR . 'modules/common/includes/creole/creole/Creole.php'
 // util class
 require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonUtil.php');
 
+// session handler class
+require_once(SMART_BASE_DIR . 'modules/common/includes/SmartSessionHandler.php');
+
+// session class
+require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonSession.php');
+
 // get_magic_quotes_gpc
-define ( 'SMART_MAGIC_QUOTES' ,        get_magic_quotes_gpc());
+define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
 
 ?>

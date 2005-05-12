@@ -58,6 +58,12 @@ class ActionCommonInit extends SmartAction
             throw new SmartModelException( $e->getNativeError() );
         }
        
+        // set session handler
+        $this->model->sessionHandler = new SmartSessionHandler( $this->model->db, $this->config['dbTablePrefix'] );
+       
+        // start session
+        $this->model->session = new SmartCommonSession();
+       
         // load global config variables of the common module   
         $this->loadConfig(); 
 

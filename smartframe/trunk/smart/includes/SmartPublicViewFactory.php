@@ -82,6 +82,9 @@ class SmartPublicViewFactory extends SmartViewFactory
             
         // Aggregate model object
         $view->model = $this->model;
+
+        // Aggregate session object
+        $view->session = $this->model->session;       
         
         // Aggregate the main configuration array
         $view->config = & $this->model->config;

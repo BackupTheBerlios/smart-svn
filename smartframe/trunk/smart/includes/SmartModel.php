@@ -35,6 +35,18 @@ class SmartModel extends SmartObject
     public $config;
 
     /**
+     * Session
+     * @var object $session
+     */    
+    public $session;
+    
+    /**
+     * Session Handler
+     * @var object $sessionHandler
+     */    
+    public $sessionHandler;    
+
+    /**
      * Model constructor
      * 
      * @param array $config Main Smart config array
@@ -42,6 +54,15 @@ class SmartModel extends SmartObject
     function __construct( & $config )
     {
         $this->config = $config;
+    }
+
+    /**
+     * return module array
+     *
+     */
+    public function & getModules()
+    {
+        return $this->registeredModules;
     }
 
     /**
