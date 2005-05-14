@@ -21,9 +21,10 @@ class SmartAdminViewFactory extends SmartViewFactory
      *
      * @param string $view View name
      * @param array $args Arguments passed to the view. 
-     * $args[0] is aggregated by the view object > $view->viewVar
-     * $args[1] passed to the constructor
-     * $args[2] bool true = force a new instance
+     * $args[0] additional data (mixed type) is aggregated by the view object > $view->viewVar
+     * $args[1] additional data (mixed type) passed to the constructor
+     * $args[2] bool true = continue (return FALSE) if a view dosent exists
+     * $args[3] bool true = force a new instance
      */
     public function __call( $view_name, $args )
     {
@@ -33,6 +34,7 @@ class SmartAdminViewFactory extends SmartViewFactory
         // build the whole view class name
         $requestedView = 'View'.$view_name;
 
+        // avoid E_NOTICE message if $args elements are not defined
         if( !isset( $args[0] ) ) 
         {
             $args[0] = NULL;
@@ -45,8 +47,14 @@ class SmartAdminViewFactory extends SmartViewFactory
         {
            $args[2] = NULL;
         } 
+        if( !isset( $args[3] ) ) 
+        {
+           $args[3] = NULL;
+        }        
 
-        if( !isset($this->$requestedView) || ($args[2] == TRUE) )
+        // check if a demanded view object dosent exists
+        // or force a new instance anyway
+        if( !isset($this->$requestedView) || ($args[3] == TRUE) )
         {
             // path to the modules view class
             $class_file = SMART_BASE_DIR . 'modules/'. strtolower($view_match[1]) . '/views/View' . $view_name . '.php';
@@ -56,7 +64,7 @@ class SmartAdminViewFactory extends SmartViewFactory
                 include_once($class_file);
 
                 // force a new instance
-                if( $args[2] == TRUE )
+                if( $args[3] == TRUE )
                 {
                     $i = 1;
                     $requestedView = $requestedView . $i;
@@ -74,6 +82,12 @@ class SmartAdminViewFactory extends SmartViewFactory
                     $this->$requestedView = new $requestedView( $args[1] );
                 }
             }
+            // if view file dosent exists return FALSE (see: this function description)
+            elseif($args[2] == TRUE)
+            {
+                return FALSE;
+            }
+            // if file dosent exists throw an exception
             else
             {
                 throw new SmartViewException("View dosent exists: ".$class_file);
@@ -91,9 +105,6 @@ class SmartAdminViewFactory extends SmartViewFactory
 
         // Aggregate the main configuration array
         $view->config = & $this->model->config;
-
-        // Aggregate view loader object
-        //$view->viewLoader = $this;
             
         // include template container
         if( $view->renderTemplate == TRUE )
@@ -168,7 +179,28 @@ class SmartAdminViewFactory extends SmartViewFactory
         {
             throw new SmartViewException('Wrong admin view call name: ' . $view);
         }
-    }      
+    }   
+    /**
+     * Call broadcast views
+     *
+     * @param string $view View call name
+     * @param mixed  $data Data passed to the view object
+     * @param mixed  $data Data passed to the view class constructor
+     * @param bool   $continue If true continue even if a view dosent exists.
+     *                         TRUE is required for broadcasting view calls.
+     * @param bool   $instance If true force a new view instance if such an exists.
+     * @todo include module rank in foreach loop
+     */    
+    public function broadcast( $view, $data = FALSE, $constructor_data = FALSE, $continue = TRUE, $instance = FALSE )
+    {
+        $modules = $this->model->getModules();
+        
+        foreach($modules as $module => $dat)
+        {
+            $view_name = ucfirst($module).ucfirst($view);
+            $this->$view_name( $data, $constructor_data, $continue, $instance);
+        }        
+    }
 }
 
 ?>
