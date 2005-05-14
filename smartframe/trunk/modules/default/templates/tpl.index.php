@@ -10,8 +10,8 @@
   </tr>
   <tr>
     <td><p>Welcome to the Smart admin management interface.</p>
-      <p><strong>NOTICE:</strong> This is a development release. Not every thing works as expected.</p>      <p>Here a couple of short links. Alternate you can switch the specific modules.</p>
-    <p>What would you do:</p>
+      <p><strong>NOTICE:</strong> This is a development release. Not every thing works as expected.</p>            <p>Here a couple of short links. Alternate you can switch to the specific modules. See: top left select box</p>
+    <p>What would you do?</p>
 	<?php $viewLoader->broadcast( 'whatWouldYouDo' ) ?>    <p>&nbsp;</p>
     <p>&nbsp;</p></td>
   </tr>
