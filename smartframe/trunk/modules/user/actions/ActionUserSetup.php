@@ -77,15 +77,15 @@ class ActionUserSetup extends SmartAction
         $stmt->executeUpdate();
         
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                   (`name`, `rank`, `version`, `description`, `release`)
+                   (`name`, `rank`, `version`, `visibility`, `release`)
                   VALUES
                    (?,?,?,?,?)";
         $stmt = $this->model->db->prepareStatement($sql);            
 
         $stmt->setString(1, 'user');
-        $stmt->setInt(2,    2);
+        $stmt->setInt   (2, 3);
         $stmt->setString(3, '0.1');
-        $stmt->setString(4, 'This is the user module');
+        $stmt->setInt   (4, 1);
         $stmt->setString(5, 'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>');
 
         $stmt->executeUpdate();

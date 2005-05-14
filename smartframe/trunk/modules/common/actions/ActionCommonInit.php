@@ -76,7 +76,7 @@ class ActionCommonInit extends SmartAction
     } 
 
     /**
-     * Load module descriptions
+     * Load module descriptions in $this->config['module']['name']
      *
      */    
     private function loadModulesInfo()
@@ -91,7 +91,7 @@ class ActionCommonInit extends SmartAction
         {
             $row = array();
             $row = $rs->getRow();
-            $this->config['module'][] = $row; 
+            $this->model->update($row['name'], $row); 
         } 
     }
 

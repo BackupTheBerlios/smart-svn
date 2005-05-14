@@ -22,8 +22,7 @@ if (!defined('SMART_SECURE_INCLUDE'))
 }
 
 // register this module                       
-$this->model->register( 'common', array ( 'active'     => TRUE, 
-                                          'visibility' => FALSE ) );
+$this->model->register( 'common' );
                                           
 // get os related separator to set include path
 if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')

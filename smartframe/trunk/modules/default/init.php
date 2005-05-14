@@ -16,12 +16,9 @@
 
 // Check if this file is included in the Smart environement
 //
-if (!defined('SMART_SECURE_INCLUDE'))
-{
-    die('No Permission');
-}
+if (!defined('SMART_SECURE_INCLUDE')) die('No Permission');
 
 // register this module                       
-$this->model->register( 'default', array ( 'active'     => TRUE, 
-                                           'visibility' => TRUE ) );
+$this->model->register( 'default' );
+
 ?>

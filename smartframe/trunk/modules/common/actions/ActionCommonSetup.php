@@ -84,15 +84,15 @@ class ActionCommonSetup extends SmartAction
                  `rank`        int(11) NOT NULL default 0,
                  `name`        varchar(255) NOT NULL default '',
                  `version`     varchar(255) NOT NULL default '',
-                 `description` text NOT NULL default '',
+                 `visibility`  int(11) NOT NULL default 0,
                  `release`     text NOT NULL default '',
                  PRIMARY KEY   (`id_module`))";
         $this->model->db->executeUpdate($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                 (`name`, `rank`, `version`, `description`, `release`)
+                 (`name`, `rank`, `version`, `visibility`, `release`)
                 VALUES
-                 ('common', 0,'0.1','This is the base module','DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
+                 ('common', 0,'0.1',0,'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
         $this->model->db->executeUpdate($sql);            
 
         return TRUE;

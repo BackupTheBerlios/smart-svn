@@ -16,18 +16,9 @@
 
 // Check if this file is included in the Smart environement
 //
-if (!defined('SMART_SECURE_INCLUDE'))
-{
-    if(SMART_DEBUG) die('No Permission on ' . __FILE__); else exit;
-}
-
-// Name of the module
-define ( 'SMART_MOD_SETUP' , 'setup');
-
-// Version of this module
-define ( 'SMART_MOD_SETUP_VERSION' , '0.1');
+if (!defined('SMART_SECURE_INCLUDE')) die('No Permission');
 
 // register this module                       
-$this->model->register( SMART_MOD_SETUP, array ( 'active'     => TRUE, 
-                                                  'visibility' => FALSE ) );
+$this->model->register( 'setup' );
+
 ?>

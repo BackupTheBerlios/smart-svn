@@ -16,19 +16,9 @@
 
 // Check if this file is included in the Smart environement
 //
-if (!defined('SMART_SECURE_INCLUDE'))
-{
-    if(SMART_DEBUG == TRUE) die('No Permission on ' . __FILE__); else exit;
-}
+if (!defined('SMART_SECURE_INCLUDE')) die('No Permission');
 
 // register this module                       
-$this->model->register( 'user', array ( 'active'     => TRUE, 
-                                        'visibility' => TRUE ) );
-// User role definitions
-define ( 'SMART_MOD_USER_ROLE_ADMIN' ,     1);
-define ( 'SMART_MOD_USER_ROLE_EDITOR' ,    20);
-define ( 'SMART_MOD_USER_ROLE_AUTHOR' ,    40);
-define ( 'SMART_MOD_USER_ROLE_CONTRIB_1' , 60);
-define ( 'SMART_MOD_USER_ROLE_CONTRIB_2' , 80);
+$this->model->register( 'user' );
 
 ?>
