@@ -189,7 +189,6 @@ class SmartAdminViewFactory extends SmartViewFactory
      * @param bool   $continue If true continue even if a view dosent exists.
      *                         TRUE is required for broadcasting view calls.
      * @param bool   $instance If true force a new view instance if such an exists.
-     * @todo include module rank in foreach loop
      */    
     public function broadcast( $view, $data = FALSE, $constructor_data = FALSE, $continue = TRUE, $instance = FALSE )
     {

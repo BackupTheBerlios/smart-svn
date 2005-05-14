@@ -66,9 +66,10 @@ class ActionNavigationSetup extends SmartAction
         $this->model->db->executeUpdate($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                   (name, version, description, release)
+                   (`name`, `rank`, `version`, `description`, `release`)
                   VALUES
                    ('navigation',
+                    1,
                     '0.1',
                     '',
                     'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";

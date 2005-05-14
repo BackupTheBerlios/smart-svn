@@ -41,3 +41,13 @@ body {
 .font12 {
 	font-size: 12px;
 }
+.moduleheader {
+	font-size: 12px;
+	font-weight: bold;
+	color: #0033CC;
+	background-color: #CCCCCC;
+	background-position: left center;
+	letter-spacing: 1px;
+	text-indent: 5px;
+	word-spacing: 2px;
+}

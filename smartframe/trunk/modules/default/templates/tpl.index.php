@@ -6,12 +6,13 @@
 <?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td bgcolor="#CCCCCC">&nbsp;&nbsp;<font size="2" face="Verdana, Arial, Helvetica, sans-serif"><strong>Default Module</strong></font></td>
+    <td class="moduleheader">Main Page</td>
   </tr>
   <tr>
-    <td><?php  echo $tpl['message']; ?></td>
-  </tr>
-  <tr>
-    <td bgcolor="#CCCCCC">&nbsp;</td>
+    <td><p>Welcome to the Smart admin management interface.</p>
+      <p><strong>NOTICE:</strong> This is a development release. Not every thing works as expected.</p>      <p>Here a couple of short links. Alternate you can switch the specific modules.</p>
+    <p>What would you do:</p>
+	<?php $viewLoader->broadcast( 'whatWouldYouDo' ) ?>    <p>&nbsp;</p>
+    <p>&nbsp;</p></td>
   </tr>
 </table>

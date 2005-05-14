@@ -60,13 +60,15 @@ class ViewSetupIndex extends SmartView
                     throw new Exception($error);
                 }
                 
-                // reload the admin interface
+                // reload the admin interface after successfull setup
                 ob_clean();
                 @header('Location: ' . $this->config['admin_web_controller']);
                 exit;
             }
             catch(SQLException $e)
             {
+                // set path to the log file
+                $e->flag['logs_path'] = $this->model->config['logs_path'];
                 SmartExceptionLog::log( $e );
                 $this->tplVar['setup_error'][] = $e->getNativeError();
 
@@ -75,14 +77,18 @@ class ViewSetupIndex extends SmartView
             }  
             catch(SmartModelException $e)
             {
+                // set path to the log file
+                $e->flag['logs_path'] = $this->model->config['logs_path'];
                 SmartExceptionLog::log( $e );
                 $this->tplVar['setup_error'][] = 'Database connection error: ' . $e->getMessage();             
             }   
             catch(Exception $e)
             {
+                // set path to the log file
                 $e->flag['logs_path'] = $this->model->config['logs_path'];
+                // log this exception
                 SmartExceptionLog::log( $e );
-
+                // set template error variables
                 $this->tplVar['setup_error'][] = $e->getMessage();
                 $this->rollback();
             }            

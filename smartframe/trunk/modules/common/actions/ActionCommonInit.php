@@ -58,6 +58,9 @@ class ActionCommonInit extends SmartAction
             throw new SmartModelException( $e->getNativeError() );
         }
        
+        // set base url
+        $this->model->baseUrlLocation = SmartCommonUtil::base_location();
+       
         // set session handler
         $this->model->sessionHandler = new SmartSessionHandler( $this->model->db, $this->config['dbTablePrefix'] );
        
@@ -66,8 +69,31 @@ class ActionCommonInit extends SmartAction
        
         // load global config variables of the common module   
         $this->loadConfig(); 
+        
+        // load module descriptions into config array   
+        $this->loadModulesInfo();         
 
     } 
+
+    /**
+     * Load module descriptions
+     *
+     */    
+    private function loadModulesInfo()
+    {
+        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}common_module ORDER BY `rank` ASC";
+        
+        $rs = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
+        
+        $this->config['module'] = array();
+        
+        while($rs->next())
+        {
+            $row = array();
+            $row = $rs->getRow();
+            $this->config['module'][] = $row; 
+        } 
+    }
 
     /**
      * Load config values

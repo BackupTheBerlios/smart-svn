@@ -69,18 +69,24 @@ class ViewCommonIndex extends SmartView
         // if no request set default view
         elseif(!isset($_REQUEST['view']))
         {
-            $view = 'index';    
+            $view = 'main';    
         }    
         else
         {
             $view = $_REQUEST['view'];    
         }
         
-        // assign the template variable with the requested view
-        $this->tplVar['view'] = ucfirst($module).ucfirst($view);
+        // assign the template root view variable
+        $this->tplVar['moduleRootView'] = ucfirst($module).'Index';
+        
+        // assign the template child view variable
+        $this->tplVar['moduleChildView'] = ucfirst($module).ucfirst($view);
        
-        // validate module view name
-        $this->validateViewName( $this->tplVar['view'], $module, $view ); 
+        // validate module root view name
+        $this->validateViewName( $this->tplVar['moduleRootView'], $module, 'index' ); 
+        
+        // validate module child view name
+        $this->validateViewName( $this->tplVar['moduleChildView'], $module, $view ); 
         
         // assign some template variables
         $this->tplVar['requestedModule'] = $module;

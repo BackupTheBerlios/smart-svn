@@ -28,6 +28,15 @@ function subok(s){
 }
 </script>
 <title>Admin</title>
+<style type="text/css">
+<!--
+.topselect {
+	font-size: 12px;
+	color: #660000;
+	background-color: #FFFFFF;
+}
+-->
+</style>
 </head>
 
 <body>
@@ -42,11 +51,10 @@ function subok(s){
             </tr>
           </table></td>
           <td width="15%" align="right" valign="top" class="font10"><a href="<?php echo $tpl['publicWebController']; ?>">The public page</a></td>
-          <td width="39%" align="right" valign="middle">
-            <?php if(!isset($tpl['notLogged'])): ?>
+          <td width="39%" align="right" valign="middle" class="font10">
+            <?php if(!isset($tpl['notLogged'])): ?> 
             <form action="index.php" method="post">
-                <select name="m" onChange="go('<?php echo $tpl['adminWebController']; ?>&m='+this.form.m.options[this.form.m.options.selectedIndex].value)">
-                 <option value="">The Modules</option>
+                Module &gt;<select name="mod" class="topselect" onChange="go('<?php echo $tpl['adminWebController']; ?>?mod='+this.form.mod.options[this.form.mod.options.selectedIndex].value)">
                  <?php foreach($tpl['moduleList'] as $key => $val): ?>
           <?php if($val['visibility'] == TRUE): ?>
                     <option value='<?php echo $key; ?>'<?php if($tpl['requestedModule'] == $key) echo " selected='selected'"; ?>><?php echo $key; ?></option>
@@ -66,7 +74,7 @@ function subok(s){
     <td width="20%" align="left" valign="top">
   <?php endif; ?>
         <?php /* ### include the module view (template) ### */ ?>
-        <?php $viewLoader->{$tpl['view']}(); ?>
+        <?php $viewLoader->{$tpl['moduleRootView']}(); ?>
   <?php if($tpl['isUserLogged'] == TRUE): ?>  
     </td>
   </tr>
