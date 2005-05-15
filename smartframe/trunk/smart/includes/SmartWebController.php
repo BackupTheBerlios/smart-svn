@@ -83,6 +83,12 @@ class SmartWebController extends SmartController
             $e->performStackTrace(); 
             $this->userErrorView();
         } 
+        catch(SQLException $e)
+        {
+            $this->setExceptionFlags( $e );
+            $e->performStackTrace(); 
+            $this->userErrorView();
+        }          
         catch(SmartForwardPublicViewException $e)
         {
             $this->view->{$e->view}($e->data, $e->constructorData);  

@@ -66,7 +66,13 @@ class SmartWebAdminController extends SmartController
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
             $this->userErrorView();
-        }         
+        }  
+        catch(SQLException $e)
+        {
+            $this->setExceptionFlags( $e );
+            $e->performStackTrace(); 
+            $this->userErrorView();
+        }        
         catch(SmartForwardAdminViewException $e)
         {
             // run broadcast action init event to every module if demanded
