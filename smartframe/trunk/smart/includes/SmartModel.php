@@ -69,7 +69,30 @@ class SmartModel extends SmartObject
      * register a module
      *
      */
-    public function register( $module  )
+    public function register( $module, $data  )
+    {
+        static $rebuild = FALSE;
+        
+        // reint the modules array
+        if( $rebuild == FALSE )
+        {
+            $this->registeredModules = array();
+            $rebuild = TRUE;
+        }
+        
+        if(!isset($this->registeredModules[$module]))
+        {
+            $this->registeredModules[$module] = $data;
+            return TRUE;
+        }
+        throw new SmartModelException("Duplicate error of module name: '{$module}'");
+    }  
+
+    /**
+     * register a module
+     *
+     */
+    public function init( $module  )
     {
         if(!isset($this->registeredModules[$module]))
         {
@@ -79,10 +102,11 @@ class SmartModel extends SmartObject
         throw new SmartInitException("Duplicate error of module name: '{$module}'");
     }  
 
+
     /**
      * update array of module info
      *
-     */
+     
     public function update( $module, $data )
     {
         static $rebuild = FALSE;
@@ -101,6 +125,7 @@ class SmartModel extends SmartObject
         }
         throw new SmartModelException("Duplicate error of module name: '{$module}'");
     } 
+    */
 
     /**
      * check if a module was registered

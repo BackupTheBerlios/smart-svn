@@ -12,7 +12,35 @@
 /**
  * Init action of the common module 
  *
+ * First we do some init stuff that is common fro all other modules.
+ *
  */
+
+// get os related separator to set include path
+if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
+    $tmp_separator = ';';
+else
+    $tmp_separator = ':';
+
+// set include path to the PEAR packages
+ini_set( 'include_path', SMART_BASE_DIR . 'modules/common/includes/creole' . $tmp_separator . ini_get('include_path') );
+unset($tmp_separator); 
+
+// creole db layer
+require_once(SMART_BASE_DIR . 'modules/common/includes/creole/creole/Creole.php');
+
+// util class
+require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonUtil.php');
+
+// session handler class
+require_once(SMART_BASE_DIR . 'modules/common/includes/SmartSessionHandler.php');
+
+// session class
+require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonSession.php');
+
+// get_magic_quotes_gpc
+define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
+
 
 class ActionCommonInit extends SmartAction
 {
@@ -91,7 +119,7 @@ class ActionCommonInit extends SmartAction
         {
             $row = array();
             $row = $rs->getRow();
-            $this->model->update($row['name'], $row); 
+            $this->model->register($row['name'], $row); 
         } 
     }
 

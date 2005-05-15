@@ -74,35 +74,22 @@ class SmartController extends SmartObject
 
             // A "common" module must be loaded and registered first
             //
-            $mod_common = SMART_BASE_DIR . 'modules/' . $this->config['base_module'] . '/init.php';
+            $mod_common = SMART_BASE_DIR . 'modules/' . $this->config['base_module'];
 
             if(file_exists( $mod_common ))
             {
                 // include module init file of the common module
-                include_once ( $mod_common );
+                $this->model->init( $this->config['base_module'] );
             }
             else
             {
-                throw new SmartInitException("The module '/modules/{$mod_common}/init.php'  must be installed!");
-            }
-
-            // Include smart system init.php
-            //
-            $mod_system = SMART_BASE_DIR . 'smart/init.php';
-
-            if(file_exists( $mod_system ))
-            {
-                // include module init file of the common module
-                include_once ( $mod_system );
-            }
-            else
-            {
-                throw new SmartInitException("The system module '/smart/init.php'  must be installed!");
+                throw new SmartInitException("The module '{$mod_common}'  must be installed!");
             }
 
             // check if a module was declared, which should play the last role in a broadcast action event
             if( isset($this->config['last_module']) )
             {
+                $this->model->init( $this->config['last_module'] );
                 $last_module = $this->config['last_module'];
             }
             else
@@ -126,15 +113,9 @@ class SmartController extends SmartObject
                     continue;
                 }
 
-                 if ( ($tmp_dirname != $this->config['base_module']) && @is_dir( SMART_BASE_DIR . 'modules/'.$tmp_dirname) )
-                 {
-                      // include module init file
-                      $mod_init = SMART_BASE_DIR . 'modules/' . $tmp_dirname . '/init.php';
-  
-                      if ( @is_file( $mod_init ) )
-                      {
-                          include_once ($mod_init);
-                      }
+                if ( ($tmp_dirname != $this->config['base_module']) && @is_dir( SMART_BASE_DIR . 'modules/'.$tmp_dirname) )
+                {
+                    $this->model->init( $tmp_dirname );
                 }
             }
   
@@ -144,11 +125,11 @@ class SmartController extends SmartObject
             if( $last_module != FALSE )
             {
                 // include module init file
-                $mod_init = SMART_BASE_DIR . 'modules/' . $last_module . '/init.php';
+                $mod_init = SMART_BASE_DIR . 'modules/' . $last_module;
   
-                if ( @is_file( $mod_init ) )
+                if ( @is_dir( $mod_init ) )
                 {
-                    include_once ($mod_init);
+                    $this->model->init( $last_module );
                 }
                 else
                 {
