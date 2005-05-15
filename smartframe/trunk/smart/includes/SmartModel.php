@@ -21,6 +21,12 @@ class SmartModel extends SmartObject
      * @var array $registered_modules
      */
     private $registeredModules = array();
+
+    /**
+     * Availaible modules (folders in the module dir)
+     * @var array $availaibleModules
+     */
+    private $availaibleModules = array();
     
     /**
      * Database resource
@@ -66,20 +72,20 @@ class SmartModel extends SmartObject
     }
 
     /**
+     * return Availaible Modules array
+     *
+     */
+    public function & getAvailaibleModules()
+    {
+        return $this->availaibleModules;
+    }
+
+    /**
      * register a module
      *
      */
     public function register( $module, $data  )
     {
-        static $rebuild = FALSE;
-        
-        // reint the modules array
-        if( $rebuild == FALSE )
-        {
-            $this->registeredModules = array();
-            $rebuild = TRUE;
-        }
-        
         if(!isset($this->registeredModules[$module]))
         {
             $this->registeredModules[$module] = $data;
@@ -94,38 +100,8 @@ class SmartModel extends SmartObject
      */
     public function init( $module  )
     {
-        if(!isset($this->registeredModules[$module]))
-        {
-            $this->registeredModules[$module] = array();
-            return TRUE;
-        }
-        throw new SmartInitException("Duplicate error of module name: '{$module}'");
+        $this->availaibleModules[] = $module;
     }  
-
-
-    /**
-     * update array of module info
-     *
-     
-    public function update( $module, $data )
-    {
-        static $rebuild = FALSE;
-        
-        // reint the modules array
-        if( $rebuild == FALSE )
-        {
-            $this->registeredModules = array();
-            $rebuild = TRUE;
-        }
-        
-        if(!isset($this->registeredModules[$module]))
-        {
-            $this->registeredModules[$module] = $data;
-            return TRUE;
-        }
-        throw new SmartModelException("Duplicate error of module name: '{$module}'");
-    } 
-    */
 
     /**
      * check if a module was registered
@@ -138,22 +114,6 @@ class SmartModel extends SmartObject
             return FALSE;
         }
         return TRUE;
-    }  
-    
-    /**
-     * check if a module is active
-     *
-     */
-    public function is_active( $module )
-    {
-        if( TRUE == $this->is_module($module) )
-        {
-            if( $registeredModules[$module]['active'] == TRUE )
-            {
-                return TRUE;
-            }
-        }
-        return FALSE;
     }  
     
     /**
@@ -284,7 +244,9 @@ class SmartModel extends SmartObject
      */ 
     public function broadcast( $action, $data = FALSE, $constructor_data = FALSE, $force_instance = FALSE )
     {
-        foreach($this->registeredModules as $module => $dat)
+        $_modules = $this->getAvailaibleModules();
+        
+        foreach($_modules as $module)
         {
             $this->action( $module, $action, $data, $constructor_data, $force_instance );
         }

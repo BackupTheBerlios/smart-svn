@@ -192,9 +192,9 @@ class SmartAdminViewFactory extends SmartViewFactory
      */    
     public function broadcast( $view, $data = FALSE, $constructor_data = FALSE, $continue = TRUE, $instance = FALSE )
     {
-        $modules = $this->model->getModules();
+        $_modules = $this->model->getAvailaibleModules();
         
-        foreach($modules as $module => $dat)
+        foreach($_modules as $module)
         {
             $view_name = ucfirst($module).ucfirst($view);
             $this->$view_name( $data, $constructor_data, $continue, $instance);
