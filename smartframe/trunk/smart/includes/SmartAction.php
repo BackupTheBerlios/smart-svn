@@ -32,7 +32,7 @@ class SmartAction extends SmartObject
      * Smart main configuration array
      * @var array $config
      */
-    private $config;   
+    public $config;   
 
     /**
      * constructor
@@ -48,6 +48,7 @@ class SmartAction extends SmartObject
      * validate the action request
      *
      * @param mixed $data
+     * @return bool
      */
     public function validate( $data = FALSE )
     {
@@ -58,6 +59,7 @@ class SmartAction extends SmartObject
      * perform on the action request
      *
      * @param mixed $data
+     * @return bool
      */
     public function perform( $data = FALSE )
     {
