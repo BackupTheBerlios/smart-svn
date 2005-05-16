@@ -31,6 +31,27 @@ class SmartViewFactory extends SmartObject
         $this->model  = $model;
         $this->config = $config;
     }
+    
+    /**
+     * Call broadcast views
+     *
+     * @param string $view View call name
+     * @param mixed  $data Data passed to the view object
+     * @param mixed  $data Data passed to the view class constructor
+     * @param bool   $continue If true continue even if a view dosent exists.
+     *                         TRUE is required for broadcasting view calls.
+     * @param bool   $instance If true force a new view instance if such an exists.
+     */    
+    public function broadcast( $view, $data = FALSE, $constructor_data = FALSE, $continue = TRUE, $instance = FALSE )
+    {
+        $_modules = $this->model->getAvailaibleModules();
+        
+        foreach($_modules as $module)
+        {
+            $view_name = ucfirst($module).ucfirst($view);
+            $this->$view_name( $data, $constructor_data, $continue, $instance);
+        }        
+    }    
 }
 
 ?>

@@ -39,10 +39,8 @@ class SmartController extends SmartObject
 
     /**
      * Controller construct
-     * It must be called from within a child controller constructor.
-     *  parent::__construct();
      *
-     * Here we register the modules, create some base class instances
+     * Here we fetch the module folders, create some base class instances
      * and run a broadcast init event to all modules
      * 
      * @param array $config Main Smart config array
@@ -52,7 +50,7 @@ class SmartController extends SmartObject
         try
         {
             // set error reporting
-            error_reporting( E_ALL | E_STRICT);
+            error_reporting( $config['error_reporting'] );
             
             // set reference to the config array
             $this->config = $config;
@@ -72,13 +70,13 @@ class SmartController extends SmartObject
                 throw new SmartInitException("Missing '".SMART_BASE_DIR . "modules' directory.");
             }
 
-            // A "common" module must be loaded and registered first
+            // A "common" base module must be present
             //
             $mod_common = SMART_BASE_DIR . 'modules/' . $this->config['base_module'];
 
             if(file_exists( $mod_common ))
             {
-                // include module init file of the common module
+                // get this module folder
                 $this->model->init( $this->config['base_module'] );
             }
             else
@@ -89,7 +87,6 @@ class SmartController extends SmartObject
             // check if a module was declared, which should play the last role in a broadcast action event
             if( isset($this->config['last_module']) )
             {
-                $this->model->init( $this->config['last_module'] );
                 $last_module = $this->config['last_module'];
             }
             else
@@ -97,7 +94,7 @@ class SmartController extends SmartObject
                 $last_module = FALSE;
             }
 
-            // include other modules init files
+            // get exsisting module folders
             //
             $tmp_directory =& dir( SMART_BASE_DIR . 'modules');
     
@@ -121,10 +118,9 @@ class SmartController extends SmartObject
   
             $tmp_directory->close();
 
-            // Load last module
+            // get last module
             if( $last_module != FALSE )
             {
-                // include module init file
                 $mod_init = SMART_BASE_DIR . 'modules/' . $last_module;
   
                 if ( @is_dir( $mod_init ) )
@@ -133,16 +129,11 @@ class SmartController extends SmartObject
                 }
                 else
                 {
-                    throw new SmartInitException("The 'last' module file '{$mod_init}' is missing!");
+                    throw new SmartInitException("The 'last' module folder '{$mod_init}' is missing!");
                 }
-            }
-
-            unset($tmp_directory);
-            unset($mod_init);
-            unset($mod_common);
-            unset($last_module);
-                         
-        } catch(SmartInitException $e)
+            }                         
+        } 
+        catch(SmartInitException $e)
         {
            $e->performStackTrace();
         }
@@ -200,7 +191,8 @@ class SmartController extends SmartObject
                 throw new SmartInitException('Controller instance exists: '.$type);
             }
 
-        } catch (SmartInitException $e)
+        } 
+        catch (SmartInitException $e)
         {
             $e->performStackTrace();
         } 

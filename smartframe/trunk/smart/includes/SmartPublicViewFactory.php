@@ -21,15 +21,17 @@ class SmartPublicViewFactory extends SmartViewFactory
      *
      * @param string $view View name
      * @param array $args Arguments passed to the view. 
-     * $args[0] is aggregated by the view object > $view->viewVar
-     * $args[1] passed to the constructor
-     * $args[2] bool true = force a new instance
+     * $args[0] additional data (mixed type) is aggregated by the view object > $view->viewVar
+     * $args[1] additional data (mixed type) passed to the constructor
+     * $args[2] bool true = continue (return FALSE) if a view dosent exists
+     * $args[3] bool true = force a new instance
      */
     public function __call( $view, $args )
     {
         // build the whole view class name
         $requestedView = 'View'.ucfirst($view);
 
+        // avoid E_NOTICE message if $args elements are not defined
         if( !isset( $args[0] ) ) 
         {
             $args[0] = NULL;
@@ -42,8 +44,12 @@ class SmartPublicViewFactory extends SmartViewFactory
         {
            $args[2] = NULL;
         } 
+        if( !isset( $args[3] ) ) 
+        {
+           $args[3] = NULL;
+        }  
 
-        if( !isset($this->$requestedView) || ($args[2] == TRUE) )
+        if( !isset($this->$requestedView) || ($args[3] == TRUE) )
         {
             // path to the modules view class
             $class_file = SMART_BASE_DIR . $this->model->config['views_folder'] .'/'.$requestedView.'.php';
@@ -53,7 +59,7 @@ class SmartPublicViewFactory extends SmartViewFactory
                 include_once($class_file);
 
                 // force a new instance
-                if( $args[2] == TRUE )
+                if( $args[3] == TRUE )
                 {
                     $i = 1;
                     $requestedView = $requestedView . $i;
@@ -71,6 +77,11 @@ class SmartPublicViewFactory extends SmartViewFactory
                     $this->$requestedView = new $requestedView( $args[1] );
                 }
             }
+            // if view file dosent exists return FALSE (see: this function description)
+            elseif($args[2] == TRUE)
+            {
+                return FALSE;
+            }            
             else
             {
                 throw new SmartViewException("View dosent exists: ".$class_file, SMART_NO_VIEW);
@@ -167,8 +178,6 @@ class SmartPublicViewFactory extends SmartViewFactory
         // echo the context
         echo $tplContainer->tplBufferContent;                
     } 
-    
-
 }
 
 ?>
