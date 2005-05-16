@@ -12,7 +12,7 @@
 /**
  * Init action of the common module 
  *
- * First we do some init stuff that is common fro all other modules.
+ * First we do some init stuff that is common to all other modules.
  *
  */
 

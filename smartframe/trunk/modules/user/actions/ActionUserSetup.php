@@ -40,7 +40,6 @@ class ActionUserSetup extends SmartAction
                    `name`         varchar(255) NOT NULL default '',
                    `lastname`     varchar(255) NOT NULL default '',
                    `email`        varchar(255) NOT NULL default '',
-                   `website`      varchar(255) NOT NULL default '',
                    `description`  text NOT NULL default '',
                    `logo`         varchar(255) NOT NULL default '',
                    `media_folder` char(32) NOT NULL,
@@ -54,20 +53,24 @@ class ActionUserSetup extends SmartAction
                    KEY `access`    (`access`))";
         $this->model->db->executeUpdate($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_register (
-                   `id_user`   int(11) NOT NULL default 0,
-                   `md5_str`   char(32) NOT NULL default '',
-                   `confirmed` int(11) NOT NULL default 0,
-                   `reg_time`  datetime NOT NULL default '0000-00-00 00:00:00')";
-        $this->model->db->executeUpdate($sql);
-
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}user_user
                    (`login`, `name`, `lastname`, `passwd`,`status`, `role`)
                   VALUES
                    (?,?,?,?,?,?)";
         $stmt = $this->model->db->prepareStatement($sql);  
 
+        // register as an editor
         $stmt->setString(1, SmartCommonUtil::stripSlashes($data['request']['syslogin']));
+        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysname']));
+        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
+        $stmt->setString(4, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
+        $stmt->setInt(5, 2);
+        $stmt->setInt(6, 40);
+        
+        $stmt->executeUpdate();
+
+        // register as an administrator with the same data but login = 'admin'
+        $stmt->setString(1, 'admin');
         $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysname']));
         $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
         $stmt->setString(4, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
@@ -75,18 +78,30 @@ class ActionUserSetup extends SmartAction
         $stmt->setInt(6, 20);
         
         $stmt->executeUpdate();
+
+        // register as an administrator with the same data but login = 'admin'
+        $stmt->setString(1, 'superuser');
+        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysname']));
+        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
+        $stmt->setString(4, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
+        $stmt->setInt(5, 2);
+        $stmt->setInt(6, 10);
+        
+        $stmt->executeUpdate();
+
         
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                   (`name`, `rank`, `version`, `visibility`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                   VALUES
-                   (?,?,?,?,?)";
+                   (?,?,?,?,?,?)";
         $stmt = $this->model->db->prepareStatement($sql);            
 
         $stmt->setString(1, 'user');
-        $stmt->setInt   (2, 3);
-        $stmt->setString(3, '0.1');
-        $stmt->setInt   (4, 1);
-        $stmt->setString(5, 'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>');
+        $stmt->setString(2, 'User Management');
+        $stmt->setInt   (3, 3);
+        $stmt->setString(4, '0.1');
+        $stmt->setInt   (5, 1);
+        $stmt->setString(6, 'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>');
 
         $stmt->executeUpdate();
     } 
@@ -98,9 +113,7 @@ class ActionUserSetup extends SmartAction
      */    
     public function rollback( & $data )
     {
-        $sql = "DROP TABLE IF EXISTS 
-                    {$data['request']['dbtablesprefix']}user_user,
-                    {$data['request']['dbtablesprefix']}user_register";
+        $sql = "DROP TABLE IF EXISTS {$data['request']['dbtablesprefix']}user_user";
         $this->model->db->executeUpdate($sql);  
     }    
 }

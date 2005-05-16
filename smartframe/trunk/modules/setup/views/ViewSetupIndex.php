@@ -50,15 +50,10 @@ class ViewSetupIndex extends SmartView
                                                'config'  => & $this->viewVar['setup_config']) );            
 
                 // write config file with database connection settings      
-                $result = $this->model->action( $this->config['base_module'], 
-                                                'setDbConfig', 
-                                                array( 'dbConnect' => & $this->viewVar['setup_config']['db'],
-                                                       'error'     => ($error = FALSE)) );     
-                
-                if($result != TRUE)
-                {
-                    throw new Exception($error);
-                }
+                $this->model->action( $this->config['base_module'], 
+                                      'setDbConfig', 
+                                      array( 'dbConnect' => & $this->viewVar['setup_config']['db'],
+                                             'error'     => ($error = FALSE)) );     
                 
                 // reload the admin interface after successfull setup
                 ob_clean();
@@ -68,7 +63,7 @@ class ViewSetupIndex extends SmartView
             catch(SQLException $e)
             {
                 // set path to the log file
-                $e->flag['logs_path'] = $this->model->config['logs_path'];
+                $e->flag['logs_path'] = $this->config['logs_path'];
                 SmartExceptionLog::log( $e );
                 $this->tplVar['setup_error'][] = $e->getNativeError();
 
@@ -78,19 +73,19 @@ class ViewSetupIndex extends SmartView
             catch(SmartModelException $e)
             {
                 // set path to the log file
-                $e->flag['logs_path'] = $this->model->config['logs_path'];
+                $e->flag['logs_path'] = $this->config['logs_path'];
                 SmartExceptionLog::log( $e );
-                $this->tplVar['setup_error'][] = 'Database connection error: ' . $e->getMessage();             
+                $this->tplVar['setup_error'][] = $e->getMessage();             
+                $this->rollback();
             }   
             catch(Exception $e)
             {
                 // set path to the log file
-                $e->flag['logs_path'] = $this->model->config['logs_path'];
+                $e->flag['logs_path'] = $this->config['logs_path'];
                 // log this exception
                 SmartExceptionLog::log( $e );
-                // set template error variables
+                // set template error variables                
                 $this->tplVar['setup_error'][] = $e->getMessage();
-                $this->rollback();
             }            
         }
 

@@ -37,7 +37,6 @@ class ActionNavigationSetup extends SmartAction
                    `lock`        int(11) NOT NULL default 0,
                    `lock_time`   datetime NOT NULL default '0000-00-00 00:00:00',
                    `title`       text NOT NULL default '',
-                   `header`      text NOT NULL default '',
                    `short_text`  text NOT NULL default '',
                    `body`        mediumtext NOT NULL default '',
                    `logo`         varchar(255) NOT NULL default '',
@@ -51,24 +50,11 @@ class ActionNavigationSetup extends SmartAction
                    KEY `lock_time` (`lock_time`))";
         $this->model->db->executeUpdate($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}navigation_node_media (
-                   `id_media`     int(11) NOT NULL auto_increment,
-                   `id_node`      int(11) NOT NULL default 0,
-                   `media_type`   int(11) NOT NULL default 0,
-                   `title`        text NOT NULL default '',
-                   `text`         text NOT NULL default '',                   
-                   `file`         varchar(255) NOT NULL default '',
-                   `size`         int(11) NOT NULL default 0,
-                   `file_type`    varchar(255) NOT NULL default '',
-                   PRIMARY KEY      (`id_media`),
-                   KEY `id_node`    (`id_node`),
-                   KEY `media_type` (`media_type`))";
-        $this->model->db->executeUpdate($sql);
-
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                   (`name`, `rank`, `version`, `visibility`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                   VALUES
                    ('navigation',
+                    'Navigation Nodes Management',
                     2,
                     '0.1',
                     1,
@@ -83,9 +69,7 @@ class ActionNavigationSetup extends SmartAction
      */    
     public function rollback( &$data )
     {
-        $sql = "DROP TABLE IF EXISTS 
-                    {$data['request']['dbtablesprefix']}navigation_node,
-                    {$data['request']['dbtablesprefix']}navigation_node_media";
+        $sql = "DROP TABLE IF EXISTS {$data['request']['dbtablesprefix']}navigation_node";
         $this->model->db->executeUpdate($sql);  
     }
 }

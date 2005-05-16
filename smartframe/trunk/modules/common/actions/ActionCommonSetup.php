@@ -48,7 +48,7 @@ class ActionCommonSetup extends SmartAction
         catch(SQLException $e)
         {
             // if no database connection stop here
-            throw new Exception( $e->getNativeError());
+            throw new Exception( 'No database connection: ' . $e->getNativeError());
         }
         
         // Rollback if there are somme error in other modules setup actions
@@ -83,6 +83,7 @@ class ActionCommonSetup extends SmartAction
                  `id_module`   int(11) NOT NULL auto_increment,
                  `rank`        int(11) NOT NULL default 0,
                  `name`        varchar(255) NOT NULL default '',
+                 `alias`       varchar(255) NOT NULL default '',
                  `version`     varchar(255) NOT NULL default '',
                  `visibility`  int(11) NOT NULL default 0,
                  `release`     text NOT NULL default '',
@@ -90,9 +91,9 @@ class ActionCommonSetup extends SmartAction
         $this->model->db->executeUpdate($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                 (`name`, `rank`, `version`, `visibility`, `release`)
+                 (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                 VALUES
-                 ('common', 0,'0.1',0,'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
+                 ('common','', 0,'0.1',0,'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
         $this->model->db->executeUpdate($sql);            
 
         return TRUE;

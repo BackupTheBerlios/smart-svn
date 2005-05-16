@@ -54,10 +54,11 @@ function subok(s){
           <td width="39%" align="right" valign="middle" class="font10">
             <?php if(!isset($tpl['notLogged'])): ?> 
             <form action="index.php" method="post">
-                Module &gt;<select name="mod" class="topselect" onChange="go('<?php echo $tpl['adminWebController']; ?>?mod='+this.form.mod.options[this.form.mod.options.selectedIndex].value)">
+                GoTo &gt;
+                <select name="mod" class="topselect" onChange="go('<?php echo $tpl['adminWebController']; ?>?mod='+this.form.mod.options[this.form.mod.options.selectedIndex].value)">
                  <?php foreach($tpl['moduleList'] as $key => $val): ?>
           <?php if($val['visibility'] == TRUE): ?>
-                    <option value='<?php echo $key; ?>'<?php if($tpl['requestedModule'] == $key) echo " selected='selected'"; ?>><?php echo $key; ?></option>
+                    <option value='<?php echo $key; ?>'<?php if($tpl['requestedModule'] == $key) echo " selected='selected'"; ?>><?php echo $val['alias']; ?></option>
           <?php endif; ?>
                  <?php endforeach; ?>
                 </select>

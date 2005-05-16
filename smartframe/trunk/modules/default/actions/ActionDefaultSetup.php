@@ -23,9 +23,9 @@ class ActionDefaultSetup extends SmartAction
     public function perform( $data = FALSE )
     {
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                 (`name`, `rank`, `version`, `visibility`, `release`)
+                 (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                 VALUES
-                 ('default',1,'0.1',1,'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
+                 ('default','Main Page',1,'0.1',1,'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
         $this->model->db->executeUpdate($sql);            
 
         return TRUE;
