@@ -37,7 +37,7 @@ class SmartWebAdminController extends SmartController
         try
         {      
             // create a view factory instance
-            // this instance aggregates the model object
+            // this instance aggregates the view factory object
             $this->view = new SmartAdminViewFactory( $this->model, $this->config );
 
             // Build the view methode name of the "index" view of the "common" module
