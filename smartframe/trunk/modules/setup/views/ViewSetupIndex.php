@@ -136,6 +136,10 @@ class ViewSetupIndex extends SmartView
         {
           $this->tplVar['form_syslogin'] = SmartCommonUtil::stripSlashes($_REQUEST['syslogin']);   
         } 
+        if(isset($_REQUEST['sysemail']))
+        {
+          $this->tplVar['form_sysemail'] = SmartCommonUtil::stripSlashes($_REQUEST['sysemail']);   
+        }         
         if(isset($_REQUEST['syspassword1']))
         {
           $this->tplVar['form_syspassword1'] = SmartCommonUtil::stripSlashes($_REQUEST['syspassword1']);   
@@ -166,7 +170,7 @@ class ViewSetupIndex extends SmartView
         {
             $this->tplVar['setup_error'][] = 'Database Name field is empty';
         }  
-        if(preg_match("/[^a-zA-Z_0-9]/",$_REQUEST['dbname']))
+        elseif(preg_match("/[^a-zA-Z_0-9]/",$_REQUEST['dbname']))
         {
             $this->tplVar['setup_error'][] = 'Only a-z A-Z _ 0-9 chars for database name are accepted';
         }    
@@ -186,11 +190,23 @@ class ViewSetupIndex extends SmartView
         if(empty($_REQUEST['syslogin']))
         {
             $this->tplVar['setup_error'][] = 'SysAdmin login field is empty';
-        }  
-        if(preg_match("/[^a-zA-Z_0-9-]/",$_REQUEST['syslogin']))
+        }         
+        elseif(preg_match("/[^a-zA-Z_0-9-]/",$_REQUEST['syslogin']))
         {
             $this->tplVar['setup_error'][] = 'Only a-z A-Z _ 0-9 - chars for SysAdmin login are accepted';
         } 
+        
+        // email validation expression, taken from HTML_QuickForm
+        $expr = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
+
+        if(empty($_REQUEST['sysemail']))
+        {
+            $this->tplVar['setup_error'][] = 'SysEmail login field is empty';
+        }    
+        elseif (!preg_match($expr, $_REQUEST['sysemail']))
+        {
+            $this->tplVar['setup_error'][] = 'Email isnt valid';
+        }
         if(empty($_REQUEST['syspassword1']) || empty($_REQUEST['syspassword2']))
         {
             $this->tplVar['setup_error'][] = 'Both Sysadmin password fields should not be empty and must contain the same value';

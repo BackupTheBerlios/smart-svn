@@ -138,6 +138,10 @@ function subok(s){
         <td align="left" valign="top"><input name="syslogin" type="text" id="login" size="50" maxlength="255" value="<?php if(isset($tpl['form_syslogin'])) echo $tpl['form_syslogin']; ?>"/></td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="normal">Email:</td>
+        <td align="left" valign="top"><input name="sysemail" type="text" id="email" size="50" maxlength="255" value="<?php if(isset($tpl['form_sysemail'])) echo $tpl['form_sysemail']; ?>"/></td>
+      </tr>
+      <tr>
         <td align="left" valign="top"><span class="normal">Password:</span></td>
         <td align="left" valign="top">
           <input name="syspassword1" type="password" size="50" maxlength="255" value="<?php if(isset($tpl['form_syspassword1'])) echo $tpl['form_syspassword1'] ?>"/>
