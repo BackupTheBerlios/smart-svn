@@ -68,9 +68,9 @@ class SmartWebAdminController extends SmartController
             $this->userErrorView();
         }  
         catch(SQLException $e)
-        {
-            $this->setExceptionFlags( $e );
-            $e->performStackTrace(); 
+        {          
+            $this->setExceptionFlags( $e );  
+            SmartExceptionLog::log( $e );   
             $this->userErrorView();
         }        
         catch(SmartForwardAdminViewException $e)
