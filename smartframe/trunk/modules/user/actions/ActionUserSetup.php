@@ -54,38 +54,41 @@ class ActionUserSetup extends SmartAction
         $this->model->db->executeUpdate($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}user_user
-                   (`login`, `name`, `lastname`, `passwd`,`status`, `role`)
+                   (`login`, `email`, `name`, `lastname`, `passwd`,`status`, `role`)
                   VALUES
-                   (?,?,?,?,?,?)";
+                   (?,?,?,?,?,?,?)";
         $stmt = $this->model->db->prepareStatement($sql);  
 
         // register as an editor
         $stmt->setString(1, SmartCommonUtil::stripSlashes($data['request']['syslogin']));
-        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysname']));
-        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
-        $stmt->setString(4, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
-        $stmt->setInt(5, 2);
-        $stmt->setInt(6, 40);
+        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysemail']));
+        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['sysname']));
+        $stmt->setString(4, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
+        $stmt->setString(5, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
+        $stmt->setInt(6, 2);
+        $stmt->setInt(7, 40);
         
         $stmt->executeUpdate();
 
         // register as an administrator with the same data but login = 'admin'
         $stmt->setString(1, 'admin');
-        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysname']));
-        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
-        $stmt->setString(4, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
-        $stmt->setInt(5, 2);
-        $stmt->setInt(6, 20);
+        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysemail']));
+        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['sysname']));
+        $stmt->setString(4, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
+        $stmt->setString(5, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
+        $stmt->setInt(6, 2);
+        $stmt->setInt(7, 20);
         
         $stmt->executeUpdate();
 
         // register as an administrator with the same data but login = 'admin'
         $stmt->setString(1, 'superuser');
-        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysname']));
-        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
-        $stmt->setString(4, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
-        $stmt->setInt(5, 2);
-        $stmt->setInt(6, 10);
+        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysemail']));
+        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['sysname']));
+        $stmt->setString(4, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
+        $stmt->setString(5, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
+        $stmt->setInt(6, 2);
+        $stmt->setInt(7, 10);
         
         $stmt->executeUpdate();
 
