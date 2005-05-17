@@ -29,6 +29,7 @@ class ActionUser extends SmartAction
                             'lock'      => 'Int',
                             'lock_time' => 'Timestamp',
                             'access'    => 'Timestamp',
+                            'passwd'    => 'String',
                             'name'      => 'String',
                             'lastname'  => 'String',
                             'email'     => 'String',
@@ -36,6 +37,17 @@ class ActionUser extends SmartAction
                             'description'  => 'String',
                             'logo'         => 'String',
                             'media_folder' => 'String');
+
+    /**
+     * User role levels 
+     *
+     */                            
+    protected $userRole = array('10' => 'Superuser',
+                                '20' => 'Administrator',
+                                '40' => 'Editor',
+                                '60' => 'Author',
+                                '80' => 'Contributor',
+                                '100' => 'Webuser');                            
 }
 
 ?>

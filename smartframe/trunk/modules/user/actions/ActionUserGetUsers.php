@@ -18,14 +18,6 @@ include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUser.php');
  
 class ActionUserGetUsers extends ActionUser
 {
-                            
-    private $userRole = array('10' => 'Superuser',
-                              '20' => 'Administrator',
-                              '40' => 'Editor',
-                              '60' => 'Author',
-                              '80' => 'Contributor',
-                              '100' => 'Webuser');
-    
     /**
      * update user data
      *

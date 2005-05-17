@@ -38,6 +38,17 @@
         *</td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Role</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><select name="role">
+		  <?php foreach($tpl['form_roles'] as $key => $val): ?>
+          <option value="<?php echo $key; ?>"<?php if($tpl['role']==$key) echo ' selected="selected"'; ?>><?php echo $val; ?></option>
+		  <?php endforeach; ?>
+        </select> 
+          *</td>
+      </tr>
+      <tr>
         <td align="left" valign="top" class="font10bold">Name</td>
       </tr>
       <tr>
@@ -66,7 +77,7 @@
         </td>
       </tr>       
       <tr>
-        <td align="left" valign="top"><input name="adduser" type="submit" id="addthisuser" value="Submit"></td>
+        <td align="left" valign="top"><input name="addthisuser" type="submit" id="addthisuser" value="Submit"></td>
       </tr>
     </table>
     </td>

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * view_user_adduser class of the template "tpl.user_adduser.php"
+ * ViewUserAddUser class
  *
  */
  
@@ -27,9 +27,22 @@ class ViewUserAddUser extends SmartView
      * @var string $template_folder
      */    
     public $templateFolder = 'modules/user/templates/';
+
+    /**
+     * prepend filter chain
+     *
+     */
+    function prependFilterChain()
+    {
+        // check permission to execute this view
+        if(FALSE == $this->checkViewPermission())
+        {
+            throw new SmartViewException('Operation denied');
+        }    
+    }
     
     /**
-     * Execute the view of the template "adduser.tpl.php"
+     * Execute the view of the template "tpl.adduser.php"
      *
      * @return bool true on success else false
      */
@@ -43,45 +56,116 @@ class ViewUserAddUser extends SmartView
         $this->tplVar['form_name']        = '';
         $this->tplVar['form_lastname']    = '';  
         $this->tplVar['form_website']     = '';
-        $this->tplVar['form_description'] = '';                
+        $this->tplVar['form_description'] = '';   
+        $this->tplVar['role']             = 0;  
     
         // add user on demande
         if( isset($_POST['addthisuser']) )
         {
-
+            if(FALSE == $this->checkAssignedPermission( (int)$_POST['role'] ))
+            {
+                $this->resetFormData();
+                $this->tplVar['error'] = 'You have no rights to assign the such role to a new user!';
+                $this->assignHtmlSelectBoxRole();
+                return TRUE;
+            }
+            
             // check if required fields are empty
-            if (FALSE == $this->_check_empty_fields())
+            if (FALSE == $this->checkEmptyFields())
             {
                 // reset form fields on error
-                $this->_reset_old_fields_data();
+                $this->resetFormData();
+                $this->tplVar['error'] = 'You have fill out the login, name, lastname, email and password fields!';
+                $this->assignHtmlSelectBoxRole();
                 return TRUE;
             }            
 
             // array with new user data
-            $_data = array( 'error'     => 'tpl_error',
-                            'user_data' => array('email'    => commonUtil::stripSlashes($_POST['email']),
-                                                 'login'    => commonUtil::stripSlashes($_POST['login']),
-                                                 'passwd'   => commonUtil::stripSlashes($_POST['passwd']) ));
-            
+            $_data = array( 'error'     => & $this->tplVar['error'],
+                            'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
+                                            'status'   => 2,
+                                            'role'     => (int)SmartCommonUtil::stripSlashes($_POST['role']),
+                                            'login'    => SmartCommonUtil::stripSlashes($_POST['login']),
+                                            'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
+                                            'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
+                                            'passwd'   => SmartCommonUtil::stripSlashes($_POST['passwd']),
+                                            'description' => SmartCommonUtil::stripSlashes($_POST['description']) ));
+             
             // add new user data
-            if(SF_IS_VALID_ACTION == M( MOD_USER,
-                                        'add',
-                                        $_data ))
+            if(TRUE == $this->model->action( 'user',
+                                             'add',
+                                             $_data ))
             {
                 // reload the user module on success
-                @header('Location: '.SF_BASE_LOCATION.'/'.SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1&m=user');
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
                 exit; 
             }
             else
             {
                 // reset form fields on error
-                $this->_reset_old_fields_data();
+                $this->resetFormData();
+                $this->assignHtmlSelectBoxRole();
                 return TRUE;                
             }
         }
-            
+
+        $this->assignHtmlSelectBoxRole();
+        
         return TRUE;
     } 
+
+    /**
+     * Assign template variable to build the html role select box
+     */
+    private function assignHtmlSelectBoxRole()
+    {
+        // build template variables for the user role html select menu
+        $roles = array('10'  => 'Superuser',
+                       '20'  => 'Administrator',
+                       '40'  => 'Editor',
+                       '60'  => 'Author',
+                       '80'  => 'Contributor',
+                       '100' => 'Webuser'); 
+        
+        $this->tplVar['form_roles'] = array();
+        
+        foreach($roles as $key => $val)
+        {
+            // just the roles on which the logged user have rights
+            if(($this->viewVar['loggedUserRole'] < $key) && ($this->viewVar['loggedUserRole'] < 60))
+            {
+                $this->tplVar['form_roles'][$key] = $val;
+            }
+        }
+    }
+
+    /**
+     * A logged user can only create new users with a role
+     * value greater than the value of its own role.
+     *
+     * @param int $assignedRole Role of the new user
+     */
+    private function checkAssignedPermission( $assignedRole )
+    {
+        if($this->viewVar['loggedUserRole'] >= (int)$assignedRole)
+        {
+            return FALSE;
+        }
+        return TRUE;
+    }
+
+    /**
+     * Check permission to execute this view
+     * @return bool
+     */
+    private function checkViewPermission()
+    {
+        if($this->viewVar['loggedUserRole'] < 60)
+        {
+            return TRUE;
+        }
+        return FALSE;
+    }
     
     /**
      * check if required fields are empty
@@ -89,12 +173,15 @@ class ViewUserAddUser extends SmartView
      * @return bool true on success else false
      * @access privat
      */       
-    function _check_empty_fields()
+    function checkEmptyFields()
     {
         // check if some fields are empty
-        if( empty($_POST['login']) || empty($_POST['passwd']) )
+        if( empty($_POST['login']) || 
+            empty($_POST['email']) || 
+            empty($_POST['lastname']) || 
+            empty($_POST['name']) || 
+            empty($_POST['passwd']) )
         {        
-            $this->B->tpl_error = 'You have fill out the login and password fields!';
             return FALSE;
         }  
         return TRUE;
@@ -105,12 +192,16 @@ class ViewUserAddUser extends SmartView
      *
      * @access privat
      */       
-    function _reset_old_fields_data()
+    function resetFormData()
     {
         // if empty assign form field with old values
-        $this->tplVar['form_email']  = commonUtil::stripSlashes($_POST['email']);
-        $this->tplVar['form_login']  = commonUtil::stripSlashes($_POST['login']);
-        $this->tplVar['form_passwd'] = commonUtil::stripSlashes($_POST['passwd']);          
+        $this->tplVar['role']          = SmartCommonUtil::stripSlashes($_POST['role']);
+        $this->tplVar['form_email']    = SmartCommonUtil::stripSlashes($_POST['email']);
+        $this->tplVar['form_name']     = SmartCommonUtil::stripSlashes($_POST['name']);
+        $this->tplVar['form_lastname'] = SmartCommonUtil::stripSlashes($_POST['lastname']);
+        $this->tplVar['form_description'] = SmartCommonUtil::stripSlashes($_POST['description']);
+        $this->tplVar['form_login']    = SmartCommonUtil::stripSlashes($_POST['login']);
+        $this->tplVar['form_passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']);          
     }       
 }
 
