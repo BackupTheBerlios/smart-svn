@@ -25,6 +25,15 @@
         <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit User </td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Status:</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold"><select name="status">
+		  <option value="2"<?php if($tpl['user']['status']==2) echo ' selected="selected"'; ?>>Active</option>
+          <option value="1"<?php if($tpl['user']['status']==1) echo ' selected="selected"'; ?>>Inactive</option>
+        </select></td>
+      </tr>
+      <tr>
         <td align="left" valign="top" class="font10bold">Login</td>
       </tr>
       <tr>

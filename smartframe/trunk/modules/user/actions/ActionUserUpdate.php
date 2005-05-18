@@ -140,16 +140,10 @@ class ActionUserUpdate extends ActionUser
             return FALSE;        
         } 
         
-        if(!is_int($data['user']['status']))
+        if(!preg_match("/1|2/",$data['user']['status']))
         {
-            $data['error'] = 'Status value must an int';
+            $data['error'] = 'Status value must be 1 or 2';
             return FALSE;         
-        } 
-        
-        if( ($data['user']['status'] < 0) || ($data['user']['status'] > 2) )
-        {
-            $data['error'] = 'Status value must be between 0 an 2';
-            return FALSE;        
         }         
         
         if(!preg_match("/[0-9]*/",$data['user']['role']))

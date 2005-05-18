@@ -51,6 +51,7 @@ class ViewUserAddUser extends SmartView
         // Init template form field values
         $this->tplVar['error']            = FALSE;
         $this->tplVar['form_email']       = '';
+        $this->tplVar['form_status']      = 0;
         $this->tplVar['form_login']       = '';
         $this->tplVar['form_passwd']      = '';
         $this->tplVar['form_name']        = '';
@@ -83,7 +84,7 @@ class ViewUserAddUser extends SmartView
             // array with new user data
             $_data = array( 'error'     => & $this->tplVar['error'],
                             'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
-                                            'status'   => 2,
+                                            'status'   => $_POST['status'],
                                             'role'     => (int)SmartCommonUtil::stripSlashes($_POST['role']),
                                             'login'    => SmartCommonUtil::stripSlashes($_POST['login']),
                                             'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
@@ -196,6 +197,7 @@ class ViewUserAddUser extends SmartView
     {
         // if empty assign form field with old values
         $this->tplVar['role']          = SmartCommonUtil::stripSlashes($_POST['role']);
+        $this->tplVar['form_status']   = $_POST['status'];
         $this->tplVar['form_email']    = SmartCommonUtil::stripSlashes($_POST['email']);
         $this->tplVar['form_name']     = SmartCommonUtil::stripSlashes($_POST['name']);
         $this->tplVar['form_lastname'] = SmartCommonUtil::stripSlashes($_POST['lastname']);

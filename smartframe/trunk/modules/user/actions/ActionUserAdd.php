@@ -162,9 +162,9 @@ class ActionUserAdd extends ActionUser
             return FALSE;        
         } 
         
-        if(!is_int($data['user']['status']))
+        if(!preg_match("/1|2/",$data['user']['status']))
         {
-            $data['error'] = 'Status value must an int';
+            $data['error'] = 'Status value must be 1 or 2';
             return FALSE;         
         } 
         

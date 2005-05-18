@@ -90,7 +90,7 @@ class ViewUserEditUser extends SmartView
             $_data = array( 'error'     => & $this->tplVar['error'],
                             'id_user'   => $_REQUEST['id_user'],
                             'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
-                                            'status'   => 2,
+                                            'status'   => $_POST['status'],
                                             'role'     => (int)SmartCommonUtil::stripSlashes($_POST['role']),
                                             'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
                                             'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
