@@ -10,17 +10,17 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewUserAddUser class
+ * ViewUserEditUser class
  *
  */
  
-class ViewUserAddUser extends SmartView
+class ViewUserEditUser extends SmartView
 {
      /**
      * Default template for this view
      * @var string $template
      */
-    public $template = 'adduser';
+    public $template = 'edituser';
     
      /**
      * Default template folder for this view
@@ -34,8 +34,10 @@ class ViewUserAddUser extends SmartView
      */
     function prependFilterChain()
     {
-        // check permission to execute this view
-        if(FALSE == $this->checkViewPermission())
+        // check permission to edit/update requested user data
+        if(FALSE == $this->model->action('user',
+                                         'allowEditUser',
+                                         array('id_user' => $_REQUEST['id_user'] ) ))
         {
             throw new SmartViewException('Operation denied');
         }    
@@ -50,17 +52,18 @@ class ViewUserAddUser extends SmartView
     { 
         // Init template form field values
         $this->tplVar['error']            = FALSE;
-        $this->tplVar['form_email']       = '';
-        $this->tplVar['form_login']       = '';
-        $this->tplVar['form_passwd']      = '';
-        $this->tplVar['form_name']        = '';
-        $this->tplVar['form_lastname']    = '';  
-        $this->tplVar['form_website']     = '';
-        $this->tplVar['form_description'] = '';   
-        $this->tplVar['role']             = 0;  
+        $this->tplVar['user']['email']       = '';
+        $this->tplVar['user']['login']       = '';
+        $this->tplVar['user']['passwd']      = '';
+        $this->tplVar['user']['name']        = '';
+        $this->tplVar['user']['lastname']    = '';  
+        $this->tplVar['user']['description'] = '';   
+        $this->tplVar['user']['role']        = 0;  
+        
+        $this->tplVar['id_user'] = $_REQUEST['id_user']; 
     
         // add user on demande
-        if( isset($_POST['addthisuser']) )
+        if( isset($_POST['updatethisuser']) )
         {
             if(FALSE == $this->checkAssignedPermission( (int)$_POST['role'] ))
             {
@@ -75,25 +78,29 @@ class ViewUserAddUser extends SmartView
             {
                 // reset form fields on error
                 $this->resetFormData();
-                $this->tplVar['error'] = 'You have fill out the login, name, lastname, email and password fields!';
+                $this->tplVar['error'] = 'You have fill out at least the name, lastname and email fields!';
                 $this->assignHtmlSelectBoxRole();
                 return TRUE;
             }            
 
             // array with new user data
             $_data = array( 'error'     => & $this->tplVar['error'],
+                            'id_user'   => $_REQUEST['id_user'],
                             'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
                                             'status'   => 2,
                                             'role'     => (int)SmartCommonUtil::stripSlashes($_POST['role']),
-                                            'login'    => SmartCommonUtil::stripSlashes($_POST['login']),
                                             'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
                                             'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
-                                            'passwd'   => SmartCommonUtil::stripSlashes($_POST['passwd']),
                                             'description' => SmartCommonUtil::stripSlashes($_POST['description']) ));
+
+            if(!empty($_POST['passwd']))
+            {
+                $_data['user']['passwd'] = SmartCommonUtil::stripSlashes($_POST['passwd']);
+            }
              
             // add new user data
             if(TRUE == $this->model->action( 'user',
-                                             'add',
+                                             'update',
                                              $_data ))
             {
                 // reload the user module on success
@@ -109,10 +116,42 @@ class ViewUserAddUser extends SmartView
             }
         }
 
+        if(FALSE == $this->model->action('user',
+                                         'getUser',
+                                         array('result'  => & $this->tplVar['user'],
+                                               'id_user' => $_REQUEST['id_user'],
+                                               'fields'  => array('login',
+                                                                  'name',
+                                                                  'lastname',
+                                                                  'email',
+                                                                  'status',
+                                                                  'role',
+                                                                  'description')) ))
+        {
+            throw new SmartViewException('id_user dosent exists');
+        }
+        
+        // convert some field values to safely include it in template html form fields
+        $this->convertHtmlSpecialChars( $this->tplVar['user'], array('name','lastname') );
+
         $this->assignHtmlSelectBoxRole();
         
         return TRUE;
     } 
+
+    /**
+     * Convert strings so that they can be safely included in html forms
+     *
+     * @param array $var_array Associative array
+     * @param array $fields Field names
+     */
+    private function convertHtmlSpecialChars( &$var_array, $fields )
+    {
+        foreach($fields as $f)
+        {
+            $var_array[$f] = htmlspecialchars ( $var_array[$f],  ENT_NOQUOTES, $this->config['charset'] );
+        }
+    }
 
     /**
      * Assign template variable to build the html role select box
@@ -176,11 +215,9 @@ class ViewUserAddUser extends SmartView
     private function checkEmptyFields()
     {
         // check if some fields are empty
-        if( empty($_POST['login']) || 
-            empty($_POST['email']) || 
+        if( empty($_POST['email']) || 
             empty($_POST['lastname']) || 
-            empty($_POST['name']) || 
-            empty($_POST['passwd']) )
+            empty($_POST['name']) )
         {        
             return FALSE;
         }  
@@ -195,13 +232,13 @@ class ViewUserAddUser extends SmartView
     private function resetFormData()
     {
         // if empty assign form field with old values
-        $this->tplVar['role']          = SmartCommonUtil::stripSlashes($_POST['role']);
-        $this->tplVar['form_email']    = SmartCommonUtil::stripSlashes($_POST['email']);
-        $this->tplVar['form_name']     = SmartCommonUtil::stripSlashes($_POST['name']);
-        $this->tplVar['form_lastname'] = SmartCommonUtil::stripSlashes($_POST['lastname']);
-        $this->tplVar['form_description'] = SmartCommonUtil::stripSlashes($_POST['description']);
-        $this->tplVar['form_login']    = SmartCommonUtil::stripSlashes($_POST['login']);
-        $this->tplVar['form_passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']);          
+        $this->tplVar['user']['role']     = SmartCommonUtil::stripSlashes($_POST['role']);
+        $this->tplVar['user']['email']    = SmartCommonUtil::stripSlashes($_POST['email']);
+        $this->tplVar['user']['name']     = SmartCommonUtil::stripSlashes($_POST['name']);
+        $this->tplVar['user']['lastname'] = SmartCommonUtil::stripSlashes($_POST['lastname']);
+        $this->tplVar['user']['description'] = SmartCommonUtil::stripSlashes($_POST['description']);
+        $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes($_POST['login']);
+        $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']);          
     }       
 }
 

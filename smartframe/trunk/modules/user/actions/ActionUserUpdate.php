@@ -10,40 +10,42 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionUserAdd class 
+ * ActionUserUpdate class 
  *
  */
 
 include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUser.php');
  
-class ActionUserAdd extends ActionUser
+class ActionUserUpdate extends ActionUser
 {
     /**
-     * add user
+     * update user
      *
      * @param array $data
      * @return int user id or false on error
      */
     function perform( $data = FALSE )
     { 
-        // encrypt password
-        $data['user']['passwd'] = md5($data['user']['passwd']);
+        // encrypt password if not empty
+        if(isset($data['user']['passwd']) && !empty($data['user']['passwd']))
+        {
+                $data['user']['passwd'] = md5($data['user']['passwd']);
+        }  
         
         $comma = '';
         $fields = '';
-        $quest = '';
         
         foreach($data['user'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`';
-            $quest .= $comma.'?';
+            $fields .= $comma.'`'.$key.'`=?';
             $comma = ',';
         }
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_user
-                   ($fields)
-                  VALUES
-                   ($quest)";
+        $sql = "UPDATE {$this->config['dbTablePrefix']}user_user
+                  SET
+                   $fields
+                  WHERE
+                   `id_user`={$data['id_user']}";
 
         $stmt = $this->model->db->prepareStatement($sql);                    
         
@@ -76,47 +78,23 @@ class ActionUserAdd extends ActionUser
                 throw new SmartModelException("Field '".$key."' dosent exists!");
             }
         }
-        
-        // Check user data field values
-        //
-        if(empty($data['user']['login']))
-        {
-            $data['error'] = 'Login is empty';
-            return FALSE;        
-        }
-        
-        if(empty($data['user']['passwd']))
-        {
-            $data['error'] = 'Password is empty';
-            return FALSE;         
-        }   
 
-        $str_len = strlen( $data['user']['login'] );
-        if( ($str_len < 3) || ($str_len > 20) )
+        if(isset($data['user']['passwd']) && !empty($data['user']['passwd']))
         {
-            $data['error'] = 'Only 3-20 login chars are accepted.';
-            return FALSE;       
-        }
-
-        $str_len = strlen( $data['user']['passwd'] );
-        if( ($str_len < 3) || ($str_len > 20) )
-        {
-            $data['error'] = 'Only 3-20 password chars are accepted.';
-            return FALSE;       
+            $str_len = strlen( $data['user']['passwd'] );
+            if( ($str_len < 3) || ($str_len > 20) )
+            {
+                $data['error'] = 'Only 3-20 password chars are accepted.';
+                return FALSE;       
+            }
+        
+            if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user']['passwd']) )
+            {
+                $data['error'] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';
+                return FALSE;         
+            }        
         }
         
-        if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user']['login']) )
-        {
-            $data['error'] = 'Login entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';
-            return FALSE;         
-        }  
-        
-        if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user']['passwd']) )
-        {
-            $data['error'] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';
-            return FALSE;         
-        }        
-    
         if(empty($data['user']['name']))
         {
             $data['error'] = 'Name is empty';
@@ -186,10 +164,10 @@ class ActionUserAdd extends ActionUser
             return FALSE;        
         } 
     
-        // Check if login exists
-        if($this->loginExists($data['user']['login']) == 1)
+        // Check if id_user exists
+        if($this->userExists($data['id_user']) == FALSE)
         {
-            $data['error'] = 'Login exists';
+            $data['error'] = 'Such a user dosent exists';
             return FALSE;
         }    
         
@@ -197,12 +175,12 @@ class ActionUserAdd extends ActionUser
     }
     
     /**
-     * check if login exist
+     * check if id_user exists
      *
-     * @param string $login User login
-     * @return int Number of logins
+     * @param int $id_user User id
+     * @return bool
      */    
-    function loginExists( $login )
+    function userExists( $id_user )
     {
         
         $sql = "
@@ -211,7 +189,7 @@ class ActionUserAdd extends ActionUser
             FROM
                 {$this->config['dbTablePrefix']}user_user
             WHERE
-                login='$login'";
+                id_user='$id_user'";
         
         $result = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
 
@@ -219,12 +197,12 @@ class ActionUserAdd extends ActionUser
         
         $field = $result->getRow();
 
-        if(is_array($field) && (count($field) > 0))
+        if(!is_array($field) || !isset($field['id_user']))
         {
-            return TRUE;
+            return FALSE;
         }
         
-        return FALSE;    
+        return TRUE;    
     } 
     
 }
