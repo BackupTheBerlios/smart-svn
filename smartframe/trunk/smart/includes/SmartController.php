@@ -38,6 +38,13 @@ class SmartController extends SmartObject
     public $config;    
 
     /**
+     * Main Smart Config array
+     *
+     * @var array $config
+     */        
+    private static $smartConfig;
+
+    /**
      * Controller construct
      *
      * Here we fetch the module folders, create some base class instances
@@ -45,7 +52,7 @@ class SmartController extends SmartObject
      * 
      * @param array $config Main Smart config array
      */
-    function __construct( & $config )
+    function __construct()
     {
         try
         {
@@ -53,16 +60,16 @@ class SmartController extends SmartObject
             error_reporting( $config['error_reporting'] );
             
             // set reference to the config array
-            $this->config = $config;
-
+            $this->config = & self::$smartConfig;
+ 
             // create base smart container instance
-            $SmartContainer = new SmartContainer( $config );
+            $SmartContainer = new SmartContainer( $this->config );
 
             // create smart model instance
-            $this->model = new SmartModel( $config );          
+            $this->model = new SmartModel( $this->config );          
 
             // create user-defined error handler
-            new SmartErrorHandler( $config );
+            new SmartErrorHandler( $this->config );
 
             // check if the modules directory exists
             if(!is_dir(SMART_BASE_DIR . 'modules'))
@@ -152,12 +159,22 @@ class SmartController extends SmartObject
     }
 
     /**
+     * Set config array
+     *
+     * @param array $config Global Config array
+     */
+    public static function setConfig( &$config )
+    {
+        self::$smartConfig = $config;
+    }
+
+    /**
      * Retrieve a new Controller instance.
      *
      * @param string $class Controller class name.
      * @param array $config Main Smart config array
      */
-    public static function newInstance($class, & $config)
+    public static function newInstance($class)
     {
         try
         {
@@ -172,7 +189,7 @@ class SmartController extends SmartObject
                 
                 include_once($class_file);
                 
-                $object = new $class( $config );
+                $object = new $class();
 
                 if (!($object instanceof SmartController))
                 {

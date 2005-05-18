@@ -146,4 +146,7 @@ include_once( SMART_BASE_DIR . 'smart/includes/SmartController.php' );
 // cache class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartCache.php' );
 
+// pass the config array to the controller
+SmartController::setConfig( $SmartConfig );
+
 ?>

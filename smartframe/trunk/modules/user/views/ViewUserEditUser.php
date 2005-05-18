@@ -50,6 +50,9 @@ class ViewUserEditUser extends SmartView
      */
     function perform()
     { 
+        // init template user array
+        $this->tplVar['user'] = array();
+        
         // Init template form field values
         $this->tplVar['error']            = FALSE;
         $this->tplVar['user']['email']       = '';
