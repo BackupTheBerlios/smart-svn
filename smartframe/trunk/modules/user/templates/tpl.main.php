@@ -15,6 +15,6 @@
     <?php endforeach; ?>
 	<?php endif; ?>
 </td>
-    <td width="11%" align="center" valign="top" class="itemnormal"><a href="<?php echo SMART_CONTROLLER; ?>?mod=user&view=adduser">add user </a></td>
+    <td width="11%" align="center" valign="top" class="itemnormal"><?php if($tpl['showAddUserLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=user&view=adduser">add user </a><?php endif; ?></td>
   </tr>
 </table>

@@ -48,9 +48,13 @@ class ActionUserGetUsers extends ActionUser
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}user_user
+            WHERE
+                (`role`{$data['only_role']})
+            OR
+                (`id_user`={$data['and_id_user']})
             ORDER BY
                 {$_order}";
-        
+
         $rs = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
         
         while($rs->next())

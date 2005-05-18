@@ -195,7 +195,6 @@ class ViewUserAddUser extends SmartView
      */       
     private function resetFormData()
     {
-        // if empty assign form field with old values
         $this->tplVar['role']          = SmartCommonUtil::stripSlashes($_POST['role']);
         $this->tplVar['form_status']   = $_POST['status'];
         $this->tplVar['form_email']    = SmartCommonUtil::stripSlashes($_POST['email']);
