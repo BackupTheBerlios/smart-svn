@@ -187,7 +187,7 @@ class ActionUserAdd extends ActionUser
         } 
     
         // Check if login exists
-        if($this->loginExists($data['user']['login']) == 1)
+        if($this->loginExists($data['user']['login']) > 0)
         {
             $data['error'] = 'Login exists';
             return FALSE;
@@ -213,18 +213,9 @@ class ActionUserAdd extends ActionUser
             WHERE
                 login='$login'";
         
-        $result = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
+        $result = $this->model->db->executeQuery($sql);
 
-        $result->first();
-        
-        $field = $result->getRow();
-
-        if(is_array($field) && (count($field) > 0))
-        {
-            return TRUE;
-        }
-        
-        return FALSE;    
+        return $result->getRecordCount();    
     } 
     
 }

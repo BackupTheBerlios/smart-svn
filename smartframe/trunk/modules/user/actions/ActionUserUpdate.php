@@ -191,18 +191,14 @@ class ActionUserUpdate extends ActionUser
             WHERE
                 id_user='$id_user'";
         
-        $result = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
+        $result = $this->model->db->executeQuery($sql);
 
-        $result->first();
-        
-        $field = $result->getRow();
-
-        if(!is_array($field) || !isset($field['id_user']))
+        if($result->getRecordCount() > 0)
         {
-            return FALSE;
+            return TRUE;
         }
         
-        return TRUE;    
+        return FALSE;    
     } 
     
 }

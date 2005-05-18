@@ -41,12 +41,8 @@ class ActionUserCheckLogin extends SmartAction
         $stmt->setString(2, md5($data['passwd']));
         
         $result = $stmt->executeQuery();
-        
-        $result->first();
-        
-        $field = $result->getRow();
-        
-        if(is_array($field) && (count($field) > 0))
+
+        if($result->getRecordCount() > 0))
         {
             $this->model->session->set('loggedUserId',   $field['id_user']);
             $this->model->session->set('loggedUserRole', $field['role']);  
