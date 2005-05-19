@@ -13,7 +13,7 @@
  * ActionUserCheckLogin class 
  *
  */
- 
+
 class ActionUserCheckLogin extends SmartAction
 {
     /**
@@ -21,8 +21,8 @@ class ActionUserCheckLogin extends SmartAction
      *
      * @param array $data
      */
-    function perform( $data = FALSE )
-    {    
+    public function perform( $data = FALSE )
+    {
         $sql = "SELECT 
                     id_user,
                     role
@@ -42,8 +42,11 @@ class ActionUserCheckLogin extends SmartAction
         
         $result = $stmt->executeQuery();
 
-        if($result->getRecordCount() > 0))
+        if($result->getRecordCount() > 0)
         {
+            $result->first();
+            $field = $result->getRow();
+
             $this->model->session->set('loggedUserId',   $field['id_user']);
             $this->model->session->set('loggedUserRole', $field['role']);  
             
@@ -58,10 +61,10 @@ class ActionUserCheckLogin extends SmartAction
      *
      * @param array $data
      */    
-    function validate( $data = FALSE )
+    public function validate( $data = FALSE )
     {
         if( @preg_match("/[^a-zA-Z0-9]/", $data['login']) )
-        {
+        { 
             return FALSE;        
         }
         if( @preg_match("/[^a-zA-Z0-9]/", $data['passwd']) )
