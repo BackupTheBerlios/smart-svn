@@ -64,6 +64,17 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['role']        = 0;  
         
         $this->tplVar['id_user'] = $_REQUEST['id_user']; 
+        
+        // assign template var if the logged user edit his own account
+        // dont show some form elements (delete,status,role)
+        if($this->viewVar['loggedUserId'] == $_REQUEST['id_user'])
+        {  
+            $this->tplVar['showButton'] = FALSE;  
+        }
+        else
+        {
+            $this->tplVar['showButton'] = TRUE;  
+        }
     
         // add user on demande
         if( isset($_POST['updatethisuser']) )
@@ -78,13 +89,16 @@ class ViewUserEditUser extends SmartView
 
             if($_POST['deleteuser'] == '1')
             {
-                $this->model->action('user',
-                                     'delete',
-                                     array('id_user' => $_REQUEST['id_user']) ); 
+                if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
+                {
+                    $this->model->action('user',
+                                         'delete',
+                                         array('id_user' => $_REQUEST['id_user']) ); 
                                      
-                // reload the user module on success
-                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
-                exit;                                      
+                    // reload the user module on success
+                    @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
+                    exit;   
+                }
             }
             
             // check if required fields are empty

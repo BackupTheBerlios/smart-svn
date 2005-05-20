@@ -38,6 +38,7 @@ function deluser(f, mes)
       <tr>
         <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit User </td>
       </tr>
+	  <?php if($tpl['showButton']==TRUE): ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Status:</td>
       </tr>
@@ -47,6 +48,7 @@ function deluser(f, mes)
           <option value="1"<?php if($tpl['user']['status']==1) echo ' selected="selected"'; ?>>Inactive</option>
         </select></td>
       </tr>
+	  <?php endif; ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Login</td>
       </tr>
@@ -61,6 +63,7 @@ function deluser(f, mes)
         <td align="left" valign="top"><input name="passwd" type="text" id="passwd" size="40" maxlength="255" value=""> 
         </td>
       </tr>
+	  <?php if($tpl['showButton']==TRUE): ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Role</td>
       </tr>
@@ -72,6 +75,7 @@ function deluser(f, mes)
         </select> 
           </td>
       </tr>
+	  <?php endif; ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Name</td>
       </tr>
@@ -108,9 +112,13 @@ function deluser(f, mes)
     </table>
     </td>
     <td width="1%" align="left" valign="top" class="font10bold"><p><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">cancel</a></p>
+      <p>&nbsp;        </p>
+      <p>&nbsp;</p>
       <p>
-        <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
-      </p></td>
+	    <?php if($tpl['showButton']==TRUE): ?>
+          <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
+        <?php endif; ?>
+	  </p></td>
   </tr>
 </table>
 </form>
