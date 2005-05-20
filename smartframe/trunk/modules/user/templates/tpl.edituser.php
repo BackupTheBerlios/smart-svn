@@ -11,8 +11,22 @@
   });
 </script>
 <!-- /tinyMCE -->
+<script language="JavaScript" type="text/JavaScript">
+function deluser(f, mes)
+{
+      check = confirm(mes);
+        if(check == true)
+        {
+            f.deleteuser.value="1";
+        with(f){
+        submit();
+        }
+        }
+}
+</script>
 <form name="edituser" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=edituser">
 <input name="id_user" type="hidden" id="id_user" value="<?php echo $tpl['id_user']; ?>">
+<input name="deleteuser" type="hidden" id="deleteuser" value="">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="99%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
@@ -87,11 +101,16 @@
         </td>
       </tr>       
       <tr>
-        <td align="left" valign="top"><input name="updatethisuser" type="submit" id="updatethisuser" value="Submit"></td>
+        <td align="left" valign="top">
+		<input name="updatethisuser" type="hidden" value="1">
+		<input name="update" type="submit" id="update" value="Submit"></td>
       </tr>
     </table>
     </td>
-    <td width="1%" align="left" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">cancel</a></td>
+    <td width="1%" align="left" valign="top" class="font10bold"><p><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">cancel</a></p>
+      <p>
+        <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
+      </p></td>
   </tr>
 </table>
 </form>

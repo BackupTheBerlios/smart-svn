@@ -75,6 +75,17 @@ class ViewUserEditUser extends SmartView
                 $this->assignHtmlSelectBoxRole();
                 return TRUE;
             }
+
+            if($_POST['deleteuser'] == '1')
+            {
+                $this->model->action('user',
+                                     'delete',
+                                     array('id_user' => $_REQUEST['id_user']) ); 
+                                     
+                // reload the user module on success
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
+                exit;                                      
+            }
             
             // check if required fields are empty
             if (FALSE == $this->checkEmptyFields())
