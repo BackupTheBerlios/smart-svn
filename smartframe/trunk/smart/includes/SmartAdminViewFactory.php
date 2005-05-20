@@ -132,7 +132,7 @@ class SmartAdminViewFactory extends SmartViewFactory
             
         // run view prepended filters
         $view->prependFilterChain();
-            
+           
         // perform on the main job
         $view->perform();
           
@@ -160,7 +160,10 @@ class SmartAdminViewFactory extends SmartViewFactory
         $view->appendFilterChain( $tplContainer->tplBufferContent );
            
         // echo the context
-        echo $tplContainer->tplBufferContent;       
+        echo $tplContainer->tplBufferContent;  
+        
+        // empty template buffer content
+        $tplContainer->tplBufferContent = ''; 
     }
     
     /**

@@ -35,7 +35,7 @@ class SmartTplContainerPhp extends SmartTplContainer
         {
             throw new SmartTplException("Template dosent exists: ".$template);
         }
-  
+
         ob_start();
 
         include( $template );
