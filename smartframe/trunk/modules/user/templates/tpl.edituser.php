@@ -6,6 +6,7 @@
     mode : "textareas",
     theme : "advanced",
     theme_advanced_toolbar_location : "top",
+	theme_advanced_toolbar_align : "left",    
     plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu"
     
   });
@@ -101,7 +102,7 @@ function deluser(f, mes)
         <td align="left" valign="top" class="font10bold">Description</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="description" rows="15" cols="80" wrap="VIRTUAL" id="description"><?php echo $tpl['user']['description']; ?></textarea> 
+        <td align="left" valign="top"><textarea name="description" rows="15" cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $tpl['user']['description']; ?></textarea> 
         </td>
       </tr>       
       <tr>

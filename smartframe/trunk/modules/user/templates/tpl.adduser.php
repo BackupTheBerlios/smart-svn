@@ -6,6 +6,7 @@
     mode : "textareas",
     theme : "advanced",
     theme_advanced_toolbar_location : "top",
+    theme_advanced_toolbar_align : "left",    
     plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu"
     
   });
@@ -28,10 +29,10 @@
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><select name="status">
-		  <option value="2"<?php if($tpl['form_status']==2) echo ' selected="selected"'; ?>>Active</option>
+      <option value="2"<?php if($tpl['form_status']==2) echo ' selected="selected"'; ?>>Active</option>
           <option value="1"<?php if($tpl['form_status']==1) echo ' selected="selected"'; ?>>Inactive</option>
         </select></td>
-      </tr>	  
+      </tr>   
       <tr>
         <td align="left" valign="top" class="font10bold">Login</td>
       </tr>
@@ -51,9 +52,9 @@
       </tr>
       <tr>
         <td align="left" valign="top"><select name="role">
-		  <?php foreach($tpl['form_roles'] as $key => $val): ?>
+      <?php foreach($tpl['form_roles'] as $key => $val): ?>
           <option value="<?php echo $key; ?>"<?php if($tpl['role']==$key) echo ' selected="selected"'; ?>><?php echo $val; ?></option>
-		  <?php endforeach; ?>
+      <?php endforeach; ?>
         </select> 
           *</td>
       </tr>
@@ -82,7 +83,7 @@
         <td align="left" valign="top" class="font10bold">Description</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="description" rows="15" cols="80" wrap="VIRTUAL" id="description"><?php echo $tpl['form_description']; ?></textarea> 
+        <td align="left" valign="top"><textarea name="description" rows="15"  cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $tpl['form_description']; ?></textarea> 
         </td>
       </tr>       
       <tr>

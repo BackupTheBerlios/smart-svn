@@ -140,19 +140,18 @@ class ActionUserUpdate extends ActionUser
             return FALSE;        
         } 
         
-        if(!preg_match("/1|2/",$data['user']['status']))
+        if(isset($data['user']['status']) && !preg_match("/1|2/",$data['user']['status']))
         {
             $data['error'] = 'Status value must be 1 or 2';
             return FALSE;         
         }         
         
-        if(!preg_match("/[0-9]*/",$data['user']['role']))
+        if(isset($data['user']['role']) && !preg_match("/[0-9]*/",$data['user']['role']))
         {
             $data['error'] = 'Rights value must an int';
             return FALSE;        
         }        
-
-        if( ($data['user']['role'] < 10) || ($data['user']['role'] > 100) )
+        elseif(isset($data['user']['role']) &&  (($data['user']['role'] < 10) || ($data['user']['role'] > 100)) )
         {
             $data['error'] = 'Rights value must be between 10 an 100';
             return FALSE;        

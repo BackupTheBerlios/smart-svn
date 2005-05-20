@@ -27,6 +27,19 @@ class ViewUserWhatWouldYouDo extends SmartView
      * @var string $templateFolder
      */    
     public $templateFolder = 'modules/user/templates/';
+
+    /**
+     * prepend filter chain
+     *
+     */
+    function prependFilterChain()
+    {
+        // check permission to execute this view
+        if(FALSE == $this->checkViewPermission())
+        {
+            $this->renderTemplate = FALSE;
+        }    
+    }
     
     /**
      * Execute the view
@@ -34,12 +47,31 @@ class ViewUserWhatWouldYouDo extends SmartView
      */
     function perform()
     {
+        // stop if no template to render; means no rights
+        if($this->renderTemplate == FALSE)
+        {
+            return;
+        }
+        
         // init users template variable 
         $this->tplVar['user'] = array();   
         
         $this->tplVar['user']['wwyd'][] = array('link' => '?mod=user&view=adduser',
-                                              'text' => 'Add user');
+                                                'text' => 'Add user');
     }     
+    
+    /**
+     * Check permission to execute this view
+     * @return bool
+     */
+    private function checkViewPermission()
+    {
+        if($this->viewVar['loggedUserRole'] < 60)
+        {
+            return TRUE;
+        }
+        return FALSE;
+    }    
 }
 
 ?>
