@@ -176,7 +176,10 @@ class SmartPublicViewFactory extends SmartViewFactory
         }
             
         // echo the context
-        echo $tplContainer->tplBufferContent;                
+        echo $tplContainer->tplBufferContent;     
+        
+        // empty template buffer content
+        $tplContainer->tplBufferContent = '';         
     } 
 }
 
