@@ -17,13 +17,13 @@
 class ViewUserEditUser extends SmartView
 {
      /**
-     * Default template for this view
+     * Template for this view
      * @var string $template
      */
     public $template = 'edituser';
     
      /**
-     * Default template folder for this view
+     * Template folder for this view
      * @var string $template_folder
      */    
     public $templateFolder = 'modules/user/templates/';
@@ -44,7 +44,7 @@ class ViewUserEditUser extends SmartView
     }
     
     /**
-     * Execute the view of the template "tpl.adduser.php"
+     * Modify user data
      *
      * @return bool true on success else false
      */
@@ -52,7 +52,6 @@ class ViewUserEditUser extends SmartView
     { 
         // init template user array
         $this->tplVar['user'] = array();
-        
         // Init template form field values
         $this->tplVar['error']            = FALSE;
         $this->tplVar['user']['email']       = '';
@@ -63,39 +62,30 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['description'] = '';   
         $this->tplVar['user']['role']        = 0;  
         
-        $this->tplVar['id_user'] = $_REQUEST['id_user']; 
-        
-        // assign template var if the logged user edit his own account
-        // dont show some form elements (delete,status,role)
-        if($this->viewVar['loggedUserId'] == $_REQUEST['id_user'])
-        {  
-            $this->tplVar['showButton'] = FALSE;  
-        }
-        else
-        {
-            $this->tplVar['showButton'] = TRUE;  
-        }
-    
-        // add user on demande
+        // update user data
         if( isset($_POST['updatethisuser']) )
         {
-            if(FALSE == $this->checkAssignedPermission( (int)$_POST['role'] ))
+            // check permission to set user role except if a logged user modify its own data.
+            // In this case he cant modify its own role so we dont check this permission
+            if(isset($_POST['role']) && (FALSE == $this->checkAssignedPermission( (int)$_POST['role'] )))
             {
                 $this->resetFormData();
                 $this->tplVar['error'] = 'You have no rights to assign the such role to a new user!';
-                $this->assignHtmlSelectBoxRole();
-                return TRUE;
+                $this->setTemplateVars();
+                return;
             }
 
+            // delete a user?
             if($_POST['deleteuser'] == '1')
             {
+                // not possible if a logged user try to remove it self
                 if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
                 {
                     $this->model->action('user',
                                          'delete',
                                          array('id_user' => $_REQUEST['id_user']) ); 
                                      
-                    // reload the user module on success
+                    // reload the user module
                     @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
                     exit;   
                 }
@@ -107,20 +97,26 @@ class ViewUserEditUser extends SmartView
                 // reset form fields on error
                 $this->resetFormData();
                 $this->tplVar['error'] = 'You have fill out at least the name, lastname and email fields!';
-                $this->assignHtmlSelectBoxRole();
-                return TRUE;
+                $this->setTemplateVars();
+                return;
             }            
 
-            // array with new user data
+            // array with new user data passed to the action
             $_data = array( 'error'     => & $this->tplVar['error'],
                             'id_user'   => $_REQUEST['id_user'],
                             'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
-                                            'status'   => $_POST['status'],
-                                            'role'     => (int)SmartCommonUtil::stripSlashes($_POST['role']),
                                             'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
                                             'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
                                             'description' => SmartCommonUtil::stripSlashes($_POST['description']) ));
 
+            // if a logged user modify its own account data disable status and role settings
+            if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
+            {  
+                $_data['user']['status'] = $_POST['status']; 
+                $_data['user']['role'] = (int)SmartCommonUtil::stripSlashes($_POST['role']);
+            }
+
+            // add this if the password field isnt empty
             if(!empty($_POST['passwd']))
             {
                 $_data['user']['passwd'] = SmartCommonUtil::stripSlashes($_POST['passwd']);
@@ -139,11 +135,12 @@ class ViewUserEditUser extends SmartView
             {
                 // reset form fields on error
                 $this->resetFormData();
-                $this->assignHtmlSelectBoxRole();
-                return TRUE;                
+                $this->setTemplateVars();
+                return;                
             }
         }
 
+        // get user data
         if(FALSE == $this->model->action('user',
                                          'getUser',
                                          array('result'  => & $this->tplVar['user'],
@@ -162,10 +159,34 @@ class ViewUserEditUser extends SmartView
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->tplVar['user'], array('name','lastname') );
 
+        // assign some template variables
+        $this->setTemplateVars();
+        
+        return;
+    } 
+
+    /**
+     * assign some template variables
+     *
+     */
+    private function setTemplateVars()
+    {
+        // Assign template variable to build the html role select box
         $this->assignHtmlSelectBoxRole();
         
-        return TRUE;
-    } 
+        // assign template var if the logged user edit his own account
+        if($this->viewVar['loggedUserId'] == $_REQUEST['id_user'])
+        {  
+            // dont show some form elements (delete,status,role)
+            $this->tplVar['showButton'] = FALSE;  
+        }
+        else
+        {
+            $this->tplVar['showButton'] = TRUE;  
+        }  
+        
+        $this->tplVar['id_user'] = $_REQUEST['id_user']; 
+    }
 
     /**
      * Convert strings so that they can be safely included in html forms
