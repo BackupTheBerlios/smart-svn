@@ -21,6 +21,12 @@ class ViewCommonError extends SmartView
      */
     public $template = 'error';
 
+     /**
+     * Template folder for this view
+     * @var string $templateFolder
+     */    
+    public $templateFolder = 'modules/common/templates/';
+
     /**
      * Does nothing. The end user error page is static.
      *
