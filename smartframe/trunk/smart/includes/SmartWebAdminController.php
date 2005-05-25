@@ -39,12 +39,12 @@ class SmartWebAdminController extends SmartController
             // create a view factory instance
             // this instance aggregates the view factory object
             $this->view = new SmartAdminViewFactory( $this->model, $this->config );
-
+            
+            // run broadcast action init event to every module
+            $this->model->broadcast( 'init' );            
+            
             // Build the view methode name of the "index" view of the "common" module
             $methode = ucfirst( $this->config['base_module'] ) . 'Index';
-
-            // run broadcast action init event to every module
-            $this->model->broadcast( 'init' );
             
             // Execute the index view of a common module
             $this->view->$methode();

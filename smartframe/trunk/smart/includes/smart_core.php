@@ -100,6 +100,12 @@ $SmartConfig['error_reporting'] = E_ALL | E_STRICT;
  */
 $SmartConfig['debug'] = TRUE; 
 
+/**
+ * Rights for media folders and files
+ */
+$SmartConfig['media_folder_rights'] = 0777;
+$SmartConfig['media_file_rights']   = 0777;
+
 // Check if there is a custom config file else load default config settings
 //
 if (@file_exists(SMART_BASE_DIR . 'config/my_config.php'))
