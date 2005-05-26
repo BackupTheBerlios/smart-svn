@@ -55,12 +55,12 @@ class SmartController extends SmartObject
     function __construct()
     {
         try
-        {
-            // set error reporting
-            error_reporting( $config['error_reporting'] );
-            
+        {            
             // set reference to the config array
             $this->config = & self::$smartConfig;
+
+            // set error reporting
+            error_reporting( $this->config['error_reporting'] );
  
             // create base smart container instance
             $SmartContainer = new SmartContainer( $this->config );
