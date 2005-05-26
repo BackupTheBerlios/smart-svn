@@ -24,7 +24,7 @@ class ViewUserEditUser extends SmartView
     
      /**
      * Template folder for this view
-     * @var string $template_folder
+     * @var string $templateFolder
      */    
     public $templateFolder = 'modules/user/templates/';
 
@@ -35,12 +35,21 @@ class ViewUserEditUser extends SmartView
     function prependFilterChain()
     {
         // check permission to edit/update requested user data
-        if(FALSE == $this->model->action('user',
-                                         'allowEditUser',
-                                         array('id_user' => $_REQUEST['id_user'] ) ))
+        if(FALSE == $this->model->action('user','allowEditUser',
+                                         array('id_user' => (int)$_REQUEST['id_user'] ) ))
         {
             throw new SmartViewException('Operation denied');
         }    
+        
+        // lock the user to edit
+        $result = $this->model->action('user','lock',
+                                       array('job'        => 'lock',
+                                             'id_user'    => (int)$_REQUEST['id_user'],
+                                             'by_id_user' => (int)$this->viewVar['loggedUserId']) );
+        if($result !== TRUE)
+        {
+            throw new SmartViewException('Operation denied. User is locked by: '.$result);    
+        }
     }
     
     /**
@@ -50,7 +59,7 @@ class ViewUserEditUser extends SmartView
      */
     function perform()
     { 
-        // init template user array
+        // init template array to fill with user data
         $this->tplVar['user'] = array();
         // Init template form field values
         $this->tplVar['error']            = FALSE;
@@ -65,105 +74,151 @@ class ViewUserEditUser extends SmartView
         // update user data
         if( isset($_POST['updatethisuser']) )
         {
-            // check permission to set user role except if a logged user modify its own data.
-            // In this case he cant modify its own role so we dont check this permission
-            if(isset($_POST['role']) && (FALSE == $this->checkAssignedPermission( (int)$_POST['role'] )))
+            if(FALSE == $this->updateUserData())
             {
-                $this->resetFormData();
-                $this->tplVar['error'] = 'You have no rights to assign the such role to a new user!';
-                $this->setTemplateVars();
-                return;
-            }
-
-            // delete a user?
-            if($_POST['deleteuser'] == '1')
-            {
-                // not possible if a logged user try to remove it self
-                if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
-                {
-                    $this->model->action('user',
-                                         'delete',
-                                         array('id_user' => $_REQUEST['id_user']) ); 
-                                     
-                    // reload the user module
-                    @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
-                    exit;   
-                }
-            }
-            
-            // check if required fields are empty
-            if (FALSE == $this->checkEmptyFields())
-            {
-                // reset form fields on error
-                $this->resetFormData();
-                $this->tplVar['error'] = 'You have fill out at least the name, lastname and email fields!';
-                $this->setTemplateVars();
-                return;
-            }            
-
-            // array with new user data passed to the action
-            $_data = array( 'error'     => & $this->tplVar['error'],
-                            'id_user'   => $_REQUEST['id_user'],
-                            'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
-                                            'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
-                                            'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
-                                            'description' => SmartCommonUtil::stripSlashes($_POST['description']) ));
-
-            // if a logged user modify its own account data disable status and role settings
-            if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
-            {  
-                $_data['user']['status'] = $_POST['status']; 
-                $_data['user']['role'] = (int)SmartCommonUtil::stripSlashes($_POST['role']);
-            }
-
-            // add this if the password field isnt empty
-            if(!empty($_POST['passwd']))
-            {
-                $_data['user']['passwd'] = SmartCommonUtil::stripSlashes($_POST['passwd']);
-            }
-             
-            // add new user data
-            if(TRUE == $this->model->action( 'user',
-                                             'update',
-                                             $_data ))
-            {
-                // reload the user module on success
-                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
-                exit; 
-            }
-            else
-            {
-                // reset form fields on error
-                $this->resetFormData();
-                $this->setTemplateVars();
-                return;                
+                return FALSE;
             }
         }
 
         // get user data
-        if(FALSE == $this->model->action('user',
-                                         'getUser',
-                                         array('result'  => & $this->tplVar['user'],
-                                               'id_user' => $_REQUEST['id_user'],
-                                               'fields'  => array('login',
-                                                                  'name',
-                                                                  'lastname',
-                                                                  'email',
-                                                                  'status',
-                                                                  'role',
-                                                                  'description')) ))
-        {
-            throw new SmartViewException('id_user dosent exists');
-        }
+        $this->model->action('user','getUser',
+                             array('result'  => & $this->tplVar['user'],
+                                   'id_user' => (int)$_REQUEST['id_user'],
+                                   'fields'  => array('login',
+                                                      'name',
+                                                      'lastname',
+                                                      'email',
+                                                      'status',
+                                                      'role',
+                                                      'description',
+                                                      'logo',
+                                                      'media_folder')) );
         
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->tplVar['user'], array('name','lastname') );
 
         // assign some template variables
         $this->setTemplateVars();
-        
-        return;
     } 
+    
+    /**
+     * Update user data
+     *
+     */
+    private function updateUserData()
+    {
+        // check permission to set user role except if a logged user modify its own data.
+        // In this case he cant modify its own role so we dont check this permission
+        if(isset($_POST['role']) && (FALSE == $this->checkAssignedPermission( (int)$_POST['role'] )))
+        {
+            $this->resetFormData();
+            $this->tplVar['error'] = 'You have no rights to assign the such role to a new user!';
+            $this->setTemplateVars();
+            return FALSE;
+        }
+        // delete a user?
+        if($_POST['deleteuser'] == '1')
+        {
+            $this->deleteUser();
+        }
+            
+        if(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
+        {   
+            $this->model->action('user',
+                                 'fileUpload',
+                                 array('id_user'   => $_REQUEST['id_user'],
+                                       'post_name' => 'logo') ); 
+                                        
+            $dont_forward = TRUE;
+        }
+        if(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
+        {   
+            $this->model->action('user',
+                                 'deleteLogo',
+                                 array('id_user'   => $_REQUEST['id_user']) ); 
+                                         
+            $dont_forward = TRUE;
+        }            
+        if(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
+        {   
+            $this->model->action('user',
+                                 'fileUpload',
+                                 array('id_user'   => $_REQUEST['id_user'],
+                                       'post_name' => 'picture') ); 
+                                         
+            $dont_forward = TRUE;
+        } 
+        // check if required fields are empty
+        if (FALSE == $this->checkEmptyFields())
+        {
+            // reset form fields on error
+            $this->resetFormData();
+            $this->tplVar['error'] = 'You have fill out at least the name, lastname and email fields!';
+            $this->setTemplateVars();
+            return FALSE;
+        }
+            
+        // array with new user data passed to the action
+        $_data = array( 'error'     => & $this->tplVar['error'],
+                        'id_user'   => $_REQUEST['id_user'],
+                        'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
+                                        'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
+                                        'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
+                                        'description' => SmartCommonUtil::stripSlashes($_POST['description']) ));
+
+        // if a logged user modify its own account data disable status and role settings
+        if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
+        {  
+            $_data['user']['status'] = $_POST['status']; 
+            $_data['user']['role'] = (int)SmartCommonUtil::stripSlashes($_POST['role']);
+        }
+        // add this if the password field isnt empty
+        if(!empty($_POST['passwd']))
+        {
+            $_data['user']['passwd'] = SmartCommonUtil::stripSlashes($_POST['passwd']);
+        }
+             
+        // add new user data
+        if(TRUE == $this->model->action( 'user','update',$_data ))
+        {
+            if(!isset($dont_forward))
+            {
+                // unlock user
+                $this->model->action('user','lock',
+                                     array('job'     => 'unlock',
+                                           'id_user' => (int)$_REQUEST['id_user']));
+            
+                // reload the user module on success
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
+                exit; 
+            }
+            return TRUE;
+        }
+        else
+        {
+            // reset form fields on error
+            $this->resetFormData();
+            $this->setTemplateVars();
+            return FALSE;                
+        }        
+    }
+    /**
+     * Delete user
+     *
+     */
+    private function deleteUser()
+    {
+        // not possible if a logged user try to remove it self
+        if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
+        {                                 
+            $this->model->action('user','delete',
+                                 array('id_user' => $_REQUEST['id_user']) ); 
+                                   
+            // reload the user module
+            @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
+            exit;   
+        }   
+    }
 
     /**
      * assign some template variables

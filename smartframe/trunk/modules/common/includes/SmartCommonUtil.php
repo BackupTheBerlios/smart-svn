@@ -126,7 +126,7 @@ class SmartCommonUtil
      *
      * @param string $dir Directory
      */
-    public static function delete_dir_tree( $dir )
+    public static function deleteDirTree( $dir )
     {
         if ( (($handle = @opendir( $dir ))) != FALSE )
         {
@@ -138,7 +138,7 @@ class SmartCommonUtil
                 }
                 if ( @is_dir( $dir . '/' . $file ) )
                 {
-                    commonUtil::delete_dir_tree( $dir . '/' . $file );
+                    SmartCommonUtil::deleteDirTree( $dir . '/' . $file );
                 }
                 else
                 {

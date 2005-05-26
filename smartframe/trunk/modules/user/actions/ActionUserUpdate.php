@@ -95,73 +95,99 @@ class ActionUserUpdate extends ActionUser
             }        
         }
         
-        if(empty($data['user']['name']))
+        if(isset($data['user']['name']))
         {
-            $data['error'] = 'Name is empty';
-            return FALSE;         
+            if(empty($data['user']['name']))
+            {
+                $data['error'] = 'Name is empty';
+                return FALSE; 
+            }
+            
+            $str_len = strlen( $data['user']['name'] );
+            if( $str_len > 30 )
+            {
+                $data['error'] = 'Max 30 Name chars are accepted.';
+                return FALSE;         
+            }            
         }
 
-        $str_len = strlen( $data['user']['name'] );
-        if( $str_len > 30 )
+        if(isset($data['user']['lastname']))
         {
-            $data['error'] = 'Max 30 Name chars are accepted.';
-            return FALSE;         
+            if(empty($data['user']['lastname']))
+            {
+                $data['error'] = 'Lastname is empty';
+                return FALSE;         
+            } 
+
+            $str_len = strlen( $data['user']['lastname'] );
+            if( $str_len > 30 )
+            {
+                $data['error'] = 'Max 30 lastname chars are accepted.';
+                return FALSE;        
+            }        
         }
         
-        if(empty($data['user']['lastname']))
+        if(isset($data['user']['email']))
         {
-            $data['error'] = 'Lastname is empty';
-            return FALSE;         
-        } 
+            if( empty($data['user']['email']) )
+            {
+                $data['error'] = 'Email entry is empty!';
+                return FALSE;        
+            } 
 
-        $str_len = strlen( $data['user']['lastname'] );
-        if( $str_len > 30 )
-        {
-            $data['error'] = 'Max 30 lastname chars are accepted.';
-            return FALSE;        
+            $str_len = strlen( $data['user']['email'] );
+            if( $str_len > 500 )
+            {
+                $data['error'] = 'Max 500 email chars are accepted.';
+                return FALSE;         
+            }  
+            
+            if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['user']['email']) )
+            {
+                $data['error'] = 'Email entry is not correct!';
+                return FALSE;        
+            }            
         }
-
-        if( empty($data['user']['email']) )
-        {
-            $data['error'] = 'Email entry is empty!';
-            return FALSE;        
-        } 
-
-        $str_len = strlen( $data['user']['email'] );
-        if( $str_len > 500 )
-        {
-            $data['error'] = 'Max 500 email chars are accepted.';
-            return FALSE;         
-        }
-
-        if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['user']['email']) )
-        {
-            $data['error'] = 'Email entry is not correct!';
-            return FALSE;        
-        } 
         
-        if(isset($data['user']['status']) && !preg_match("/1|2/",$data['user']['status']))
+        if(isset($data['user']['media_folder']))
         {
-            $data['error'] = 'Status value must be 1 or 2';
-            return FALSE;         
-        }         
-        
-        if(isset($data['user']['role']) && !preg_match("/[0-9]*/",$data['user']['role']))
-        {
-            $data['error'] = 'Rights value must an int';
-            return FALSE;        
+            if( @preg_match("/[^0-9-]/", $data['user']['media_folder']) )
+            {
+                throw new SmartModelException('Wrong media folder value: '.$data['user']['media_folder']);         
+            }             
         }        
-        elseif(isset($data['user']['role']) &&  (($data['user']['role'] < 10) || ($data['user']['role'] > 100)) )
+        
+        if(isset($data['user']['status']))
         {
-            $data['error'] = 'Rights value must be between 10 an 100';
-            return FALSE;        
+            if(!preg_match("/1|2/",$data['user']['status']))
+            {
+                throw new SmartModelException('Wrong status value: '.$data['user']['status']);          
+            }         
+        }
+
+        if(isset($data['user']['role']))
+        {
+            if(!preg_match("/[0-9]*/",$data['user']['role']))
+            {
+                $data['error'] = 'Rights value must an int';
+                return FALSE;        
+            }        
+            elseif(($data['user']['role'] < 10) || ($data['user']['role'] > 100))
+            {
+                $data['error'] = 'Rights value must be between 10 an 100';
+                return FALSE;        
+            }         
+        }
+
+        if( @preg_match("/[^0-9]/", $data['id_user']) )
+        {
+            throw new SmartModelException('Wrong id_user format: '.$data['id_user']);         
         } 
-    
+        
         // Check if id_user exists
         if($this->userExists($data['id_user']) == FALSE)
         {
-            $data['error'] = 'Such a user dosent exists';
-            return FALSE;
+            throw new SmartModelException('id_user dosent exists: '.$data['id_user']); 
         }    
         
         return TRUE;

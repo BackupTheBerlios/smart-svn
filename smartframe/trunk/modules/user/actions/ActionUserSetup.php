@@ -29,14 +29,11 @@ class ActionUserSetup extends SmartAction
         }
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_user (
-                   `id_user`      int(11) NOT NULL auto_increment,
+                   `id_user`      int(11) unsigned NOT NULL auto_increment,
                    `login`        varchar(20) NOT NULL default '',
                    `passwd`       char(32) NOT NULL,
-                   `role`         int(11) NOT NULL default 10,
-                   `status`       int(11) NOT NULL default 1,
-                   `lock`         int(11) NOT NULL default 0,
-                   `lock_time`    datetime NOT NULL default '0000-00-00 00:00:00',
-                   `access`       datetime NOT NULL default '0000-00-00 00:00:00',
+                   `role`         tinyint(3) unsigned NOT NULL default 10,
+                   `status`       tinyint(1) NOT NULL default 1,
                    `name`         varchar(255) NOT NULL default '',
                    `lastname`     varchar(255) NOT NULL default '',
                    `email`        varchar(255) NOT NULL default '',
@@ -47,11 +44,51 @@ class ActionUserSetup extends SmartAction
                    KEY `login`     (`login`),
                    KEY `passwd`    (`passwd`),
                    KEY `role`      (`role`),
-                   KEY `status`    (`status`),
-                   KEY `lock`      (`lock`),
-                   KEY `lock_time` (`lock_time`),
-                   KEY `access`    (`access`))";
+                   KEY `status`    (`status`))";
         $this->model->db->executeUpdate($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_access (
+                   `id_user`   int(11) unsigned NOT NULL default 0,
+                   `access`    datetime NOT NULL default '0000-00-00 00:00:00',
+                   KEY `id_user`  (`id_user`),
+                   KEY `access`   (`access`))";
+        $this->model->db->executeUpdate($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_lock (
+                   `id_user`      int(11) unsigned NOT NULL default 0,
+                   `lock_time`    datetime NOT NULL default '0000-00-00 00:00:00',
+                   `by_id_user`   int(11) unsigned NOT NULL default 0,
+                   KEY `id_user`    (`id_user`),
+                   KEY `lock_time`  (`lock_time`),
+                   KEY `by_id_user` (`by_id_user`))";
+        $this->model->db->executeUpdate($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_media_pic (
+                   `id_pic`       int(11) unsigned NOT NULL auto_increment,
+                   `id_user`      int(11) unsigned NOT NULL default 0,
+                   `file`         varchar(255) NOT NULL default '',
+                   `size`         int(11) unsigned NOT NULL default 0,
+                   `mime`         varchar(255) NOT NULL default '',
+                   `rank`         smallint(4) unsigned NOT NULL default 0,
+                   `tumbnail`     tinyint(1) NOT NULL default 0,
+                   `description`  text NOT NULL default '',
+                   PRIMARY KEY     (`id_pic`),
+                   KEY `id_user`   (`id_user`),
+                   KEY `rank`      (`rank`))";
+        $this->model->db->executeUpdate($sql);
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_media_file (
+                   `id_file`      int(11) unsigned NOT NULL auto_increment,
+                   `id_user`      int(11) unsigned NOT NULL default 0,
+                   `file`         varchar(255) NOT NULL default '',
+                   `size`         int(11) NOT NULL default 0,
+                   `mime`         varchar(255) NOT NULL default '',
+                   `rank`         smallint(4) unsigned NOT NULL default 0,
+                   `description`  text NOT NULL default '',
+                   PRIMARY KEY     (`id_file`),
+                   KEY `id_user`   (`id_user`),
+                   KEY `rank`      (`rank`))";
+        $this->model->db->executeUpdate($sql);        
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}user_user
                    (`login`, `email`, `name`, `lastname`, `passwd`,`status`, `role`)
@@ -116,7 +153,12 @@ class ActionUserSetup extends SmartAction
      */    
     public function rollback( & $data )
     {
-        $sql = "DROP TABLE IF EXISTS {$data['request']['dbtablesprefix']}user_user";
+        $sql = "DROP TABLE IF EXISTS 
+                     {$data['request']['dbtablesprefix']}user_user,
+                     {$data['request']['dbtablesprefix']}user_access,
+                     {$data['request']['dbtablesprefix']}user_lock,
+                     {$data['request']['dbtablesprefix']}user_media_pic,
+                     {$data['request']['dbtablesprefix']}user_media_file";
         $this->model->db->executeUpdate($sql);  
     }    
 }

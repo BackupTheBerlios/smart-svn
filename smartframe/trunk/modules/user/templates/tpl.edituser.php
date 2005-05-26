@@ -6,8 +6,12 @@
     mode : "textareas",
     theme : "advanced",
     theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",    
-    plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu"
+	theme_advanced_toolbar_align : "left",   
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,fontselect,fontsizeselect,styleselect",	 
+    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,forecolor",	 
+    theme_advanced_buttons3 : "", 
+	theme_advanced_styles : "test=test;test2=test2",
+	plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu"
     
   });
 </script>
@@ -24,21 +28,39 @@ function deluser(f, mes)
         }
         }
 }
+function dellogo(f, mes)
+{
+      check = confirm(mes);
+        if(check == true)
+        {
+            f.deletelogo.value="1";
+        with(f){
+        submit();
+        }
+        }
+}
+function uploadlogofile(f)
+{
+        f.uploadlogo.value="true";
+        with(f){
+        submit();
+        }
+}
 </script>
-<form name="edituser" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=edituser">
+<form action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=edituser" method="post" enctype="multipart/form-data" name="edituser">
 <input name="id_user" type="hidden" id="id_user" value="<?php echo $tpl['id_user']; ?>">
 <input name="deleteuser" type="hidden" id="deleteuser" value="">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
-    <td width="99%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
+    <td colspan="2" align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold"> Edit User </td>
+    </tr>
+  <tr>
+    <td width="79%" align="left" valign="top">    <table width="600" border="0" cellspacing="3" cellpadding="3">
       <?php if($tpl['error'] != FALSE): ?>
       <tr>
         <td align="left" valign="top" class="itemerror"><?php echo $tpl['error']; ?></td>
       </tr>
       <?php endif; ?>
-      <tr>
-        <td align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold">Edit User </td>
-      </tr>
 	  <?php if($tpl['showButton']==TRUE): ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Status:</td>
@@ -66,7 +88,7 @@ function deluser(f, mes)
       </tr>
 	  <?php if($tpl['showButton']==TRUE): ?>
       <tr>
-        <td align="left" valign="top" class="font10bold">Role</td>
+        <td height="28" align="left" valign="top" class="font10bold">Role</td>
       </tr>
       <tr>
         <td align="left" valign="top"><select name="role">
@@ -108,18 +130,50 @@ function deluser(f, mes)
       <tr>
         <td align="left" valign="top">
 		<input name="updatethisuser" type="hidden" value="1">
-		<input name="update" type="submit" id="update" value="Submit"></td>
+		<input name="update" type="submit" id="update" value="Submit">
+	    <?php if($tpl['showButton']==TRUE): ?>
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+           <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
+        <?php endif; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	<a href="<?php echo SMART_CONTROLLER; ?>?mod=user">cancel</a>		</td>
       </tr>
     </table>
     </td>
-    <td width="1%" align="left" valign="top" class="font10bold"><p><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">cancel</a></p>
+    <td width="21%" align="center" valign="top" class="font10bold"><table width="200" border="0" cellspacing="0" cellpadding="4">
+      <tr>
+        <td align="center" valign="middle" bgcolor="#6699FF" class="font10bold">Logo Picture</td>
+      </tr>
+      <tr>
+        <td align="center" valign="top">
+		<?php if(empty($tpl['user']['logo'])): ?>
+			<input type="file" name="logo" id="logo" size="10" class="fileform">
+			<input name="uploadlogo" type="hidden" value="">
+		    <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
+		    <?php else: ?>
+			<img name="userlogo" src="<?php echo SMART_RELATIVE_PATH.'data/user/'.$tpl['user']['media_folder'].'/'.$tpl['user']['logo']; ?>" alt="User Logo">
+		    <br>
+		    <input name="deletelogo" type="hidden" value="">
+		    <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete user logo Picture?');">
+		<?php endif; ?>
+</td>
+      </tr>
+    </table>      
+      <table width="200" border="0" cellspacing="0" cellpadding="4">
+        <tr>
+          <td align="center" valign="middle" bgcolor="#6699FF" class="font10bold">Pictures</td>
+        </tr>
+        <tr>
+          <td align="center" valign="top">
+		     <input type="file" name="picture" id="picture" size="10" class="fileform">
+		     <input name="update" type="submit" id="update" value="Submit">
+          </td>
+        </tr>
+        <tr>
+          <td height="28">&nbsp;</td>
+        </tr>
+      </table>      <p>&nbsp;</p>
       <p>&nbsp;        </p>
       <p>&nbsp;</p>
-      <p>
-	    <?php if($tpl['showButton']==TRUE): ?>
-          <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
-        <?php endif; ?>
-	  </p></td>
+      <p>	  </p></td>
   </tr>
 </table>
 </form>

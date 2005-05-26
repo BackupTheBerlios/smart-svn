@@ -81,11 +81,11 @@ class ActionCommonSetup extends SmartAction
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_module (
                  `id_module`   int(11) NOT NULL auto_increment,
-                 `rank`        int(11) NOT NULL default 0,
+                 `rank`        smallint(3) NOT NULL default 0,
                  `name`        varchar(255) NOT NULL default '',
                  `alias`       varchar(255) NOT NULL default '',
                  `version`     varchar(255) NOT NULL default '',
-                 `visibility`  int(11) NOT NULL default 0,
+                 `visibility`  tinyint(1) NOT NULL default 0,
                  `release`     text NOT NULL default '',
                  PRIMARY KEY   (`id_module`))";
         $this->model->db->executeUpdate($sql);
