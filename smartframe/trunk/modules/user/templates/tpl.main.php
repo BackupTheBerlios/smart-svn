@@ -6,8 +6,13 @@
     <table width="100%"  border="0" cellspacing="6" cellpadding="6">
       <tr>
           <td width="60%" align="left" valign="top" class="itemnormal">
-              <?php echo '<a href="'.SMART_CONTROLLER.'?mod=user&view=edituser&id_user='.$usr['id_user'].'">'.$usr['login'].'</a> ('.$usr['name'].' '.$usr['lastname'].')'; ?></td>
-           <td width="38%" align="left" valign="top" class="itemsmall">
+		      <?php if($usr['lock']==FALSE): ?>
+                <?php echo '<a href="'.SMART_CONTROLLER.'?mod=user&view=edituser&id_user='.$usr['id_user'].'">'.$usr['login'].'</a> ('.$usr['name'].' '.$usr['lastname'].')'; ?>
+              <?php elseif($usr['lock']==TRUE): ?>
+			    <?php echo $usr['login'].' ('.$usr['name'].' '.$usr['lastname'].')'; ?> <strong>-lock-</strong>
+			  <?php endif; ?>
+		   </td>
+		   <td width="38%" align="left" valign="top" class="itemsmall">
               <?php echo $usr['role_t']; ?>
            </td>
       </tr>

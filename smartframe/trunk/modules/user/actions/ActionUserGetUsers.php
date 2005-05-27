@@ -19,12 +19,11 @@ include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUser.php');
 class ActionUserGetUsers extends ActionUser
 {
     /**
-     * update user data
+     * get data of all users
      *
      * @param array $data
-     * @return bool true or false on error
      */
-    function perform( $data = FALSE )
+    public function perform( $data = FALSE )
     {
         $comma = '';
         $_fields = '';

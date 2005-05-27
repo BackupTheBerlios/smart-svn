@@ -105,6 +105,10 @@ class ActionUserLock extends SmartAction
     private function lockUser($data)
     {
         $result = $this->isUserLocked($data);
+        // False = the user isnt locked
+        // True = the user is locked by the logged user
+        // if not locked by the logged user $result
+        // contnains the id of the user which locks
         if(($result != FALSE) && ($result != TRUE))
         {
             return $result;
@@ -176,7 +180,8 @@ class ActionUserLock extends SmartAction
      * Check if a user is locked and if yes by which id_user
      *
      * @param array $data User data
-     * @param mixed FALSE if not locked else id_user of the user who locks
+     * @param mixed FALSE if not locked True if locked by the logged user
+     *              else id_user of the user who locks
      */    
     private function isUserLocked($data)
     {

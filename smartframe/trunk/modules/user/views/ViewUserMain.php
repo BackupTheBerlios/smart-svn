@@ -32,7 +32,7 @@ class ViewUserMain extends SmartView
      * Execute the view
      *
      */
-    function perform()
+    public function perform()
     {
         // init users template variable 
         $this->tplVar['users'] = array();
@@ -51,6 +51,9 @@ class ViewUserMain extends SmartView
                                                      'name',
                                                      'lastname')));  
         
+        // get user locks
+        $this->getLocks();
+        
         // set template variable that show the link to add users
         // only if the logged user have at least editor rights
         if($this->viewVar['loggedUserRole'] <= 40)
@@ -61,7 +64,35 @@ class ViewUserMain extends SmartView
         {
             $this->tplVar['showAddUserLink'] = FALSE;
         }
-    }     
+    }  
+     /**
+     * assign template variables with lock status of each user
+     *
+     */   
+    private function getLocks()
+    {
+        $row = 0;
+        
+        foreach($this->tplVar['users'] as $user)
+        {
+            // lock the user to edit
+            $result = $this->model->action('user','lock',
+                                     array('job'        => 'is_locked',
+                                           'id_user'    => $user['id_user'],
+                                           'by_id_user' => $this->viewVar['loggedUserId']) );
+                                           
+            if(($result !== TRUE) && ($result !== FALSE))
+            {
+                $this->tplVar['users'][$row]['lock'] = TRUE;  
+            } 
+            else
+            {
+                $this->tplVar['users'][$row]['lock'] = FALSE;  
+            }
+            
+            $row++;
+        }    
+    }
 }
 
 ?>
