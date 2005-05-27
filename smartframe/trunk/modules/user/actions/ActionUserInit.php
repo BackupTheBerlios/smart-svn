@@ -55,7 +55,7 @@ class ActionUserInit extends SmartAction
         elseif(0 != version_compare($info['version'], self::MOD_VERSION))
         {
             // Upgrade this module
-            $this->model->action('user','update');           
+            $this->model->action('user','upgrade',array('new_version' => self::MOD_VERSION));           
         }
         
         unset($info);

@@ -45,6 +45,11 @@ define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
 class ActionCommonInit extends SmartAction
 {
     /**
+     * Common Module Version
+     */
+    const MOD_VERSION = '0.1';    
+    
+    /**
      * Run init process of this module
      *
      */
@@ -101,6 +106,7 @@ class ActionCommonInit extends SmartAction
         // load module descriptions into config array   
         $this->loadModulesInfo();         
 
+        $this->checkModuleVersion();
     } 
 
     /**
@@ -141,6 +147,25 @@ class ActionCommonInit extends SmartAction
             $this->config[$key] = $val;      
         } 
     }
+    
+    /**
+     * Check module version and upgrade or install this module if necessairy
+     *
+     */    
+    private function checkModuleVersion()
+    {
+        // get common module info
+        $info = $this->model->getModuleInfo('common');
+       
+        // need upgrade?
+        if(0 != version_compare($info['version'], self::MOD_VERSION))
+        {
+            // Upgrade this module
+            $this->model->action('common','upgrade',array('new_version' => self::MOD_VERSION));           
+        }
+        
+        unset($info);
+    }    
 }
 
 ?>
