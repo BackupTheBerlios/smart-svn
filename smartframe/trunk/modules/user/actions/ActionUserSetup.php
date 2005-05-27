@@ -50,8 +50,8 @@ class ActionUserSetup extends SmartAction
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_access (
                    `id_user`   int(11) unsigned NOT NULL default 0,
                    `access`    datetime NOT NULL default '0000-00-00 00:00:00',
-                   KEY `id_user`  (`id_user`),
-                   KEY `access`   (`access`))";
+                   UNIQUE KEY `id_user` (`id_user`)
+                   KEY `access`         (`access`))";
         $this->model->db->executeUpdate($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_lock (

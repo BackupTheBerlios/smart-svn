@@ -90,7 +90,7 @@ class ViewCommonIndex extends SmartView
         
         // assign some template variables
         $this->tplVar['requestedModule'] = $module;
-        $this->tplVar['moduleList'] = $this->model->getModules();
+        $this->tplVar['moduleList'] = $this->model->getModuleInfo();
         $this->tplVar['charset']    = $this->config['charset'];
         $this->tplVar['publicWebController'] = $this->config['public_web_controller'];
         $this->tplVar['adminWebController']  = $this->config['admin_web_controller'];
