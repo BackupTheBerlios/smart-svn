@@ -63,12 +63,19 @@ class SmartModel extends SmartObject
     }
 
     /**
-     * return module array
+     * return module info array
      *
      */
-    public function & getModules()
+    public function & getModuleInfo( $module = FALSE )
     {
-        return $this->registeredModules;
+        if(FALSE == $module)
+        {
+            return $this->registeredModules;
+        }
+        else
+        {
+            return $this->registeredModules[$module];
+        }
     }
 
     /**
@@ -107,9 +114,9 @@ class SmartModel extends SmartObject
      * check if a module was registered
      *
      */
-    public function is_module( $module )
+    public function isModule( $module )
     {
-        if( !isset($registeredModules[$module]) )
+        if( !isset($this->registeredModules[$module]) )
         {
             return FALSE;
         }
@@ -120,13 +127,13 @@ class SmartModel extends SmartObject
      * check if a module is visible (if it has an admin web interface)
      *
      */
-    public function is_visible( $module )
+    public function isVisible( $module )
     {
         if( TRUE == $this->is_module($module) )
         {
             if( TRUE == $this->is_active($module) )
             {
-                if( $registeredModules[$module]['visibility'] == TRUE )
+                if( $this->registeredModules[$module]['visibility'] == TRUE )
                 {
                     return TRUE;
                 }
