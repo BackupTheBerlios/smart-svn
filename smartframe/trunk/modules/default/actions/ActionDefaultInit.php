@@ -15,10 +15,10 @@
  *
  */
 
-class ActionUserInit extends SmartAction
+class ActionDefaultInit extends SmartAction
 {
     /**
-     * User Module Version
+     * Default Module Version
      */
     const MOD_VERSION = '0.1';    
     
@@ -30,10 +30,6 @@ class ActionUserInit extends SmartAction
     {
         $this->checkModuleVersion();
         
-        // Update the access time of the logged user
-        $this->model->action('user','access',
-                             array('job'     => 'update',
-                                   'id_user' => $this->model->session->get('loggedUserId')));
     } 
     /**
      * Check module version and upgrade or install this module if necessairy
@@ -42,13 +38,13 @@ class ActionUserInit extends SmartAction
     private function checkModuleVersion()
     {
         // get user module info
-        $info = $this->model->getModuleInfo('user');
+        $info = $this->model->getModuleInfo('default');
         
         // need install or upgrade?
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {
             // Upgrade this module
-            $this->model->action('user','upgrade',array('new_version' => self::MOD_VERSION));           
+            $this->model->action('default','upgrade',array('new_version' => self::MOD_VERSION));           
         }
         
         unset($info);
