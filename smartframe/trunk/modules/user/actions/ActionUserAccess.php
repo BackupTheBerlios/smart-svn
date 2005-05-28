@@ -10,11 +10,52 @@
 // ----------------------------------------------------------------------
 
 /**
- * User lock action class 
+ * ActionUserAccess class 
  *
  */
 
-
+/**
+ * USE:
+ *
+ * ** Update/Insert time of a given user **
+ * $model->action('user','access',
+ *                array('job'    => (string)'update',
+ *                      'id_user => (int)user ID ));
+ *
+ * ** Get last access time of a given user **
+ *
+ * $model->action('user','access',
+ *                array('job'    => (string)'last',
+ *                      'id_user => (int)user ID )); 
+ *
+ * Return: 1. FALSE if no user 
+ *         2. Time (0000-00-00 00:00:00)
+ * 
+ * ** Get last x access times **
+ *
+ * $model->action('user','access',
+ *                array('job' => (string)'last_x',
+ *                      'num' => (int)number of last accesses));  
+ *
+ * Return: 1. array[]['access']
+ *                   ['id_user']
+ *
+ * ** Get all access times **
+ *
+ * $model->action('user','access',
+ *                array('job' => (string)'all'));  
+ *
+ * Return: 1. array[]['access']
+ *                   ['id_user']
+ *
+ * ** Remove a user from the last access list **
+ *
+ * $model->action('user','access',
+ *                array('job'     => (string)'delete',
+ *                      'id_user' => (int)user ID));  
+ *
+ *
+ */
 class ActionUserAccess extends SmartAction
 {
     /**
@@ -30,11 +71,9 @@ class ActionUserAccess extends SmartAction
                 $this->updateAccess($data);
                 return;        
             case 'last':
-                $this->lastAccess($data);
-                return;
+                return $this->lastAccess($data);
             case 'last_x':
-                $this->unlockUser($data);
-                return;
+                return $this->lastXAccesses($data);
             case 'all':
                 $this->allAccesses($data);   
                 return;
@@ -55,11 +94,46 @@ class ActionUserAccess extends SmartAction
      * @return bool 
      */    
     function validate( $data = FALSE )
-    {
-        if(isset($data['id_user']) && @preg_match("/[^0-9]/", $data['id_user']) )
+    {       
+        if(!isset($data['job']) || empty($data['job']))
         {
-            throw new SmartModelException('Wrong id_user format: '.$data['id_user']);         
-        } 
+            throw new SmartModelException('No [job] defined for this action'); 
+        }
+        
+        switch($data['job'])
+        {
+            case 'update':
+                // id_user must exists to update user last access
+                if(!isset($data['id_user']))
+                {
+                    return FALSE;         
+                } 
+                elseif(@preg_match("/[^0-9]/", $data['id_user']))
+                {
+                    throw new SmartModelException('[id_user] has wrong format'); 
+                }
+                break;  
+            case 'last':
+            case 'delete':
+                if(!isset($data['id_user']))
+                {
+                    throw new SmartModelException('[id_user] isnt set');         
+                } 
+                elseif(@preg_match("/[^0-9]/", $data['id_user']))
+                {
+                    throw new SmartModelException('[id_user] has wrong format'); 
+                }  
+                break;
+            case 'last_x':
+                // id_user must exists to update user last access
+                if(!isset($data['num']) || @preg_match("/[^0-9]/", $data['num']) )
+                {
+                    throw new SmartModelException('[num] isnt set or has wrong format');       
+                } 
+                break;                
+            default:
+                throw new SmartModelException('[job] not available: '.$data['job']); 
+        }        
                
         return TRUE;
     }
@@ -83,61 +157,83 @@ class ActionUserAccess extends SmartAction
     }
     
     /**
-     * Unlock a user
+     * Get last access time of a given id_user
      *
      * @param array $data User data
+     * @return array
      */    
-    private function unlockUser($data)
+    private function lastXAccesses($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
-                  WHERE
-                   `id_user`={$data['id_user']}";
+        $sql = "SELECT 
+                    `access`,
+                    `id_user`
+                FROM 
+                    {$this->config['dbTablePrefix']}user_access
+                LIMIT
+                    {$data['num']}
+                ORDER BY
+                    `access` DESC";
 
-        $this->model->db->executeUpdate($sql);         
-    }   
-    
-    /**
-     * Delete all locks which are older than 1 hour
-     *
-     */    
-    private function deleteTimeExceedingLocks()
-    {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
-                  WHERE
-                   `lock_time` < NOW()-3600";
-
-        $this->model->db->executeUpdate($sql);         
-    }  
-    
-    /**
-     * Unlock all entries
-     *
-     */    
-    private function unlockAll()
-    {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock";
-
-        $this->model->db->executeUpdate($sql);         
+        $result = $this->model->db->executeQuery($sql);  
+       
+        $res = array();
+       
+        $result->first();
+        while($row = $result->getRow())
+        {
+            $res[] =  array('access'  => $row['access'],
+                            'id_user' => $row['id_user']);
+        }
+        
+        return $res;
     }      
-
     /**
-     * Unlock all entries which a user has locked
+     * Get all accesses
+     *
+     * @param array $data User data
+     * @return array 
+     */    
+    private function allAccesses($data)
+    {
+        $sql = "SELECT 
+                    `access`,
+                    `id_user`
+                FROM 
+                    {$this->config['dbTablePrefix']}user_access
+                ORDER BY
+                    `access` DESC";
+
+        $result = $this->model->db->executeQuery($sql);  
+       
+        $res = array();
+       
+        $result->first();
+        while($row = $result->getRow())
+        {
+            $res[] =  array('access'  => $row['access'],
+                            'id_user' => $row['id_user']);
+        }
+        
+        return $res;
+    }  
+    /**
+     * Delete access time of a given id_user
      *
      */    
-    private function unlockByIdUser($data)
+    private function deleteAccess($data)
     {
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_access
                 WHERE `id_user`={$data['id_user']}";
 
         $this->model->db->executeUpdate($sql);         
     }
     
     /**
-     * Check if a user is locked and if yes by which id_user
+     * Get last access time of a given id_user
      *
      * @param array $data User data
-     * @param mixed FALSE if not locked True if locked by the logged user
-     *              else id_user of the user who locks
+     * @param mixed FALSE if no last access time
+     *              else time of last access
      */    
     private function lastAccess($data)
     {
