@@ -10,11 +10,55 @@
 // ----------------------------------------------------------------------
 
 /**
- * User lock action class 
+ * ActionUserLock class 
  *
  */
 
-
+/**
+ * USE:
+ *
+ * ** Lock a given user by an other user**
+ *
+ * $model->action('user','lock',
+ *                array('job'    => (string)'lock',
+ *                      'id_user => (int)user ID to lock,
+ *                      'by_id_user' => (int)user ID that locks));
+ *
+ * Return: 1) TRUE if a user was successfull locked
+ *         2) user ID, which locked the user in an other session
+ *
+ * ** Unlock a given user **
+ *
+ * $model->action('user','lock',
+ *                array('job'    => (string)'unlock',
+ *                      'id_user => (int)locked user ID )); 
+ *
+ * 
+ * ** Is a user locked ? **
+ *
+ * $model->action('user','lock',
+ *                array('job'    => (string)'is_locked',
+ *                      'id_user => (int)user ID ));  
+ *
+ * Return: 1) TRUE if a user was locked by the logged user it self
+ *         2) FALSE if a user isnt locked
+ *         3) user ID, which locked the user in an other session
+ *
+ * ** Get all access times **
+ *
+ * ** unlock all locked user ? **
+ *
+ * $model->action('user','lock',
+ *                array('job' => (string)'unlock_all'));  
+ *
+ *
+ * ** Remove user locks from a given user that locks **
+ *
+ * $model->action('user','lock',
+ *                array('job'    => (string)'unlock_from_user',
+ *                      'id_user => (int)user ID that locks));  
+ *
+ */
 class ActionUserLock extends SmartAction
 {
     /**
@@ -22,9 +66,9 @@ class ActionUserLock extends SmartAction
      *
      * @param array $data
      */
-    function perform( $data = FALSE )
+    public function perform( $data = FALSE )
     { 
-        $this->deleteTimeExceedingLocks();
+        $this->deleteExpiredLocks();
         
         switch($data['job'])
         {
@@ -54,48 +98,18 @@ class ActionUserLock extends SmartAction
      * @param array $data User data
      * @return bool 
      */    
-    function validate( $data = FALSE )
+    public function validate( $data = FALSE )
     {
-        if( @preg_match("/[^0-9]/", $data['id_user']) )
+        if( isset($data['id_user']) && @preg_match("/[^0-9]/", $data['id_user']) )
         {
             throw new SmartModelException('Wrong id_user format: '.$data['id_user']);         
-        } 
-        
-        // Check if id_user exists
-        if($this->userExists($data['id_user']) == FALSE)
-        {
-            throw new SmartModelException('id_user dosent exists: '.$data['id_user']); 
         }    
-        
+        if( isset($data['by_id_user']) && @preg_match("/[^0-9]/", $data['by_id_user']) )
+        {
+            throw new SmartModelException('Wrong by_id_user format: '.$data['by_id_user']);         
+        }         
         return TRUE;
     }
-    
-    /**
-     * check if id_user exists
-     *
-     * @param int $id_user User id
-     * @return bool
-     */    
-    function userExists( $id_user )
-    {
-        
-        $sql = "
-            SELECT
-                id_user
-            FROM
-                {$this->config['dbTablePrefix']}user_user
-            WHERE
-                id_user='$id_user'";
-        
-        $result = $this->model->db->executeQuery($sql);
-
-        if($result->getRecordCount() > 0)
-        {
-            return TRUE;
-        }
-        
-        return FALSE;    
-    } 
 
     /**
      * Lock a user for modifying
@@ -144,7 +158,7 @@ class ActionUserLock extends SmartAction
      * Delete all locks which are older than 1 hour
      *
      */    
-    private function deleteTimeExceedingLocks()
+    private function deleteExpiredLocks()
     {
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
                   WHERE
