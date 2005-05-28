@@ -171,7 +171,7 @@ class ActionUserLock extends SmartAction
     private function unlockByIdUser($data)
     {
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
-                WHERE `id_user`={$data['id_user']}";
+                WHERE `by_id_user`={$data['id_user']}";
 
         $this->model->db->executeUpdate($sql);         
     }
