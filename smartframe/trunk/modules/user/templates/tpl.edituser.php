@@ -39,6 +39,13 @@ function dellogo(f, mes)
         }
         }
 }
+function cancel_edit(f)
+{
+        f.canceledit.value="1";
+        with(f){
+        submit();
+        }
+}
 function uploadlogofile(f)
 {
         f.uploadlogo.value="true";
@@ -50,6 +57,7 @@ function uploadlogofile(f)
 <form action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=edituser" method="post" enctype="multipart/form-data" name="edituser">
 <input name="id_user" type="hidden" id="id_user" value="<?php echo $tpl['id_user']; ?>">
 <input name="deleteuser" type="hidden" id="deleteuser" value="">
+<input name="canceledit" type="hidden" id="canceledit" value="">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold"> Edit User </td>
@@ -134,7 +142,9 @@ function uploadlogofile(f)
 	    <?php if($tpl['showButton']==TRUE): ?>
            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
            <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
-        <?php endif; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	<a href="<?php echo SMART_CONTROLLER; ?>?mod=user">cancel</a>		</td>
+        <?php endif; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		    <input type="button" name="Submit" value="cancel" onclick="cancel_edit(this.form);">
+		</td>
       </tr>
     </table>
     </td>

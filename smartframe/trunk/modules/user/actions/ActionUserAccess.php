@@ -75,8 +75,7 @@ class ActionUserAccess extends SmartAction
             case 'last_x':
                 return $this->lastXAccesses($data);
             case 'all':
-                $this->allAccesses($data);   
-                return;
+                return $this->allAccesses($data);   
             case 'delete':
                 $this->deleteAccess($data);   
                 return;                

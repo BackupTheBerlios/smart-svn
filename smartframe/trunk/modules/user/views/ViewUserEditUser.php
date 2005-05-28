@@ -116,6 +116,14 @@ class ViewUserEditUser extends SmartView
             $this->setTemplateVars();
             return FALSE;
         }
+         // cancel edit user?
+        if($_POST['canceledit'] == '1')
+        {
+            $this->unlockUser();
+            @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
+            exit; 
+        }
+        
         // delete a user?
         if($_POST['deleteuser'] == '1')
         {
@@ -183,10 +191,7 @@ class ViewUserEditUser extends SmartView
         {
             if(!isset($dont_forward))
             {
-                // unlock user
-                $this->model->action('user','lock',
-                                     array('job'     => 'unlock',
-                                           'id_user' => (int)$_REQUEST['id_user']));
+                $this->unlockUser();
             
                 // reload the user module on success
                 @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
@@ -211,8 +216,7 @@ class ViewUserEditUser extends SmartView
         // not possible if a logged user try to remove it self
         if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
         {                                 
-            $this->model->action('user','delete',
-                                 array('id_user' => $_REQUEST['id_user']) ); 
+            $this->unlockUser(); 
                                    
             // reload the user module
             @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
@@ -343,7 +347,15 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['description'] = SmartCommonUtil::stripSlashes($_POST['description']);
         $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes($_POST['login']);
         $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']);          
-    }       
+    } 
+    
+    private function unlockUser()
+    {
+        // unlock user
+        $this->model->action('user','lock',
+                             array('job'     => 'unlock',
+                                   'id_user' => (int)$_REQUEST['id_user']));    
+    }
 }
 
 ?>
