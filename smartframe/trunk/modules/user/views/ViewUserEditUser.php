@@ -32,7 +32,7 @@ class ViewUserEditUser extends SmartView
      * prepend filter chain
      *
      */
-    function prependFilterChain()
+    public function prependFilterChain()
     {
         // check permission to edit/update requested user data
         if(FALSE == $this->model->action('user','allowEditUser',
@@ -48,6 +48,7 @@ class ViewUserEditUser extends SmartView
                                              'by_id_user' => (int)$this->viewVar['loggedUserId']) );
         if($result !== TRUE)
         {
+            // this would only happen if someone try to hack a tournaround
             throw new SmartViewException('Operation denied. User is locked by: '.$result);    
         }
     }
@@ -57,7 +58,7 @@ class ViewUserEditUser extends SmartView
      *
      * @return bool true on success else false
      */
-    function perform()
+    public function perform()
     { 
         // init template array to fill with user data
         $this->tplVar['user'] = array();
@@ -120,8 +121,7 @@ class ViewUserEditUser extends SmartView
         if($_POST['canceledit'] == '1')
         {
             $this->unlockUser();
-            @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
-            exit; 
+            $this->redirect();
         }
         
         // delete a user?
@@ -192,10 +192,7 @@ class ViewUserEditUser extends SmartView
             if(!isset($dont_forward))
             {
                 $this->unlockUser();
-            
-                // reload the user module on success
-                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
-                exit; 
+                $this->redirect();
             }
             return TRUE;
         }
@@ -207,6 +204,7 @@ class ViewUserEditUser extends SmartView
             return FALSE;                
         }        
     }
+    
     /**
      * Delete user
      *
@@ -216,12 +214,19 @@ class ViewUserEditUser extends SmartView
         // not possible if a logged user try to remove it self
         if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
         {                                 
-            $this->unlockUser(); 
-                                   
-            // reload the user module
-            @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
-            exit;   
+            $this->unlockUser();                      
+            $this->redirect();   
         }   
+    }
+
+    /**
+     * Redirect to the main user location
+     */
+    private function redirect()
+    {
+        // reload the user module
+        @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
+        exit;      
     }
 
     /**
@@ -348,10 +353,13 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes($_POST['login']);
         $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']);          
     } 
-    
+
+    /**
+     * unlock edited user
+     *
+     */     
     private function unlockUser()
     {
-        // unlock user
         $this->model->action('user','lock',
                              array('job'     => 'unlock',
                                    'id_user' => (int)$_REQUEST['id_user']));    
