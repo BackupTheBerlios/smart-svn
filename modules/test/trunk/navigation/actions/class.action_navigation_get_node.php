@@ -22,7 +22,7 @@ class action_navigation_get_node extends action
      * @param array $data
      */
     function perform( $data = FALSE )
-    {        
+    {    
         // check if a tree object exists
         if(!isset($this->B->node))
         {
@@ -54,6 +54,9 @@ class action_navigation_get_node extends action
         {
             include_once(SF_BASE_DIR . 'modules/common/PEAR/Text/Wiki.php');
             $wiki = & new Text_Wiki();
+            
+            $wiki->setFormatConf('Xhtml', 'charset', 'utf-8');
+            $wiki->setFormatConf('Xhtml', 'translate', HTML_SPECIALCHARS);
 
             // wiki configuration
             //
@@ -102,12 +105,12 @@ class action_navigation_get_node extends action
                                                         'css_code' => 'smart',
                                                         'css_php'  => 'smart',
                                                         'css_html' => 'smart'));
-        
+    
             $_result['body'] = $wiki->transform($_result['body'], 'Xhtml');  
         }
         else
         {
-            // preserve opening/closing tags <>
+            // preserve literal opening/closing tags <>
             $_result['body'] = str_replace("&lt;","&amp;lt;",$_result['body']); 
             $_result['body'] = str_replace("&gt;","&amp;gt;",$_result['body']); 
         }
