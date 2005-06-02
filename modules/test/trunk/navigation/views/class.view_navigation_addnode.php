@@ -48,7 +48,7 @@ class view_navigation_addnode extends view
             
             if ( TRUE == M( MOD_NAVIGATION, 
                             'add_node', 
-                            array('title'     => commonUtil::stripSlashes($_POST['title']),
+                            array('title'     => commonUtil::addSlashes($_POST['title']),
                                   'body'      => commonUtil::stripSlashes($_POST['body']),
                                   'status'    => (int)$_POST['status'],
                                   'parent_id' => $node,

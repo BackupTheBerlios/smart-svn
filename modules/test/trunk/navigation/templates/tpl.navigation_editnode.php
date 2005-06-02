@@ -67,7 +67,7 @@ newwindow= window.open('<?php echo SF_CONTROLLER.'?'.SF_ADMIN_CODE.'=1'; ?>&node
         <td colspan="2" align="left" valign="top" class="font10bold">Title</td>
       </tr>
       <tr>
-        <td colspan="2" align="left" valign="top"><input name="title" type="text" id="title" size="90" maxlength="1024" value="<?php echo $B->tpl_node['title']; ?>"></td>
+        <td colspan="2" align="left" valign="top"><input name="title" type="text" id="title" size="90" maxlength="1024" value="<?php echo htmlspecialchars($B->tpl_node['title'],ENT_QUOTES,'utf-8'); ?>"></td>
       </tr>
       <tr>
         <td colspan="2" align="left" valign="top" class="font10bold">Body &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;( use <a href="http://wiki.ciaweb.net/yawiki/index.php?area=Text_Wiki&page=WikiRules" target="_blank">text_wikki</a> markdown language to format body text )</td>

@@ -89,7 +89,7 @@ class action_navigation_add_node extends action
         
         $fp->unlock ( $node_body, FILE_MODE_WRITE );      
         
-        $this->B->node[$node_id]['title']     = commonUtil::stripSlashes( $data['title'] );
+        $this->B->node[$node_id]['title']     = commonUtil::addSlashes( $data['title'] );
         $this->B->node[$node_id]['status']    = $data['status'];
         $this->B->node[$node_id]['order']     = $this->getLastOrderId( (int)$data['parent_id'] );
         $this->B->node[$node_id]['parent_id'] = (int)$data['parent_id'];

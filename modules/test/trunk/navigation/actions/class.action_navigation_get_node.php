@@ -167,7 +167,7 @@ class action_navigation_get_node extends action
 
         $result['body']      = $fp->readAll( $node_file );
         $result['node']      = $node_id;
-        $result['title']     = $this->B->node[$node_id]['title'];
+        $result['title']     = stripslashes($this->B->node[$node_id]['title']);
         $result['status']    = $this->B->node[$node_id]['status'];
         $result['order']     = $this->B->node[$node_id]['order'];
         $result['parent_id'] = $this->B->node[$node_id]['parent_id'];

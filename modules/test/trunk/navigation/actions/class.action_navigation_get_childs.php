@@ -112,7 +112,7 @@ class action_navigation_get_childs extends action
         
         foreach ($tmp as $val)
         {
-            $result[$val]['title']     = $this->B->node[$val]['title'];
+            $result[$val]['title']     = stripslashes($this->B->node[$val]['title']);
             $result[$val]['status']    = $this->B->node[$val]['status'];
             $result[$val]['order']     = $this->B->node[$val]['order'];
             $result[$val]['parent_id'] = $this->B->node[$val]['parent_id'];

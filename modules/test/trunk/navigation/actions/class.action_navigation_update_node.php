@@ -105,7 +105,7 @@ class action_navigation_update_node extends action
         
         $fp->unlock ( $node_body, FILE_MODE_WRITE );      
         
-        $this->B->node[$data['node']]['title']     = commonUtil::stripSlashes( $data['title'] );
+        $this->B->node[$data['node']]['title']     = commonUtil::addSlashes( $data['title'] );
         $this->B->node[$data['node']]['status']    = $data['status'];
         
         if($this->B->node[$data['node']]['parent_id'] != (int)$data['parent_id'])
