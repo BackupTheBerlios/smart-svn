@@ -12,7 +12,7 @@
 * 
 * @license LGPL
 * 
-* @version $Id: List.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* @version $Id: List.php,v 1.4 2005/05/28 21:16:28 pmjones Exp $
 * 
 */
 
@@ -242,7 +242,7 @@ class Text_Wiki_Parse_List extends Text_Wiki_Parse {
         }
         
         // we're done!  send back the replacement text.
-        return "\n" . $return . "\n\n";
+        return "\n\n" . $return . "\n\n";
     }
 }
 ?>

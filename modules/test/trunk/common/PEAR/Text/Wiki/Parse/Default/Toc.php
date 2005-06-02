@@ -12,7 +12,7 @@
 * 
 * @license LGPL
 * 
-* @version $Id: Toc.php,v 1.3 2005/02/23 17:38:29 pmjones Exp $
+* @version $Id: Toc.php,v 1.4 2005/05/28 21:33:02 pmjones Exp $
 * 
 */
 
@@ -124,7 +124,7 @@ class Text_Wiki_Parse_Toc extends Text_Wiki_Parse {
             )
         );
         
-        return $output;
+        return "\n$output\n";
     }
 }
 ?>
