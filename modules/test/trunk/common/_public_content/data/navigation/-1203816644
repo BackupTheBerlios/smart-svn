@@ -37,7 +37,7 @@ It trims the template output and does email obfuscating on the template output.
 
 +++ Those view class variables are important:
 **var $template** define the template to render
-**var $render_template = SF_TEMPLATE_RENDER; // or SF_TEMPLATE_RENDER_NONE** define if a template should be rendered or no. In case that a view should provide a file for download, you don’t need to render a template.
+**var $render_template = SF_TEMPLATE_RENDER; // or SF_TEMPLATE_RENDER_NONE** define if a template should be rendered or no. In case that a view should provide a file for download, you don't need to render a template.
 
 +++ Format of a view class file
 You can find all view classes in the folder /views_default/

@@ -1,3 +1,6 @@
+++++ Little Jo 0.9
+# Little Jo - fixed utf-8 encoding bug
+
 ++++ Smart 1.0.1a / Little Jo 0.8
 # Smart - added error codes > /smart/includes/defaults.php
 # Smart - added admin string > /smart/includes/defaults.php
@@ -11,10 +14,10 @@
 # Smart - Changed public error view mechanism
 
 ++++ Smart 0.9a / Little Jo 0.6
-# (Smart) The third argument of M(MOD_SYSTEM, 'get_view', $xxx) is passed to view classes. It's available in view classes: $this->view_data . (suggested by P. Gapi``&#324;``ski)
+# (Smart) The third argument of M(MOD_SYSTEM, 'get_view', $xxx) is passed to view classes. It's available in view classes: $this->view_data . (suggested by P. Gapiński)
 # (Little Jo) added navigation media manager
 
 ++++ Smart 0.8a / Little Jo 0.5
-# (Smart) fixed parse error in index_inc_view.php (P. Gapi``&#324;``ski)
+# (Smart) fixed parse error in index_inc_view.php (P. Gapiński)
 # (Little Jo) fixed relative paths in public templates
 # modified smart public templates and set it to default

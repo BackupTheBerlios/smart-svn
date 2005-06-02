@@ -23,11 +23,11 @@ Example:
 </code>
 
 There are 2 possible arguments. The first is required. It defines the modules action classes, which should perform on this call. The second optional argument is a variable array with data the action classes need to perform on.
-This event call is distributed to all modules. If such an action doesn’t exists its simply ignored. In this example we send an init event to all modules.
+This event call is distributed to all modules. If such an action doesn't exists its simply ignored. In this example we send an init event to all modules.
 
 You should keep in mind, that an event is always related to a module action class. See: [?view=node&node=150196115 Actions].
 
-One characteristic of SMART is, that you haven’t be award to include the right class files to run a event call. SMART does this job for you. If a module is registered you can use all its action classes through event calls from anywhere of the system. Even from inside action classes you can release event calls, which are directed to other modules.
+One characteristic of SMART is, that you haven't be award to include the right class files to run a event call. SMART does this job for you. If a module is registered you can use all its action classes through event calls from anywhere of the system. Even from inside action classes you can release event calls, which are directed to other modules.
 
 +++ Extended format of event functions
 **Module directed event:**

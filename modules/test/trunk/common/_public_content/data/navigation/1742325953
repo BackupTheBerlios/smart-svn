@@ -1,1 +1,18 @@
-There are some attempts to port SMART to php5. But there is not yet any concrete plan how to do that.  A php5 version must be as easy usable to use as the current version with the benefits of the extended object model.
+Development of a php5 version of Smart has been started. 
+
+Requirements:
+* php5
+* !MySql >= 4.1 for the modules
+
+You will find in the trunk branch of the project repository a php5 version Smart. It's not the complete stuff but just the core to give you an impression of the way to go.
+
+Here the repository checkout url:
+svn://svn.berlios.de/smart/smartframe/trunk
+
+First you have to create a mysql database. After that point your browser to the admin.php controller and follow the setup instructions. After the setup was successfull done you can switch to the public controller index.php. 
+
+For questions use: http://forum.open-publisher.net
+
+The main goal of a php5 version of Smart is:
+* A more clear implementation of the controllers and how they interact with the views
+* Making use of exceptions to have more controle over the system if an error occurs 

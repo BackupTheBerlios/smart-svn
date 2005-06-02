@@ -17,6 +17,8 @@ In the administration interface of this module, you can edit some global options
 
 **Tip:** When creating a new template set, select the root folder (empty select) as public template folder and store your new templates in the root folder. It is much simpler to handle included external html files (css, images, files) with a tool like Dreamweaver. After finishing the templates, move them into a template folder and select this folder in the option menu.
 
+When creating templates dont't forget to use utf-8 enocding.
+
 **Backup**
 To backup your data you have only to make a copy of the /data folder.
 

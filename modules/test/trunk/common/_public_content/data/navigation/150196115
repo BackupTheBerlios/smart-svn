@@ -28,7 +28,7 @@ The event call for this action is:
     }
 </code>
 
-Save the following code with file name class.action_common_get_square.php in the folder modules/common/actions. That’s it. You can now use the event call above from any point of the system.
+Save the following code with file name class.action_common_get_square.php in the folder modules/common/actions. That's it. You can now use the event call above from any point of the system.
 
 <code>
 class action_common_get_square extends action

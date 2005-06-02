@@ -1,7 +1,7 @@
 ++++ [http://smart.open-publisher.net/smartframe-1.0.1a.zip Smart 1.0.1a without any module]
 You should use this package if you want to build an application from scratch. You have to know how SMART works in details!
 
-+++ [http://smart.open-publisher.net/littlejo-0.8.zip SMART test unit "little Jo 0.8"  ]
++++ [http://smart.open-publisher.net/littlejo-0.9.zip SMART test unit "little Jo 0.9"  ]
 Use this to test the framework and to learn how it works. It contains some very simple modules, like "user" and "navigation" to manage a small web site. This site is build up on "little Jo".
 
 +++ Install of "little Jo"
@@ -20,7 +20,7 @@ Point your browser to "little Jo's web directory. You should see a setup screen.
 **user: admin 
 password: admin**
 
-That’s it.
+That's it.
 
 Little Jo is delivered with sample data. If you want to start an emtpy project from scratch without sample data, delete and modify the following files:
 
