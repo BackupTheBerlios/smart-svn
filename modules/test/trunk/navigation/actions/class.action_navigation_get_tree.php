@@ -30,6 +30,7 @@ class action_navigation_get_tree extends action
     {
         // get var name defined in the public view to store the result
         $this->tree_result = & $this->B->$data['result']; 
+        $this->tree_result = array();
 
         if(!isset($data['node']))
         {
@@ -134,7 +135,7 @@ class action_navigation_get_tree extends action
                     if( $status == $val['status'] )
                     {
                         $val['level'] = $this->_level;
-                        $this->tree_result[] = stripslashes($val);
+                        $this->tree_result[] = $val;
                         $this->_level++;
                         $this->_getTreeNodes( $val['node'], $status );
                     }
