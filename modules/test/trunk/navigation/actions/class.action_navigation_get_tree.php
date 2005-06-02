@@ -134,7 +134,7 @@ class action_navigation_get_tree extends action
                     if( $status == $val['status'] )
                     {
                         $val['level'] = $this->_level;
-                        $this->tree_result[] = $val;
+                        $this->tree_result[] = stripslashes($val);
                         $this->_level++;
                         $this->_getTreeNodes( $val['node'], $status );
                     }

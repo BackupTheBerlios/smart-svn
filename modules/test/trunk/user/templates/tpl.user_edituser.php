@@ -31,7 +31,7 @@ function deleteuser(f, mes)
       </tr>
       <tr>
         <td align="left" valign="top">
-          <input name="_login" type="text" id="_login" size="40" maxlength="255" value="<?php echo $B->tpl_data['login']; ?>" disabled="disabled">
+          <input name="_login" type="text" id="_login" size="40" maxlength="255" value="<?php echo htmlspecialchars($B->tpl_data['login'],ENT_QUOTES,'utf-8'); ?>" disabled="disabled">
         </td>
       </tr>      
       <tr>

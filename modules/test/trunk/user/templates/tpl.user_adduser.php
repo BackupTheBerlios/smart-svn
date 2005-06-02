@@ -14,7 +14,7 @@
         <td align="left" valign="top" class="font10bold">Login</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="login" type="text" id="login" size="40" maxlength="255" value="<?php echo $B->form_login; ?>"></td>
+        <td align="left" valign="top"><input name="login" type="text" id="login" size="40" maxlength="255" value="<?php echo htmlspecialchars($B->form_login,ENT_QUOTES,'utf-8'); ?>"></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Password</td>

@@ -34,7 +34,7 @@ class action_navigation_update_node extends action
 
         // load data of the requested node
         $this->updateNode( $data ); 
-
+        
         // Update navigation node title
         // see modules/common/actions/class.action_common_sys_update_config.php
         M( SF_BASE_MODULE, 
@@ -105,7 +105,7 @@ class action_navigation_update_node extends action
         
         $fp->unlock ( $node_body, FILE_MODE_WRITE );      
         
-        $this->B->node[$data['node']]['title']     = commonUtil::addSlashes( $data['title'] );
+        $this->B->node[$data['node']]['title']     = commonUtil::transform( $data['title'] );
         $this->B->node[$data['node']]['status']    = $data['status'];
         
         if($this->B->node[$data['node']]['parent_id'] != (int)$data['parent_id'])
@@ -233,7 +233,7 @@ class action_navigation_update_node extends action
         
         foreach ($tmp as $val)
         {
-            $result[$val]['title']     = $this->B->node[$val]['title'];
+            $result[$val]['title']     = commonUtil::transform($this->B->node[$val]['title']);
             $result[$val]['status']    = $this->B->node[$val]['status'];
             $result[$val]['order']     = $this->B->node[$val]['order'];
             $result[$val]['parent_id'] = $this->B->node[$val]['parent_id'];

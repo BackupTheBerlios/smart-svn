@@ -101,6 +101,12 @@ class commonUtil
         }
     }     
 
+    function transform( $var )
+    {
+        $var = commonUtil::stripSlashes($var);
+        return htmlspecialchars($var,ENT_QUOTES,'utf-8');
+    }
+
     function stripSlashes_special( $var )
     {
         $var = commonUtil::stripSlashes($var);
