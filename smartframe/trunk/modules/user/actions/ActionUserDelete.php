@@ -27,43 +27,49 @@ class ActionUserDelete extends SmartAction
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $stmt = $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
 
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $stmt = $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
 
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_media_pic
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $stmt = $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
 
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_media_file
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $stmt = $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
 
         $sql = "SELECT `media_folder` FROM {$this->config['dbTablePrefix']}user_user
                   WHERE
                    `id_user`={$data['id_user']}";
                    
-        $rs = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
-        $rs->first();
-        $row = array();
-        $row = $rs->getRow();
+        $rs = $this->model->dba->query($sql);
 
-        // delete user data media folder
-        SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/user/'.$row['media_folder'] );
+        $row = $rs->fetchAssoc();
+
+        if(isset($row['media_folder']) && !empty($row['media_folder']))
+        {
+            // delete user data media folder
+            SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/user/'.$row['media_folder'] );
+        }
+        else
+        {
+            trigger_error("User media folder string is empty! \nFILE: ".__FILE__, E_USER_WARNING);
+        }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_user
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $stmt = $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
        
         return TRUE;
     }

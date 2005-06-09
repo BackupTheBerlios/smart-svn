@@ -150,7 +150,7 @@ class ActionUserAccess extends SmartAction
                        `id_user`={$data['id_user']},
                        `access`=NOW()";
 
-        $this->model->db->executeUpdate($sql); 
+        $this->model->dba->query($sql); 
 
         return TRUE;
     }
@@ -173,12 +173,11 @@ class ActionUserAccess extends SmartAction
                 ORDER BY
                     `access` DESC";
 
-        $result = $this->model->db->executeQuery($sql);  
+        $stmt = $this->model->dba->query($sql);  
        
         $res = array();
        
-        $result->first();
-        while($row = $result->getRow())
+        while($row = $stmt->fetchAssoc())
         {
             $res[] =  array('access'  => $row['access'],
                             'id_user' => $row['id_user']);
@@ -202,12 +201,11 @@ class ActionUserAccess extends SmartAction
                 ORDER BY
                     `access` DESC";
 
-        $result = $this->model->db->executeQuery($sql);  
+        $stmt = $this->model->dba->query($sql);  
        
         $res = array();
-       
-        $result->first();
-        while($row = $result->getRow())
+
+        while($row = $stmt->fetchAssoc())
         {
             $res[] =  array('access'  => $row['access'],
                             'id_user' => $row['id_user']);
@@ -224,7 +222,7 @@ class ActionUserAccess extends SmartAction
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_access
                 WHERE `id_user`={$data['id_user']}";
 
-        $this->model->db->executeUpdate($sql);         
+        $this->model->dba->query($sql);         
     }
     
     /**
@@ -243,12 +241,11 @@ class ActionUserAccess extends SmartAction
                 WHERE
                    `id_user`={$data['id_user']}";
 
-        $result = $this->model->db->executeQuery($sql);  
+        $stmt = $this->model->dba->query($sql);  
        
-        if($result->getRecordCount() == 1)
+        if($stmt->numRows() == 1)
         {            
-            $result->first();
-            $row = $result->getRow();
+            $row = $stmt->fetchAssoc();
             
             return $row['access'];
         }

@@ -28,7 +28,7 @@ class ActionUserSetup extends SmartAction
             return TRUE;
         }
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_user (
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_user (
                    `id_user`      int(11) unsigned NOT NULL auto_increment,
                    `login`        varchar(20) NOT NULL default '',
                    `passwd`       char(32) NOT NULL,
@@ -41,29 +41,27 @@ class ActionUserSetup extends SmartAction
                    `logo`         varchar(255) NOT NULL default '',
                    `media_folder` char(32) NOT NULL,
                    PRIMARY KEY     (`id_user`),
-                   KEY `login`     (`login`),
-                   KEY `passwd`    (`passwd`),
-                   KEY `role`      (`role`),
-                   KEY `status`    (`status`))";
-        $this->model->db->executeUpdate($sql);
+                   KEY (`login`,`passwd`,`status`),
+                   KEY (`role`))";
+        $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_access (
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_access (
                    `id_user`   int(11) unsigned NOT NULL default 0,
                    `access`    datetime NOT NULL default '0000-00-00 00:00:00',
-                   UNIQUE KEY `id_user` (`id_user`)
+                   UNIQUE KEY `id_user` (`id_user`),
                    KEY `access`         (`access`))";
-        $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_lock (
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_lock (
                    `id_user`      int(11) unsigned NOT NULL default 0,
                    `lock_time`    datetime NOT NULL default '0000-00-00 00:00:00',
                    `by_id_user`   int(11) unsigned NOT NULL default 0,
                    KEY `id_user`    (`id_user`),
                    KEY `lock_time`  (`lock_time`),
                    KEY `by_id_user` (`by_id_user`))";
-        $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_media_pic (
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_media_pic (
                    `id_pic`       int(11) unsigned NOT NULL auto_increment,
                    `id_user`      int(11) unsigned NOT NULL default 0,
                    `file`         varchar(255) NOT NULL default '',
@@ -73,11 +71,10 @@ class ActionUserSetup extends SmartAction
                    `tumbnail`     tinyint(1) NOT NULL default 0,
                    `description`  text NOT NULL default '',
                    PRIMARY KEY     (`id_pic`),
-                   KEY `id_user`   (`id_user`),
-                   KEY `rank`      (`rank`))";
-        $this->model->db->executeUpdate($sql);
+                   KEY (`id_user`,`rank`))";
+        $this->model->dba->query($sql);
         
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}user_media_file (
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_media_file (
                    `id_file`      int(11) unsigned NOT NULL auto_increment,
                    `id_user`      int(11) unsigned NOT NULL default 0,
                    `file`         varchar(255) NOT NULL default '',
@@ -86,64 +83,29 @@ class ActionUserSetup extends SmartAction
                    `rank`         smallint(4) unsigned NOT NULL default 0,
                    `description`  text NOT NULL default '',
                    PRIMARY KEY     (`id_file`),
-                   KEY `id_user`   (`id_user`),
-                   KEY `rank`      (`rank`))";
-        $this->model->db->executeUpdate($sql);        
+                   KEY `id_user`   (`id_user`,`rank`))";
+        $this->model->dba->query($sql);        
 
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}user_user
-                   (`login`, `email`, `name`, `lastname`, `passwd`,`status`, `role`)
+        $sql = "INSERT INTO {$data['dbtablesprefix']}user_user
+                   (`login`, `passwd`,`status`, `role`)
                   VALUES
-                   (?,?,?,?,?,?,?)";
-        $stmt = $this->model->db->prepareStatement($sql);  
+                   ('superuser',?,2,10)";
+        $this->model->dba->prepare($sql); 
 
-        // register as an editor
-        $stmt->setString(1, SmartCommonUtil::stripSlashes($data['request']['syslogin']));
-        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysemail']));
-        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['sysname']));
-        $stmt->setString(4, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
-        $stmt->setString(5, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
-        $stmt->setInt(6, 2);
-        $stmt->setInt(7, 40);
-        
-        $stmt->executeUpdate();
+        // register a superuser
+        $superuser_passwd = md5($data['superuser_passwd']);
 
-        // register as an administrator with the same data but login = 'admin'
-        $stmt->setString(1, 'admin');
-        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysemail']));
-        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['sysname']));
-        $stmt->setString(4, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
-        $stmt->setString(5, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
-        $stmt->setInt(6, 2);
-        $stmt->setInt(7, 20);
+        $this->model->dba->bindParam(array("s",$superuser_passwd)); 
         
-        $stmt->executeUpdate();
+        $stmt = $this->model->dba->execute();
 
-        // register as an administrator with the same data but login = 'admin'
-        $stmt->setString(1, 'superuser');
-        $stmt->setString(2, SmartCommonUtil::stripSlashes($data['request']['sysemail']));
-        $stmt->setString(3, SmartCommonUtil::stripSlashes($data['request']['sysname']));
-        $stmt->setString(4, SmartCommonUtil::stripSlashes($data['request']['syslastname']));
-        $stmt->setString(5, md5(SmartCommonUtil::stripSlashes($data['request']['syspassword1'])));
-        $stmt->setInt(6, 2);
-        $stmt->setInt(7, 10);
-        
-        $stmt->executeUpdate();
-
-        
-        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
+        // insert module info data
+        $sql = "INSERT INTO {$data['dbtablesprefix']}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                   VALUES
-                   (?,?,?,?,?,?)";
-        $stmt = $this->model->db->prepareStatement($sql);            
-
-        $stmt->setString(1, 'user');
-        $stmt->setString(2, 'User Management');
-        $stmt->setInt   (3, 3);
-        $stmt->setString(4, '0.1');
-        $stmt->setInt   (5, 1);
-        $stmt->setString(6, 'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>');
-
-        $stmt->executeUpdate();
+                   ('user','User Management',3,'0.1',1,'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
+        
+        $this->model->dba->query($sql);         
     } 
     
     /**
@@ -154,12 +116,12 @@ class ActionUserSetup extends SmartAction
     public function rollback( & $data )
     {
         $sql = "DROP TABLE IF EXISTS 
-                     {$data['request']['dbtablesprefix']}user_user,
-                     {$data['request']['dbtablesprefix']}user_access,
-                     {$data['request']['dbtablesprefix']}user_lock,
-                     {$data['request']['dbtablesprefix']}user_media_pic,
-                     {$data['request']['dbtablesprefix']}user_media_file";
-        $this->model->db->executeUpdate($sql);  
+                     {$data['dbtablesprefix']}user_user,
+                     {$data['dbtablesprefix']}user_access,
+                     {$data['dbtablesprefix']}user_lock,
+                     {$data['dbtablesprefix']}user_media_pic,
+                     {$data['dbtablesprefix']}user_media_file";
+        $this->model->dba->query($sql);  
     }    
 }
 

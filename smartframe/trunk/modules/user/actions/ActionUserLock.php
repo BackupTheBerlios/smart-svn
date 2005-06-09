@@ -135,7 +135,7 @@ class ActionUserLock extends SmartAction
                     VALUES
                        ({$data['id_user']},NOW(),{$data['by_id_user']})";
 
-            $this->model->db->executeUpdate($sql); 
+            $this->model->dba->query($sql); 
         }
         return TRUE;
     }
@@ -151,7 +151,7 @@ class ActionUserLock extends SmartAction
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $this->model->db->executeUpdate($sql);         
+        $this->model->dba->query($sql);       
     }   
     
     /**
@@ -164,7 +164,7 @@ class ActionUserLock extends SmartAction
                   WHERE
                    `lock_time` < NOW()-3600";
 
-        $this->model->db->executeUpdate($sql);         
+        $this->model->dba->query($sql);         
     }  
     
     /**
@@ -175,7 +175,7 @@ class ActionUserLock extends SmartAction
     {
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock";
 
-        $this->model->db->executeUpdate($sql);         
+        $this->model->dba->query($sql);        
     }      
 
     /**
@@ -187,7 +187,7 @@ class ActionUserLock extends SmartAction
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_lock
                 WHERE `by_id_user`={$data['id_user']}";
 
-        $this->model->db->executeUpdate($sql);         
+        $this->model->dba->query($sql);        
     }
     
     /**
@@ -206,12 +206,11 @@ class ActionUserLock extends SmartAction
                 WHERE
                    `id_user`={$data['id_user']}";
 
-        $result = $this->model->db->executeQuery($sql);  
+        $result = $this->model->dba->query($sql); 
        
-        if($result->getRecordCount() == 1)
+        if($result->numRows() == 1)
         {            
-            $result->first();
-            $row = $result->getRow();
+            $row = $result->fetchAssoc();
             
             if($data['by_id_user'] == $row['by_id_user'])
             {

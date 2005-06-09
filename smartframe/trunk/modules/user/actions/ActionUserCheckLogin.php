@@ -16,13 +16,17 @@
 
 class ActionUserCheckLogin extends SmartAction
 {
+
     /**
-     * Check if a login demanded user exists
+     * Check login
      *
      * @param array $data
      */
     public function perform( $data = FALSE )
     {
+        $login = $this->model->dba->escape($data['login']);
+        $pass =  md5($data['passwd']);  
+        
         $sql = "SELECT 
                     id_user,
                     role
@@ -34,25 +38,26 @@ class ActionUserCheckLogin extends SmartAction
                     passwd=?
                 AND
                     status=2";
-        
-        $stmt = $this->model->db->prepareStatement($sql, ResultSet::FETCHMODE_ASSOC);
 
-        $stmt->setString(1, $data['login']);
-        $stmt->setString(2, md5($data['passwd']));
-        
-        $result = $stmt->executeQuery();
+        $stmt = $this->model->dba->prepare($sql);
 
-        if($result->getRecordCount() > 0)
+        $stmt->setString( $data['login'] );
+        $stmt->setString( md5($data['passwd'] ));       
+        
+        $id_user = 0;
+        $role    = 0;
+        $stmt->bindResult(array( & $id_user, & $role ));
+        
+        $stmt->execute();
+
+        if($stmt->fetch())
         {
-            $result->first();
-            $field = $result->getRow();
+            $this->model->session->set('loggedUserId',   $id_user);
+            $this->model->session->set('loggedUserRole', $role);
 
-            $this->model->session->set('loggedUserId',   $field['id_user']);
-            $this->model->session->set('loggedUserRole', $field['role']);  
-            
             return TRUE;
         }
-
+        
         return FALSE;
     } 
 

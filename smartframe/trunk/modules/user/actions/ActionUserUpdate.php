@@ -47,17 +47,15 @@ class ActionUserUpdate extends ActionUser
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $stmt = $this->model->db->prepareStatement($sql);                    
+        $this->model->dba->prepare($sql);                    
         
-        $x = 1;
         foreach($data['user'] as $key => $val)
         {
             $methode = 'set'.$this->tblFields_user[$key];
-            $stmt->$methode($x, $val);
-            $x++;
+            $this->model->dba->$methode($val);
         }
        
-        $stmt->executeUpdate();
+        $this->model->dba->execute();
        
         return TRUE;
     }
@@ -210,9 +208,9 @@ class ActionUserUpdate extends ActionUser
             WHERE
                 id_user='$id_user'";
         
-        $result = $this->model->db->executeQuery($sql);
+        $result = $this->model->dba->query($sql);
 
-        if($result->getRecordCount() > 0)
+        if($result->numRows() > 0)
         {
             return TRUE;
         }

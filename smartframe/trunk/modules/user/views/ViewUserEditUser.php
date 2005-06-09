@@ -214,7 +214,8 @@ class ViewUserEditUser extends SmartView
         // not possible if a logged user try to remove it self
         if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
         {                                 
-            $this->unlockUser();                      
+            $this->model->action('user','delete',
+                                 array('id_user' => (int)$_REQUEST['id_user']));                      
             $this->redirect();   
         }   
     }
@@ -262,7 +263,7 @@ class ViewUserEditUser extends SmartView
     {
         foreach($fields as $f)
         {
-            $var_array[$f] = htmlspecialchars ( $var_array[$f],  ENT_NOQUOTES, $this->config['charset'] );
+            $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['charset'] );
         }
     }
 

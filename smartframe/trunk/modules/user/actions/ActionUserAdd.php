@@ -45,17 +45,15 @@ class ActionUserAdd extends ActionUser
                   VALUES
                    ($quest)";
 
-        $stmt = $this->model->db->prepareStatement($sql);                    
+        $this->model->dba->prepare($sql);                    
         
-        $x = 1;
         foreach($data['user'] as $key => $val)
         {
             $methode = 'set'.$this->tblFields_user[$key];
-            $stmt->$methode($x, $val);
-            $x++;
+            $this->model->dba->$methode($val);
         }
        
-        $stmt->executeUpdate();
+        $this->model->dba->execute();
        
         return TRUE;
     }
@@ -213,9 +211,9 @@ class ActionUserAdd extends ActionUser
             WHERE
                 login='$login'";
         
-        $result = $this->model->db->executeQuery($sql);
+        $stmt = $this->model->dba->query($sql);
 
-        return $result->getRecordCount();    
+        return $stmt->numRows();    
     } 
     
 }

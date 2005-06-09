@@ -42,16 +42,15 @@ class ActionUserGetUser extends ActionUser
             WHERE
                 `id_user`={$data['id_user']}";
         
-        $rs = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
+        $rs = $this->model->dba->query($sql);
         
-        $rs->first();
+        $row = $rs->fetchAssoc();
 
         $data['result'] = array();
 
         foreach ($data['fields'] as $f)
         {
-            $methode = 'get'.$this->tblFields_user[$f];
-            $data['result'][$f] = $rs->$methode($f);
+            $data['result'][$f] = $row[$f];
         }  
             
         if(isset($data['translate_role']) && isset($data['result']['role']))
@@ -70,6 +69,11 @@ class ActionUserGetUser extends ActionUser
             {
                 throw new SmartModelException("Field '".$key."' dosent exists!");
             }
+        }
+
+        if(preg_match("/[^0-9]/",$data['id_user']))
+        {
+            throw new SmartModelException('Wrong id_user format: '.$id_user);        
         }
         
         return TRUE;

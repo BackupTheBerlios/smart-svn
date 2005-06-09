@@ -86,9 +86,9 @@ class ActionUserDeleteLogo extends SmartAction
             WHERE
                 id_user='$id_user'";
         
-        $result = $this->model->db->executeQuery($sql);
+        $result = $this->model->dba->query($sql);
 
-        if($result->getRecordCount() > 0)
+        if($result->numRows() == 1)
         {
             return TRUE;
         }
