@@ -44,10 +44,17 @@ class ViewSetupIndex extends SmartView
         {
             try
             { 
+                $data = array('superuser_passwd' => SmartCommonUtil::stripSlashes($_REQUEST['syspassword']),
+                              'dbtablesprefix'   => SmartCommonUtil::stripSlashes($_REQUEST['dbtablesprefix']),
+                              'dbhost'           => SmartCommonUtil::stripSlashes($_REQUEST['dbhost']),
+                              'dbuser'           => SmartCommonUtil::stripSlashes($_REQUEST['dbuser']),
+                              'dbpasswd'         => SmartCommonUtil::stripSlashes($_REQUEST['dbpasswd']),
+                              'dbname'           => SmartCommonUtil::stripSlashes($_REQUEST['dbname']),
+                              'charset'          => SmartCommonUtil::stripSlashes($_REQUEST['charset']),
+                              'config'           => & $this->viewVar['setup_config']); 
+                              
                 // Send a broadcast setup message to all modules  
-                $this->model->broadcast( 'setup', 
-                                         array('request' => & $_REQUEST,
-                                               'config'  => & $this->viewVar['setup_config']) );            
+                $this->model->broadcast( 'setup', $data );            
 
                 // write config file with database connection settings      
                 $this->model->action( $this->config['base_module'], 
@@ -123,30 +130,10 @@ class ViewSetupIndex extends SmartView
         {
           $this->tplVar['form_dbtableprefix'] = SmartCommonUtil::stripSlashes($_REQUEST['dbtablesprefix']);   
         }        
-
-        if(isset($_REQUEST['sysname']))
+    
+        if(isset($_REQUEST['syspassword']))
         {
-          $this->tplVar['form_sysname'] = SmartCommonUtil::stripSlashes($_REQUEST['sysname']);   
-        }    
-        if(isset($_REQUEST['syslastname']))
-        {
-          $this->tplVar['form_syslastname'] = SmartCommonUtil::stripSlashes($_REQUEST['syslastname']);   
-        } 
-        if(isset($_REQUEST['syslogin']))
-        {
-          $this->tplVar['form_syslogin'] = SmartCommonUtil::stripSlashes($_REQUEST['syslogin']);   
-        } 
-        if(isset($_REQUEST['sysemail']))
-        {
-          $this->tplVar['form_sysemail'] = SmartCommonUtil::stripSlashes($_REQUEST['sysemail']);   
-        }         
-        if(isset($_REQUEST['syspassword1']))
-        {
-          $this->tplVar['form_syspassword1'] = SmartCommonUtil::stripSlashes($_REQUEST['syspassword1']);   
-        } 
-        if(isset($_REQUEST['syspassword2']))
-        {
-          $this->tplVar['form_syspassword2'] = SmartCommonUtil::stripSlashes($_REQUEST['syspassword2']);   
+          $this->tplVar['form_syspassword'] = SmartCommonUtil::stripSlashes($_REQUEST['syspassword']);   
         }        
       
         return TRUE;
@@ -178,43 +165,15 @@ class ViewSetupIndex extends SmartView
         {
             $this->tplVar['setup_error'][] = 'Only a-z A-Z _ 0-9 chars for database name prefix are accepted';
         }         
-
-        if(empty($_REQUEST['sysname']))
-        {
-            $this->tplVar['setup_error'][] = 'SysAdmin name field is empty';
-        }
-        if(empty($_REQUEST['syslastname']))
-        {
-            $this->tplVar['setup_error'][] = 'SysAdmin lastname field is empty';
-        }  
-        if(empty($_REQUEST['syslogin']))
-        {
-            $this->tplVar['setup_error'][] = 'SysAdmin login field is empty';
-        }         
-        elseif(preg_match("/[^a-zA-Z_0-9-]/",$_REQUEST['syslogin']))
-        {
-            $this->tplVar['setup_error'][] = 'Only a-z A-Z _ 0-9 - chars for SysAdmin login are accepted';
-        } 
         
-        // email validation expression, taken from HTML_QuickForm
-        $expr = '/^((\"[^\"\f\n\r\t\v\b]+\")|([\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+(\.[\w\!\#\$\%\&\'\*\+\-\~\/\^\`\|\{\}]+)*))@((\[(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))\])|(((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9]))\.((25[0-5])|(2[0-4][0-9])|([0-1]?[0-9]?[0-9])))|((([A-Za-z0-9\-])+\.)+[A-Za-z\-]+))$/';
-
-        if(empty($_REQUEST['sysemail']))
-        {
-            $this->tplVar['setup_error'][] = 'SysEmail login field is empty';
-        }    
-        elseif (!preg_match($expr, $_REQUEST['sysemail']))
-        {
-            $this->tplVar['setup_error'][] = 'Email isnt valid';
-        }
-        if(empty($_REQUEST['syspassword1']) || empty($_REQUEST['syspassword2']))
+        if(empty($_REQUEST['syspassword']) || empty($_REQUEST['syspassword']))
         {
             $this->tplVar['setup_error'][] = 'Both Sysadmin password fields should not be empty and must contain the same value';
-        }  
-        elseif($_REQUEST['syspassword1'] !== $_REQUEST['syspassword2'])
+        } 
+        if(preg_match("/[^a-zA-Z0-9]/",$_REQUEST['syspassword']))
         {
-            $this->tplVar['setup_error'][] = 'Both Sysadmin password fields should not be empty and must contain the same value';
-        }   
+            $this->tplVar['setup_error'][] = 'Only a-z A-Z 0-9 chars for superuser password areis accepted';
+        }        
         
         if(count($this->tplVar['setup_error']) > 0)
         {
@@ -230,9 +189,17 @@ class ViewSetupIndex extends SmartView
      */    
     private function rollback()
     {
-        $this->model->broadcast( 'setup', 
-                                 array('rollback' => TRUE,
-                                       'request'  => & $_REQUEST) );    
+        $data = array('superuser_passwd' => SmartCommonUtil::stripSlashes($_REQUEST['syspassword']),
+                      'dbtablesprefix'   => SmartCommonUtil::stripSlashes($_REQUEST['dbtablesprefix']),
+                      'dbhost'           => SmartCommonUtil::stripSlashes($_REQUEST['dbhost']),
+                      'dbuser'           => SmartCommonUtil::stripSlashes($_REQUEST['dbuser']),
+                      'dbpasswd'         => SmartCommonUtil::stripSlashes($_REQUEST['dbpasswd']),
+                      'dbname'           => SmartCommonUtil::stripSlashes($_REQUEST['dbname']),
+                      'charset'          => SmartCommonUtil::stripSlashes($_REQUEST['charset']),
+                      'config'           => & $this->viewVar['setup_config'],
+                      'rollback'         => TRUE);            
+    
+        $this->model->broadcast( 'setup', $data );    
     }
 }
 

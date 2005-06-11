@@ -27,28 +27,26 @@ class ActionCommonSetup extends SmartAction
             $this->checkFolders();
         }
         
-        $data['config']['db']['dbTablePrefix'] = SmartCommonUtil::stripSlashes($data['request']['dbtablesprefix']);    
-        $data['config']['db']['dbtype']        = 'mysql';
-        $data['config']['db']['dbhost']        = SmartCommonUtil::stripSlashes($data['request']['dbhost']);
-        $data['config']['db']['dbuser']        = SmartCommonUtil::stripSlashes($data['request']['dbuser']);
-        $data['config']['db']['dbpasswd']      = SmartCommonUtil::stripSlashes($data['request']['dbpasswd']);
-        $data['config']['db']['dbname']        = SmartCommonUtil::stripSlashes($data['request']['dbname']);
-        
-        // set database variables
-        $dsn = array( 'phptype'  => $data['config']['db']['dbtype'],
-                      'hostspec' => $data['config']['db']['dbhost'],
-                      'username' => $data['config']['db']['dbuser'],
-                      'password' => $data['config']['db']['dbpasswd'],
-                      'database' => $data['config']['db']['dbname']);
+        $data['config']['db']['dbTablePrefix'] = $data['dbtablesprefix'];    
+        $data['config']['db']['dbhost']        = $data['dbhost'];
+        $data['config']['db']['dbuser']        = $data['dbuser'];
+        $data['config']['db']['dbpasswd']      = $data['dbpasswd'];
+        $data['config']['db']['dbname']        = $data['dbname'];
+        $data['config']['db']['dbcharset']     = $this->mysqlEncoding( $data['charset'] );
+
+        // +++++++++++ END Deprecated ++++++++++++++++++
 
         try
         {
-            $this->model->db = Creole::getConnection($dsn);
+            $this->model->dba = new DbMysqli( $data['config']['db']['dbhost'] ,$data['config']['db']['dbuser'],
+                                              $data['config']['db']['dbpasswd'],$data['config']['db']['dbname'] );
+                                              
+            $this->model->dba->connect();  
         }
-        catch(SQLException $e)
+        catch(SmartDbException $e)
         {
             // if no database connection stop here
-            throw new Exception( 'No database connection: ' . $e->getNativeError());
+            throw new SmartModelException;
         }
         
         // Rollback if there are somme error in other modules setup actions
@@ -63,21 +61,19 @@ class ActionCommonSetup extends SmartAction
                  `modtime` int(11) NOT NULL default '0',
                  `session_data` text NOT NULL default '',
                  PRIMARY KEY   (`session_id`))";
-        $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
             
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_config (
                  `charset` varchar(255) NOT NULL default '',
                  `templates_folder` varchar(255) NOT NULL default '',
                  `views_folder`     varchar(255) NOT NULL default '')";
-        $this->model->db->executeUpdate($sql);
-
-        $charset = SmartCommonUtil::stripSlashes($data['request']['charset']);
+        $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
                  (`charset`,`templates_folder`, `views_folder`)
                 VALUES
-                 ('{$charset}','templates_default','views_default')";
-        $this->model->db->executeUpdate($sql);
+                 ('{$data['charset']}','templates_default','views_default')";
+        $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_module (
                  `id_module`   int(11) NOT NULL auto_increment,
@@ -88,13 +84,13 @@ class ActionCommonSetup extends SmartAction
                  `visibility`  tinyint(1) NOT NULL default 0,
                  `release`     text NOT NULL default '',
                  PRIMARY KEY   (`id_module`))";
-        $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                 VALUES
                  ('common','', 0,'0.1',0,'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
-        $this->model->db->executeUpdate($sql);            
+        $this->model->dba->query($sql);            
 
         return TRUE;
     } 
@@ -127,6 +123,43 @@ class ActionCommonSetup extends SmartAction
             throw new Exception('Must be writeable by php scripts: '.$cache_folder);    
         }      
     }
+
+    /**
+     * Get mysql charset encoding
+     * 
+     * @param string $charset 
+     * @return string Mysql encoding
+     */    
+    public function mysqlEncoding( $charset )
+    {
+        $_charset = array("iso-8859-1"   => 'latin1',
+                          "iso-8859-2"   => 'latin2',
+                          "iso-8859-13"  => 'latin7',
+                          "iso-8859-7"   => 'greek',
+                          "iso-8859-8"   => 'hebrew',
+                          "iso-8859-9"   => 'latin5',
+                          "utf-8"        => 'utf8',
+                          "windows-1250" => 'cp1250',
+                          "windows-1256" => 'cp1256',
+                          "windows-1257" => 'cp1257',
+                          "windows-1251" => 'cp1251',
+                          "GB2312"       => 'gb2312',
+                          "Big5"         => 'big5',
+                          "EUC-KR"       => 'euckr',
+                          "TIS-620"      => 'tis620',
+                          "EUC-JP"       => 'ujis',
+                          "KOI8-U"       => 'koi8u',
+                          "KOI8-R"       => 'koi8r');
+                          
+        if(isset($_charset[$charset])) 
+        {
+            return $_charset[$charset];
+        }
+        else
+        {
+            throw new SmartModelException('Charset not supported: '.$charset);
+        }
+    } 
     
     /**
      * Rollback setup
@@ -138,9 +171,14 @@ class ActionCommonSetup extends SmartAction
         if(is_resource($this->model->db))
         {
             $sql = "DROP TABLE IF EXISTS 
-                        {$data['request']['dbtablesprefix']}common_module,
-                        {$data['request']['dbtablesprefix']}common_config";
-            $this->model->db->executeUpdate($sql); 
+                        {$data['dbtablesprefix']}common_module,
+                        {$data['dbtablesprefix']}common_config";
+            $this->model->dba->query($sql); 
+        }
+        
+        if(file_exists($this->model->config['config_path'] . 'dbConnect.php'))
+        {
+            @unlink($this->model->config['config_path'] . 'dbConnect.php');
         }
     }     
 }

@@ -47,15 +47,15 @@ class ActionUserUpdate extends ActionUser
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $this->model->dba->prepare($sql);                    
+        $stmt = $this->model->dba->prepare($sql);                    
         
         foreach($data['user'] as $key => $val)
         {
             $methode = 'set'.$this->tblFields_user[$key];
-            $this->model->dba->$methode($val);
+            $stmt->$methode($val);
         }
        
-        $this->model->dba->execute();
+        $stmt->execute();
        
         return TRUE;
     }

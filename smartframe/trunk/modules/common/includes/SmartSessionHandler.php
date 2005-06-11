@@ -45,37 +45,36 @@ final class SmartSessionHandler
   
     public function read($id) 
     {
-        $result = $this->db->executeQuery("SELECT session_data 
+        $result = $this->db->query("SELECT session_data 
                                            FROM {$this->dbTablePrefix}common_session 
-                                           WHERE session_id = '$id'", 
-                                           ResultSet::FETCHMODE_ASSOC);
-        $result->first();
-        $f = $result->getRow();
+                                           WHERE session_id = '$id'");
+
+        $f = $result->fetchAssoc();
         return $f['session_data'];
     }
   
     public function write($id, $sess_data) 
     {
-        $stmt = $this->db->prepareStatement("REPLACE INTO {$this->dbTablePrefix}common_session
-                                             (session_id, session_data, modtime) 
-                                             VALUES(?,?,?)");
-        $stmt->setString(1, $id);
-        $stmt->setString(2, $sess_data);
-        $stmt->setInt(3,    time());
-        $stmt->executeUpdate();
+        $stmt = $this->db->prepare("REPLACE INTO {$this->dbTablePrefix}common_session
+                                       (session_id, session_data, modtime) 
+                                    VALUES(?,?,?)");
+        $stmt->setString($id);
+        $stmt->setString($sess_data);
+        $stmt->setInt(time());
+        $stmt->execute();
     }
   
     public function destroy($id) 
     {
-        $this->db->executeUpdate("DELETE FROM {$this->dbTablePrefix}common_session
-                                  WHERE session_id = '$id'");
+        $this->db->query("DELETE FROM {$this->dbTablePrefix}common_session
+                            WHERE session_id = '$id'");
   
     }
   
     public function gc($maxlifetime) 
     {
         $ts = time() - $maxlifetime;
-        $this->db->executeUpdate("DELETE FROM {$this->dbTablePrefix}common_session
+        $this->db->query("DELETE FROM {$this->dbTablePrefix}common_session
                                   WHERE modtime < $ts");
     }
 }

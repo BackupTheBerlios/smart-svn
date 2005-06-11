@@ -60,28 +60,24 @@ class ActionUserFileUploadBase extends SmartAction
                 FROM 
                     {$this->config['dbTablePrefix']}user_user
                 WHERE
-                    `id_user`=?";
+                    `id_user`=$id_user";
                   
-        $stmt = $this->model->db->prepareStatement($sql, ResultSet::FETCHMODE_ASSOC);
+        $stmt = $this->model->dba->query($sql);
 
-        $stmt->setInt(1, $id_user);
-        
-        $result = $stmt->executeQuery();
-
-        if($result->getRecordCount() > 0)
+        if($stmt->numRows() > 0)
         {
-            $result->first();
-            $field = $result->getRow();
+            $row = $stmt->fetchAssoc();
 
-            if(empty($field['media_folder']))
+            if(empty($row['media_folder']))
             {
                 return $this->createUserMediaFolder( $id_user );
             }
             else
             {
-                return $field['media_folder'];
+                return $row['media_folder'];
             }
-        }                    
+        }      
+        return FALSE;
     }
     
     private function createUserMediaFolder( $id_user )

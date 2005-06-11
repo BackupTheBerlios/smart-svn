@@ -22,12 +22,13 @@ if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
 else
     $tmp_separator = ':';
 
-// set include path to the PEAR packages
+// set include path to extern packages
 ini_set( 'include_path', SMART_BASE_DIR . 'modules/common/includes/creole' . $tmp_separator . ini_get('include_path') );
+ini_set( 'include_path', SMART_BASE_DIR . 'modules/common/includes/PEAR' . $tmp_separator . ini_get('include_path') );
 unset($tmp_separator); 
 
 // creole db layer
-require_once(SMART_BASE_DIR . 'modules/common/includes/creole/creole/Creole.php');
+//require_once(SMART_BASE_DIR . 'modules/common/includes/creole/creole/Creole.php');
 
 // util class
 require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonUtil.php');
@@ -37,6 +38,9 @@ require_once(SMART_BASE_DIR . 'modules/common/includes/SmartSessionHandler.php')
 
 // session class
 require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonSession.php');
+
+// session class
+require_once(SMART_BASE_DIR . 'modules/common/includes/SmartMysqli.php');
 
 // get_magic_quotes_gpc
 define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
@@ -73,6 +77,7 @@ class ActionCommonInit extends SmartAction
         $this->config['dbpasswd']      = $db['dbpasswd'];
         $this->config['dbname']        = $db['dbname'];
         $this->config['dbTablePrefix'] = $db['dbTablePrefix'];
+        $this->config['dbcharset']     = $db['dbcharset'];
 
         // set database variables
         $dsn = array( 'phptype'  => 'mysql',
@@ -80,7 +85,7 @@ class ActionCommonInit extends SmartAction
                       'username' => $db['dbuser'],
                       'password' => $db['dbpasswd'],
                       'database' => $db['dbname']);
-
+/*
         try
         {
             $this->model->db = Creole::getConnection($dsn);
@@ -90,12 +95,27 @@ class ActionCommonInit extends SmartAction
             // if no database connection stop here
             throw new SmartModelException( $e->getNativeError() );
         }
+*/
+        try
+        {
+            $this->model->dba = new DbMysqli( $db['dbhost']  ,$db['dbuser'],
+                                              $db['dbpasswd'],$db['dbname'] );
+                                              
+            $dbaOptions = array(MYSQLI_OPT_CONNECT_TIMEOUT => 5);
+            $this->model->dba->connect();  
+            $this->model->dba->query("SET CHARACTER SET '{$db['dbcharset']}'");
+        }
+        catch(SmartDbException $e)
+        {
+            // if no database connection stop here
+            throw new SmartModelException;
+        }
        
         // set base url
         $this->model->baseUrlLocation = SmartCommonUtil::base_location();
        
         // set session handler
-        $this->model->sessionHandler = new SmartSessionHandler( $this->model->db, $this->config['dbTablePrefix'] );
+        $this->model->sessionHandler = new SmartSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
        
         // start session
         $this->model->session = new SmartCommonSession();
@@ -117,14 +137,12 @@ class ActionCommonInit extends SmartAction
     {
         $sql = "SELECT * FROM {$this->config['dbTablePrefix']}common_module ORDER BY `rank` ASC";
         
-        $rs = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
+        $rs = $this->model->dba->query($sql);
         
         $this->config['module'] = array();
         
-        while($rs->next())
+        while($row = $rs->fetchAssoc())
         {
-            $row = array();
-            $row = $rs->getRow();
             $this->model->register($row['name'], $row); 
         } 
     }
@@ -137,10 +155,9 @@ class ActionCommonInit extends SmartAction
     {
         $sql = "SELECT * FROM {$this->config['dbTablePrefix']}common_config";
         
-        $rs = $this->model->db->executeQuery($sql, ResultSet::FETCHMODE_ASSOC);
+        $rs = $this->model->dba->query($sql);
         
-        $rs->first();
-        $fields = $rs->getRow();
+        $fields = $rs->fetchAssoc();
 
         foreach($fields as $key => $val)
         {

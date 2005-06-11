@@ -23,7 +23,7 @@ class ActionUserAllowEditUser extends SmartAction
      * @param array $data
      */
     function perform( $data = FALSE )
-    {  
+    {   
         // allow the logged user edit its own data
         if($data['id_user'] == $this->model->session->get('loggedUserId'))
         {
@@ -37,24 +37,23 @@ class ActionUserAllowEditUser extends SmartAction
                 WHERE
                     id_user=?";
         
-        $stmt = $this->model->db->prepareStatement($sql, ResultSet::FETCHMODE_ASSOC);
-
-        $stmt->setInt(1, $data['id_user']);
+        $stmt = $this->model->dba->prepare($sql);
+        $stmt->setInt($data['id_user']);
         
-        $result = $stmt->executeQuery();
+        $role = 0;
+        $stmt->bindResult( array(&$role) ); 
         
-        $result->first();
+        $stmt->execute();
+        $stmt->fetch();
         
-        $field = $result->getRow();
-        
-        if(!is_array($field) || !isset($field['role']))
+        if($role == FALSE)
         {
             return FALSE;
         }
         
         // accord permission if the role of the user to edit
         // is greater than the role of the logged user
-        if($field['role'] > $this->model->session->get('loggedUserRole'))
+        if($role > $this->model->session->get('loggedUserRole'))
         {
             return TRUE;
         }

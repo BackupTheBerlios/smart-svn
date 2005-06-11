@@ -42,13 +42,10 @@ class ActionNavigationSetup extends SmartAction
                    `logo`         varchar(255) NOT NULL default '',
                    `media_folder` char(64) NOT NULL,
                    PRIMARY KEY     (`id_node`),
-                   KEY `id_parent` (`id_parent`),
-                   KEY `id_sector` (`id_sector`),
-                   KEY `rank`      (`rank`),
-                   KEY `status`    (`status`),
+                   KEY (`id_parent`,`id_sector`,`rank`,`status`),
                    KEY `lock`      (`lock`),
                    KEY `lock_time` (`lock_time`))";
-        $this->model->db->executeUpdate($sql);
+        $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
@@ -59,7 +56,7 @@ class ActionNavigationSetup extends SmartAction
                     '0.1',
                     1,
                     'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
-        $this->model->db->executeUpdate($sql);            
+        $this->model->dba->query($sql);            
     } 
 
     /**
@@ -69,8 +66,8 @@ class ActionNavigationSetup extends SmartAction
      */    
     public function rollback( &$data )
     {
-        $sql = "DROP TABLE IF EXISTS {$data['request']['dbtablesprefix']}navigation_node";
-        $this->model->db->executeUpdate($sql);  
+        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}navigation_node";
+        $this->model->dba->query($sql);  
     }
 }
 

@@ -40,7 +40,7 @@ class ViewUserEditUser extends SmartView
         {
             throw new SmartViewException('Operation denied');
         }    
-        
+       
         // lock the user to edit
         $result = $this->model->action('user','lock',
                                        array('job'        => 'lock',
