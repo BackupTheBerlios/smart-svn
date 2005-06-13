@@ -15,6 +15,6 @@
 <body>
 <p><font size="5" face="Verdana, Arial, Helvetica, sans-serif"><strong>Web user error page</strong></font>
 </p>
-<p><font color="#990000" size="3" face="Verdana, Arial, Helvetica, sans-serif"><pre><?php print_r( $tpl ); ?></pre></font></p>
+<p><font color="#990000" size="3" face="Verdana, Arial, Helvetica, sans-serif"><pre><?php var_dump($tpl['message']); ?></pre></font></p>
 </body>
 </html>
