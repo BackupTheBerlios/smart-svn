@@ -63,31 +63,31 @@ class SmartWebController extends SmartController
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView();
+            $this->userErrorView( $e->getMessage() );
         }
         catch(SmartModelException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace();
-            $this->userErrorView();
+            $this->userErrorView( $e->getMessage() );
         }         
         catch(SmartTplException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView();
+            $this->userErrorView( $e->getMessage() );
         } 
         catch(SmartCacheException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView();
+            $this->userErrorView( $e->getMessage() );
         } 
         catch(SmartDbException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView();
+            $this->userErrorView( $e->getMessage() );
         }            
         catch(SmartForwardPublicViewException $e)
         {
@@ -124,10 +124,44 @@ class SmartWebController extends SmartController
      * Web user error view is executed if an exception arrise
      *
      */    
-    private function userErrorView()
+    private function userErrorView( $message )
     {
         $methode = $this->config['error_view'];
-        $this->view->$methode( array('error' => 'Unexpected error. Please contact the administrator') );    
+        
+        try
+        {        
+            $this->view->$methode( $message );    
+        }
+        catch(SmartViewException $e)
+        {
+            $this->setExceptionFlags( $e );
+            $e->performStackTrace();
+            die('Fatal View Error');
+        }
+        catch(SmartModelException $e)
+        {
+            $this->setExceptionFlags( $e );
+            $e->performStackTrace();
+            die('Fatal Model Error');
+        }         
+        catch(SmartTplException $e)
+        {
+            $this->setExceptionFlags( $e );
+            $e->performStackTrace(); 
+            die('Fatal Template Error');
+        } 
+        catch(SmartCacheException $e)
+        {
+            $this->setExceptionFlags( $e );
+            $e->performStackTrace(); 
+            die('Fatal Cache Error');
+        } 
+        catch(SmartDbException $e)
+        {
+            $this->setExceptionFlags( $e );
+            $e->performStackTrace(); 
+            die('Fatal DB Error');
+        }     
     }    
 }
 

@@ -45,7 +45,7 @@ class SmartException extends Exception
     protected function setName ($name)
     {
         $this->name = $name;
-    }
+    }  
 
     /**
      * run exception stack trace

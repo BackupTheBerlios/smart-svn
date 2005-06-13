@@ -162,7 +162,7 @@ class SmartPublicViewFactory extends SmartViewFactory
             { 
                 $tplContainer->templateFolder = SMART_TPL_FOLDER;
             }                
-                
+
             // render the template
             $tplContainer->renderTemplate();
         }                
