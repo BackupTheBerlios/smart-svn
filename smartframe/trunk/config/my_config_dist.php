@@ -68,6 +68,11 @@ $SmartConfig['cache_type'] = 'SmartFileViewCache';
 $SmartConfig['template_engine'] = 'SmartTplContainerPhp';
 
 /**
+ * Use php code analyzer
+ */
+$SmartConfig['useCodeAnalyzer'] = FALSE;
+
+/**
  * Allowed php constructs in templates
  */
 $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif',
