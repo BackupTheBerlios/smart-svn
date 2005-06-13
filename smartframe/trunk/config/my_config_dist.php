@@ -68,6 +68,16 @@ $SmartConfig['cache_type'] = 'SmartFileViewCache';
 $SmartConfig['template_engine'] = 'SmartTplContainerPhp';
 
 /**
+ * Allowed php constructs in templates
+ */
+$SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif',
+                                          'foreach','endforeach','while','do','for',
+                                          'continue','break','switch','case',
+                                          'echo','print','print_r','var_dump','exit',
+                                          'defined','define',
+                                          'isset','empty');
+
+/**
  * Default templates and views folder
  */
 $SmartConfig['default_template_folder'] = 'templates_default/';
