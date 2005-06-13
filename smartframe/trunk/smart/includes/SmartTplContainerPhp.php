@@ -36,14 +36,17 @@ class SmartTplContainerPhp extends SmartTplContainer
          
         // build the whole file path to the TEMPLATE file
         $template = SMART_BASE_DIR . $this->templateFolder . '/tpl.' . $this->template . '.php';
-
-        $this->disallowedItems = array();
-
-        if(FALSE == $this->analyze($template))
+        
+        if($this->config['useCodeAnalyzer'] == TRUE)
         {
-            throw new SmartTplException("Template php function(s) not allowed: <pre>".var_export($this->disallowedItems,true)."<pre>");
+            $this->disallowedItems = array();
+            
+            if(FALSE == $this->analyze($template))
+            {
+                throw new SmartTplException("Template php function(s) not allowed: <pre>".var_export($this->disallowedItems,true)."<pre>");
+            }
         }
-
+        
         if ( !@file_exists( $template ) )
         {
             throw new SmartTplException("Template dosent exists: ".$template);
