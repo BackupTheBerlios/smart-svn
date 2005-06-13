@@ -18,6 +18,13 @@
 class SmartTplContainer extends SmartContainer
 {
     /**
+     * Global config variables
+     *
+     * @var mixed $config
+     */
+    public $config = NULL;
+    
+    /**
      * Template variables
      *
      * @var mixed $vars

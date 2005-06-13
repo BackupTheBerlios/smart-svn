@@ -113,6 +113,8 @@ class SmartAdminViewFactory extends SmartViewFactory
             include_once( SMART_BASE_DIR . 'smart/includes/SmartTplContainer.php' );
             // get template container object
             $tplContainer = SmartContainer::newInstance( $this->model->config['template_engine'], $this->model->config );
+            // aggregate the global config array
+            $tplContainer->config = & $this->model->config;
             // aggregate this object
             $tplContainer->viewLoader = $this;
             // aggregate this container variable to store template variables

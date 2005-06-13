@@ -18,15 +18,6 @@
 class SmartTplContainerPhp extends SmartTplContainer
 {
     /**
-     * Allowed tokens
-     */
-    private $allowedConstructs = array('if','else','elseif','else if','endif',
-                                       'foreach','endforeach','while','do','for','continue','break','switch','case',
-                                       'echo','print','print_r','var_dump','exit',
-                                       'defined','define',
-                                       'isset','empty');
-
-    /**
      * Tokens found
      */                                    
     private $disallowedItems = array();
@@ -35,7 +26,7 @@ class SmartTplContainerPhp extends SmartTplContainer
      * render the template
      *
      */
-    function renderTemplate()
+    public function renderTemplate()
     {
         // get reference of the template variables
         $tpl = & $this->vars;
@@ -67,7 +58,7 @@ class SmartTplContainerPhp extends SmartTplContainer
      * analyze allowed php tokens in template 
      *
      */
-    function analyze( &$template )
+    private function analyze( & $template )
     {
         include_once(SMART_BASE_DIR . "smart/includes/phpca/PHPCodeAnalyzer.php");
                 
@@ -77,7 +68,7 @@ class SmartTplContainerPhp extends SmartTplContainer
 
         foreach($analyzer->calledConstructs as $key => $val)
         {
-            if(!in_array($key, $this->allowedConstructs))
+            if(!in_array($key, $this->config['allowedConstructs']))
             {
                 $this->disallowedItems[] = $key;
             }
@@ -89,7 +80,7 @@ class SmartTplContainerPhp extends SmartTplContainer
         }
         
         return TRUE;
-    }     
+    } 
 }
 
 ?>
