@@ -26,8 +26,11 @@ class ViewError extends SmartView
      * is static.
      *
      */
-    function perform()
+    function perform( $data = FALSE )
     {
+        // assign error message template var
+        $this->tplVar['message'] = & $this->viewData;
+        return TRUE;
     }
 }
 
