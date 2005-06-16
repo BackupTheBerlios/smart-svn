@@ -71,6 +71,7 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['lastname']    = '';  
         $this->tplVar['user']['description'] = '';   
         $this->tplVar['user']['role']        = 0;  
+        $this->tplVar['user']['thumb']       = array();
         
         // update user data
         if( isset($_POST['updatethisuser']) )
@@ -97,6 +98,18 @@ class ViewUserEditUser extends SmartView
         
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->tplVar['user'], array('name','lastname') );
+
+        // get user picture thumbnails
+        $this->model->action('user','getAllThumbs',
+                             array('result'  => & $this->tplVar['user']['thumb'],
+                                   'id_user' => (int)$_REQUEST['id_user'],
+                                   'order'   => 'rank',
+                                   'fields'  => array('id_pic',
+                                                      'file',
+                                                      'size',
+                                                      'mime',
+                                                      'description')) );
+
 
         // assign some template variables
         $this->setTemplateVars();
@@ -133,9 +146,9 @@ class ViewUserEditUser extends SmartView
         if(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
         {   
             $this->model->action('user',
-                                 'fileUpload',
-                                 array('id_user'   => $_REQUEST['id_user'],
-                                       'post_name' => 'logo') ); 
+                                 'uploadLogo',
+                                 array('id_user'  => $_REQUEST['id_user'],
+                                       'postName' => 'logo') ); 
                                         
             $dont_forward = TRUE;
         }
@@ -150,12 +163,41 @@ class ViewUserEditUser extends SmartView
         if(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
         {   
             $this->model->action('user',
-                                 'fileUpload',
+                                 'addPicture',
                                  array('id_user'   => $_REQUEST['id_user'],
-                                       'post_name' => 'picture') ); 
+                                       'postName' => 'picture') ); 
                                          
             $dont_forward = TRUE;
         } 
+        if(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
+        {   
+            $this->model->action('user',
+                                 'deletePicture',
+                                 array('id_user' => $_REQUEST['id_user'],
+                                       'id_pic'  => $_POST['imageID2del']) ); 
+                                         
+            $dont_forward = TRUE;
+        }  
+        if(!empty($_POST['imageIDmoveUp']))
+        {   
+            $this->model->action('user',
+                                 'movePictureRank',
+                                 array('id_user' => $_REQUEST['id_user'],
+                                       'id_pic'  => $_POST['imageIDmoveUp'],
+                                       'dir'     => 'up') ); 
+                                         
+            $dont_forward = TRUE;
+        }  
+        if(!empty($_POST['imageIDmoveDown']))
+        {   
+            $this->model->action('user',
+                                 'movePictureRank',
+                                 array('id_user' => $_REQUEST['id_user'],
+                                       'id_pic'  => $_POST['imageIDmoveDown'],
+                                       'dir'     => 'down') ); 
+                                         
+            $dont_forward = TRUE;
+        }         
         // check if required fields are empty
         if (FALSE == $this->checkEmptyFields())
         {

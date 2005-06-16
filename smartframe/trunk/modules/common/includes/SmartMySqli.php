@@ -76,6 +76,11 @@ class DbMysqli
         }
     }
     
+    public function affectedRows() 
+    {
+        return $this->dbh->affected_rows;
+    }        
+    
     public function prepare($query) 
     {
         $result = $this->dbh->prepare( $query ); 
@@ -143,12 +148,7 @@ class DbMysqliStatement
     public function numRows() 
     {
         return $this->result->num_rows;
-    }
-    
-    public function affectedRows() 
-    {
-        return $this->result->affected_rows;
-    }     
+    }    
    
     public function fetchAll( $type = 'fetchAssoc' ) 
     {

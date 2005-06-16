@@ -44,6 +44,8 @@ class ActionUserInit extends SmartAction
         // get user module info
         $info = $this->model->getModuleInfo('user');
         
+        $this->loadConfig();
+        
         // need install or upgrade?
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {
@@ -53,6 +55,24 @@ class ActionUserInit extends SmartAction
         
         unset($info);
     }
+    
+    /**
+     * Load config values
+     *
+     */    
+    private function loadConfig()
+    {
+        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}user_config";
+        
+        $rs = $this->model->dba->query($sql);
+        
+        $fields = $rs->fetchAssoc();
+
+        foreach($fields as $key => $val)
+        {
+            $this->config['user'][$key] = $val;      
+        } 
+    }    
 }
 
 ?>

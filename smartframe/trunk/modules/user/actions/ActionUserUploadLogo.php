@@ -10,15 +10,15 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionUserFileUpload class 
+ * ActionUserUploadLogo class 
  *
  */
 include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUserFileUploadBase.php');
 
-class ActionUserUploadPicture extends ActionUserFileUploadBase
+class ActionUserUploadLogo extends ActionUserFileUploadBase
 {
     /**
-     * add user
+     * add user logo picture
      *
      * @param array $data
      * @return bool
@@ -35,12 +35,12 @@ class ActionUserUploadPicture extends ActionUserFileUploadBase
         }
         
         $this->model->action('user',
-                             'addPicture',
+                             'update',
                              array('error'   => & $data['error'],
                                    'id_user' => $data['id_user'],
-                                   'folder'  => $media_folder,
-                                   'file'    => $file_info);
-            
+                                   'user'    => array('logo' => $file_info['file_name'])));
+
+           
         return TRUE;
     }
     
@@ -52,8 +52,6 @@ class ActionUserUploadPicture extends ActionUserFileUploadBase
      */    
     public function validate(  $data = FALSE  )
     {
-        // init error var
-        
         // check if user exists
         if( !isset($data['postName']) || empty($data['postName']) )
         {        

@@ -86,18 +86,25 @@ class ActionUserSetup extends SmartAction
                    KEY `id_user`   (`id_user`,`rank`))";
         $this->model->dba->query($sql);        
 
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_config (
+                 `thumb_width`   smallint(4) NOT NULL default 200,
+                 `img_size_max`  int(11) NOT NULL default 100000,
+                 `file_size_max` int(11) NOT NULL default 100000)";
+        $this->model->dba->query($sql);
+
+        $sql = "INSERT INTO {$data['dbtablesprefix']}user_config
+                   (`thumb_width`, `img_size_max`,`file_size_max`)
+                  VALUES
+                   (200,100000,100000)";
+        $this->model->dba->query($sql); 
+
+        $passwd = md5($data['superuser_passwd']);
+
         $sql = "INSERT INTO {$data['dbtablesprefix']}user_user
                    (`login`, `passwd`,`status`, `role`)
                   VALUES
-                   ('superuser',?,2,10)";
-        $this->model->dba->prepare($sql); 
-
-        // register a superuser
-        $superuser_passwd = md5($data['superuser_passwd']);
-
-        $this->model->dba->bindParam(array("s",$superuser_passwd)); 
-        
-        $stmt = $this->model->dba->execute();
+                   ('superuser','{$passwd}',2,10)";
+        $this->model->dba->query($sql); 
 
         // insert module info data
         $sql = "INSERT INTO {$data['dbtablesprefix']}common_module

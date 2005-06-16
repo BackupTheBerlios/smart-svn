@@ -94,6 +94,11 @@ class ActionUserFileUploadBase extends SmartAction
             throw new SmartModelException('Cant create media folder: ' . $folder);
         }
 
+        if(!mkdir(SMART_BASE_DIR . 'data/user/' . $folder . '/thumb', $this->config['media_folder_rights']))
+        {
+            throw new SmartModelException('Cant create media folder: ' . $folder . '/thumb');
+        }
+
         $this->model->action('user',
                              'update',
                              array('error'   => & $data['error'],
