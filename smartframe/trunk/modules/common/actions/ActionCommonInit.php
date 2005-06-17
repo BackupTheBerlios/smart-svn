@@ -79,23 +79,6 @@ class ActionCommonInit extends SmartAction
         $this->config['dbTablePrefix'] = $db['dbTablePrefix'];
         $this->config['dbcharset']     = $db['dbcharset'];
 
-        // set database variables
-        $dsn = array( 'phptype'  => 'mysql',
-                      'hostspec' => $db['dbhost'],
-                      'username' => $db['dbuser'],
-                      'password' => $db['dbpasswd'],
-                      'database' => $db['dbname']);
-/*
-        try
-        {
-            $this->model->db = Creole::getConnection($dsn);
-        }
-        catch(SQLException $e)
-        {
-            // if no database connection stop here
-            throw new SmartModelException( $e->getNativeError() );
-        }
-*/
         try
         {
             $this->model->dba = new DbMysqli( $db['dbhost']  ,$db['dbuser'],
@@ -103,7 +86,7 @@ class ActionCommonInit extends SmartAction
                                               
             $dbaOptions = array(MYSQLI_OPT_CONNECT_TIMEOUT => 5);
             $this->model->dba->connect();  
-            $this->model->dba->query("SET CHARACTER SET '{$db['dbcharset']}'");
+            $this->model->dba->query("SET CHARACTER SET '{$db['dbcharset']}'");        
         }
         catch(SmartDbException $e)
         {
@@ -122,6 +105,10 @@ class ActionCommonInit extends SmartAction
        
         // load global config variables of the common module   
         $this->loadConfig(); 
+
+        // set charset
+        ini_set( "default_charset",$this->config['charset']);
+        @header( "Content-type: text/html; charset={$this->config['charset']}" );    
         
         // load module descriptions into config array   
         $this->loadModulesInfo();         
