@@ -72,7 +72,8 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['description'] = '';   
         $this->tplVar['user']['role']        = 0;  
         $this->tplVar['user']['thumb']       = array();
-        
+        $this->tplVar['user']['file']        = array();
+       
         // update user data
         if( isset($_POST['updatethisuser']) )
         {
@@ -117,6 +118,27 @@ class ViewUserEditUser extends SmartView
         {
             $this->convertHtmlSpecialChars( $this->tplVar['user']['thumb'][$x], array('description') );
             $this->tplVar['user']['thumb'][$x]['description'] = addslashes($this->tplVar['user']['thumb'][$x]['description']);
+            $x++;
+        }
+
+        // get user picture thumbnails
+        $this->model->action('user','getAllFiles',
+                             array('result'  => & $this->tplVar['user']['file'],
+                                   'id_user' => (int)$_REQUEST['id_user'],
+                                   'order'   => 'rank',
+                                   'fields'  => array('id_file',
+                                                      'file',
+                                                      'size',
+                                                      'mime',
+                                                      'description')) );
+
+        // convert description field to safely include into javascript function call
+        $x=0;
+        $this->tplVar['user']['filedesc'] = array();
+        foreach($this->tplVar['user']['file'] as $file)
+        {
+            $this->convertHtmlSpecialChars( $this->tplVar['user']['file'][$x], array('description') );
+            $this->tplVar['user']['file'][$x]['description'] = addslashes($this->tplVar['user']['file'][$x]['description']);
             $x++;
         }
 
@@ -187,23 +209,59 @@ class ViewUserEditUser extends SmartView
                                          
             $dont_forward = TRUE;
         }  
-        if(!empty($_POST['imageIDmoveUp']))
+        if(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
         {   
             $this->model->action('user',
-                                 'movePictureRank',
+                                 'moveItemRank',
                                  array('id_user' => $_REQUEST['id_user'],
                                        'id_pic'  => $_POST['imageIDmoveUp'],
                                        'dir'     => 'up') ); 
                                          
             $dont_forward = TRUE;
         }  
-        if(!empty($_POST['imageIDmoveDown']))
+        if(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
         {   
             $this->model->action('user',
-                                 'movePictureRank',
+                                 'moveItemRank',
                                  array('id_user' => $_REQUEST['id_user'],
                                        'id_pic'  => $_POST['imageIDmoveDown'],
                                        'dir'     => 'down') ); 
+                                         
+            $dont_forward = TRUE;
+        }  
+        if(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
+        {
+            $this->model->action('user',
+                                 'moveItemRank',
+                                 array('id_user' => $_REQUEST['id_user'],
+                                       'id_file' => $_POST['fileIDmoveUp'],
+                                       'dir'     => 'up') );                                                 
+            $dont_forward = TRUE;
+        }  
+        if(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
+        {   
+            $this->model->action('user',
+                                 'moveItemRank',
+                                 array('id_user' => $_REQUEST['id_user'],
+                                       'id_file' => $_POST['fileIDmoveDown'],
+                                       'dir'     => 'down') );                                                
+            $dont_forward = TRUE;
+        }         
+        if(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
+        {          
+            $this->model->action('user',
+                                 'addFile',
+                                 array('id_user'  => $_REQUEST['id_user'],
+                                       'postName' => 'ufile') ); 
+                                     
+            $dont_forward = TRUE;
+        }  
+        if(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
+        {   
+            $this->model->action('user',
+                                 'deleteFile',
+                                 array('id_user' => $_REQUEST['id_user'],
+                                       'id_file' => $_POST['fileID2del']) ); 
                                          
             $dont_forward = TRUE;
         }         
@@ -226,7 +284,7 @@ class ViewUserEditUser extends SmartView
                                         'description' => SmartCommonUtil::stripSlashes($_POST['description']) ));
 
         // if a logged user modify its own account data disable status and role settings
-        if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
+        if(($this->viewVar['loggedUserId'] != $_REQUEST['id_user']) && ($this->viewVar['loggedUserRole'] != 10))
         {  
             $_data['user']['status'] = $_POST['status']; 
             $_data['user']['role'] = (int)SmartCommonUtil::stripSlashes($_POST['role']);
@@ -237,12 +295,15 @@ class ViewUserEditUser extends SmartView
             $_data['user']['passwd'] = SmartCommonUtil::stripSlashes($_POST['passwd']);
         }
 
-        // update picture descriptions
-        $this->model->action( 'user','updatePictureDescriptions',
-                              array('id_user' => $_REQUEST['id_user'],
-                                    'pid'     => &$_POST['pid'],
-                                    'desc'    => &$_POST['picdesc']));
-             
+        if(isset($_POST['pid']))
+        {
+            // update picture descriptions
+            $this->model->action( 'user','updatePictureDescriptions',
+                                  array('id_user' => $_REQUEST['id_user'],
+                                        'pid'     => &$_POST['pid'],
+                                        'desc'    => &$_POST['picdesc']));
+        }
+        
         // add new user data
         if(TRUE == $this->model->action( 'user','update',$_data ))
         {

@@ -1,6 +1,7 @@
 <!-- tinyMCE -->
 <script language="javascript" type="text/javascript" src="./modules/common/media/tiny_mce/tiny_mce.js"></script>
 <script language="javascript" type="text/javascript">
+
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
     directionality : "ltr",
@@ -20,6 +21,15 @@
 </script>
 <!-- /tinyMCE -->
 <script language="JavaScript" type="text/JavaScript">
+function insertFile(folder,file,id_file)
+{
+    tinyMCE.execCommand('mceInsertContent',0, 
+						'<a href="data/user/'+folder+'/'+file+'" name="'+file+'" title="'+file+'">'+file+'</a>');
+}
+function insertFileDesc(desc)
+{
+    tinyMCE.execCommand('mceInsertContent',0,desc);
+}
 function insertImage(folder,file,id_pic)
 {
     tinyMCE.execCommand('mceInsertContent',0, 
@@ -96,6 +106,38 @@ function movedown(f, id_pic)
         with(f){
         submit();
         }
+}
+function movefileup(f, id_file)
+{
+        f.fileIDmoveUp.value=id_file;
+        with(f){
+        submit();
+        }
+}
+function movefiledown(f, id_file)
+{
+        f.fileIDmoveDown.value=id_file;
+        with(f){
+        submit();
+        }
+}
+function uploadufile(f)
+{
+        f.uploadfile.value="true";
+        with(f){
+        submit();
+        }
+}
+function deletefile(f, id_file)
+{
+      check = confirm('Delete this file');
+        if(check == true)
+        {
+        f.fileID2del.value=id_file;
+        with(f){
+        submit();
+        }
+		}
 }
 function MM_swapImgRestore() { //v3.0
   var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
@@ -175,7 +217,7 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top"><input name="lastname" type="text" id="lastname" size="25" maxlength="255" value="<?php echo $tpl['user']['lastname']; ?>">
 *</td>
       </tr>
-	  <?php if($tpl['showButton']==TRUE): ?>
+	 
       <tr>
         <td height="28" align="left" valign="top" class="font10bold">Email</td>
         <td align="left" valign="top" class="font10bold">&nbsp;</td>
@@ -186,14 +228,12 @@ function MM_swapImage() { //v3.0
         <td rowspan="2" align="right" valign="bottom"><input name="updatethisuser" type="hidden" value="1">
           <input name="update" type="submit" id="update" value="Submit">
           <?php if($tpl['showButton']==TRUE): ?>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
-<?php endif; ?>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-<input type="button" name="Submit" value="cancel" onclick="cancel_edit(this.form);"></td>
-      </tr>
-	  <?php endif; ?>   
+               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+               <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
+          <?php endif; ?>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="button" name="Submit" value="cancel" onclick="cancel_edit(this.form);"></td>
+      </tr> 
       <tr>
         <td align="left" valign="top" class="font10bold">Description</td>
         </tr>
@@ -202,7 +242,58 @@ function MM_swapImage() { //v3.0
         </td>
         </tr>       
       <tr>
-        <td colspan="2" align="left" valign="top">&nbsp;		</td>
+        <td colspan="2" align="left" valign="top"><table width="200" border="0" cellspacing="0" cellpadding="4">
+          <tr>
+            <td align="center" valign="middle" bgcolor="#6699FF" class="font10bold">Files</td>
+          </tr>
+          <tr>
+            <td align="center" valign="top">
+              <input type="file" name="ufile" id="ufile" size="10" class="fileform">
+              <input name="uploadfile" type="hidden" value="">
+              <input name="updatef" type="button" id="updatef" value="Submit" onclick="uploadufile(this.form);">
+            </td>
+          </tr>
+          <tr>
+            <td height="28" align="left" valign="top">
+              <input name="fileID2del" type="hidden" value="">
+              <input name="fileIDmoveUp" type="hidden" value="">
+              <input name="fileIDmoveDown" type="hidden" value="">
+              <?php foreach($tpl['user']['file'] as $file): ?>
+              <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                      <tr>
+                        <td colspan="2" class="font12bold"><?php echo $file['file']; ?></td>
+                        </tr>
+                      <tr>
+                        <td align="right" valign="top"><a href="javascript:insertFile('<?php echo $tpl['user']['media_folder']; ?>','<?php echo $file['file']; ?>','<?php echo $file['id_file']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $file['id_file']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $file['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+						<a href="javascript:deletefile(document.forms['edituser'], <?php echo $file['id_file']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('File<?php echo $file['id_file']; ?>','','modules/common/media/pics/deleteover.png',0)">
+						<img name="File<?php echo $file['id_file']; ?>" src="modules/common/media/pics/delete.png" title="Delete <?php echo $file['file']; ?>" alt="Delete <?php echo $file['file']; ?>" width="30" height="29" border="0"></a>
+						</td>
+                        <td align="left" valign="top"> <a href="javascript:movefileup(document.forms['edituser'], <?php echo $file['id_file']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('up<?php echo $file['id_file']; ?>','','modules/common/media/pics/upover.png',0)"><img src="./modules/common/media/pics/up.png" title="Move <?php echo $file['file']; ?> up" alt="Move <?php echo $file['file']; ?> up" name="up<?php echo $file['id_file']; ?>" width="21" height="21" border="0" align="right"></a>
+                          <a href="javascript:movefiledown(document.forms['edituser'], <?php echo $file['id_file']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('down<?php echo $file['id_file']; ?>','','modules/common/media/pics/downover.png',0)"><img src="./modules/common/media/pics/down.png" title="Move <?php echo $file['file']; ?> down" alt="Move <?php echo $file['file']; ?> down" name="down<?php echo $file['id_file']; ?>" width="21" height="21" border="0" align="right"></a></td>
+                      </tr>
+                      <tr>
+                        <td align="right" valign="top"> </td>
+                        <td align="left" valign="top">&nbsp;</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <input name="fid[]" type="hidden" value="<?php echo $file['id_file']; ?>">
+                  <td align="center" valign="top"> <a href="javascript:insertFileDesc('<?php echo $file['description']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insertfdesc<?php echo $file['id_file']; ?>','','modules/common/media/pics/rewindsover.png',0)">
+				  <img name="Insertfdesc<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewinds.png" title="Insert <?php echo $file['file']; ?> description in cursor text position" alt="Insert <?php echo $file['file']; ?> description in cursor text position" width="21" height="21" border="0"></a>
+                      <textarea name="filedesc[]" cols="20" rows="3" class="font10" title="Picture <?php echo $file['file']; ?> description"><?php echo stripslashes($file['description']); ?></textarea>
+                  </td>
+                </tr>
+              </table>
+              <hr>
+              <?php endforeach; ?>
+            </td>
+          </tr>
+        </table>
+</td>
         </tr>
     </table>
     </td>
@@ -233,7 +324,7 @@ function MM_swapImage() { //v3.0
           <td align="center" valign="top">
 		     <input type="file" name="picture" id="picture" size="10" class="fileform">
 			 <input name="uploadpicture" type="hidden" value="">
-		     <input name="update" type="button" id="update" value="Submit" onclick="uploadpicfile(this.form);">
+		     <input name="updatep" type="button" id="updatep" value="Submit" onclick="uploadpicfile(this.form);">
           </td>
         </tr>
         <tr>
