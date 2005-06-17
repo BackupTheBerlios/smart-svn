@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionUpdatePicture class 
+ * ActionUserMoveFileRank class 
  *
  */
-class ActionUserMovePictureRank extends SmartAction
-{
+class ActionUserMoveItemRank extends SmartAction
+{                          
     /**
      * update user
      *
@@ -23,6 +23,17 @@ class ActionUserMovePictureRank extends SmartAction
      */
     function perform( $data = FALSE )
     { 
+        if(isset($data['id_file']))
+        {
+            $this->table = 'user_media_file';
+            $this->id_item = 'id_file';
+        }
+        else
+        {
+            $this->table = 'user_media_pic';
+            $this->id_item = 'id_pic';
+        }
+        
         switch($data['dir'])
         {
             case 'up':
@@ -47,18 +58,18 @@ class ActionUserMovePictureRank extends SmartAction
         return TRUE;
     }
     /**
-     * delete picture entry from database and reorder the pictures rank structure
+     * move file rank up
      *
      * @param array $data
      */  
     private function up($data)
     {
-        // Reorder the picture rank
+        // Reorder the file rank
         $sql = "SELECT 
-                    rank-1 AS rank
-                FROM {$this->config['dbTablePrefix']}user_media_pic
+                    `rank`-1 AS rank
+                FROM {$this->config['dbTablePrefix']}{$this->table}
                 WHERE
-                    id_pic={$data['id_pic']}
+                    {$this->id_item}={$data[$this->id_item]}
                 AND
                     id_user={$data['id_user']}";
         
@@ -66,24 +77,24 @@ class ActionUserMovePictureRank extends SmartAction
         
         $row = $stmt->fetchAssoc();
 
-        // Reorder the picture rank
+        // Reorder the file rank
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}user_media_pic
-               SET rank=rank+1
+            UPDATE {$this->config['dbTablePrefix']}{$this->table}
+               SET `rank`=`rank`+1
             WHERE
-                rank={$row['rank']}
+                `rank`={$row['rank']}
             AND
-                id_user={$data['id_user']}";
+                `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);   
 
         if($this->model->dba->affectedRows() == 1)
         {
-            $sql = "UPDATE {$this->config['dbTablePrefix']}user_media_pic
+            $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
                       SET
-                        rank=rank-1
+                        `rank`=`rank`-1
                     WHERE
-                        `id_pic`={$data['id_pic']}
+                        `{$this->id_item}`={$data[$this->id_item]}
                     AND
                         `id_user`={$data['id_user']}";
 
@@ -93,12 +104,12 @@ class ActionUserMovePictureRank extends SmartAction
     
     private function down(&$data)
     {
-        // Reorder the picture rank
+        // Reorder the file rank
         $sql = "SELECT 
                     rank+1 AS rank
-                FROM {$this->config['dbTablePrefix']}user_media_pic
+                FROM {$this->config['dbTablePrefix']}{$this->table}
                 WHERE
-                    id_pic={$data['id_pic']}
+                    {$this->id_item}={$data[$this->id_item]}
                 AND
                     id_user={$data['id_user']}";
         
@@ -106,9 +117,9 @@ class ActionUserMovePictureRank extends SmartAction
         
         $row = $stmt->fetchAssoc();
 
-        // Reorder the picture rank
+        // Reorder the file rank
         $sql = "
-            UPDATE {$this->config['dbTablePrefix']}user_media_pic
+            UPDATE {$this->config['dbTablePrefix']}{$this->table}
                SET rank=rank-1
             WHERE
                 rank={$row['rank']}
@@ -119,11 +130,11 @@ class ActionUserMovePictureRank extends SmartAction
         
         if($this->model->dba->affectedRows() == 1)
         {
-            $sql = "UPDATE {$this->config['dbTablePrefix']}user_media_pic
+            $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
                       SET
                         `rank`=`rank`+1
                     WHERE
-                        `id_pic`={$data['id_pic']}
+                        `{$this->id_item}`={$data[$this->id_item]}
                     AND
                         `id_user`={$data['id_user']}";
 
