@@ -10,19 +10,22 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionUserMoveFileRank class 
+ * ActionUserMoveItemRank class 
+ *
+ * move rank of user pictures or files
  *
  */
 class ActionUserMoveItemRank extends SmartAction
 {                          
     /**
-     * update user
+     * 
      *
      * @param array $data
      * @return int user id or false on error
      */
     function perform( $data = FALSE )
     { 
+        // set table name and item reference
         if(isset($data['id_file']))
         {
             $this->table = 'user_media_file';
@@ -34,6 +37,7 @@ class ActionUserMoveItemRank extends SmartAction
             $this->id_item = 'id_pic';
         }
         
+        // switch to dir methode
         switch($data['dir'])
         {
             case 'up':
@@ -54,7 +58,39 @@ class ActionUserMoveItemRank extends SmartAction
      */    
     function validate( $data = FALSE )
     {
-
+        if( !isset($data['id_user']) )
+        {        
+            throw new SmartModelException ('"id_user" must be defined'); 
+        } 
+        elseif(@preg_match("/[^0-9]/", $data['id_user'])  )
+        {        
+            throw new SmartModelException ('"id_user" must be an integer'); 
+        } 
+        
+        if( !isset($data['id_file']) && !isset($data['id_pic']) )
+        {        
+            throw new SmartModelException ('"id_file" or "id_pic" must be defined'); 
+        }
+        
+        if( isset($data['id_file']) && @preg_match("/[^0-9]/", $data['id_file'])  )
+        {        
+            throw new SmartModelException ('"id_file" must be an integer'); 
+        }  
+        
+        if( isset($data['id_pic']) && @preg_match("/[^0-9]/", $data['id_pic'])  )
+        {        
+            throw new SmartModelException ('"id_pic" must be an integer'); 
+        }  
+        
+        if( !isset($data['dir']) )
+        {        
+            throw new SmartModelException ('"dir" must be defined'); 
+        }  
+        elseif( ($data['dir'] != 'up') && ($data['dir'] != 'down'))
+        {        
+            throw new SmartModelException ('"dir" value must be "up" or "down"'); 
+        }   
+        
         return TRUE;
     }
     /**
@@ -64,7 +100,7 @@ class ActionUserMoveItemRank extends SmartAction
      */  
     private function up($data)
     {
-        // Reorder the file rank
+        // get rank of neighbour file
         $sql = "SELECT 
                     `rank`-1 AS rank
                 FROM {$this->config['dbTablePrefix']}{$this->table}
@@ -77,7 +113,7 @@ class ActionUserMoveItemRank extends SmartAction
         
         $row = $stmt->fetchAssoc();
 
-        // Reorder the file rank
+        // move rank of neighbour file
         $sql = "
             UPDATE {$this->config['dbTablePrefix']}{$this->table}
                SET `rank`=`rank`+1
@@ -90,6 +126,7 @@ class ActionUserMoveItemRank extends SmartAction
 
         if($this->model->dba->affectedRows() == 1)
         {
+            // update the file rank to move
             $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
                       SET
                         `rank`=`rank`-1
@@ -101,10 +138,14 @@ class ActionUserMoveItemRank extends SmartAction
             $this->model->dba->query($sql);           
         }
     }
-    
+    /**
+     * move file rank down
+     *
+     * @param array $data
+     */     
     private function down(&$data)
     {
-        // Reorder the file rank
+         // get rank of neighbour file
         $sql = "SELECT 
                     rank+1 AS rank
                 FROM {$this->config['dbTablePrefix']}{$this->table}
@@ -117,7 +158,7 @@ class ActionUserMoveItemRank extends SmartAction
         
         $row = $stmt->fetchAssoc();
 
-        // Reorder the file rank
+        // move rank of neighbour file
         $sql = "
             UPDATE {$this->config['dbTablePrefix']}{$this->table}
                SET rank=rank-1
@@ -130,6 +171,7 @@ class ActionUserMoveItemRank extends SmartAction
         
         if($this->model->dba->affectedRows() == 1)
         {
+            // update the file rank to move
             $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
                       SET
                         `rank`=`rank`+1
