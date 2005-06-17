@@ -110,6 +110,15 @@ class ViewUserEditUser extends SmartView
                                                       'mime',
                                                       'description')) );
 
+        // convert description field to safely include into javascript function call
+        $x=0;
+        $this->tplVar['user']['thumbdesc'] = array();
+        foreach($this->tplVar['user']['thumb'] as $thumb)
+        {
+            $this->convertHtmlSpecialChars( $this->tplVar['user']['thumb'][$x], array('description') );
+            $this->tplVar['user']['thumb'][$x]['description'] = addslashes($this->tplVar['user']['thumb'][$x]['description']);
+            $x++;
+        }
 
         // assign some template variables
         $this->setTemplateVars();
@@ -227,6 +236,12 @@ class ViewUserEditUser extends SmartView
         {
             $_data['user']['passwd'] = SmartCommonUtil::stripSlashes($_POST['passwd']);
         }
+
+        // update picture descriptions
+        $this->model->action( 'user','updatePictureDescriptions',
+                              array('id_user' => $_REQUEST['id_user'],
+                                    'pid'     => &$_POST['pid'],
+                                    'desc'    => &$_POST['picdesc']));
              
         // add new user data
         if(TRUE == $this->model->action( 'user','update',$_data ))

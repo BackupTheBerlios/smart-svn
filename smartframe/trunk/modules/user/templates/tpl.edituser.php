@@ -3,8 +3,9 @@
 <script language="javascript" type="text/javascript">
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
+    directionality : "ltr",
     remove_script_host : false,
-    relative_urls : false,
+    relative_urls : true,
  	mode : "exact",
 	elements : "description",
     theme : "advanced",
@@ -13,17 +14,20 @@
     theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,fontselect,fontsizeselect,styleselect",	 
     theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,forecolor",	 
     theme_advanced_buttons3 : "", 
-	theme_advanced_styles : "test=test;test2=test2",
 	plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu"
     
   });
 </script>
 <!-- /tinyMCE -->
 <script language="JavaScript" type="text/JavaScript">
-function insetImage(folder,file,id_pic)
+function insertImage(folder,file,id_pic)
 {
     tinyMCE.execCommand('mceInsertContent',0, 
-						'<a href="<?php echo SMART_CONTROLLER; ?>?view=picture"><img src="./data/user/'+folder+'/thumb/'+file+'" name="'+file+'" title="'+file+'" border="0" /></a>');
+						'<a href="?view=picture&id_pic='+id_pic+'"><img src="./data/user/'+folder+'/thumb/'+file+'" name="'+file+'" title="'+file+'" border="0" /></a>');
+}
+function insertImgDesc(desc)
+{
+    tinyMCE.execCommand('mceInsertContent',0,desc);
 }
 function deluser(f, mes)
 {
@@ -128,80 +132,70 @@ function MM_swapImage() { //v3.0
     <td colspan="2" align="left" valign="top" bgcolor="#CCCCCC" class="itemnormalbold"> Edit User </td>
     </tr>
   <tr>
-    <td width="79%" align="left" valign="top">    <table width="600" border="0" cellspacing="3" cellpadding="3">
+    <td width="79%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
       <?php if($tpl['error'] != FALSE): ?>
       <tr>
-        <td align="left" valign="top" class="itemerror"><?php echo $tpl['error']; ?></td>
+        <td width="25%" align="left" valign="top" class="itemerror"><?php echo $tpl['error']; ?></td>
+        <td width="75%" align="left" valign="top" class="itemerror">&nbsp;</td>
       </tr>
       <?php endif; ?>
 	  <?php if($tpl['showButton']==TRUE): ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Status:</td>
+        <td align="left" valign="top" class="font10bold">Role</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><select name="status">
 		  <option value="2"<?php if($tpl['user']['status']==2) echo ' selected="selected"'; ?>>Active</option>
           <option value="1"<?php if($tpl['user']['status']==1) echo ' selected="selected"'; ?>>Inactive</option>
         </select></td>
+        <td align="left" valign="top" class="font10bold"><select name="role">
+          <?php foreach($tpl['form_roles'] as $key => $val): ?>
+          <option value="<?php echo $key; ?>"<?php if($tpl['user']['role']==$key) echo ' selected="selected"'; ?>><?php echo $val; ?></option>
+          <?php endforeach; ?>
+        </select></td>
       </tr>
 	  <?php endif; ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Login</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top"><input name="login" type="text" id="login" size="40" maxlength="255" value="<?php echo $tpl['user']['login']; ?>"> 
-        </td>
-      </tr>
-      <tr>
         <td align="left" valign="top" class="font10bold">Password</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="passwd" type="text" id="passwd" size="40" maxlength="255" value=""> 
+        <td align="left" valign="top"><input name="login" type="text" id="login" size="20" maxlength="255" value="<?php echo $tpl['user']['login']; ?>"> 
         </td>
+        <td align="left" valign="top"><input name="passwd" type="text" id="passwd" size="20" maxlength="255" value=""></td>
       </tr>
-	  <?php if($tpl['showButton']==TRUE): ?>
-      <tr>
-        <td height="28" align="left" valign="top" class="font10bold">Role</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top"><select name="role">
-		  <?php foreach($tpl['form_roles'] as $key => $val): ?>
-          <option value="<?php echo $key; ?>"<?php if($tpl['user']['role']==$key) echo ' selected="selected"'; ?>><?php echo $val; ?></option>
-		  <?php endforeach; ?>
-        </select> 
-          </td>
-      </tr>
-	  <?php endif; ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Name</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top"><input name="name" type="text" id="name" size="40" maxlength="255" value="<?php echo $tpl['user']['name']; ?>"> 
-        *</td>
-      </tr>
-      <tr>
         <td align="left" valign="top" class="font10bold">Lastname</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="lastname" type="text" id="lastname" size="40" maxlength="255" value="<?php echo $tpl['user']['lastname']; ?>">        
-          *</td>
-      </tr>   
+        <td align="left" valign="top"><input name="name" type="text" id="name" size="25" maxlength="255" value="<?php echo $tpl['user']['name']; ?>">
+* </td>
+        <td align="left" valign="top"><input name="lastname" type="text" id="lastname" size="25" maxlength="255" value="<?php echo $tpl['user']['lastname']; ?>">
+*</td>
+      </tr>
+	  <?php if($tpl['showButton']==TRUE): ?>
       <tr>
-        <td align="left" valign="top" class="font10bold">Email</td>
+        <td height="28" align="left" valign="top" class="font10bold">Email</td>
+        <td align="left" valign="top" class="font10bold">&nbsp;</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="email" type="text" id="passwd" size="40" maxlength="255" value="<?php echo $tpl['user']['email']; ?>"> 
-        *</td>
-      </tr>   
+        <td align="left" valign="top"><input name="email" type="text" id="passwd" size="30" maxlength="255" value="<?php echo $tpl['user']['email']; ?>">
+* </td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
+	  <?php endif; ?>   
       <tr>
         <td align="left" valign="top" class="font10bold">Description</td>
+        <td align="left" valign="top" class="font10bold">&nbsp;</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="description" rows="15" cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $tpl['user']['description']; ?></textarea> 
+        <td colspan="2" align="left" valign="top"><textarea name="description" rows="15" cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $tpl['user']['description']; ?></textarea> 
         </td>
-      </tr>       
+        </tr>       
       <tr>
-        <td align="left" valign="top">
+        <td colspan="2" align="left" valign="top">
 		<input name="updatethisuser" type="hidden" value="1">
 		<input name="update" type="submit" id="update" value="Submit">
 	    <?php if($tpl['showButton']==TRUE): ?>
@@ -210,7 +204,7 @@ function MM_swapImage() { //v3.0
         <?php endif; ?>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		    <input type="button" name="Submit" value="cancel" onclick="cancel_edit(this.form);">
 		</td>
-      </tr>
+        </tr>
     </table>
     </td>
     <td width="21%" align="center" valign="top" class="font10bold"><table width="200" border="0" cellspacing="0" cellpadding="4">
@@ -267,15 +261,18 @@ function MM_swapImage() { //v3.0
                   </tr>
                   <tr>
                     <td align="right" valign="top">
-					<a href="javascript:insetImage('<?php echo $tpl['user']['media_folder']; ?>','<?php echo $thumb['file']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
+					<a href="javascript:insertImage('<?php echo $tpl['user']['media_folder']; ?>','<?php echo $thumb['file']; ?>','<?php echo $thumb['id_pic']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:deletepic(document.forms['edituser'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/deleteover.png',0)"><img id="Image6" name="Image<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/delete.png" title="Delete <?php echo $thumb['file']; ?>" alt="Delete <?php echo $thumb['file']; ?>" width="30" height="29" border="0"></a></td>
                     <td align="left" valign="top">&nbsp;</td>
                   </tr>
                 </table></td>
               </tr>
               <tr>
-                <td align="center" valign="top"><textarea name="picdesc" cols="20" rows="3" class="font10" title="Picture <?php echo $thumb['file']; ?> description"><?php echo $thumb['description']; ?></textarea>
-</td>
+			    <input name="pid[]" type="hidden" value="<?php echo $thumb['id_pic']; ?>">
+                <td align="center" valign="top">
+				<a href="javascript:insertImgDesc('<?php echo $thumb['description']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insertpdesc<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindsover.png',0)"><img name="Insertpdesc<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewinds.png" title="Insert <?php echo $thumb['file']; ?> description in cursor text position" alt="Insert <?php echo $thumb['file']; ?> description in cursor text position" width="21" height="21" border="0"></a>
+				<textarea name="picdesc[]" cols="20" rows="3" class="font10" title="Picture <?php echo $thumb['file']; ?> description"><?php echo stripslashes($thumb['description']); ?></textarea>
+             </td>
               </tr>
             </table>
 			<hr>
