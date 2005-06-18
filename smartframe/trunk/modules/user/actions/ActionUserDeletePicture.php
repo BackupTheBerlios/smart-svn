@@ -27,7 +27,7 @@ class ActionUserDeletePicture extends SmartAction
         $pic = array();
 
         $this->model->action('user',
-                             'getImage',
+                             'getPicture',
                              array('result' => & $pic,
                                    'id_pic' => $data['id_pic'],
                                    'fields' => array('file','id_user')));   

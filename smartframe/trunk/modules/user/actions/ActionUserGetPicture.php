@@ -14,7 +14,7 @@
  *
  */
  
-class ActionUserGetImage extends SmartAction
+class ActionUserGetPicture extends SmartAction
 {
     private $tblFields_pic = array('id_user' => TRUE,
                                    'id_pic' => TRUE,
