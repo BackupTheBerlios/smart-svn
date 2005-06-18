@@ -121,7 +121,7 @@ class ViewUserEditUser extends SmartView
             $x++;
         }
 
-        // get user picture thumbnails
+        // get user files
         $this->model->action('user','getAllFiles',
                              array('result'  => & $this->tplVar['user']['file'],
                                    'id_user' => (int)$_REQUEST['id_user'],
@@ -132,7 +132,7 @@ class ViewUserEditUser extends SmartView
                                                       'mime',
                                                       'description')) );
 
-        // convert description field to safely include into javascript function call
+        // convert files description field to safely include into javascript function call
         $x=0;
         $this->tplVar['user']['filedesc'] = array();
         foreach($this->tplVar['user']['file'] as $file)
@@ -162,19 +162,19 @@ class ViewUserEditUser extends SmartView
             return FALSE;
         }
          // cancel edit user?
-        if($_POST['canceledit'] == '1')
+        elseif($_POST['canceledit'] == '1')
         {
             $this->unlockUser();
             $this->redirect();
         }
         
         // delete a user?
-        if($_POST['deleteuser'] == '1')
+        elseif($_POST['deleteuser'] == '1')
         {
             $this->deleteUser();
         }
-            
-        if(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
+        // upload logo
+        elseif(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
         {   
             $this->model->action('user',
                                  'uploadLogo',
@@ -183,15 +183,17 @@ class ViewUserEditUser extends SmartView
                                         
             $dont_forward = TRUE;
         }
-        if(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
+        // delete logo
+        elseif(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
         {   
             $this->model->action('user',
                                  'deleteLogo',
                                  array('id_user'   => $_REQUEST['id_user']) ); 
                                          
             $dont_forward = TRUE;
-        }            
-        if(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
+        }   
+        // add picture
+        elseif(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
         {   
             $this->model->action('user',
                                  'addPicture',
@@ -199,17 +201,19 @@ class ViewUserEditUser extends SmartView
                                        'postName' => 'picture') ); 
                                          
             $dont_forward = TRUE;
-        } 
-        if(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
+        }
+        // delete picture
+        elseif(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
         {   
             $this->model->action('user',
-                                 'deletePicture',
+                                 'deleteItem',
                                  array('id_user' => $_REQUEST['id_user'],
                                        'id_pic'  => $_POST['imageID2del']) ); 
                                          
             $dont_forward = TRUE;
-        }  
-        if(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
+        }
+        // move image rank up
+        elseif(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
         {   
             $this->model->action('user',
                                  'moveItemRank',
@@ -219,7 +223,8 @@ class ViewUserEditUser extends SmartView
                                          
             $dont_forward = TRUE;
         }  
-        if(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
+        // move image rank down
+        elseif(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
         {   
             $this->model->action('user',
                                  'moveItemRank',
@@ -228,8 +233,9 @@ class ViewUserEditUser extends SmartView
                                        'dir'     => 'down') ); 
                                          
             $dont_forward = TRUE;
-        }  
-        if(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
+        } 
+        // move file rank up
+        elseif(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
         {
             $this->model->action('user',
                                  'moveItemRank',
@@ -237,8 +243,9 @@ class ViewUserEditUser extends SmartView
                                        'id_file' => $_POST['fileIDmoveUp'],
                                        'dir'     => 'up') );                                                 
             $dont_forward = TRUE;
-        }  
-        if(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
+        }
+        // move file rank down
+        elseif(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
         {   
             $this->model->action('user',
                                  'moveItemRank',
@@ -246,8 +253,9 @@ class ViewUserEditUser extends SmartView
                                        'id_file' => $_POST['fileIDmoveDown'],
                                        'dir'     => 'down') );                                                
             $dont_forward = TRUE;
-        }         
-        if(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
+        } 
+        // add file
+        elseif(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
         {          
             $this->model->action('user',
                                  'addFile',
@@ -255,16 +263,36 @@ class ViewUserEditUser extends SmartView
                                        'postName' => 'ufile') ); 
                                      
             $dont_forward = TRUE;
-        }  
-        if(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
+        }
+        // delete file
+        elseif(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
         {   
             $this->model->action('user',
-                                 'deleteFile',
+                                 'deleteItem',
                                  array('id_user' => $_REQUEST['id_user'],
                                        'id_file' => $_POST['fileID2del']) ); 
                                          
             $dont_forward = TRUE;
-        }         
+        }  
+        
+        // update picture descriptions if there images
+        if(isset($_POST['pid']))
+        {
+            $this->model->action( 'user','updateItemDescriptions',
+                                  array('id_user' => $_REQUEST['id_user'],
+                                        'pid'     => &$_POST['pid'],
+                                        'desc'    => &$_POST['picdesc']));
+        }        
+
+        // update file descriptions if there file attachments
+        if(isset($_POST['fid']))
+        {
+            $this->model->action( 'user','updateItemDescriptions',
+                                  array('id_user' => $_REQUEST['id_user'],
+                                        'fid'     => &$_POST['fid'],
+                                        'desc'    => &$_POST['filedesc']));
+        }  
+        
         // check if required fields are empty
         if (FALSE == $this->checkEmptyFields())
         {
@@ -293,15 +321,6 @@ class ViewUserEditUser extends SmartView
         if(!empty($_POST['passwd']))
         {
             $_data['user']['passwd'] = SmartCommonUtil::stripSlashes($_POST['passwd']);
-        }
-
-        if(isset($_POST['pid']))
-        {
-            // update picture descriptions
-            $this->model->action( 'user','updatePictureDescriptions',
-                                  array('id_user' => $_REQUEST['id_user'],
-                                        'pid'     => &$_POST['pid'],
-                                        'desc'    => &$_POST['picdesc']));
         }
         
         // add new user data
