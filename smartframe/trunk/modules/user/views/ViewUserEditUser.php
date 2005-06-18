@@ -196,8 +196,9 @@ class ViewUserEditUser extends SmartView
         elseif(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
         {   
             $this->model->action('user',
-                                 'addPicture',
-                                 array('id_user'   => $_REQUEST['id_user'],
+                                 'addItem',
+                                 array('item'     => 'picture',
+                                       'id_user'  => $_REQUEST['id_user'],
                                        'postName' => 'picture') ); 
                                          
             $dont_forward = TRUE;
@@ -258,8 +259,9 @@ class ViewUserEditUser extends SmartView
         elseif(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
         {          
             $this->model->action('user',
-                                 'addFile',
-                                 array('id_user'  => $_REQUEST['id_user'],
+                                 'addItem',
+                                 array('item'     => 'file',
+                                       'id_user'  => $_REQUEST['id_user'],
                                        'postName' => 'ufile') ); 
                                      
             $dont_forward = TRUE;

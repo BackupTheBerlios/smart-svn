@@ -202,7 +202,6 @@ class ActionUserAdd extends ActionUser
      */    
     function loginExists( $login )
     {
-        
         $sql = "
             SELECT
                 id_user
