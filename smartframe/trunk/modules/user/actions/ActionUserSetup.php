@@ -38,6 +38,7 @@ class ActionUserSetup extends SmartAction
                    `lastname`     varchar(255) NOT NULL default '',
                    `email`        varchar(255) NOT NULL default '',
                    `description`  text NOT NULL default '',
+                   `format`       tinyint(1) NOT NULL default 0,
                    `logo`         varchar(255) NOT NULL default '',
                    `media_folder` char(32) NOT NULL,
                    PRIMARY KEY     (`id_user`),
@@ -87,9 +88,11 @@ class ActionUserSetup extends SmartAction
         $this->model->dba->query($sql);        
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_config (
-                 `thumb_width`   smallint(4) NOT NULL default 200,
-                 `img_size_max`  int(11) NOT NULL default 100000,
-                 `file_size_max` int(11) NOT NULL default 100000)";
+                 `thumb_width`    smallint(4) NOT NULL default 200,
+                 `img_size_max`   int(11) NOT NULL default 100000,
+                 `file_size_max`  int(11) NOT NULL default 100000,
+                 `force_format`   tinyint(1) NOT NULL default 2,
+                 `default_format` tinyint(1) NOT NULL default 2)";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['dbtablesprefix']}user_config
@@ -101,9 +104,9 @@ class ActionUserSetup extends SmartAction
         $passwd = md5($data['superuser_passwd']);
 
         $sql = "INSERT INTO {$data['dbtablesprefix']}user_user
-                   (`login`, `passwd`,`status`, `role`)
+                   (`login`, `passwd`,`name`,`lastname`,`email`,`status`, `role`)
                   VALUES
-                   ('superuser','{$passwd}',2,10)";
+                   ('superuser','{$passwd}','super','user','foo@smart5.net',2,10)";
         $this->model->dba->query($sql); 
 
         // insert module info data

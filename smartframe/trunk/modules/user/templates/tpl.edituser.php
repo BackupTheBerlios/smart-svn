@@ -1,44 +1,15 @@
+<?php if($tpl['format']==2): ?>
 <!-- tinyMCE -->
 <script language="javascript" type="text/javascript" src="./modules/common/media/tiny_mce/tiny_mce.js"></script>
-<script language="javascript" type="text/javascript">
-
-  // Notice: The simple theme does not use all options some of them are limited to the advanced theme
-  tinyMCE.init({
-    directionality : "ltr",
-    remove_script_host : false,
-    relative_urls : true,
- 	mode : "exact",
-	elements : "description",
-    theme : "advanced",
-    theme_advanced_toolbar_location : "top",
-	theme_advanced_toolbar_align : "left",   
-    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,fontselect,fontsizeselect",	 
-    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,forecolor",	 
-    theme_advanced_buttons3 : "", 
-	plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu"
-    
-  });
-</script>
+<script language="javascript" type="text/javascript" src="./modules/user/media/tiny_mce_init.js"></script>
 <!-- /tinyMCE -->
+<?php elseif($tpl['format']==1): ?>
+<!-- PEAR text_wikki -->
+<script language="javascript" type="text/javascript" src="./modules/common/media/textarea.js"></script>
+<script language="javascript" type="text/javascript" src="./modules/user/media/text_wikki_func.js"></script>
+<!-- /PEAR text_wikki -->
+<?php endif; ?>
 <script language="JavaScript" type="text/JavaScript">
-function insertFile(folder,file,id_file)
-{
-    tinyMCE.execCommand('mceInsertContent',0, 
-						'<a href="data/user/'+folder+'/'+file+'" name="'+file+'" title="'+file+'">'+file+'</a>');
-}
-function insertFileDesc(desc)
-{
-    tinyMCE.execCommand('mceInsertContent',0,desc);
-}
-function insertImage(folder,file,id_pic)
-{
-    tinyMCE.execCommand('mceInsertContent',0, 
-						'<a href="?view=picture&id_pic='+id_pic+'"><img src="./data/user/'+folder+'/thumb/'+file+'" name="'+file+'" title="'+file+'" border="0" /></a>');
-}
-function insertImgDesc(desc)
-{
-    tinyMCE.execCommand('mceInsertContent',0,desc);
-}
 function deluser(f, mes)
 {
       check = confirm(mes);
@@ -240,9 +211,18 @@ function MM_swapImage() { //v3.0
       <tr>
         <td colspan="2" align="left" valign="top"><textarea name="description" rows="15" cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $tpl['user']['description']; ?></textarea> 
         </td>
-        </tr>       
+        </tr>  
+	  <?php if($tpl['show_format_switch']==TRUE):  ?>     
       <tr>
-        <td colspan="2" align="left" valign="top"><table width="200" border="0" cellspacing="0" cellpadding="4">
+        <td colspan="2" align="left" valign="top" class="font10bold">Use text format: 
+          <input type="radio" name="format" value="2" <?php if($tpl['format']==2) echo "checked"; ?>>
+          Wysiwyg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" name="format" value="1" <?php if($tpl['format']==1) echo "checked"; ?>> 
+          Wikki</td>
+      </tr>
+	  <?php endif;  ?>
+      <tr>
+        <td colspan="2" align="left" valign="top"><hr>          <table width="200" border="0" cellspacing="0" cellpadding="4">
           <tr>
             <td align="center" valign="middle" bgcolor="#6699FF" class="font10bold">Files</td>
           </tr>
@@ -274,7 +254,7 @@ function MM_swapImage() { //v3.0
                           <a href="javascript:movefiledown(document.forms['edituser'], <?php echo $file['id_file']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('down<?php echo $file['id_file']; ?>','','modules/common/media/pics/downover.png',0)"><img src="./modules/common/media/pics/down.png" title="Move <?php echo $file['file']; ?> down" alt="Move <?php echo $file['file']; ?> down" name="down<?php echo $file['id_file']; ?>" width="21" height="21" border="0" align="right"></a></td>
                       </tr>
                       <tr>
-                        <td align="right" valign="top"> </td>
+                        <td align="right" valign="top"><a href="javascript:smartAddText('aaa','',document.edituser.description);">dsfdsfsdfs</a></td>
                         <td align="left" valign="top">&nbsp;</td>
                       </tr>
                     </table>
@@ -293,7 +273,7 @@ function MM_swapImage() { //v3.0
             </td>
           </tr>
         </table>
-</td>
+          </td>
         </tr>
     </table>
     </td>

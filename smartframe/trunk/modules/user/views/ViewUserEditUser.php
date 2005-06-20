@@ -94,6 +94,7 @@ class ViewUserEditUser extends SmartView
                                                       'status',
                                                       'role',
                                                       'description',
+                                                      'format',
                                                       'logo',
                                                       'media_folder')) );
         
@@ -311,7 +312,8 @@ class ViewUserEditUser extends SmartView
                         'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
                                         'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
                                         'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
-                                        'description' => SmartCommonUtil::stripSlashes($_POST['description']) ));
+                                        'description' => SmartCommonUtil::stripSlashes($_POST['description']),
+                                        'format'      => $_POST['format']));
 
         // if a logged user modify its own account data disable status and role settings
         if(($this->viewVar['loggedUserId'] != $_REQUEST['id_user']) && ($this->viewVar['loggedUserRole'] != 10))
@@ -388,6 +390,29 @@ class ViewUserEditUser extends SmartView
         {
             $this->tplVar['showButton'] = TRUE;  
         }  
+        
+        // set format template var, means how to format textarea content -> editor/wikki ?
+        // 1 = text_wikki
+        // 2 = tiny_mce
+        if($this->config['user']['force_format'] != 0)
+        {
+            $this->tplVar['format'] = $this->config['user']['force_format'];
+            $this->tplVar['show_format_switch'] = FALSE;
+        }
+        elseif(isset($_POST['format']))
+        {
+            if(!preg_match("/(1|2){1}/",$_POST['format']))
+            {
+                $this->tplVar['format'] = $this->config['user']['default_format'];
+            }
+            $this->tplVar['format'] = $_POST['format'];
+            $this->tplVar['show_format_switch'] = TRUE;
+        }
+        else
+        {
+            $this->tplVar['format'] = $this->config['user']['default_format'];
+            $this->tplVar['show_format_switch'] = TRUE;
+        }
         
         $this->tplVar['id_user'] = $_REQUEST['id_user']; 
     }
