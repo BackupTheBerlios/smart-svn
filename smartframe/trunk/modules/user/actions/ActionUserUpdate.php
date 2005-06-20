@@ -177,7 +177,7 @@ class ActionUserUpdate extends ActionUser
             }         
         }
 
-        if( @preg_match("/[^0-9]/", $data['user']['format']) )
+        if( isset($data['user']['email']) && @preg_match("/[^0-9]/", $data['user']['format']) )
         {
             throw new SmartModelException('Wrong "format" format: '.$data['user']['format']);         
         } 

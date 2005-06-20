@@ -110,6 +110,13 @@ function deletefile(f, id_file)
         }
 		}
 }
+function switch_format(f)
+{
+	f.switchformat.value=1;
+    with(f){
+        submit();
+    }
+}
 function MM_swapImgRestore() { //v3.0
   var i,x,a=document.MM_sr; for(i=0;a&&i<a.length&&(x=a[i])&&x.oSrc;i++) x.src=x.oSrc;
 }
@@ -215,11 +222,15 @@ function MM_swapImage() { //v3.0
 	  <?php if($tpl['show_format_switch']==TRUE):  ?>     
       <tr>
         <td colspan="2" align="left" valign="top" class="font10bold">Use text format: 
-          <input type="radio" name="format" value="2" <?php if($tpl['format']==2) echo "checked"; ?>>
+          <input type="hidden" name="switchformat" value="0">
+		  <input type="radio" name="format" value="2" <?php if($tpl['format']==2) echo "checked"; ?> onclick="switch_format(document.forms['edituser'])">
           Wysiwyg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="radio" name="format" value="1" <?php if($tpl['format']==1) echo "checked"; ?>> 
-          Wikki</td>
+          <input type="radio" name="format" value="1" <?php if($tpl['format']==1) echo "checked"; ?> onclick="switch_format(document.forms['edituser'])"> 
+          Wikki
+          </td>
       </tr>
+	  <?php else: ?>
+	      <input type="hidden" name="format" value="<?php echo $tpl['format']; ?>">
 	  <?php endif;  ?>
       <tr>
         <td colspan="2" align="left" valign="top"><hr>          <table width="200" border="0" cellspacing="0" cellpadding="4">
@@ -252,10 +263,6 @@ function MM_swapImage() { //v3.0
 						</td>
                         <td align="left" valign="top"> <a href="javascript:movefileup(document.forms['edituser'], <?php echo $file['id_file']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('up<?php echo $file['id_file']; ?>','','modules/common/media/pics/upover.png',0)"><img src="./modules/common/media/pics/up.png" title="Move <?php echo $file['file']; ?> up" alt="Move <?php echo $file['file']; ?> up" name="up<?php echo $file['id_file']; ?>" width="21" height="21" border="0" align="right"></a>
                           <a href="javascript:movefiledown(document.forms['edituser'], <?php echo $file['id_file']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('down<?php echo $file['id_file']; ?>','','modules/common/media/pics/downover.png',0)"><img src="./modules/common/media/pics/down.png" title="Move <?php echo $file['file']; ?> down" alt="Move <?php echo $file['file']; ?> down" name="down<?php echo $file['id_file']; ?>" width="21" height="21" border="0" align="right"></a></td>
-                      </tr>
-                      <tr>
-                        <td align="right" valign="top"><a href="javascript:smartAddText('aaa','',document.edituser.description);">dsfdsfsdfs</a></td>
-                        <td align="left" valign="top">&nbsp;</td>
                       </tr>
                     </table>
                   </td>

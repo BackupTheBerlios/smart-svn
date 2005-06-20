@@ -1,6 +1,6 @@
 function insertFile(folder,file,id_file)
 {
-    smartAddText('<a href="data/user/'+folder+'/'+file+'" name="'+file+'" title="'+file+'">'+file+'</a>','',document.edituser.description);
+    smartAddText('[data/user/'+folder+'/'+file+' '+file+']','',document.edituser.description);
 }
 function insertFileDesc(desc)
 {
@@ -8,7 +8,7 @@ function insertFileDesc(desc)
 }
 function insertImage(folder,file,id_pic)
 {
-    smartAddText('<a href="?view=picture&id_pic='+id_pic+'"><img src="./data/user/'+folder+'/thumb/'+file+'" name="'+file+'" title="'+file+'" border="0" /></a>','',document.edituser.description);
+    smartAddText('[[image data/user/'+folder+'/thumb/'+file+' link="?view=picture&id_pic='+id_pic+'" align="left" hspace="4"]]','',document.edituser.description);
 }
 function insertImgDesc(desc)
 {

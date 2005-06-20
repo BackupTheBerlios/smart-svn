@@ -174,6 +174,11 @@ class ViewUserEditUser extends SmartView
         {
             $this->deleteUser();
         }
+        // switch format of textarea editor
+        elseif($_POST['switchformat'] == 1)
+        {
+            $dont_forward = TRUE;
+        }        
         // upload logo
         elseif(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
         {   
@@ -305,7 +310,7 @@ class ViewUserEditUser extends SmartView
             $this->setTemplateVars();
             return FALSE;
         }
-            
+           
         // array with new user data passed to the action
         $_data = array( 'error'     => & $this->tplVar['error'],
                         'id_user'   => $_REQUEST['id_user'],
@@ -313,7 +318,7 @@ class ViewUserEditUser extends SmartView
                                         'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
                                         'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
                                         'description' => SmartCommonUtil::stripSlashes($_POST['description']),
-                                        'format'      => $_POST['format']));
+                                        'format'      => (int)$_POST['format']));
 
         // if a logged user modify its own account data disable status and role settings
         if(($this->viewVar['loggedUserId'] != $_REQUEST['id_user']) && ($this->viewVar['loggedUserRole'] != 10))
@@ -516,7 +521,8 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['lastname'] = SmartCommonUtil::stripSlashes($_POST['lastname']);
         $this->tplVar['user']['description'] = SmartCommonUtil::stripSlashes($_POST['description']);
         $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes($_POST['login']);
-        $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']);          
+        $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']); 
+        $this->tplVar['format']   = SmartCommonUtil::stripSlashes($_POST['format']);
     } 
 
     /**
