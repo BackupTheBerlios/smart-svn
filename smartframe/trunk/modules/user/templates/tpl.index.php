@@ -1,14 +1,17 @@
-<?php /*
- ### Error template. It is loaded when a view class produce an error ### 
-*/ ?>
-
-<?php /* Only allow calling this template from whithin the application */ ?>
 <?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 <?php if($tpl['isUserLogged'] == TRUE): ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td class="moduleheader">User Management</td>
   </tr>
+  <?php if($tpl['show_options_link']==TRUE): ?>
+  <tr>
+    <td height="20" align="right" valign="top"><a href="<?php echo SMART_CONTROLLER; ?>?mod=user&view=options"><font size="2">options</font></a> &nbsp;&nbsp;</td>
+  </tr>
+  <tr>
+    <td height="20" align="right" valign="top">&nbsp;</td>
+  </tr>
+  <?php endif; ?>
   <tr>
     <td>
 	<?php endif; ?>
