@@ -1,0 +1,81 @@
+<style type="text/css">
+<!--
+.subview {
+	font-size: 12px;
+	font-weight: bold;
+	color: #990000;
+	background-color: #CCCCFF;
+}
+-->
+</style>
+<table width="100%" border="0" cellspacing="2" cellpadding="0">
+  <tr>
+    <td align="left" valign="middle" class="subview">&nbsp;Options</td>
+  </tr>
+  <tr>
+    <td align="left" valign="top">
+	<form name="format" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=options">
+	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="46%" height="21" align="left" valign="top" class="font10bold">&nbsp;Fromat of  the users description textarea</td>
+        <td width="54%" rowspan="5" align="left" valign="top" class="font10bold"><p><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">back</a></p>
+          <p>
+	            <?php if($tpl['uptodate']==TRUE): ?>
+                <font color="#FF0000">The user module options are now up to date!</font> </p>          <?php endif; ?></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+          <input type="radio" name="force_format" value="2" <?php if($tpl['option']['force_format']==2) echo "checked"; ?>>
+Tiny Mice  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio" name="force_format" value="1" <?php if($tpl['option']['force_format']==1) echo "checked"; ?>>  
+Text Wikki &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio" name="force_format" value="0" <?php if($tpl['option']['force_format']==0) echo "checked"; ?>> 
+Custom
+        </td>
+        </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+        </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Default Fromat if custom</td>
+        </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <input type="radio" name="default_format" value="2" <?php if($tpl['option']['default_format']==2) echo "checked"; ?>>
+Tiny Mice &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="radio" name="default_format" value="1"<?php if($tpl['option']['default_format']==1) echo "checked"; ?> >
+Text Wikki &nbsp;&nbsp;</td>
+        </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" name="updateoptions" value="update"></td>
+        <td align="left" valign="top" class="font10">&nbsp;</td>
+      </tr>
+    </table>
+	</form>
+	</td>
+  </tr>
+</table>
