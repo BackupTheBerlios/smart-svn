@@ -17,10 +17,10 @@
 class ActionUserUpdateOptions extends smartAction
 {
     /**
-     * Array of user_config table fields and the format of each
+     * Array of user_config table fields and the format/allowed values of each
      */
-    private $tblFields = array('force_format'   => 'Int',
-                               'default_format' => 'Int');
+    private $tblFields = array('force_format'   => array('Int',array(0,1,2)),
+                               'default_format' => array('Int',array(1,2)));
                                
     /**
      * update user module options
@@ -45,7 +45,7 @@ class ActionUserUpdateOptions extends smartAction
         
         foreach($data as $key => $val)
         {
-            $methode = 'set'.$this->tblFields[$key];
+            $methode = 'set'.$this->tblFields[$key][0];
             $stmt->$methode($val);
         }
        
@@ -57,17 +57,22 @@ class ActionUserUpdateOptions extends smartAction
     /**
      * validate user data
      *
-     * @param array $data User data
+     * @param array $data
      * @return bool 
      */    
     function validate( $data = FALSE )
     {
-        // check if database fields exists
         foreach($data as $key => $val)
         {
+            // check if database fields exists
             if(!isset($this->tblFields[$key]))
             {
                 throw new SmartModelException("user_config table field '".$key."' dosent exists!");
+            }
+            // check if allowed database field and format are ok
+            elseif(!in_array($val, $this->tblFields[$key][1], TRUE))
+            {
+                throw new SmartModelException("The value '{$val}' isnt allowed for the table field '{$key}' of the 'user_config' db table");            
             }
         }
 
