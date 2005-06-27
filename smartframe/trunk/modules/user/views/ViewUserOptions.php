@@ -40,8 +40,11 @@ class ViewUserOptions extends SmartView
         {
             // update user module options
             $this->model->action('user','updateOptions',
-                                 array('force_format'   => (int)$_POST['force_format'],
-                                       'default_format' => (int)$_POST['default_format']));  
+                                 array('file_size_max'  => (int)$_POST['file_size_max'],
+                                       'img_size_max'   => (int)$_POST['img_size_max'],
+                                       'force_format'   => (int)$_POST['force_format'],
+                                       'default_format' => (int)$_POST['default_format'],
+                                       'thumb_width'    => (int)$_POST['thumb_width']));  
 
             $this->tplVar['uptodate'] = TRUE;                           
         }

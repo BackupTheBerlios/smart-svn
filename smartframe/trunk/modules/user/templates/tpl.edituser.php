@@ -155,8 +155,7 @@ function MM_swapImage() { //v3.0
     <td width="79%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
       <?php if($tpl['error'] != FALSE): ?>
       <tr>
-        <td width="25%" align="left" valign="top" class="itemerror"><?php echo $tpl['error']; ?></td>
-        <td width="75%" align="left" valign="top" class="itemerror">&nbsp;</td>
+        <td width="25%" align="left" valign="top" class="itemerror" colspan="2"><?php echo $tpl['error']; ?></td>
       </tr>
       <?php endif; ?>
 	  <?php if($tpl['showButton']==TRUE): ?>

@@ -175,7 +175,7 @@ class ViewUserEditUser extends SmartView
             $this->deleteUser();
         }
         // switch format of textarea editor
-        elseif($_POST['switchformat'] == 1)
+        elseif(isset($_POST['switchformat']) && $_POST['switchformat'] == 1)
         {
             $dont_forward = TRUE;
         }        
@@ -205,7 +205,8 @@ class ViewUserEditUser extends SmartView
                                  'addItem',
                                  array('item'     => 'picture',
                                        'id_user'  => $_REQUEST['id_user'],
-                                       'postName' => 'picture') ); 
+                                       'postName' => 'picture',
+                                       'error'    => & $this->tplVar['error']) ); 
                                          
             $dont_forward = TRUE;
         }
@@ -268,7 +269,8 @@ class ViewUserEditUser extends SmartView
                                  'addItem',
                                  array('item'     => 'file',
                                        'id_user'  => $_REQUEST['id_user'],
-                                       'postName' => 'ufile') ); 
+                                       'postName' => 'ufile',
+                                       'error'    => & $this->tplVar['error']) ); 
                                      
             $dont_forward = TRUE;
         }

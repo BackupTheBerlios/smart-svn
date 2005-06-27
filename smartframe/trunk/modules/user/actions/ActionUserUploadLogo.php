@@ -61,8 +61,12 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
         elseif( !isset($_FILES[$data['postName']]) )
         {
             throw new SmartModelException ('You have to select a local file to upload');
-        }        
+        }     
         
+        if(preg_match("/[^0-9]/",$data['id_user']))
+        {
+            throw new SmartModelException('Wrong id_user format: '.$id_user);        
+        }        
         return TRUE;
     }
 }

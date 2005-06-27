@@ -19,8 +19,11 @@ class ActionUserUpdateOptions extends smartAction
     /**
      * Array of user_config table fields and the format/allowed values of each
      */
-    private $tblFields = array('force_format'   => array('Int',array(0,1,2)),
-                               'default_format' => array('Int',array(1,2)));
+    private $tblFields = array('file_size_max'  => 'Int',
+                               'img_size_max'   => 'Int',
+                               'force_format'   => 'Int',
+                               'default_format' => 'Int',
+                               'thumb_width'    => 'Int');
                                
     /**
      * update user module options
@@ -45,7 +48,7 @@ class ActionUserUpdateOptions extends smartAction
         
         foreach($data as $key => $val)
         {
-            $methode = 'set'.$this->tblFields[$key][0];
+            $methode = 'set'.$this->tblFields[$key];
             $stmt->$methode($val);
         }
        
@@ -68,11 +71,6 @@ class ActionUserUpdateOptions extends smartAction
             if(!isset($this->tblFields[$key]))
             {
                 throw new SmartModelException("user_config table field '".$key."' dosent exists!");
-            }
-            // check if allowed database field and format are ok
-            elseif(!in_array($val, $this->tblFields[$key][1], TRUE))
-            {
-                throw new SmartModelException("The value '{$val}' isnt allowed for the table field '{$key}' of the 'user_config' db table");            
             }
         }
 

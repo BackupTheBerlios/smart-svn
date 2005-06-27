@@ -82,6 +82,16 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         {
             throw new SmartModelException("'id_user' isnt numeric");
         }  
+        elseif(($data['item'] == 'file') && ($this->config['user']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        {
+            $data['error'] = "Max file size allowed: {$this->config['user']['file_size_max']} bytes";
+            return FALSE;
+        }
+        elseif(($data['item'] == 'picture') && ($this->config['user']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
+        {
+            $data['error'] = "Max picture size allowed: {$this->config['user']['img_size_max']} bytes";
+            return FALSE;
+        }
         
         return TRUE;
     }
