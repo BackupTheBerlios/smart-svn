@@ -63,7 +63,7 @@ Text Wikki &nbsp;&nbsp;</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">&nbsp;Max. file size</td>
+        <td align="left" valign="top" class="font10bold">&nbsp;Max. file size in bytes</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
@@ -75,7 +75,7 @@ Text Wikki &nbsp;&nbsp;</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">&nbsp;Max picture size</td>
+        <td align="left" valign="top" class="font10bold">&nbsp;Max picture size in bytes</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
