@@ -15,6 +15,8 @@
 	    </tr>
     </table>
     <?php endforeach; ?>
+    <?php else: ?> 
+	There is currently no navigation node available. Please add some one.	
 	<?php endif; ?>
 </td>
     <td width="11%" align="center" valign="top" class="itemnormal"><?php if($tpl['showAddNodeLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=addnode">add node</a><?php endif; ?></td>

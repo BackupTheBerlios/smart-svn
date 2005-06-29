@@ -46,10 +46,9 @@ class ActionNavigationSetup extends SmartAction
                    `lang`        char(2) NOT NULL default 'en',
                    `title`       text NOT NULL default '',
                    `short_text`  text NOT NULL default '',
-                   `body`        text NOT NULL default '',
+                   `body`        mediumtext NOT NULL default '',
                    KEY `id_node` (`id_node`),
-                   KEY `lang`    (`lang`),
-                   FULLTEXT (`title`,`short_text`,`body`))";
+                   KEY `lang`    (`lang`))";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_node_lock (
