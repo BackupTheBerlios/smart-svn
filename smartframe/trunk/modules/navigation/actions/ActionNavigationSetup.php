@@ -29,23 +29,77 @@ class ActionNavigationSetup extends SmartAction
         }
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}navigation_node (
-                   `id_node`   int(11) NOT NULL auto_increment,
-                   `id_parent` int(11) NOT NULL default 0,
-                   `id_sector` int(11) NOT NULL default 0,
-                   `status`    int(11) NOT NULL default 0,
-                   `rank`      int(11) NOT NULL default 0,
-                   `lock`        int(11) NOT NULL default 0,
-                   `lock_time`   datetime NOT NULL default '0000-00-00 00:00:00',
+                   `id_node`      int(11) unsigned NOT NULL auto_increment,
+                   `id_parent`    int(11) unsigned NOT NULL default 0,
+                   `id_sector`    int(11) unsigned NOT NULL default 0,
+                   `status`       tinyint(1) NOT NULL default 0,
+                   `rank`         smallint(4) unsigned NOT NULL default 0,
+                   `logo`         varchar(255) NOT NULL default '',
+                   `media_folder` char(32) NOT NULL,
+                   PRIMARY KEY     (`id_node`),
+                   KEY (`id_parent`,`rank`,`status`),
+                   KEY `id_sector` (`id_sector`))";
+        $this->model->dba->query($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}navigation_node_lang (
+                   `id_node`     int(11) unsigned NOT NULL,
+                   `lang`        char(2) NOT NULL default 'en',
                    `title`       text NOT NULL default '',
                    `short_text`  text NOT NULL default '',
-                   `body`        mediumtext NOT NULL default '',
-                   `logo`         varchar(255) NOT NULL default '',
-                   `media_folder` char(64) NOT NULL,
-                   PRIMARY KEY     (`id_node`),
-                   KEY (`id_parent`,`id_sector`,`rank`,`status`),
-                   KEY `lock`      (`lock`),
-                   KEY `lock_time` (`lock_time`))";
+                   `body`        text NOT NULL default '',
+                   KEY `id_node` (`id_node`),
+                   KEY `lang`    (`lang`),
+                   FULLTEXT (`title`,`short_text`,`body`))";
         $this->model->dba->query($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_node_lock (
+                   `id_node`      int(11) unsigned NOT NULL default 0,
+                   `lock_time`    datetime NOT NULL default '0000-00-00 00:00:00',
+                   `by_id_user`   int(11) unsigned NOT NULL default 0,
+                   KEY `id_node`    (`id_node`),
+                   KEY `lock_time`  (`lock_time`),
+                   KEY `by_id_user` (`by_id_user`))";
+        $this->model->dba->query($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_media_pic (
+                   `id_pic`       int(11) unsigned NOT NULL auto_increment,
+                   `id_node`      int(11) unsigned NOT NULL default 0,
+                   `file`         varchar(255) NOT NULL default '',
+                   `size`         int(11) unsigned NOT NULL default 0,
+                   `mime`         varchar(255) NOT NULL default '',
+                   `rank`         smallint(4) unsigned NOT NULL default 0,
+                   `tumbnail`     tinyint(1) NOT NULL default 0,
+                   `description`  text NOT NULL default '',
+                   PRIMARY KEY     (`id_pic`),
+                   KEY (`id_node`,`rank`))";
+        $this->model->dba->query($sql);
+        
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_media_file (
+                   `id_file`      int(11) unsigned NOT NULL auto_increment,
+                   `id_node`      int(11) unsigned NOT NULL default 0,
+                   `file`         varchar(255) NOT NULL default '',
+                   `size`         int(11) NOT NULL default 0,
+                   `mime`         varchar(255) NOT NULL default '',
+                   `rank`         smallint(4) unsigned NOT NULL default 0,
+                   `description`  text NOT NULL default '',
+                   PRIMARY KEY    (`id_file`),
+                   KEY (`id_node`,`rank`))";
+        $this->model->dba->query($sql);        
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_config (
+                 `thumb_width`    smallint(4) NOT NULL default 200,
+                 `img_size_max`   int(11) NOT NULL default 100000,
+                 `file_size_max`  int(11) NOT NULL default 100000,
+                 `force_format`   tinyint(1) NOT NULL default 2,
+                 `default_format` tinyint(1) NOT NULL default 2,
+                 `default_lang`   char(2) NOT NULL default 'en')";
+        $this->model->dba->query($sql);
+
+        $sql = "INSERT INTO {$data['dbtablesprefix']}navigation_config
+                   (`thumb_width`, `img_size_max`,`file_size_max`)
+                  VALUES
+                   (120,100000,100000)";
+        $this->model->dba->query($sql); 
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
@@ -66,7 +120,12 @@ class ActionNavigationSetup extends SmartAction
      */    
     public function rollback( &$data )
     {
-        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}navigation_node";
+        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}navigation_node,
+                                     {$data['dbtablesprefix']}navigation_node_lang,
+                                     {$data['dbtablesprefix']}navigation_node_lock,
+                                     {$data['dbtablesprefix']}navigation_media_pic,
+                                     {$data['dbtablesprefix']}navigation_media_file,
+                                     {$data['dbtablesprefix']}navigation_config";
         $this->model->dba->query($sql);  
     }
 }
