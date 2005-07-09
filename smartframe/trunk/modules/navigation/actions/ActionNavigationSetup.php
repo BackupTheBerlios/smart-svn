@@ -29,26 +29,20 @@ class ActionNavigationSetup extends SmartAction
         }
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}navigation_node (
-                   `id_node`      int(11) unsigned NOT NULL auto_increment,
-                   `id_parent`    int(11) unsigned NOT NULL default 0,
-                   `id_sector`    int(11) unsigned NOT NULL default 0,
-                   `status`       tinyint(1) NOT NULL default 0,
-                   `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `logo`         varchar(255) NOT NULL default '',
-                   `media_folder` char(32) NOT NULL,
+                   `id_node`       int(11) unsigned NOT NULL auto_increment,
+                   `id_parent`     int(11) unsigned NOT NULL default 0,
+                   `id_sector`     int(11) unsigned NOT NULL default 0,
+                   `status`        tinyint(1) NOT NULL default 0,
+                   `rank`          smallint(4) unsigned NOT NULL default 0,
+                   `lang`          char(2) NOT NULL default 'en',
+                   `title`         text NOT NULL default '',
+                   `short_text`    text NOT NULL default '',
+                   `body`          mediumtext NOT NULL default '',                   
+                   `logo`          varchar(255) NOT NULL default '',
+                   `media_folder`  char(32) NOT NULL,
                    PRIMARY KEY     (`id_node`),
-                   KEY (`id_parent`,`rank`,`status`),
+                   KEY             (`id_parent`,`rank`,`status`),
                    KEY `id_sector` (`id_sector`))";
-        $this->model->dba->query($sql);
-
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}navigation_node_lang (
-                   `id_node`     int(11) unsigned NOT NULL,
-                   `lang`        char(2) NOT NULL default 'en',
-                   `title`       text NOT NULL default '',
-                   `short_text`  text NOT NULL default '',
-                   `body`        mediumtext NOT NULL default '',
-                   KEY `id_node` (`id_node`),
-                   KEY `lang`    (`lang`))";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_node_lock (
@@ -68,9 +62,10 @@ class ActionNavigationSetup extends SmartAction
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
                    `tumbnail`     tinyint(1) NOT NULL default 0,
+                   `title`        text NOT NULL default '',
                    `description`  text NOT NULL default '',
-                   PRIMARY KEY     (`id_pic`),
-                   KEY (`id_node`,`rank`))";
+                   PRIMARY KEY    (`id_pic`),
+                   KEY            (`id_node`,`rank`))";
         $this->model->dba->query($sql);
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_media_file (
@@ -80,9 +75,10 @@ class ActionNavigationSetup extends SmartAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
+                   `title`        text NOT NULL default '',
                    `description`  text NOT NULL default '',
                    PRIMARY KEY    (`id_file`),
-                   KEY (`id_node`,`rank`))";
+                   KEY            (`id_node`,`rank`))";
         $this->model->dba->query($sql);        
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_config (
@@ -120,7 +116,6 @@ class ActionNavigationSetup extends SmartAction
     public function rollback( &$data )
     {
         $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}navigation_node,
-                                     {$data['dbtablesprefix']}navigation_node_lang,
                                      {$data['dbtablesprefix']}navigation_node_lock,
                                      {$data['dbtablesprefix']}navigation_media_pic,
                                      {$data['dbtablesprefix']}navigation_media_file,
