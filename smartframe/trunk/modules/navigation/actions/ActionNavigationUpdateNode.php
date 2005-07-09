@@ -10,16 +10,16 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionNavigationGetNode class 
+ * ActionNavigationUpdateNode class 
  *
  */
 
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
  
-class ActionNavigationGetNode extends ActionNavigation
+class ActionNavigationUpdateNode extends ActionNavigation
 {
     /**
-     * get navigation node data
+     * update navigation node
      *
      * @param array $data
      * @return bool true or false on error
@@ -27,40 +27,30 @@ class ActionNavigationGetNode extends ActionNavigation
     function perform( $data = FALSE )
     {
         $comma = '';
-        $_fields = '';
-        foreach ($data['fields'] as $f)
+        $fields = '';
+        
+        foreach($data['node'] as $key => $val)
         {
-            $_fields .= $comma.'`'.$f.'`';
+            $fields .= $comma.'`'.$key.'`=?';
             $comma = ',';
         }
         
-        if(isset($data['status']))
-        {
-            $sql_where = " AND status{$data['status']}";
-        }
-        else
-        {
-            $sql_where = "";
-        }
-        
         $sql = "
-            SELECT
-                {$_fields}
-            FROM
-                {$this->config['dbTablePrefix']}navigation_node
-            WHERE
-                `id_node`={$data['id_node']} 
-                {$sql_where}";
+            UPDATE {$this->config['dbTablePrefix']}navigation_node
+                SET
+                   $fields
+                WHERE
+                `id_node`={$data['id_node']}";
         
-        $rs = $this->model->dba->query($sql);
-        $row = $rs->fetchAssoc();
-
-        $data['result'] = array();
-
-        foreach ($data['fields'] as $f)
+        $stmt = $this->model->dba->prepare($sql);                    
+        
+        foreach($data['node'] as $key => $val)
         {
-            $data['result'][$f] = stripslashes($row[$f]);
-        }              
+            $methode = 'set'.$this->tblFields_node[$key];
+            $stmt->$methode($val);
+        }
+       
+        $stmt->execute();           
         
         return TRUE;
     } 
@@ -72,12 +62,8 @@ class ActionNavigationGetNode extends ActionNavigation
      */    
     public function validate( $data = FALSE )
     { 
-        if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
-        {
-            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
-        }
-        
-        foreach($data['fields'] as $key => $val)
+        // check if database fields exists
+        foreach($data['node'] as $key => $val)
         {
             if(!isset($this->tblFields_node[$key]))
             {
@@ -93,14 +79,6 @@ class ActionNavigationGetNode extends ActionNavigation
         if(!isset($data['result']))
         {
             throw new SmartModelException('Missing "result" array var: '); 
-        }
-
-        if(isset($data['status']))
-        {
-            if(!preg_match("/^([><=]{1,2})([0-9]+)$/",$data['status']))
-            {
-                throw new SmartModelException('Wrong "status" format: '.$data['status']); 
-            }
         }
         
         return TRUE;
