@@ -104,7 +104,8 @@ class ViewNavigationAddNode extends SmartView
         
         $this->model->action('navigation', 'addNode', 
                              array('id_parent' => (int)$id_parent,
-                                   'fields'    => array('title' => SmartCommonUtil::stripSlashes($_POST['title']))));        
+                                   'fields'    => array('title'  => SmartCommonUtil::stripSlashes($_POST['title']),
+                                                        'status' => 1)));        
     
         return TRUE;
     }

@@ -26,6 +26,17 @@ class ActionNavigationGetBranch extends ActionNavigation
      */
     public function perform( $data = FALSE )
     {
+        if($data['id_node'] == 0)
+        {
+            return TRUE;
+        }
+        
+        // id_parent is required for internal use
+        if(!in_array('id_parent',$data['fields']))
+        {
+            array_push($data['fields'],'id_parent');
+        }
+        
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
@@ -33,6 +44,13 @@ class ActionNavigationGetBranch extends ActionNavigation
             $this->_fields .= $comma.'`'.$f.'`';
             $comma = ',';
         }       
+
+        $data['id_node'] = $this->getIdParent( $data['id_node'] );
+
+        if($data['id_node'] == 0)
+        {
+            return TRUE;
+        }
         
         $this->getBranch( $data );
         
@@ -92,7 +110,7 @@ class ActionNavigationGetBranch extends ActionNavigation
             FROM
                 {$this->config['dbTablePrefix']}navigation_node
             WHERE
-                `id_parent`={$data['id_node']}";
+                `id_node`={$data['id_node']}";
         
         $rs = $this->model->dba->query($sql);
 
@@ -104,9 +122,25 @@ class ActionNavigationGetBranch extends ActionNavigation
                 $tmp[$f] = stripslashes($row[$f]);
             }  
             $data['result'][] = $tmp;
-            $data['id_node'] = $row['id_node'];
+            $data['id_node'] = $row['id_parent'];
             $this->getBranch($data);
         }    
+    }
+    
+    private function getIdParent( $id_node )
+    {
+        $sql = "
+            SELECT
+                `id_parent`
+            FROM
+                {$this->config['dbTablePrefix']}navigation_node
+            WHERE
+                `id_node`={$id_node}";
+        
+        $rs = $this->model->dba->query($sql);
+
+        $row = $rs->fetchAssoc();
+        return $row['id_parent'];    
     }
 }
 

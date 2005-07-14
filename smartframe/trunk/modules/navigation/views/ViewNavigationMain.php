@@ -48,10 +48,17 @@ class ViewNavigationMain extends SmartView
             $this->tplVar['id_node']  = $_REQUEST['id_node'];
             $id_node = (int)$_REQUEST['id_node'];
         }
-        
+
+        // template variables
+        //
+        // data of the current node
+        $this->tplVar['node']   = array();
+        // data of the child nodes
         $this->tplVar['nodes']  = array();
-        $this->tplVar['branch'] = array();        
-        $this->tplVar['error']            = FALSE;
+        // data of the branch nodes
+        $this->tplVar['branch'] = array();  
+        // errors
+        $this->tplVar['error']  = FALSE;
         
         // move up or down a node
         if( isset($_GET['dir']) )
@@ -62,14 +69,25 @@ class ViewNavigationMain extends SmartView
                                        'dir'   => $_GET['dir'],
                                        'error' => & $this->tplVar['error']));        
         }
-        
+    
+        if($id_node != 0)
+        {
+            // assign the template array $B->tpl_nodes with navigation nodes
+            $this->model->action('navigation', 
+                                 'getNode', 
+                                 array('result'  => & $this->tplVar['node'],
+                                       'id_node' => $id_node,
+                                       'error'   => & $this->tplVar['error'],
+                                       'fields'  => array('title','id_node')));        
+        }
+    
         // assign the template array $B->tpl_nodes with navigation nodes
         $this->model->action('navigation', 
                              'getChilds', 
                              array('result'  => & $this->tplVar['nodes'],
                                    'id_node' => $id_node,
                                    'error'   => & $this->tplVar['error'],
-                                   'fields'  => array('title','id_node','status')));
+                                   'fields'  => array('title','id_node','id_parent','status')));
                  
         // assign the template array $B->tpl_nodes with navigation nodes
         $this->model->action('navigation',

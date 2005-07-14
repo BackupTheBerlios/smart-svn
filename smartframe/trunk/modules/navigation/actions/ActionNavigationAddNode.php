@@ -24,7 +24,9 @@ class ActionNavigationAddNode extends ActionNavigation
      *
      */
     public function perform( $data = FALSE )
-    {                   
+    {
+        
+        
         $comma = '';
         $fields = '';
         $quest = '';
@@ -42,7 +44,11 @@ class ActionNavigationAddNode extends ActionNavigation
         
         // id_parent is required
         $fields .= $comma.'`id_parent`';
-        $quest  .= $comma.'?';        
+        $quest  .= $comma.'?'; 
+        
+        // id_parent is required
+        $fields .= $comma.'`rank`';
+        $quest  .= $comma.'?';         
         
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_node
                    ($fields)
@@ -57,12 +63,25 @@ class ActionNavigationAddNode extends ActionNavigation
             $stmt->$methode($val);
         }
         
-        // set id_sector by retriving the sector of the parent node
-        $stmt->setInt( $this->getSector( $data['id_parent'] ) );        
+        //  retrive the sector of the parent node
+        $id_sector = $this->getIdSector( $data['id_parent'] );
+        
+        // set id_sector
+        $stmt->setInt( $id_sector ); 
+        
         // set id_parent
-        $stmt->setInt( $data['id_parent'] );  
-       
+        $stmt->setInt( $data['id_parent'] ); 
+
+        // set rank
+        $stmt->setInt( $this->getRank( $data['id_parent'] ) );
+        
         $stmt->execute();
+       
+        // if the new node is a top node set the node id as sector id
+        if($id_sector == 0)
+        {
+            $this->setIdSector();
+        }
        
         return TRUE;
     } 
@@ -112,7 +131,7 @@ class ActionNavigationAddNode extends ActionNavigation
      * get id_sector of a node
      *
      */    
-    private function getSector( $id_node = 0 )
+    private function getIdSector( $id_node = 0 )
     {
         if($id_node != 0)
         {
@@ -129,6 +148,50 @@ class ActionNavigationAddNode extends ActionNavigation
         {
             return 0;
         }
+    }
+    /**
+     * get rank number for the new added node
+     *
+     * @param int $id_parent Parent ID
+     */    
+    private function getRank( $id_parent )
+    {
+        $sql = "
+            SELECT
+                `rank`
+            FROM
+                {$this->config['dbTablePrefix']}navigation_node
+            WHERE
+                `id_parent`={$id_parent} 
+            ORDER BY `rank` DESC
+            LIMIT 1";
+        
+        $rs = $this->model->dba->query($sql);
+        $row = $rs->fetchAssoc();
+        
+        if(!isset($row['rank']))
+        {
+            return 0;
+        }
+        
+        return ++$row['rank'];
+    }    
+    
+    /**
+     * set id_sector of the new node
+     *
+     */    
+    private function setIdSector()
+    {
+        $id_node = $this->model->dba->lastInsertID();
+        
+        $sql = "UPDATE {$this->config['dbTablePrefix']}navigation_node
+                SET
+                   `id_sector`={$id_node}
+                WHERE
+                   `id_node`={$id_node}";   
+        
+        $rs = $this->model->dba->query($sql);
     }
 }
 
