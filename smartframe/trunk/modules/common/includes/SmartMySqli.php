@@ -118,6 +118,11 @@ class DbMysqli
     public function setCharset( $charset )
     {
         return $this->dbh->set_charset($charset);
+    }  
+    
+    public function lastInsertID()
+    {
+        return $this->dbh->insert_id;
     }     
 }
 
