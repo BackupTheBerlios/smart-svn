@@ -91,11 +91,11 @@ class ActionNavigationGetChilds extends ActionNavigation
             throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
-        foreach($data['fields'] as $key => $val)
+        foreach($data['fields'] as $val)
         {
-            if(!isset($this->tblFields_node[$key]))
+            if(!isset($this->tblFields_node[$val]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new SmartModelException("Field '".$val."' dosent exists!");
             }
         }
 
@@ -118,18 +118,18 @@ class ActionNavigationGetChilds extends ActionNavigation
         {
             if(!is_array($data['status']))
             {
-                throw new SmartModelException('"status" isnt an array'; 
+                throw new SmartModelException('"status" isnt an array'); 
             }
             else
             {
                 if(!preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
                 {
-                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]; 
+                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
                 }
 
                 if(!isset($data['status'][1]) || preg_match("/[^0-9]+/",$data['status'][1]))
                 {
-                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]; 
+                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
                 }
             }
         }
@@ -138,20 +138,20 @@ class ActionNavigationGetChilds extends ActionNavigation
         {
             if(!is_array($data['order']))
             {
-                throw new SmartModelException('"order" action array instruction isnt an array'; 
+                throw new SmartModelException('"order" action array instruction isnt an array'); 
             }
             else
             {
                 if(!preg_match("/rank|title/",$data['order'][0]))
                 {
-                    throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]; 
+                    throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
                 }
 
                 if(isset($data['order'][1]))
                 {
                     if(!preg_match("/asc|desc/i",$data['order'][1]))
                     {
-                        throw new SmartModelException('Wrong "order" array[1] value: '.$data['order'][1]; 
+                        throw new SmartModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
                     }
                 }
                 else

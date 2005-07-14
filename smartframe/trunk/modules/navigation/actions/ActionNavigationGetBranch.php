@@ -54,11 +54,11 @@ class ActionNavigationGetBranch extends ActionNavigation
             throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
         }
         
-        foreach($data['fields'] as $key => $val)
+        foreach($data['fields'] as $val)
         {
-            if(!isset($this->tblFields_node[$key]))
+            if(!isset($this->tblFields_node[$val]))
             {
-                throw new SmartModelException("Field '".$key."' dosent exists!");
+                throw new SmartModelException("Field '".$val."' dosent exists!");
             }
         }
 

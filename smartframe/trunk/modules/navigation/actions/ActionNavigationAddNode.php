@@ -17,7 +17,7 @@
 
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
 
-class ActionNavigationAddNode extends SmartAction
+class ActionNavigationAddNode extends ActionNavigation
 {   
     /**
      * Add navigation node
@@ -29,7 +29,7 @@ class ActionNavigationAddNode extends SmartAction
         $fields = '';
         $quest = '';
         
-        foreach($data['node'] as $key => $val)
+        foreach($data['fields'] as $key => $val)
         {
             $fields .= $comma.'`'.$key.'`';
             $quest  .= $comma.'?';
@@ -51,9 +51,9 @@ class ActionNavigationAddNode extends SmartAction
 
         $stmt = $this->model->dba->prepare($sql);                    
         
-        foreach($data['node'] as $key => $val)
+        foreach($data['fields'] as $key => $val)
         {
-            $methode = 'set'.$this->tblFields_user[$key];
+            $methode = 'set'.$this->tblFields_node[$key];
             $stmt->$methode($val);
         }
         
@@ -71,7 +71,7 @@ class ActionNavigationAddNode extends SmartAction
      * validate array data
      *
      */    
-    private function validate( $data = FALSE )
+    public function validate( $data = FALSE )
     {
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
@@ -90,7 +90,7 @@ class ActionNavigationAddNode extends SmartAction
                 throw new SmartModelException("Field 'id_parent' is not allowed in fields array!");
             } 
             
-            if(!isset($this->tblFields_user[$key]))
+            if(!isset($this->tblFields_node[$key]))
             {
                 throw new SmartModelException("Field '".$key."' isnt allowed!");
             }
@@ -103,7 +103,9 @@ class ActionNavigationAddNode extends SmartAction
         elseif(preg_match("/[^0-9]/",$data['id_parent']))
         {
             throw new SmartModelException('Wrong "id_parent format": '.$data['id_parent']);        
-        }        
+        }      
+        
+        return TRUE;
     }  
 
     /**

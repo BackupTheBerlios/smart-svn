@@ -14,13 +14,13 @@
  *
  */
  
-class ViewNavigationMain extends SmartView
+class ViewNavigationAddNode extends SmartView
 {
    /**
      * Default template for this view
      * @var string $template
      */
-    public  $template = 'main';
+    public  $template = 'addnode';
     
    /**
      * Default template folder for this view
@@ -34,8 +34,13 @@ class ViewNavigationMain extends SmartView
     */
     public function perform()
     {
-        // init template variables
-        
+        // init template array to fill with node data
+        $this->tplVar['title']  = '';
+        $this->tplVar['branch'] = array();  
+        $this->tplVar['childs'] = array();
+        // Init template form field values
+        $this->tplVar['error']            = FALSE;
+
         // fetch the current id_node. If no node the script assums that
         // we are at the top level with id_parent 0
         if(!isset($_REQUEST['id_node'])) 
@@ -49,27 +54,25 @@ class ViewNavigationMain extends SmartView
             $id_node = (int)$_REQUEST['id_node'];
         }
         
-        $this->tplVar['nodes']  = array();
-        $this->tplVar['branch'] = array();        
-        $this->tplVar['error']            = FALSE;
-        
-        // move up or down a node
-        if( isset($_GET['dir']) )
+        // add node
+        if( isset($_POST['addnode']) )
         {
-            $this->model->action('navigation', 
-                                 'moveNodeRank', 
-                                 array('node'  => (int)$_GET['dir_node'],
-                                       'dir'   => $_GET['dir'],
-                                       'error' => & $this->tplVar['error']));        
+            if(TRUE == $this->addNode( $id_node ))
+            {
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_node);
+                exit;
+                //throw new SmartForwardAdminViewException('naviagtion','index');
+            }
         }
         
         // assign the template array $B->tpl_nodes with navigation nodes
-        $this->model->action('navigation', 
-                             'getChilds', 
-                             array('result'  => & $this->tplVar['nodes'],
-                                   'id_node' => $id_node,
-                                   'error'   => & $this->tplVar['error'],
-                                   'fields'  => array('title','id_node','status')));
+        $this->model->action('navigation', 'getChilds', 
+                             array('id_node' => $id_node,
+                                   'order'   => array('rank', 'asc'),
+                                   'status'  => array('>=', 0),
+                                   'fields'  => array('id_node','title','status'),
+                                   'result'  => & $this->tplVar['childs'],
+                                   'error'   => & $this->tplVar['error']));
                  
         // assign the template array $B->tpl_nodes with navigation nodes
         $this->model->action('navigation',
@@ -78,9 +81,6 @@ class ViewNavigationMain extends SmartView
                                    'id_node' => $id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node')));                 
-
-        // get user locks
-        $this->getLocks();
 
         // set template variable that show the link to add users
         // only if the logged user have at least editor rights
@@ -92,36 +92,22 @@ class ViewNavigationMain extends SmartView
         {
             $this->tplVar['showAddNodeLink'] = FALSE;
         }
-    }  
+    }   
     
-     /**
-     * assign template variables with lock status of each user
-     *
-     */   
-    private function getLocks()
+    private function addNode( $id_parent )
     {
-        $row = 0;
-        
-        foreach($this->tplVar['nodes'] as $node)
+        if(!isset($_POST['title']) || empty($_POST['title']))
         {
-            // lock the user to edit
-            $result = $this->model->action('navigation','lock',
-                                     array('job'        => 'is_locked',
-                                           'id_node'    => $node['id_node'],
-                                           'by_id_user' => $this->viewVar['loggedUserId']) );
-                                           
-            if(($result !== TRUE) && ($result !== FALSE))
-            {
-                $this->tplVar['nodes'][$row]['lock'] = TRUE;  
-            } 
-            else
-            {
-                $this->tplVar['nodes'][$row]['lock'] = FALSE;  
-            }
-            
-            $row++;
-        }    
-    }    
+            $this->tplVar['error'] = 'Title is empty';
+            return FALSE;
+        }
+        
+        $this->model->action('navigation', 'addNode', 
+                             array('id_parent' => (int)$id_parent,
+                                   'fields'    => array('title' => SmartCommonUtil::stripSlashes($_POST['title']))));        
+    
+        return TRUE;
+    }
 }
 
 ?>
