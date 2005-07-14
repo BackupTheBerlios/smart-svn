@@ -17,16 +17,22 @@
 class ViewNavigationMain extends SmartView
 {
    /**
-     * Default template for this view
+     * template for this view
      * @var string $template
      */
-    public  $template = 'main';
+    public $template = 'main';
     
    /**
-     * Default template folder for this view
+     * template folder for this view
      * @var string $template_folder
      */    
-    public  $templateFolder = 'modules/navigation/templates/';
+    public $templateFolder = 'modules/navigation/templates/';
+    
+   /**
+     * current id_node
+     * @var int $current_id_node
+     */
+    private $current_id_node;    
         
    /**
     * Perform on the main view
@@ -34,32 +40,9 @@ class ViewNavigationMain extends SmartView
     */
     public function perform()
     {
-        // init template variables
-        
-        // fetch the current id_node. If no node the script assums that
-        // we are at the top level with id_parent 0
-        if(!isset($_REQUEST['id_node'])) 
-        {
-            $this->tplVar['id_node']  = 0;
-            $id_node = 0;
-        }
-        else
-        {
-            $this->tplVar['id_node']  = $_REQUEST['id_node'];
-            $id_node = (int)$_REQUEST['id_node'];
-        }
+        // init variables for this view
+        $this->initVars();
 
-        // template variables
-        //
-        // data of the current node
-        $this->tplVar['node']   = array();
-        // data of the child nodes
-        $this->tplVar['nodes']  = array();
-        // data of the branch nodes
-        $this->tplVar['branch'] = array();  
-        // errors
-        $this->tplVar['error']  = FALSE;
-        
         // move up or down a node
         if( isset($_GET['id_node_up']) )
         {
@@ -76,34 +59,34 @@ class ViewNavigationMain extends SmartView
                                        'dir'     => 'down'));        
         }
         
-        if($id_node != 0)
+        // get current node data if we arent at the top level node
+        if($this->current_id_node != 0)
         {
-            // assign the template array $B->tpl_nodes with navigation nodes
             $this->model->action('navigation', 
                                  'getNode', 
                                  array('result'  => & $this->tplVar['node'],
-                                       'id_node' => $id_node,
+                                       'id_node' => $this->current_id_node,
                                        'error'   => & $this->tplVar['error'],
                                        'fields'  => array('title','id_node')));        
         }
     
-        // assign the template array $B->tpl_nodes with navigation nodes
+        // get child navigation nodes
         $this->model->action('navigation', 
                              'getChilds', 
                              array('result'  => & $this->tplVar['nodes'],
-                                   'id_node' => $id_node,
+                                   'id_node' => $this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node','id_parent','status')));
                  
-        // assign the template array $B->tpl_nodes with navigation nodes
+        // get navigation node branch of the current node
         $this->model->action('navigation',
                              'getBranch', 
                              array('result'  => & $this->tplVar['branch'],
-                                   'id_node' => $id_node,
+                                   'id_node' => $this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node')));                 
 
-        // get user locks
+        // get node locks
         $this->getLocks();
 
         // set template variable that show the link to add users
@@ -119,7 +102,7 @@ class ViewNavigationMain extends SmartView
     }  
     
      /**
-     * assign template variables with lock status of each user
+     * assign template variables with lock status of each node
      *
      */   
     private function getLocks()
@@ -145,7 +128,37 @@ class ViewNavigationMain extends SmartView
             
             $row++;
         }    
-    }    
+    }   
+     /**
+     * init variables for this view
+     *
+     */      
+    private function initVars()
+    {
+        // fetch the current id_node. If no node the script assums that
+        // we are at the top level with id_parent 0
+        if(!isset($_REQUEST['id_node'])) 
+        {
+            $this->tplVar['id_node']  = 0;
+            $this->current_id_node    = 0;
+        }
+        else
+        {
+            $this->tplVar['id_node']  = (int)$_REQUEST['id_node'];
+            $this->current_id_node    = (int)$_REQUEST['id_node'];
+        }
+        
+        // template variables
+        //
+        // data of the current node
+        $this->tplVar['node']   = array();
+        // data of the child nodes
+        $this->tplVar['nodes']  = array();
+        // data of the branch nodes
+        $this->tplVar['branch'] = array();  
+        // errors
+        $this->tplVar['error']  = FALSE;    
+    }
 }
 
 ?>
