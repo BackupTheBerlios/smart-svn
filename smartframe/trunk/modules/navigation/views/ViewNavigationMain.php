@@ -61,15 +61,21 @@ class ViewNavigationMain extends SmartView
         $this->tplVar['error']  = FALSE;
         
         // move up or down a node
-        if( isset($_GET['dir']) )
+        if( isset($_GET['id_node_up']) )
         {
             $this->model->action('navigation', 
                                  'moveNodeRank', 
-                                 array('node'  => (int)$_GET['dir_node'],
-                                       'dir'   => $_GET['dir'],
-                                       'error' => & $this->tplVar['error']));        
+                                 array('id_node' => (int)$_GET['id_node_up'],
+                                       'dir'     => 'up'));        
         }
-    
+        elseif( isset($_GET['id_node_down']) )
+        {
+            $this->model->action('navigation', 
+                                 'moveNodeRank', 
+                                 array('id_node' => (int)$_GET['id_node_down'],
+                                       'dir'     => 'down'));        
+        }
+        
         if($id_node != 0)
         {
             // assign the template array $B->tpl_nodes with navigation nodes

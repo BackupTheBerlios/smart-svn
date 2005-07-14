@@ -29,7 +29,7 @@ class ActionNavigationUpdateNode extends ActionNavigation
         $comma = '';
         $fields = '';
         
-        foreach($data['node'] as $key => $val)
+        foreach($data['fields'] as $key => $val)
         {
             $fields .= $comma.'`'.$key.'`=?';
             $comma = ',';
@@ -44,7 +44,7 @@ class ActionNavigationUpdateNode extends ActionNavigation
         
         $stmt = $this->model->dba->prepare($sql);                    
         
-        foreach($data['node'] as $key => $val)
+        foreach($data['fields'] as $key => $val)
         {
             $methode = 'set'.$this->tblFields_node[$key];
             $stmt->$methode($val);
@@ -63,7 +63,7 @@ class ActionNavigationUpdateNode extends ActionNavigation
     public function validate( $data = FALSE )
     { 
         // check if database fields exists
-        foreach($data['node'] as $key => $val)
+        foreach($data['fields'] as $key => $val)
         {
             if(!isset($this->tblFields_node[$key]))
             {
@@ -74,11 +74,6 @@ class ActionNavigationUpdateNode extends ActionNavigation
         if(preg_match("/[^0-9]/",$data['id_node']))
         {
             throw new SmartModelException('Wrong id_node format: '.$id_user);        
-        }
-
-        if(!isset($data['result']))
-        {
-            throw new SmartModelException('Missing "result" array var: '); 
         }
         
         return TRUE;

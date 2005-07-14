@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionNavigationUpdateNode class 
+ * ActionNavigationMoveNodeRank class 
  *
  */
  
-class ActionNavigationMoveRank extends SmartAction
+class ActionNavigationMoveNodeRank extends SmartAction
 {
     /**
      * exchange (move) navigation node rank
@@ -68,34 +68,50 @@ class ActionNavigationMoveRank extends SmartAction
         
         return TRUE;
     }
-    
+    /**
+     * move rank up of a node
+     *
+     * @param array $node
+     */      
     private function moveRankUp( $node )
     {
+        // rank position 0 cant be moved any more up
         if( $node['rank'] == 0 )
         {
             return;
         }
         
-        $nextNode = $this->getNextIdNode( $node['id_parent'], $node['$rank'] - 1 );
+        // get the next upper rank node
+        $nextNode = $this->getNextIdNode( $node['id_parent'], $node['rank'] - 1 );
+        
+        // exchange both node ranks
         
         $this->model->action('navigation','updateNode',
                              array('id_node' => $node['id_node'],
-                                   'fields'  => array('rank' => $node['$rank'] - 1)));
+                                   'fields'  => array('rank' => $node['rank'] - 1)));
 
         $this->model->action('navigation','updateNode',
                              array('id_node' => $nextNode['id_node'],
                                    'fields'  => array('rank' => $nextNode['rank'] + 1)));
 
     }
-
+    /**
+     * move rank down of a node
+     *
+     * @param array $node
+     */  
     private function moveRankDown( $node )
     {        
+        // get the next downer rank node
         $nextNode = $this->getNextIdNode( $node['id_parent'], $node['rank'] + 1 );
         
+        // if we are at the end return
         if(!isset($nextNode['id_node']))
         {
             return;
         }
+        
+        // exchange both node ranks
         
         $this->model->action('navigation','updateNode',
                              array('id_node' => $node['id_node'],
@@ -107,6 +123,12 @@ class ActionNavigationMoveRank extends SmartAction
 
     }
     
+    /**
+     * get id_node and rank of a node with a specific rank and id_parent
+     *
+     * @param int $id_parent
+     * @param int $rank
+     */      
     private function getNextIdNode( $id_parent, $rank )
     {
         $sql = "
