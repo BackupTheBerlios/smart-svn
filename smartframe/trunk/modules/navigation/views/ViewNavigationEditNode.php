@@ -74,7 +74,7 @@ class ViewNavigationEditNode extends SmartView
                 $rank = FALSE;
             }
             
-            if(isset($_POST['delete_node']))
+            if($_POST['delete_node'] == '1')
             {
                 $this->deleteNode( $_POST['id_node'] );
                 $this->reorderRank( (int)$_POST['id_parent'] );
