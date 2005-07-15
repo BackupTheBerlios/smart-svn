@@ -4,7 +4,7 @@ function deletenode(f, mes)
       check = confirm(mes);
         if(check == true)
         {
-            f.delnode.value="1";
+            f.delete_node.value="1";
         with(f){
         submit();
         }
@@ -18,11 +18,11 @@ function deletenode(f, mes)
 }
 -->
 </style>
-<form name="edituser" method="post" action="<?php echo SMART_CONTROLLER; ?>&mod=navigation&view=editnode">
+<form name="edituser" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=editnode">
 <input name="id_node" type="hidden" value="<?php echo $tpl['node']['id_node']; ?>">
 <input name="modifynodedata" type="hidden" value="true">
 <input name="id_parent" type="hidden" value="<?php echo $tpl['node']['id_parent']; ?>">
-<input name="delnode" type="hidden" value="0">
+<input name="delete_node" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" class="moduleheader2">Edit Node ID: <?php echo $tpl['node']['id_node']; ?></td>

@@ -24,48 +24,8 @@ class ActionNavigationDeleteNode extends SmartAction
      */
     public function perform( $data = FALSE )
     {        
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_lock
-                  WHERE
-                   `id_node`={$data['id_node']}";
-
-        $this->model->dba->query($sql);
-
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_media_pic
-                  WHERE
-                   `id_node`={$data['id_node']}";
-
-        $this->model->dba->query($sql);
-
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_media_file
-                  WHERE
-                   `id_node`={$data['id_node']}";
-
-        $this->model->dba->query($sql);
-
-        $sql = "SELECT `media_folder` FROM {$this->config['dbTablePrefix']}navigation_node
-                  WHERE
-                   `id_node`={$data['id_node']}";
-                   
-        $rs = $this->model->dba->query($sql);
-
-        $row = $rs->fetchAssoc();
-
-        if(isset($row['media_folder']) && !empty($row['media_folder']))
-        {
-            // delete user data media folder
-            SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/navigation/'.$row['media_folder'] );
-        }
-        else
-        {
-            trigger_error("Navigation media folder string is empty! \nFILE: ".__FILE__, E_USER_WARNING);
-        }
-        
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node
-                  WHERE
-                   `id_node`={$data['id_node']}";
-
-        $this->model->dba->query($sql);
-       
+        $this->deleteSubNodes( $data['id_node'] );
+        $this->deleteNode( $data['id_node'] );
         return TRUE;
     } 
     /**
@@ -82,6 +42,67 @@ class ActionNavigationDeleteNode extends SmartAction
         }
 
         return TRUE;
+    }
+
+    private function deleteNode( $id_node )
+    {
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node_lock
+                  WHERE
+                   `id_node`={$id_node}";
+
+        $this->model->dba->query($sql);
+
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_media_pic
+                  WHERE
+                   `id_node`={$id_node}";
+
+        $this->model->dba->query($sql);
+
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_media_file
+                  WHERE
+                   `id_node`={$id_node}";
+
+        $this->model->dba->query($sql);
+
+        $sql = "SELECT `media_folder` FROM {$this->config['dbTablePrefix']}navigation_node
+                  WHERE
+                   `id_node`={$id_node}";
+                   
+        $rs = $this->model->dba->query($sql);
+
+        $row = $rs->fetchAssoc();
+
+        if(isset($row['media_folder']) && !empty($row['media_folder']))
+        {
+            // delete user data media folder
+            SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/navigation/'.$row['media_folder'] );
+        }
+        
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_node
+                  WHERE
+                   `id_node`={$id_node}";
+
+        $this->model->dba->query($sql);
+           
+    }
+    
+    private function deleteSubNodes( $id_node )
+    {
+        $tree = array();
+        
+        // get sub nodes
+        $this->model->action('navigation','getTree', 
+                             array('id_parent' => $id_node,
+                                   'result'    => & $tree,
+                                   'fields'    => array('id_parent','status','id_node')));   
+   
+        if(count($tree) > 0)
+        {
+            foreach($tree as $node)
+            {
+                $this->deleteNode( $node['id_node'] );
+            }
+        }
     }
 }
 

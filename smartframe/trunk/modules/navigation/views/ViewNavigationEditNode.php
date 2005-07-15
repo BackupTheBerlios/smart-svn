@@ -60,12 +60,34 @@ class ViewNavigationEditNode extends SmartView
         }
 
         if( isset($_POST['modifynodedata']) )
-        {
-            $this->updateNodeData();
+        {           
+            // check if id_parent has change
+            if($_POST['id_parent'] != $_POST['node_id_parent'])
+            {
+                $id_parent = (string)$_POST['node_id_parent'];
+                $rank = $this->getLastRank( $id_parent );
+                $this->reorderRank( (int)$_POST['id_parent'] );
+            }
+            else
+            {
+                $id_parent = (string)$_POST['id_parent'];
+                $rank = FALSE;
+            }
+            
+            if(isset($_POST['delete_node']))
+            {
+                $this->deleteNode( $_POST['id_node'] );
+                $this->reorderRank( (int)$_POST['id_parent'] );
+                @header('Location: '.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_parent);
+                exit;
+            }           
+            
+            // update node data
+            $this->updateNodeData( $rank );
             
             if(isset($_POST['finishupdate']))
             {
-                @header('Location: '.SMART_CONTROLLER.'?mod=navigation&id_node='.$_POST['id_parent']);
+                @header('Location: '.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_parent);
                 exit;
             }
         }
@@ -174,6 +196,61 @@ class ViewNavigationEditNode extends SmartView
         {
             $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['charset'] );
         }
+    }  
+    /**
+     * Update node data
+     *
+     * @param int $rank New rank
+     */
+    private function updateNodeData( $rank )
+    {
+        $fields = array('id_parent'  => $_POST['node_id_parent'],
+                        'status'     => $_POST['status'],
+                        'title'      => SmartCommonUtil::stripSlashes($_POST['title']),
+                        'short_text' => SmartCommonUtil::stripSlashes($_POST['short_text']),
+                        'body'       => SmartCommonUtil::stripSlashes($_POST['body']));
+                        
+        if($rank != FALSE)
+        {
+            $fields['rank'] = $rank;
+        }
+        
+        $this->model->action('navigation','updateNode',
+                             array('id_node' => $_REQUEST['id_node'],
+                                   'fields'  => $fields));    
+    }
+    /**
+     * Get last rank of an given id_parent
+     *
+     * @param int $id_parent
+     */    
+    private function deleteNode( $id_node )
+    {
+        $this->model->action('navigation','deleteNode',
+                             array('id_node' => $id_node));
+    }    
+    /**
+     * Get last rank of an given id_parent
+     *
+     * @param int $id_parent
+     */    
+    private function getLastRank( $id_parent )
+    {
+        $rank = 0;
+        $this->model->action('navigation','getLastRank',
+                             array('id_parent' => $id_parent,
+                                   'result'    => &$rank ));
+        return $rank;
+    }
+    /**
+     * reorder rank list when moving a node
+     *
+     * @param int $id_parent
+     */      
+    private function reorderRank( $id_parent )
+    {
+        $this->model->action('navigation','reorderRank',
+                             array('id_parent' => $id_parent));
     }    
 }
 
