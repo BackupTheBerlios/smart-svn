@@ -44,14 +44,18 @@ class ViewNavigationMain extends SmartView
         $this->initVars();
 
         // move up or down a node
-        if( isset($_GET['id_node_up']) )
+        if( isset($_GET['id_node_up']) && 
+            !preg_match("/[^0-9]+/",$_GET['id_node_up']) &&
+            ($this->allowModify() == TRUE) )
         {
             $this->model->action('navigation', 
                                  'moveNodeRank', 
                                  array('id_node' => (int)$_GET['id_node_up'],
                                        'dir'     => 'up'));        
         }
-        elseif( isset($_GET['id_node_down']) )
+        elseif( isset($_GET['id_node_down']) && 
+                !preg_match("/[^0-9]+/",$_GET['id_node_down']) &&
+                ($this->allowModify() == TRUE) )
         {
             $this->model->action('navigation', 
                                  'moveNodeRank', 
@@ -77,7 +81,7 @@ class ViewNavigationMain extends SmartView
                                    'id_node' => $this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node','id_parent','status')));
-                 
+    
         // get navigation node branch of the current node
         $this->model->action('navigation',
                              'getBranch', 
@@ -88,17 +92,6 @@ class ViewNavigationMain extends SmartView
 
         // get node locks
         $this->getLocks();
-
-        // set template variable that show the link to add users
-        // only if the logged user have at least editor rights
-        if($this->viewVar['loggedUserRole'] <= 40)
-        {
-            $this->tplVar['showAddNodeLink'] = TRUE;
-        }
-        else
-        {
-            $this->tplVar['showAddNodeLink'] = FALSE;
-        }
     }  
     
      /**
@@ -137,16 +130,19 @@ class ViewNavigationMain extends SmartView
     {
         // fetch the current id_node. If no node the script assums that
         // we are at the top level with id_parent 0
-        if(!isset($_REQUEST['id_node'])) 
+        if( !isset($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
         {
             $this->tplVar['id_node']  = 0;
-            $this->current_id_node    = 0;
+            $this->current_id_node    = 0;      
         }
         else
         {
             $this->tplVar['id_node']  = (int)$_REQUEST['id_node'];
-            $this->current_id_node    = (int)$_REQUEST['id_node'];
+            $this->current_id_node    = (int)$_REQUEST['id_node'];          
         }
+
+        // set template variable to show edit links        
+        $this->tplVar['showLink'] = $this->allowModify();       
         
         // template variables
         //
@@ -158,6 +154,22 @@ class ViewNavigationMain extends SmartView
         $this->tplVar['branch'] = array();  
         // errors
         $this->tplVar['error']  = FALSE;    
+    }
+     /**
+     * has the logged the rights to modify?
+     * at least edit (40) rights are required
+     *
+     */      
+    private function allowModify()
+    {      
+        if($this->viewVar['loggedUserRole'] <= 40 )
+        {
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 }
 

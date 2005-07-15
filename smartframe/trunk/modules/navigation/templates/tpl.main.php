@@ -1,7 +1,8 @@
+
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td width="89%" align="left" valign="top">
-	<div class="font12">
+	<div class="font12 indent5">
 	<a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation">Top</a>
 	<?php foreach($tpl['branch'] as $node): ?>
 	 / <a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a>
@@ -21,9 +22,9 @@
 		<img src="./modules/common/media/pics/active.png" width="21" height="21">
 		<?php endif; ?>
 		</td>
-        <td width="21" align="left" valign="top" class="itemnormal"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node_up=<?php echo $node['id_node']; ?>&id_node=<?php echo $node['id_parent']; ?>"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a></td>
-        <td width="21" align="left" valign="top" class="itemnormal"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node_down=<?php echo $node['id_node']; ?>&id_node=<?php echo $node['id_parent']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a></td>
-        <td width="1%" align="left" valign="top" class="itemnormal"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=editnode&id_node=<?php echo $node['id_node']; ?>">edit</a>&nbsp;</td>
+        <td width="21" align="left" valign="top" class="itemnormal"><?php if($tpl['showLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node_up=<?php echo $node['id_node']; ?>&id_node=<?php echo $node['id_parent']; ?>"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
+        <td width="21" align="left" valign="top" class="itemnormal"><?php if($tpl['showLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node_down=<?php echo $node['id_node']; ?>&id_node=<?php echo $node['id_parent']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
+        <td width="1%" align="left" valign="top" class="font9"><?php if($tpl['showLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=editnode&id_node=<?php echo $node['id_node']; ?>">edit</a><?php endif; ?>&nbsp;</td>
           <td width="99%" align="left" valign="top" class="itemnormal">
 		      <?php if($node['lock']==FALSE): ?>
                 <?php echo '<a href="'.SMART_CONTROLLER.'?mod=navigation&id_node='.$node['id_node'].'">'.$node['title'].'</a>'; ?>
@@ -39,6 +40,6 @@
 	<?php endif; ?>
 </td>
     <td width="11%" align="center" valign="top" class="itemnormal">
-	<?php if($tpl['showAddNodeLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=addnode&id_node=<?php echo $tpl['id_node']; ?>">add node</a><?php endif; ?></td>
+	<?php if($tpl['showLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=addnode&id_node=<?php echo $tpl['id_node']; ?>">add node</a><?php else: ?>&nbsp;<?php endif; ?></td>
   </tr>
 </table>
