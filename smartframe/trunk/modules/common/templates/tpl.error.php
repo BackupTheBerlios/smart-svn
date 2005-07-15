@@ -1,1 +1,1 @@
-An unexpected error occured. Please check error.log.
+<div><pre><?php var_dump($tpl['error']); ?></pre></div>

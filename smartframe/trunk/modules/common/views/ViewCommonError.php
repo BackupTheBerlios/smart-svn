@@ -28,11 +28,13 @@ class ViewCommonError extends SmartView
     public $templateFolder = 'modules/common/templates/';
 
     /**
-     * Does nothing. The end user error page is static.
+     * The end user error view.
      *
      */
     function perform()
     {
+        // assign template error var
+        $this->tplVar['error'] = & $this->viewData;
     }
 }
 
