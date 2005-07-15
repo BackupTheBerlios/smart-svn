@@ -16,7 +16,7 @@
     <td>
   <?php endif; ?>
   <?php $viewLoader->{$tpl['moduleChildView']}(); ?>
-<?php if($tpl['isUserLogged'] == TRUE): ?>  
+  <?php if($tpl['isUserLogged'] == TRUE): ?>  
   </td>
   </tr>
 </table>
