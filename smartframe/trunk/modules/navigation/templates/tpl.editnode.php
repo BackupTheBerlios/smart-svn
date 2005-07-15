@@ -46,15 +46,15 @@ function deletenode(f, mes)
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="16%" align="left" valign="top" class="font10bold">Status </td>
-              <td width="84%" align="left" valign="top" class="font10bold">Parent Node</td>
+              <td width="14%" align="left" valign="top" class="font10bold">Status </td>
+              <td width="86%" align="left" valign="top" class="font10bold">Parent Node</td>
             </tr>
             <tr>
-              <td align="left" valign="top"><select name="status" size="1" id="status">
+              <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
                 <option value="2" <?php if($tpl['node']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
                 <option value="1" <?php if($tpl['node']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
               </select></td>
-              <td align="left" valign="top"><select name="parent_id" size="1" id="parent_id">
+              <td align="left" valign="top"><select name="node_id_parent" size="1" id="node_id_parent" class="treeselectbox">
                 <option value="0">Top</option>
                 <?php foreach($tpl['tree'] as $val):  ?>
                 <option value="<?php echo $val['id_node']; ?>" <?php if($val['id_node'] == $tpl['node']['id_parent'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
