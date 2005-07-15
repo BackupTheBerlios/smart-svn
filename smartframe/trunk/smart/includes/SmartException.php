@@ -53,15 +53,15 @@ class SmartException extends Exception
      */
     public function performStackTrace()
     {
-        $exceptionMessage  = "EXCEPTION: ".date("Y-m-d H:i:s", time())."\n";     
-        $exceptionMessage .= "NAME: "     .$this->getName()."\n";
-        $exceptionMessage .= "MESSAGE: "  .$this->getMessage()."\n";
-        $exceptionMessage .= "CODE: "     .$this->getCode()."\n"; 
-        $exceptionMessage .= "FILE: "     .$this->getFile()."\n"; 
-        $exceptionMessage .= "LINE: "     .$this->getLine()."\n";
-        $exceptionMessage .= "TRACE: \n"  .var_export($this->getTrace(), TRUE)."\n";
+        $this->exceptionMessage  = "EXCEPTION: ".date("Y-m-d H:i:s", time())."\n";     
+        $this->exceptionMessage .= "NAME: "     .$this->getName()."\n";
+        $this->exceptionMessage .= "MESSAGE: "  .$this->getMessage()."\n";
+        $this->exceptionMessage .= "CODE: "     .$this->getCode()."\n"; 
+        $this->exceptionMessage .= "FILE: "     .$this->getFile()."\n"; 
+        $this->exceptionMessage .= "LINE: "     .$this->getLine()."\n";
+        $this->exceptionMessage .= "TRACE: \n"  .var_export($this->getTrace(), TRUE)."\n";
 
-        $this->_log( $exceptionMessage );
+        $this->_log();
         
         if( $this->flag['debug'] == TRUE )
         {
@@ -74,12 +74,12 @@ class SmartException extends Exception
     *
     * @param string $message
     */     
-    function _log( & $message )
+    function _log()
     {
         // write this message to file
         if(strstr($this->flag['message_handle'], 'LOG'))
         {
-            error_log($message."\n\n", 3, $this->flag['logs_path'] . 'error.log');
+            error_log($this->exceptionMessage."\n\n", 3, $this->flag['logs_path'] . 'error.log');
         }  
         // Print this message
         if(strstr($this->flag['message_handle'], 'SHOW') && ($this->flag['debug'] == TRUE ))
@@ -89,7 +89,7 @@ class SmartException extends Exception
                               color: #990000;
                               background-color: #CCCCCC;
                               padding: 5px;
-                              border: thin solid #666666;">'.$message.'</pre><br />';
+                              border: thin solid #666666;">'.$this->exceptionMessage.'</pre><br />';
         }         
     }
 }

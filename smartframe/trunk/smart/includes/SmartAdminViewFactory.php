@@ -21,7 +21,7 @@ class SmartAdminViewFactory extends SmartViewFactory
      *
      * @param string $view View name
      * @param array $args Arguments passed to the view. 
-     * $args[0] additional data (mixed type) is aggregated by the view object > $view->viewVar
+     * $args[0] additional data (mixed type) is aggregated by the view object > $view->viewData
      * $args[1] additional data (mixed type) passed to the constructor
      * $args[2] bool true = continue (return FALSE) if a view dosent exists
      * $args[3] bool true = force a new instance

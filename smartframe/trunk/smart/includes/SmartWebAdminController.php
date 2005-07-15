@@ -53,25 +53,25 @@ class SmartWebAdminController extends SmartController
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView();
+            $this->userErrorView($e);
         }
         catch(SmartModelException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace();
-            $this->userErrorView();
+            $this->userErrorView($e);
         }         
         catch(SmartTplException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView();
+            $this->userErrorView($e);
         } 
         catch(SmartDbException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView();
+            $this->userErrorView($e);
         }               
         catch(SmartForwardAdminViewException $e)
         {
@@ -90,10 +90,13 @@ class SmartWebAdminController extends SmartController
      * Web user error view is executed if an exception arrise
      *
      */    
-    private function userErrorView()
+    private function userErrorView( &$e )
     {
-        $methode = ucfirst( $this->config['base_module'] ) . 'Error';
-        $this->view->$methode();    
+        if(strstr($this->config['message_handle'], 'SHOW'))
+        {
+            $methode = ucfirst( $this->config['base_module'] ) . 'Error';
+            $this->view->$methode( $e->exceptionMessage );   
+        }
     }     
 }
 
