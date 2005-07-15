@@ -51,3 +51,35 @@ body {
 	text-indent: 5px;
 	word-spacing: 2px;
 }
+.indent5 {
+	margin: 0px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 5px;
+}
+.modulebar {
+	border-top-width: 0px;
+	border-right-width: 0px;
+	border-bottom-width: 1px;
+	border-left-width: 0px;
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: solid;
+	border-left-style: none;
+	border-bottom-color: #0000CC;
+}
+.moduleheader2 {
+	font-size: 12px;
+	font-weight: bold;
+	color: #666666;
+	text-align: left;
+	text-indent: 5px;
+	vertical-align: middle;
+	border: 1px solid #0000CC;
+	background-color: #FFFFFF;
+}
+.treeselectbox {
+	font-size: 13px;
+	color: #000066;
+}
