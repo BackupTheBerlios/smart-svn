@@ -180,6 +180,29 @@ class ViewNavigationEditNode extends SmartView
             $this->tplVar['id_node']  = (int)$_REQUEST['id_node'];
             $this->current_id_node    = (int)$_REQUEST['id_node'];          
         }     
+
+        // set format template var, means how to format textarea content -> editor/wikki ?
+        // 1 = text_wikki
+        // 2 = tiny_mce
+        if($this->config['navigation']['force_format'] != 0)
+        {
+            $this->tplVar['format'] = $this->config['navigation']['force_format'];
+            $this->tplVar['show_format_switch'] = FALSE;
+        }
+        elseif(isset($_POST['format']))
+        {
+            if(!preg_match("/(1|2){1}/",$_POST['format']))
+            {
+                $this->tplVar['format'] = $this->config['navigation']['default_format'];
+            }
+            $this->tplVar['format'] = $_POST['format'];
+            $this->tplVar['show_format_switch'] = TRUE;
+        }
+        else
+        {
+            $this->tplVar['format'] = $this->config['navigation']['default_format'];
+            $this->tplVar['show_format_switch'] = TRUE;
+        }
         
         // template variables
         //
