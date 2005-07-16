@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionNavigationGetNode class 
+ * ActionNavigationGetTree class 
  *
  */
 
@@ -19,10 +19,10 @@ include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php'
 class ActionNavigationGetTree extends ActionNavigation
 {
     /**
-     * get navigation node data
+     * get navigation node (sub)tree from a given id_node
      *
      * @param array $data
-     * @return bool true or false on error
+     * @return bool
      */
     function perform( $data = FALSE )
     { 
@@ -30,7 +30,7 @@ class ActionNavigationGetTree extends ActionNavigation
         $this->result_tree = array();
         $this->selectTree( $data );
         
-        $this->tree( $data['id_parent'] );
+        $this->tree( $data['id_node'] );
   
         return TRUE;
     } 
@@ -54,10 +54,19 @@ class ActionNavigationGetTree extends ActionNavigation
                 throw new SmartModelException("Field '".$val."' dosent exists!");
             }
         }
+
+        if(preg_match("/[^0-9]/",$data['id_node']))
+        {
+            throw new SmartModelException('Wrong id_node format: '.$id_user);        
+        }
         
         return TRUE;
     }
-    
+    /**
+     * load the whole navigation node tree in an array
+     *
+     * @param array $data
+     */    
     function selectTree( $data )
     { 
         $comma = '';
@@ -89,6 +98,12 @@ class ActionNavigationGetTree extends ActionNavigation
             $this->node_tree[] = $tmp;
         }
     }
+    /**
+     * get the demanded navigation node (sub)tree of a given id_parent
+     *
+     * @param int $id_parent Node from which we need the (sub)tree
+     * @param int $level indent level (for function internal use)
+     */       
     private function tree($id_parent = 0, $level = 0)
     {
         $tt = array();

@@ -50,6 +50,7 @@ class ViewNavigationEditNode extends SmartView
 
         // init variables for this view
         $this->initVars();
+        $node_was_moved = FALSE;
 
         // is node locked by an other user
         if( TRUE == $this->isNodeLocked() )
@@ -65,8 +66,24 @@ class ViewNavigationEditNode extends SmartView
             if($_POST['id_parent'] != $_POST['node_id_parent'])
             {
                 $id_parent = (string)$_POST['node_id_parent'];
-                $rank = $this->getLastRank( $id_parent );
-                $this->reorderRank( (int)$_POST['id_parent'] );
+                // check if the new id_parent isnt a subnode of the current node
+                if(FALSE == $this->isSubNode( $id_parent, $_POST['id_node'] ))
+                {
+                    $rank = $this->getLastRank( $id_parent );
+                    if($rank !== FALSE)
+                    {
+                        $rank++;
+                    }
+                    else
+                    {
+                        $rank = 0;
+                    }
+                    $node_was_moved = TRUE;
+                }
+                else
+                {
+                    $this->tplVar['error'] = "Circular error! A new parent node cannot be a subnode of the current node.";
+                }
             }
             else
             {
@@ -82,19 +99,26 @@ class ViewNavigationEditNode extends SmartView
                 exit;
             }           
             
-            // update node data
-            $this->updateNodeData( $rank );
-            
-            if(isset($_POST['finishupdate']))
+            // if no error occure update node data
+            if($this->tplVar['error'] == FALSE)
             {
-                @header('Location: '.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_parent);
-                exit;
+                // update node data
+                $this->updateNodeData( $rank );
+                if($node_was_moved == TRUE)
+                {
+                    $this->reorderRank( (int)$_POST['id_parent'] );
+                }
+                if( isset($_POST['finishupdate']) )
+                {
+                    @header('Location: '.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_parent);
+                    exit;
+                }
             }
         }
 
         // get whole node tree
         $this->model->action('navigation','getTree', 
-                             array('id_parent' => 0,
+                             array('id_node' => 0,
                                    'result'    => & $this->tplVar['tree'],
                                    'fields'    => array('id_parent','status','id_node','title')));   
         
@@ -229,6 +253,20 @@ class ViewNavigationEditNode extends SmartView
         $this->model->action('navigation','deleteNode',
                              array('id_node' => $id_node));
     }    
+    /**
+     * check on subnode 
+     * check if $id_node1 is a subnode of $id_node2
+     *
+     * @param int $id_node1
+     * @param int $id_node2
+     * @return bool True or False
+     */    
+    private function isSubNode( $id_node1, $id_node2  )
+    {
+        return $this->model->action('navigation','isSubNode',
+                                    array('id_node1' => $id_node1,
+                                          'id_node2' => $id_node2));
+    }        
     /**
      * Get last rank of an given id_parent
      *

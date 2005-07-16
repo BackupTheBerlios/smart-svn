@@ -36,7 +36,7 @@ class ActionNavigationReorderRank extends SmartAction
         $rs = $this->model->dba->query($sql);
         
         $rank = 0;
-        
+
         while($row = $rs->fetchAssoc())
         {
             $sql = "UPDATE {$this->config['dbTablePrefix']}navigation_node

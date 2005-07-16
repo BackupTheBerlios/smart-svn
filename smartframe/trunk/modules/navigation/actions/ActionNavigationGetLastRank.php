@@ -20,7 +20,7 @@ class ActionNavigationGetLastRank extends SmartAction
      * get navigation node data
      *
      * @param array $data
-     * @return bool true or false on error
+     * @return bool true
      */
     function perform( $data = FALSE )
     {
@@ -42,7 +42,7 @@ class ActionNavigationGetLastRank extends SmartAction
         }
         else
         {
-            $data['result'] = 0;
+            $data['result'] = FALSE;
         }
         
         return TRUE;
