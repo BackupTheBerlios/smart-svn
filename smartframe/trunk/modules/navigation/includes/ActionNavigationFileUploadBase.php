@@ -53,7 +53,7 @@ class ActionNavigationFileUploadBase extends SmartAction
         return @is_uploaded_file($file);
     }   
     
-    protected function getUserMediaFolder( $id_node )
+    protected function getNodeMediaFolder( $id_node )
     {
         $sql = "SELECT 
                     `media_folder` 

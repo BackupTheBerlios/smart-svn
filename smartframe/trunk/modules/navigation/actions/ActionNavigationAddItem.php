@@ -104,7 +104,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
      */   
     private function addFile( &$data, &$media_folder, &$file_info )
     {
-        $rank = $this->getNewLastRank( $data['id_node'], 'user_media_file' );
+        $rank = $this->getNewLastRank( $data['id_node'], 'navigation_media_file' );
 
         $_file = SMART_BASE_DIR . "data/navigation/" . $media_folder . '/' . $file_info['file_name'];
         
@@ -133,9 +133,9 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         $this->model->dba->query($sql);     
     }
     /**
-     * add user picture db reference
+     * add node picture db reference
      *
-     * @param array $data User data
+     * @param array $data action data array
      * @param string &$media_folder
      * @param array &$file_info
      */       
@@ -170,7 +170,8 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
     /**
      * get new last item rank
      *
-     * @param int $id_user User ID
+     * @param int $id_node
+     * @param string $table db table name
      * @return int Rank number
      */    
     function getNewLastRank( $id_node, $table )

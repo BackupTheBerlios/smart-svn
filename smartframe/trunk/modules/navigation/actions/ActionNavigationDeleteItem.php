@@ -90,13 +90,13 @@ class ActionNavigationDeleteItem extends SmartAction
         $this->idNode = $pic['id_node'];
         $this->mediaFolder = &$node['media_folder'];
 
-        if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$user['media_folder'].'/'.$pic['file']))
+        if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/'.$pic['file']))
         {
-           trigger_error('Cant delete user logo: data/navigation/'.$user['media_folder'].'/'.$_file['logo'], E_USER_WARNING);
+           trigger_error('Cant delete user logo: data/navigation/'.$user['media_folder'].'/'.$pic['file'], E_USER_WARNING);
         }
-        if(!@unlink(SMART_BASE_DIR . 'data/user/'.$user['media_folder'].'/thumb/'.$pic['file']))
+        if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/thumb/'.$pic['file']))
         {
-           trigger_error('Cant delete user logo: data/navigation/'.$user['media_folder'].'/thumb/'.$_file['logo'], E_USER_WARNING);
+           trigger_error('Cant delete user logo: data/navigation/'.$node['media_folder'].'/thumb/'.$pic['file'], E_USER_WARNING);
         }    
         // remove picture reference from database
         $this->model->action('navigation',
@@ -130,7 +130,7 @@ class ActionNavigationDeleteItem extends SmartAction
                                    'fields'  => array('media_folder')));   
 
         $this->idNode = $file['id_node'];
-        $this->mediaFolder = &$user['media_folder'];
+        $this->mediaFolder = &$node['media_folder'];
 
         if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/'.$file['file']))
         {

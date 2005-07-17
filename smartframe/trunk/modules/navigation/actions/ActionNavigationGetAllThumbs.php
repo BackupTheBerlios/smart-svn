@@ -20,6 +20,7 @@ class ActionNavigationGetAllThumbs extends SmartAction
                                    'id_node' => TRUE,
                                    'rank'    => TRUE,
                                    'file'    => TRUE,
+                                   'title'   => TRUE,
                                    'description' => TRUE,
                                    'mime'    => TRUE,
                                    'size'    => TRUE);

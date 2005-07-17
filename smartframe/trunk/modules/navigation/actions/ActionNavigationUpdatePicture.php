@@ -60,9 +60,9 @@ class ActionNavigationUpdatePicture extends SmartAction
 
         if($data['action'] == 'delete')
         {
-            if(!isset($data['id_user']))
+            if(!isset($data['id_node']))
             {
-                throw new SmartModelException("No 'id_user' defined. Required!");
+                throw new SmartModelException("No 'id_node' defined. Required!");
             }
 
             if(preg_match("/[^0-9]/",$data['id_node']))

@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionUserGetUsers class 
+ * ActionNavigationGetPicture class 
  *
  */
  
-class ActionUserGetPicture extends SmartAction
+class ActionNavigationGetPicture extends SmartAction
 {
     private $tblFields_pic = array('id_node' => TRUE,
                                    'id_pic' => TRUE,

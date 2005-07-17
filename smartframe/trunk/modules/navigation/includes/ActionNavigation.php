@@ -27,6 +27,7 @@ class ActionNavigation extends SmartAction
                             'id_sector'    => 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
+                            'format'       => 'Int',
                             'logo'         => 'String',
                             'media_folder' => 'String',
                             'lang'         => 'String',

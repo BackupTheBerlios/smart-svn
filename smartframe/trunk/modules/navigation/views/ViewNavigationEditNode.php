@@ -33,87 +33,52 @@ class ViewNavigationEditNode extends SmartView
      * @var int $current_id_node
      */
     private $current_id_node;    
-        
    /**
-    * Perform on the main view
-    *
-    */
-    public function perform()
+     * execute the perform methode
+     * @var bool $dontPerform
+     */
+    private $dontPerform;       
+    /**
+     * prepend filter chain
+     *
+     */
+    public function prependFilterChain()
     {
         // if no rights for the logged user, show error template
         if( FALSE == $this->allowModify() )
         {
             $this->template       = 'error';
             $this->templateFolder = 'modules/common/templates/';
-            return;
+            $this->tplVar['error'] = 'You have not the rights to edit a node!';
+            $this->dontPerform = TRUE;
         }
 
         // init variables for this view
         $this->initVars();
-        $node_was_moved = FALSE;
 
         // is node locked by an other user
         if( TRUE == $this->isNodeLocked() )
         {
             $this->template       = 'error';
             $this->templateFolder = 'modules/common/templates/';
-            return;        
+            $this->tplVar['error'] = 'This node is locked by an other user!';
+            $this->dontPerform = TRUE;      
         }
-
+    }        
+   /**
+    * Perform on the main view
+    *
+    */
+    public function perform()
+    {
+        if($this->dontPerform == TRUE)
+        {
+            return;
+        }
+        
         if( isset($_POST['modifynodedata']) )
-        {           
-            // check if id_parent has change
-            if($_POST['id_parent'] != $_POST['node_id_parent'])
-            {
-                $id_parent = (string)$_POST['node_id_parent'];
-                // check if the new id_parent isnt a subnode of the current node
-                if(FALSE == $this->isSubNode( $id_parent, $_POST['id_node'] ))
-                {
-                    $rank = $this->getLastRank( $id_parent );
-                    if($rank !== FALSE)
-                    {
-                        $rank++;
-                    }
-                    else
-                    {
-                        $rank = 0;
-                    }
-                    $node_was_moved = TRUE;
-                }
-                else
-                {
-                    $this->tplVar['error'] = "Circular error! A new parent node cannot be a subnode of the current node.";
-                }
-            }
-            else
-            {
-                $id_parent = (string)$_POST['id_parent'];
-                $rank = FALSE;
-            }
-            
-            if($_POST['delete_node'] == '1')
-            {
-                $this->deleteNode( $_POST['id_node'] );
-                $this->reorderRank( (int)$_POST['id_parent'] );
-                @header('Location: '.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_parent);
-                exit;
-            }           
-            
-            // if no error occure update node data
-            if($this->tplVar['error'] == FALSE)
-            {
-                // update node data
-                $this->updateNodeData( $rank );
-                if($node_was_moved == TRUE)
-                {
-                    $this->reorderRank( (int)$_POST['id_parent'] );
-                }
-                if( isset($_POST['finishupdate']) )
-                {
-                    @header('Location: '.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_parent);
-                    exit;
-                }
-            }
+        {      
+            $this->updateNodeData();
         }
 
         // get whole node tree
@@ -129,7 +94,7 @@ class ViewNavigationEditNode extends SmartView
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','body','short_text',
                                                       'id_parent','media_folder',
-                                                      'status','logo','id_node')));
+                                                      'status','logo','id_node','format')));
 
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->tplVar['node'], array('title') );        
@@ -139,8 +104,224 @@ class ViewNavigationEditNode extends SmartView
                              array('result'  => & $this->tplVar['branch'],
                                    'id_node' => $this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
-                                   'fields'  => array('title','id_node')));                 
+                                   'fields'  => array('title','id_node')));   
+                                   
+        // get user picture thumbnails
+        $this->model->action('navigation','getAllThumbs',
+                             array('result'  => & $this->tplVar['node']['thumb'],
+                                   'id_node' => (int)$_REQUEST['id_node'],
+                                   'order'   => 'rank',
+                                   'fields'  => array('id_pic',
+                                                      'file',
+                                                      'size',
+                                                      'mime',
+                                                      'title',
+                                                      'description')) );
+
+        // convert description field to safely include into javascript function call
+        $x=0;
+        $this->tplVar['node']['thumbdesc'] = array();
+        foreach($this->tplVar['node']['thumb'] as $thumb)
+        {
+            $this->convertHtmlSpecialChars( $this->tplVar['node']['thumb'][$x], array('description') );
+            $this->tplVar['node']['thumb'][$x]['description'] = addslashes($this->tplVar['node']['thumb'][$x]['description']);
+            $x++;
+        }
+
+        // get user files
+        $this->model->action('navigation','getAllFiles',
+                             array('result'  => & $this->tplVar['node']['file'],
+                                   'id_node' => (int)$_REQUEST['id_node'],
+                                   'order'   => 'rank',
+                                   'fields'  => array('id_file',
+                                                      'file',
+                                                      'size',
+                                                      'mime',
+                                                      'description')) );
+
+        // convert files description field to safely include into javascript function call
+        $x=0;
+        $this->tplVar['node']['filedesc'] = array();
+        foreach($this->tplVar['node']['file'] as $file)
+        {
+            $this->convertHtmlSpecialChars( $this->tplVar['node']['file'][$x], array('description') );
+            $this->tplVar['node']['file'][$x]['description'] = addslashes($this->tplVar['node']['file'][$x]['description']);
+            $x++;
+        }                                   
     }  
+
+    private function updateNodeData()
+    {
+        $node_was_moved  = FALSE;
+        $use_text_format = FALSE;
+
+        if(empty($_POST['title']))
+        {
+            $this->tplVar['error'] = 'Node title is empty!';
+            return;
+        }
+        
+        // check if id_parent has change
+        if($_POST['id_parent'] != $_POST['node_id_parent'])
+        {
+            $id_parent = (string)$_POST['node_id_parent'];
+            // check if the new id_parent isnt a subnode of the current node
+            if(FALSE == $this->isSubNode( $id_parent, $_POST['id_node'] ))
+            {
+                $rank = $this->getLastRank( $id_parent );
+                if($rank !== FALSE)
+                {
+                    $rank++;
+                }
+                else
+                {
+                    $rank = 0;
+                }
+                $node_was_moved = TRUE;
+            }
+            else
+            {
+                $this->tplVar['error'] = "Circular error! A new parent node cannot be a subnode of the current node.";
+            }
+        }
+        else
+        {
+            $id_parent = (string)$_POST['id_parent'];
+            $rank = FALSE;
+        }
+            
+        if($_POST['delete_node'] == '1')
+        {
+            $this->deleteNode( $_POST['id_node'] );
+            $this->reorderRank( (int)$_POST['id_parent'] );
+            $this->redirect( $id_parent );
+        }           
+        // switch format of textarea editor
+        elseif(isset($_POST['switchformat']) && $_POST['switchformat'] == 1)
+        {
+            $use_text_format = (int)$_POST['format'];
+        }        
+        // upload logo
+        elseif(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
+        {   
+            $this->model->action('navigation',
+                                 'uploadLogo',
+                                 array('id_node'  => $_REQUEST['id_node'],
+                                       'postName' => 'logo') );                            
+        }
+        // delete logo
+        elseif(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
+        {   
+            $this->model->action('navigation',
+                                 'deleteLogo',
+                                 array('id_node'   => $_REQUEST['id_node']) ); 
+        }   
+        // add picture
+        elseif(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
+        {   
+            $this->model->action('navigation',
+                                 'addItem',
+                                 array('item'     => 'picture',
+                                       'id_node'  => $_REQUEST['id_node'],
+                                       'postName' => 'picture',
+                                       'error'    => & $this->tplVar['error']) ); 
+        }
+        // delete picture
+        elseif(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
+        {
+            $this->model->action('navigation',
+                                 'deleteItem',
+                                 array('id_node' => $_REQUEST['id_node'],
+                                       'id_pic'  => $_POST['imageID2del']) ); 
+        }
+        // move image rank up
+        elseif(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
+        {   
+            $this->model->action('navigation',
+                                 'moveItemRank',
+                                 array('id_node' => $_REQUEST['id_node'],
+                                       'id_pic'  => $_POST['imageIDmoveUp'],
+                                       'dir'     => 'up') ); 
+        }  
+        // move image rank down
+        elseif(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
+        {   
+            $this->model->action('navigation',
+                                 'moveItemRank',
+                                 array('id_node' => $_REQUEST['id_node'],
+                                       'id_pic'  => $_POST['imageIDmoveDown'],
+                                       'dir'     => 'down') ); 
+        } 
+        // move file rank up
+        elseif(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
+        {
+            $this->model->action('navigation',
+                                 'moveItemRank',
+                                 array('id_node' => $_REQUEST['id_node'],
+                                       'id_file' => $_POST['fileIDmoveUp'],
+                                       'dir'     => 'up') );                                                 
+        }
+        // move file rank down
+        elseif(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
+        {   
+            $this->model->action('navigation',
+                                 'moveItemRank',
+                                 array('id_node' => $_REQUEST['id_node'],
+                                       'id_file' => $_POST['fileIDmoveDown'],
+                                       'dir'     => 'down') );                                                
+        } 
+        // add file
+        elseif(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
+        {          
+            $this->model->action('navigation',
+                                 'addItem',
+                                 array('item'     => 'file',
+                                       'id_node'  => $_REQUEST['id_node'],
+                                       'postName' => 'ufile',
+                                       'error'    => & $this->tplVar['error']) );                          
+        }
+        // delete file
+        elseif(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
+        {   
+            $this->model->action('navigation',
+                                 'deleteItem',
+                                 array('id_node' => $_REQUEST['id_node'],
+                                       'id_file' => $_POST['fileID2del']) ); 
+        }  
+        
+        // update picture descriptions if there images
+        if(isset($_POST['pid']))
+        {
+            $this->model->action( 'navigation','updateItemDescriptions',
+                                  array('id_node' => $_REQUEST['id_node'],
+                                        'pid'     => &$_POST['pid'],
+                                        'desc'    => &$_POST['picdesc']));
+        }        
+
+        // update file descriptions if there file attachments
+        if(isset($_POST['fid']))
+        {
+            $this->model->action( 'navigation','updateItemDescriptions',
+                                  array('id_node' => $_REQUEST['id_node'],
+                                        'fid'     => &$_POST['fid'],
+                                        'desc'    => &$_POST['filedesc']));
+        }  
+        
+        // if no error occure update node data
+        if($this->tplVar['error'] == FALSE)
+        {
+            // update node data
+            $this->updateNode( $rank, $use_text_format );
+            if($node_was_moved == TRUE)
+            {
+                $this->reorderRank( (int)$_POST['id_parent'] );
+            }
+            if( isset($_POST['finishupdate']) )
+            {
+                $this->redirect( $id_parent );
+            }
+        }    
+    }
     
      /**
      * is node locked by an other user?
@@ -212,6 +393,9 @@ class ViewNavigationEditNode extends SmartView
         $this->tplVar['node']   = array();
         // data of the branch nodes
         $this->tplVar['branch'] = array();  
+        // data of thumbs an files attached to this node
+        $this->tplVar['navigation']['thumb']       = array();
+        $this->tplVar['navigation']['file']        = array();        
         // errors
         $this->tplVar['error']  = FALSE;    
     }
@@ -249,7 +433,7 @@ class ViewNavigationEditNode extends SmartView
      *
      * @param int $rank New rank
      */
-    private function updateNodeData( $rank )
+    private function updateNode( $rank, $format )
     {
         $fields = array('id_parent'  => $_POST['node_id_parent'],
                         'status'     => $_POST['status'],
@@ -261,6 +445,11 @@ class ViewNavigationEditNode extends SmartView
         {
             $fields['rank'] = $rank;
         }
+        
+        if($format != FALSE)
+        {
+            $fields['format'] = $format;
+        }        
         
         $this->model->action('navigation','updateNode',
                              array('id_node' => $_REQUEST['id_node'],
@@ -312,6 +501,15 @@ class ViewNavigationEditNode extends SmartView
     {
         $this->model->action('navigation','reorderRank',
                              array('id_parent' => $id_parent));
+    }  
+    /**
+     * Redirect to the main user location
+     */
+    private function redirect( $id_node = 0 )
+    {
+        // reload the user module
+        @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_node);
+        exit;      
     }    
 }
 

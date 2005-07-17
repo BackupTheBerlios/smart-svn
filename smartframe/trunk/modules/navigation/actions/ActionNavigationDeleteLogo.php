@@ -42,8 +42,7 @@ class ActionNavigationDeleteLogo extends SmartAction
                             
         $this->model->action('navigation',
                              'updateNode',
-                             array('error'   => & $data['error'],
-                                   'id_node' => $data['id_node'],
+                             array('id_node' => $data['id_node'],
                                    'fields'  => array('logo' => '')));
         
         return TRUE;
