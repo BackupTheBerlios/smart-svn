@@ -18,11 +18,12 @@ class ActionNavigationGetAllFiles extends SmartAction
 {
     private $tblFields_pic = array('id_file' => TRUE,
                                    'id_node' => TRUE,
-                                   'rank'   => TRUE,
-                                   'file'   => TRUE,
+                                   'rank'    => TRUE,
+                                   'file'    => TRUE,
+                                   'title'   => TRUE,
                                    'description' => TRUE,
-                                   'mime'   => TRUE,
-                                   'size'   => TRUE);
+                                   'mime'    => TRUE,
+                                   'size'    => TRUE);
     /**
      * get data of all files
      *

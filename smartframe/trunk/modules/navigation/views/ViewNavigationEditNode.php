@@ -137,6 +137,7 @@ class ViewNavigationEditNode extends SmartView
                                                       'file',
                                                       'size',
                                                       'mime',
+                                                      'title',
                                                       'description')) );
 
         // convert files description field to safely include into javascript function call
@@ -290,21 +291,23 @@ class ViewNavigationEditNode extends SmartView
         }  
         
         // update picture descriptions if there images
-        if(isset($_POST['pid']))
+        if(isset($_POST['picid']))
         {
-            $this->model->action( 'navigation','updateItemDescriptions',
-                                  array('id_node' => $_REQUEST['id_node'],
-                                        'pid'     => &$_POST['pid'],
-                                        'desc'    => &$_POST['picdesc']));
+            $this->model->action( 'navigation','updateItem',
+                                  array('item'    => 'pic',
+                                        'ids'     => &$_POST['picid'],
+                                        'fields'  => array('description' => &$_POST['picdesc'],
+                                                           'title'       => &$_POST['pictitle'])));
         }        
 
         // update file descriptions if there file attachments
-        if(isset($_POST['fid']))
+        if(isset($_POST['fileid']))
         {
-            $this->model->action( 'navigation','updateItemDescriptions',
-                                  array('id_node' => $_REQUEST['id_node'],
-                                        'fid'     => &$_POST['fid'],
-                                        'desc'    => &$_POST['filedesc']));
+            $this->model->action( 'navigation','updateItem',
+                                  array('item'    => 'file',
+                                        'ids'     => &$_POST['fileid'],
+                                        'fields'  => array('description' => &$_POST['filedesc'],
+                                                           'title'       => &$_POST['filetitle'])));
         }  
         
         // if no error occure update node data
