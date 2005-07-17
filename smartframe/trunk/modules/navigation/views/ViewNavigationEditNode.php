@@ -387,6 +387,12 @@ class ViewNavigationEditNode extends SmartView
             $this->tplVar['format'] = $this->config['navigation']['default_format'];
             $this->tplVar['show_format_switch'] = TRUE;
         }
+
+        $this->tplVar['use_logo']      = $this->config['navigation']['use_logo'];
+        $this->tplVar['use_images']    = $this->config['navigation']['use_images'];
+        $this->tplVar['use_files']     = $this->config['navigation']['use_files'];
+        $this->tplVar['use_shorttext'] = $this->config['navigation']['use_shorttext'];        
+        $this->tplVar['use_body']      = $this->config['navigation']['use_body'];
         
         // template variables
         //

@@ -198,18 +198,22 @@ function MM_swapImage() { //v3.0
       <tr>
         <td align="left" valign="top"><input name="title" type="text" id="title" size="90" maxlength="1024" value="<?php echo $tpl['node']['title']; ?>"></td>
       </tr>
+	  <?php if($tpl['use_shorttext']==1): ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Short Description</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><textarea name="short_text" cols="90" rows="3" id="short_text"><?php echo $tpl['node']['short_text']; ?></textarea></td>
       </tr>
+	  <?php endif; ?>
+	  <?php if($tpl['use_body']==1): ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Body</td>
       </tr>
       <tr>
         <td align="left" valign="top"><textarea name="body" cols="90" rows="15" id="body"><?php echo $tpl['node']['body']; ?></textarea></td>
       </tr>
+	  <?php endif; ?>
       <tr>
         <td align="left" valign="top" class="font9"> 
           <div align="right"><input name="delete" type="button" id="delete" value="Delete this node" onclick="deletenode(this.form, 'Delete this node?');">
@@ -228,6 +232,7 @@ Wysiwyg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Wikki </td>
       </tr>
 	  <?php endif; ?>
+	  <?php if($tpl['use_files']==1): ?>
       <tr>
         <td align="left" valign="top"><hr>
           <table width="200" border="0" cellspacing="0" cellpadding="4">
@@ -270,8 +275,7 @@ Wikki </td>
                         </tr>
                         <tr>
                           <td align="left" valign="top" class="font10">
-						  Desc<br>
-						  <a href="javascript:insertFileDesc('<?php echo $file['description']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_file','','modules/common/media/pics/rewindsover.png',0)">
+						  Desc<br>						  <a href="javascript:insertFileDesc('<?php echo $file['description']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_file','','modules/common/media/pics/rewindsover.png',0)">
 						  <img name="Insertfdesc<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewinds.png" title="Insert <?php echo $file['file']; ?> description in cursor text position" alt="Insert <?php echo $file['file']; ?> description in cursor text position" width="21" height="21" border="0">
 						  </a></td>
                           <td align="left" valign="top"><textarea name="filedesc[]" cols="20" rows="3" class="font12" title="Picture <?php echo $file['file']; ?> description"><?php echo stripslashes($file['description']); ?></textarea></td>
@@ -286,9 +290,11 @@ Wikki </td>
             </tr>
           </table></td>
       </tr>
+	  <?php endif; ?>
     </table>
     </td>
-    <td width="20%" align="left" valign="top" class="font10bold"><table width="200" border="0" cellspacing="0" cellpadding="4">
+    <td width="20%" align="left" valign="top" class="font10bold">
+	<?php if($tpl['use_logo']==1): ?>	<table width="200" border="0" cellspacing="0" cellpadding="4">
       <tr>
         <td align="center" valign="middle" bgcolor="#6699FF" class="font10bold">Logo Picture</td>
       </tr>
@@ -306,14 +312,14 @@ Wikki </td>
         </td>
       </tr>
     </table>
-      
+      <?php endif; ?>
+	  <?php if($tpl['use_images']==1): ?>
       <table width="200" border="0" cellspacing="0" cellpadding="4">
         <tr>
           <td align="center" valign="middle" bgcolor="#6699FF" class="font10bold">Pictures</td>
         </tr>
         <tr>
           <td align="center" valign="top">
-            <input type="file" name="picture" size="10" class="fileform">
             <input name="uploadpicture" type="hidden" value="">
             <input name="updatep" type="button" id="updatep" value="Submit" onclick="uploadpicfile(this.form);">
           </td>
@@ -370,7 +376,9 @@ Wikki </td>
             <?php endforeach; ?>
           </td>
         </tr>
-      </table></td>
+      </table>
+	  <?php endif; ?>
+	  </td>
   </tr>
 </table>
 </form>

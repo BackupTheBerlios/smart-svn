@@ -37,7 +37,8 @@ class ActionNavigationSetup extends SmartAction
                    `lang`          char(2) NOT NULL default 'en',
                    `title`         text NOT NULL default '',
                    `short_text`    text NOT NULL default '',
-                   `body`          mediumtext NOT NULL default '',                   
+                   `body`          mediumtext NOT NULL default '',
+                   `format`        tinyint(1) NOT NULL default 0,
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,
                    PRIMARY KEY     (`id_node`),
@@ -82,12 +83,17 @@ class ActionNavigationSetup extends SmartAction
         $this->model->dba->query($sql);        
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_config (
-                 `thumb_width`    smallint(4) NOT NULL default 200,
+                 `thumb_width`    smallint(4) NOT NULL default 120,
                  `img_size_max`   int(11) NOT NULL default 100000,
                  `file_size_max`  int(11) NOT NULL default 100000,
                  `force_format`   tinyint(1) NOT NULL default 2,
                  `default_format` tinyint(1) NOT NULL default 2,
-                 `default_lang`   char(2) NOT NULL default 'en')";
+                 `default_lang`   char(2) NOT NULL default 'en',
+                 `use_short_text` tinyint(1) NOT NULL default 1,
+                 `use_body`       tinyint(1) NOT NULL default 1,
+                 `use_logo`       tinyint(1) NOT NULL default 1,
+                 `use_images`     tinyint(1) NOT NULL default 1,
+                 `use_files`      tinyint(1) NOT NULL default 1)";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['dbtablesprefix']}navigation_config
