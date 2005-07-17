@@ -76,6 +76,9 @@ class ActionNavigationAddNode extends ActionNavigation
         $stmt->setInt( $this->getRank( $data['id_parent'] ) );
         
         $stmt->execute();
+        
+        // get id of the new node
+        $new_id_node = $this->model->dba->lastInsertID();
        
         // if the new node is a top node set the node id as sector id
         if($id_sector == 0)
@@ -83,7 +86,7 @@ class ActionNavigationAddNode extends ActionNavigation
             $this->setIdSector();
         }
        
-        return TRUE;
+        return $new_id_node;
     } 
     
     /**

@@ -57,9 +57,9 @@ class ViewNavigationAddNode extends SmartView
         // add node
         if( isset($_POST['addnode']) )
         {
-            if(TRUE == $this->addNode( $id_node ))
+            if(FALSE !== ($new_id_node = $this->addNode( $id_node )))
             {
-                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_node);
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=navigation&view=editnode&id_node='.$new_id_node);
                 exit;
                 //throw new SmartForwardAdminViewException('naviagtion','index');
             }
@@ -102,12 +102,10 @@ class ViewNavigationAddNode extends SmartView
             return FALSE;
         }
         
-        $this->model->action('navigation', 'addNode', 
+        return $this->model->action('navigation', 'addNode', 
                              array('id_parent' => (int)$id_parent,
                                    'fields'    => array('title'  => SmartCommonUtil::stripSlashes($_POST['title']),
                                                         'status' => 1)));        
-    
-        return TRUE;
     }
 }
 

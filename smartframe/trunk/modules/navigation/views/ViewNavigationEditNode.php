@@ -290,7 +290,7 @@ class ViewNavigationEditNode extends SmartView
                                        'id_file' => $_POST['fileID2del']) ); 
         }  
         
-        // update picture descriptions if there images
+        // update picture data if there images
         if(isset($_POST['picid']))
         {
             $this->model->action( 'navigation','updateItem',
@@ -300,7 +300,7 @@ class ViewNavigationEditNode extends SmartView
                                                            'title'       => &$_POST['pictitle'])));
         }        
 
-        // update file descriptions if there file attachments
+        // update file data if there file attachments
         if(isset($_POST['fileid']))
         {
             $this->model->action( 'navigation','updateItem',
