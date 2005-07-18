@@ -230,11 +230,24 @@ function MM_swapImage() { //v3.0
 Wysiwyg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <input type="radio" name="format" value="1" <?php if($tpl['format']==1) echo "checked"; ?> onclick="switch_format(document.forms['editnode'])">
 Wikki </td>
-      </tr>
+      </tr> 
 	  <?php endif; ?>
+      <tr>
+        <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td width="14%" align="left" valign="top"><select name="id_view" size="1" id="id_view" class="treeselectbox">
+              <option value="0">No View</option>
+              <?php foreach($tpl['publicViews'] as $view):  ?>
+                 <option value="<?php echo $view['id_view']; ?>" <?php if($view['id_view'] == $tpl['node']['id_view'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo $view['name']; ?></option>
+              <?php endforeach; ?>
+            </select></td>
+            <td width="86%" align="left" valign="top" class="font10bold">Associated view</td>
+          </tr>
+        </table></td>
+      </tr>	 	  
 	  <?php if($tpl['use_files']==1): ?>
       <tr>
-        <td align="left" valign="top"><hr>
+        <td align="left" valign="top"><hr>          
           <table width="200" border="0" cellspacing="0" cellpadding="4">
             <tr>
               <td align="center" valign="middle" bgcolor="#6699FF" class="font10bold">Files</td>

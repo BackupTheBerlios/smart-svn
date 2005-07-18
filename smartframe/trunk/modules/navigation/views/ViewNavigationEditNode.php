@@ -93,7 +93,7 @@ class ViewNavigationEditNode extends SmartView
                                    'id_node' => $this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','body','short_text',
-                                                      'id_parent','media_folder',
+                                                      'id_parent','media_folder','id_view',
                                                       'status','logo','id_node','format')));
 
         // convert some field values to safely include it in template html form fields
@@ -148,7 +148,27 @@ class ViewNavigationEditNode extends SmartView
             $this->convertHtmlSpecialChars( $this->tplVar['node']['file'][$x], array('description') );
             $this->tplVar['node']['file'][$x]['description'] = addslashes($this->tplVar['node']['file'][$x]['description']);
             $x++;
-        }                                   
+        }    
+
+        if( $this->tplVar['node']['id_view'] == 0 )
+        {
+            // get associated view of the parent node
+            if($this->tplVar['node']['id_parent'] != 0)
+            {
+                // get current node data
+                $this->model->action('navigation','getNode', 
+                                     array('result'  => & $this->tplVar['node'],
+                                           'id_node' => $this->tplVar['node']['id_parent'],
+                                           'error'   => & $this->tplVar['error'],
+                                           'fields'  => array('id_view'))); 
+            }
+        }
+        
+        // get all available public views
+        $this->tplVar['publicViews'] = array();
+        $this->model->action( 'navigation','getNodePublicViews',
+                              array('result' => &$this->tplVar['publicViews'],
+                                    'fields' => array('id_view','name')) );     
     }  
 
     private function updateNodeData()
@@ -391,7 +411,7 @@ class ViewNavigationEditNode extends SmartView
         $this->tplVar['use_logo']      = $this->config['navigation']['use_logo'];
         $this->tplVar['use_images']    = $this->config['navigation']['use_images'];
         $this->tplVar['use_files']     = $this->config['navigation']['use_files'];
-        $this->tplVar['use_shorttext'] = $this->config['navigation']['use_shorttext'];        
+        $this->tplVar['use_shorttext'] = $this->config['navigation']['use_short_text'];        
         $this->tplVar['use_body']      = $this->config['navigation']['use_body'];
         
         // template variables
@@ -445,6 +465,7 @@ class ViewNavigationEditNode extends SmartView
     private function updateNode( $rank, $format )
     {
         $fields = array('id_parent'  => $_POST['node_id_parent'],
+                        'id_view'    => $_POST['id_view'],
                         'status'     => $_POST['status'],
                         'title'      => SmartCommonUtil::stripSlashes($_POST['title']),
                         'short_text' => SmartCommonUtil::stripSlashes($_POST['short_text']),

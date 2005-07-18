@@ -25,6 +25,7 @@ class ActionNavigation extends SmartAction
                       array('id_node'      => 'Int',
                             'id_parent'    => 'Int',
                             'id_sector'    => 'Int',
+                            'id_view'      => 'Int',
                             'status'       => 'Int',
                             'rank'         => 'Int',
                             'format'       => 'Int',

@@ -55,8 +55,6 @@ class ActionNavigationGetNode extends ActionNavigation
         $rs = $this->model->dba->query($sql);
         $row = $rs->fetchAssoc();
 
-        $data['result'] = array();
-
         foreach ($data['fields'] as $f)
         {
             $data['result'][$f] = stripslashes($row[$f]);

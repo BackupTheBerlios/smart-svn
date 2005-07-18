@@ -93,7 +93,11 @@ class ViewNavigationAddNode extends SmartView
             $this->tplVar['showAddNodeLink'] = FALSE;
         }
     }   
-    
+   /**
+    * add new node
+    *
+    * @param int $id_parent parent node of the new node
+    */    
     private function addNode( $id_parent )
     {
         if(!isset($_POST['title']) || empty($_POST['title']))
@@ -102,10 +106,25 @@ class ViewNavigationAddNode extends SmartView
             return FALSE;
         }
         
+        // init id_view
+        $id_view = 0;
+        // get associated view of the parent node
+        if($id_parent != 0)
+        {
+            $tmp = array();
+            // get current node data
+            $this->model->action('navigation','getNode', 
+                                 array('result'  => & $tmp,
+                                       'id_node' => $id_parent,
+                                       'fields'  => array('id_view'))); 
+            $id_view = $tmp['id_view'];
+        }
+        
         return $this->model->action('navigation', 'addNode', 
                              array('id_parent' => (int)$id_parent,
-                                   'fields'    => array('title'  => SmartCommonUtil::stripSlashes($_POST['title']),
-                                                        'status' => 1)));        
+                                   'fields'    => array('title'   => SmartCommonUtil::stripSlashes($_POST['title']),
+                                                        'id_view' => $id_view,
+                                                        'status'  => 1)));        
     }
 }
 
