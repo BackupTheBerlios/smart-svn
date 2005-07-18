@@ -43,15 +43,25 @@ class SmartWebController extends SmartController
             // this instance aggregates the model object
             $this->view = new SmartPublicViewFactory( $this->model, $this->config );
 
+            // get the view which is associated with a request
+            $viewRequest = '';
+            $this->model->action( $this->config['view_request_module'],
+                                  'relatedView'
+                                  array('id'     => $_REQUEST[$this->config['view_request_id_name']],
+                                        'result' => &$viewRequest));
+
             // get view request
-            if( !isset($_REQUEST['view']) || empty($_REQUEST['view']) )
+            if( empty($viewRequest) )
             {
-                $viewRequest = $this->config['default_view'];
-            }
-            else
-            {
-                $viewRequest = $_REQUEST['view'];
-            }
+                if( isset($_REQUEST['view']) )
+                {
+                    $viewRequest = $_REQUEST['view'];
+                } 
+                else
+                {
+                    $viewRequest = $this->config['default_view'];
+                }
+            }            
 
             // validate view request
             $methode = $this->validateViewName( $viewRequest );
@@ -114,7 +124,7 @@ class SmartWebController extends SmartController
 
         if(!@file_exists(SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php'))
         {
-            throw new SmartViewException('View dosent exists: ' . SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php');
+            throw new SmartViewException('View class dosent exists: ' . SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php');
         }
 
         return $view_name;
