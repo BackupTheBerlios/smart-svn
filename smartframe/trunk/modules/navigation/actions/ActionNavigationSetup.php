@@ -32,6 +32,7 @@ class ActionNavigationSetup extends SmartAction
                    `id_node`       int(11) unsigned NOT NULL auto_increment,
                    `id_parent`     int(11) unsigned NOT NULL default 0,
                    `id_sector`     int(11) unsigned NOT NULL default 0,
+                   `id_view`       int(11) unsigned NOT NULL default 0,
                    `status`        tinyint(1) NOT NULL default 0,
                    `rank`          smallint(4) unsigned NOT NULL default 0,
                    `lang`          char(2) NOT NULL default 'en',
@@ -43,7 +44,8 @@ class ActionNavigationSetup extends SmartAction
                    `media_folder`  char(32) NOT NULL,
                    PRIMARY KEY     (`id_node`),
                    KEY             (`id_parent`,`rank`,`status`),
-                   KEY `id_sector` (`id_sector`))";
+                   KEY `id_sector` (`id_sector`),
+                   KEY `view`      (`id_view`))";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_node_lock (
@@ -95,6 +97,13 @@ class ActionNavigationSetup extends SmartAction
                  `use_images`     tinyint(1) NOT NULL default 1,
                  `use_files`      tinyint(1) NOT NULL default 1)";
         $this->model->dba->query($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_view (
+                   `id_view`      int(11) unsigned NOT NULL auto_increment,
+                   `name`         varchar(255) NOT NULL default '',
+                   `description`  text NOT NULL default '',
+                   PRIMARY KEY    (`id_view`))";
+        $this->model->dba->query($sql);      
 
         $sql = "INSERT INTO {$data['dbtablesprefix']}navigation_config
                    (`thumb_width`, `img_size_max`,`file_size_max`)
