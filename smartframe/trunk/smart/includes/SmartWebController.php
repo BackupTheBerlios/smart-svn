@@ -45,11 +45,15 @@ class SmartWebController extends SmartController
 
             // get the view which is associated with a request
             $viewRequest = '';
-            $this->model->action( $this->config['view_request_module'],
-                                  'relatedView'
-                                  array('id'     => $_REQUEST[$this->config['view_request_id_name']],
-                                        'result' => &$viewRequest));
-
+            
+            if(isset($_REQUEST[$this->config['view_request_id_name']]))
+            {
+                $this->model->action( $this->config['view_request_module'],
+                                      'relatedView'
+                                      array('id'     => $_REQUEST[$this->config['view_request_id_name']],
+                                            'result' => &$viewRequest));
+            }
+            
             // get view request
             if( empty($viewRequest) )
             {
