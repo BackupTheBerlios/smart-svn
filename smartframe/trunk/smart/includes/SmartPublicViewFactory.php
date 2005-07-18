@@ -26,10 +26,10 @@ class SmartPublicViewFactory extends SmartViewFactory
      * $args[2] bool true = continue (return FALSE) if a view dosent exists
      * $args[3] bool true = force a new instance
      */
-    public function __call( $view, $args )
+    public function __call( $viewname, $args )
     {
         // build the whole view class name
-        $requestedView = 'View'.ucfirst($view);
+        $requestedView = 'View'.ucfirst($viewname);
 
         // avoid E_NOTICE message if $args elements are not defined
         if( !isset( $args[0] ) ) 
@@ -149,8 +149,17 @@ class SmartPublicViewFactory extends SmartViewFactory
         if ( TRUE == $view->renderTemplate )
         {
             // set template name
-            $tplContainer->template = $view->template;
-                
+            // usually it is the same as the view name
+            // except if it is defined else in view instance
+            if(empty($view->template))
+            {
+                $tplContainer->template = $viewname;
+            }
+            else
+            {
+                $tplContainer->template = $view->template;
+            }
+            
             // which template folder to use?
             if( $view->templateFolder != FALSE )
             {
