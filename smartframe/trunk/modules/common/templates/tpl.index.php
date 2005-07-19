@@ -43,15 +43,15 @@ function subok(s){
 <?php if($tpl['isUserLogged'] == TRUE): ?>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td align="center" valign="middle" bgcolor="#3399CC">      <table width="100%"  border="0" cellspacing="2" cellpadding="2">
+    <td align="center" valign="middle" bgcolor="#EBEBEB">      <table width="100%"  border="0" cellspacing="2" cellpadding="2">
         <tr>
-          <td width="39%" align="left" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+          <td width="31%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td align="left" valign="top" class="style6">SMART <font size="2"><strong>2.0a - admin interface</strong></font></td>
-            </tr>
+              <td width="139" height="64" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" alt="Logo" name="Logo" width="139" height="60" border="0" align="left"><font size="2"><strong> </strong></font></td>
+              </tr>
           </table></td>
-          <td width="15%" align="right" valign="top" class="font10"><a href="<?php echo $tpl['publicWebController']; ?>">The public page</a></td>
-          <td width="39%" align="right" valign="middle" class="font10">
+          <td width="29%" align="right" valign="top" class="font10"><a href="<?php echo $tpl['publicWebController']; ?>">Switch to the  public page</a></td>
+          <td width="33%" align="right" valign="top" class="font10">
             <?php if(!isset($tpl['notLogged'])): ?> 
             <form action="index.php" method="post">
                 GoTo &gt;
@@ -69,7 +69,7 @@ function subok(s){
               <a href="<?php echo $tpl['adminWebController']; ?>?mod=user&view=adminLogout" class="font14">Logout</a>
           </td>
         </tr>
-          </table></td>
+    </table></td>
   </tr>
   <tr>
     <td width="20%" align="left" valign="top">
@@ -80,11 +80,11 @@ function subok(s){
     </td>
   </tr>
   <tr>
-      <td align="left" valign="top" bgcolor="#3399CC"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
+      <td align="left" valign="top" bgcolor="#EBEBEB"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
           <tr>
               <td><span class="font9 style8">&copy; 2005 Armand Turpel <a href="mailto:smart@open-publisher.net">smart@open-publisher.net</a>. Project site -&gt; <a href="http://smart.open-publisher.net" target="_blank">SMART</a>. Released under the <a href="http://www.gnu.org/copyleft/lgpl.html" target="_blank">GNU Lesser Public License</a></span></td>
           </tr>
-      </table></td>
+    </table></td>
   </tr>
 </table>
 <?php endif; ?> 
