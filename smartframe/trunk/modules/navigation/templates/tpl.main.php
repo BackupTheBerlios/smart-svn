@@ -39,7 +39,7 @@
 	<br><br><div class="font12bold">There is currently no navigation node available here. You may add some one here.</div><br><br>	
 	<?php endif; ?>
 </td>
-    <td width="11%" align="center" valign="top" class="itemnormal">
+    <td width="11%" align="center" valign="top" class="font12">
 	<?php if($tpl['showLink']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=addnode&id_node=<?php echo $tpl['id_node']; ?>">add node</a><?php else: ?>&nbsp;<?php endif; ?></td>
   </tr>
 </table>
