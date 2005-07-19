@@ -315,11 +315,11 @@ Wikki </td>
         <td align="center" valign="top">
           <?php if(empty($tpl['node']['logo'])): ?>
           <input type="file" name="logo" size="10">
-          <input name="uploadlogo" type="hidden" value="">
           <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
           <?php else: ?>
           <img name="nodelogo" src="<?php echo SMART_RELATIVE_PATH.'data/navigation/'.$tpl['node']['media_folder'].'/'.$tpl['node']['logo']; ?>" alt="Node Logo"> <br>
           <input name="deletelogo" type="hidden" value="">
+		  <input name="uploadlogo" type="hidden" value="">
           <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete node logo Picture?');">
           <?php endif; ?>
         </td>
@@ -334,6 +334,7 @@ Wikki </td>
         <tr>
           <td align="center" valign="top">
             <input name="uploadpicture" type="hidden" value="">
+			<input type="file" name="picture" size="10">
             <input name="updatep" type="button" id="updatep" value="Submit" onclick="uploadpicfile(this.form);">
           </td>
         </tr>

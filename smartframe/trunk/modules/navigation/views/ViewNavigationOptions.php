@@ -57,7 +57,10 @@ class ViewNavigationOptions extends SmartView
                                            
         return TRUE;
     }   
-    
+   /**
+    * Validate form data
+    *
+    */    
     private function validatePostData()
     {
         $this->tplVar['error'] = array();

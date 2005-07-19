@@ -2,10 +2,10 @@
 <?php if($tpl['isUserLogged'] == TRUE): ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="23%" class="moduleheader">Navigation Management</td>
-    <td width="61%" class="moduleheader">&nbsp;</td>
-    <td width="9%" align="center" valign="middle" class="moduleheader"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=views"><font size="2">views</font></a></td>
-    <td width="7%" align="center" class="moduleheader"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=options"><font size="2">options</font></a> </td>
+    <td width="38%" class="moduleheader">Navigation Nodes Management</td>
+    <td width="20%" class="moduleheader">&nbsp;</td>
+    <td width="30%" align="center" valign="middle" class="moduleheader"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=views" class="font10">register node related views</a></td>
+    <td width="12%" align="center" class="moduleheader"><a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=options" class="font10">options</a> </td>
   </tr>
   <?php if($tpl['show_options_link']==TRUE): ?>
   <?php endif; ?>
