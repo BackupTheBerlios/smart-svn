@@ -38,7 +38,9 @@ class ViewNavigationOptions extends SmartView
     *
     */
     public function perform()
-    {        
+    {   
+        $this->tplVar['error'] = FALSE;
+        
         if(isset($_POST['updateOptions']))
         {
             if(TRUE == $this->validatePostData())
