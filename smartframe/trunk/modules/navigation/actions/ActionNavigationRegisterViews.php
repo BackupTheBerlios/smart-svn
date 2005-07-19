@@ -10,14 +10,14 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionNavigationGetNodePublicViews
+ * ActionNavigationRegisterViews
  *
  */
  
 class ActionNavigationRegisterViews extends SmartAction
 {
     /**
-     * get data of all users
+     * register/unregister a node related view
      *
      * @param array $data
      */
