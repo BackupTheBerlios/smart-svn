@@ -34,14 +34,14 @@ class ViewNavigationIndex extends SmartView
     public function perform()
     {
         // set template var to show user options link
-        // only on user main page and if the user role is at least an "editor"
-        if(isset($_REQUEST['view']) && ($this->viewVar['loggedUserRole'] > 40))
+        // only on user main page and if the user role is at least an "admin"
+        if(isset($_REQUEST['view']) && ($this->viewVar['loggedUserRole'] > 20))
         {
-            $this->tplVar['show_options_link'] = FALSE;
+            $this->tplVar['show_admin_link'] = FALSE;
         }
         else
         {
-            $this->tplVar['show_options_link'] = TRUE;
+            $this->tplVar['show_admin_link'] = TRUE;
         }
         return TRUE;
     }     

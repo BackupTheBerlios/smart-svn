@@ -465,7 +465,6 @@ class ViewNavigationEditNode extends SmartView
     private function updateNode( $rank, $format )
     {
         $fields = array('id_parent'  => $_POST['node_id_parent'],
-                        'id_view'    => $_POST['id_view'],
                         'status'     => $_POST['status'],
                         'title'      => SmartCommonUtil::stripSlashes($_POST['title']),
                         'short_text' => SmartCommonUtil::stripSlashes($_POST['short_text']),
@@ -474,6 +473,12 @@ class ViewNavigationEditNode extends SmartView
         if($rank != FALSE)
         {
             $fields['rank'] = $rank;
+        }
+        
+        // only administrators can assign a node related view
+        if($this->viewVar['loggedUserRole'] <= 20)
+        {
+            $fields['id_view'] = $_POST['id_view'];
         }
         
         if($format != FALSE)

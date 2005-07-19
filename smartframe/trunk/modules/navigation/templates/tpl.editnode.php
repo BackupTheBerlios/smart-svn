@@ -232,6 +232,7 @@ Wysiwyg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 Wikki </td>
       </tr> 
 	  <?php endif; ?>
+	  <?php if($tpl['show_admin_link']==TRUE): ?>
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr>
@@ -244,7 +245,8 @@ Wikki </td>
             <td width="86%" align="left" valign="top" class="font10bold">Associated view</td>
           </tr>
         </table></td>
-      </tr>	 	  
+      </tr>	 
+	  <?php endif; ?>	  
 	  <?php if($tpl['use_files']==1): ?>
       <tr>
         <td align="left" valign="top"><hr>          
