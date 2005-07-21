@@ -80,7 +80,7 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
                                           'continue','break','switch','case',
                                           'echo','print','print_r','var_dump','exit',
                                           'defined','define',
-                                          'isset','empty');
+                                          'isset','empty','count');
                                           
 /**
  * Module name from which retrive a view name.
