@@ -43,15 +43,16 @@ function subok(s){
 <?php if($tpl['isUserLogged'] == TRUE): ?>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td align="center" valign="middle" bgcolor="#EBEBEB">      <table width="100%"  border="0" cellspacing="2" cellpadding="2">
+    <td align="center" valign="top" bgcolor="#EBEBEB">      <table width="100%"  border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td width="31%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="139" height="64" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" alt="Logo" name="Logo" width="139" height="60" border="0" align="left"><font size="2"><strong> </strong></font></td>
+              <td width="139" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" width="129" height="50"><font size="2"><strong> </strong></font></td>
               </tr>
           </table></td>
-          <td width="29%" align="right" valign="top" class="font10"><a href="<?php echo $tpl['publicWebController']; ?>">Switch to the  public page</a></td>
+          <td width="25%" align="right" valign="top" class="font10"> <br /><a href="<?php echo $tpl['publicWebController']; ?>">Switch to the  public page</a></td>
           <td width="33%" align="right" valign="top" class="font10">
+		   <br />
             <?php if(!isset($tpl['notLogged'])): ?> 
             <form action="index.php" method="post">
                 GoTo &gt;
@@ -65,8 +66,9 @@ function subok(s){
             </form>
             <?php endif; ?>
           </td>
-          <td width="7%" align="right" valign="top">
-              <a href="<?php echo $tpl['adminWebController']; ?>?mod=user&view=adminLogout" class="font14">Logout</a>
+          <td width="11%" align="right" valign="top">
+		       <br />
+              <a href="<?php echo $tpl['adminWebController']; ?>?mod=user&view=adminLogout" class="font12">Logout</a>
           </td>
         </tr>
     </table></td>
