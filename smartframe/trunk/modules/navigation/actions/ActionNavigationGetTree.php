@@ -76,12 +76,22 @@ class ActionNavigationGetTree extends ActionNavigation
             $_fields .= $comma.'`'.$f.'`';
             $comma = ',';
         }
+
+        if(isset($data['status']))
+        {
+            $sql_where = " WHERE status{$data['status'][0]}{$data['status'][1]}";
+        }
+        else
+        {
+            $sql_where = "";
+        }
         
         $sql = "
             SELECT
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}navigation_node 
+            {$sql_where}
             ORDER BY `rank`";
         
         $rs = $this->model->dba->query($sql);
