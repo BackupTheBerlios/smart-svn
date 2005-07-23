@@ -67,12 +67,12 @@ class ViewSetupIndex extends SmartView
                 @header('Location: ' . $this->config['admin_web_controller']);
                 exit;
             }
-            catch(SQLException $e)
+            catch(SmartDbException $e)
             {
                 // set path to the log file
                 $e->flag['logs_path'] = $this->config['logs_path'];
                 SmartExceptionLog::log( $e );
-                $this->tplVar['setup_error'][] = $e->getNativeError();
+                $this->tplVar['setup_error'][] = $e->getMessage();
 
                 // Rollback all module setup actions 
                 $this->rollback();
