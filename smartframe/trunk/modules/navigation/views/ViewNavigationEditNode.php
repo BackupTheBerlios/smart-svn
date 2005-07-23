@@ -115,6 +115,8 @@ class ViewNavigationEditNode extends SmartView
                                                       'file',
                                                       'size',
                                                       'mime',
+                                                      'width',
+                                                      'height',
                                                       'title',
                                                       'description')) );
 

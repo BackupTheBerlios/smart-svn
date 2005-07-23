@@ -17,12 +17,16 @@
 class ActionNavigationGetPicture extends SmartAction
 {
     private $tblFields_pic = array('id_node' => TRUE,
-                                   'id_pic' => TRUE,
-                                   'rank'   => TRUE,
-                                   'file'   => TRUE,
-                                   'description' => TRUE,
-                                   'mime'   => TRUE,
-                                   'size'   => TRUE);
+                                   'id_pic'  => TRUE,
+                                   'rank'    => TRUE,
+                                   'file'    => TRUE,
+                                   'title'   => TRUE,
+                                   'width'   => TRUE,
+                                   'height'  => TRUE,
+                                   'description'  => TRUE,
+                                   'media_folder' => TRUE,
+                                   'mime'    => TRUE,
+                                   'size'    => TRUE);
     /**
      * get data of all users
      *
@@ -34,17 +38,37 @@ class ActionNavigationGetPicture extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'`'.$f.'`';
+            if($f == 'media_folder')
+            {
+                continue;
+            }
+            $_fields .= $comma.'p.`'.$f.'`';
             $comma = ',';
+        }
+        
+        if(in_array('media_folder',$data['fields']))
+        {
+            $sel = $comma.'n.`media_folder`';
+            $table = ",{$this->config['dbTablePrefix']}navigation_node AS n ";
+            $where = " AND p.id_node=n.id_node";
+        }
+        else
+        {
+            $sel = '';
+            $table = '';
+            $where = '';
         }
 
         $sql = "
             SELECT
                 {$_fields}
+                {$sel}
             FROM
-                {$this->config['dbTablePrefix']}navigation_media_pic
+                {$this->config['dbTablePrefix']}navigation_media_pic AS p
+                {$table}
             WHERE
-                `id_pic`= {$data['id_pic']}";
+                p.`id_pic`= {$data['id_pic']}
+                {$where}";
 
         $rs = $this->model->dba->query($sql);
         

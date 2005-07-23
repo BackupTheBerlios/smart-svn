@@ -22,9 +22,9 @@ function insertFileDesc(desc)
 {
     tinyMCE.execCommand('mceInsertContent',0,desc);
 }
-function insertImage(folder,file,id_pic)
+function insertImage(controller,path,file,id_pic,width,height)
 {
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="?view=picture&id_pic='+id_pic+'"><img src="./data/navigation/'+folder+'/thumb/'+file+'" name="'+file+'" title="'+file+'" border="0" /></a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=nodePicture&id_pic='+id_pic+'\','+width+','+height+');"><img src="'+path+file+'" name="'+file+'" title="'+file+'" border="0" /></a>');
 }
 function insertImgDesc(desc)
 {

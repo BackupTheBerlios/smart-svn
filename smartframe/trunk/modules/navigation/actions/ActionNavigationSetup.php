@@ -64,6 +64,8 @@ class ActionNavigationSetup extends SmartAction
                    `size`         int(11) unsigned NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
+                   `width`        smallint(4) unsigned NOT NULL default 0,
+                   `height`       smallint(4) unsigned NOT NULL default 0,
                    `tumbnail`     tinyint(1) NOT NULL default 0,
                    `title`        text NOT NULL default '',
                    `description`  text NOT NULL default '',

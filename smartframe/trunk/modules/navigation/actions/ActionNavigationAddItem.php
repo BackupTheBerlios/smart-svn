@@ -146,6 +146,18 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         
         $pic_info = array();
         
+        // get image width and height
+        if(FALSE !== ($info = getimagesize( $image_source )))
+        {
+            $img_width  = $info[0];
+            $img_height = $info[1];
+        }
+        else
+        {
+            $img_width  = 0;
+            $img_height = 0;
+        }
+        
         $this->model->action('common','imageThumb',
                              array('imgSource'     => $image_source,
                                    'imgDestName'   => $file_info['file_name'],
@@ -156,13 +168,15 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         $rank = $this->getNewLastRank( $data['id_node'], 'navigation_media_pic' );
                 
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_media_pic
-                   (id_node,rank,file,size,mime)
+                   (id_node,rank,file,size,mime,width,height)
                   VALUES
                    ({$data['id_node']},
                     {$rank},
                     '{$file_info['file_name']}',
                     {$pic_info['size']},
-                    '{$pic_info['mime']}' )";
+                    '{$pic_info['mime']}',
+                    {$img_width},
+                    {$img_height})";
 
         $this->model->dba->query($sql);                                       
     }
