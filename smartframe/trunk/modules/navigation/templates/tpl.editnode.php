@@ -361,7 +361,7 @@ Wikki </td>
                     </tr>
                     <tr>
                       <td align="right" valign="top">
-					  <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_pic','','modules/common/media/pics/rewindover.png',0)">
+					  <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_pic','','modules/common/media/pics/rewindover.png',0)">
 					  <img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
 					  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:deletepic(document.forms['editnode'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_pic','','modules/common/media/pics/deleteover.png',0)"></a>
 					  <a href="javascript:deletepic(document.forms['editnode'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_pic','','modules/common/media/pics/deleteover.png',0)">
