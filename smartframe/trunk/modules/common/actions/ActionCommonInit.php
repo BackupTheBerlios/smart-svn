@@ -23,12 +23,8 @@ else
     $tmp_separator = ':';
 
 // set include path to extern packages
-ini_set( 'include_path', SMART_BASE_DIR . 'modules/common/includes/creole' . $tmp_separator . ini_get('include_path') );
 ini_set( 'include_path', SMART_BASE_DIR . 'modules/common/includes/PEAR' . $tmp_separator . ini_get('include_path') );
 unset($tmp_separator); 
-
-// creole db layer
-//require_once(SMART_BASE_DIR . 'modules/common/includes/creole/creole/Creole.php');
 
 // util class
 require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonUtil.php');

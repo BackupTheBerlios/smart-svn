@@ -57,16 +57,17 @@ class ActionCommonSetup extends SmartAction
         }
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_session (
-                 `session_id` varchar(32) NOT NULL default '', 
-                 `modtime` int(11) NOT NULL default '0',
+                 `session_id`   varchar(32) NOT NULL default '', 
+                 `modtime`      int(11) NOT NULL default '0',
                  `session_data` text NOT NULL default '',
                  PRIMARY KEY   (`session_id`))";
         $this->model->dba->query($sql);
             
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_config (
-                 `charset` varchar(255) NOT NULL default '',
+                 `charset`          varchar(50) NOT NULL default '',
                  `templates_folder` varchar(255) NOT NULL default '',
-                 `views_folder`     varchar(255) NOT NULL default '')";
+                 `views_folder`     varchar(255) NOT NULL default '',
+                 `disable_cache`    tinyint(1) NOT NULL default 1)";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
