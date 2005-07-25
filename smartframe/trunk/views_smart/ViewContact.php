@@ -30,7 +30,7 @@ class ViewContact extends SmartView
      * Cache expire time in seconds
      * 0 = cache disabled
      */
-    public $cacheExpire = 0;
+    public $cacheExpire = 3600;
     
     /**
      * Execute the view of the "node" template

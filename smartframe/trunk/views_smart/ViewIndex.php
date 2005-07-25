@@ -16,6 +16,12 @@
 class ViewIndex extends SmartView
 {
     /**
+     * Cache expire time in seconds for this view
+     * 0 = cache disabled
+     */
+    public $cacheExpire = 3600;
+    
+    /**
      * Execute the view of the "index" template
      */
     function perform()

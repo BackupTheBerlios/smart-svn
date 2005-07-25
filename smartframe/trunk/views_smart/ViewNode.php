@@ -19,7 +19,7 @@ class ViewNode extends SmartView
      * Cache expire time in seconds for this view
      * 0 = cache disabled
      */
-    public $cacheExpire = 0;
+    public $cacheExpire = 3600;
     
     /**
      * Execute the view of the "node" template

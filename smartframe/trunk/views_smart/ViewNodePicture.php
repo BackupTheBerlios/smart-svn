@@ -19,7 +19,7 @@ class ViewNodePicture extends SmartView
      * Cache expire time in seconds for this view
      * 0 = cache disabled
      */
-    public $cacheExpire = 0;
+    public $cacheExpire = 3600;
     
     /**
      * Html template associated with this view

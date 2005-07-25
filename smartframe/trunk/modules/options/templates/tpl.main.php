@@ -8,7 +8,7 @@
   <tr>
     <td width="74%" align="left" valign="top">      <table width="100%" border="0" cellspacing="2" cellpadding="2">
       <tr>
-        <td align="left" valign="top" class="font10bold">Public Template Folders</td>
+        <td align="left" valign="top" class="font10bold">Public template folders</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10">
@@ -19,7 +19,7 @@
 		</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10bold">Public View Folders</td>
+        <td align="left" valign="top" class="font10bold">Public view folders</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10">
@@ -30,7 +30,13 @@
 		</td>
       </tr>
       <tr>
-        <td align="left" valign="top"  class="font10bold">Disable Public Cache</td>
+        <td align="left" valign="top"  class="font10bold">Delete whole public cache</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"  class="font10bold"><input type="submit" name="deletePublicCache" value="delete public cache"></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"  class="font10bold">Disable public cache</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10"><input type="checkbox" name="disable_cache" value="1"<?php if($tpl['disableCache']==1) echo " checked "; ?>> 
