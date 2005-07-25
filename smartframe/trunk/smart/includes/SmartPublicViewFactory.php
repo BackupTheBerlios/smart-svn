@@ -132,7 +132,8 @@ class SmartPublicViewFactory extends SmartViewFactory
         // run view prepended filters
         $view->prependFilterChain();
      
-        if( $view->cacheExpire != 0 )
+        // get cache template content if cache enabled
+        if(($view->cacheExpire != 0) && ($this->config['disable_cache'] == 1))
         {
             $cache = SmartCache::newInstance($this->config['cache_type'], $this->model->config);
             $cacheid = $requestedView.serialize($args).serialize($_REQUEST).$_SERVER['PHP_SELF'];
@@ -180,8 +181,9 @@ class SmartPublicViewFactory extends SmartViewFactory
             
         // run append filters
         $view->appendFilterChain( $tplContainer->tplBufferContent );
-
-        if($view->cacheExpire != 0)
+        
+        // write template content to cache if cache enabled
+        if(($view->cacheExpire != 0) && ($this->config['disable_cache'] == 1))
         {
             $cache->cacheWrite( $tplContainer->tplBufferContent );
         }

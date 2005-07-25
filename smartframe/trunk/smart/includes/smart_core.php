@@ -146,6 +146,11 @@ $SmartConfig['smart_version'] = '2.0a';
 $SmartConfig['smart_version_name'] = 'SMART5';
 
 /**
+ * Disable cache global
+ */
+$SmartConfig['disable_cache'] = 0;
+
+/**
  * Error flags
  */
 define('SMART_DIE',                      999); 
