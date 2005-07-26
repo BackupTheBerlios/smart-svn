@@ -62,11 +62,6 @@ class SmartException extends Exception
         $this->exceptionMessage .= "TRACE: \n"  .var_export($this->getTrace(), TRUE)."\n";
 
         $this->_log();
-        
-        if( $this->flag['debug'] == TRUE )
-        {
-            die('code execution halted');
-        }
     }
     
    /**

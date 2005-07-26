@@ -53,7 +53,7 @@ class SmartWebController extends SmartController
                                       array('id'     => $_REQUEST[$this->config['view_request_id_name']],
                                             'result' => &$viewRequest));
             }
-            
+
             // get view request
             if( empty($viewRequest) )
             {
@@ -140,11 +140,18 @@ class SmartWebController extends SmartController
      */    
     private function userErrorView( $message )
     {
-        $methode = $this->config['error_view'];
+        if($this->config['debug'] == FALSE)
+        {
+            $methode = $this->config['default_view'];
+        }
+        else
+        {
+            $methode = $this->config['error_view'];
+        }
         
         try
         {        
-            $this->view->$methode( $message );    
+            $this->view->$methode( $message );   
         }
         catch(SmartViewException $e)
         {
