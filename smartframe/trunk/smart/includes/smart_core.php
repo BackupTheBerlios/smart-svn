@@ -143,7 +143,7 @@ if (@file_exists(SMART_BASE_DIR . 'config/my_config.php'))
  * Version info
  */
 $SmartConfig['smart_version'] = '2.0a';
-$SmartConfig['smart_version_name'] = 'SMART5';
+$SmartConfig['smart_version_name'] = 'SMART3';
 
 /**
  * Disable cache global
