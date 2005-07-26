@@ -1,3 +1,4 @@
+<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
@@ -6,12 +7,12 @@
 <style type="text/css">
 <!--
 body {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	color: #0000CC;
-	background-color: #FFFFFF;
-	margin: 0px;
-	padding: 0px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  color: #0000CC;
+  background-color: #FFFFFF;
+  margin: 0px;
+  padding: 0px;
 }
 -->
 </style>

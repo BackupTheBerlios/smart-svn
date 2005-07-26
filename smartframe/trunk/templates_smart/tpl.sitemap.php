@@ -1,9 +1,10 @@
+<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 <!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>">
 <meta name="keywords" content="">
-<title>SMART3 - <?php echo $tpl['node']['title'];  ?> -------------------------------------------------</title>
+<title>SMART3 - <?php echo $tpl['node']['title'];  ?></title>
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 </head>
 
@@ -29,14 +30,14 @@
              <?php echo $tpl['node']['title'];  ?>
            </h3>
             <?php if(!empty($tpl['node']['body'])): ?>
-			   <div class="text"><?php echo $tpl['node']['body'];  ?></div>
-			<?php endif; ?>  
-			<div class="sitemap">
+         <div class="text"><?php echo $tpl['node']['body'];  ?></div>
+      <?php endif; ?>  
+      <div class="sitemap">
             <?php foreach($tpl['tree'] as $node):  ?>
               <?php echo str_repeat('-&nbsp;',$node['level'] * 3); ?><a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a><br />
               <br />
-            <?php endforeach; ?>	
-			</div> 
+            <?php endforeach; ?>  
+      </div> 
          </td>
          </tr>
         </table>

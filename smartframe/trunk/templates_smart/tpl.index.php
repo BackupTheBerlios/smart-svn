@@ -3,8 +3,8 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>">
-<meta name="keywords" content="">
-<title></title>
+<meta name="keywords" content="php,framework,module,scalable,flexible,mvc,application,design,Armand,Turpel,Luxembourg">
+<title>SMART3 PHP Framework - Scalable Application Design</title>
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 </head>
 

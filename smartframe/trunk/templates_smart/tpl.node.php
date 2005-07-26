@@ -1,9 +1,10 @@
+<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 <!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>">
 <meta name="keywords" content="">
-<title>SMART3 - <?php echo $tpl['node']['title'];  ?> -------------------------------------------------</title>
+<title>SMART3 - <?php echo $tpl['node']['title'];  ?></title>
 <script language="JavaScript" type="text/JavaScript">
     function showimage(theURL,widthx,heightx){
         w = widthx+20;
@@ -15,25 +16,25 @@
 <style type="text/css">
 <!--
 .filedesc {
-	font-size: 12px;
-	color: #2E2E2E;
+  font-size: 12px;
+  color: #2E2E2E;
 }
 -->
 </style>
 <style type="text/css">
 <!--
 .filelink {
-	font-size: 14px;
+  font-size: 14px;
 }
 -->
 </style>
 <style type="text/css">
 <!--
 .downloads {
-	font-size: 14px;
-	font-weight: bold;
-	color: #0000CC;
-	letter-spacing: 3px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #0000CC;
+  letter-spacing: 3px;
 }
 -->
 </style>
@@ -71,11 +72,11 @@
              <tr>
                <td width="10" class="subnode">&nbsp;-&nbsp;</td>
                <td width="190" class="subnode">
-			       <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a>
-			       <?php if(!empty($cnode['short_text'])): ?>
-				      <div class="font10"><?php echo $cnode['short_text']; ?></div>
-				   <?php endif; ?>
-			   </td>
+             <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a>
+             <?php if(!empty($cnode['short_text'])): ?>
+              <div class="font10"><?php echo $cnode['short_text']; ?></div>
+           <?php endif; ?>
+         </td>
              </tr>
              <?php endforeach; ?>
              <?php if(isset($table)):  ?>
@@ -86,21 +87,21 @@
              <?php echo $tpl['node']['title'];  ?>
            </h3>
             <div class="text"><?php echo $tpl['node']['body'];  ?></div>
-			<?php if(count($tpl['nodeFiles'])>0): ?>
-			<div class="downloads">Downloads:</div>
-			<?php foreach($tpl['nodeFiles'] as $file): ?>
-			  <table width="350" border="0" cellspacing="0" cellpadding="0">
+      <?php if(count($tpl['nodeFiles'])>0): ?>
+      <div class="downloads">Downloads:</div>
+      <?php foreach($tpl['nodeFiles'] as $file): ?>
+        <table width="350" border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td class="filelink"><a href="<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/<?php echo $file['file']; ?>"><?php if(!empty($file['title'])){echo $file['title'];}else{echo $file['file'];} ?></a></td>
                 </tr>
-				<?php if(!empty($file['description'])): ?>
+        <?php if(!empty($file['description'])): ?>
                 <tr>
                   <td class="filedesc"><?php echo $file['description']; ?></td>
                 </tr>
-				<?php endif; ?>
+        <?php endif; ?>
               </table>
-			<?php endforeach; ?>
-			<?php endif; ?>	
+      <?php endforeach; ?>
+      <?php endif; ?> 
          </td>
          </tr>
         </table>

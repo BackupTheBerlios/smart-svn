@@ -1,3 +1,4 @@
+<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 <!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <html>
 <head>
@@ -8,16 +9,16 @@
 <style type="text/css">
 <!--
 .unnamed1 {
-	padding-top: 1px;
-	padding-right: 2px;
-	padding-bottom: 3px;
-	padding-left: 4px;
+  padding-top: 1px;
+  padding-right: 2px;
+  padding-bottom: 3px;
+  padding-left: 4px;
 }
 .unnamed2 {
-	margin-top: 1px;
-	margin-right: 2px;
-	margin-bottom: 3px;
-	margin-left: 4px;
+  margin-top: 1px;
+  margin-right: 2px;
+  margin-bottom: 3px;
+  margin-left: 4px;
 }
 -->
 </style>
