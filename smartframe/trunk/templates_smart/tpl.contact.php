@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>">
 <meta name="keywords" content="">
-<title>SMART3 - <?php echo $tpl['node']['title'];  ?> -------------------------------------------------</title>
+<title>SMART3 - <?php echo $tpl['node']['title'];  ?></title>
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
