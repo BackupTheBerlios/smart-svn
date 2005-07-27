@@ -14,9 +14,9 @@
     plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu"
     
   });
- function insertFile(folder,file,id_file)
+ function insertFile(folder,title,file,id_file)
 {
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="data/navigation/'+folder+'/'+file+'" name="'+file+'" title="'+file+'">'+file+'</a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="data/navigation/'+folder+'/'+file+'" name="'+file+'" title="'+title+'">'+title+'</a>');
 }
 function insertFileDesc(desc)
 {
