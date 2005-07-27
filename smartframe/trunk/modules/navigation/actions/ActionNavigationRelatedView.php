@@ -24,6 +24,8 @@ class ActionNavigationRelatedView extends SmartAction
      */
     function perform( $data = FALSE )
     {       
+        $id = (int)$data['id'];
+    
         $sql = "
             SELECT
                 v.`name`
@@ -31,12 +33,14 @@ class ActionNavigationRelatedView extends SmartAction
                 {$this->config['dbTablePrefix']}navigation_node AS n,
                 {$this->config['dbTablePrefix']}navigation_view AS v
             WHERE
-                n.`id_node`={$data['id']} 
+                n.`id_node`=$id 
             AND
                 n.`id_view`=v.`id_view`";
-        
+
         $rs = $this->model->dba->query($sql);
         $row = $rs->fetchAssoc();
+
+        $data['result'] = '';
 
         if(isset($row['name']))
         {
@@ -55,7 +59,7 @@ class ActionNavigationRelatedView extends SmartAction
     { 
         if(preg_match("/[^0-9]/",$data['id']))
         {
-            throw new SmartModelException('Wrong "id" format: '.$data['id']);        
+            trigger_error('Wrong "id" format: '.$data['id'], E_USER_WARNING);
         }
 
         if(!isset($data['result']))

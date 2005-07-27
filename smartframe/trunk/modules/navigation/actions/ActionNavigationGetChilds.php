@@ -24,7 +24,7 @@ class ActionNavigationGetChilds extends ActionNavigation
      * @param array $data
      * @return bool true or false on error
      */
-    function perform( $data = FALSE )
+    public function perform( $data = FALSE )
     {
         $comma = '';
         $_fields = '';
@@ -36,7 +36,7 @@ class ActionNavigationGetChilds extends ActionNavigation
         
         if(isset($data['status']))
         {
-            $sql_where = " AND status{$data['status'][0]}{$data['status'][1]}";
+            $sql_where = " AND `status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
