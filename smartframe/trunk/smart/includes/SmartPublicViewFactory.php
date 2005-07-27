@@ -92,17 +92,17 @@ class SmartPublicViewFactory extends SmartViewFactory
         $view = $this->$requestedView;
             
         // Aggregate model object
-        $view->model = $this->model;
+        $view->model = & $this->model;
 
         // Aggregate session object
-        $view->session = $this->model->session;       
+        $view->session = & $this->model->session;       
         
         // Aggregate the main configuration array
         $view->config = & $this->model->config;
 
         // Aggregate view loader object
         //$view->viewLoader = $this;
-           
+
         // include template container
         if( $view->renderTemplate == TRUE )
         {
@@ -113,7 +113,7 @@ class SmartPublicViewFactory extends SmartViewFactory
             // aggregate the global config array
             $tplContainer->config = & $this->model->config;
             // aggregate this object
-            $tplContainer->viewLoader = $this;
+            $tplContainer->viewLoader = & $this;
             // aggregate this container variable to store template variables
             $view->tplVar = & $tplContainer->vars; 
         }
@@ -133,9 +133,9 @@ class SmartPublicViewFactory extends SmartViewFactory
         $view->prependFilterChain();
      
         // get cache template content if cache enabled
-        if(($view->cacheExpire != 0) && ($this->config['disable_cache'] == 0))
+        if(($view->cacheExpire != 0) && ($this->model->config['disable_cache'] == 0))
         {
-            $cache = SmartCache::newInstance($this->config['cache_type'], $this->model->config);
+            $cache = SmartCache::newInstance($this->model->config['cache_type'], $this->model->config);
             $cacheid = $requestedView.serialize($args).serialize($_REQUEST).$_SERVER['PHP_SELF'];
             if($cache->cacheIdExists( $view->cacheExpire, $cacheid))
             {
@@ -183,7 +183,7 @@ class SmartPublicViewFactory extends SmartViewFactory
         $view->appendFilterChain( $tplContainer->tplBufferContent );
         
         // write template content to cache if cache enabled
-        if(($view->cacheExpire != 0) && ($this->config['disable_cache'] == 0))
+        if(($view->cacheExpire != 0) && ($this->model->config['disable_cache'] == 0))
         {
             $cache->cacheWrite( $tplContainer->tplBufferContent );
         }

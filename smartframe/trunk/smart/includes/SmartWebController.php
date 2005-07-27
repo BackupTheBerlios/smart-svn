@@ -142,11 +142,11 @@ class SmartWebController extends SmartController
     {
         if($this->config['debug'] == FALSE)
         {
-            $methode = $this->config['default_view'];
+            $methode = $this->model->config['default_view'];
         }
         else
         {
-            $methode = $this->config['error_view'];
+            $methode = $this->model->config['error_view'];
         }
         
         try

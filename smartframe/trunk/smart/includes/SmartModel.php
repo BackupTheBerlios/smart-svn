@@ -199,18 +199,18 @@ class SmartModel extends SmartObject
 
                 // force a new instance
                 if( $force_instance == TRUE )
-                {
+                {                
                     $i = 1;
                     $new_instance = $class_name . $i;
-                        
+                       
                     while( isset($this->$new_instance) )
                     {
                         $i++;
                         $new_instance = $class_name . $i;
                     }
-                        
+                             
                     // make new instance of the module action class
-                    $this->$new_instance = new $class_name( $constructor_data );
+                    $this->$new_instance = new $class_name( $constructor_data );               
                     $class_name = & $new_instance;
                 }
                 else
@@ -224,19 +224,19 @@ class SmartModel extends SmartObject
                 return SMART_NO_ACTION;
             }
         }
-            
+
         // aggregate the model object to the action object
-        $this->$class_name->model = $this;
+        $this->$class_name->model = &$this;
 
         // Aggregate the main configuration array
         $this->$class_name->config = & $this->config;
-            
+           
         // validate the request
         if( FALSE == $this->$class_name->validate( $data ) )
         {
             return FALSE;
         }
-
+ 
         // perform the request if the requested object exists
         return $this->$class_name->perform( $data );
     }
