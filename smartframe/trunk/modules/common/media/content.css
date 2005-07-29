@@ -1,0 +1,93 @@
+*{
+	margin:0;
+	padding:0;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	background-color: #FFFFFF;
+	scrollbar-3dlight-color: #F0F0EE;
+	scrollbar-arrow-color: #676662;
+	scrollbar-base-color: #F0F0EE;
+	scrollbar-darkshadow-color: #DDDDDD;
+	scrollbar-face-color: #E0E0DD;
+	scrollbar-highlight-color: #F0F0EE;
+	scrollbar-shadow-color: #F0F0EE;
+	scrollbar-track-color: #F5F5F5;	
+}
+
+.smart_imagetext {
+	font-size: 10px;
+	color: #0000FF;
+}
+.mceVisualAid {
+	border: 1px dashed #BBBBBB;
+}
+div,p,span,h1,h2,h3,h4,h5,h6{
+        font-size: 12px;
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+p{
+	padding-bottom: 10px;
+}
+h1,h2,h3,h4,h5,h6{
+	color: #000000;
+}
+h1{
+	font-size: 36px;
+	padding-bottom: 10px;	
+}
+h2{
+	font-size: 24px;
+	padding-bottom: 8px;	
+}
+h3{
+	font-size: 18px;
+	padding-bottom: 5px;	
+}
+h4{
+	font-size: 16px;
+	padding-bottom: 5px;	
+}
+h5{
+	font-size: 14px;
+	padding-bottom: 3px;	
+}
+h6{
+	font-size: 12px;
+	padding-bottom: 2px;	
+}
+pre {
+	font-family: "Courier New", Courier, mono;
+	font-size: 12px;
+	margin-top: 20px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;	
+}
+
+.important_color {
+	color: #FF0000;
+}
+.important_size {
+	font-size: 14px;
+}
+.important_color_size {
+	font-size: 14px;
+	color: #FF0000;
+}
+.back_color {
+	background-color: #EBEBEB;
+}
+div.quote{
+        background-color: #EBEBEB;
+	padding-top: 5px;
+	padding-right: 5px;
+	padding-bottom: 5px;
+	padding-left: 5px;
+	margin-top: 20px;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	margin-left: 20px;
+}

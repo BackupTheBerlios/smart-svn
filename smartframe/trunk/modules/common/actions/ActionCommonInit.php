@@ -144,7 +144,7 @@ class ActionCommonInit extends SmartAction
 
         foreach($fields as $key => $val)
         {
-            $this->config[$key] = $val;      
+            $this->config[$key] = $val;    
         } 
     }
     
