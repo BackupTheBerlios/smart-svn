@@ -123,7 +123,7 @@ class ActionNavigationLock extends SmartAction
         // True = the node is locked by the logged user
         // if not locked by the logged user, $result
         // contains the id of the user which locks
-        if(($result != FALSE) && ($result != TRUE))
+        if(($result !== FALSE) && ($result !== TRUE))
         {
             return $result;
         }
@@ -216,7 +216,7 @@ class ActionNavigationLock extends SmartAction
             {
                 return TRUE;
             }
-            
+
             return $row['by_id_user'];
         }
         

@@ -57,7 +57,7 @@ class ViewNavigationEditNode extends SmartView
         $this->initVars();
 
         // is node locked by an other user
-        if( TRUE == $this->isNodeLocked() )
+        if( TRUE !== $this->lockNode() )
         {
             $this->template       = 'error';
             $this->templateFolder = 'modules/common/templates/';
@@ -343,30 +343,26 @@ class ViewNavigationEditNode extends SmartView
             }
             if( isset($_POST['finishupdate']) )
             {
+                $this->unlockNode();
                 $this->redirect( $id_parent );
+            }
+            elseif(isset($_POST['unlock']))
+            {
+                $this->unlockNode();
+                $this->tplVar['lock_text'] = 'lock';
             }
         }    
     }
-    
      /**
      * is node locked by an other user?
      *
      */   
-    private function isNodeLocked()
+    private function lockNode()
     {
-        $result = $this->model->action('navigation','lock',
-                                       array('job'        => 'is_locked',
-                                             'id_node'    => $this->current_id_node,
-                                             'by_id_user' => $this->viewVar['loggedUserId']) );
-                                           
-        if(($result !== TRUE) && ($result !== FALSE))
-        {
-            return TRUE;  
-        } 
-        else
-        {
-            return FALSE;  
-        }   
+        return $this->model->action('navigation','lock',
+                                    array('job'        => 'lock',
+                                          'id_node'    => $this->current_id_node,
+                                          'by_id_user' => $this->viewVar['loggedUserId']) );  
     }   
      /**
      * init variables for this view
@@ -415,6 +411,7 @@ class ViewNavigationEditNode extends SmartView
         $this->tplVar['use_files']     = $this->config['navigation']['use_files'];
         $this->tplVar['use_shorttext'] = $this->config['navigation']['use_short_text'];        
         $this->tplVar['use_body']      = $this->config['navigation']['use_body'];
+        $this->tplVar['lock_text']     = 'unlock';
         
         // template variables
         //
@@ -547,7 +544,18 @@ class ViewNavigationEditNode extends SmartView
         // reload the user module
         @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=navigation&id_node='.$id_node);
         exit;      
+    }  
+    /**
+     * unlock edited user
+     *
+     */     
+    private function unlockNode()
+    {
+        $this->model->action('navigation','lock',
+                             array('job'     => 'unlock',
+                                   'id_node' => $this->current_id_node));    
     }    
+    
 }
 
 ?>
