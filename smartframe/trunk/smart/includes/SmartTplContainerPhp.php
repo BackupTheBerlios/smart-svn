@@ -63,6 +63,7 @@ class SmartTplContainerPhp extends SmartTplContainer
      */
     private function analyze( & $template )
     {
+        $code_is_valide = TRUE;
         include_once(SMART_BASE_DIR . "smart/includes/phpca/PHPCodeAnalyzer.php");
                 
         $analyzer = new PHPCodeAnalyzer();
@@ -74,15 +75,11 @@ class SmartTplContainerPhp extends SmartTplContainer
             if(!in_array($key, $this->config['allowedConstructs']))
             {
                 $this->disallowedItems[] = $key;
+                $code_is_valide = FALSE;
             }
         }  
-        
-        if(count($this->disallowedItems) > 0)
-        {
-            return FALSE;
-        }
-        
-        return TRUE;
+
+        return $code_is_valide;
     } 
 }
 
