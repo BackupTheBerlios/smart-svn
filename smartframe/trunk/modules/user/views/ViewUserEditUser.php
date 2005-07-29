@@ -524,6 +524,7 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['description'] = SmartCommonUtil::stripSlashes($_POST['description']);
         $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes($_POST['login']);
         $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']); 
+        $this->tplVar['user']['status']   = SmartCommonUtil::stripSlashes($_POST['status']); 
         $this->tplVar['format']   = SmartCommonUtil::stripSlashes($_POST['format']);
     } 
 

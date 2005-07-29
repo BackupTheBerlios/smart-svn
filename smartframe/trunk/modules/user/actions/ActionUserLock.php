@@ -123,7 +123,7 @@ class ActionUserLock extends SmartAction
         // True = the user is locked by the logged user
         // if not locked by the logged user $result
         // contnains the id of the user which locks
-        if(($result != FALSE) && ($result != TRUE))
+        if(($result !== FALSE) && ($result !== TRUE))
         {
             return $result;
         }
