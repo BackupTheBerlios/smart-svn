@@ -63,9 +63,15 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         // validate postName name
         elseif( !isset($_FILES[$data['postName']]) )
         {
-            throw new SmartModelException ('You have to select a local file to upload');
+            $data['error'] = 'You have to select a local file to upload';
+            return FALSE;
         }    
-
+        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        {
+            $data['error'] = 'File upload failed';
+            return FALSE;
+        }  
+        
         if(!isset($data['item']))
         {
             throw new SmartModelException("No 'item' defined");
