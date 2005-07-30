@@ -82,6 +82,12 @@ class ActionMiscSetup extends SmartAction
                  `use_images`     tinyint(1) NOT NULL default 1,
                  `use_files`      tinyint(1) NOT NULL default 1)";
         $this->model->dba->query($sql);
+
+        $sql = "INSERT INTO {$data['dbtablesprefix']}misc_config
+                   (`thumb_width`, `img_size_max`,`file_size_max`)
+                  VALUES
+                   (120,100000,100000)";
+        $this->model->dba->query($sql); 
  
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `release`)

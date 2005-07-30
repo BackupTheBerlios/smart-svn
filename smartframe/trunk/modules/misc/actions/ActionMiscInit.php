@@ -40,6 +40,8 @@ class ActionMiscInit extends SmartAction
         // get user module info
         $info = $this->model->getModuleInfo('misc');
         
+        $this->loadConfig();
+        
         // need install or upgrade?
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {
@@ -48,6 +50,23 @@ class ActionMiscInit extends SmartAction
         }
         unset($info);
     }
+    /**
+     * Load config values
+     *
+     */    
+    private function loadConfig()
+    {
+        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}misc_config";
+        
+        $rs = $this->model->dba->query($sql);
+        
+        $fields = $rs->fetchAssoc();
+
+        foreach($fields as $key => $val)
+        {
+            $this->config['misc'][$key] = $val;      
+        } 
+    }        
 }
 
 ?>

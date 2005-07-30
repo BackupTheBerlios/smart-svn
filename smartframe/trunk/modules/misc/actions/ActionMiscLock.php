@@ -86,7 +86,7 @@ class ActionMiscLock extends SmartAction
                 $this->unlockByIdUser($data); 
                 return;                
             default:
-                throw new SmartModelException('Action not available: '.$data['action']); 
+                throw new SmartModelException('Action not available: '.$data['job']); 
         }
         
         return TRUE;
