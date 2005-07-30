@@ -376,7 +376,7 @@ class ViewMiscEditText extends SmartView
      *
      * @param int $rank New rank
      */
-    private function updatetext( $rank, $format )
+    private function updatetext( $format )
     {
         $fields = array('status'      => $_POST['status'],
                         'title'       => SmartCommonUtil::stripSlashes($_POST['title']),
@@ -419,7 +419,7 @@ class ViewMiscEditText extends SmartView
     private function unlocktext()
     {
         $this->model->action('misc','lock',
-                             array('job'     => 'unlock',
+                             array('job'     => 'unlocktext',
                                    'id_text' => $this->current_id_text));    
     }    
     

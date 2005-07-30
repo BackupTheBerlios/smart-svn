@@ -260,19 +260,6 @@ Wikki </td>
       </tr> 
 	  <?php endif; ?>
 	  <?php if($tpl['show_admin_link']==TRUE): ?>
-      <tr>
-        <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
-          <tr>
-            <td width="14%" align="left" valign="top"><select name="id_view" size="1" id="id_view" class="treeselectbox">
-              <option value="0">No View</option>
-              <?php foreach($tpl['publicViews'] as $view):  ?>
-                 <option value="<?php echo $view['id_view']; ?>" <?php if($view['id_view'] == $tpl['text']['id_view'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo $view['name']; ?></option>
-              <?php endforeach; ?>
-            </select></td>
-            <td width="86%" align="left" valign="top" class="font10bold">Associated view</td>
-          </tr>
-        </table></td>
-      </tr>	 
 	  <?php endif; ?>	  
 	  <?php if($tpl['use_files']==1): ?>
       <tr>
