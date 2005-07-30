@@ -46,7 +46,8 @@ class ViewMiscMain extends SmartView
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_text','status','description')));
 
-
+        // assign lock var for each text
+        $this->getLocks();
     }    
      /**
      * assign template variables with lock status of each node
@@ -60,7 +61,7 @@ class ViewMiscMain extends SmartView
         {
             // lock the user to edit
             $result = $this->model->action('misc','lock',
-                                     array('job'        => 'is_locked',
+                                     array('job'        => 'is_textlocked',
                                            'id_text'    => $text['id_text'],
                                            'by_id_user' => $this->viewVar['loggedUserId']) );
                                            

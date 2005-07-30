@@ -13,8 +13,7 @@
 		<img src="./modules/common/media/pics/active.png" width="21" height="21">
 		<?php endif; ?>
 		</td>
-        <td width="1%" align="left" valign="top" class="font9"><?php if(($tpl['showLink']==TRUE)&&($texte['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=default&view=edittext&id_text=<?php echo $texte['id_text']; ?>">edit</a><?php endif; ?>&nbsp;</td>
-          <td width="99%" align="left" valign="top" class="itemnormal">
+        <td width="99%" align="left" valign="top" class="itemnormal">
 		      <?php if($texte['lock']==FALSE): ?>
                 <?php echo '<a href="'.SMART_CONTROLLER.'?mod=misc&view=edittext&id_text='.$texte['id_text'].'">'.$texte['title'].'</a>'; ?>
               <?php elseif($texte['lock']==TRUE): ?>
