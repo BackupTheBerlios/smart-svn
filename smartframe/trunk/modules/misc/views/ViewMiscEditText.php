@@ -163,8 +163,7 @@ class ViewMiscEditText extends SmartView
         // add picture
         elseif(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
         {   
-            $this->model->action('misc',
-                                 'addItem',
+            $this->model->action('misc','addItem',
                                  array('item'     => 'picture',
                                        'id_text'  => $_REQUEST['id_text'],
                                        'postName' => 'picture',
@@ -173,16 +172,14 @@ class ViewMiscEditText extends SmartView
         // delete picture
         elseif(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
         {
-            $this->model->action('misc',
-                                 'deleteItem',
+            $this->model->action('misc','deleteItem',
                                  array('id_text' => $_REQUEST['id_text'],
                                        'id_pic'  => $_POST['imageID2del']) ); 
         }
         // move image rank up
         elseif(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
         {   
-            $this->model->action('misc',
-                                 'moveItemRank',
+            $this->model->action('misc','moveItemRank',
                                  array('id_text' => $_REQUEST['id_text'],
                                        'id_pic'  => $_POST['imageIDmoveUp'],
                                        'dir'     => 'up') ); 
@@ -190,8 +187,7 @@ class ViewMiscEditText extends SmartView
         // move image rank down
         elseif(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
         {   
-            $this->model->action('misc',
-                                 'moveItemRank',
+            $this->model->action('misc','moveItemRank',
                                  array('id_text' => $_REQUEST['id_text'],
                                        'id_pic'  => $_POST['imageIDmoveDown'],
                                        'dir'     => 'down') ); 
@@ -199,8 +195,7 @@ class ViewMiscEditText extends SmartView
         // move file rank up
         elseif(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
         {
-            $this->model->action('misc',
-                                 'moveItemRank',
+            $this->model->action('misc','moveItemRank',
                                  array('id_text' => $_REQUEST['id_text'],
                                        'id_file' => $_POST['fileIDmoveUp'],
                                        'dir'     => 'up') );                                                 
@@ -208,8 +203,7 @@ class ViewMiscEditText extends SmartView
         // move file rank down
         elseif(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
         {   
-            $this->model->action('misc',
-                                 'moveItemRank',
+            $this->model->action('misc','moveItemRank',
                                  array('id_text' => $_REQUEST['id_text'],
                                        'id_file' => $_POST['fileIDmoveDown'],
                                        'dir'     => 'down') );                                                
@@ -217,8 +211,7 @@ class ViewMiscEditText extends SmartView
         // add file
         elseif(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
         {          
-            $this->model->action('misc',
-                                 'addItem',
+            $this->model->action('misc','addItem',
                                  array('item'     => 'file',
                                        'id_text'  => $_REQUEST['id_text'],
                                        'postName' => 'ufile',
@@ -227,8 +220,7 @@ class ViewMiscEditText extends SmartView
         // delete file
         elseif(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
         {   
-            $this->model->action('misc',
-                                 'deleteItem',
+            $this->model->action('misc','deleteItem',
                                  array('id_text' => $_REQUEST['id_text'],
                                        'id_file' => $_POST['fileID2del']) ); 
         }  
@@ -330,15 +322,11 @@ class ViewMiscEditText extends SmartView
         
         // template variables
         //
-        // text tree data
-        $this->tplVar['tree']   = array();
         // data of the current text
-        $this->tplVar['text']   = array();
-        // data of the branch texts
-        $this->tplVar['branch'] = array();  
+        $this->tplVar['text']   = array(); 
         // data of thumbs an files attached to this text
-        $this->tplVar['misc']['thumb']       = array();
-        $this->tplVar['misc']['file']        = array();        
+        $this->tplVar['text']['thumb']       = array();
+        $this->tplVar['text']['file']        = array();        
         // errors
         $this->tplVar['error']  = FALSE;    
     }
