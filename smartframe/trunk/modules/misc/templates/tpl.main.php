@@ -16,7 +16,10 @@
         <td width="99%" align="left" valign="top" class="itemnormal">
 		      <?php if($texte['lock']==FALSE): ?>
                 <?php echo '<a href="'.SMART_CONTROLLER.'?mod=misc&view=edittext&id_text='.$texte['id_text'].'">'.$texte['title'].'</a>'; ?>
-              <?php elseif($texte['lock']==TRUE): ?>
+                 <?php if(!empty($texte['description'])): ?>
+				    <div class="font10"><?php echo $texte['description'] ?></div>
+				 <?php endif; ?>
+			  <?php elseif($texte['lock']==TRUE): ?>
 			    <?php echo $texte['title']; ?> <strong>-lock-</strong>
 			  <?php endif; ?>
 	      </td>
