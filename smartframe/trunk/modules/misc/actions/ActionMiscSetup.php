@@ -22,6 +22,15 @@ class ActionMiscSetup extends SmartAction
      */
     public function perform( $data = FALSE )
     {
+        if(isset($data['rollback']))
+        {
+            $this->rollback($data);
+            return TRUE;
+        }
+        
+        // check if misc related folders are writeable
+        $this->checkFolders();
+        
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}misc_text (
                    `id_text`       int(11) unsigned NOT NULL auto_increment,
                    `status`        tinyint(1) NOT NULL default 0,
@@ -97,6 +106,34 @@ class ActionMiscSetup extends SmartAction
 
         return TRUE;
     } 
+    
+    /**
+     * Check if folders are writeable
+     *
+     */ 
+    private function checkFolders()
+    {
+        $misc_folder = SMART_BASE_DIR . 'data/misc';
+        if(!is_writeable($misc_folder))
+        {
+            throw new Exception('Must be global readable, and writeable by php scripts: '.$misc_folder);    
+        }
+    } 
+    
+    /**
+     * Rollback setup
+     * Delete db tables of this module 
+     *
+     */    
+    public function rollback( &$data )
+    {
+        $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}misc_text,
+                                     {$data['dbtablesprefix']}misc_text_lock,
+                                     {$data['dbtablesprefix']}misc_text_pic,
+                                     {$data['dbtablesprefix']}misc_text_file,
+                                     {$data['dbtablesprefix']}misc_config";
+        $this->model->dba->query($sql);  
+    }    
 }
 
 ?>

@@ -21,7 +21,7 @@ class ActionDefaultSetup extends SmartAction
      *
      */
     public function perform( $data = FALSE )
-    {
+    { 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                 VALUES

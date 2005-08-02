@@ -28,6 +28,8 @@ class ActionUserSetup extends SmartAction
             return TRUE;
         }
         
+        $this->checkFolders();
+        
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_user (
                    `id_user`      int(11) unsigned NOT NULL auto_increment,
                    `login`        varchar(20) NOT NULL default '',
@@ -117,6 +119,19 @@ class ActionUserSetup extends SmartAction
         
         $this->model->dba->query($sql);         
     } 
+
+    /**
+     * Check if folders are writeable
+     *
+     */ 
+    private function checkFolders()
+    {
+        $user_folder = SMART_BASE_DIR . 'data/user';
+        if(!is_writeable($user_folder))
+        {
+            throw new Exception('Must be global readable, and writeable by php scripts: '.$user_folder);    
+        }
+    }
     
     /**
      * Rollback setup

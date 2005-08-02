@@ -28,6 +28,9 @@ class ActionNavigationSetup extends SmartAction
             return TRUE;
         }
         
+        // check if navigation related folders are writeable
+        $this->checkFolders();
+        
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}navigation_node (
                    `id_node`       int(11) unsigned NOT NULL auto_increment,
                    `id_parent`     int(11) unsigned NOT NULL default 0,
@@ -124,6 +127,19 @@ class ActionNavigationSetup extends SmartAction
                     'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
         $this->model->dba->query($sql);            
     } 
+
+    /**
+     * Check if folders are writeable
+     *
+     */ 
+    private function checkFolders()
+    {
+        $nav_folder = SMART_BASE_DIR . 'data/navigation';
+        if(!is_writeable($nav_folder))
+        {
+            throw new Exception('Must be global readable, and writeable by php scripts: '.$nav_folder);    
+        }
+    }
 
     /**
      * Rollback setup

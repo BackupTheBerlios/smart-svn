@@ -28,7 +28,13 @@ class ViewIndex extends SmartView
     {
         // template var with charset used for the html page
         $this->tplVar['charset'] = & $this->config['charset'];
-        
+        $this->tplVar['text']    = array();
+
+        // get text for the index front page
+        $this->model->action('misc','getTextes', 
+                             array('ids'     => array( 1 ),
+                                   'result'  => & $this->tplVar['text'],
+                                   'fields'  => array('body')));       
         return TRUE;
     }
 

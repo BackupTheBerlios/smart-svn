@@ -33,7 +33,7 @@ class ActionOptionsSetup extends SmartAction
                   VALUES
                    ('options',
                     'Global Options Management',
-                    4,
+                    5,
                     '0.1',
                     1,
                     'DATE: 25.7.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";

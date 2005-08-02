@@ -10,17 +10,17 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionOptionsUpdateConfigOptions class 
+ * ActionOptionsDeletePublicCache class 
  *
  */
  
 class ActionOptionsDeletePublicCache extends SmartAction
 {
    /**
-     * update common config values
+     * delete all cached files
      *
      * @param array $data
-     * @return bool true or false on error
+     * @return bool
      */
     function perform( $data = FALSE )
     {

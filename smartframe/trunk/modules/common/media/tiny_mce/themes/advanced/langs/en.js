@@ -37,6 +37,7 @@ tinyMCELang['lang_theme_h3'] = 'Heading 3';
 tinyMCELang['lang_theme_h4'] = 'Heading 4';
 tinyMCELang['lang_theme_h5'] = 'Heading 5';
 tinyMCELang['lang_theme_h6'] = 'Heading 6';
+tinyMCELang['lang_theme_blockquote'] = 'Blockquote';
 tinyMCELang['lang_theme_colorpicker_title'] = 'Select a color';
 tinyMCELang['lang_theme_colorpicker_apply'] = 'Apply';
 tinyMCELang['lang_theme_forecolor_desc'] = 'Select text color';

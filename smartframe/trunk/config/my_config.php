@@ -123,6 +123,6 @@ $SmartConfig['error_reporting'] = E_ALL | E_STRICT;
 /**
  * Set debug mode.
  */
-$SmartConfig['debug'] = FALSE; 
+$SmartConfig['debug'] = TRUE; 
 
 ?>

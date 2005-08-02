@@ -66,7 +66,12 @@ pre {
 	margin-bottom: 20px;
 	margin-left: 20px;	
 }
-
+ul{
+	padding-left: 0px;
+	margin-left: 20px;
+	padding-bottom: 0px;
+	margin-bottom: 10px;	
+}
 .important_color {
 	color: #FF0000;
 }

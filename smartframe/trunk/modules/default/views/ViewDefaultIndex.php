@@ -34,12 +34,16 @@ class ViewDefaultIndex extends SmartView
      */
     function perform()
     {
-        // run test action of the common module
-        // it assign a template variable with content
-        $this->model->action( 'common', 
-                              'test', 
-                              array( 'result'  => & $this->tplVar,
-                                     'message' => 'This message comes from the default module' ) );
+        // set template var to show user options link
+        // only on user main page and if the user role is at least an "admin"
+        if(isset($_REQUEST['view']) && ($this->viewVar['loggedUserRole'] > 20))
+        {
+            $this->tplVar['show_admin_link'] = FALSE;
+        }
+        else
+        {
+            $this->tplVar['show_admin_link'] = TRUE;
+        }    
     }     
 }
 
