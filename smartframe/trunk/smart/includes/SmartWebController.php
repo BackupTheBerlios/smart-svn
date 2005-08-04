@@ -69,9 +69,9 @@ class SmartWebController extends SmartController
 
             // validate view request
             $methode = $this->validateViewName( $viewRequest );
-       
+      
             // execute the requested view
-            $this->view->$methode();        
+            $this->view->$methode();          
         }
         catch(SmartViewException $e)
         {
@@ -110,9 +110,15 @@ class SmartWebController extends SmartController
         catch(SmartForwardAdminViewException $e)
         {
             die('Setup not yet done. Please run the admin web controller');
-        }     
-        
-        ob_end_flush();
+        }  
+
+        $buffer_level = ob_get_level ();        
+        while($buffer_level > 0)
+        {
+            ob_end_flush();
+            $buffer_level--;
+        }
+        exit;        
     }
     /**
      * Validate view request name.
