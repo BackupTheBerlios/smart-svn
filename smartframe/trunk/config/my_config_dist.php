@@ -69,6 +69,7 @@ $SmartConfig['template_engine'] = 'SmartTplContainerPhp';
 
 /**
  * Use php code analyzer
+ * This an experimental feature.
  */
 $SmartConfig['useCodeAnalyzer'] = FALSE;
 
