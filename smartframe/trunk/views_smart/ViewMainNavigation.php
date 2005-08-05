@@ -31,7 +31,14 @@ class ViewMainNavigation extends SmartView
                                array('id_node' => 0,
                                      'result'  => & $this->tplVar['rootNodes'],
                                      'status'  => array('=', 2),
-                                     'fields'  => array('title','id_node')));        
+                                     'fields'  => array('title','id_node'))); 
+                                     
+        // get text for the page footer
+        $this->tplVar['footer'] = array();
+        $this->model->action('misc','getText', 
+                             array('id_text' => 3,
+                                   'result'  => & $this->tplVar['footer'],
+                                   'fields'  => array('body')));                                       
     }
 }
 

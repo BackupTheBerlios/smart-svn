@@ -89,7 +89,7 @@ class ViewNode extends SmartView
     {
         // fetch the current id_node. If no id_node defined or not numeric
         // this view class loads the error template
-        if( !isset($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
+        if( !isset($_REQUEST['id_node']) || is_array($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
         {
             $this->template  = 'error';     
         }

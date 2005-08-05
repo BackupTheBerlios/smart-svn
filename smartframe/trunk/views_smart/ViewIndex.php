@@ -31,10 +31,11 @@ class ViewIndex extends SmartView
         $this->tplVar['text']    = array();
 
         // get text for the index front page
-        $this->model->action('misc','getTextes', 
-                             array('ids'     => array( 1 ),
+        $this->model->action('misc','getText', 
+                             array('id_text' => 1,
                                    'result'  => & $this->tplVar['text'],
-                                   'fields'  => array('body')));       
+                                   'fields'  => array('body')));  
+                                                          
         return TRUE;
     }
 
