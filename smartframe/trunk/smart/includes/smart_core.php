@@ -24,7 +24,8 @@ if (!defined( 'SMART_SECURE_INCLUDE' ))
 
 // Start output buffering
 //
-@ob_start();
+ob_end_clean();
+ob_start();
 
 // init smart configuration array
 $SmartConfig = array();
@@ -75,6 +76,7 @@ $SmartConfig['template_engine'] = 'SmartTplContainerPhp';
 
 /**
  * Use php code analyzer
+ * This an experimental feature.
  */
 $SmartConfig['useCodeAnalyzer'] = FALSE;
 
@@ -87,17 +89,6 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
                                           'echo','print','print_r','var_dump','exit',
                                           'defined','define',
                                           'isset','empty','count');
-
-/**
- * Module name from which retrive a view name.
- * The name of the class that is associated with a view
- */
-$SmartConfig['view_request_module']  = 'navigation';
-/**
- * The name of the request var from which the previous declared module
- * fetch the view name
- */
-$SmartConfig['view_request_id_name'] = 'id_node';
 
 /**
  * Default templates and views folder
@@ -138,6 +129,12 @@ if (@file_exists(SMART_BASE_DIR . 'config/my_config.php'))
 {
     include_once(SMART_BASE_DIR . 'config/my_config.php');
 }
+
+/**
+ * Module name from which retrive a view name.
+ * The name of the class that is associated with a view
+ */
+$SmartConfig['view_map']  = array();
 
 /**
  * Version info

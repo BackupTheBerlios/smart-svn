@@ -176,12 +176,12 @@ class SmartPublicViewFactory extends SmartViewFactory
             }                
 
             // render the template
-            $tplContainer->renderTemplate();
+            $tplContainer->renderTemplate();        
         }                
-            
+        
         // run append filters
         $view->appendFilterChain( $tplContainer->tplBufferContent );
-        
+      
         // write template content to cache if cache enabled
         if(($view->cacheExpire != 0) && ($this->model->config['disable_cache'] == 0))
         {
@@ -192,7 +192,7 @@ class SmartPublicViewFactory extends SmartViewFactory
         echo $tplContainer->tplBufferContent;     
         
         // empty template buffer content
-        $tplContainer->tplBufferContent = '';         
+        $tplContainer->tplBufferContent = '';
     } 
 }
 

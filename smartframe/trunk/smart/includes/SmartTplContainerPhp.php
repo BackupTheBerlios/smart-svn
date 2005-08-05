@@ -51,10 +51,10 @@ class SmartTplContainerPhp extends SmartTplContainer
         {
             throw new SmartTplException("Template dosent exists: ".$template);
         }
-
+        
         ob_start();
         include( $template );
-        $this->tplBufferContent = ob_get_clean();
+        $this->tplBufferContent = ob_get_clean();      
     } 
     
     /**
@@ -64,12 +64,12 @@ class SmartTplContainerPhp extends SmartTplContainer
     private function analyze( & $template )
     {
         $code_is_valide = TRUE;
+
         include_once(SMART_BASE_DIR . "smart/includes/phpca/PHPCodeAnalyzer.php");
-                
         $analyzer = new PHPCodeAnalyzer();
         $analyzer->source = file_get_contents( $template );
         $analyzer->analyze();
-
+        
         foreach($analyzer->calledConstructs as $key => $val)
         {
             if(!in_array($key, $this->config['allowedConstructs']))

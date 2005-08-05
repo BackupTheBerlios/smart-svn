@@ -45,13 +45,17 @@ class SmartWebController extends SmartController
 
             // get the view which is associated with a request
             $viewRequest = '';
-            
-            if(isset($_REQUEST[$this->config['view_request_id_name']]))
+
+            // try to get a view name from the model (modules)
+            foreach($this->config['view_map'] as $id_item => $module_name)
             {
-                $this->model->action( $this->config['view_request_module'],
-                                      'relatedView',
-                                      array('id'     => $_REQUEST[$this->config['view_request_id_name']],
-                                            'result' => &$viewRequest));
+                if(isset($_REQUEST[$id_item]))
+                {
+                    $this->model->action( $module_name, 'relatedView',
+                                          array('id'     => $_REQUEST[$id_item],
+                                                'result' => &$viewRequest));
+                    break;
+                }           
             }
 
             // get view request

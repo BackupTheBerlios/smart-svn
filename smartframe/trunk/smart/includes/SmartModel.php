@@ -59,7 +59,7 @@ class SmartModel extends SmartObject
      */
     function __construct( & $config )
     {
-        $this->config = $config;
+        $this->config = & $config;
     }
 
     /**
@@ -152,7 +152,7 @@ class SmartModel extends SmartObject
     {
         if( !isset($this->config[$module]) )
         {
-            $this->config[$module] = $data;
+            $this->config[$module] = & $data;
             return TRUE;
         }
         throw new SmartInitException('Module config array exists: '.$module);

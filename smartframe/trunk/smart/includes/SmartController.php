@@ -165,7 +165,7 @@ class SmartController extends SmartObject
      */
     public static function setConfig( &$config )
     {
-        self::$smartConfig = $config;
+        self::$smartConfig = & $config;
     }
 
     /**
