@@ -26,7 +26,7 @@ class SmartCache extends SmartObject
      */
     function __construct( & $config )
     {
-        $this->config = $config;
+        $this->config = & $config;
     }
     
     /**
@@ -34,7 +34,7 @@ class SmartCache extends SmartObject
      *
      * @param string $class Cache class name.
      */
-    public static function newInstance($class, $config)
+    public static function newInstance($class, & $config)
     {
         $class_file = SMART_BASE_DIR . 'smart/includes/'.$class.'.php';
                 

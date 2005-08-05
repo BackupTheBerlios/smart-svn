@@ -28,8 +28,8 @@ class SmartViewFactory extends SmartObject
     
     public function __construct( & $model, & $config )
     {
-        $this->model  = &$model;
-        $this->config = &$config;
+        $this->model  = & $model;
+        $this->config = & $config;
     }
     
     /**

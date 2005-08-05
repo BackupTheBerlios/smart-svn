@@ -41,7 +41,7 @@ class SmartAction extends SmartObject
      */
     function __construct( $data = FALSE )
     {
-        $this->constructorData = $data;
+        $this->constructorData = & $data;
     }
 
     /**

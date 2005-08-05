@@ -17,6 +17,9 @@
  
 class SmartViewContainer extends SmartContainer
 {
+    /**
+     * Array to pass variable trough nested views.
+     */
     public $vars = array();
 }
 

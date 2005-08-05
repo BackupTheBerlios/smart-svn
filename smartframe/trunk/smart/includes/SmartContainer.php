@@ -38,7 +38,7 @@ class SmartContainer extends SmartObject
      */  
     function __construct( & $config)
     {
-        $this->config = $config;
+        $this->config = & $config;
     }
 
     /**
@@ -74,7 +74,7 @@ class SmartContainer extends SmartObject
      * @param string $class Container class name.
      * @param array $config Main Smart config array
      */
-    public static function newInstance($class, $config)
+    public static function newInstance($class, & $config)
     {
         if (!isset(self::$instance[$class]))
         {

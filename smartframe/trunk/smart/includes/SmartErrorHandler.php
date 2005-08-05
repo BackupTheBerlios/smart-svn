@@ -26,7 +26,7 @@ class SmartErrorHandler
     {
         set_error_handler     (array( &$this, '_php_error_handler' ));
         
-        $this->config = $config;
+        $this->config = & $config;
     }  
     
    /**
