@@ -84,17 +84,6 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
                                           'isset','empty','count');
                                           
 /**
- * Module name from which retrive a view name.
- * The name of the class that is associated with a view
- */
-$SmartConfig['view_request_module']  = 'navigation';
-/**
- * The name of the request var from which the previous declared module
- * fetch the view name
- */
-$SmartConfig['view_request_id_name'] = 'id_node';
-
-/**
  * Default templates and views folder
  */
 $SmartConfig['default_template_folder'] = 'templates_default/';
