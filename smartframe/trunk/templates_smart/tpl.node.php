@@ -1,5 +1,5 @@
 <?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
-<!doctype HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>">
@@ -61,7 +61,7 @@
          <?php  foreach($tpl['nodeBranch'] as $bnode): ?>
              <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
          <?php endforeach; ?>
-           <hr class="hr" /></div>
+           <hr class="hr" /></div>         
           <?php if(count($tpl['childNodes']) > 0): ?>           
           <table width="200"  border="0" align="right" cellpadding="0" cellspacing="0" class="subnodetable">
              <tr>
@@ -108,7 +108,10 @@
           </td>
       </tr>
       <tr valign="middle" bgcolor="#516570">
-        <td colspan="2" align="left" class="footer">&copy; 2005 Armand Turpel&nbsp;</td>
+        <td colspan="2" align="left" class="footer">
+        <!-- Footer text -->
+        <?php echo $tpl['footer']['body']; ?>        
+        </td>
         </tr>
     </table></td>
   </tr>

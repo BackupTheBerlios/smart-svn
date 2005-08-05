@@ -52,7 +52,10 @@
           </td>
       </tr>
       <tr valign="middle" bgcolor="#516570">
-        <td colspan="2" align="left" class="footer">&copy; 2005 Armand Turpel&nbsp;</td>
+        <td colspan="2" align="left" class="footer">
+        <!-- Footer text -->
+        <?php echo $tpl['footer']['body']; ?>        
+        </td>
         </tr>
     </table></td>
   </tr>
