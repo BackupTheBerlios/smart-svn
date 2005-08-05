@@ -216,15 +216,16 @@ function MM_swapImage() { //v3.0
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="14%" align="left" valign="top" class="font10bold">Status </td>
-              <td width="2%" align="right" valign="top" class="font10bold"><input type="submit" name="<?php echo $tpl['lock_text']; ?>" value="<?php echo $tpl['lock_text']; ?> text" class="unlockbutton"></td>
+              <td width="29%" align="left" valign="top" class="font10bold">Status </td>
+              <td width="46%" align="right" valign="top" class="font10bold"><input type="submit" name="<?php echo $tpl['lock_text']; ?>" value="<?php echo $tpl['lock_text']; ?> text" class="unlockbutton"></td>
+              <td width="25%" align="right" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=misc">back</a></td>
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
                 <option value="2" <?php if($tpl['text']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
                 <option value="1" <?php if($tpl['text']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
               </select></td>
-              <td align="left" valign="top">&nbsp;</td>
+              <td colspan="2" align="left" valign="top">&nbsp;</td>
             </tr>
           </table></td>
       </tr>   
