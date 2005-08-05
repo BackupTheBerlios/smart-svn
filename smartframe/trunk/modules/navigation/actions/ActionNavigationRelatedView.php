@@ -57,7 +57,7 @@ class ActionNavigationRelatedView extends SmartAction
      */    
     public function validate( $data = FALSE )
     { 
-        if(preg_match("/[^0-9]/",$data['id']))
+        if(is_array($data['id']) || preg_match("/[^0-9]/",$data['id']))
         {
             trigger_error('Wrong "id" format: '.$data['id'], E_USER_WARNING);
         }

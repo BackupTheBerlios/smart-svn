@@ -67,6 +67,9 @@ class ActionNavigationInit extends SmartAction
         {
             $this->config['navigation'][$key] = $val;      
         } 
+        
+        // this module try to find the view on the related public request var 'id_node'
+        $this->config['view_map']['id_node'] = 'navigation';
     }    
 }
 
