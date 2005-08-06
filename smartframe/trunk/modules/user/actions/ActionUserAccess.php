@@ -107,9 +107,9 @@ class ActionUserAccess extends SmartAction
                 {
                     return FALSE;         
                 } 
-                elseif(@preg_match("/[^0-9]/", $data['id_user']))
+                elseif(!is_int($data['id_user']))
                 {
-                    throw new SmartModelException('[id_user] has wrong format'); 
+                    throw new SmartModelException('"id_user" action array value type is not int'); 
                 }
                 break;  
             case 'last':
@@ -118,16 +118,16 @@ class ActionUserAccess extends SmartAction
                 {
                     throw new SmartModelException('[id_user] isnt set');         
                 } 
-                elseif(@preg_match("/[^0-9]/", $data['id_user']))
+                elseif(!is_int($data['id_user']))
                 {
-                    throw new SmartModelException('[id_user] has wrong format'); 
-                }  
+                    throw new SmartModelException('"id_user" action array value type is not int'); 
+                }
                 break;
             case 'last_x':
                 // id_user must exists to update user last access
-                if(!isset($data['num']) || @preg_match("/[^0-9]/", $data['num']) )
+                if( !isset($data['num']) || !is_int($data['num']) )
                 {
-                    throw new SmartModelException('[num] isnt set or has wrong format');       
+                    throw new SmartModelException('"num" action array value isnt set or isnt type int');       
                 } 
                 break;                
             default:

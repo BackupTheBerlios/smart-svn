@@ -30,10 +30,13 @@ class ActionUserInit extends SmartAction
     {
         $this->checkModuleVersion();
         
-        // Update the access time of the logged user
-        $this->model->action('user','access',
-                             array('job'     => 'update',
-                                   'id_user' => $this->model->session->get('loggedUserId')));
+        if($this->model->session->exists('loggedUserId'))
+        {
+            // Update the access time of the logged user
+            $this->model->action('user','access',
+                                 array('job'     => 'update',
+                                       'id_user' => (int)$this->model->session->get('loggedUserId')));
+        }
     } 
     /**
      * Check module version and upgrade or install this module if necessairy
@@ -44,8 +47,9 @@ class ActionUserInit extends SmartAction
         // get user module info
         $info = $this->model->getModuleInfo('user');
         
+        // load module config variables
         $this->loadConfig();
-        
+
         // need install or upgrade?
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {

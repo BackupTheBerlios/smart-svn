@@ -12,11 +12,21 @@
 /**
  * ActionUserCheckLogin class 
  *
+ * USAGE:
+ *
+ * $is_login_ok = $model->action('user','checkLogin',
+ *                               array('login'  => string,   // <= 50 chars
+ *                                     'passwd' => string))  // <= 50 chars
+ *
+ * return TRUE or FALSE
+ * if TRUE this action sets 2 session variables:
+ * - loggedUserId
+ * - loggedUserRole
+ *
  */
 
 class ActionUserCheckLogin extends SmartAction
 {
-
     /**
      * Check login
      *
@@ -42,7 +52,7 @@ class ActionUserCheckLogin extends SmartAction
         $stmt = $this->model->dba->prepare($sql);
 
         $stmt->setString( $data['login'] );
-        $stmt->setString( md5($data['passwd'] ));       
+        $stmt->setString( md5( $data['passwd'] ));       
         
         $id_user = 0;
         $role    = 0;
@@ -68,14 +78,31 @@ class ActionUserCheckLogin extends SmartAction
      */    
     public function validate( $data = FALSE )
     {
-        if( @preg_match("/[^a-zA-Z0-9]/", $data['login']) )
+        if(!is_string($data['login']))
+        {
+            return FALSE;
+        }
+        elseif( @preg_match("/[^a-zA-Z0-9_-]/", $data['login']) )
         { 
             return FALSE;        
         }
-        if( @preg_match("/[^a-zA-Z0-9]/", $data['passwd']) )
+        elseif(strlen($data['login']) > 50)
+        {
+            return FALSE;
+        }
+
+        if(!is_string($data['passwd']))
+        {
+            return FALSE;
+        }        
+        elseif( @preg_match("/[^a-zA-Z0-9_-]/", $data['passwd']) )
         {
             return FALSE;        
         }  
+        elseif(strlen($data['passwd']) > 50)
+        {
+            return FALSE;
+        }
         
         return TRUE;
     }
