@@ -25,7 +25,7 @@ class ViewUserAdminLogout extends SmartView
         // free locks from this user
         $this->model->action('user','lock',
                              array('job'     => 'unlock_from_user',
-                                   'id_user' => $this->viewVar['loggedUserId']));
+                                   'id_user' => (int)$this->viewVar['loggedUserId']));
         
         $this->model->session->destroy();
         ob_clean();

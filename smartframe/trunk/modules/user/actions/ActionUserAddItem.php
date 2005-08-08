@@ -103,11 +103,14 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         elseif(($data['item'] == 'file') && ($this->config['user']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
             $data['error'][] = "Max file size allowed: {$this->config['user']['file_size_max']} bytes";
-            return FALSE;
         }
         elseif(($data['item'] == 'picture') && ($this->config['user']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
             $data['error'][] = "Max picture size allowed: {$this->config['user']['img_size_max']} bytes";
+        }
+        
+        if(count($data['error']) > 0)
+        {
             return FALSE;
         }
         
@@ -177,10 +180,11 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         $pic_info = array();
         
         $this->model->action('common','imageThumb',
-                             array('imgSource'     => $image_source,
-                                   'imgDestName'   => $file_info['file_name'],
-                                   'imgDestWidth'  => $this->config['user']['thumb_width'],
-                                   'imgDestFolder' => $image_dest_folder,
+                             array('error'         => & $data['error'],
+                                   'imgSource'     => (string)$image_source,
+                                   'imgDestName'   => (string)$file_info['file_name'],
+                                   'imgDestWidth'  => (int)$this->config['user']['thumb_width'],
+                                   'imgDestFolder' => (string)$image_dest_folder,
                                    'info'          => &$pic_info));  
         
         $rank = $this->getNewLastRank( $data['id_user'], 'user_media_pic' );

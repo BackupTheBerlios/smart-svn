@@ -56,9 +56,9 @@ class ViewUserLogin extends SmartView
             // validate captcha turing/public keys
             if (FALSE == $this->model->action( 'common',
                                                'captchaValidate',
-                                               array('turing_key'  => $_POST['captcha_turing_key'],
-                                                     'public_key'  => $_POST['captcha_public_key'],
-                                                     'configPath'  => $this->config['config_path'])))
+                                               array('turing_key'  => (string)$_POST['captcha_turing_key'],
+                                                     'public_key'  => (string)$_POST['captcha_public_key'],
+                                                     'configPath'  => (string)$this->config['config_path'])))
             {
                 $this->_reset_form_data();
                 return TRUE;
