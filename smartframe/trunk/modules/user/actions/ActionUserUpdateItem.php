@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionNavigationUpdateItem class 
+ * ActionUserUpdateItem class 
  *
  */
 class ActionUserUpdateItem extends SmartAction
@@ -22,8 +22,8 @@ class ActionUserUpdateItem extends SmartAction
                             'description' => 'String');
                             
     /**
-     * update user pictures/files data
-     *
+     * update user pictures/files title and desription data
+     * 
      * @param array $data
      */
     function perform( $data = FALSE )
