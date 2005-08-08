@@ -1,12 +1,55 @@
 <?php if($tpl['format']==2): ?>
 <!-- tinyMCE -->
-<script language="javascript" type="text/javascript" src="./modules/common/media/tiny_mce/tiny_mce.js"></script>
-<script language="javascript" type="text/javascript" src="./modules/user/media/tiny_mce_init.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce.js"></script>
+<script language="javascript" type="text/javascript">
+  // Notice: The simple theme does not use all options some of them are limited to the advanced theme
+  tinyMCE.init({
+    directionality : "ltr",
+    remove_script_host : false,
+    relative_urls : true,
+    mode : "exact",
+    content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
+	extended_valid_elements : "blockquote",
+	theme_advanced_containers_default_align : "left",
+    theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;",
+    //extended_valid_elements : "p[class=smart3],h1[class=smart3],h2[class=smart3],h3[class=smart3],h4[class=smart3],h5[class=smart3],h6[class=smart3],pre[class=smart3],a[class=smart3],br[class=smart3],hr[class=smart3]",
+    elements : "description",
+    theme : "advanced",
+    theme_advanced_toolbar_location : "top",
+    theme_advanced_toolbar_align : "left",   
+    theme_advanced_buttons1 : "textblock,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect",	 
+    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,save",	 
+    theme_advanced_buttons3 : "", 
+    plugins : "textblock,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace"
+    
+  });
+ function insertFile(folder,title,file,id_file)
+{
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="data/user/'+folder+'/'+file+'" name="'+file+'" title="'+title+'">'+title+'</a>');
+}
+function insertFileDesc(desc)
+{
+    tinyMCE.execCommand('mceInsertContent',0,desc);
+}
+function insertImage(controller,path,file,title,id_pic,width,height,jsc)
+{
+	if(jsc==1){
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=userPicture&id_pic='+id_pic+'\','+width+','+height+');"><img src="'+path+file+'" id="'+file+'" title="'+title+'" border="0" /></a>');
+    }
+	else {
+    tinyMCE.execCommand('mceInsertContent',0,'<img src="'+path+file+'" id="'+file+'" title="'+title+'" border="0" width="'+width+'" height="'+height+'" />');	
+	}
+}
+function insertImgDesc(desc)
+{
+    tinyMCE.execCommand('mceInsertContent',0,desc);
+} 
+</script>
 <!-- /tinyMCE -->
 <?php elseif($tpl['format']==1): ?>
 <!-- PEAR text_wikki -->
 <script language="javascript" type="text/javascript" src="./modules/common/media/textarea.js"></script>
-<script language="javascript" type="text/javascript" src="./modules/user/media/text_wikki_func.js"></script>
+<script language="javascript" type="text/javascript" src="./modules/navigation/media/text_wikki_func.js"></script>
 <!-- /PEAR text_wikki -->
 <?php endif; ?>
 <script language="JavaScript" type="text/JavaScript">
@@ -256,7 +299,7 @@ function MM_swapImage() { //v3.0
                         <td colspan="2" class="font12bold"><?php echo $file['file']; ?></td>
                         </tr>
                       <tr>
-                        <td align="right" valign="top"><a href="javascript:insertFile('<?php echo $tpl['user']['media_folder']; ?>','<?php echo $file['file']; ?>','<?php echo $file['id_file']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $file['id_file']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $file['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                        <td align="right" valign="top"><a href="javascript:insertFile('<?php echo $tpl['user']['media_folder']; ?>','<?php if(!empty($file['title'])) echo $file['title']; else echo $file['file']; ?>','<?php echo $file['file']; ?>','<?php echo $file['id_file']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $file['id_file']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $file['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
 						<a href="javascript:deletefile(document.forms['edituser'], <?php echo $file['id_file']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('File<?php echo $file['id_file']; ?>','','modules/common/media/pics/deleteover.png',0)">
 						<img name="File<?php echo $file['id_file']; ?>" src="modules/common/media/pics/delete.png" title="Delete <?php echo $file['file']; ?>" alt="Delete <?php echo $file['file']; ?>" width="30" height="29" border="0"></a>
 						</td>
@@ -268,10 +311,21 @@ function MM_swapImage() { //v3.0
                 </tr>
                 <tr>
                   <input name="fid[]" type="hidden" value="<?php echo $file['id_file']; ?>">
-                  <td align="center" valign="top"> <a href="javascript:insertFileDesc('<?php echo $file['description']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insertfdesc<?php echo $file['id_file']; ?>','','modules/common/media/pics/rewindsover.png',0)">
-				  <img name="Insertfdesc<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewinds.png" title="Insert <?php echo $file['file']; ?> description in cursor text position" alt="Insert <?php echo $file['file']; ?> description in cursor text position" width="21" height="21" border="0"></a>
-                      <textarea name="filedesc[]" cols="20" rows="3" class="font10" title="Picture <?php echo $file['file']; ?> description"><?php echo stripslashes($file['description']); ?></textarea>
-                  </td>
+                  <td align="center" valign="top"> 
+                    <table width="100%" border="0" cellspacing="2" cellpadding="2">
+                      <tr>
+                        <td width="1%" align="left" valign="top" class="font10">Tit</td>
+                        <td width="99%" align="left" valign="top"><input name="filetitle[]" type="text" class="font12" id="filetitle" value="<?php echo $file['title']; ?>" size="25" maxlength="255">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td align="left" valign="top" class="font10"> Desc<br>
+                          <a href="javascript:insertFileDesc('<?php echo $file['description']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insertfdesc<?php echo $file['id_file']; ?>','','modules/common/media/pics/rewindsover.png',0)"> <img name="Insertfdesc<?php echo $file['id_file']; ?>" src="modules/common/media/pics/rewinds.png" title="Insert <?php echo $file['file']; ?> description in cursor text position" alt="Insert <?php echo $file['file']; ?> description in cursor text position" width="21" height="21" border="0"> </a></td>
+                        <td align="left" valign="top"><textarea name="filedesc[]" cols="20" rows="3" class="font12" title="Picture <?php echo $file['file']; ?> description"><?php echo stripslashes($file['description']); ?></textarea>
+                        </td>
+                      </tr>
+                    </table>
+                    </td>
                 </tr>
               </table>
               <hr>
@@ -327,8 +381,10 @@ function MM_swapImage() { //v3.0
                     <td>&nbsp;</td>
                   </tr>
                   <tr>
-                    <td align="right" valign="top"><img src="./data/user/<?php echo $tpl['user']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo $thumb['description']; ?>" title="<?php echo $thumb['file']; ?>" name="<?php echo $thumb['file']; ?>" width="120">
-                   
+                    <td align="right" valign="top">
+					<a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/user/<?php echo $tpl['user']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);">
+					<img src="./data/user/<?php echo $tpl['user']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo $thumb['description']; ?>" name="<?php echo $thumb['file']; ?>" width="120" border="0" title="<?php echo $thumb['file']; ?>">
+                    </a>
 				        </td>
                     <td align="left" valign="top">
 					   <a href="javascript:moveup(document.forms['edituser'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('up<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/upover.png',0)"><img src="./modules/common/media/pics/up.png" title="Move <?php echo $thumb['file']; ?> up" alt="Move <?php echo $thumb['file']; ?> up" name="up<?php echo $thumb['id_pic']; ?>" width="21" height="21" border="0" align="right"></a><br/>
@@ -337,7 +393,7 @@ function MM_swapImage() { //v3.0
                   </tr>
                   <tr>
                     <td align="right" valign="top">
-					<a href="javascript:insertImage('<?php echo $tpl['user']['media_folder']; ?>','<?php echo $thumb['file']; ?>','<?php echo $thumb['id_pic']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
+					<a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/user/<?php echo $tpl['user']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:deletepic(document.forms['edituser'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Image<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/deleteover.png',0)"><img id="Image6" name="Image<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/delete.png" title="Delete <?php echo $thumb['file']; ?>" alt="Delete <?php echo $thumb['file']; ?>" width="30" height="29" border="0"></a></td>
                     <td align="left" valign="top">&nbsp;</td>
                   </tr>
@@ -346,8 +402,19 @@ function MM_swapImage() { //v3.0
               <tr>
 			    <input name="pid[]" type="hidden" value="<?php echo $thumb['id_pic']; ?>">
                 <td align="center" valign="top">
-				<a href="javascript:insertImgDesc('<?php echo $thumb['description']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insertpdesc<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindsover.png',0)"><img name="Insertpdesc<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewinds.png" title="Insert <?php echo $thumb['file']; ?> description in cursor text position" alt="Insert <?php echo $thumb['file']; ?> description in cursor text position" width="21" height="21" border="0"></a>
-				<textarea name="picdesc[]" cols="20" rows="3" class="font10" title="Picture <?php echo $thumb['file']; ?> description"><?php echo stripslashes($thumb['description']); ?></textarea>
+				<table width="100%" border="0" cellspacing="2" cellpadding="2">
+                  <tr>
+                    <td width="1%" align="left" valign="top" class="font10">Tit</td>
+                    <td width="99%" align="left" valign="top"><input name="pictitle[]" type="text" class="font12" id="pictitle" value="<?php echo $thumb['title']; ?>" size="25" maxlength="255">
+                    </td>
+                  </tr>
+                  <tr>
+                    <td align="left" valign="top" class="font10"> desc<br>
+                      <a href="javascript:insertImgDesc('<?php echo $thumb['description']; ?>');" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insertpdesc<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindsover.png',0)"><img name="Insertpdesc<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewinds.png" title="Insert <?php echo $thumb['file']; ?> description in cursor text position" alt="Insert <?php echo $thumb['file']; ?> description in cursor text position" width="21" height="21" border="0"></a>                      </td>
+                    <td align="left" valign="top"><textarea name="picdesc[]" cols="18" rows="3" class="font12" title="Picture <?php echo $thumb['file']; ?> description"><?php echo $thumb['description']; ?></textarea>
+                    </td>
+                  </tr>
+                </table>
              </td>
               </tr>
             </table>

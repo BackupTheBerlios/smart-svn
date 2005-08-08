@@ -1,24 +1,14 @@
-<!-- tinyMCE -->
-<script language="javascript" type="text/javascript" src="./modules/common/media/tiny_mce/tiny_mce.js"></script>
-<script language="javascript" type="text/javascript">
-  // Notice: The simple theme does not use all options some of them are limited to the advanced theme
-  tinyMCE.init({
-    mode : "textareas",
-    theme : "advanced",
-    theme_advanced_toolbar_location : "top",
-    theme_advanced_toolbar_align : "left",    
-    plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu"
-    
-  });
-</script>
-<!-- /tinyMCE -->
 <form name="adduser" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=adduser">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="99%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
-      <?php if($tpl['error'] != FALSE): ?>
+      <?php if(count($tpl['error'])>0): ?>
       <tr>
-        <td align="left" valign="top" class="itemerror"><?php echo $tpl['error']; ?></td>
+        <td align="left" valign="top" class="itemerror">
+		<?php foreach($tpl['error'] as $error): ?>
+		<?php echo $error; ?><br />
+		<?php endforeach; ?>
+		</td>
       </tr>
       <?php endif; ?>
       <tr>
@@ -78,13 +68,6 @@
       <tr>
         <td align="left" valign="top"><input name="email" type="text" id="passwd" size="40" maxlength="255" value="<?php echo $tpl['form_email']; ?>"> 
         *</td>
-      </tr>   
-      <tr>
-        <td align="left" valign="top" class="font10bold">Description</td>
-      </tr>
-      <tr>
-        <td align="left" valign="top"><textarea name="description" rows="15"  cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $tpl['form_description']; ?></textarea> 
-        </td>
       </tr>       
       <tr>
         <td align="left" valign="top"><input name="addthisuser" type="submit" id="addthisuser" value="Submit"></td>

@@ -49,7 +49,7 @@ class ViewUserLogin extends SmartView
                               array( 'captcha_pic' => &$this->tplVar['captcha_pic'],
                                      'public_key'  => &$this->tplVar['public_key'],
                                      'configPath'  => &$this->config['config_path']));
-                            
+                     
         // Check login data
         if(isset($_POST['login']))
         {
@@ -66,10 +66,9 @@ class ViewUserLogin extends SmartView
             
             // verify user and password. If those dosent match
             // reload the login page
-            $login = $this->model->action( 'user', 
-                                           'checkLogin',
-                                           array('login'  => $_POST['login_name'],
-                                                 'passwd' => $_POST['password']));
+            $login = $this->model->action( 'user','checkLogin',
+                                           array('login'  => (string)$_POST['login_name'],
+                                                 'passwd' => (string)$_POST['password']));
             
             // If login was successfull reload the admin section
             if($login == TRUE)

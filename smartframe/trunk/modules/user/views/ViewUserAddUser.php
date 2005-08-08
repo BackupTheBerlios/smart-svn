@@ -49,7 +49,7 @@ class ViewUserAddUser extends SmartView
     function perform()
     { 
         // Init template form field values
-        $this->tplVar['error']            = FALSE;
+        $this->tplVar['error']            = array();
         $this->tplVar['form_email']       = '';
         $this->tplVar['form_status']      = 0;
         $this->tplVar['form_login']       = '';
@@ -66,7 +66,7 @@ class ViewUserAddUser extends SmartView
             if(FALSE == $this->checkAssignedPermission( (int)$_POST['role'] ))
             {
                 $this->resetFormData();
-                $this->tplVar['error'] = 'You have no rights to assign the such role to a new user!';
+                $this->tplVar['error'][] = 'You have no rights to assign the such role to a new user!';
                 $this->assignHtmlSelectBoxRole();
                 return TRUE;
             }
@@ -76,29 +76,26 @@ class ViewUserAddUser extends SmartView
             {
                 // reset form fields on error
                 $this->resetFormData();
-                $this->tplVar['error'] = 'You have fill out the login, name, lastname, email and password fields!';
+                $this->tplVar['error'][] = 'You have fill out the login, name, lastname, email and password fields!';
                 $this->assignHtmlSelectBoxRole();
                 return TRUE;
             }            
 
             // array with new user data
             $_data = array( 'error'     => & $this->tplVar['error'],
-                            'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
-                                            'status'   => $_POST['status'],
-                                            'role'     => (int)SmartCommonUtil::stripSlashes($_POST['role']),
-                                            'login'    => SmartCommonUtil::stripSlashes($_POST['login']),
-                                            'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
-                                            'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
-                                            'passwd'   => SmartCommonUtil::stripSlashes($_POST['passwd']),
-                                            'description' => SmartCommonUtil::stripSlashes($_POST['description']) ));
+                            'user' => array('email'    => SmartCommonUtil::stripSlashes((string)$_POST['email']),
+                                            'status'   => (int)$_POST['status'],
+                                            'role'     => (int)$_POST['role'],
+                                            'login'    => SmartCommonUtil::stripSlashes((string)$_POST['login']),
+                                            'name'     => SmartCommonUtil::stripSlashes((string)$_POST['name']),
+                                            'lastname' => SmartCommonUtil::stripSlashes((string)$_POST['lastname']),
+                                            'passwd'   => SmartCommonUtil::stripSlashes((string)$_POST['passwd']) ));
              
             // add new user data
-            if(TRUE == $this->model->action( 'user',
-                                             'add',
-                                             $_data ))
+            if(FALSE !== ($id_user = $this->model->action( 'user','add',$_data )))
             {
                 // reload the user module on success
-                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user');
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user&view=edituser&id_user='.$id_user);
                 exit; 
             }
             else
@@ -200,7 +197,6 @@ class ViewUserAddUser extends SmartView
         $this->tplVar['form_email']    = SmartCommonUtil::stripSlashes($_POST['email']);
         $this->tplVar['form_name']     = SmartCommonUtil::stripSlashes($_POST['name']);
         $this->tplVar['form_lastname'] = SmartCommonUtil::stripSlashes($_POST['lastname']);
-        $this->tplVar['form_description'] = SmartCommonUtil::stripSlashes($_POST['description']);
         $this->tplVar['form_login']    = SmartCommonUtil::stripSlashes($_POST['login']);
         $this->tplVar['form_passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']);          
     }       

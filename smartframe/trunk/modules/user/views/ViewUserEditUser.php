@@ -110,6 +110,9 @@ class ViewUserEditUser extends SmartView
                                                       'file',
                                                       'size',
                                                       'mime',
+                                                      'height',
+                                                      'width',
+                                                      'title',
                                                       'description')) );
 
         // convert description field to safely include into javascript function call
@@ -131,6 +134,7 @@ class ViewUserEditUser extends SmartView
                                                       'file',
                                                       'size',
                                                       'mime',
+                                                      'title',
                                                       'description')) );
 
         // convert files description field to safely include into javascript function call
@@ -288,19 +292,21 @@ class ViewUserEditUser extends SmartView
         // update picture descriptions if there images
         if(isset($_POST['pid']))
         {
-            $this->model->action( 'user','updateItemDescriptions',
-                                  array('id_user' => $_REQUEST['id_user'],
-                                        'pid'     => &$_POST['pid'],
-                                        'desc'    => &$_POST['picdesc']));
+            $this->model->action( 'user','updateItem',
+                                  array('item'    => 'pic',
+                                        'ids'     => &$_POST['pid'],
+                                        'fields'  => array('description' => &$_POST['picdesc'],
+                                                           'title'       => &$_POST['pictitle'])));
         }        
 
         // update file descriptions if there file attachments
         if(isset($_POST['fid']))
         {
-            $this->model->action( 'user','updateItemDescriptions',
-                                  array('id_user' => $_REQUEST['id_user'],
-                                        'fid'     => &$_POST['fid'],
-                                        'desc'    => &$_POST['filedesc']));
+            $this->model->action( 'user','updateItem',
+                                  array('item'    => 'file',
+                                        'ids'     => &$_POST['fid'],
+                                        'fields'  => array('description' => &$_POST['filedesc'],
+                                                           'title'       => &$_POST['filetitle'])));
         }  
         
         // check if required fields are empty
