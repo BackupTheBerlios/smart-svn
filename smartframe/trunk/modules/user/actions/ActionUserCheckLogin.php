@@ -15,8 +15,8 @@
  * USAGE:
  *
  * $is_login_ok = $model->action('user','checkLogin',
- *                               array('login'  => string,   // <= 50 chars
- *                                     'passwd' => string))  // <= 50 chars
+ *                               array('login'  => string,   // [a-zA-Z0-9_-] <= 50 chars
+ *                                     'passwd' => string))  // [a-zA-Z0-9_-] <= 50 chars
  *
  * return TRUE or FALSE
  * if TRUE this action sets 2 session variables:
@@ -80,9 +80,9 @@ class ActionUserCheckLogin extends SmartAction
     {
         if(!is_string($data['login']))
         {
-            return FALSE;
+            throw new SmartModelException("'login' isnt from type string!");
         }
-        elseif( @preg_match("/[^a-zA-Z0-9_-]/", $data['login']) )
+        elseif( preg_match("/[^a-zA-Z0-9_-]/", $data['login']) )
         { 
             return FALSE;        
         }
@@ -93,9 +93,9 @@ class ActionUserCheckLogin extends SmartAction
 
         if(!is_string($data['passwd']))
         {
-            return FALSE;
+            throw new SmartModelException("'passwd' isnt from type string!");
         }        
-        elseif( @preg_match("/[^a-zA-Z0-9_-]/", $data['passwd']) )
+        elseif( preg_match("/[^a-zA-Z0-9_-]/", $data['passwd']) )
         {
             return FALSE;        
         }  

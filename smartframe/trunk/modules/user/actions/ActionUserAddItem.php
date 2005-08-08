@@ -144,6 +144,18 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         $image_source = SMART_BASE_DIR . "data/user/" . $media_folder . '/' . $file_info['file_name'];
         $image_dest_folder   = SMART_BASE_DIR . "data/user/" . $media_folder . '/thumb';
         
+        // get image width and height
+        if(FALSE !== ($info = getimagesize( $image_source )))
+        {
+            $img_width  = $info[0];
+            $img_height = $info[1];
+        }
+        else
+        {
+            $img_width  = 0;
+            $img_height = 0;
+        }
+
         $pic_info = array();
         
         $this->model->action('common','imageThumb',
@@ -156,13 +168,15 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         $rank = $this->getNewLastRank( $data['id_user'], 'user_media_pic' );
                 
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_media_pic
-                   (id_user,rank,file,size,mime)
+                   (id_user,rank,file,size,mime,height,width)
                   VALUES
                    ({$data['id_user']},
                     {$rank},
                     '{$file_info['file_name']}',
                     {$pic_info['size']},
-                    '{$pic_info['mime']}' )";
+                    '{$pic_info['mime']}',
+                    '{$img_height}',
+                    '{$img_width}')";
 
         $this->model->dba->query($sql);                                       
     }

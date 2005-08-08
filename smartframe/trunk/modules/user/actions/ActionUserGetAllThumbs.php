@@ -19,8 +19,11 @@ class ActionUserGetAllThumbs extends SmartAction
     private $tblFields_pic = array('id_pic' => TRUE,
                                    'rank'   => TRUE,
                                    'file'   => TRUE,
+                                   'title'  => TRUE,
                                    'description' => TRUE,
                                    'mime'   => TRUE,
+                                   'height' => TRUE,
+                                   'width'  => TRUE,
                                    'size'   => TRUE);
     /**
      * get data of all users

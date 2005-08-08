@@ -11,6 +11,19 @@
 
 /**
  * ActionUserAdd class 
+ * 
+ * USAGE:
+ * 
+ * $model->action('user','add',
+ *                array('error' => & array(),
+ *                      'user'  => array('login'   => string,
+ *                                       'passwd'  => string,
+ *                                       'status'  => int,
+ *                                       'role'    => int,
+ *                                       'name'    => string,
+ *                                       'lastname => string,
+ *                                       'email'   => string
+ *                                       )))
  *
  */
 
@@ -49,13 +62,14 @@ class ActionUserAdd extends ActionUser
         
         foreach($data['user'] as $key => $val)
         {
+            // set field type
             $methode = 'set'.$this->tblFields_user[$key];
+            // add value
             $stmt->$methode($val);
         }
-       
         $stmt->execute();
-       
-        return TRUE;
+        // return user id
+        return $this->model->dba->lastInsertID();
     }
     
     /**
@@ -74,122 +88,139 @@ class ActionUserAdd extends ActionUser
                 throw new SmartModelException("Field '".$key."' dosent exists!");
             }
         }
+
+        if(!isset($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt set!");
+        }
+        elseif(!is_array($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt from type array!");
+        }
+        
+        // reset error array
+        $data['error'] = array();
         
         // Check user data field values
         //
-        if(empty($data['user']['login']))
+        if(!is_string($data['user']['login']))
         {
-            $data['error'] = 'Login is empty';
-            return FALSE;        
+            throw new SmartModelException("'login' isnt from type string!");
+        }
+        elseif(empty($data['user']['login']))
+        {
+            $data['error'][] = 'Login is empty';      
         }
         
-        if(empty($data['user']['passwd']))
+        if(!is_string($data['user']['passwd']))
         {
-            $data['error'] = 'Password is empty';
-            return FALSE;         
+            throw new SmartModelException("'passwd' isnt from type string!");
+        }
+        elseif(empty($data['user']['passwd']))
+        {
+            $data['error'][] = 'Password is empty';       
         }   
 
         $str_len = strlen( $data['user']['login'] );
         if( ($str_len < 3) || ($str_len > 20) )
         {
-            $data['error'] = 'Only 3-20 login chars are accepted.';
-            return FALSE;       
+            $data['error'][] = 'Only 3-20 login chars are accepted.';     
         }
 
         $str_len = strlen( $data['user']['passwd'] );
         if( ($str_len < 3) || ($str_len > 20) )
         {
-            $data['error'] = 'Only 3-20 password chars are accepted.';
-            return FALSE;       
+            $data['error'][] = 'Only 3-20 password chars are accepted.';     
         }
         
         if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user']['login']) )
         {
-            $data['error'] = 'Login entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';
-            return FALSE;         
+            $data['error'][] = 'Login entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';       
         }  
         
         if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user']['passwd']) )
         {
-            $data['error'] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';
-            return FALSE;         
+            $data['error'][] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';       
         }        
-    
-        if(empty($data['user']['name']))
+
+        if(!is_string($data['user']['name']))
         {
-            $data['error'] = 'Name is empty';
-            return FALSE;         
+            throw new SmartModelException("'name' isnt from type string!");
+        }    
+        elseif(empty($data['user']['name']))
+        {
+            $data['error'][] = 'Name is empty';       
         }
 
         $str_len = strlen( $data['user']['name'] );
         if( $str_len > 30 )
         {
-            $data['error'] = 'Max 30 Name chars are accepted.';
-            return FALSE;         
+            $data['error'][] = 'Max 30 Name chars are accepted.';       
         }
-        
-        if(empty($data['user']['lastname']))
+
+        if(!is_string($data['user']['lastname']))
         {
-            $data['error'] = 'Lastname is empty';
-            return FALSE;         
+            throw new SmartModelException("'lastname' isnt from type string!");
+        }            
+        elseif(empty($data['user']['lastname']))
+        {
+            $data['error'][] = 'Lastname is empty';       
         } 
 
         $str_len = strlen( $data['user']['lastname'] );
         if( $str_len > 30 )
         {
-            $data['error'] = 'Max 30 lastname chars are accepted.';
-            return FALSE;        
+            $data['error'][] = 'Max 30 lastname chars are accepted.';      
         }
 
-        if( empty($data['user']['email']) )
+        if(!is_string($data['user']['email']))
         {
-            $data['error'] = 'Email entry is empty!';
-            return FALSE;        
+            throw new SmartModelException("'email' isnt from type string!");
+        }    
+        elseif( empty($data['user']['email']) )
+        {
+            $data['error'][] = 'Email entry is empty!';      
         } 
 
         $str_len = strlen( $data['user']['email'] );
         if( $str_len > 500 )
         {
-            $data['error'] = 'Max 500 email chars are accepted.';
-            return FALSE;         
+            $data['error'][] = 'Max 500 email chars are accepted.';       
         }
 
         if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['user']['email']) )
         {
-            $data['error'] = 'Email entry is not correct!';
-            return FALSE;        
+            $data['error'][] = 'Email format is not correct!';      
         } 
-        
-        if(!preg_match("/1|2/",$data['user']['status']))
+
+        if(!is_int($data['user']['status']))
         {
-            $data['error'] = 'Status value must be 1 or 2';
-            return FALSE;         
-        } 
-        
-        if( ($data['user']['status'] < 0) || ($data['user']['status'] > 2) )
+            throw new SmartModelException("'status' isnt from type int!");
+        }            
+        elseif( ($data['user']['status'] <= 0) || ($data['user']['status'] > 2) )
         {
-            $data['error'] = 'Status value must be between 0 an 2';
-            return FALSE;        
+            $data['error'][] = 'Status value must be 1 or 2';      
         }         
         
-        if(!preg_match("/[0-9]*/",$data['user']['role']))
+        if(!is_int($data['user']['role']))
         {
-            $data['error'] = 'Rights value must an int';
-            return FALSE;        
-        }        
-
-        if( ($data['user']['role'] < 10) || ($data['user']['role'] > 100) )
+            throw new SmartModelException("'role' isnt from type int!");
+        }    
+        elseif( ($data['user']['role'] < 0) || ($data['user']['role'] > 250) )
         {
-            $data['error'] = 'Rights value must be between 10 an 100';
-            return FALSE;        
-        } 
+            $data['error'][] = 'Role value must be between 0 and 250';      
+        }                 
     
         // Check if login exists
         if($this->loginExists($data['user']['login']) > 0)
         {
-            $data['error'] = 'Login exists';
-            return FALSE;
+            $data['error'][] = 'Login exists';
         }    
+        
+        if( count($data['error']) > 0 )
+        {
+            return FALSE;
+        }
         
         return TRUE;
     }
