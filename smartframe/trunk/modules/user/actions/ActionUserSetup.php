@@ -70,8 +70,11 @@ class ActionUserSetup extends SmartAction
                    `file`         varchar(255) NOT NULL default '',
                    `size`         int(11) unsigned NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
+                   `width`        smallint(4) unsigned NOT NULL default 0,
+                   `height`       smallint(4) unsigned NOT NULL default 0,
                    `rank`         smallint(4) unsigned NOT NULL default 0,
                    `tumbnail`     tinyint(1) NOT NULL default 0,
+                   `title`        text NOT NULL default '',
                    `description`  text NOT NULL default '',
                    PRIMARY KEY     (`id_pic`),
                    KEY (`id_user`,`rank`))";
@@ -84,6 +87,7 @@ class ActionUserSetup extends SmartAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
+                   `title`        text NOT NULL default '',
                    `description`  text NOT NULL default '',
                    PRIMARY KEY     (`id_file`),
                    KEY `id_user`   (`id_user`,`rank`))";
