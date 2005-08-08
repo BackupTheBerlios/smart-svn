@@ -12,6 +12,16 @@
 /**
  * ActionUserGetUsers class 
  *
+ * USAGE:
+ * $model->action('user','getUser',
+ *                array('id_user' => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_user','login','role',
+ *                                         'status','lock','lock_time',
+ *                                         'access','passwd,'name',
+ *                                         'lastname','email','description',
+ *                                         'format','logo','media_folder')))
+ *
  */
 
 include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUser.php');
@@ -19,12 +29,11 @@ include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUser.php');
 class ActionUserGetUser extends ActionUser
 {
     /**
-     * update user data
+     * get user data
      *
      * @param array $data
-     * @return bool true or false on error
      */
-    function perform( $data = FALSE )
+    public function perform( $data = FALSE )
     {
         $comma = '';
         $_fields = '';
@@ -45,8 +54,6 @@ class ActionUserGetUser extends ActionUser
         $rs = $this->model->dba->query($sql);
         
         $row = $rs->fetchAssoc();
-
-        $data['result'] = array();
 
         foreach ($data['fields'] as $f)
         {
@@ -71,9 +78,23 @@ class ActionUserGetUser extends ActionUser
             }
         }
 
-        if(preg_match("/[^0-9]/",$data['id_user']))
+        if(!isset($data['result']))
         {
-            throw new SmartModelException('Wrong id_user format: '.$id_user);        
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
+        if(!isset($data['id_user']))
+        {
+            throw new SmartModelException("No 'id_user' defined");
+        }
+
+        if(!is_int($data['id_user']))
+        {
+            throw new SmartModelException("'id_user' isnt numeric");
         }
         
         return TRUE;

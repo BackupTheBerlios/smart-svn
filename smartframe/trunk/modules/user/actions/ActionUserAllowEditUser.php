@@ -12,6 +12,11 @@
 /**
  * ActionUserAllowEditUser class 
  *
+  * USAGE:
+  * 
+  * $model->action('user','allowEditUser',
+  *                array('id_user'  => int))
+  *
  */
  
 class ActionUserAllowEditUser extends SmartAction
@@ -40,7 +45,7 @@ class ActionUserAllowEditUser extends SmartAction
         $stmt = $this->model->dba->prepare($sql);
         $stmt->setInt($data['id_user']);
         
-        $role = 0;
+        $role = FALSE;
         $stmt->bindResult( array(&$role) ); 
         
         $stmt->execute();
@@ -68,7 +73,7 @@ class ActionUserAllowEditUser extends SmartAction
      */    
     function validate( $data = FALSE )
     {
-        if( @preg_match("/[^0-9]/", $data['id_user']) )
+        if( !isset($data['id_user']) || !is_int($data['id_user']) )
         {
             return FALSE;        
         }

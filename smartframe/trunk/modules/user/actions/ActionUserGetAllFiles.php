@@ -12,10 +12,21 @@
 /**
  * ActionUserGetAllFiles class 
  *
+ *
+ * USAGE:
+ *
+ * $model->action('user','getAllFiles',
+ *                array('id_user' => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_file','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size')))
+ *
  */
  
 class ActionUserGetAllFiles extends SmartAction
 {
+    // allowed fields
     private $tblFields_pic = array('id_file' => TRUE,
                                    'rank'   => TRUE,
                                    'file'   => TRUE,
@@ -24,7 +35,7 @@ class ActionUserGetAllFiles extends SmartAction
                                    'mime'   => TRUE,
                                    'size'   => TRUE);
     /**
-     * get data of all users
+     * get file data from an users
      *
      * @param array $data
      */
@@ -44,7 +55,7 @@ class ActionUserGetAllFiles extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}user_media_file
             WHERE
-                (`id_user`= {$data['id_user']})
+                (`id_user`={$data['id_user']})
             ORDER BY
                 `rank` ASC";
 
@@ -70,9 +81,23 @@ class ActionUserGetAllFiles extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
         if(!isset($data['id_user']))
         {
             throw new SmartModelException("No 'id_user' defined");
+        }
+
+        if(!is_int($data['id_user']))
+        {
+            throw new SmartModelException("'id_user' isnt from type int");
         }
 
         return TRUE;

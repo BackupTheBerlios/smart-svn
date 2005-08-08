@@ -12,6 +12,11 @@
 /**
  * ActionUserDelete class 
  *
+ * USAGE:
+ *
+ * $model->action('user','delete',
+ *                array('id_user'  => int))
+ * 
  */
  
 class ActionUserDelete extends SmartAction
@@ -83,7 +88,7 @@ class ActionUserDelete extends SmartAction
     function validate( $data = FALSE )
     {
         // Check if id_user exists
-        if(preg_match("/[^0-9]/", $data['id_user']))
+        if(!is_int($data['id_user']))
         {
             throw new SmartModelException('var id_user has wrong format');
         }  

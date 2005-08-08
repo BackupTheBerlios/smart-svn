@@ -12,6 +12,12 @@
 /**
  * ActionUserDeleteLogo class 
  *
+ *
+ * USAGE:
+ * 
+ * $model->action('user','deleteLogo',
+ *                array('id_user' => int))
+ * 
  */
 
 class ActionUserDeleteLogo extends SmartAction
@@ -32,7 +38,7 @@ class ActionUserDeleteLogo extends SmartAction
         $this->model->action('user',
                              'getUser',
                              array('result'  => & $_file,
-                                   'id_user' => $data['id_user'],
+                                   'id_user' => (int)$data['id_user'],
                                    'fields'  => array('logo','media_folder')));   
 
         if(!@unlink(SMART_BASE_DIR . 'data/user/'.$_file['media_folder'].'/'.$_file['logo']))
@@ -43,7 +49,7 @@ class ActionUserDeleteLogo extends SmartAction
         $this->model->action('user',
                              'update',
                              array('error'   => & $data['error'],
-                                   'id_user' => $data['id_user'],
+                                   'id_user' => (int)$data['id_user'],
                                    'user'    => array('logo' => '')));
         
         return TRUE;
@@ -57,14 +63,14 @@ class ActionUserDeleteLogo extends SmartAction
      */    
     public function validate(  $data = FALSE  )
     {
-        if(preg_match("/[^0-9]/",$data['id_user']))
+        if(!is_int($data['id_user']))
         {
-            throw new SmartModelException('Wrong id_user format: '.$id_user);        
+            throw new SmartModelException('Wrong "id_user" format: ');        
         }
         
         if(FALSE == $this->userExists( $data['id_user'] ))
         {
-            throw new SmartModelException('id_user dosent exists: '.$id_user);  
+            throw new SmartModelException('id_user dosent exists: '.$data['id_user']);  
         }
         
         return TRUE;
@@ -76,7 +82,7 @@ class ActionUserDeleteLogo extends SmartAction
      * @param int $id_user User id
      * @return bool
      */    
-    function userExists( $id_user )
+    private function userExists( $id_user )
     {  
         $sql = "
             SELECT

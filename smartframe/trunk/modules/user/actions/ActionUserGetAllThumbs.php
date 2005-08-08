@@ -12,10 +12,20 @@
 /**
  * ActionUserGetUsers class 
  *
+ * USAGE:
+ *
+ * $model->action('user','getAllThumbs',
+ *                array('id_user' => int, 
+ *                      'result'  => & array,
+ *                      'fields'  => array('id_pic','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size','height','width')))
+ *
  */
  
 class ActionUserGetAllThumbs extends SmartAction
 {
+    // allowed fields
     private $tblFields_pic = array('id_pic' => TRUE,
                                    'rank'   => TRUE,
                                    'file'   => TRUE,
@@ -26,7 +36,7 @@ class ActionUserGetAllThumbs extends SmartAction
                                    'width'  => TRUE,
                                    'size'   => TRUE);
     /**
-     * get data of all users
+     * get thumbnails picture data of an user
      *
      * @param array $data
      */
@@ -46,7 +56,7 @@ class ActionUserGetAllThumbs extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}user_media_pic
             WHERE
-                (`id_user`= {$data['id_user']})
+                (`id_user`={$data['id_user']})
             ORDER BY
                 `rank` ASC";
 
@@ -72,9 +82,23 @@ class ActionUserGetAllThumbs extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+        
         if(!isset($data['id_user']))
         {
             throw new SmartModelException("No 'id_user' defined");
+        }
+
+        if(!is_int($data['id_user']))
+        {
+            throw new SmartModelException("'id_user' isnt from type int");
         }
 
         return TRUE;

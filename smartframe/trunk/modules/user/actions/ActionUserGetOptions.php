@@ -12,6 +12,12 @@
 /**
  * ActionUserGetOptions class 
  *
+ *
+ * USAGE:
+ *
+ * $model->action('user','getOptions',
+ *                array('result' => & array()))
+ *
  */
  
 class ActionUserGetOptions extends SmartAction
@@ -31,8 +37,6 @@ class ActionUserGetOptions extends SmartAction
 
         $rs = $this->model->dba->query($sql);
         
-        $data['result'] = array();
-        
         $data['result'] = $rs->fetchAssoc();
         
         return TRUE;
@@ -44,7 +48,10 @@ class ActionUserGetOptions extends SmartAction
         {
             throw new SmartModelException("No 'result' defined");
         }
-
+        if(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
         return TRUE;
     }
 }

@@ -11,6 +11,13 @@
 
 /**
  * ActionUserAddItem class 
+ * USAGE:
+ * 
+ * $model->action('user','addItem',
+ *                array('error' => & array(),
+ *                      'item'  => string,      // 'picture' or 'file'
+ *                      'postName' => string,   // $_FILES[$data['postName']]
+ *                      'id_user'  => int))
  *
  */
 include_once(SMART_BASE_DIR . 'modules/user/includes/ActionUserFileUploadBase.php');
@@ -23,7 +30,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
      * @param array $data
      * @return int user id or false on error
      */
-    function perform( $data = FALSE )
+    public function perform( $data = FALSE )
     { 
         $media_folder = $this->getUserMediaFolder( $data['id_user'] );
         
@@ -34,14 +41,16 @@ class ActionUserAddItem extends ActionUserFileUploadBase
             throw new SmartModelException ('Cant upload file');   
         }
         
-        // set table name and item reference
-        if($data['item'] == 'picture')
+        switch($data['item'])
         {
-            $this->addPicture($data, $media_folder, $file_info);
-        }
-        else
-        {
-            $this->addFile($data, $media_folder, $file_info);
+            case 'picture':
+                $this->addPicture($data, $media_folder, $file_info);
+                break;
+            case 'file':
+                $this->addFile($data, $media_folder, $file_info);
+                break;
+            default:
+                throw new SmartModelException("Unknown 'item' :".$data['item']);
         }
         
         return TRUE;
@@ -53,8 +62,17 @@ class ActionUserAddItem extends ActionUserFileUploadBase
      * @param array $data User data
      * @return bool 
      */    
-    function validate( $data = FALSE )
+    public function validate( $data = FALSE )
     {
+        if(!isset($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt set!");
+        }
+        elseif(!is_array($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt from type array!");
+        }
+        
         // check if user exists
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
@@ -78,18 +96,18 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         {
             throw new SmartModelException("No 'id_user' defined");
         }
-        elseif(preg_match("/[^0-9]/",$data['id_user']))
+        elseif(!is_int($data['id_user']))
         {
             throw new SmartModelException("'id_user' isnt numeric");
         }  
         elseif(($data['item'] == 'file') && ($this->config['user']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
-            $data['error'] = "Max file size allowed: {$this->config['user']['file_size_max']} bytes";
+            $data['error'][] = "Max file size allowed: {$this->config['user']['file_size_max']} bytes";
             return FALSE;
         }
         elseif(($data['item'] == 'picture') && ($this->config['user']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
-            $data['error'] = "Max picture size allowed: {$this->config['user']['img_size_max']} bytes";
+            $data['error'][] = "Max picture size allowed: {$this->config['user']['img_size_max']} bytes";
             return FALSE;
         }
         
@@ -187,7 +205,7 @@ class ActionUserAddItem extends ActionUserFileUploadBase
      * @param int $id_user User ID
      * @return int Rank number
      */    
-    function getNewLastRank( $id_user, $table )
+    private function getNewLastRank( $id_user, $table )
     {
         $sql = "
             SELECT

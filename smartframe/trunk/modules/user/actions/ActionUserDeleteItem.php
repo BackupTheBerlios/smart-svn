@@ -12,6 +12,12 @@
 /**
  * ActionUserDeleteItem class 
  *
+ * USAGE:
+ *
+ * $model->action('user','deleteItem',
+ *                array('id_pic'  => int, // one of both param
+ *                      'id_file' => int))
+ * 
  */
 
 class ActionUserDeleteItem extends SmartAction
@@ -24,14 +30,17 @@ class ActionUserDeleteItem extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        // set table name and item reference
         if(isset($data['id_file']))
         {
             $this->deleteFile($data);
         }
-        else
+        elseif(isset($data['id_file'])
         {
             $this->deletePicture($data);
+        }
+        else
+        {
+            throw new SmartModelException("No 'id_file' or 'id_pic'");
         }
         
         $this->removeEmptyDirectory();
@@ -52,14 +61,13 @@ class ActionUserDeleteItem extends SmartAction
             throw new SmartModelException("No 'id_pic' or 'id_file' defined");
         }
 
-        if(isset($data['id_pic']) && preg_match("/[^0-9]/",$data['id_pic']))
+        if(isset($data['id_pic']) && !is_int($data['id_pic']))
         {
-            throw new SmartModelException("'id_pic' isnt numeric");
+            throw new SmartModelException("'id_pic' isnt from type int");
         }
-        
-        if(isset($data['id_file']) && preg_match("/[^0-9]/",$data['id_file']))
+        elseif(isset($data['id_file']) && !is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt numeric");
+            throw new SmartModelException("'id_file' isnt from type int");
         }        
         return TRUE;
     } 
@@ -67,16 +75,14 @@ class ActionUserDeleteItem extends SmartAction
      * delete a picture
      *
      * @param array $data
-     * @return bool
      */     
     private function deletePicture( &$data )
     {
         $pic = array();
 
-        $this->model->action('user',
-                             'getPicture',
+        $this->model->action('user','getPicture',
                              array('result' => & $pic,
-                                   'id_pic' => $data['id_pic'],
+                                   'id_pic' => (int)$data['id_pic'],
                                    'fields' => array('file','id_user')));   
 
         $user = array();
@@ -84,7 +90,7 @@ class ActionUserDeleteItem extends SmartAction
         $this->model->action('user',
                              'getUser',
                              array('result'  => & $user,
-                                   'id_user' => $pic['id_user'],
+                                   'id_user' => (int)$pic['id_user'],
                                    'fields'  => array('media_folder')));   
 
         $this->idUser = $pic['id_user'];
@@ -102,14 +108,13 @@ class ActionUserDeleteItem extends SmartAction
         $this->model->action('user',
                              'updatePicture',
                              array('action'  => 'delete',
-                                   'id_pic'  => $data['id_pic'],
-                                   'id_user' => $pic['id_user']));    
+                                   'id_pic'  => (int)$data['id_pic'],
+                                   'id_user' => (int)$pic['id_user']));    
     }  
     /**
      * delete a file
      *
      * @param array $data
-     * @return bool
      */      
     private function deleteFile( &$data )
     {
@@ -118,7 +123,7 @@ class ActionUserDeleteItem extends SmartAction
         $this->model->action('user',
                              'getFile',
                              array('result' => & $file,
-                                   'id_file' => $data['id_file'],
+                                   'id_file' => (int)$data['id_file'],
                                    'fields'  => array('file','id_user')));   
 
         $user = array();
@@ -126,7 +131,7 @@ class ActionUserDeleteItem extends SmartAction
         $this->model->action('user',
                              'getUser',
                              array('result'  => & $user,
-                                   'id_user' => $file['id_user'],
+                                   'id_user' => (int)$file['id_user'],
                                    'fields'  => array('media_folder')));   
 
         $this->idUser = $file['id_user'];
@@ -140,8 +145,8 @@ class ActionUserDeleteItem extends SmartAction
         $this->model->action('user',
                              'updateFile',
                              array('action'  => 'delete',
-                                   'id_file' => $data['id_file'],
-                                   'id_user' => $file['id_user']));    
+                                   'id_file' => (int)$data['id_file'],
+                                   'id_user' => (int)$file['id_user']));    
     }
     /**
      * remove empty user directory
@@ -158,7 +163,7 @@ class ActionUserDeleteItem extends SmartAction
             SmartCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
             $this->model->action( 'user','update',
-                                  array('id_user' => $this->idUser,
+                                  array('id_user' => (int)$this->idUser,
                                         'user' => array('media_folder' => '')) );
         }
     }

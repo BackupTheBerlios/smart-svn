@@ -12,6 +12,16 @@
 /**
  * ActionUserGetUsers class 
  *
+ *
+ * USAGE:
+ *
+ * $model->action('user','getPicture',
+ *                array('id_pic' => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_pic','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size')))
+ *
  */
  
 class ActionUserGetPicture extends SmartAction
@@ -20,9 +30,12 @@ class ActionUserGetPicture extends SmartAction
                                    'id_pic' => TRUE,
                                    'rank'   => TRUE,
                                    'file'   => TRUE,
+                                   'title'  => TRUE,
                                    'description' => TRUE,
                                    'mime'   => TRUE,
-                                   'size'   => TRUE);
+                                   'size'   => TRUE,
+                                   'height' => TRUE,
+                                   'width'  => TRUE);
     /**
      * get data of all users
      *
@@ -48,8 +61,6 @@ class ActionUserGetPicture extends SmartAction
 
         $rs = $this->model->dba->query($sql);
         
-        $data['result'] = array();
-        
         $data['result'] = $rs->fetchAssoc();
         
         return TRUE;
@@ -65,12 +76,21 @@ class ActionUserGetPicture extends SmartAction
             }
         }
 
-        if(!isset($data['id_pic']))
+        if(!isset($data['result']))
         {
-            throw new SmartModelException("No 'id_user' defined");
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_pic']))
+        if(!isset($data['id_pic']))
+        {
+            throw new SmartModelException("No 'id_pic' defined");
+        }
+
+        if(!is_int($data['id_pic']))
         {
             throw new SmartModelException("'id_pic' isnt numeric");
         }

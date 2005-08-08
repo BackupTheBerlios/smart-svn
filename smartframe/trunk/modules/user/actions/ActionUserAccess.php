@@ -19,31 +19,31 @@
  *
  * ** Update/Insert time of a given user **
  * $model->action('user','access',
- *                array('job'    => (string)'update',
- *                      'id_user => (int)user ID ));
+ *                array('job'    => string,          // value: 'update'
+ *                      'id_user => int ));
  *
  * ** Get last access time of a given user **
  *
- * $model->action('user','access',
- *                array('job'    => (string)'last',
- *                      'id_user => (int)user ID )); 
+ * $t = $model->action('user','access',
+ *                     array('job'    => string,  // value: 'last'
+ *                           'id_user => int )); 
  *
  * Return: 1. FALSE if no user 
  *         2. Time (0000-00-00 00:00:00)
  * 
  * ** Get last x access times **
  *
- * $model->action('user','access',
- *                array('job' => (string)'last_x',
- *                      'num' => (int)number of last accesses));  
+ * $t = $model->action('user','access',
+ *                     array('job' => string,     // value: 'last_x'
+ *                           'num' => int));      // number of last accesses
  *
  * Return: 1. array[]['access']
  *                   ['id_user']
  *
  * ** Get all access times **
  *
- * $model->action('user','access',
- *                array('job' => (string)'all'));  
+ * $t = $model->action('user','access',
+ *                     array('job' => string));  // value: 'all'
  *
  * Return: 1. array[]['access']
  *                   ['id_user']
@@ -51,15 +51,15 @@
  * ** Remove a user from the last access list **
  *
  * $model->action('user','access',
- *                array('job'     => (string)'delete',
- *                      'id_user' => (int)user ID));  
+ *                array('job'     => string,    // value: 'delete'
+ *                      'id_user' => int));  
  *
  *
  */
 class ActionUserAccess extends SmartAction
 {
     /**
-     * User lock actions
+     * User time access jobs
      *
      * @param array $data
      */
@@ -94,7 +94,7 @@ class ActionUserAccess extends SmartAction
      */    
     function validate( $data = FALSE )
     {       
-        if(!isset($data['job']) || empty($data['job']))
+        if(!isset($data['job']) || !is_string($data['job']) || empty($data['job']))
         {
             throw new SmartModelException('No [job] defined for this action'); 
         }
@@ -124,7 +124,6 @@ class ActionUserAccess extends SmartAction
                 }
                 break;
             case 'last_x':
-                // id_user must exists to update user last access
                 if( !isset($data['num']) || !is_int($data['num']) )
                 {
                     throw new SmartModelException('"num" action array value isnt set or isnt type int');       

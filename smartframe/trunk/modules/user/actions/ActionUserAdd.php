@@ -97,10 +97,7 @@ class ActionUserAdd extends ActionUser
         {
             throw new SmartModelException("'error' var isnt from type array!");
         }
-        
-        // reset error array
-        $data['error'] = array();
-        
+                
         // Check user data field values
         //
         if(!is_string($data['user']['login']))

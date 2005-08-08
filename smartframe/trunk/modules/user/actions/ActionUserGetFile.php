@@ -10,12 +10,23 @@
 // ----------------------------------------------------------------------
 
 /**
- * ctionUserGetFile class 
+ * ActionUserGetFile class 
+ *
+ *
+ * USAGE:
+ *
+ * $model->action('user','getFile',
+ *                array('id_file' => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_file','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size')))
  *
  */
  
 class ActionUserGetFile extends SmartAction
 {
+    // allowed fields
     private $tblFields_pic = array('id_user' => TRUE,
                                    'id_file' => TRUE,
                                    'rank'   => TRUE,
@@ -44,7 +55,7 @@ class ActionUserGetFile extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}user_media_file
             WHERE
-                `id_file`= {$data['id_file']}";
+                `id_file`={$data['id_file']}";
 
         $rs = $this->model->dba->query($sql);
         
@@ -65,12 +76,21 @@ class ActionUserGetFile extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
         if(!isset($data['id_file']))
         {
             throw new SmartModelException("No 'id_file' defined");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_file']))
+        if(!is_int($data['id_file']))
         {
             throw new SmartModelException("'id_file' isnt numeric");
         }
