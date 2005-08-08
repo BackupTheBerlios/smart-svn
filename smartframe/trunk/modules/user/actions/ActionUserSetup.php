@@ -73,7 +73,6 @@ class ActionUserSetup extends SmartAction
                    `width`        smallint(4) unsigned NOT NULL default 0,
                    `height`       smallint(4) unsigned NOT NULL default 0,
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `tumbnail`     tinyint(1) NOT NULL default 0,
                    `title`        text NOT NULL default '',
                    `description`  text NOT NULL default '',
                    PRIMARY KEY     (`id_pic`),

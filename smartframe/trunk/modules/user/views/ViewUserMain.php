@@ -42,14 +42,11 @@ class ViewUserMain extends SmartView
                              'getUsers',
                              array('result'         => & $this->tplVar['users'],
                                    'translate_role' => TRUE,
-                                   'and_id_user'    => $this->viewVar['loggedUserId'],
-                                   'only_role'      => '>'.$this->viewVar['loggedUserRole'],
-                                   'fields' => array('id_user',
-                                                     'status',
-                                                     'login',
-                                                     'role',
-                                                     'name',
-                                                     'lastname')));  
+                                   'or_id_user'     => (int)$this->viewVar['loggedUserId'],
+                                   'role'           => array('>',$this->viewVar['loggedUserRole']),
+                                   'fields' => array('id_user','status',
+                                                     'login','role',
+                                                     'name','lastname')));  
         
         // get user locks
         $this->getLocks();
@@ -78,8 +75,8 @@ class ViewUserMain extends SmartView
             // lock the user to edit
             $result = $this->model->action('user','lock',
                                      array('job'        => 'is_locked',
-                                           'id_user'    => $user['id_user'],
-                                           'by_id_user' => $this->viewVar['loggedUserId']) );
+                                           'id_user'    => (int)$user['id_user'],
+                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
                                            
             if(($result !== TRUE) && ($result !== FALSE))
             {

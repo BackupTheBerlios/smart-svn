@@ -33,7 +33,6 @@ class ActionUser extends SmartAction
                             'name'      => 'String',
                             'lastname'  => 'String',
                             'email'     => 'String',
-                            'website'   => 'String',
                             'description'  => 'String',
                             'format'       => 'Int',
                             'logo'         => 'String',

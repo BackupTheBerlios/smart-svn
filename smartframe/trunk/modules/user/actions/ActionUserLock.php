@@ -19,10 +19,10 @@
  *
  * ** Lock a given user by an other user**
  *
- * $model->action('user','lock',
- *                array('job'    => (string)'lock',
- *                      'id_user => (int)user ID to lock,
- *                      'by_id_user' => (int)user ID that locks));
+ * $res = $model->action('user','lock',
+ *                       array('job'    => (string),    // value: 'lock'
+ *                             'id_user => (int),       // user ID to lock
+ *                             'by_id_user' => (int))); // user ID that locks
  *
  * Return: 1) TRUE if a user was successfull locked
  *         2) user ID, which locked the user in an other session
@@ -30,33 +30,32 @@
  * ** Unlock a given user **
  *
  * $model->action('user','lock',
- *                array('job'    => (string)'unlock',
- *                      'id_user => (int)locked user ID )); 
+ *                array('job'    => (string), // value: 'unlock'
+ *                      'id_user => (int)));  // locked user ID
  *
  * 
  * ** Is a user locked ? **
  *
- * $model->action('user','lock',
- *                array('job'    => (string)'is_locked',
- *                      'id_user => (int)user ID ));  
+ * $res = $model->action('user','lock',
+ *                       array('job'    => (string), // value: 'is_locked'
+ *                             'id_user => (int)));  // user ID
  *
  * Return: 1) TRUE if a user was locked by the logged user it self
  *         2) FALSE if a user isnt locked
  *         3) user ID, which locked the user in an other session
  *
- * ** Get all access times **
  *
  * ** unlock all locked user ? **
  *
  * $model->action('user','lock',
- *                array('job' => (string)'unlock_all'));  
+ *                array('job' => (string)));  // value: 'unlock_all'
  *
  *
  * ** Remove user locks from a given user that locks **
  *
  * $model->action('user','lock',
- *                array('job'    => (string)'unlock_from_user',
- *                      'id_user => (int)user ID that locks));  
+ *                array('job'    => (string), // value: 'unlock_from_user'
+ *                      'id_user => (int)));  // user ID that locks 
  *
  */
 class ActionUserLock extends SmartAction
@@ -86,7 +85,7 @@ class ActionUserLock extends SmartAction
                 $this->unlockByIdUser($data); 
                 return;                
             default:
-                throw new SmartModelException('Action not available: '.$data['action']); 
+                throw new SmartModelException('"job" not available: '.$data['job']); 
         }
         
         return TRUE;
@@ -100,13 +99,17 @@ class ActionUserLock extends SmartAction
      */    
     public function validate( $data = FALSE )
     {
-        if( isset($data['id_user']) && @preg_match("/[^0-9]/", $data['id_user']) )
+        if( isset($data['id_user']) && !is_int($data['id_user']) )
         {
-            throw new SmartModelException('Wrong id_user format: '.$data['id_user']);         
+            throw new SmartModelException('Wrong "id_user" format or it isnt set');         
         }    
-        if( isset($data['by_id_user']) && @preg_match("/[^0-9]/", $data['by_id_user']) )
+        if( isset($data['by_id_user']) && !is_int($data['by_id_user']) )
         {
-            throw new SmartModelException('Wrong by_id_user format: '.$data['by_id_user']);         
+            throw new SmartModelException('Wrong "by_id_user" format or it isnt set');         
+        } 
+        if( isset($data['job']) && !is_string($data['job']) )
+        {
+            throw new SmartModelException('Wrong "job" format or it isnt set');         
         }         
         return TRUE;
     }

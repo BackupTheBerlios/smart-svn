@@ -84,7 +84,7 @@ class ViewUserLogin extends SmartView
     
     private function _reset_form_data()
     {
-        $this->tplVar['login_name'] = htmlentities(SmartCommonUtil::stripSlashes($_POST['login_name']));     
+        $this->tplVar['login_name'] = htmlentities(strip_tags(SmartCommonUtil::stripSlashes($_POST['login_name'])));     
     }      
 }
 

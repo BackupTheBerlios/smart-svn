@@ -14,6 +14,14 @@
  *
  * move rank of user pictures or files
  *
+ * USAGE:
+ *
+ * $model->action('user','moveItemRank',
+ *                array('id_pic'  => int,     // one of both
+ *                      'id_file' => int,     //
+ *                      'dir'     => string)) // 'up' or 'down'
+ *
+ *
  */
 class ActionUserMoveItemRank extends SmartAction
 {                          
@@ -62,7 +70,7 @@ class ActionUserMoveItemRank extends SmartAction
         {        
             throw new SmartModelException ('"id_user" must be defined'); 
         } 
-        elseif(@preg_match("/[^0-9]/", $data['id_user'])  )
+        elseif( !is_int($data['id_user'])  )
         {        
             throw new SmartModelException ('"id_user" must be an integer'); 
         } 
@@ -72,12 +80,12 @@ class ActionUserMoveItemRank extends SmartAction
             throw new SmartModelException ('"id_file" or "id_pic" must be defined'); 
         }
         
-        if( isset($data['id_file']) && @preg_match("/[^0-9]/", $data['id_file'])  )
+        if( isset($data['id_file']) && !is_int($data['id_file'])  )
         {        
             throw new SmartModelException ('"id_file" must be an integer'); 
         }  
         
-        if( isset($data['id_pic']) && @preg_match("/[^0-9]/", $data['id_pic'])  )
+        if( isset($data['id_pic']) && !is_int($data['id_pic'])  )
         {        
             throw new SmartModelException ('"id_pic" must be an integer'); 
         }  
@@ -107,7 +115,7 @@ class ActionUserMoveItemRank extends SmartAction
                 WHERE
                     {$this->id_item}={$data[$this->id_item]}
                 AND
-                    id_user={$data['id_user']}";
+                    `id_user`={$data['id_user']}";
         
         $stmt = $this->model->dba->query($sql);
         
@@ -152,7 +160,7 @@ class ActionUserMoveItemRank extends SmartAction
                 WHERE
                     {$this->id_item}={$data[$this->id_item]}
                 AND
-                    id_user={$data['id_user']}";
+                    `id_user`={$data['id_user']}";
         
         $stmt = $this->model->dba->query($sql);
         
@@ -161,11 +169,11 @@ class ActionUserMoveItemRank extends SmartAction
         // move rank of neighbour file
         $sql = "
             UPDATE {$this->config['dbTablePrefix']}{$this->table}
-               SET rank=rank-1
+               SET `rank`=`rank`-1
             WHERE
-                rank={$row['rank']}
+                `rank`={$row['rank']}
             AND
-                id_user={$data['id_user']}";
+                `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);   
         

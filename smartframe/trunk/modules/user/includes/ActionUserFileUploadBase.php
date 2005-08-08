@@ -52,7 +52,12 @@ class ActionUserFileUploadBase extends SmartAction
         clearstatcache();
         return @is_uploaded_file($file);
     }   
-    
+    /**
+     * getUserMediaFolder
+     *
+     * @param int $id_user 
+     * @return mixed FALSE if fails else name of the media folder
+     */     
     protected function getUserMediaFolder( $id_user )
     {
         $sql = "SELECT 
@@ -79,7 +84,12 @@ class ActionUserFileUploadBase extends SmartAction
         }      
         return FALSE;
     }
-    
+    /**
+     * createUserMediaFolder
+     *
+     * @param int $id_user 
+     * @return string name of the media folder
+     */     
     private function createUserMediaFolder( $id_user )
     {
         // create unique folder that dosent exists       
@@ -99,15 +109,22 @@ class ActionUserFileUploadBase extends SmartAction
             throw new SmartModelException('Cant create media folder: ' . $folder . '/thumb');
         }
 
-        $this->model->action('user',
-                             'update',
-                             array('error'   => & $data['error'],
+        $error = array();
+        $this->model->action('user','update',
+                             array('error'   => & $error,
                                    'id_user' => $id_user,
-                                   'user'    => array('media_folder' => $folder)));
+                                   'user'    => array('media_folder' => (string)$folder)));
         
         return $folder;
     }
-    
+    /**
+     * getUniqueMediaFileName
+     * if a media file name exists add a number before the name
+     *
+     * @param string $media_folder
+     * @param string $file_name
+     * @return array 
+     */     
     protected function getUniqueMediaFileName($media_folder, $file_name)
     {
         $result = array();

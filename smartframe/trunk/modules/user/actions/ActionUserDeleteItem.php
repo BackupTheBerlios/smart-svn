@@ -34,7 +34,7 @@ class ActionUserDeleteItem extends SmartAction
         {
             $this->deleteFile($data);
         }
-        elseif(isset($data['id_file'])
+        elseif(isset($data['id_pic']))
         {
             $this->deletePicture($data);
         }
@@ -87,8 +87,7 @@ class ActionUserDeleteItem extends SmartAction
 
         $user = array();
 
-        $this->model->action('user',
-                             'getUser',
+        $this->model->action('user','getUser',
                              array('result'  => & $user,
                                    'id_user' => (int)$pic['id_user'],
                                    'fields'  => array('media_folder')));   
@@ -105,8 +104,7 @@ class ActionUserDeleteItem extends SmartAction
            trigger_error('Cant delete user logo: data/user/'.$user['media_folder'].'/thumb/'.$_file['logo'], E_USER_WARNING);
         }    
         // remove picture reference from database
-        $this->model->action('user',
-                             'updatePicture',
+        $this->model->action('user','updatePicture',
                              array('action'  => 'delete',
                                    'id_pic'  => (int)$data['id_pic'],
                                    'id_user' => (int)$pic['id_user']));    
@@ -120,16 +118,14 @@ class ActionUserDeleteItem extends SmartAction
     {
         $file = array();
 
-        $this->model->action('user',
-                             'getFile',
+        $this->model->action('user','getFile',
                              array('result' => & $file,
                                    'id_file' => (int)$data['id_file'],
                                    'fields'  => array('file','id_user')));   
 
         $user = array();
 
-        $this->model->action('user',
-                             'getUser',
+        $this->model->action('user','getUser',
                              array('result'  => & $user,
                                    'id_user' => (int)$file['id_user'],
                                    'fields'  => array('media_folder')));   
@@ -142,8 +138,7 @@ class ActionUserDeleteItem extends SmartAction
            trigger_error('Cant delete user logo: data/user/'.$user['media_folder'].'/'.$file['file'], E_USER_WARNING);
         }   
         // remove file reference from database
-        $this->model->action('user',
-                             'updateFile',
+        $this->model->action('user','updateFile',
                              array('action'  => 'delete',
                                    'id_file' => (int)$data['id_file'],
                                    'id_user' => (int)$file['id_user']));    
@@ -161,9 +156,12 @@ class ActionUserDeleteItem extends SmartAction
         {
             // delete whole tree
             SmartCommonUtil::deleteDirTree( $dir );
+            
+            $error = array();
             // remove media_folder reference
             $this->model->action( 'user','update',
                                   array('id_user' => (int)$this->idUser,
+                                        'error'   => &$error,
                                         'user' => array('media_folder' => '')) );
         }
     }

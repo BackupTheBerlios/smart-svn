@@ -33,10 +33,9 @@ class ActionUserDeleteLogo extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $_file = '';
+        $_file = array();
 
-        $this->model->action('user',
-                             'getUser',
+        $this->model->action('user','getUser',
                              array('result'  => & $_file,
                                    'id_user' => (int)$data['id_user'],
                                    'fields'  => array('logo','media_folder')));   
@@ -45,10 +44,10 @@ class ActionUserDeleteLogo extends SmartAction
         {
             throw new SmartModelException('Cant delete user logo: data/user/'.$_file['media_folder'].'/'.$_file['logo']);
         }
-                            
-        $this->model->action('user',
-                             'update',
-                             array('error'   => & $data['error'],
+        
+        $error = array();
+        $this->model->action('user','update',
+                             array('error'   => & $error,
                                    'id_user' => (int)$data['id_user'],
                                    'user'    => array('logo' => '')));
         
@@ -90,7 +89,7 @@ class ActionUserDeleteLogo extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}user_user
             WHERE
-                id_user='$id_user'";
+                id_user=$id_user";
         
         $result = $this->model->dba->query($sql);
 

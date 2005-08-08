@@ -53,7 +53,7 @@ class ActionUserUpdatePicture extends SmartAction
             throw new SmartModelException("No 'id_pic' defined. Required!");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_pic']))
+        if(!is_int($data['id_pic']))
         {
             throw new SmartModelException("'id_pic' isnt numeric");
         }
@@ -65,7 +65,7 @@ class ActionUserUpdatePicture extends SmartAction
                 throw new SmartModelException("No 'id_user' defined. Required!");
             }
 
-            if(preg_match("/[^0-9]/",$data['id_user']))
+            if(!is_int($data['id_user']))
             {
                 throw new SmartModelException("'id_user' isnt numeric");
             }

@@ -196,9 +196,13 @@ function MM_swapImage() { //v3.0
     </tr>
   <tr>
     <td width="79%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
-      <?php if($tpl['error'] != FALSE): ?>
+      <?php if(count($tpl['error'])>0): ?>
       <tr>
-        <td width="25%" align="left" valign="top" class="itemerror" colspan="2"><?php echo $tpl['error']; ?></td>
+        <td width="25%" align="left" valign="top" class="itemerror" colspan="2">
+		<?php foreach($tpl['error'] as $err): ?>
+		   <?php echo err; ?><br />
+		<?php endforeach; ?>
+		</td>
       </tr>
       <?php endif; ?>
 	  <?php if($tpl['showButton']==TRUE): ?>
@@ -261,6 +265,7 @@ function MM_swapImage() { //v3.0
         <td colspan="2" align="left" valign="top"><textarea name="description" rows="15" cols="80" style="width: 100%" wrap="VIRTUAL" id="description"><?php echo $tpl['user']['description']; ?></textarea> 
         </td>
         </tr>  
+		<!--  format feature for a next release (tiny mice or text_wiki)
 	  <?php if($tpl['show_format_switch']==TRUE):  ?>     
       <tr>
         <td colspan="2" align="left" valign="top" class="font10bold">Use text format: 
@@ -274,6 +279,7 @@ function MM_swapImage() { //v3.0
 	  <?php else: ?>
 	      <input type="hidden" name="format" value="<?php echo $tpl['format']; ?>">
 	  <?php endif;  ?>
+	  -->
       <tr>
         <td colspan="2" align="left" valign="top"><hr>          <table width="200" border="0" cellspacing="0" cellpadding="4">
           <tr>

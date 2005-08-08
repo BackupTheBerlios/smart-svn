@@ -34,13 +34,12 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
             throw new SmartModelException ('Cant upload file');   
         }
         
-        $this->model->action('user',
-                             'update',
-                             array('error'   => & $data['error'],
-                                   'id_user' => $data['id_user'],
+        $error = array();
+        $this->model->action('user','update',
+                             array('error'   => & $error,
+                                   'id_user' => (int)$data['id_user'],
                                    'user'    => array('logo' => $file_info['file_name'])));
-
-           
+   
         return TRUE;
     }
     
@@ -52,20 +51,19 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
      */    
     public function validate(  $data = FALSE  )
     {
-        // check if user exists
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
             throw new SmartModelException ('"post_name" must be defined in view class'); 
         }
-        // validate user name
+        // check if array entry exists
         elseif( !isset($_FILES[$data['postName']]) )
         {
             throw new SmartModelException ('You have to select a local file to upload');
         }     
         
-        if(preg_match("/[^0-9]/",$data['id_user']))
+        if(!is_int($data['id_user']))
         {
-            throw new SmartModelException('Wrong id_user format: '.$id_user);        
+            throw new SmartModelException('Wrong id_user format');        
         }        
         return TRUE;
     }

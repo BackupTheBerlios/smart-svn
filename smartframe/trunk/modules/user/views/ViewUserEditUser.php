@@ -63,7 +63,7 @@ class ViewUserEditUser extends SmartView
         // init template array to fill with user data
         $this->tplVar['user'] = array();
         // Init template form field values
-        $this->tplVar['error']            = FALSE;
+        $this->tplVar['error']            = array();
         $this->tplVar['user']['email']       = '';
         $this->tplVar['user']['login']       = '';
         $this->tplVar['user']['passwd']      = '';
@@ -172,23 +172,16 @@ class ViewUserEditUser extends SmartView
             $this->unlockUser();
             $this->redirect();
         }
-        
         // delete a user?
         elseif($_POST['deleteuser'] == '1')
         {
             $this->deleteUser();
-        }
-        // switch format of textarea editor
-        elseif(isset($_POST['switchformat']) && $_POST['switchformat'] == 1)
-        {
-            $dont_forward = TRUE;
-        }        
+        }      
         // upload logo
         elseif(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
         {   
-            $this->model->action('user',
-                                 'uploadLogo',
-                                 array('id_user'  => $_REQUEST['id_user'],
+            $this->model->action('user','uploadLogo',
+                                 array('id_user'  => (int)$_REQUEST['id_user'],
                                        'postName' => 'logo') ); 
                                         
             $dont_forward = TRUE;
@@ -196,19 +189,17 @@ class ViewUserEditUser extends SmartView
         // delete logo
         elseif(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
         {   
-            $this->model->action('user',
-                                 'deleteLogo',
-                                 array('id_user'   => $_REQUEST['id_user']) ); 
+            $this->model->action('user','deleteLogo',
+                                 array('id_user'   => (int)$_REQUEST['id_user']) ); 
                                          
             $dont_forward = TRUE;
         }   
         // add picture
         elseif(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
         {   
-            $this->model->action('user',
-                                 'addItem',
+            $this->model->action('user','addItem',
                                  array('item'     => 'picture',
-                                       'id_user'  => $_REQUEST['id_user'],
+                                       'id_user'  => (int)$_REQUEST['id_user'],
                                        'postName' => 'picture',
                                        'error'    => & $this->tplVar['error']) ); 
                                          
@@ -216,21 +207,19 @@ class ViewUserEditUser extends SmartView
         }
         // delete picture
         elseif(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
-        {   
-            $this->model->action('user',
-                                 'deleteItem',
-                                 array('id_user' => $_REQUEST['id_user'],
-                                       'id_pic'  => $_POST['imageID2del']) ); 
+        {
+            $this->model->action('user','deleteItem',
+                                 array('id_user' => (int)$_REQUEST['id_user'],
+                                       'id_pic'  => (int)$_POST['imageID2del']) ); 
                                          
             $dont_forward = TRUE;
         }
         // move image rank up
         elseif(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
         {   
-            $this->model->action('user',
-                                 'moveItemRank',
-                                 array('id_user' => $_REQUEST['id_user'],
-                                       'id_pic'  => $_POST['imageIDmoveUp'],
+            $this->model->action('user','moveItemRank',
+                                 array('id_user' => (int)$_REQUEST['id_user'],
+                                       'id_pic'  => (int)$_POST['imageIDmoveUp'],
                                        'dir'     => 'up') ); 
                                          
             $dont_forward = TRUE;
@@ -238,10 +227,9 @@ class ViewUserEditUser extends SmartView
         // move image rank down
         elseif(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
         {   
-            $this->model->action('user',
-                                 'moveItemRank',
-                                 array('id_user' => $_REQUEST['id_user'],
-                                       'id_pic'  => $_POST['imageIDmoveDown'],
+            $this->model->action('user','moveItemRank',
+                                 array('id_user' => (int)$_REQUEST['id_user'],
+                                       'id_pic'  => (int)$_POST['imageIDmoveDown'],
                                        'dir'     => 'down') ); 
                                          
             $dont_forward = TRUE;
@@ -249,30 +237,27 @@ class ViewUserEditUser extends SmartView
         // move file rank up
         elseif(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
         {
-            $this->model->action('user',
-                                 'moveItemRank',
-                                 array('id_user' => $_REQUEST['id_user'],
-                                       'id_file' => $_POST['fileIDmoveUp'],
+            $this->model->action('user','moveItemRank',
+                                 array('id_user' => (int)$_REQUEST['id_user'],
+                                       'id_file' => (int)$_POST['fileIDmoveUp'],
                                        'dir'     => 'up') );                                                 
             $dont_forward = TRUE;
         }
         // move file rank down
         elseif(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
         {   
-            $this->model->action('user',
-                                 'moveItemRank',
-                                 array('id_user' => $_REQUEST['id_user'],
-                                       'id_file' => $_POST['fileIDmoveDown'],
+            $this->model->action('user','moveItemRank',
+                                 array('id_user' => (int)$_REQUEST['id_user'],
+                                       'id_file' => (int)$_POST['fileIDmoveDown'],
                                        'dir'     => 'down') );                                                
             $dont_forward = TRUE;
         } 
         // add file
         elseif(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
         {          
-            $this->model->action('user',
-                                 'addItem',
+            $this->model->action('user','addItem',
                                  array('item'     => 'file',
-                                       'id_user'  => $_REQUEST['id_user'],
+                                       'id_user'  => (int)$_REQUEST['id_user'],
                                        'postName' => 'ufile',
                                        'error'    => & $this->tplVar['error']) ); 
                                      
@@ -281,10 +266,9 @@ class ViewUserEditUser extends SmartView
         // delete file
         elseif(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
         {   
-            $this->model->action('user',
-                                 'deleteItem',
-                                 array('id_user' => $_REQUEST['id_user'],
-                                       'id_file' => $_POST['fileID2del']) ); 
+            $this->model->action('user','deleteItem',
+                                 array('id_user' => (int)$_REQUEST['id_user'],
+                                       'id_file' => (int)$_POST['fileID2del']) ); 
                                          
             $dont_forward = TRUE;
         }  
@@ -314,30 +298,29 @@ class ViewUserEditUser extends SmartView
         {
             // reset form fields on error
             $this->resetFormData();
-            $this->tplVar['error'] = 'You have fill out at least the name, lastname and email fields!';
+            $this->tplVar['error'][] = 'You have fill out at least the name, lastname and email fields!';
             $this->setTemplateVars();
             return FALSE;
         }
            
         // array with new user data passed to the action
         $_data = array( 'error'     => & $this->tplVar['error'],
-                        'id_user'   => $_REQUEST['id_user'],
-                        'user' => array('email'    => SmartCommonUtil::stripSlashes($_POST['email']),
-                                        'name'     => SmartCommonUtil::stripSlashes($_POST['name']),
-                                        'lastname' => SmartCommonUtil::stripSlashes($_POST['lastname']),
-                                        'description' => SmartCommonUtil::stripSlashes($_POST['description']),
-                                        'format'      => (int)$_POST['format']));
+                        'id_user'   => (int)$_REQUEST['id_user'],
+                        'user' => array('email'    => SmartCommonUtil::stripSlashes((string)$_POST['email']),
+                                        'name'     => SmartCommonUtil::stripSlashes((string)$_POST['name']),
+                                        'lastname' => SmartCommonUtil::stripSlashes((string)$_POST['lastname']),
+                                        'description' => SmartCommonUtil::stripSlashes((string)$_POST['description'])));
 
         // if a logged user modify its own account data disable status and role settings
         if(($this->viewVar['loggedUserId'] != $_REQUEST['id_user']) && ($this->viewVar['loggedUserRole'] != 10))
         {  
-            $_data['user']['status'] = $_POST['status']; 
-            $_data['user']['role'] = (int)SmartCommonUtil::stripSlashes($_POST['role']);
+            $_data['user']['status'] = (int)$_POST['status']; 
+            $_data['user']['role']   = (int)$_POST['role'];
         }
         // add this if the password field isnt empty
         if(!empty($_POST['passwd']))
         {
-            $_data['user']['passwd'] = SmartCommonUtil::stripSlashes($_POST['passwd']);
+            $_data['user']['passwd'] = SmartCommonUtil::stripSlashes((string)$_POST['passwd']);
         }
         
         // add new user data
@@ -404,6 +387,7 @@ class ViewUserEditUser extends SmartView
             $this->tplVar['showButton'] = TRUE;  
         }  
         
+        //  -----  feature for a next release ------------
         // set format template var, means how to format textarea content -> editor/wikki ?
         // 1 = text_wikki
         // 2 = tiny_mce
@@ -426,6 +410,7 @@ class ViewUserEditUser extends SmartView
             $this->tplVar['format'] = $this->config['user']['default_format'];
             $this->tplVar['show_format_switch'] = TRUE;
         }
+        
         
         $this->tplVar['id_user'] = $_REQUEST['id_user']; 
     }
@@ -523,15 +508,15 @@ class ViewUserEditUser extends SmartView
     private function resetFormData()
     {
         // if empty assign form field with old values
-        $this->tplVar['user']['role']     = SmartCommonUtil::stripSlashes($_POST['role']);
-        $this->tplVar['user']['email']    = SmartCommonUtil::stripSlashes($_POST['email']);
-        $this->tplVar['user']['name']     = SmartCommonUtil::stripSlashes($_POST['name']);
-        $this->tplVar['user']['lastname'] = SmartCommonUtil::stripSlashes($_POST['lastname']);
-        $this->tplVar['user']['description'] = SmartCommonUtil::stripSlashes($_POST['description']);
-        $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes($_POST['login']);
-        $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes($_POST['passwd']); 
-        $this->tplVar['user']['status']   = SmartCommonUtil::stripSlashes($_POST['status']); 
-        $this->tplVar['format']   = SmartCommonUtil::stripSlashes($_POST['format']);
+        $this->tplVar['user']['role']     = (int)$_POST['role'];
+        $this->tplVar['user']['email']    = SmartCommonUtil::stripSlashes((string)$_POST['email']);
+        $this->tplVar['user']['name']     = SmartCommonUtil::stripSlashes((string)$_POST['name']);
+        $this->tplVar['user']['lastname'] = SmartCommonUtil::stripSlashes((string)$_POST['lastname']);
+        $this->tplVar['user']['description'] = SmartCommonUtil::stripSlashes((string)$_POST['description']);
+        $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes((string)$_POST['login']);
+        $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes((string)$_POST['passwd']); 
+        $this->tplVar['user']['status']   = (int)$_POST['status']; 
+        $this->tplVar['format']   = (int)$_POST['format'];
     } 
 
     /**

@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionUpdatePicture class 
+ * ActionUpdateFile class 
  *
  */
 class ActionUserUpdateFile extends SmartAction
@@ -45,7 +45,7 @@ class ActionUserUpdateFile extends SmartAction
     {
         if(!isset($data['action']) || (($data['action'] != 'delete') && ($data['action'] != 'update')))
         {      
-            throw new SmartModelException("No/Wrong 'action' defined. Required!");
+            throw new SmartModelException("No/Wrong 'action'. Required!");
         }
         
         if(!isset($data['id_file']))
@@ -53,9 +53,9 @@ class ActionUserUpdateFile extends SmartAction
             throw new SmartModelException("No 'id_file' defined. Required!");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_file']))
+        if(!is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt numeric");
+            throw new SmartModelException("'id_file' isnt from type int");
         }
 
         if($data['action'] == 'delete')
@@ -65,9 +65,9 @@ class ActionUserUpdateFile extends SmartAction
                 throw new SmartModelException("No 'id_user' defined. Required!");
             }
 
-            if(preg_match("/[^0-9]/",$data['id_user']))
+            if(!is_int($data['id_user']))
             {
-                throw new SmartModelException("'id_user' isnt numeric");
+                throw new SmartModelException("'id_user' isnt from type int");
             }
         }
         
