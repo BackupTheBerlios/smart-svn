@@ -12,6 +12,14 @@
 /**
  * action_user_captcha_validate class 
  *
+ * USAGE:
+ *
+ * $res= $this->model->action( 'common','captchaValidate',
+ *                             array('turing_key'  => (string),
+ *                                   'public_key'  => (string),
+ *                                   'configPath'  => (string) ))
+ *
+ * return TRUE or FALSE
  */
 
 // captcha class
@@ -49,6 +57,24 @@ class ActionCommonCaptchaValidate extends SmartAction
 
         return TRUE;
     } 
+    
+    public function validate( $data = FALSE )
+    {
+        if(!is_string($data['public_key']))
+        {
+            throw new SmartModelException("'public_key' isnt from type string");
+        }
+        if(!is_string($data['turing_key']))
+        {
+            throw new SmartModelException("'turing_key' isnt from type string");
+        }   
+        if(!is_string($data['configPath']))
+        {
+            throw new SmartModelException("'configPath' isnt from type string");
+        }
+
+        return TRUE;
+    }
 }
 
 ?>

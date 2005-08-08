@@ -12,27 +12,17 @@
 /**
  * Test action (simple example)
  *
+ * USAGE:
+ *
+ * $->model->action('common','imageThumb',
+ *                  array('imgSource'     => (string), // absolute path to the source picture
+ *                        'imgDestName'   => (string), // name of the thumnail file name
+ *                        'imgDestWidth'  => (int),    // thumnail width
+ *                        'imgDestFolder' => (string), // absolute path of the thumbnail folder
+ *                        'info'          => &array)); // info about the image
+ *
  */
 
-/**
- * Every action must extends from the parent class SmartAction
- *
- * The name of an action class must follows the rules:
- * [Action][Module name with first letter uppercase][Action name with first letter uppercase]
- * 
- * The file name of an action must follows the rules:
- * The same as above but with extension ".php"
- *
- * An action file must be located in the specific module directory "/actions"
- *
- * Parent class vars are:
- * $this->model - The model object
- * $this->constructorData - Data passed to the constructor         
- *
- * @todo Should we introduce a permission methode or should permission
- * be done by the validate methode??
- * 
- */
 class ActionCommonImageThumb extends SmartAction
 {
     private $allowedImageTypes = array(1 => 'GIF',
@@ -78,35 +68,72 @@ class ActionCommonImageThumb extends SmartAction
      */
     public function validate( $data = FALSE )
     {
+        if(!isset($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt set!");
+        }
+        elseif(!is_array($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt from type array!");
+        }
+        
         if(!isset($data['imgDestWidth']))
         {
-            $data['error'] = "No Image Source. Please contact the administrator";
-            return FALSE;
+            throw new SmartModelException("'imgDestWidth' isnt defined");
+        }
+        if(!is_int($data['imgDestWidth']))
+        {
+            throw new SmartModelException("'imgDestWidth' isnt from type int");
         }
         
         if(!isset($data['imgDestName']))
         {
-            $data['error'] = "No Image Source. Please contact the administrator";
-            return FALSE;
+            throw new SmartModelException("'imgDestName' isnt defined");
         }        
+        if(!is_string($data['imgDestName']))
+        {
+            throw new SmartModelException("'imgDestName' isnt from type string");
+        }  
         
+        if(!isset($data['imgSource']))
+        {
+            throw new SmartModelException("'imgSource' isnt defined");
+        }        
+        if(!is_string($data['imgSource']))
+        {
+            throw new SmartModelException("'imgSource' isnt from type string");
+        }         
         if(!file_exists($data['imgSource']))
         {
-            $data['error'] = "No Image Source. Please contact the administrator";
-            return FALSE;
+            $data['error'][] = "No Image Source. Please contact the administrator";
         }
-        
+
+        if(!isset($data['imgDestFolder']))
+        {
+            throw new SmartModelException("'imgDestFolder' isnt defined");
+        }        
+        if(!is_string($data['imgDestFolder']))
+        {
+            throw new SmartModelException("'imgDestFolder' isnt from type string");
+        } 
+        if(!is_dir($data['imgDestFolder']))
+        {
+            throw new SmartModelException("'imgDestFolder' isnt a directory");
+        }        
         if(!is_writeable($data['imgDestFolder']))
         {
-            $data['error'] = "Image destination folder isnt writeable. Please contact the administrator";
-            return FALSE;
+            $data['error'][] = "Image destination folder isnt writeable. Please contact the administrator";
         }        
         
         $this->getImageInfo($data['imgSource']);
         
         if(!isset($this->allowedImageTypes[$this->imgSourceType]))
         {
-            $data['error'] = "This image type isnt supported: ".$this->imgSourceType.' '.$this->imgSourceMime;
+            $data['error'][] = "This image type isnt supported: ".$this->imgSourceType.' '.$this->imgSourceMime;
+        }
+
+        if(count($data['error']) > 0)
+        {
             return FALSE;
         }
 

@@ -12,6 +12,10 @@
 /**
  * ActionCommonGetAllPublicViews
  *
+ * USAGE:
+ * $model->action( 'common','getAllPublicViews',
+ *                 array('result' => & array );   
+ *
  */
 
 class ActionCommonGetAllPublicViews extends SmartAction

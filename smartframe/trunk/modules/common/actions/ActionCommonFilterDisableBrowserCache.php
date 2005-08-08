@@ -12,6 +12,9 @@
 /**
  * ActionCommonFilterDisableBrowserCache
  *
+ * USAGE:
+ * $model->action( 'common', 'filterDisableBrowserCache');    
+ *
  */
 
 class ActionCommonFilterDisableBrowserCache extends SmartAction

@@ -12,6 +12,10 @@
 /**
  * ActionCommonFilterTrim
  *
+ * USAGE:
+ * $model->action( 'common', 'filterTrim', 
+ *                 array('str' => & (string) );
+ *
  */
 
 class ActionCommonFilterTrim extends SmartAction
@@ -31,6 +35,10 @@ class ActionCommonFilterTrim extends SmartAction
      */
     public function validate( $data = FALSE )
     {
+        if(!is_string($data['str']))
+        {
+            throw new SmartModelException("'str' isnt from type string");
+        }    
         return TRUE;
     }    
 }

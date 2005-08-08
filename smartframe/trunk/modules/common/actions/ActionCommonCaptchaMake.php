@@ -12,6 +12,14 @@
 /**
  * action_user_captcha_make class 
  *
+ *
+ * USAGE:
+ *
+ * $this->model->action( 'common','captchaMake',
+ *                       array('captcha_pic' => &(string),
+ *                             'public_key'  => &(string),
+ *                             'configPath'  => &(string) ))
+ *
  */
 
 // captcha class
@@ -51,7 +59,25 @@ class ActionCommonCaptchaMake extends SmartAction
         $data['public_key']  = $captcha->public_key;
 
         return TRUE;
-    } 
+    }
+    
+    public function validate( $data = FALSE )
+    {
+        if(!is_string($data['public_key']))
+        {
+            throw new SmartModelException("'public_key' isnt from type string");
+        }
+        if(!is_string($data['captcha_pic']))
+        {
+            throw new SmartModelException("'captcha_pic' isnt from type string");
+        }   
+        if(!is_string($data['configPath']))
+        {
+            throw new SmartModelException("'configPath' isnt from type string");
+        }
+
+        return TRUE;
+    }    
 }
 
 ?>
