@@ -16,6 +16,7 @@
     <td align="left" valign="top">
 	<form name="format" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=options">
 	<table width="100%" border="0" cellspacing="0" cellpadding="0">
+	<!-- Option to switch between tiny mice and text wiki. reserved for a future release
       <tr>
         <td width="46%" height="21" align="left" valign="top" class="font10bold">&nbsp;Fromat of  the users description textarea</td>
         <td width="54%" rowspan="5" align="left" valign="top" class="font10bold"><p><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">back</a></p>
@@ -50,6 +51,7 @@ Text Wikki &nbsp;&nbsp;</td>
         <td align="left" valign="top" class="font10bold">&nbsp;</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
+	  -->
       <tr>
         <td align="left" valign="top" class="font10bold">&nbsp;Thumbnails width in pixels</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
