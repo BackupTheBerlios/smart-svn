@@ -34,8 +34,6 @@ class ActionCommonSetup extends SmartAction
         $data['config']['db']['dbname']        = $data['dbname'];
         $data['config']['db']['dbcharset']     = $this->mysqlEncoding( $data['charset'] );
 
-        // +++++++++++ END Deprecated ++++++++++++++++++
-
         try
         {
             $this->model->dba = new DbMysqli( $data['config']['db']['dbhost'] ,$data['config']['db']['dbuser'],
@@ -46,7 +44,7 @@ class ActionCommonSetup extends SmartAction
         catch(SmartDbException $e)
         {
             // if no database connection stop here
-            throw new SmartModelException;
+            throw new Exception("Connection to the database (server?) fails. Please check connection data!",0);
         }
         
         // Rollback if there are somme error in other modules setup actions

@@ -12,6 +12,10 @@
 /**
  * Write php file with db connection array data
  *
+ * USAGE:
+ * $model->action( $config['base_module'],'setDbConfig', // usually 'common' is base module
+ *                 array( 'dbConnect' => & array) );     // array with db connect data     
+ *
  */
 
 class ActionCommonSetDbConfig extends SmartAction
@@ -60,18 +64,18 @@ class ActionCommonSetDbConfig extends SmartAction
      */    
     private function buildContent( & $data )
     {
-        $str = '<?php if (!defined( "SMART_SECURE_INCLUDE" )) die("no permission on dbConnect.php"); ';
+        $str = "<?php \n\n if (!defined( 'SMART_SECURE_INCLUDE' )) \n  exit;\n\n";
         
-        $str .= '$db = array();';
+        $str .= '$db'." = array();\n\n";
         
-        $str .= '$db["dbhost"] = "'.$data['dbConnect']['dbhost'].'"; ';
-        $str .= '$db["dbcharset"] = "'.$data['dbConnect']['dbcharset'].'"; ';
-        $str .= '$db["dbuser"] = "'.$data['dbConnect']['dbuser'].'"; ';
-        $str .= '$db["dbpasswd"] = "'.$data['dbConnect']['dbpasswd'].'"; ';
-        $str .= '$db["dbname"] = "'.$data['dbConnect']['dbname'].'"; ';
-        $str .= '$db["dbTablePrefix"] = "'.$data['dbConnect']['dbTablePrefix'].'"; ';
+        $str .= '$db["dbhost"]'       ." = '{$data['dbConnect']['dbhost']}';\n";
+        $str .= '$db["dbcharset"]'    ." = '{$data['dbConnect']['dbcharset']}';\n";
+        $str .= '$db["dbuser"]'       ." = '{$data['dbConnect']['dbuser']}';\n";
+        $str .= '$db["dbpasswd"]'     ." = '{$data['dbConnect']['dbpasswd']}';\n";
+        $str .= '$db["dbname"]'       ." = '{$data['dbConnect']['dbname']}';\n";
+        $str .= '$db["dbTablePrefix"]'." = '{$data['dbConnect']['dbTablePrefix']}';\n\n";
         
-        $str .= '?>';
+        $str .= "?>";
         
         return $str;
     }
