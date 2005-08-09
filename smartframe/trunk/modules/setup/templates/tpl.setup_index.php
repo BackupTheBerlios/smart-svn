@@ -31,6 +31,7 @@ body {
     font-weight: bold;
 }
 .style1 {color: #990000; font-size: 12px;}
+.error {color: #990000; font-size: 10px; font-weight: bold;}
 -->
 </style>
 </style>
@@ -46,13 +47,22 @@ function subok(s){
 </script>
 </head>
 <body>
-<?php if(count($tpl['setup_error'])> 0): ?>
-    <div><?php foreach($tpl['setup_error'] as $err) echo $err . '<br />'; ?></div>
+<?php $show_button=TRUE; ?>
+<?php if(count($tpl['folder_error'])>0): ?>
+    <div class="error"><?php foreach($tpl['folder_error'] as $err) echo $err; ?></div>
+<?php $show_button=FALSE; endif; ?>
+<?php if($show_button==FALSE): ?>
+    <div class="error"><br>Please change the folder rights and reload this page!<br><br></div>
+<?php endif; ?>
+<?php if(count($tpl['error'])>0): ?>
+    <?php foreach($tpl['error'] as $err): ?>
+	  <div class="error"><?php echo $err; ?><br><br></div>
+	<?php endforeach; ?>
 <?php endif; ?>
 <form name="setup" id="setup" method="post" action="<?php echo SMART_CONTROLLER; ?>">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">Setup </span></td>
+    <td align="center" valign="middle" bgcolor="#3366CC"><span class="title">SMART3 Project Setup</span></td>
   </tr>
   <tr>
     <td align="center" valign="top"><table width="90%"  border="0" cellspacing="4" cellpadding="2">
@@ -137,7 +147,7 @@ function subok(s){
     <td align="center" valign="top"><p>&nbsp;
       </p>
       <p>
-        <input type="submit" name="do_setup" value="Submit" />
+        <?php if($show_button==TRUE): ?><input type="submit" name="do_setup" value="Submit" /><?php endif; ?>
       </p></td>
   </tr>
 </table>

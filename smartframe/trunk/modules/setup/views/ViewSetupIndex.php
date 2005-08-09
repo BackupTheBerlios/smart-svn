@@ -37,10 +37,16 @@ class ViewSetupIndex extends SmartView
         // Init setup_config array
         $this->viewVar['setup_config'] = array();
         // Init setup_error array
-        $this->tplVar['setup_error']  = array();
+        $this->tplVar['error']  = array();
+        
+        // Init setup_error array
+        $this->tplVar['folder_error']  = array();        
+        
+        // Send a broadcast setup message to all modules to check folder rights 
+        $this->model->broadcast( 'checkFolderRights', array('error' => & $this->tplVar['folder_error']));
 
         // launch setup
-        if( isset($_POST['do_setup']) && (TRUE == $this->validate()) )
+        if( isset($_POST['do_setup']) && (TRUE == $this->validate()) && (count($this->tplVar['folder_error']) == 0) )
         {
             try
             { 
@@ -57,10 +63,8 @@ class ViewSetupIndex extends SmartView
                 $this->model->broadcast( 'setup', $data );            
 
                 // write config file with database connection settings      
-                $this->model->action( $this->config['base_module'], 
-                                      'setDbConfig', 
-                                      array( 'dbConnect' => & $this->viewVar['setup_config']['db'],
-                                             'error'     => ($error = FALSE)) );     
+                $this->model->action( $this->config['base_module'],'setDbConfig', 
+                                      array( 'dbConnect' => & $this->viewVar['setup_config']['db']) );     
                 
                 // reload the admin interface after successfull setup
                 ob_clean();
@@ -72,7 +76,7 @@ class ViewSetupIndex extends SmartView
                 // set path to the log file
                 $e->flag['logs_path'] = $this->config['logs_path'];
                 SmartExceptionLog::log( $e );
-                $this->tplVar['setup_error'][] = $e->getMessage();
+                $this->tplVar['error'][] = $e->getMessage();
 
                 // Rollback all module setup actions 
                 $this->rollback();
@@ -82,7 +86,7 @@ class ViewSetupIndex extends SmartView
                 // set path to the log file
                 $e->flag['logs_path'] = $this->config['logs_path'];
                 SmartExceptionLog::log( $e );
-                $this->tplVar['setup_error'][] = $e->getMessage();             
+                $this->tplVar['error'][] = $e->getMessage();             
                 $this->rollback();
             }   
             catch(Exception $e)
@@ -92,7 +96,7 @@ class ViewSetupIndex extends SmartView
                 // log this exception
                 SmartExceptionLog::log( $e );
                 // set template error variables                
-                $this->tplVar['setup_error'][] = $e->getMessage();
+                $this->tplVar['error'][] = $e->getMessage();
             }            
         }
 
@@ -130,7 +134,6 @@ class ViewSetupIndex extends SmartView
         {
           $this->tplVar['form_dbtableprefix'] = SmartCommonUtil::stripSlashes($_REQUEST['dbtablesprefix']);   
         }        
-    
         if(isset($_REQUEST['syspassword']))
         {
           $this->tplVar['form_syspassword'] = SmartCommonUtil::stripSlashes($_REQUEST['syspassword']);   
@@ -147,35 +150,35 @@ class ViewSetupIndex extends SmartView
     {
         if(empty($_REQUEST['dbhost']))
         {
-            $this->tplVar['setup_error'][] = 'Database Host field is empty';
+            $this->tplVar['error'][] = 'Database Host field is empty';
         }
         if(empty($_REQUEST['dbuser']))
         {
-            $this->tplVar['setup_error'][] = 'Database User field is empty';
+            $this->tplVar['error'][] = 'Database User field is empty';
         }  
         if(empty($_REQUEST['dbname']))
         {
-            $this->tplVar['setup_error'][] = 'Database Name field is empty';
+            $this->tplVar['error'][] = 'Database Name field is empty';
         }  
         elseif(preg_match("/[^a-zA-Z_0-9]/",$_REQUEST['dbname']))
         {
-            $this->tplVar['setup_error'][] = 'Only a-z A-Z _ 0-9 chars for database name are accepted';
+            $this->tplVar['error'][] = 'Only a-z A-Z _ 0-9 chars for database name are accepted';
         }    
         if(preg_match("/[^a-zA-Z_0-9]/",$_REQUEST['dbtablesprefix']))
         {
-            $this->tplVar['setup_error'][] = 'Only a-z A-Z _ 0-9 chars for database name prefix are accepted';
+            $this->tplVar['error'][] = 'Only a-z A-Z _ 0-9 chars for database name prefix are accepted';
         }         
         
-        if(empty($_REQUEST['syspassword']) || empty($_REQUEST['syspassword']))
+        if(empty($_REQUEST['syspassword']))
         {
-            $this->tplVar['setup_error'][] = 'Both Sysadmin password fields should not be empty and must contain the same value';
+            $this->tplVar['error'][] = 'Sysadmin password field should not be empty!';
         } 
-        if(preg_match("/[^a-zA-Z0-9]/",$_REQUEST['syspassword']))
+        if(preg_match("/[^a-zA-Z0-9-_]/",$_REQUEST['syspassword']))
         {
-            $this->tplVar['setup_error'][] = 'Only a-z A-Z 0-9 chars for superuser password areis accepted';
+            $this->tplVar['error'][] = 'Only a-z A-Z 0-9 - _ chars for superuser password are accepted';
         }        
         
-        if(count($this->tplVar['setup_error']) > 0)
+        if(count($this->tplVar['error']) > 0)
         {
             return FALSE;
         }
