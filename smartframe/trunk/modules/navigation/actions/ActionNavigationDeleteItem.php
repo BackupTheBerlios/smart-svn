@@ -158,7 +158,7 @@ class ActionNavigationDeleteItem extends SmartAction
             SmartCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
             $this->model->action( 'navigation','update',
-                                  array('id_node' => $this->idNode,
+                                  array('id_node' => (int)$this->idNode,
                                         'fields'  => array('media_folder' => '')) );
         }
     }

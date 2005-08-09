@@ -55,6 +55,14 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
      */    
     function validate( $data = FALSE )
     {
+        if(!isset($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt set!");
+        }
+        elseif(!is_array($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt from type array!");
+        }    
         // check if postName exists
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
@@ -63,12 +71,12 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         // validate postName name
         elseif( !isset($_FILES[$data['postName']]) )
         {
-            $data['error'] = 'You have to select a local file to upload';
+            $data['error'][] = 'You have to select a local file to upload';
             return FALSE;
         }    
         elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
         {
-            $data['error'] = 'File upload failed';
+            $data['error'][] = 'File upload failed';
             return FALSE;
         }  
         
@@ -90,12 +98,12 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         }  
         elseif(($data['item'] == 'file') && ($this->config['navigation']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
-            $data['error'] = "Max file size allowed: {$this->config['navigation']['file_size_max']} bytes";
+            $data['error'][] = "Max file size allowed: {$this->config['navigation']['file_size_max']} bytes";
             return FALSE;
         }
         elseif(($data['item'] == 'picture') && ($this->config['navigation']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
-            $data['error'] = "Max picture size allowed: {$this->config['navigation']['img_size_max']} bytes";
+            $data['error'][] = "Max picture size allowed: {$this->config['navigation']['img_size_max']} bytes";
             return FALSE;
         }
         
@@ -165,10 +173,11 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         }
         
         $this->model->action('common','imageThumb',
-                             array('imgSource'     => $image_source,
-                                   'imgDestName'   => $file_info['file_name'],
-                                   'imgDestWidth'  => $this->config['navigation']['thumb_width'],
-                                   'imgDestFolder' => $image_dest_folder,
+                             array('error'         => & $data['error'],
+                                   'imgSource'     => (string)$image_source,
+                                   'imgDestName'   => (string)$file_info['file_name'],
+                                   'imgDestWidth'  => (int)$this->config['navigation']['thumb_width'],
+                                   'imgDestFolder' => (string)$image_dest_folder,
                                    'info'          => &$pic_info));  
         
         $rank = $this->getNewLastRank( $data['id_node'], 'navigation_media_pic' );
