@@ -94,6 +94,17 @@ class ViewCommonIndex extends SmartView
         $this->tplVar['charset']    = $this->config['charset'];
         $this->tplVar['publicWebController'] = $this->config['public_web_controller'];
         $this->tplVar['adminWebController']  = $this->config['admin_web_controller'];
+        
+        // assign template var to show the admin header and footer
+        // some views dosent need it
+        if(isset($_REQUEST['nodecoration']))
+        {
+            $this->tplVar['showHeaderFooter'] = FALSE;
+        }
+        else
+        {
+            $this->tplVar['showHeaderFooter'] = TRUE;
+        }
     }  
 
     /**
