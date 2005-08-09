@@ -132,7 +132,6 @@ class SmartModelException extends SmartException
 
         $this->setName( 'SmartModelException' );
     }
-
 }
 
 class SmartInitException extends SmartException
@@ -143,7 +142,6 @@ class SmartInitException extends SmartException
 
         $this->setName('SmartInitException');
     }
-
 }
 
 class SmartContainerException extends SmartException

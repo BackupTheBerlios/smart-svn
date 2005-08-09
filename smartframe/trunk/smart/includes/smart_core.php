@@ -93,8 +93,8 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
 /**
  * Default templates and views folder
  */
-$SmartConfig['default_template_folder'] = 'templates_default';
-$SmartConfig['default_view_folder'] = 'views_default';
+$SmartConfig['default_template_folder'] = 'templates_smart';
+$SmartConfig['default_view_folder'] = 'views_smart';
 
 /**
  * Default views.
@@ -105,7 +105,7 @@ $SmartConfig['error_view'] = 'error';
 /**
  * message log types ('LOG|SHOW')
  */
-$SmartConfig['message_handle'] = 'LOG|SHOW';
+$SmartConfig['message_handle'] = 'LOG';
  
 /**
  * error reporting
@@ -115,7 +115,7 @@ $SmartConfig['error_reporting'] = E_ALL | E_STRICT;
 /**
  * Set debug mode.
  */
-$SmartConfig['debug'] = TRUE; 
+$SmartConfig['debug'] = FALSE; 
 
 /**
  * Rights for media folders and files
