@@ -40,6 +40,7 @@ function subok(s){
 </head>
 
 <body>
+<?php if($tpl['showHeaderFooter'] == TRUE): ?>
 <?php if($tpl['isUserLogged'] == TRUE): ?>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -76,8 +77,10 @@ function subok(s){
   <tr>
     <td width="20%" align="left" valign="top">
   <?php endif; ?>
+<?php endif; ?>
         <?php /* ### include the module view (template) ### */ ?>
         <?php $viewLoader->{$tpl['moduleRootView']}(); ?>
+<?php if($tpl['showHeaderFooter'] == TRUE): ?>		
   <?php if($tpl['isUserLogged'] == TRUE): ?>  
     </td>
   </tr>
@@ -90,5 +93,6 @@ function subok(s){
   </tr>
 </table>
 <?php endif; ?> 
+<?php endif; ?>
 </body>
 </html>
