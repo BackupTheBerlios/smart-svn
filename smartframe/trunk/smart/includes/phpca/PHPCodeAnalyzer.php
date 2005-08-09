@@ -6,9 +6,9 @@
 *
 * This code should be php4 compatiable but i've only run it in php5 and some of the Tokenizer constants have changed
 *
-* @author	Joshua Eichorn <josh@bluga.net>
-* @copyright	Joshua Eichorn 2004
-* @package	PHPCodeAnalyzer
+* @author Joshua Eichorn <josh@bluga.net>
+* @copyright  Joshua Eichorn 2004
+* @package  PHPCodeAnalyzer
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU Lesser General Public License as
@@ -50,422 +50,427 @@ if (!defined('T_ML_COMMENT')) {
 * @todo is it important to grab the details from creating new functions defines classes?
 * @todo support php5 only stuff like interface
 *
-* @version	0.4
+* @version  0.4
 * @license http://www.gnu.org/copyleft/lesser.html LGPL
-* @copyright	Joshua Eichorn 2004
-* @package	PHPCodeAnalyzer
-* @author	Joshua Eichorn <josh@bluga.net>
+* @copyright  Joshua Eichorn 2004
+* @package  PHPCodeAnalyzer
+* @author Joshua Eichorn <josh@bluga.net>
 */
 class PHPCodeAnalyzer
 {
-	/**
-	* Source code to analyze
-	*/
-	var $source = "";
+  /**
+  * Source code to analyze
+  */
+  public $source = "";
 
-	/**
-	* functions called
-	*/
-	var $calledFunctions = array();
+  /**
+  * functions called
+  */
+  public $calledFunctions = array();
 
-	/**
-	* Called constructs
-	*/
-	var $calledConstructs = array();
+  /**
+  * Called constructs
+  */
+  public $calledConstructs = array();
 
-	/**
-	* methods called
-	*/
-	var $calledMethods = array();
+  /**
+  * methods called
+  */
+  public $calledMethods = array();
 
-	/**
-	* static methods called
-	*/
-	var $calledStaticMethods = array();
+  /**
+  * static methods called
+  */
+  public $calledStaticMethods = array();
 
-	/**
-	* new classes instantiated 
-	*/
-	var $classesInstantiated = array();
+  /**
+  * new classes instantiated 
+  */
+  public $classesInstantiated = array();
 
-	/**
-	* variables used
-	*/
-	var $usedVariables = array();
+  /**
+  * variables used
+  */
+  public $usedVariables = array();
 
-	/**
-	* member variables used
-	*/
-	var $usedMemberVariables = array();
+  /**
+  * member variables used
+  */
+  public $usedMemberVariables = array();
 
-	/**
-	* classes created
-	*/
-	var $createdClasses = array();
+  /**
+  * classes created
+  */
+  public $createdClasses = array();
 
-	/**
-	* functions created
-	*/
-	var $createdFunctions = array();
+  /**
+  * functions created
+  */
+  public $createdFunctions = array();
 
-	/**
-	* Files includes or requried
-	*/
-	var $filesIncluded = array();
+  /**
+  * Files includes or requried
+  */
+  public $filesIncluded = array();
 
-	// private variables
-	/**#@+
-	* @access private
-	*/
-	var $currentString = null;
-	var $currentStrings = null;
-	var $currentVar = false;
-	var $staticClass = false;
-	var $inNew = false;
-	var $inInclude = false;
-	var $lineNumber = 1;
-	/**#@-*/
+  // private variables
+  /**#@+
+  * @access private
+  */
+  public $currentString = null;
+  public $currentStrings = null;
+  public $currentVar = false;
+  public $staticClass = false;
+  public $inNew = false;
+  public $inInclude = false;
+  public $lineNumber = 1;
+  /**#@-*/
 
-	/**
-	* parse source filling informational arrays
-	*/
-	function analyze()
-	{
-		$tokens = token_get_all($this->source);
-
-		// mapping of token to method to call
-		$handleMap = array(
-			T_STRING => 'handleString',
-			T_CONSTANT_ENCAPSED_STRING => 'handleString',
-			T_ENCAPSED_AND_WHITESPACE => 'handleString',
-			T_CHARACTER => 'handleString',
-			T_NUM_STRING => 'handleString',
-			T_DNUMBER => 'handleString',
-			T_FUNC_C => 'handleString',
-			T_CLASS_C => 'handleString',
-			T_FILE => 'handleString',
-			T_LINE => 'handleString',
-			T_DOUBLE_ARROW => 'handleString',
-
-			T_DOUBLE_COLON => 'handleDoubleColon',
-			T_NEW => 'handleNew',
-			T_OBJECT_OPERATOR => 'handleObjectOperator',
-			T_VARIABLE => 'handleVariable',
-			T_FUNCTION => 'handleFunction',
-			T_OLD_FUNCTION => 'handleFunction',
-			T_CLASS => 'handleClass',
-			T_WHITESPACE => 'handleWhitespace',
-			T_INLINE_HTML => 'handleWhitespace',
-			T_OPEN_TAG => 'handleWhitespace',
-			T_CLOSE_TAG => 'handleWhitespace',
-
-			T_AS	=> 'handleAs',
-
-			T_ECHO => 'handleConstruct',
-			T_EVAL => 'handleConstruct',
-			T_UNSET => 'handleConstruct',
-			T_ISSET => 'handleConstruct',
-			T_PRINT => 'handleConstruct',
-			T_FOR	=> 'handleConstruct',
-			T_FOREACH=> 'handleConstruct',
-			T_EMPTY	=> 'handleConstruct',
-			T_EXIT	=> 'handleConstruct',
-			T_CASE	=> 'handleConstruct',
-			T_GLOBAL=> 'handleConstruct',
-			T_UNSET	=> 'handleConstruct',
-			T_WHILE	=> 'handleConstruct',
-			T_DO	=> 'handleConstruct',
-			T_IF	=> 'handleConstruct',
-			T_LIST	=> 'handleConstruct',
-			T_RETURN=> 'handleConstruct',
-			T_STATIC=> 'handleConstruct',
-			T_ENDFOR=> 'handleConstruct',
-			T_ENDFOREACH=> 'handleConstruct',
-			T_ENDIF=> 'handleConstruct',
-			T_ENDSWITCH=> 'handleConstruct',
-			T_ENDWHILE=> 'handleConstruct',
-
-			T_INCLUDE => 'handleInclude',
-			T_INCLUDE_ONCE => 'handleInclude',
-			T_REQUIRE => 'handleInclude',
-			T_REQUIRE_ONCE => 'handleInclude',
-		);
-
-		foreach($tokens as $token)
-		{
-			if (is_string($token))
-			{
-				// we have a simple 1-character token
-				$this->handleSimpleToken($token);
-			}
-			else
-			{
-				list($id, $text) = $token;
-				if (isseT($handleMap[$id]))
-				{
-					$call = $handleMap[$id];
-					$this->$call($id,$text);
-				}
-				/*else
-				{
-					echo token_name($id).": $text<br>\n";
-				}*/
-			}
-		}
-	}
-
-	/**
-	* Handle a 1 char token
-	* @access private
-	*/
-	function handleSimpleToken($token)
-	{
-		if ($token !== ";")
-		{
-			$this->currentStrings .= $token;
-		}
-		switch($token)
-		{
-			case "(":
-				// method is called
-				if ($this->staticClass !== false)
-				{
-					if (!isset($this->calledStaticMethods[$this->staticClass][$this->currentString]))
-					{
-						$this->calledStaticMethods[$this->staticClass][$this->currentString] 
-							= array();
-					}
-					$this->calledStaticMethods[$this->staticClass][$this->currentString][] 
-						= $this->lineNumber;
-					$this->staticClass = false;
-				}
-				else if ($this->currentVar !== false)
-				{
-					if (!isset($this->calledMethods[$this->currentVar][$this->currentString]))
-					{
-						$this->calledMethods[$this->currentVar][$this->currentString] = array();
-					}
-					$this->calledMethods[$this->currentVar][$this->currentString][] = $this->lineNumber;
-					$this->currentVar = false;
-				}
-				else if ($this->inNew !== false)
-				{
-					$this->classInstantiated();
-				}
-				else if ($this->currentString !== null)
-				{
-					$this->functionCalled();
-				}
-				//$this->currentString = null;
-			break;
-			case "=":
-			case ";":
-				if ($this->inNew !== false)
-				{
-					$this->classInstantiated();
-				}
-				else if ($this->inInclude !== false)
-				{
-					$this->fileIncluded();
-				}
-				else if ($this->currentVar !== false)
-				{
-					$this->useMemberVar();
-				}
-				$this->currentString = null;
-				$this->currentStrings = null;
-			break;
-		}
-	}
-
-	/**
-	* handle includes and requires
-	* @access private
-	*/
-	function handleInclude($id,$text)
-	{
-		$this->inInclude = true;
-		$this->handleConstruct($id,$text);
-	}
-
-	/**
-	* handle String tokens
-	* @access private
-	*/
-	function handleString($id,$text)
-	{
-		$this->currentString = $text;
-		$this->currentStrings .= $text;
-	}
-
-	/**
-	* handle variables
-	* @access private
-	*/
-	function handleVariable($id,$text)
-	{
-		$this->currentString = $text;
-		$this->currentStrings .= $text;
-		$this->useVariable();
-	}
+  /**
+  * parse source filling informational arrays
+  */
+  public function analyze()
+  {
+    $tokens = token_get_all($this->source);
 
 
-	/**
-	* handle Double Colon tokens
-	* @access private
-	*/
-	function handleDoubleColon($id,$text)
-	{
-		$this->staticClass = $this->currentString;
-		$this->currentString = null;
-	}
 
-	/**
-	* handle new keyword
-	* @access private
-	*/
-	function handleNew($id,$text)
-	{
-		$this->inNew = true;
-	}
+    // mapping of token to method to call
+    $handleMap = array(
+      T_STRING => 'handleString',
+      T_CONSTANT_ENCAPSED_STRING => 'handleString',
+      T_ENCAPSED_AND_WHITESPACE => 'handleString',
+      T_CHARACTER => 'handleString',
+      T_NUM_STRING => 'handleString',
+      T_DNUMBER => 'handleString',
+      T_FUNC_C => 'handleString',
+      T_CLASS_C => 'handleString',
+      T_FILE => 'handleString',
+      T_LINE => 'handleString',
+      T_DOUBLE_ARROW => 'handleString',
 
-	/**
-	* handle function
-	* @access private
-	*/
-	function handleFunction($id,$text)
-	{
-		$this->createdFunctions[] = $this->lineNumber;
-	}
+      T_DOUBLE_COLON => 'handleDoubleColon',
+      T_NEW => 'handleNew',
+      T_OBJECT_OPERATOR => 'handleObjectOperator',
+      T_VARIABLE => 'handleVariable',
+      T_FUNCTION => 'handleFunction',
+      T_OLD_FUNCTION => 'handleFunction',
+      T_CLASS => 'handleClass',
+      T_WHITESPACE => 'handleWhitespace',
+      T_INLINE_HTML => 'handleWhitespace',
+      T_OPEN_TAG => 'handleWhitespace',
+      T_CLOSE_TAG => 'handleWhitespace',
 
-	/**
-	* handle class
-	* @access private
-	*/
-	function handleClass($id,$text)
-	{
-		$this->createdClasses[] = $this->lineNumber;
-	}
+      T_AS  => 'handleAs',
 
-	/**
-	* Handle ->
-	* @access private
-	*/
-	function handleObjectOperator($id,$text)
-	{
-		$this->currentVar = $this->currentString;
-		$this->currentString = null;
-		$this->currentStrings .= $text;
-	}
+      T_ECHO => 'handleConstruct',
+      T_EVAL => 'handleConstruct',
+      T_UNSET => 'handleConstruct',
+      T_ISSET => 'handleConstruct',
+      T_PRINT => 'handleConstruct',
+      T_FOR => 'handleConstruct',
+      T_FOREACH=> 'handleConstruct',
+      T_EMPTY => 'handleConstruct',
+      T_EXIT  => 'handleConstruct',
+      T_CASE  => 'handleConstruct',
+      T_GLOBAL=> 'handleConstruct',
+      T_UNSET => 'handleConstruct',
+      T_WHILE => 'handleConstruct',
+      T_DO  => 'handleConstruct',
+      T_IF  => 'handleConstruct',
+      T_LIST  => 'handleConstruct',
+      T_RETURN=> 'handleConstruct',
+      T_STATIC=> 'handleConstruct',
+      T_ENDFOR=> 'handleConstruct',
+      T_ENDFOREACH=> 'handleConstruct',
+      T_ENDIF=> 'handleConstruct',
+      T_ENDSWITCH=> 'handleConstruct',
+      T_ENDWHILE=> 'handleConstruct',
 
-	/**
-	* handle whitespace to figure out line counts
-	* @access private
-	*/
-	function handleWhitespace($id,$text)
-	{
-		$this->lineNumber+=substr_count($text,"\n");
-		if ($id == T_CLOSE_TAG)
-		{
-			$this->handleSimpleToken(";");
-		}
-	}
+      T_INCLUDE => 'handleInclude',
+      T_INCLUDE_ONCE => 'handleInclude',
+      T_REQUIRE => 'handleInclude',
+      T_REQUIRE_ONCE => 'handleInclude');
 
 
-	/**
-	* as has been used we must have a var before it
-	*
-	* @access private
-	*/
-	function handleAs($id,$text)
-	{
-		$this->handleSimpleToken(";");
-	}
+    foreach($tokens as $token)
+    {
+      if (is_string($token))
+      {
+        // we have a simple 1-character token
+        $this->handleSimpleToken($token);
+      }
+      else
+      {
+        list($id, $text) = $token;
+        if (isset($handleMap[$id]))
+        {
+          $call = $handleMap[$id];
+          $this->$call($id,$text);
+        }
+        /*
+        else
+        {
+          echo token_name($id).": $text<br>\n";
+        }
+        */
+      }
+    }
 
-	/**
-	* a language construct has been called record it
-	* @access private
-	*/
-	function handleConstruct($id,$construct)
-	{
-		if (!isset($this->calledConstructs[$construct]))
-		{
-			$this->calledConstructs[$construct] = array();
-		}
-		$this->calledConstructs[$construct][] = $this->lineNumber;
-		$this->currentString = null;
-	}
+  }
 
-	/**
-	* a class was Instantiated record it
-	* @access private
-	*/
-	function classInstantiated()
-	{
-		if (!isset($this->classesInstantiated[$this->currentString]))
-		{
-			$this->classesInstantiated[$this->currentString] = array();
-		}
-		$this->classesInstantiated[$this->currentString][] = $this->lineNumber;
-		$this->inNew = false;
-	}
+  /**
+  * Handle a 1 char token
+  * @access private
+  */
+  public function handleSimpleToken($token)
+  {
+    if ($token !== ";")
+    {
+      $this->currentStrings .= $token;
+    }
+    switch($token)
+    {
+      case "(":
+        // method is called
+        if ($this->staticClass !== false)
+        {
+          if (!isset($this->calledStaticMethods[$this->staticClass][$this->currentString]))
+          {
+            $this->calledStaticMethods[$this->staticClass][$this->currentString] 
+              = array();
+          }
+          $this->calledStaticMethods[$this->staticClass][$this->currentString][] 
+            = $this->lineNumber;
+          $this->staticClass = false;
+        }
+        else if ($this->currentVar !== false)
+        {
+          if (!isset($this->calledMethods[$this->currentVar][$this->currentString]))
+          {
+            $this->calledMethods[$this->currentVar][$this->currentString] = array();
+          }
+          $this->calledMethods[$this->currentVar][$this->currentString][] = $this->lineNumber;
+          $this->currentVar = false;
+        }
+        else if ($this->inNew !== false)
+        {
+          $this->classInstantiated();
+        }
+        else if ($this->currentString !== null)
+        {
+          $this->functionCalled();
+        }
+        //$this->currentString = null;
+      break;
+      case "=":
+      case ";":
+        if ($this->inNew !== false)
+        {
+          $this->classInstantiated();
+        }
+        else if ($this->inInclude !== false)
+        {
+          $this->fileIncluded();
+        }
+        else if ($this->currentVar !== false)
+        {
+          $this->useMemberVar();
+        }
+        $this->currentString = null;
+        $this->currentStrings = null;
+      break;
+    }
+  }
 
-	/**
-	* a file was included record it
-	* @access private
-	*/
-	function fileIncluded()
-	{
-		if (!isset($this->filesIncluded[$this->currentStrings]))
-		{
-			$this->filesIncluded[$this->currentStrings] = array();
-		}
-		$this->filesIncluded[$this->currentStrings][] = $this->lineNumber;
-		$this->inInclude = false;
-		$this->currentString = null;
-		$this->currentStrings = "";
-	}
+  /**
+  * handle includes and requires
+  * @access private
+  */
+  public function handleInclude($id,$text)
+  {
+    $this->inInclude = true;
+    $this->handleConstruct($id,$text);
+  }
 
-	/**
-	* a function was called record it
-	* @access private
-	*/
-	function functionCalled($id = false)
-	{
-		if (!isset($this->calledFunctions[$this->currentString]))
-		{
-			$this->calledFunctions[$this->currentString] = array();
-		}
-		$this->calledFunctions[$this->currentString][] = $this->lineNumber;
-		$this->currentString = null;
-	}
+  /**
+  * handle String tokens
+  * @access private
+  */
+  public function handleString($id,$text)
+  {
+    $this->currentString = $text;
+    $this->currentStrings .= $text;
+  }
 
-	/**
-	* we used a member variable record it
-	* @access private
-	*/
-	function useMemberVar()
-	{
-		if (!isset($this->usedMemberVariables[$this->currentVar][$this->currentString]))
-		{
-			$this->usedMemberVariables[$this->currentVar][$this->currentString] = array();
-		}
-		$this->usedMemberVariables[$this->currentVar][$this->currentString][] = $this->lineNumber;
-		$this->currentVar = false;
-		$this->currentString = null;
-	}
+  /**
+  * handle variables
+  * @access private
+  */
+  public function handleVariable($id,$text)
+  {
+    $this->currentString = $text;
+    $this->currentStrings .= $text;
+    $this->useVariable();
+  }
 
-	/**
-	* we used a variable record it
-	* @access private
-	*/
-	function useVariable()
-	{
-		if (!isset($this->usedVariables[$this->currentString]))
-		{
-			$this->usedVariables[$this->currentString] = array();
-		}
-		$this->usedVariables[$this->currentString][] = $this->lineNumber;
-	}
+
+  /**
+  * handle Double Colon tokens
+  * @access private
+  */
+  public function handleDoubleColon($id,$text)
+  {
+    $this->staticClass = $this->currentString;
+    $this->currentString = null;
+  }
+
+  /**
+  * handle new keyword
+  * @access private
+  */
+  public function handleNew($id,$text)
+  {
+    $this->inNew = true;
+  }
+
+  /**
+  * handle function
+  * @access private
+  */
+  public function handleFunction($id,$text)
+  {
+    $this->createdFunctions[] = $this->lineNumber;
+  }
+
+  /**
+  * handle class
+  * @access private
+  */
+  public function handleClass($id,$text)
+  {
+    $this->createdClasses[] = $this->lineNumber;
+  }
+
+  /**
+  * Handle ->
+  * @access private
+  */
+  public function handleObjectOperator($id,$text)
+  {
+    $this->currentVar = $this->currentString;
+    $this->currentString = null;
+    $this->currentStrings .= $text;
+  }
+
+  /**
+  * handle whitespace to figure out line counts
+  * @access private
+  */
+  public function handleWhitespace($id,$text)
+  {
+    $this->lineNumber+=substr_count($text,"\n");
+    if ($id == T_CLOSE_TAG)
+    {
+      $this->handleSimpleToken(";");
+    }
+  }
+
+
+  /**
+  * as has been used we must have a var before it
+  *
+  * @access private
+  */
+  public function handleAs($id,$text)
+  {
+    $this->handleSimpleToken(";");
+  }
+
+  /**
+  * a language construct has been called record it
+  * @access private
+  */
+  public function handleConstruct($id,$construct)
+  {
+    if (!isset($this->calledConstructs[$construct]))
+    {
+      $this->calledConstructs[$construct] = array();
+    }
+    $this->calledConstructs[$construct][] = $this->lineNumber;
+    $this->currentString = null;
+  }
+
+  /**
+  * a class was Instantiated record it
+  * @access private
+  */
+  public function classInstantiated()
+  {
+    if (!isset($this->classesInstantiated[$this->currentString]))
+    {
+      $this->classesInstantiated[$this->currentString] = array();
+    }
+    $this->classesInstantiated[$this->currentString][] = $this->lineNumber;
+    $this->inNew = false;
+  }
+
+  /**
+  * a file was included record it
+  * @access private
+  */
+  public function fileIncluded()
+  {
+    if (!isset($this->filesIncluded[$this->currentStrings]))
+    {
+      $this->filesIncluded[$this->currentStrings] = array();
+    }
+    $this->filesIncluded[$this->currentStrings][] = $this->lineNumber;
+    $this->inInclude = false;
+    $this->currentString = null;
+    $this->currentStrings = "";
+  }
+
+  /**
+  * a public function was called record it
+  * @access private
+  */
+  public function functionCalled($id = false)
+  {
+    if (!isset($this->calledFunctions[$this->currentString]))
+    {
+      $this->calledFunctions[$this->currentString] = array();
+    }
+    $this->calledFunctions[$this->currentString][] = $this->lineNumber;
+    $this->currentString = null;
+  }
+
+  /**
+  * we used a member variable record it
+  * @access private
+  */
+  public function useMemberVar()
+  {
+    if (!isset($this->usedMemberVariables[$this->currentVar][$this->currentString]))
+    {
+      $this->usedMemberVariables[$this->currentVar][$this->currentString] = array();
+    }
+    $this->usedMemberVariables[$this->currentVar][$this->currentString][] = $this->lineNumber;
+    $this->currentVar = false;
+    $this->currentString = null;
+  }
+
+  /**
+  * we used a variable record it
+  * @access private
+  */
+  public function useVariable()
+  {
+    if (!isset($this->usedVariables[$this->currentString]))
+    {
+      $this->usedVariables[$this->currentString] = array();
+    }
+    $this->usedVariables[$this->currentString][] = $this->lineNumber;
+  }
 }
 ?> 
