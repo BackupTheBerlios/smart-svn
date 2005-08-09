@@ -387,7 +387,7 @@ class ViewMiscEditText extends SmartView
      */    
     private function deletetext( $id_text )
     {
-        $this->model->action('misc','deletetext',
+        $this->model->action('misc','deleteText',
                              array('id_text' => $id_text));
     }    
     

@@ -28,9 +28,6 @@ class ActionMiscSetup extends SmartAction
             return TRUE;
         }
         
-        // check if misc related folders are writeable
-        $this->checkFolders();
-        
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}misc_text (
                    `id_text`       int(11) unsigned NOT NULL auto_increment,
                    `status`        tinyint(1) NOT NULL default 0,
@@ -105,19 +102,6 @@ class ActionMiscSetup extends SmartAction
         $this->model->dba->query($sql);            
 
         return TRUE;
-    } 
-    
-    /**
-     * Check if folders are writeable
-     *
-     */ 
-    private function checkFolders()
-    {
-        $misc_folder = SMART_BASE_DIR . 'data/misc';
-        if(!is_writeable($misc_folder))
-        {
-            throw new Exception('Must be global readable, and writeable by php scripts: '.$misc_folder);    
-        }
     } 
     
     /**

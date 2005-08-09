@@ -43,6 +43,7 @@ class ViewMiscMain extends SmartView
         $this->model->action('misc', 
                              'getTextes', 
                              array('result'  => & $this->tplVar['textes'],
+                                   'order'   => array('title','asc'),
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_text','status','description')));
 
