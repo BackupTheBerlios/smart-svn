@@ -81,8 +81,6 @@ class ActionMiscGetPicture extends SmartAction
 
         $rs = $this->model->dba->query($sql);
         
-        $data['result'] = array();
-        
         $data['result'] = $rs->fetchAssoc();
         
         return TRUE;

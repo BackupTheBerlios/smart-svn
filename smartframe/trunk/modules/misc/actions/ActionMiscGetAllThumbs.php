@@ -62,8 +62,6 @@ class ActionMiscGetAllThumbs extends SmartAction
 
         $rs = $this->model->dba->query($sql);
         
-        $data['result'] = array();
-        
         while($row = $rs->fetchAssoc())
         {            
             $data['result'][] = $row;

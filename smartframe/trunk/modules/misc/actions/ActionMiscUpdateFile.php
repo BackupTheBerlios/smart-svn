@@ -105,7 +105,7 @@ class ActionMiscUpdateFile extends SmartAction
                       SET
                         `rank`={$rank}
                     WHERE
-                      `id_text`={$row['id_text']}";
+                      `id_file`={$row['id_file']}";
 
             $this->model->dba->query($sql);   
             $rank++;
