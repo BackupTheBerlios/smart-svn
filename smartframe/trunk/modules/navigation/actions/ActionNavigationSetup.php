@@ -36,9 +36,9 @@ class ActionNavigationSetup extends SmartAction
                    `status`        tinyint(1) NOT NULL default 0,
                    `rank`          smallint(4) unsigned NOT NULL default 0,
                    `lang`          char(2) NOT NULL default 'en',
-                   `title`         text NOT NULL default '',
-                   `short_text`    text NOT NULL default '',
-                   `body`          mediumtext NOT NULL default '',
+                   `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `short_text`    text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `body`          mediumtext CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `format`        tinyint(1) NOT NULL default 0,
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,
@@ -67,8 +67,8 @@ class ActionNavigationSetup extends SmartAction
                    `width`        smallint(4) unsigned NOT NULL default 0,
                    `height`       smallint(4) unsigned NOT NULL default 0,
                    `tumbnail`     tinyint(1) NOT NULL default 0,
-                   `title`        text NOT NULL default '',
-                   `description`  text NOT NULL default '',
+                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY    (`id_pic`),
                    KEY            (`id_node`,`rank`))";
         $this->model->dba->query($sql);
@@ -80,8 +80,8 @@ class ActionNavigationSetup extends SmartAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text NOT NULL default '',
-                   `description`  text NOT NULL default '',
+                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY    (`id_file`),
                    KEY            (`id_node`,`rank`))";
         $this->model->dba->query($sql);        

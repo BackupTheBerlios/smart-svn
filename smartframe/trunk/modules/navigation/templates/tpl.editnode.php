@@ -201,6 +201,7 @@ function MM_swapImage() { //v3.0
 <form action="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=editnode" method="post" enctype="multipart/form-data" name="editnode" id="editnode">
 <input name="id_node" type="hidden" value="<?php echo $tpl['node']['id_node']; ?>">
 <input name="modifynodedata" type="hidden" value="true">
+<input name="canceledit" type="hidden" id="canceledit" value="">
 <input name="id_parent" type="hidden" value="<?php echo $tpl['node']['id_parent']; ?>">
 <input name="delete_node" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
@@ -228,7 +229,7 @@ function MM_swapImage() { //v3.0
             <tr>
               <td width="14%" align="left" valign="top" class="font10bold">Status </td>
               <td width="84%" align="left" valign="top" class="font10bold">Parent Node</td>
-              <td width="2%" align="right" valign="top" class="font10bold"><input type="submit" name="<?php echo $tpl['lock_text']; ?>" value="<?php echo $tpl['lock_text']; ?> node" class="unlockbutton"></td>
+              <td width="2%" align="right" valign="top" class="font10bold"><input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">

@@ -75,6 +75,13 @@ class ViewNavigationEditNode extends SmartView
         {
             return;
         }
+
+        // change nothing and switch back
+        if(isset($_POST['canceledit']))
+        {
+            $this->unlocknode();
+            $this->redirect((int)$_POST['id_parent']);        
+        }
         
         if( isset($_POST['modifynodedata']) )
         {      
@@ -209,7 +216,7 @@ class ViewNavigationEditNode extends SmartView
         }
         else
         {
-            $id_parent = (string)$_POST['id_parent'];
+            $id_parent = (int)$_POST['id_parent'];
             $rank = FALSE;
         }
             
@@ -345,11 +352,6 @@ class ViewNavigationEditNode extends SmartView
             {
                 $this->unlockNode();
                 $this->redirect( $id_parent );
-            }
-            elseif(isset($_POST['unlock']))
-            {
-                $this->unlockNode();
-                $this->tplVar['lock_text'] = 'lock';
             }
         }    
     }
