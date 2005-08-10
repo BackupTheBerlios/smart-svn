@@ -372,9 +372,9 @@ class ViewMiscEditText extends SmartView
     private function updatetext( $format )
     {
         $fields = array('status'      => (int)$_POST['status'],
-                        'title'       => SmartCommonUtil::stripSlashes($_POST['title']),
-                        'description' => SmartCommonUtil::stripSlashes($_POST['description']),
-                        'body'        => SmartCommonUtil::stripSlashes($_POST['body']));
+                        'title'       => SmartCommonUtil::stripSlashes(strip_tags((string)$_POST['title'])),
+                        'description' => SmartCommonUtil::stripSlashes((string)$_POST['description']),
+                        'body'        => SmartCommonUtil::stripSlashes((string)$_POST['body']));
 
         if($format != FALSE)
         {
