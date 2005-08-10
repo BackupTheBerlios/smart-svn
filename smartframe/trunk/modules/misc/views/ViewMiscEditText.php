@@ -44,25 +44,32 @@ class ViewMiscEditText extends SmartView
      */
     public function prependFilterChain()
     {
+        // init variables for this view
+        $this->initVars();
+        
         // if no rights for the logged user, show error template
         if( FALSE == $this->allowModify() )
         {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
             $this->tplVar['error'] = 'You have not the rights to edit a text!';
             $this->dontPerform = TRUE;
         }
-
-        // init variables for this view
-        $this->initVars();
-
+        // check if the demanded text exists
+        elseif($this->textExists() == FALSE)
+        {
+            $this->tplVar['error'] = 'The requested text dosent exists!';
+            $this->dontPerform = TRUE;                 
+        }
         // is text locked by an other user
-        if( TRUE !== $this->lockText() )
+        elseif( TRUE !== $this->lockText() )
+        {
+            $this->tplVar['error'] = 'The requested text is locked by an other user!';
+            $this->dontPerform = TRUE;      
+        }
+        
+        if($this->dontPerform == TRUE)
         {
             $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'This text is locked by an other user!';
-            $this->dontPerform = TRUE;      
+            $this->templateFolder = 'modules/common/templates/';        
         }
     }        
    /**
@@ -97,13 +104,13 @@ class ViewMiscEditText extends SmartView
                                    'fields'  => array('title','body','description',
                                                       'media_folder','status',
                                                       'id_text','format')));
-
+        
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->tplVar['text'], array('title') );        
                                        
         // get user picture thumbnails
         $this->model->action('misc','getAllThumbs',
-                             array('result'  => & $this->tplVar['text']['thumb'],
+                             array('result'  => & $this->tplVar['thumb'],
                                    'id_text' => (int)$_REQUEST['id_text'],
                                    'order'   => 'rank',
                                    'fields'  => array('id_pic',
@@ -117,17 +124,16 @@ class ViewMiscEditText extends SmartView
 
         // convert description field to safely include into javascript function call
         $x=0;
-        $this->tplVar['text']['thumbdesc'] = array();
-        foreach($this->tplVar['text']['thumb'] as $thumb)
+        foreach($this->tplVar['thumb'] as $thumb)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['text']['thumb'][$x], array('description') );
-            $this->tplVar['text']['thumb'][$x]['description'] = addslashes($this->tplVar['text']['thumb'][$x]['description']);
+            $this->convertHtmlSpecialChars( $this->tplVar['thumb'][$x], array('description') );
+            $this->tplVar['thumb'][$x]['description'] = addslashes($this->tplVar['thumb'][$x]['description']);
             $x++;
         }
 
         // get user files
         $this->model->action('misc','getAllFiles',
-                             array('result'  => & $this->tplVar['text']['file'],
+                             array('result'  => & $this->tplVar['file'],
                                    'id_text' => (int)$_REQUEST['id_text'],
                                    'order'   => 'rank',
                                    'fields'  => array('id_file',
@@ -139,11 +145,10 @@ class ViewMiscEditText extends SmartView
 
         // convert files description field to safely include into javascript function call
         $x=0;
-        $this->tplVar['text']['filedesc'] = array();
-        foreach($this->tplVar['text']['file'] as $file)
+        foreach($this->tplVar['file'] as $file)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['text']['file'][$x], array('description') );
-            $this->tplVar['text']['file'][$x]['description'] = addslashes($this->tplVar['text']['file'][$x]['description']);
+            $this->convertHtmlSpecialChars( $this->tplVar['file'][$x], array('description') );
+            $this->tplVar['file'][$x]['description'] = addslashes($this->tplVar['file'][$x]['description']);
             $x++;
         }    
     }  
@@ -321,12 +326,14 @@ class ViewMiscEditText extends SmartView
         // template variables
         //
         // data of the current text
-        $this->tplVar['text']   = array(); 
+        $this->tplVar['text']  = array(); 
         // data of thumbs an files attached to this text
-        $this->tplVar['text']['thumb']       = array();
-        $this->tplVar['text']['file']        = array();        
+        $this->tplVar['thumb'] = array();
+        $this->tplVar['file']  = array();        
         // errors
         $this->tplVar['error']  = array();    
+        
+        $this->dontPerform = FALSE; 
     }
      /**
      * has the logged the rights to modify?
@@ -408,7 +415,27 @@ class ViewMiscEditText extends SmartView
                              array('job'     => 'unlocktext',
                                    'id_text' => (int)$this->current_id_text));    
     }    
-    
+    /**
+     * does a text with a specific id exists
+     * @return bool
+     */ 
+    private function textExists()
+    {
+        $text  = array();
+        $error = array();
+        
+        // get current text data
+        $this->model->action('misc','getText', 
+                             array('result'  => & $text,
+                                   'id_text' => (int)$this->current_id_text,
+                                   'error'   => & $error,
+                                   'fields'  => array('id_text')));    
+        if($text == NULL)
+        {
+            return FALSE;
+        }
+        return TRUE;
+    }
 }
 
 ?>

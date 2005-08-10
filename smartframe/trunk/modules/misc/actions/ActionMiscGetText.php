@@ -12,6 +12,17 @@
 /**
  * ActionNavigationGetNode class 
  *
+ * USAGE:
+ * $model->action('misc','getText',
+ *                array('id_text' => int, 
+ *                      'result'  => & array, 
+ *                      'status'  => array('<|>|<=|>=|=', 1|2),     // optional
+ *                      'fields'  => array('id_text','status',
+ *                                         'format','media_folder',
+ *                                         'title','description',
+ *                                         'body')))
+ *
+ *
  */
  
 class ActionMiscGetText extends SmartAction
@@ -60,17 +71,12 @@ class ActionMiscGetText extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}misc_text
             WHERE
-                `id_text`={$data['id_text']} 
+                `id_text`={$data['id_text']}
                 {$sql_where}";
         
         $rs = $this->model->dba->query($sql);
-        $row = $rs->fetchAssoc();
+        $data['result'] = $rs->fetchAssoc();
 
-        foreach ($data['fields'] as $f)
-        {
-            $data['result'][$f] = stripslashes($row[$f]);
-        }              
-        
         return TRUE;
     } 
     /**
