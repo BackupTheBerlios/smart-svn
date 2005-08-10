@@ -1,4 +1,14 @@
-Smart PHP Framework install instructions
+Smart3 PHP Framework install instructions
 ---------------------------------------------
 
-Currently not available for the php5 version of Smart
+Put the whole package somewhere under the document root folder.
+Point your browser to admin.php. You should see an install page.
+
+After successfull setup you are forwarded to the login page. 
+You can login with username: "superuser", the password created
+during the install and the right captcha number.
+
+You can fill the database with the whole documentation which you
+can find in /sql/smart3.sql
+Start phpMyAdmin and execute this sql file in the smart3 install database.
+Make shure that you havent change the install db table prefixe "smart_"
