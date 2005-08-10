@@ -34,10 +34,10 @@ class ActionUserSetup extends SmartAction
                    `passwd`       char(32) NOT NULL,
                    `role`         tinyint(3) unsigned NOT NULL default 10,
                    `status`       tinyint(1) NOT NULL default 1,
-                   `name`         varchar(255) NOT NULL default '',
-                   `lastname`     varchar(255) NOT NULL default '',
+                   `name`         varchar(255) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `lastname`     varchar(255) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `email`        varchar(255) NOT NULL default '',
-                   `description`  text NOT NULL default '',
+                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `format`       tinyint(1) NOT NULL default 0,
                    `logo`         varchar(255) NOT NULL default '',
                    `media_folder` char(32) NOT NULL,
@@ -71,8 +71,8 @@ class ActionUserSetup extends SmartAction
                    `width`        smallint(4) unsigned NOT NULL default 0,
                    `height`       smallint(4) unsigned NOT NULL default 0,
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text NOT NULL default '',
-                   `description`  text NOT NULL default '',
+                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY     (`id_pic`),
                    KEY (`id_user`,`rank`))";
         $this->model->dba->query($sql);
@@ -84,8 +84,8 @@ class ActionUserSetup extends SmartAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text NOT NULL default '',
-                   `description`  text NOT NULL default '',
+                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY     (`id_file`),
                    KEY `id_user`   (`id_user`,`rank`))";
         $this->model->dba->query($sql);        

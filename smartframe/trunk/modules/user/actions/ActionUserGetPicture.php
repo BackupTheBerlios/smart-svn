@@ -31,7 +31,8 @@ class ActionUserGetPicture extends SmartAction
                                    'rank'   => TRUE,
                                    'file'   => TRUE,
                                    'title'  => TRUE,
-                                   'description' => TRUE,
+                                   'description'  => TRUE,
+                                   'media_folder' => TRUE,
                                    'mime'   => TRUE,
                                    'size'   => TRUE,
                                    'height' => TRUE,
@@ -47,17 +48,37 @@ class ActionUserGetPicture extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
+            if($f == 'media_folder')
+            {
+                continue;
+            }        
             $_fields .= $comma.'`'.$f.'`';
             $comma = ',';
+        }
+
+        if(in_array('media_folder',$data['fields']))
+        {
+            $sel = $comma.'u.`media_folder`';
+            $table = ",{$this->config['dbTablePrefix']}user_user AS u ";
+            $where = " AND p.id_user=u.id_user";
+        }
+        else
+        {
+            $sel = '';
+            $table = '';
+            $where = '';
         }
 
         $sql = "
             SELECT
                 {$_fields}
+                {$sel}
             FROM
-                {$this->config['dbTablePrefix']}user_media_pic
+                {$this->config['dbTablePrefix']}user_media_pic AS p
+                {$table}
             WHERE
-                `id_pic`= {$data['id_pic']}";
+                p.`id_pic`= {$data['id_pic']}
+                {$where}";
 
         $rs = $this->model->dba->query($sql);
         
@@ -94,6 +115,12 @@ class ActionUserGetPicture extends SmartAction
         {
             throw new SmartModelException("'id_pic' isnt numeric");
         }
+        
+        if(isset($data['media_folder']) && !is_string($data['media_folder']))
+        {
+            throw new SmartModelException("'media_folder' isnt from type string");
+        }
+        
         return TRUE;
     }
 }
