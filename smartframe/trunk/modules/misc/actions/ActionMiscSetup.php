@@ -31,9 +31,9 @@ class ActionMiscSetup extends SmartAction
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}misc_text (
                    `id_text`       int(11) unsigned NOT NULL auto_increment,
                    `status`        tinyint(1) NOT NULL default 0,
-                   `title`         text NOT NULL default '',
-                   `description`   text NOT NULL default '',
-                   `body`          mediumtext NOT NULL default '',
+                   `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description`   text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `body`          mediumtext CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `format`        tinyint(1) NOT NULL default 0,
                    `media_folder`  char(32) NOT NULL,
                    PRIMARY KEY     (`id_text`),
@@ -59,8 +59,8 @@ class ActionMiscSetup extends SmartAction
                    `width`        smallint(4) unsigned NOT NULL default 0,
                    `height`       smallint(4) unsigned NOT NULL default 0,
                    `tumbnail`     tinyint(1) NOT NULL default 0,
-                   `title`        text NOT NULL default '',
-                   `description`  text NOT NULL default '',
+                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY    (`id_pic`),
                    KEY            (`id_text`,`rank`))";
         $this->model->dba->query($sql);
@@ -72,8 +72,8 @@ class ActionMiscSetup extends SmartAction
                    `size`         int(11) NOT NULL default 0,
                    `mime`         varchar(255) NOT NULL default '',
                    `rank`         smallint(4) unsigned NOT NULL default 0,
-                   `title`        text NOT NULL default '',
-                   `description`  text NOT NULL default '',
+                   `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY    (`id_file`),
                    KEY            (`id_text`,`rank`))";
         $this->model->dba->query($sql);        
