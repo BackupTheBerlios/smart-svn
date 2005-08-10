@@ -12,6 +12,15 @@
 /**
  * ActionMiscGetPicture class 
  *
+ * USAGE:
+ *
+ * $model->action('misc','getPicture',
+ *                array('id_pic' => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_pic','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size')))
+ *
  */
  
 class ActionMiscGetPicture extends SmartAction
@@ -89,15 +98,30 @@ class ActionMiscGetPicture extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
         if(!isset($data['id_pic']))
         {
             throw new SmartModelException("No 'id_pic' defined");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_pic']))
+        if(!is_int($data['id_pic']))
         {
             throw new SmartModelException("'id_pic' isnt numeric");
         }
+
+        if(isset($data['media_folder']) && !is_string($data['media_folder']))
+        {
+            throw new SmartModelException("'media_folder' isnt from type string");
+        }
+        
         return TRUE;
     }
 }

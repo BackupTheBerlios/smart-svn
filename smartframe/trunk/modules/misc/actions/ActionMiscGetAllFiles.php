@@ -12,6 +12,15 @@
 /**
  * ActionUserGetAllFiles class 
  *
+ * USAGE:
+ *
+ * $model->action('misc','getAllFiles',
+ *                array('id_text' => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_file','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size')))
+ *
  */
  
 class ActionMiscGetAllFiles extends SmartAction
@@ -45,7 +54,7 @@ class ActionMiscGetAllFiles extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}misc_text_file
             WHERE
-                (`id_text`= {$data['id_text']})
+                (`id_text`={$data['id_text']})
             ORDER BY
                 `rank` ASC";
 
@@ -71,11 +80,24 @@ class ActionMiscGetAllFiles extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
         if(!isset($data['id_text']))
         {
             throw new SmartModelException("No 'id_text' defined");
         }
 
+        if(!is_int($data['id_text']))
+        {
+            throw new SmartModelException("'id_text' isnt from type int");
+        }
         return TRUE;
     }
 }

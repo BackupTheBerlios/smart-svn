@@ -7,9 +7,13 @@
     </tr>
   <tr>
     <td width="57%" align="left" valign="top">    <table width="400" border="0" cellspacing="3" cellpadding="3">
-      <?php if($tpl['error'] != FALSE): ?>
+      <?php if(count($tpl['error'])>0): ?>
       <tr>
-        <td width="312" align="left" valign="top" class="itemerror"><?php echo $tpl['error']; ?></td>
+        <td width="312" align="left" valign="top" class="itemerror">
+		<?php foreach($tpl['error'] as $err): ?>
+		    <?php echo $err; ?><br />
+	    <?php endforeach; ?> 		
+		</td>
       </tr>
       <?php endif; ?>
       <tr>

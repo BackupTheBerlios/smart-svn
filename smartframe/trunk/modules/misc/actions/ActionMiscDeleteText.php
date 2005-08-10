@@ -12,6 +12,11 @@
 /**
  * ActionMiscDeleteText class 
  *
+ * USAGE:
+ *
+ * $model->action('misc','delete',
+ *                array('id_text'  => int))
+ *
  */
  
 class ActionMiscDeleteText extends SmartAction
@@ -33,9 +38,13 @@ class ActionMiscDeleteText extends SmartAction
      */    
     public function validate( $data = FALSE )
     { 
-        if(preg_match("/[^0-9]/",$data['id_text']))
+        if(!isset($data['id_text']))
         {
-            throw new SmartModelException('Wrong id_text format: '.$id_text);        
+            throw new SmartModelException('"id_text" isnt defined and is required!');        
+        }    
+        if(!is_int($data['id_text']))
+        {
+            throw new SmartModelException('"id_text" isnt from type int!');        
         }
 
         return TRUE;

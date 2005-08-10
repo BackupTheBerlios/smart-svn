@@ -62,7 +62,7 @@ class ActionMiscMoveItemRank extends SmartAction
         {        
             throw new SmartModelException ('"id_text" must be defined'); 
         } 
-        elseif(@preg_match("/[^0-9]/", $data['id_text'])  )
+        elseif(!is_int($data['id_text'])  )
         {        
             throw new SmartModelException ('"id_text" must be an integer'); 
         } 
@@ -72,12 +72,12 @@ class ActionMiscMoveItemRank extends SmartAction
             throw new SmartModelException ('"id_file" or "id_pic" must be defined'); 
         }
         
-        if( isset($data['id_file']) && @preg_match("/[^0-9]/", $data['id_file'])  )
+        if( isset($data['id_file']) && !is_int($data['id_file'])  )
         {        
             throw new SmartModelException ('"id_file" must be an integer'); 
         }  
         
-        if( isset($data['id_pic']) && @preg_match("/[^0-9]/", $data['id_pic'])  )
+        if( isset($data['id_pic']) && !is_int($data['id_pic'])  )
         {        
             throw new SmartModelException ('"id_pic" must be an integer'); 
         }  

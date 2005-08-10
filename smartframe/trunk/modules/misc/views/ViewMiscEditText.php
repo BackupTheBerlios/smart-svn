@@ -76,6 +76,14 @@ class ViewMiscEditText extends SmartView
             return;
         }
         
+        // change nothing and switch back
+        if(isset($_POST['canceledit']) && ($_POST['canceledit'] == '1'))
+        {
+            $this->unlocktext();
+            $this->redirect();        
+        }
+
+        // update text data
         if( isset($_POST['modifytextdata']) )
         {      
             $this->updateTextData();
@@ -84,7 +92,7 @@ class ViewMiscEditText extends SmartView
         // get current text data
         $this->model->action('misc','getText', 
                              array('result'  => & $this->tplVar['text'],
-                                   'id_text' => $this->current_id_text,
+                                   'id_text' => (int)$this->current_id_text,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','body','description',
                                                       'media_folder','status',
@@ -154,18 +162,13 @@ class ViewMiscEditText extends SmartView
         {
             $this->deletetext( $_POST['id_text'] );
             $this->redirect();
-        }           
-        // switch format of textarea editor
-        elseif(isset($_POST['switchformat']) && $_POST['switchformat'] == 1)
-        {
-            $use_text_format = (int)$_POST['format'];
-        }        
+        }                 
         // add picture
         elseif(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
         {   
             $this->model->action('misc','addItem',
                                  array('item'     => 'picture',
-                                       'id_text'  => $_REQUEST['id_text'],
+                                       'id_text'  => (int)$_REQUEST['id_text'],
                                        'postName' => 'picture',
                                        'error'    => & $this->tplVar['error']) ); 
         }
@@ -173,39 +176,39 @@ class ViewMiscEditText extends SmartView
         elseif(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
         {
             $this->model->action('misc','deleteItem',
-                                 array('id_text' => $_REQUEST['id_text'],
-                                       'id_pic'  => $_POST['imageID2del']) ); 
+                                 array('id_text' => (int)$_REQUEST['id_text'],
+                                       'id_pic'  => (int)$_POST['imageID2del']) ); 
         }
         // move image rank up
         elseif(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
         {   
             $this->model->action('misc','moveItemRank',
-                                 array('id_text' => $_REQUEST['id_text'],
-                                       'id_pic'  => $_POST['imageIDmoveUp'],
+                                 array('id_text' => (int)$_REQUEST['id_text'],
+                                       'id_pic'  => (int)$_POST['imageIDmoveUp'],
                                        'dir'     => 'up') ); 
         }  
         // move image rank down
         elseif(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
         {   
             $this->model->action('misc','moveItemRank',
-                                 array('id_text' => $_REQUEST['id_text'],
-                                       'id_pic'  => $_POST['imageIDmoveDown'],
+                                 array('id_text' => (int)$_REQUEST['id_text'],
+                                       'id_pic'  => (int)$_POST['imageIDmoveDown'],
                                        'dir'     => 'down') ); 
         } 
         // move file rank up
         elseif(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
         {
             $this->model->action('misc','moveItemRank',
-                                 array('id_text' => $_REQUEST['id_text'],
-                                       'id_file' => $_POST['fileIDmoveUp'],
+                                 array('id_text' => (int)$_REQUEST['id_text'],
+                                       'id_file' => (int)$_POST['fileIDmoveUp'],
                                        'dir'     => 'up') );                                                 
         }
         // move file rank down
         elseif(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
         {   
             $this->model->action('misc','moveItemRank',
-                                 array('id_text' => $_REQUEST['id_text'],
-                                       'id_file' => $_POST['fileIDmoveDown'],
+                                 array('id_text' => (int)$_REQUEST['id_text'],
+                                       'id_file' => (int)$_POST['fileIDmoveDown'],
                                        'dir'     => 'down') );                                                
         } 
         // add file
@@ -213,7 +216,7 @@ class ViewMiscEditText extends SmartView
         {          
             $this->model->action('misc','addItem',
                                  array('item'     => 'file',
-                                       'id_text'  => $_REQUEST['id_text'],
+                                       'id_text'  => (int)$_REQUEST['id_text'],
                                        'postName' => 'ufile',
                                        'error'    => & $this->tplVar['error']) );                          
         }
@@ -221,12 +224,12 @@ class ViewMiscEditText extends SmartView
         elseif(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
         {   
             $this->model->action('misc','deleteItem',
-                                 array('id_text' => $_REQUEST['id_text'],
-                                       'id_file' => $_POST['fileID2del']) ); 
+                                 array('id_text' => (int)$_REQUEST['id_text'],
+                                       'id_file' => (int)$_POST['fileID2del']) ); 
         }  
         
         // update picture data if there images
-        if(isset($_POST['picid']))
+        if(isset($_POST['picid']) && is_array($_POST['picid']))
         {
             $this->model->action( 'misc','updateItem',
                                   array('item'    => 'pic',
@@ -236,7 +239,7 @@ class ViewMiscEditText extends SmartView
         }        
 
         // update file data if there file attachments
-        if(isset($_POST['fileid']))
+        if(isset($_POST['fileid']) && is_array($_POST['fileid']))
         {
             $this->model->action( 'misc','updateItem',
                                   array('item'    => 'file',
@@ -256,11 +259,6 @@ class ViewMiscEditText extends SmartView
                 $this->unlocktext();
                 $this->redirect();
             }
-            elseif(isset($_POST['unlock']))
-            {
-                $this->unlocktext();
-                $this->tplVar['lock_text'] = 'lock';
-            }
         }    
     }
      /**
@@ -271,8 +269,8 @@ class ViewMiscEditText extends SmartView
     {
         return $this->model->action('misc','lock',
                                     array('job'        => 'locktext',
-                                          'id_text'    => $this->current_id_text,
-                                          'by_id_user' => $this->viewVar['loggedUserId']) );  
+                                          'id_text'    => (int)$this->current_id_text,
+                                          'by_id_user' => (int)$this->viewVar['loggedUserId']) );  
     }   
      /**
      * init variables for this view
@@ -328,7 +326,7 @@ class ViewMiscEditText extends SmartView
         $this->tplVar['text']['thumb']       = array();
         $this->tplVar['text']['file']        = array();        
         // errors
-        $this->tplVar['error']  = FALSE;    
+        $this->tplVar['error']  = array();    
     }
      /**
      * has the logged the rights to modify?
@@ -366,7 +364,7 @@ class ViewMiscEditText extends SmartView
      */
     private function updatetext( $format )
     {
-        $fields = array('status'      => $_POST['status'],
+        $fields = array('status'      => (int)$_POST['status'],
                         'title'       => SmartCommonUtil::stripSlashes($_POST['title']),
                         'description' => SmartCommonUtil::stripSlashes($_POST['description']),
                         'body'        => SmartCommonUtil::stripSlashes($_POST['body']));
@@ -376,8 +374,8 @@ class ViewMiscEditText extends SmartView
             $fields['format'] = $format;
         }        
         
-        $this->model->action('misc','updatetext',
-                             array('id_text' => $_REQUEST['id_text'],
+        $this->model->action('misc','updateText',
+                             array('id_text' => (int)$_REQUEST['id_text'],
                                    'fields'  => $fields));    
     }
     /**
@@ -388,7 +386,7 @@ class ViewMiscEditText extends SmartView
     private function deletetext( $id_text )
     {
         $this->model->action('misc','deleteText',
-                             array('id_text' => $id_text));
+                             array('id_text' => (int)$id_text));
     }    
     
     /**
@@ -408,7 +406,7 @@ class ViewMiscEditText extends SmartView
     {
         $this->model->action('misc','lock',
                              array('job'     => 'unlocktext',
-                                   'id_text' => $this->current_id_text));    
+                                   'id_text' => (int)$this->current_id_text));    
     }    
     
 }

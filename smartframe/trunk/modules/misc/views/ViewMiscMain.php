@@ -63,7 +63,7 @@ class ViewMiscMain extends SmartView
             // lock the user to edit
             $result = $this->model->action('misc','lock',
                                      array('job'        => 'is_textlocked',
-                                           'id_text'    => $text['id_text'],
+                                           'id_text'    => (int)$text['id_text'],
                                            'by_id_user' => $this->viewVar['loggedUserId']) );
                                            
             if(($result !== TRUE) && ($result !== FALSE))

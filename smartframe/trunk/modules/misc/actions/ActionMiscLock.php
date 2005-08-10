@@ -100,13 +100,13 @@ class ActionMiscLock extends SmartAction
      */    
     public function validate( $data = FALSE )
     {
-        if( isset($data['id_text']) && @preg_match("/[^0-9]/", $data['id_text']) )
+        if( isset($data['id_text']) && !is_int($data['id_text']) )
         {
-            throw new SmartModelException('Wrong id_text format: '.$data['id_text']);         
+            throw new SmartModelException('"id_text" isnt from type int');         
         }    
-        if( isset($data['by_id_user']) && @preg_match("/[^0-9]/", $data['by_id_user']) )
+        if( isset($data['by_id_user']) && !is_int($data['by_id_user']) )
         {
-            throw new SmartModelException('Wrong by_id_user format: '.$data['by_id_user']);         
+            throw new SmartModelException('"by_id_user" isnt from type int');         
         }         
         return TRUE;
     }
@@ -135,7 +135,7 @@ class ActionMiscLock extends SmartAction
                     VALUES
                        ({$data['id_text']},NOW(),{$data['by_id_user']})";
 
-            $this->model->dba->query($sql); 
+            $this->model->dba->query($sql);
         }
         return TRUE;
     }
@@ -197,7 +197,7 @@ class ActionMiscLock extends SmartAction
      * @param mixed FALSE if not locked True if locked by the logged user
      *              else id_user of the user who locks
      */    
-    private function isTextLocked($data)
+    private function isTextLocked(&$data)
     {
         $sql = "SELECT 
                     `by_id_user` 

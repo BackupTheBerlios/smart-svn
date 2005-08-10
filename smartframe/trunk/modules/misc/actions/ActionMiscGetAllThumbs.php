@@ -12,6 +12,15 @@
 /**
  * ActionNavigationGetAllThumbs
  *
+ * USAGE:
+ *
+ * $model->action('misc','getAllThumbs',
+ *                array('id_text' => int, 
+ *                      'result'  => & array,
+ *                      'fields'  => array('id_pic','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size','height','width')))
+ *
  */
  
 class ActionMiscGetAllThumbs extends SmartAction
@@ -73,9 +82,23 @@ class ActionMiscGetAllThumbs extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+        
         if(!isset($data['id_text']))
         {
             throw new SmartModelException("No 'id_text' defined");
+        }
+
+        if(!is_int($data['id_text']))
+        {
+            throw new SmartModelException("'id_text' isnt from type int");
         }
 
         return TRUE;

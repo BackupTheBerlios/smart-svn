@@ -81,9 +81,14 @@ class ActionMiscUpdateText extends SmartAction
             }
         }
 
-        if(preg_match("/[^0-9]/",$data['id_text']))
+        if(!isset($data['id_text']))
         {
-            throw new SmartModelException('Wrong id_text format: '.$id_text);        
+            throw new SmartModelException('"id_text" isnt defined');        
+        }
+
+        if(!is_int($data['id_text']))
+        {
+            throw new SmartModelException('"id_text" isnt from type int');        
         }
         
         return TRUE;

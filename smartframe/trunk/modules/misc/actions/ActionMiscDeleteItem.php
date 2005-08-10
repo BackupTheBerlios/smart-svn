@@ -12,12 +12,17 @@
 /**
  * ActionMiscDeleteItem class 
  *
+ * USAGE:
+ *
+ * $model->action('misc','deleteItem',
+ *                array('id_pic'  => int, // one of both param
+ *                      'id_file' => int))
  */
 
 class ActionMiscDeleteItem extends SmartAction
 {
     /**
-     * Delete node picture or file
+     * Delete misc text picture or file
      *
      * @param array $data
      * @return bool
@@ -29,9 +34,13 @@ class ActionMiscDeleteItem extends SmartAction
         {
             $this->deleteFile($data);
         }
-        else
+        elseif(isset($data['id_pic']))
         {
             $this->deletePicture($data);
+        }
+        else
+        {
+            throw new SmartModelException("No 'id_file' or 'id_pic'");
         }
         
         $this->removeEmptyDirectory();
@@ -51,15 +60,14 @@ class ActionMiscDeleteItem extends SmartAction
         {
             throw new SmartModelException("No 'id_pic' or 'id_file' defined");
         }
-
-        if(isset($data['id_pic']) && preg_match("/[^0-9]/",$data['id_pic']))
-        {
-            throw new SmartModelException("'id_pic' isnt numeric");
-        }
         
-        if(isset($data['id_file']) && preg_match("/[^0-9]/",$data['id_file']))
+        if(isset($data['id_pic']) && !is_int($data['id_pic']))
         {
-            throw new SmartModelException("'id_file' isnt numeric");
+            throw new SmartModelException("'id_pic' isnt from type int");
+        }
+        elseif(isset($data['id_file']) && !is_int($data['id_file']))
+        {
+            throw new SmartModelException("'id_file' isnt from type int");
         }        
         return TRUE;
     } 
@@ -75,32 +83,32 @@ class ActionMiscDeleteItem extends SmartAction
 
         $this->model->action('misc','getPicture',
                              array('result' => & $pic,
-                                   'id_pic' => $data['id_pic'],
+                                   'id_pic' => (int)$data['id_pic'],
                                    'fields' => array('file','id_text')));   
 
-        $node = array();
+        $text = array();
 
         $this->model->action('misc','getText',
-                             array('result'  => & $node,
-                                   'id_text' => $pic['id_text'],
+                             array('result'  => & $text,
+                                   'id_text' => (int)$pic['id_text'],
                                    'fields'  => array('media_folder')));   
 
-        $this->idNode = $pic['id_text'];
-        $this->mediaFolder = &$node['media_folder'];
+        $this->idText = $pic['id_text'];
+        $this->mediaFolder = &$text['media_folder'];
 
-        if(!@unlink(SMART_BASE_DIR . 'data/misc/'.$node['media_folder'].'/'.$pic['file']))
+        if(!@unlink(SMART_BASE_DIR . 'data/misc/'.$text['media_folder'].'/'.$pic['file']))
         {
-           trigger_error('Cant delete user logo: data/misc/'.$user['media_folder'].'/'.$pic['file'], E_USER_WARNING);
+           trigger_error('Cant delete user logo: data/misc/'.$text['media_folder'].'/'.$pic['file'], E_USER_WARNING);
         }
-        if(!@unlink(SMART_BASE_DIR . 'data/misc/'.$node['media_folder'].'/thumb/'.$pic['file']))
+        if(!@unlink(SMART_BASE_DIR . 'data/misc/'.$text['media_folder'].'/thumb/'.$pic['file']))
         {
-           trigger_error('Cant delete user logo: data/misc/'.$node['media_folder'].'/thumb/'.$pic['file'], E_USER_WARNING);
+           trigger_error('Cant delete user logo: data/misc/'.$text['media_folder'].'/thumb/'.$pic['file'], E_USER_WARNING);
         }    
         // remove picture reference from database
         $this->model->action('misc','updatePicture',
                              array('action'  => 'delete',
-                                   'id_pic'  => $data['id_pic'],
-                                   'id_text' => $pic['id_text']));    
+                                   'id_pic'  => (int)$data['id_pic'],
+                                   'id_text' => (int)$pic['id_text']));    
     }  
     /**
      * delete a file
@@ -113,29 +121,29 @@ class ActionMiscDeleteItem extends SmartAction
         $file = array();
 
         $this->model->action('misc','getFile',
-                             array('result' => & $file,
-                                   'id_file' => $data['id_file'],
+                             array('result'  => & $file,
+                                   'id_file' => (int)$data['id_file'],
                                    'fields'  => array('file','id_text')));   
 
-        $node = array();
+        $text = array();
 
-        $this->model->action('misc','getNode',
-                             array('result'  => & $node,
-                                   'id_text' => $file['id_text'],
+        $this->model->action('misc','getText',
+                             array('result'  => & $text,
+                                   'id_text' => (int)$file['id_text'],
                                    'fields'  => array('media_folder')));   
 
-        $this->idNode = $file['id_text'];
-        $this->mediaFolder = &$node['media_folder'];
+        $this->idText = $file['id_text'];
+        $this->mediaFolder = &$text['media_folder'];
 
-        if(!@unlink(SMART_BASE_DIR . 'data/misc/'.$node['media_folder'].'/'.$file['file']))
+        if(!@unlink(SMART_BASE_DIR . 'data/misc/'.$text['media_folder'].'/'.$file['file']))
         {
-           trigger_error('Cant delete user logo: data/misc/'.$node['media_folder'].'/'.$file['file'], E_USER_WARNING);
+           trigger_error('Cant delete user logo: data/misc/'.$text['media_folder'].'/'.$file['file'], E_USER_WARNING);
         }   
         // remove file reference from database
         $this->model->action('misc','updateFile',
                              array('action'  => 'delete',
-                                   'id_file' => $data['id_file'],
-                                   'id_text' => $file['id_text']));    
+                                   'id_file' => (int)$data['id_file'],
+                                   'id_text' => (int)$file['id_text']));    
     }
     /**
      * remove empty user directory
@@ -151,8 +159,8 @@ class ActionMiscDeleteItem extends SmartAction
             // delete whole tree
             SmartCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
-            $this->model->action( 'misc','update',
-                                  array('id_text' => $this->idNode,
+            $this->model->action( 'misc','updateText',
+                                  array('id_text' => (int)$this->idText,
                                         'fields'  => array('media_folder' => '')) );
         }
     }

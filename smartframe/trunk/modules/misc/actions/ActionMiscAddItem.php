@@ -12,6 +12,12 @@
 /**
  * ActionMiscAddItem class 
  *
+ * $model->action('misc','addItem',
+ *                array('error' => & array(),
+ *                      'item'  => string,      // 'picture' or 'file'
+ *                      'postName' => string,   // $_FILES[$data['postName']]
+ *                      'id_text'  => int))
+ *
  */
 include_once(SMART_BASE_DIR . 'modules/misc/includes/ActionMiscFileUploadBase.php');
 
@@ -55,6 +61,15 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
      */    
     function validate( $data = FALSE )
     {
+        if(!isset($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt set!");
+        }
+        elseif(!is_array($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt from type array!");
+        }
+        
         // check if postName exists
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
@@ -63,13 +78,11 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
         // validate postName name
         elseif( !isset($_FILES[$data['postName']]) )
         {
-            $data['error'] = 'You have to select a local file to upload';
-            return FALSE;
+            $data['error'][] = 'You have to select a local file to upload';
         }    
         elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
         {
-            $data['error'] = 'File upload failed';
-            return FALSE;
+            $data['error'][] = 'File upload failed';
         }  
         
         if(!isset($data['item']))
@@ -84,18 +97,21 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
         {
             throw new SmartModelException("No 'id_text' defined");
         }
-        elseif(preg_match("/[^0-9]/",$data['id_text']))
+        elseif(!is_int($data['id_text']))
         {
-            throw new SmartModelException("'id_text' isnt numeric");
+            throw new SmartModelException("'id_text' isnt from type int");
         }  
         elseif(($data['item'] == 'file') && ($this->config['misc']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
-            $data['error'] = "Max file size allowed: {$this->config['misc']['file_size_max']} bytes";
-            return FALSE;
+            $data['error'][] = "Max file size allowed: {$this->config['misc']['file_size_max']} bytes";
         }
         elseif(($data['item'] == 'picture') && ($this->config['misc']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
-            $data['error'] = "Max picture size allowed: {$this->config['misc']['img_size_max']} bytes";
+            $data['error'][] = "Max picture size allowed: {$this->config['misc']['img_size_max']} bytes";
+        }
+
+        if(count($data['error']) > 0)
+        {
             return FALSE;
         }
         
@@ -165,10 +181,11 @@ class ActionMiscAddItem extends ActionMiscFileUploadBase
         }
         
         $this->model->action('common','imageThumb',
-                             array('imgSource'     => $image_source,
-                                   'imgDestName'   => $file_info['file_name'],
-                                   'imgDestWidth'  => $this->config['misc']['thumb_width'],
-                                   'imgDestFolder' => $image_dest_folder,
+                             array('error'         => & $data['error'],
+                                   'imgSource'     => (string)$image_source,
+                                   'imgDestName'   => (string)$file_info['file_name'],
+                                   'imgDestWidth'  => (int)$this->config['misc']['thumb_width'],
+                                   'imgDestFolder' => (string)$image_dest_folder,
                                    'info'          => &$pic_info));  
         
         $rank = $this->getNewLastRank( $data['id_text'], 'misc_text_pic' );

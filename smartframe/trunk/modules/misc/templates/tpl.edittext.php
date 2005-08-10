@@ -200,6 +200,7 @@ function MM_swapImage() { //v3.0
 </style>
 <form action="<?php echo SMART_CONTROLLER; ?>?mod=misc&view=edittext" method="post" enctype="multipart/form-data" name="edittext" id="edittext">
 <input name="id_text" type="hidden" value="<?php echo $tpl['text']['id_text']; ?>">
+<input name="canceledit" type="hidden" id="canceledit" value="">
 <input name="modifytextdata" type="hidden" value="true">
 <input name="delete_text" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
@@ -208,24 +209,27 @@ function MM_swapImage() { //v3.0
     </tr>
   <tr>
     <td width="80%" align="left" valign="top">      <table width="100%" border="0" cellspacing="3" cellpadding="3">
-      <?php if($tpl['error'] != FALSE): ?>
+      <?php if(count($tpl['error'])>0): ?>
       <tr>
-        <td height="25" align="left" valign="top" class="itemerror"><?php echo $tpl['error']; ?></td>
+        <td height="25" align="left" valign="top" class="itemerror">
+		<?php foreach($tpl['error'] as $err): ?>
+		    <?php echo $err; ?><br />
+	    <?php endforeach; ?> 
+		</td>
       </tr>
       <?php endif; ?>   
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td width="29%" align="left" valign="top" class="font10bold">Status </td>
-              <td width="46%" align="right" valign="top" class="font10bold"><input type="submit" name="<?php echo $tpl['lock_text']; ?>" value="<?php echo $tpl['lock_text']; ?> text" class="unlockbutton"></td>
-              <td width="25%" align="right" valign="top" class="font10bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=misc">back</a></td>
-            </tr>
+              <td width="46%" align="right" valign="top" class="font10bold"><input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
+              </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
                 <option value="2" <?php if($tpl['text']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
                 <option value="1" <?php if($tpl['text']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
               </select></td>
-              <td colspan="2" align="left" valign="top">&nbsp;</td>
+              <td align="left" valign="top">&nbsp;</td>
             </tr>
           </table></td>
       </tr>   

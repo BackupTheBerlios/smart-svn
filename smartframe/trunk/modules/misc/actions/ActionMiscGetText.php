@@ -44,10 +44,10 @@ class ActionMiscGetText extends SmartAction
             $_fields .= $comma.'`'.$f.'`';
             $comma = ',';
         }
-        
+
         if(isset($data['status']))
         {
-            $sql_where = " AND status{$data['status']}";
+            $sql_where = " AND `status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
@@ -94,9 +94,14 @@ class ActionMiscGetText extends SmartAction
             }
         }
 
-        if(preg_match("/[^0-9]/",$data['id_text']))
+        if(!isset($data['id_text']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_text);        
+            throw new SmartModelException('"id_text" isnt defined.');        
+        }
+        
+        if(!is_int($data['id_text']))
+        {
+            throw new SmartModelException('"id_text" isnt from type int.');        
         }
 
         if(!isset($data['result']))
@@ -106,9 +111,21 @@ class ActionMiscGetText extends SmartAction
 
         if(isset($data['status']))
         {
-            if(!preg_match("/^([><=]{1,2})([0-9]+)$/",$data['status']))
+            if(!is_array($data['status']))
             {
-                throw new SmartModelException('Wrong "status" format: '.$data['status']); 
+                throw new SmartModelException('"status" isnt an array'); 
+            }
+            else
+            {
+                if(!isset($data['status'][0]) || !preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
+                {
+                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                }
+
+                if(!isset($data['status'][1]) || !is_int($data['status'][1]))
+                {
+                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                }
             }
         }
         

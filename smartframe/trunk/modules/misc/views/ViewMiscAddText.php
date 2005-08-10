@@ -35,9 +35,9 @@ class ViewMiscAddText extends SmartView
     public function perform()
     {
         // init template array to fill with node data
-        $this->tplVar['title']  = '';
+        $this->tplVar['title'] = '';
         // Init template form field values
-        $this->tplVar['error']            = FALSE;
+        $this->tplVar['error'] = FALSE;
         
         // add node
         if( isset($_POST['addtext']) )
@@ -46,7 +46,6 @@ class ViewMiscAddText extends SmartView
             {
                 @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=misc&view=edittext&id_text='.$id_text);
                 exit;
-                //throw new SmartForwardAdminViewException('naviagtion','index');
             }
         }
         
@@ -70,12 +69,12 @@ class ViewMiscAddText extends SmartView
     {
         if(!isset($_POST['title']) || empty($_POST['title']))
         {
-            $this->tplVar['error'] = 'Title is empty';
+            $this->tplVar['error'][] = 'Title is empty';
             return FALSE;
         }
         
         return $this->model->action('misc', 'addText', 
-                             array('fields' => array('title'   => SmartCommonUtil::stripSlashes($_POST['title']),
+                             array('fields' => array('title'   => SmartCommonUtil::stripSlashes(strip_tags((string)$_POST['title'])),
                                                      'status'  => 1)));        
     }
 }
