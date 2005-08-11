@@ -12,6 +12,19 @@
 /**
  * ActionNavigationAddNode
  *
+ * USAGE:
+ * 
+ * $model->action('navigation','addNode',
+ *                array('id_parent' => int,
+ *                      'fields' => array('id_view'      => Int,
+ *                                        'status'       => Int,
+ *                                        'format'       => Int,
+ *                                        'logo'         => String,
+ *                                        'media_folder' => String,
+ *                                        'title'        => String,
+ *                                        'body'         => String
+ *                                        'short_text'   => String,
+ *                                        'lang'         => String)));
  *
  */
 
@@ -120,11 +133,11 @@ class ActionNavigationAddNode extends ActionNavigation
 
         if(!isset($data['id_parent']))
         {
-            throw new SmartModelException('Array value "id_parent" is required');        
+            throw new SmartModelException('"id_parent" is required');        
         }      
-        elseif(preg_match("/[^0-9]/",$data['id_parent']))
+        elseif(!is_int($data['id_parent']))
         {
-            throw new SmartModelException('Wrong "id_parent format": '.$data['id_parent']);        
+            throw new SmartModelException('"id_parent" isnt from type int');        
         }      
         
         return TRUE;

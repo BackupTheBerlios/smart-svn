@@ -12,6 +12,17 @@
 /**
  * ActionNavigationUpdateConfigOptions class 
  *
+ * $model->action('navigation','updateConfigOptions',
+ *                array('thumb_width'    => 'Int',
+ *                      'img_size_max'   => 'Int',
+ *                      'file_size_max'  => 'Int',
+ *                      'force_format'   => 'Int',
+ *                      'default_format' => 'Int',
+ *                      'use_short_text' => 'Int',
+ *                      'use_body'       => 'Int',
+ *                      'use_logo'       => 'Int',
+ *                      'use_images'     => 'Int',
+ *                      'use_files'      => 'Int') )
  */
  
 class ActionNavigationUpdateConfigOptions extends SmartAction
@@ -65,10 +76,15 @@ class ActionNavigationUpdateConfigOptions extends SmartAction
      * validate data array
      *
      * @param array $data
-     * @return bool true or false on error
+     * @return bool
      */    
     public function validate( $data = FALSE )
     { 
+        if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
+        {
+            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+        }
+        
         // check if database fields exists
         foreach($data['fields'] as $key => $val)
         {

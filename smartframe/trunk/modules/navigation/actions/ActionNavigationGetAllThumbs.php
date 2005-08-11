@@ -12,6 +12,15 @@
 /**
  * ActionNavigationGetAllThumbs
  *
+ * USAGE:
+ *
+ * $model->action('navigation','getAllThumbs',
+ *                array('id_node' => int, 
+ *                      'result'  => & array,
+ *                      'fields'  => array('id_pic','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size','height','width')))
+ *
  */
  
 class ActionNavigationGetAllThumbs extends SmartAction
@@ -27,7 +36,7 @@ class ActionNavigationGetAllThumbs extends SmartAction
                                    'mime'    => TRUE,
                                    'size'    => TRUE);
     /**
-     * get data of all users
+     * get all picture thumbnail data of a node
      *
      * @param array $data
      */
@@ -65,6 +74,19 @@ class ActionNavigationGetAllThumbs extends SmartAction
     
     public function validate( $data = FALSE )
     {
+        if(!isset($data['fields']))
+        {
+            throw new SmartModelException("'fields' isnt set");
+        }
+        elseif(!is_array($data['fields']))
+        {
+            throw new SmartModelException("'fields' isnt from type array");
+        }
+        elseif(count($data['fields']) == 0)
+        {
+            throw new SmartModelException("'fields' array is empty");
+        }  
+        
         foreach($data['fields'] as $key)
         {
             if(!isset($this->tblFields_pic[$key]))
@@ -73,9 +95,22 @@ class ActionNavigationGetAllThumbs extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
         if(!isset($data['id_node']))
         {
             throw new SmartModelException("No 'id_node' defined");
+        }
+        if(!is_int($data['id_node']))
+        {
+            throw new SmartModelException("'id_node' isnt from type int");
         }
 
         return TRUE;

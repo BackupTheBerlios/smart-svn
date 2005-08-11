@@ -12,6 +12,22 @@
 /**
  * ActionNavigationUpdateNode class 
  *
+ * USAGE:
+ * $model->action('navigation','UpdateNode',
+ *                array('id_node' => int,
+ *                      'fields'  => array('id_node'      => 'Int',
+ *                                         'id_parent'    => 'Int',
+ *                                         'id_sector'    => 'Int',
+ *                                         'id_view'      => 'Int',
+ *                                         'status'       => 'Int',
+ *                                         'rank'         => 'Int',
+ *                                         'format'       => 'Int',
+ *                                         'logo'         => 'String',
+ *                                         'media_folder' => 'String',
+ *                                         'lang'         => 'String',
+ *                                         'title'        => 'String',
+ *                                         'short_text'   => 'String',
+ *                                         'body'         => 'String')))
  */
 
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
@@ -62,6 +78,11 @@ class ActionNavigationUpdateNode extends ActionNavigation
      */    
     public function validate( $data = FALSE )
     { 
+        if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
+        {
+            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+        }
+        
         // check if database fields exists
         foreach($data['fields'] as $key => $val)
         {
@@ -71,9 +92,9 @@ class ActionNavigationUpdateNode extends ActionNavigation
             }
         }
 
-        if(preg_match("/[^0-9]/",$data['id_node']))
+        if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_user);        
+            throw new SmartModelException('"id_node" isnt from type int');        
         }
         
         return TRUE;

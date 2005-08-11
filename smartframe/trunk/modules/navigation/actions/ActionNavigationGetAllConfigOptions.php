@@ -12,6 +12,10 @@
 /**
  * ActionNavigationGetAllConfigOptions  class 
  *
+ * USAGE:
+ *
+ * $model->action('navigation','getAllConfigOptions',
+ *                array('result' => & array));
  */
  
 class ActionNavigationGetAllConfigOptions extends SmartAction
@@ -23,15 +27,9 @@ class ActionNavigationGetAllConfigOptions extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $sql = "
-            SELECT
-                *
-            FROM
-                {$this->config['dbTablePrefix']}navigation_config";
+        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}navigation_config";
 
         $rs = $this->model->dba->query($sql);
-        
-        $data['result'] = array();
         
         $data['result'] = $rs->fetchAssoc();
         

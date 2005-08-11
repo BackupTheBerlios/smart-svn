@@ -12,6 +12,16 @@
 /**
  * ActionNavigationGetTree class 
  *
+ * USAGE:
+ * $model->action('navigation','getTree',
+ *                array('id_node' => int,      // top level node
+ *                      'result'  => & array, 
+ *                      'status'  => array('<|>|<=|>=|=', 1|2),     // optional
+ *                      'fields'  => array('id_node','status','rank'
+ *                                         'format','media_folder','id_parent','id_sector',
+ *                                         'title','short_text',
+ *                                         'body','id_view','logo')))
+ *
  */
 
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
@@ -31,14 +41,12 @@ class ActionNavigationGetTree extends ActionNavigation
         $this->selectTree( $data );
         
         $this->tree( $data['id_node'] );
-  
-        return TRUE;
     } 
     /**
      * validate data array
      *
      * @param array $data
-     * @return bool true or false on error
+     * @return bool
      */    
     public function validate( $data = FALSE )
     { 
@@ -55,9 +63,33 @@ class ActionNavigationGetTree extends ActionNavigation
             }
         }
 
-        if(preg_match("/[^0-9]/",$data['id_node']))
+        if(!isset($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_user);        
+            throw new SmartModelException('"id_node" isnt defined');        
+        }
+        elseif(!is_int($data['id_node']))
+        {
+            throw new SmartModelException('"id_node" isnt from type int');        
+        }
+
+        if(isset($data['status']))
+        {
+            if(!is_array($data['status']))
+            {
+                throw new SmartModelException('"status" isnt an array'); 
+            }
+            else
+            {
+                if(!isset($data['status'][0]) || !preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
+                {
+                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                }
+
+                if(!isset($data['status'][1]) || !is_int($data['status'][1]))
+                {
+                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                }
+            }
         }
         
         return TRUE;
@@ -68,13 +100,24 @@ class ActionNavigationGetTree extends ActionNavigation
      * @param array $data
      */    
     function selectTree( $data )
-    { 
+    {         
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
             $_fields .= $comma.'`'.$f.'`';
             $comma = ',';
+        }
+
+        // id_parent is required for internal use
+        if(!in_array('id_parent',$data['fields']))
+        {
+            array_push($data['fields'],'id_parent');
+        }
+        // status is required for internal use
+        if(!in_array('status',$data['fields']))
+        {
+            array_push($data['fields'],'status');
         }
 
         if(isset($data['status']))
@@ -100,12 +143,7 @@ class ActionNavigationGetTree extends ActionNavigation
 
         while($row = $rs->fetchAssoc())
         {
-            $tmp = array();
-            foreach ($data['fields'] as $f)
-            {
-                $tmp[$f] = stripslashes($row[$f]);
-            }  
-            $this->node_tree[] = $tmp;
+            $this->node_tree[] = $row;
         }
     }
     /**
@@ -134,7 +172,7 @@ class ActionNavigationGetTree extends ActionNavigation
             foreach($tt as $d)
             {
                 $tmp = array();
-                
+
                 foreach($this->node_tree[$d] as $node => $value)
                 {                
                     $tmp[$node] = $value; 

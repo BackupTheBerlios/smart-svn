@@ -11,6 +11,18 @@
 
 /**
  * ActionNavigationGetNode class 
+ * USAGE:
+ *
+ * $model->action('navigation','getChilds',
+ *                array('id_node' => int,
+ *                      'result'  => & array,
+ *                      'status'  => array('>|<|=|>=|<=|!=',1|2),           // optional
+ *                      'order'   => array('rank|title','asc|desc'),        // optional
+ *                      'fields   => array('id_node''id_parent''id_sector',
+ *                                         'id_view','status','rank',
+ *                                         'format','logo','media_folder',
+ *                                         'lang','title','short_text',
+ *                                         'body') ));
  *
  */
 
@@ -104,9 +116,9 @@ class ActionNavigationGetChilds extends ActionNavigation
             throw new SmartModelException('"id_node" action array instruction is required'); 
         }
         
-        if(preg_match("/[^0-9]/",$data['id_node']))
+        if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_user);        
+            throw new SmartModelException('"id_node" isnt from type string');        
         }
 
         if(!isset($data['result']))

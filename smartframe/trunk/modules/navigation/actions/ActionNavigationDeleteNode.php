@@ -12,6 +12,11 @@
 /**
  * ActionNavigationDeleteNode class 
  *
+ * USAGE:
+ *
+ * $model->action('navigation','deleteNode',
+ *                array('id_node'  => int))
+ *
  */
  
 class ActionNavigationDeleteNode extends SmartAction
@@ -36,9 +41,13 @@ class ActionNavigationDeleteNode extends SmartAction
      */    
     public function validate( $data = FALSE )
     { 
-        if(preg_match("/[^0-9]/",$data['id_node']))
+        if(!isset($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_user);        
+            throw new SmartModelException('"id_node" isnt defined');        
+        }    
+        elseif(!is_int($data['id_node']))
+        {
+            throw new SmartModelException('"id_node" isnt from type int');        
         }
 
         return TRUE;
@@ -92,7 +101,7 @@ class ActionNavigationDeleteNode extends SmartAction
         
         // get sub nodes
         $this->model->action('navigation','getTree', 
-                             array('id_parent' => $id_node,
+                             array('id_node'   => (int)$id_node,
                                    'result'    => & $tree,
                                    'fields'    => array('id_parent','status','id_node')));   
    

@@ -25,7 +25,7 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
      */
     public function perform( $data = FALSE )
     {
-        $media_folder = $this->getUserMediaFolder( $data['id_node'] );
+        $media_folder = $this->getNodeMediaFolder( $data['id_node'] );
         
         $file_info = $this->getUniqueMediaFileName($media_folder, $_FILES[$data['postName']]['name']);
 
@@ -62,10 +62,13 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
         {
             throw new SmartModelException ('You have to select a local file to upload');
         }     
-        
-        if(preg_match("/[^0-9]/",$data['id_node']))
+        if(!isset($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_node);        
+            throw new SmartModelException("No 'id_node' defined. Required!");
+        }        
+        if(!is_int($data['id_node']))
+        {
+            throw new SmartModelException('"id_node" isnt from type int');        
         }        
         return TRUE;
     }

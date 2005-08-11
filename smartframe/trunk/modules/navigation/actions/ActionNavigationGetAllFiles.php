@@ -12,6 +12,15 @@
 /**
  * ActionUserGetAllFiles class 
  *
+ * USAGE:
+ *
+ * $model->action('navigation','getAllFiles',
+ *                array('id_node' => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_file','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size')))
+ *
  */
  
 class ActionNavigationGetAllFiles extends SmartAction
@@ -45,7 +54,7 @@ class ActionNavigationGetAllFiles extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}navigation_media_file
             WHERE
-                (`id_node`= {$data['id_node']})
+                (`id_node`={$data['id_node']})
             ORDER BY
                 `rank` ASC";
 
@@ -63,6 +72,19 @@ class ActionNavigationGetAllFiles extends SmartAction
     
     public function validate( $data = FALSE )
     {
+        if(!isset($data['fields']))
+        {
+            throw new SmartModelException("'fields' isnt set");
+        }
+        elseif(!is_array($data['fields']))
+        {
+            throw new SmartModelException("'fields' isnt from type array");
+        }
+        elseif(count($data['fields']) == 0)
+        {
+            throw new SmartModelException("'fields' array is empty");
+        }        
+        
         foreach($data['fields'] as $key)
         {
             if(!isset($this->tblFields_pic[$key]))
@@ -71,11 +93,24 @@ class ActionNavigationGetAllFiles extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
         if(!isset($data['id_node']))
         {
             throw new SmartModelException("No 'id_node' defined");
         }
-
+        if(!is_int($data['id_node']))
+        {
+            throw new SmartModelException("'id_node' isnt from type int");
+        }
+        
         return TRUE;
     }
 }

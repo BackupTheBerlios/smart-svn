@@ -14,6 +14,13 @@
  *
  * move rank of node pictures or files
  *
+ * USAGE:
+ *
+ * $model->action('navigarion','moveItemRank',
+ *                array('id_pic'  => int,     // one of both
+ *                      'id_file' => int,     //
+ *                      'dir'     => string)) // 'up' or 'down'
+ *
  */
 class ActionNavigationMoveItemRank extends SmartAction
 {                          
@@ -62,7 +69,7 @@ class ActionNavigationMoveItemRank extends SmartAction
         {        
             throw new SmartModelException ('"id_node" must be defined'); 
         } 
-        elseif(@preg_match("/[^0-9]/", $data['id_node'])  )
+        elseif(!is_int($data['id_node'])  )
         {        
             throw new SmartModelException ('"id_node" must be an integer'); 
         } 
@@ -72,12 +79,12 @@ class ActionNavigationMoveItemRank extends SmartAction
             throw new SmartModelException ('"id_file" or "id_pic" must be defined'); 
         }
         
-        if( isset($data['id_file']) && @preg_match("/[^0-9]/", $data['id_file'])  )
+        if( isset($data['id_file']) && !is_int($data['id_file'])  )
         {        
             throw new SmartModelException ('"id_file" must be an integer'); 
         }  
         
-        if( isset($data['id_pic']) && @preg_match("/[^0-9]/", $data['id_pic'])  )
+        if( isset($data['id_pic']) && !is_int($data['id_pic'])  )
         {        
             throw new SmartModelException ('"id_pic" must be an integer'); 
         }  

@@ -12,6 +12,16 @@
 /**
  * ActionNavigationGetNode class 
  *
+ * USAGE:
+ * $model->action('navigation','getNode',
+ *                array('id_node' => int, 
+ *                      'result'  => & array, 
+ *                      'status'  => array('<|>|<=|>=|=', 1|2),     // optional
+ *                      'fields'  => array('id_node','status','rank'
+ *                                         'format','media_folder','id_parent','id_sector',
+ *                                         'title','short_text',
+ *                                         'body','id_view','logo')))
+ *
  */
 
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
@@ -36,7 +46,7 @@ class ActionNavigationGetNode extends ActionNavigation
         
         if(isset($data['status']))
         {
-            $sql_where = " AND status{$data['status']}";
+            $sql_where = " AND `status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
@@ -53,14 +63,16 @@ class ActionNavigationGetNode extends ActionNavigation
                 {$sql_where}";
         
         $rs = $this->model->dba->query($sql);
-        $row = $rs->fetchAssoc();
+        $data['result'] = $rs->fetchAssoc();
+        
+        return TRUE;
 
         foreach ($data['fields'] as $f)
         {
-            $data['result'][$f] = stripslashes($row[$f]);
+            $data['result'][$f] = $row[$f];
         }              
         
-        return TRUE;
+
     } 
     /**
      * validate data array
@@ -83,9 +95,13 @@ class ActionNavigationGetNode extends ActionNavigation
             }
         }
 
-        if(preg_match("/[^0-9]/",$data['id_node']))
+        if(!isset($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_user);        
+            throw new SmartModelException('"id_node" isnt defined');        
+        }
+        if(!is_int($data['id_node']))
+        {
+            throw new SmartModelException('"id_node" isnt from type int');        
         }
 
         if(!isset($data['result']))
@@ -95,9 +111,21 @@ class ActionNavigationGetNode extends ActionNavigation
 
         if(isset($data['status']))
         {
-            if(!preg_match("/^([><=]{1,2})([0-9]+)$/",$data['status']))
+            if(!is_array($data['status']))
             {
-                throw new SmartModelException('Wrong "status" format: '.$data['status']); 
+                throw new SmartModelException('"status" isnt an array'); 
+            }
+            else
+            {
+                if(!isset($data['status'][0]) || !preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
+                {
+                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                }
+
+                if(!isset($data['status'][1]) || !is_int($data['status'][1]))
+                {
+                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                }
             }
         }
         

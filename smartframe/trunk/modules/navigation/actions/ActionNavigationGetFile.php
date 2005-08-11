@@ -10,7 +10,16 @@
 // ----------------------------------------------------------------------
 
 /**
- * ctionUserGetFile class 
+ * ActionUserGetFile class 
+ *
+ * USAGE:
+ *
+ * $model->action('navigation','getFile',
+ *                array('id_file' => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_file','rank','file',
+ *                                         'title','description',
+ *                                         'mime','size','media_folder') ))
  *
  */
  
@@ -18,11 +27,13 @@ class ActionNavigationGetFile extends SmartAction
 {
     private $tblFields_pic = array('id_node' => TRUE,
                                    'id_file' => TRUE,
-                                   'rank'   => TRUE,
-                                   'file'   => TRUE,
-                                   'description' => TRUE,
-                                   'mime'   => TRUE,
-                                   'size'   => TRUE);
+                                   'rank'    => TRUE,
+                                   'file'    => TRUE,
+                                   'title'   => TRUE,
+                                   'description'  => TRUE,
+                                   'mime'         => TRUE,
+                                   'size'         => TRUE,
+                                   'media_folder' => TRUE);
     /**
      * get data of all users
      *
@@ -44,19 +55,20 @@ class ActionNavigationGetFile extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}navigation_media_file
             WHERE
-                `id_file`= {$data['id_file']}";
+                `id_file`={$data['id_file']}";
 
         $rs = $this->model->dba->query($sql);
         
-        $data['result'] = array();
-        
         $data['result'] = $rs->fetchAssoc();
-        
-        return TRUE;
     } 
     
     public function validate( $data = FALSE )
     {
+        if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
+        {
+            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+        }
+        
         foreach($data['fields'] as $key)
         {
             if(!isset($this->tblFields_pic[$key]))
@@ -65,14 +77,28 @@ class ActionNavigationGetFile extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
         if(!isset($data['id_file']))
         {
             throw new SmartModelException("No 'id_file' defined");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_file']))
+        if(!is_int($data['id_file']))
         {
             throw new SmartModelException("'id_file' isnt numeric");
+        }
+
+        if(isset($data['media_folder']) && !is_string($data['media_folder']))
+        {
+            throw new SmartModelException("'media_folder' isnt from type string");
         }
         return TRUE;
     }

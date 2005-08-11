@@ -12,6 +12,13 @@
 /**
  * ActionNavigationRegisterViews
  *
+ * USAGE:
+ *
+ * $model->action('navigation','registerViews',
+ *                array('action'  => string,    // 'register' or 'unregister'
+ *                      'id_view' => int,       // if action = 'unregister'
+ *                      'name'    => string))   // if action = 'register'
+ *
  */
  
 class ActionNavigationRegisterViews extends SmartAction
@@ -56,8 +63,24 @@ class ActionNavigationRegisterViews extends SmartAction
     
     public function validate( $data = FALSE )
     {
+        if( !isset($data['action']) || !is_string($data['action']) )
+        {        
+            throw new SmartModelException ('"action" isnt defined or isnt from type string'); 
+        }
+        
+        if(($data['action'] != 'register') && ($data['action'] != 'unregister'))
+        {
+            throw new SmartModelException ('"action" value must be "register" or "unregister"');         
+        }
 
-
+        if( ($data['action'] != 'register') && (!isset($data['name']) || empty($data['name'])))
+        {
+            throw new SmartModelException ('"name" isnt defined or is empty');                 
+        }
+        elseif( ($data['action'] != 'unregister') && (!isset($data['id_view']) || !is_int($data['id_view'])))
+        {
+            throw new SmartModelException ('"id_view" isnt defined or is not from type int');                 
+        }        
         return TRUE;
     }
 }

@@ -12,6 +12,10 @@
 /**
  * ActionNavigationDeleteLogo class 
  *
+ * USAGE:
+ * 
+ * $model->action('navigation','deleteLogo',
+ *                array('id_node' => int))
  */
 
 class ActionNavigationDeleteLogo extends SmartAction
@@ -29,10 +33,9 @@ class ActionNavigationDeleteLogo extends SmartAction
     {
         $_file = '';
 
-        $this->model->action('navigation',
-                             'getNode',
+        $this->model->action('navigation','getNode',
                              array('result'  => & $_file,
-                                   'id_node' => $data['id_node'],
+                                   'id_node' => (int)$data['id_node'],
                                    'fields'  => array('logo','media_folder')));   
 
         if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$_file['media_folder'].'/'.$_file['logo']))
@@ -40,9 +43,8 @@ class ActionNavigationDeleteLogo extends SmartAction
             throw new SmartModelException('Cant delete user logo: data/navigation/'.$_file['media_folder'].'/'.$_file['logo']);
         }
                             
-        $this->model->action('navigation',
-                             'updateNode',
-                             array('id_node' => $data['id_node'],
+        $this->model->action('navigation','updateNode',
+                             array('id_node' => (int)$data['id_node'],
                                    'fields'  => array('logo' => '')));
         
         return TRUE;
@@ -56,9 +58,13 @@ class ActionNavigationDeleteLogo extends SmartAction
      */    
     public function validate(  $data = FALSE  )
     {
-        if(preg_match("/[^0-9]/",$data['id_node']))
+        if(!isset($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_node);        
+            throw new SmartModelException('"id_node" isnt defined');        
+        }    
+        elseif(!is_int($data['id_node']))
+        {
+            throw new SmartModelException('"id_node" isnt from type int');        
         }
         
         return TRUE;

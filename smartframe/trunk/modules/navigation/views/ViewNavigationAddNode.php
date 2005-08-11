@@ -67,7 +67,7 @@ class ViewNavigationAddNode extends SmartView
         
         // assign the template array $B->tpl_nodes with navigation nodes
         $this->model->action('navigation', 'getChilds', 
-                             array('id_node' => $id_node,
+                             array('id_node' => (int)$id_node,
                                    'order'   => array('rank', 'asc'),
                                    'status'  => array('>=', 0),
                                    'fields'  => array('id_node','title','status'),
@@ -78,7 +78,7 @@ class ViewNavigationAddNode extends SmartView
         $this->model->action('navigation',
                              'getBranch', 
                              array('result'  => & $this->tplVar['branch'],
-                                   'id_node' => $id_node,
+                                   'id_node' => (int)$id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node')));                 
 
@@ -115,15 +115,15 @@ class ViewNavigationAddNode extends SmartView
             // get current node data
             $this->model->action('navigation','getNode', 
                                  array('result'  => & $tmp,
-                                       'id_node' => $id_parent,
+                                       'id_node' => (int)$id_parent,
                                        'fields'  => array('id_view'))); 
             $id_view = $tmp['id_view'];
         }
         
         return $this->model->action('navigation', 'addNode', 
                              array('id_parent' => (int)$id_parent,
-                                   'fields'    => array('title'   => SmartCommonUtil::stripSlashes($_POST['title']),
-                                                        'id_view' => $id_view,
+                                   'fields'    => array('title'   => SmartCommonUtil::stripSlashes((string)$_POST['title']),
+                                                        'id_view' => (int)$id_view,
                                                         'status'  => 1)));        
     }
 }

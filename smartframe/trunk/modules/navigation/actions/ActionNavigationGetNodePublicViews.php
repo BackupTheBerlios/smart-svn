@@ -12,6 +12,11 @@
 /**
  * ActionNavigationGetNodePublicViews
  *
+ * USAGE:
+ *
+ * $model->action('navigation','getNodePublicViews',
+ *                array('result' => & array))
+ *
  */
  
 class ActionNavigationGetNodePublicViews extends SmartAction
@@ -20,7 +25,7 @@ class ActionNavigationGetNodePublicViews extends SmartAction
                                     'name'        => TRUE,
                                     'description' => TRUE);
     /**
-     * get data of all users
+     * get all registered node related public views
      *
      * @param array $data
      */
@@ -55,12 +60,22 @@ class ActionNavigationGetNodePublicViews extends SmartAction
     
     public function validate( $data = FALSE )
     {
+        if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
+        {
+            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+        }
+        
         foreach($data['fields'] as $key)
         {
             if(!isset($this->tblFields_view[$key]))
             {
                 throw new SmartModelException("Field '".$key."' dosent exists!");
             }
+        }
+
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException('Missing "result" array var: '); 
         }
 
         return TRUE;

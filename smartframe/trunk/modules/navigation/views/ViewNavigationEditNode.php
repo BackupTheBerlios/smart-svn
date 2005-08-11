@@ -77,7 +77,7 @@ class ViewNavigationEditNode extends SmartView
         }
 
         // change nothing and switch back
-        if(isset($_POST['canceledit']))
+        if(isset($_POST['canceledit']) && ($_POST['canceledit'] == '1'))
         {
             $this->unlocknode();
             $this->redirect((int)$_POST['id_parent']);        
@@ -97,7 +97,7 @@ class ViewNavigationEditNode extends SmartView
         // get current node data
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','body','short_text',
                                                       'id_parent','media_folder','id_view',
@@ -109,13 +109,13 @@ class ViewNavigationEditNode extends SmartView
         // get navigation node branch of the current node
         $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->tplVar['branch'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node')));   
                                    
         // get user picture thumbnails
         $this->model->action('navigation','getAllThumbs',
-                             array('result'  => & $this->tplVar['node']['thumb'],
+                             array('result'  => & $this->tplVar['thumb'],
                                    'id_node' => (int)$_REQUEST['id_node'],
                                    'order'   => 'rank',
                                    'fields'  => array('id_pic',
@@ -130,16 +130,16 @@ class ViewNavigationEditNode extends SmartView
         // convert description field to safely include into javascript function call
         $x=0;
         $this->tplVar['node']['thumbdesc'] = array();
-        foreach($this->tplVar['node']['thumb'] as $thumb)
+        foreach($this->tplVar['thumb'] as $thumb)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['node']['thumb'][$x], array('description') );
-            $this->tplVar['node']['thumb'][$x]['description'] = addslashes($this->tplVar['node']['thumb'][$x]['description']);
+            $this->convertHtmlSpecialChars( $this->tplVar['thumb'][$x], array('description') );
+            $this->tplVar['thumb'][$x]['description'] = addslashes($this->tplVar['thumb'][$x]['description']);
             $x++;
         }
 
         // get user files
         $this->model->action('navigation','getAllFiles',
-                             array('result'  => & $this->tplVar['node']['file'],
+                             array('result'  => & $this->tplVar['file'],
                                    'id_node' => (int)$_REQUEST['id_node'],
                                    'order'   => 'rank',
                                    'fields'  => array('id_file',
@@ -152,10 +152,10 @@ class ViewNavigationEditNode extends SmartView
         // convert files description field to safely include into javascript function call
         $x=0;
         $this->tplVar['node']['filedesc'] = array();
-        foreach($this->tplVar['node']['file'] as $file)
+        foreach($this->tplVar['file'] as $file)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['node']['file'][$x], array('description') );
-            $this->tplVar['node']['file'][$x]['description'] = addslashes($this->tplVar['node']['file'][$x]['description']);
+            $this->convertHtmlSpecialChars( $this->tplVar['file'][$x], array('description') );
+            $this->tplVar['file'][$x]['description'] = addslashes($this->tplVar['file'][$x]['description']);
             $x++;
         }    
 
@@ -167,7 +167,7 @@ class ViewNavigationEditNode extends SmartView
                 // get current node data
                 $this->model->action('navigation','getNode', 
                                      array('result'  => & $this->tplVar['node'],
-                                           'id_node' => $this->tplVar['node']['id_parent'],
+                                           'id_node' => (int)$this->tplVar['node']['id_parent'],
                                            'error'   => & $this->tplVar['error'],
                                            'fields'  => array('id_view'))); 
             }
@@ -234,89 +234,79 @@ class ViewNavigationEditNode extends SmartView
         // upload logo
         elseif(isset($_POST['uploadlogo']) && !empty($_POST['uploadlogo']))
         {   
-            $this->model->action('navigation',
-                                 'uploadLogo',
-                                 array('id_node'  => $_REQUEST['id_node'],
+            $this->model->action('navigation','uploadLogo',
+                                 array('id_node'  => (int)$_REQUEST['id_node'],
                                        'postName' => 'logo') );                            
         }
         // delete logo
         elseif(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
         {   
-            $this->model->action('navigation',
-                                 'deleteLogo',
-                                 array('id_node'   => $_REQUEST['id_node']) ); 
+            $this->model->action('navigation','deleteLogo',
+                                 array('id_node' => (int)$_REQUEST['id_node']) ); 
         }   
         // add picture
         elseif(isset($_POST['uploadpicture']) && !empty($_POST['uploadpicture']))
         {   
-            $this->model->action('navigation',
-                                 'addItem',
+            $this->model->action('navigation','addItem',
                                  array('item'     => 'picture',
-                                       'id_node'  => $_REQUEST['id_node'],
+                                       'id_node'  => (int)$_REQUEST['id_node'],
                                        'postName' => 'picture',
                                        'error'    => & $this->tplVar['error']) ); 
         }
         // delete picture
         elseif(isset($_POST['imageID2del']) && !empty($_POST['imageID2del']))
         {
-            $this->model->action('navigation',
-                                 'deleteItem',
-                                 array('id_node' => $_REQUEST['id_node'],
-                                       'id_pic'  => $_POST['imageID2del']) ); 
+            $this->model->action('navigation','deleteItem',
+                                 array('id_node' => (int)$_REQUEST['id_node'],
+                                       'id_pic'  => (int)$_POST['imageID2del']) ); 
         }
         // move image rank up
         elseif(isset($_POST['imageIDmoveUp']) && !empty($_POST['imageIDmoveUp']))
         {   
-            $this->model->action('navigation',
-                                 'moveItemRank',
-                                 array('id_node' => $_REQUEST['id_node'],
-                                       'id_pic'  => $_POST['imageIDmoveUp'],
+            $this->model->action('navigation','moveItemRank',
+                                 array('id_node' => (int)$_REQUEST['id_node'],
+                                       'id_pic'  => (int)$_POST['imageIDmoveUp'],
                                        'dir'     => 'up') ); 
         }  
         // move image rank down
         elseif(isset($_POST['imageIDmoveDown']) && !empty($_POST['imageIDmoveDown']))
         {   
-            $this->model->action('navigation',
-                                 'moveItemRank',
-                                 array('id_node' => $_REQUEST['id_node'],
-                                       'id_pic'  => $_POST['imageIDmoveDown'],
+            $this->model->action('navigation','moveItemRank',
+                                 array('id_node' => (int)$_REQUEST['id_node'],
+                                       'id_pic'  => (int)$_POST['imageIDmoveDown'],
                                        'dir'     => 'down') ); 
         } 
         // move file rank up
         elseif(isset($_POST['fileIDmoveUp']) && !empty($_POST['fileIDmoveUp']))
         {
-            $this->model->action('navigation',
-                                 'moveItemRank',
-                                 array('id_node' => $_REQUEST['id_node'],
-                                       'id_file' => $_POST['fileIDmoveUp'],
+            $this->model->action('navigation','moveItemRank',
+                                 array('id_node' => (int)$_REQUEST['id_node'],
+                                       'id_file' => (int)$_POST['fileIDmoveUp'],
                                        'dir'     => 'up') );                                                 
         }
         // move file rank down
         elseif(isset($_POST['fileIDmoveDown']) && !empty($_POST['fileIDmoveDown']))
         {   
-            $this->model->action('navigation',
-                                 'moveItemRank',
-                                 array('id_node' => $_REQUEST['id_node'],
-                                       'id_file' => $_POST['fileIDmoveDown'],
+            $this->model->action('navigation','moveItemRank',
+                                 array('id_node' => (int)$_REQUEST['id_node'],
+                                       'id_file' => (int)$_POST['fileIDmoveDown'],
                                        'dir'     => 'down') );                                                
         } 
         // add file
         elseif(isset($_POST['uploadfile']) && !empty($_POST['uploadfile']))
         {          
-            $this->model->action('navigation',
-                                 'addItem',
+            $this->model->action('navigation','addItem',
                                  array('item'     => 'file',
-                                       'id_node'  => $_REQUEST['id_node'],
+                                       'id_node'  => (int)$_REQUEST['id_node'],
                                        'postName' => 'ufile',
                                        'error'    => & $this->tplVar['error']) );                          
         }
         // delete file
         elseif(isset($_POST['fileID2del']) && !empty($_POST['fileID2del']))
         {   
-            $this->model->action('navigation',
-                                 'deleteItem',
-                                 array('id_node' => $_REQUEST['id_node'],
-                                       'id_file' => $_POST['fileID2del']) ); 
+            $this->model->action('navigation','deleteItem',
+                                 array('id_node' => (int)$_REQUEST['id_node'],
+                                       'id_file' => (int)$_POST['fileID2del']) ); 
         }  
         
         // update picture data if there images
@@ -363,8 +353,8 @@ class ViewNavigationEditNode extends SmartView
     {
         return $this->model->action('navigation','lock',
                                     array('job'        => 'lock',
-                                          'id_node'    => $this->current_id_node,
-                                          'by_id_user' => $this->viewVar['loggedUserId']) );  
+                                          'id_node'    => (int)$this->current_id_node,
+                                          'by_id_user' => (int)$this->viewVar['loggedUserId']) );  
     }   
      /**
      * init variables for this view
@@ -424,10 +414,10 @@ class ViewNavigationEditNode extends SmartView
         // data of the branch nodes
         $this->tplVar['branch'] = array();  
         // data of thumbs an files attached to this node
-        $this->tplVar['navigation']['thumb']       = array();
-        $this->tplVar['navigation']['file']        = array();        
+        $this->tplVar['thumb']  = array();
+        $this->tplVar['file']   = array();        
         // errors
-        $this->tplVar['error']  = FALSE;    
+        $this->tplVar['error']  = array();    
     }
      /**
      * has the logged the rights to modify?
@@ -465,11 +455,11 @@ class ViewNavigationEditNode extends SmartView
      */
     private function updateNode( $rank, $format )
     {
-        $fields = array('id_parent'  => $_POST['node_id_parent'],
-                        'status'     => $_POST['status'],
-                        'title'      => SmartCommonUtil::stripSlashes($_POST['title']),
-                        'short_text' => SmartCommonUtil::stripSlashes($_POST['short_text']),
-                        'body'       => SmartCommonUtil::stripSlashes($_POST['body']));
+        $fields = array('id_parent'  => (int)$_POST['node_id_parent'],
+                        'status'     => (int)$_POST['status'],
+                        'title'      => SmartCommonUtil::stripSlashes((string)$_POST['title']),
+                        'short_text' => SmartCommonUtil::stripSlashes((string)$_POST['short_text']),
+                        'body'       => SmartCommonUtil::stripSlashes((string)$_POST['body']));
                         
         if($rank != FALSE)
         {
@@ -488,7 +478,7 @@ class ViewNavigationEditNode extends SmartView
         }        
         
         $this->model->action('navigation','updateNode',
-                             array('id_node' => $_REQUEST['id_node'],
+                             array('id_node' => (int)$_REQUEST['id_node'],
                                    'fields'  => $fields));    
     }
     /**
@@ -499,7 +489,7 @@ class ViewNavigationEditNode extends SmartView
     private function deleteNode( $id_node )
     {
         $this->model->action('navigation','deleteNode',
-                             array('id_node' => $id_node));
+                             array('id_node' => (int)$id_node));
     }    
     /**
      * check on subnode 
@@ -512,8 +502,8 @@ class ViewNavigationEditNode extends SmartView
     private function isSubNode( $id_node1, $id_node2  )
     {
         return $this->model->action('navigation','isSubNode',
-                                    array('id_node1' => $id_node1,
-                                          'id_node2' => $id_node2));
+                                    array('id_node1' => (int)$id_node1,
+                                          'id_node2' => (int)$id_node2));
     }        
     /**
      * Get last rank of an given id_parent
@@ -524,7 +514,7 @@ class ViewNavigationEditNode extends SmartView
     {
         $rank = 0;
         $this->model->action('navigation','getLastRank',
-                             array('id_parent' => $id_parent,
+                             array('id_parent' => (int)$id_parent,
                                    'result'    => &$rank ));
         return $rank;
     }
@@ -536,7 +526,7 @@ class ViewNavigationEditNode extends SmartView
     private function reorderRank( $id_parent )
     {
         $this->model->action('navigation','reorderRank',
-                             array('id_parent' => $id_parent));
+                             array('id_parent' => (int)$id_parent));
     }  
     /**
      * Redirect to the main user location
@@ -555,7 +545,7 @@ class ViewNavigationEditNode extends SmartView
     {
         $this->model->action('navigation','lock',
                              array('job'     => 'unlock',
-                                   'id_node' => $this->current_id_node));    
+                                   'id_node' => (int)$this->current_id_node));    
     }    
     
 }

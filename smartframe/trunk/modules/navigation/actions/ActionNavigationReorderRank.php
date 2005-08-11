@@ -12,15 +12,18 @@
 /**
  * ActionNavigationReorderRank class 
  *
+ * USAGE;
+ * $model->action('navigation','reorderRank',
+ *                array('id_parent' => int) )
+ *
  */
 
 class ActionNavigationReorderRank extends SmartAction
 {
     /**
-     * get navigation node data
+     * reorder child navigation nodes of an id_parent
      *
      * @param array $data
-     * @return bool true or false on error
      */
     function perform( $data = FALSE )
     {
@@ -46,25 +49,23 @@ class ActionNavigationReorderRank extends SmartAction
             $this->model->dba->query($sql);
             $rank++;
         }
-        
-        return TRUE;
     } 
     /**
      * validate data array
      *
      * @param array $data
-     * @return bool true or false on error
+     * @return bool
      */    
     public function validate( $data = FALSE )
     { 
         if(!isset($data['id_parent']))
         {
-            throw new SmartModelException('id_parent isnt defined');        
+            throw new SmartModelException('"id_parent" isnt defined');        
         }
         
-        if(preg_match("/[^0-9]/",$data['id_parent']))
+        if(!is_int($data['id_parent']))
         {
-            throw new SmartModelException('Wrong id_parent format: '.$data['id_parent']);        
+            throw new SmartModelException('"id_parent" isnt from type int');        
         }
 
         return TRUE;

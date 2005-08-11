@@ -48,8 +48,7 @@ class ViewNavigationMain extends SmartView
             !preg_match("/[^0-9]+/",$_GET['id_node_up']) &&
             ($this->allowModify() == TRUE) )
         {
-            $this->model->action('navigation', 
-                                 'moveNodeRank', 
+            $this->model->action('navigation','moveNodeRank', 
                                  array('id_node' => (int)$_GET['id_node_up'],
                                        'dir'     => 'up'));        
         }
@@ -57,8 +56,7 @@ class ViewNavigationMain extends SmartView
                 !preg_match("/[^0-9]+/",$_GET['id_node_down']) &&
                 ($this->allowModify() == TRUE) )
         {
-            $this->model->action('navigation', 
-                                 'moveNodeRank', 
+            $this->model->action('navigation','moveNodeRank', 
                                  array('id_node' => (int)$_GET['id_node_down'],
                                        'dir'     => 'down'));        
         }
@@ -66,27 +64,24 @@ class ViewNavigationMain extends SmartView
         // get current node data if we arent at the top level node
         if($this->current_id_node != 0)
         {
-            $this->model->action('navigation', 
-                                 'getNode', 
+            $this->model->action('navigation','getNode', 
                                  array('result'  => & $this->tplVar['node'],
-                                       'id_node' => $this->current_id_node,
+                                       'id_node' => (int)$this->current_id_node,
                                        'error'   => & $this->tplVar['error'],
                                        'fields'  => array('title','id_node')));        
         }
     
         // get child navigation nodes
-        $this->model->action('navigation', 
-                             'getChilds', 
+        $this->model->action('navigation','getChilds', 
                              array('result'  => & $this->tplVar['nodes'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node','id_parent','status')));
     
         // get navigation node branch of the current node
-        $this->model->action('navigation',
-                             'getBranch', 
+        $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->tplVar['branch'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node')));                 
 
@@ -107,8 +102,8 @@ class ViewNavigationMain extends SmartView
             // lock the user to edit
             $result = $this->model->action('navigation','lock',
                                      array('job'        => 'is_locked',
-                                           'id_node'    => $node['id_node'],
-                                           'by_id_user' => $this->viewVar['loggedUserId']) );
+                                           'id_node'    => (int)$node['id_node'],
+                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
                                            
             if(($result !== TRUE) && ($result !== FALSE))
             {

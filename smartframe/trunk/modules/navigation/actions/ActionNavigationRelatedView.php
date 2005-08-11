@@ -12,20 +12,23 @@
 /**
  * ActionNavigationRelatedView class 
  *
+ * USAGE:
+ * $model->action( 'navigation', 'relatedView',
+ *                 array('id_node' => int,
+ *                       'result' => & string));
+ *
+ *
  */
  
 class ActionNavigationRelatedView extends SmartAction
 {
     /**
-     * get navigation node data
+     * get navigation node related view
      *
      * @param array $data
-     * @return bool true or false on error
      */
     function perform( $data = FALSE )
     {       
-        $id = (int)$data['id'];
-    
         $sql = "
             SELECT
                 v.`name`
@@ -33,38 +36,29 @@ class ActionNavigationRelatedView extends SmartAction
                 {$this->config['dbTablePrefix']}navigation_node AS n,
                 {$this->config['dbTablePrefix']}navigation_view AS v
             WHERE
-                n.`id_node`=$id 
+                n.`id_node`={$data['id_node']} 
             AND
                 n.`id_view`=v.`id_view`";
 
         $rs = $this->model->dba->query($sql);
         $row = $rs->fetchAssoc();
 
-        $data['result'] = '';
-
         if(isset($row['name']))
         {
            $data['result'] = $row['name'];
         }
-        
-        return TRUE;
     } 
     /**
      * validate data array
      *
      * @param array $data
-     * @return bool true or false on error
+     * @return bool
      */    
     public function validate( $data = FALSE )
     { 
-        if(is_array($data['id']) || preg_match("/[^0-9]/",$data['id']))
+        if(!isset($data['id_node']))
         {
-            trigger_error('Wrong "id" format: '.$data['id'], E_USER_WARNING);
-        }
-
-        if(!isset($data['result']))
-        {
-            throw new SmartModelException('Missing "result" array var: '); 
+            return FALSE;
         }
 
         return TRUE;

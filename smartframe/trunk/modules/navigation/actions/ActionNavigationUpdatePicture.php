@@ -53,9 +53,9 @@ class ActionNavigationUpdatePicture extends SmartAction
             throw new SmartModelException("No 'id_pic' defined. Required!");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_pic']))
+        if(!is_int($data['id_pic']))
         {
-            throw new SmartModelException("'id_pic' isnt numeric");
+            throw new SmartModelException("'id_pic' isnt from type int");
         }
 
         if($data['action'] == 'delete')
@@ -65,9 +65,9 @@ class ActionNavigationUpdatePicture extends SmartAction
                 throw new SmartModelException("No 'id_node' defined. Required!");
             }
 
-            if(preg_match("/[^0-9]/",$data['id_node']))
+            if(!is_int($data['id_node']))
             {
-                throw new SmartModelException("'id_node' isnt numeric");
+                throw new SmartModelException("'id_node' isnt from type int");
             }
         }
         

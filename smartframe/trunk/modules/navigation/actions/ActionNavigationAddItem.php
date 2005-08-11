@@ -12,6 +12,13 @@
 /**
  * ActionNavigationAddItem class 
  *
+ *
+ * $model->action('navigation','addItem',
+ *                array('error'    => & array(),
+ *                      'item'     => string,      // 'picture' or 'file'
+ *                      'postName' => string,   // $_FILES[$data['postName']]
+ *                      'id_node'  => int))
+ *
  */
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigationFileUploadBase.php');
 
@@ -68,22 +75,28 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         {        
             throw new SmartModelException ('"post_name" must be defined in view class'); 
         }
+        elseif(!is_string($data['postName']))
+        {
+            throw new SmartModelException("'postName' isnt from type string");
+        }         
         // validate postName name
         elseif( !isset($_FILES[$data['postName']]) )
         {
             $data['error'][] = 'You have to select a local file to upload';
-            return FALSE;
         }    
         elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
-            return FALSE;
         }  
         
         if(!isset($data['item']))
         {
             throw new SmartModelException("No 'item' defined");
         }
+        elseif(!is_string($data['item']))
+        {
+            throw new SmartModelException("'item' isnt from type string");
+        }        
         elseif(($data['item'] != 'picture') && ($data['item'] != 'file'))
         {
             throw new SmartModelException("'item' must be 'file' or 'picture'");
@@ -92,18 +105,21 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         {
             throw new SmartModelException("No 'id_node' defined");
         }
-        elseif(preg_match("/[^0-9]/",$data['id_node']))
+        elseif(!is_int($data['id_node']))
         {
             throw new SmartModelException("'id_node' isnt numeric");
         }  
         elseif(($data['item'] == 'file') && ($this->config['navigation']['file_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
             $data['error'][] = "Max file size allowed: {$this->config['navigation']['file_size_max']} bytes";
-            return FALSE;
         }
         elseif(($data['item'] == 'picture') && ($this->config['navigation']['img_size_max'] <= filesize($_FILES[$data['postName']]['tmp_name'])))
         {
             $data['error'][] = "Max picture size allowed: {$this->config['navigation']['img_size_max']} bytes";
+        }
+
+        if(count($data['error']) > 0)
+        {
             return FALSE;
         }
         

@@ -12,15 +12,19 @@
 /**
  * ActionNavigationGetNode class 
  *
+ * USAGE:
+ *
+ * $model->action('navigation','getLastRank',
+ *                array('id_parent' => int,
+ *                      'result'    => & int));
  */
 
 class ActionNavigationGetLastRank extends SmartAction
 {
     /**
-     * get navigation node data
+     * get last rank of navigation child nodes of a given id_parent
      *
      * @param array $data
-     * @return bool true
      */
     function perform( $data = FALSE )
     {
@@ -44,14 +48,12 @@ class ActionNavigationGetLastRank extends SmartAction
         {
             $data['result'] = FALSE;
         }
-        
-        return TRUE;
     } 
     /**
      * validate data array
      *
      * @param array $data
-     * @return bool true or false on error
+     * @return bool
      */    
     public function validate( $data = FALSE )
     { 
@@ -60,14 +62,14 @@ class ActionNavigationGetLastRank extends SmartAction
             throw new SmartModelException('id_parent isnt defined');        
         }
         
-        if(preg_match("/[^0-9]/",$data['id_parent']))
+        if(!is_int($data['id_parent']))
         {
-            throw new SmartModelException('Wrong id_parent format: '.$data['id_parent']);        
+            throw new SmartModelException('id_parent isnt from type int');        
         }
 
         if(!isset($data['result']))
         {
-            throw new SmartModelException('Missing "result" array var: '); 
+            throw new SmartModelException('Missing "result" var reference'); 
         }
 
         return TRUE;

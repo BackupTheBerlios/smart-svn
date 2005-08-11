@@ -12,6 +12,14 @@
 /**
  * ActionNavigationIsSubNode class 
  *
+ * USAGE:
+ *
+ * $this->model->action('navigation','isSubNode',
+ *                      array('id_node1' => int,
+ *                            'id_node2' => int));
+ *
+ * return bool
+ *
  */
  
 class ActionNavigationIsSubNode extends SmartAction
@@ -51,20 +59,15 @@ class ActionNavigationIsSubNode extends SmartAction
             throw new SmartModelException('Action data var "id_node2" isnt defined');        
         }   
         
-        if(preg_match("/[^0-9]/",$data['id_node2']))
+        if(!is_int($data['id_node2']))
         {
-            throw new SmartModelException('Wrong id_node2 format: '.$id_user);        
+            throw new SmartModelException('"id_node2" isnt from type int');        
         }    
         
-        if(preg_match("/[^0-9]/",$data['id_node1']))
+        if(!is_int($data['id_node1']))
         {
-            throw new SmartModelException('Wrong id_node1 format: '.$id_user);        
-        }
-        
-        if(preg_match("/[^0-9]/",$data['id_node2']))
-        {
-            throw new SmartModelException('Wrong id_node format: '.$id_user);        
-        }    
+            throw new SmartModelException('"id_node1" isnt from type int');        
+        }   
         
         return TRUE;
     }

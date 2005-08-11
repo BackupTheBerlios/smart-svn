@@ -86,7 +86,7 @@ class ActionNavigationLock extends SmartAction
                 $this->unlockByIdUser($data); 
                 return;                
             default:
-                throw new SmartModelException('Action not available: '.$data['action']); 
+                throw new SmartModelException('Action not available: '.$data['job']); 
         }
         
         return TRUE;
@@ -100,13 +100,22 @@ class ActionNavigationLock extends SmartAction
      */    
     public function validate( $data = FALSE )
     {
-        if( isset($data['id_node']) && @preg_match("/[^0-9]/", $data['id_node']) )
+        if(!isset($data['job']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$data['id_node']);         
+            throw new SmartModelException('"job" isnt set');
+        }
+        elseif(!is_string($data['job']))
+        {
+            throw new SmartModelException('"job" isnt from type string');
+        } 
+        
+        if( isset($data['id_node']) && !is_int($data['id_node']) )
+        {
+            throw new SmartModelException('"id_node" isnt from type int');         
         }    
-        if( isset($data['by_id_user']) && @preg_match("/[^0-9]/", $data['by_id_user']) )
+        if( isset($data['by_id_user']) && !is_int($data['by_id_user']) )
         {
-            throw new SmartModelException('Wrong by_id_user format: '.$data['by_id_user']);         
+            throw new SmartModelException('"by_id_user" isnt from type int');         
         }         
         return TRUE;
     }

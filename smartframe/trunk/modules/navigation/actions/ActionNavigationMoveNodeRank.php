@@ -12,6 +12,12 @@
 /**
  * ActionNavigationMoveNodeRank class 
  *
+ * USAGE:
+ *
+ * $model->action('navigarion','moveNodeRank',
+ *                array('id_node' => int,    
+ *                      'dir'     => string)) // 'up' or 'down'
+ *
  */
  
 class ActionNavigationMoveNodeRank extends SmartAction
@@ -26,7 +32,7 @@ class ActionNavigationMoveNodeRank extends SmartAction
         $node = array();
         $this->model->action('navigation','getNode',
                              array('result'  => &$node,
-                                   'id_node' => $data['id_node'],
+                                   'id_node' => (int)$data['id_node'],
                                    'fields'  => array('id_node','id_parent','rank')));        
         
         if($data['dir'] == 'up')
@@ -50,7 +56,11 @@ class ActionNavigationMoveNodeRank extends SmartAction
         {
             throw new SmartModelException('"dir" action data var isnt defined');   
         }
-
+        elseif(!is_string($data['dir']))
+        {
+            throw new SmartModelException('"dir" isnt from type string');   
+        }
+        
         if(($data['dir'] != 'up') && ($data['dir'] != 'down'))
         {
             throw new SmartModelException('Wrong "dir" action data var: '.$data['dir']); 
@@ -61,9 +71,9 @@ class ActionNavigationMoveNodeRank extends SmartAction
             throw new SmartModelException('"id_node" action data var isnt defined');   
         }
 
-        if(preg_match("/[^0-9]/",$data['id_node']))
+        if(!is_int($data['id_node']))
         {
-            throw new SmartModelException('Wrong id_node format: '.$id_user);        
+            throw new SmartModelException('"id_node" isnt from type int');        
         }
         
         return TRUE;
@@ -73,7 +83,7 @@ class ActionNavigationMoveNodeRank extends SmartAction
      *
      * @param array $node
      */      
-    private function moveRankUp( $node )
+    private function moveRankUp( &$node )
     {
         // rank position 0 cant be moved any more up
         if( $node['rank'] == 0 )
@@ -87,11 +97,11 @@ class ActionNavigationMoveNodeRank extends SmartAction
         // exchange both node ranks
         
         $this->model->action('navigation','updateNode',
-                             array('id_node' => $node['id_node'],
+                             array('id_node' => (int)$node['id_node'],
                                    'fields'  => array('rank' => $node['rank'] - 1)));
 
         $this->model->action('navigation','updateNode',
-                             array('id_node' => $nextNode['id_node'],
+                             array('id_node' => (int)$nextNode['id_node'],
                                    'fields'  => array('rank' => $nextNode['rank'] + 1)));
 
     }
@@ -100,7 +110,7 @@ class ActionNavigationMoveNodeRank extends SmartAction
      *
      * @param array $node
      */  
-    private function moveRankDown( $node )
+    private function moveRankDown( &$node )
     {        
         // get the next downer rank node
         $nextNode = $this->getNextIdNode( $node['id_parent'], $node['rank'] + 1 );
@@ -114,11 +124,11 @@ class ActionNavigationMoveNodeRank extends SmartAction
         // exchange both node ranks
         
         $this->model->action('navigation','updateNode',
-                             array('id_node' => $node['id_node'],
+                             array('id_node' => (int)$node['id_node'],
                                    'fields'  => array('rank' => $node['rank'] + 1)));
 
         $this->model->action('navigation','updateNode',
-                             array('id_node' => $nextNode['id_node'],
+                             array('id_node' => (int)$nextNode['id_node'],
                                    'fields'  => array('rank' => $nextNode['rank'] - 1)));
 
     }

@@ -12,6 +12,18 @@
 /**
  * ActionNavigationUpdateItem class 
  *
+ * USAGE:
+ * $model->action('navigation','updateItem',
+ *                array('item' => string,    // pic or file
+ *                      'ids'  => & array,   // array with ids of files or pics
+ *                      'fields' => array('id_node'     => 'Int',
+ *                                        'rank'        => 'Int',
+ *                                        'size'        => 'Int',
+ *                                        'file'        => 'String',
+ *                                        'mime'        => 'String',
+ *                                        'title'       => 'String',
+ *                                        'description' => 'String') ))
+ *
  */
 class ActionNavigationUpdateItem extends SmartAction
 {

@@ -12,6 +12,11 @@
 /**
  * ActionNavigationDeleteItem class 
  *
+ * USAGE:
+ *
+ * $model->action('navigation','deleteItem',
+ *                array('id_pic'  => int, // one of both param
+ *                      'id_file' => int))
  */
 
 class ActionNavigationDeleteItem extends SmartAction
@@ -52,14 +57,14 @@ class ActionNavigationDeleteItem extends SmartAction
             throw new SmartModelException("No 'id_pic' or 'id_file' defined");
         }
 
-        if(isset($data['id_pic']) && preg_match("/[^0-9]/",$data['id_pic']))
+        if(isset($data['id_pic']) && !is_int($data['id_pic']))
         {
-            throw new SmartModelException("'id_pic' isnt numeric");
+            throw new SmartModelException("'id_pic' isnt from type int");
         }
         
-        if(isset($data['id_file']) && preg_match("/[^0-9]/",$data['id_file']))
+        if(isset($data['id_file']) && !is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt numeric");
+            throw new SmartModelException("'id_file' isnt from type int");
         }        
         return TRUE;
     } 
@@ -73,18 +78,16 @@ class ActionNavigationDeleteItem extends SmartAction
     {
         $pic = array();
 
-        $this->model->action('navigation',
-                             'getPicture',
+        $this->model->action('navigation','getPicture',
                              array('result' => & $pic,
-                                   'id_pic' => $data['id_pic'],
+                                   'id_pic' => (int)$data['id_pic'],
                                    'fields' => array('file','id_node')));   
 
         $node = array();
 
-        $this->model->action('navigation',
-                             'getNode',
+        $this->model->action('navigation','getNode',
                              array('result'  => & $node,
-                                   'id_node' => $pic['id_node'],
+                                   'id_node' => (int)$pic['id_node'],
                                    'fields'  => array('media_folder')));   
 
         $this->idNode = $pic['id_node'];
@@ -92,18 +95,17 @@ class ActionNavigationDeleteItem extends SmartAction
 
         if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/'.$pic['file']))
         {
-           trigger_error('Cant delete user logo: data/navigation/'.$user['media_folder'].'/'.$pic['file'], E_USER_WARNING);
+           trigger_error('Cant delete user logo: data/navigation/'.$node['media_folder'].'/'.$pic['file'], E_USER_WARNING);
         }
         if(!@unlink(SMART_BASE_DIR . 'data/navigation/'.$node['media_folder'].'/thumb/'.$pic['file']))
         {
            trigger_error('Cant delete user logo: data/navigation/'.$node['media_folder'].'/thumb/'.$pic['file'], E_USER_WARNING);
         }    
         // remove picture reference from database
-        $this->model->action('navigation',
-                             'updatePicture',
+        $this->model->action('navigation','updatePicture',
                              array('action'  => 'delete',
-                                   'id_pic'  => $data['id_pic'],
-                                   'id_node' => $pic['id_node']));    
+                                   'id_pic'  => (int)$data['id_pic'],
+                                   'id_node' => (int)$pic['id_node']));    
     }  
     /**
      * delete a file
@@ -115,18 +117,16 @@ class ActionNavigationDeleteItem extends SmartAction
     {
         $file = array();
 
-        $this->model->action('navigation',
-                             'getFile',
+        $this->model->action('navigation','getFile',
                              array('result' => & $file,
-                                   'id_file' => $data['id_file'],
+                                   'id_file' => (int)$data['id_file'],
                                    'fields'  => array('file','id_node')));   
 
         $node = array();
 
-        $this->model->action('navigation',
-                             'getNode',
+        $this->model->action('navigation','getNode',
                              array('result'  => & $node,
-                                   'id_node' => $file['id_node'],
+                                   'id_node' => (int)$file['id_node'],
                                    'fields'  => array('media_folder')));   
 
         $this->idNode = $file['id_node'];
@@ -137,11 +137,10 @@ class ActionNavigationDeleteItem extends SmartAction
            trigger_error('Cant delete user logo: data/navigation/'.$node['media_folder'].'/'.$file['file'], E_USER_WARNING);
         }   
         // remove file reference from database
-        $this->model->action('navigation',
-                             'updateFile',
+        $this->model->action('navigation','updateFile',
                              array('action'  => 'delete',
-                                   'id_file' => $data['id_file'],
-                                   'id_node' => $file['id_node']));    
+                                   'id_file' => (int)$data['id_file'],
+                                   'id_node' => (int)$file['id_node']));    
     }
     /**
      * remove empty user directory

@@ -320,7 +320,7 @@ Wikki </td>
                 <input name="fileID2del" type="hidden" value="">
                 <input name="fileIDmoveUp" type="hidden" value="">
                 <input name="fileIDmoveDown" type="hidden" value="">
-                <?php foreach($tpl['node']['file'] as $file): ?>
+                <?php foreach($tpl['file'] as $file): ?>
                 <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
                   <tr>
                     <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">
@@ -370,12 +370,12 @@ Wikki </td>
       <tr>
         <td align="center" valign="top">
           <?php if(empty($tpl['node']['logo'])): ?>
+		  <input name="uploadlogo" type="hidden" value="">
           <input type="file" name="logo" size="10">
           <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
           <?php else: ?>
           <img name="nodelogo" src="<?php echo SMART_RELATIVE_PATH.'data/navigation/'.$tpl['node']['media_folder'].'/'.$tpl['node']['logo']; ?>" alt="Node Logo"> <br>
           <input name="deletelogo" type="hidden" value="">
-		  <input name="uploadlogo" type="hidden" value="">
           <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete node logo Picture?');">
           <?php endif; ?>
         </td>
@@ -399,7 +399,7 @@ Wikki </td>
             <input name="imageID2del" type="hidden" value="">
             <input name="imageIDmoveUp" type="hidden" value="">
             <input name="imageIDmoveDown" type="hidden" value="">
-            <?php foreach($tpl['node']['thumb'] as $thumb): ?>
+            <?php foreach($tpl['thumb'] as $thumb): ?>
             <table width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
               <tr>
                 <td align="center" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="0">

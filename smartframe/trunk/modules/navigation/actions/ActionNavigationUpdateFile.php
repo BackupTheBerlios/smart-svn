@@ -12,6 +12,12 @@
 /**
  * ActionNavigationPicture class 
  *
+ * USAGE:
+ * $model->action('navigation','updateFile',
+ *                array('action'  => string,   // delete or update
+ *                      'id_file' => int,
+ *                      'id_node' => int))
+ *
  */
 class ActionNavigationUpdateFile extends SmartAction
 {
@@ -53,9 +59,9 @@ class ActionNavigationUpdateFile extends SmartAction
             throw new SmartModelException("No 'id_file' defined. Required!");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_file']))
+        if(!is_int($data['id_file']))
         {
-            throw new SmartModelException("'id_file' isnt numeric");
+            throw new SmartModelException("'id_file' isnt from type int");
         }
 
         if($data['action'] == 'delete')
@@ -65,9 +71,9 @@ class ActionNavigationUpdateFile extends SmartAction
                 throw new SmartModelException("No 'id_node' defined. Required!");
             }
 
-            if(preg_match("/[^0-9]/",$data['id_node']))
+            if(!is_int($data['id_node']))
             {
-                throw new SmartModelException("'id_node' isnt numeric");
+                throw new SmartModelException("'id_node' isnt from type int");
             }
         }
         

@@ -12,6 +12,15 @@
 /**
  * ActionNavigationGetPicture class 
  *
+ * USAGE:
+ *
+ * $model->action('navigation','getPicture',
+ *                array('id_pic'  => int, 
+ *                      'result'  => & array, 
+ *                      'fields'  => array('id_pic','id_node','rank','file',
+ *                                         'title','description','media_folder'
+ *                                         'mime','size','width','height')))
+ *
  */
  
 class ActionNavigationGetPicture extends SmartAction
@@ -67,7 +76,7 @@ class ActionNavigationGetPicture extends SmartAction
                 {$this->config['dbTablePrefix']}navigation_media_pic AS p
                 {$table}
             WHERE
-                p.`id_pic`= {$data['id_pic']}
+                p.`id_pic`={$data['id_pic']}
                 {$where}";
 
         $rs = $this->model->dba->query($sql);
@@ -81,6 +90,11 @@ class ActionNavigationGetPicture extends SmartAction
     
     public function validate( $data = FALSE )
     {
+        if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
+        {
+            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+        }
+        
         foreach($data['fields'] as $key)
         {
             if(!isset($this->tblFields_pic[$key]))
@@ -89,15 +103,30 @@ class ActionNavigationGetPicture extends SmartAction
             }
         }
 
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException("'result' isnt set");
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException("'result' isnt from type array");
+        }
+
         if(!isset($data['id_pic']))
         {
             throw new SmartModelException("No 'id_pic' defined");
         }
 
-        if(preg_match("/[^0-9]/",$data['id_pic']))
+        if(!is_int($data['id_pic']))
         {
             throw new SmartModelException("'id_pic' isnt numeric");
         }
+
+        if(isset($data['media_folder']) && !is_string($data['media_folder']))
+        {
+            throw new SmartModelException("'media_folder' isnt from type string");
+        }
+        
         return TRUE;
     }
 }
