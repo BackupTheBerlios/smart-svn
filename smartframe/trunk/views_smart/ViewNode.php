@@ -32,27 +32,27 @@ class ViewNode extends SmartView
         // get requested node content
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'fields'  => array('title','body','id_node','media_folder')));                             
 
         // get child nodes content of the requested node
         // only with status=2, means active      
         $this->model->action('navigation','getChilds', 
                              array('result'  => & $this->tplVar['childNodes'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'status'  => array('=',2),
                                    'fields'  => array('title','short_text','id_node')));
  
         // get navigation node branch content of the requested node
         $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->tplVar['nodeBranch'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'fields'  => array('title','id_node')));  
                                  
         // get node attached files
         $this->model->action('navigation','getAllFiles',
                              array('result'  => & $this->tplVar['nodeFiles'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'order'   => 'rank',
                                    'fields'  => array('id_file',
                                                       'file',

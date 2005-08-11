@@ -40,7 +40,7 @@ class ViewNodePicture extends SmartView
         // get requested picture content
         $this->model->action('navigation','getPicture', 
                              array('result' => & $this->tplVar['pic'],
-                                   'id_pic' => $this->current_id_pic,
+                                   'id_pic' => (int)$this->current_id_pic,
                                    'fields' => array('title','description',
                                                      'file','size','width','height',
                                                      'mime','media_folder')));

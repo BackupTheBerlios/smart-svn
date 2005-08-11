@@ -31,7 +31,7 @@ class ViewSitemap extends SmartView
         // get node content
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'fields'  => array('title','body','id_node'))); 
         
         // get whole node tree
