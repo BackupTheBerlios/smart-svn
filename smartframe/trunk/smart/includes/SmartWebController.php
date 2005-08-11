@@ -52,7 +52,7 @@ class SmartWebController extends SmartController
                 if(isset($_REQUEST[$id_item]))
                 {
                     $this->model->action( $module_name, 'relatedView',
-                                          array('id'     => $_REQUEST[$id_item],
+                                          array($id_item => (int)$_REQUEST[$id_item],
                                                 'result' => &$viewRequest));
                     break;
                 }           
