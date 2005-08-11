@@ -41,7 +41,7 @@ class ViewContact extends SmartView
         
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
-                                   'id_node' => $this->current_id_node,
+                                   'id_node' => (int)$this->current_id_node,
                                    'fields'  => array('title','body')));                                 
         return TRUE;
     }
