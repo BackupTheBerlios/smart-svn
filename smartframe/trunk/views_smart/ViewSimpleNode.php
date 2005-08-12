@@ -24,7 +24,7 @@
  * $viewData - Data passed to this view by the caller
  */
 
-class ViewContact extends SmartView
+class ViewSimpleNode extends SmartView
 {
     /**
      * Cache expire time in seconds
