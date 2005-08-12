@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewIndex class
+ * ViewSimpleNode class
  * Every view must extends SmartView
  *
  * The parent variables are:
@@ -19,9 +19,12 @@
  *            are needed by some followed nested views.
  * $model   - The model object
  *            We need it to call modules actions
+ * $template - Here you can define an other template name as the default
  * $renderTemplate - Is there a template associated with this view?
  *                   SMART_TEMPLATE_RENDER or SMART_TEMPLATE_RENDER_NONE
  * $viewData - Data passed to this view by the caller
+ * $cacheExpire - Expire time in seconds of the cache for this view. = means cache disabled
+ *
  */
 
 class ViewSimpleNode extends SmartView
