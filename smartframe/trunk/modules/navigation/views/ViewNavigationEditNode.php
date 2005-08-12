@@ -76,7 +76,7 @@ class ViewNavigationEditNode extends SmartView
             return;
         }
 
-        // change nothing and switch back
+        // forward to node x without update
         if(isset($_POST['gotonode']) && !empty($_POST['gotonode']))
         {
             $this->unlocknode();
