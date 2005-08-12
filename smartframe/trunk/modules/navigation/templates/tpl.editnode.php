@@ -75,6 +75,13 @@ function dellogo(f, mes)
         }
         }
 }
+// unlock a node and forward to the node with id x. use this for links
+function gotonode(f,x){
+        f.gotonode.value=x;
+        with(f){
+        submit();
+        }
+}
 function cancel_edit(f)
 {
         f.canceledit.value="1";
@@ -200,6 +207,7 @@ function MM_swapImage() { //v3.0
 </style>
 <form action="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=editnode" method="post" enctype="multipart/form-data" name="editnode" id="editnode">
 <input name="id_node" type="hidden" value="<?php echo $tpl['node']['id_node']; ?>">
+<input name="gotonode" type="hidden" value="">
 <input name="modifynodedata" type="hidden" value="true">
 <input name="canceledit" type="hidden" id="canceledit" value="">
 <input name="id_parent" type="hidden" value="<?php echo $tpl['node']['id_parent']; ?>">
@@ -218,9 +226,9 @@ function MM_swapImage() { //v3.0
       <tr>
         <td align="left" valign="top" >
 	       <div class="font12 indent5">
-	          <a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation">Top</a>
+	          <a href="javascript:cancel_edit(document.forms['editnode'],0);">Top</a>
 	          <?php foreach($tpl['branch'] as $node): ?>
-	           / <a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a>
+	           / <a href="javascript:gotonode(document.forms['editnode'],<?php echo $node['id_node']; ?>);"><?php echo $node['title']; ?></a>
 	          <?php endforeach; ?></div>		
 		</td>
         </tr>      

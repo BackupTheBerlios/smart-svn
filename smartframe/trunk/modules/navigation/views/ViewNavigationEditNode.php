@@ -77,6 +77,13 @@ class ViewNavigationEditNode extends SmartView
         }
 
         // change nothing and switch back
+        if(isset($_POST['gotonode']) && !empty($_POST['gotonode']))
+        {
+            $this->unlocknode();
+            $this->redirect((int)$_POST['gotonode']);        
+        }
+
+        // change nothing and switch back
         if(isset($_POST['canceledit']) && ($_POST['canceledit'] == '1'))
         {
             $this->unlocknode();
