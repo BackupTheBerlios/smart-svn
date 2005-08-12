@@ -25,6 +25,7 @@
       <tr>
         <td align="left" valign="top"><input name="file_size_max" type="text" size="6" maxlength="6" value="<?php echo $tpl['option']['file_size_max']; ?>"></td>
       </tr>
+	  <!-- For a later release
       <tr>
         <td align="left" valign="top"  class="font10bold">Fromat of the node body textareas</td>
       </tr>
@@ -47,6 +48,7 @@
     <input type="radio" name="default_format" value="1"<?php if($tpl['option']['default_format']==1) echo " checked"; ?> >
     Text Wikki &nbsp;&nbsp;</td>
       </tr>
+	  -->
       <tr>
         <td align="left" valign="top" class="font10bold">Use node related content</td>
       </tr>

@@ -73,11 +73,11 @@ class ActionNavigationRegisterViews extends SmartAction
             throw new SmartModelException ('"action" value must be "register" or "unregister"');         
         }
 
-        if( ($data['action'] != 'register') && (!isset($data['name']) || empty($data['name'])))
+        if( ($data['action'] == 'register') && (!isset($data['name']) || empty($data['name'])))
         {
             throw new SmartModelException ('"name" isnt defined or is empty');                 
         }
-        elseif( ($data['action'] != 'unregister') && (!isset($data['id_view']) || !is_int($data['id_view'])))
+        elseif( ($data['action'] == 'unregister') && (!isset($data['id_view']) || !is_int($data['id_view'])))
         {
             throw new SmartModelException ('"id_view" isnt defined or is not from type int');                 
         }        
