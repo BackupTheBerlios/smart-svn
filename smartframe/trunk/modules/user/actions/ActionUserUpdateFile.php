@@ -12,6 +12,11 @@
 /**
  * ActionUpdateFile class 
  *
+ * USAGE:
+ * $model->action('user','updateFile',
+ *                array('action'  => string,   // delete or update
+ *                      'id_file' => int,
+ *                      'id_user' => int))
  */
 class ActionUserUpdateFile extends SmartAction
 {
