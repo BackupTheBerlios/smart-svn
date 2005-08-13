@@ -14,6 +14,13 @@
  *
  * move rank of misc text pictures or files
  *
+ * USAGE:
+ *
+ * $model->action('misc','moveItemRank',
+ *                array('id_pic'  => int,     // one of both
+ *                      'id_file' => int,     //
+ *                      'dir'     => string)) // 'up' or 'down'
+ *
  */
 class ActionMiscMoveItemRank extends SmartAction
 {                          

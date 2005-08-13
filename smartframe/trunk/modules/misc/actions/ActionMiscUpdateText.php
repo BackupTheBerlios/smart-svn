@@ -12,6 +12,17 @@
 /**
  * ActionMiscUpdateText class 
  *
+ * USAGE:
+ * $model->action('misc','updateText',
+ *                array('id_text' => int,
+ *                      'fields'  => array('status'       => 'Int',
+ *                                         'format'       => 'Int',
+ *                                         'media_folder' => 'String',
+ *                                         'lang'         => 'String',
+ *                                         'title'        => 'String',
+ *                                         'description'  => 'String',
+ *                                         'body'         => 'String')))
+ *
  */
  
 class ActionMiscUpdateText extends SmartAction

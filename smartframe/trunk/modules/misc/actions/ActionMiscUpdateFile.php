@@ -12,6 +12,11 @@
 /**
  * ActionMiscUpdateFile class 
  *
+ * USAGE:
+ * $model->action('misc','updateFile',
+ *                array('action'  => string,   // delete or update
+ *                      'id_file' => int,
+ *                      'id_text' => int))
  */
 class ActionMiscUpdateFile extends SmartAction
 {

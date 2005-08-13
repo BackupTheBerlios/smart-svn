@@ -19,7 +19,7 @@
  *                      'result'  => & array, 
  *                      'fields'  => array('id_file','rank','file',
  *                                         'title','description',
- *                                         'mime','size')))
+ *                                         'mime','size','media_folder')))
  *
  */
  
@@ -30,8 +30,6 @@ class ActionMiscGetFile extends SmartAction
                                    'rank'    => TRUE,
                                    'file'    => TRUE,
                                    'title'   => TRUE,
-                                   'width'   => TRUE,
-                                   'height'  => TRUE,
                                    'description'  => TRUE,
                                    'media_folder' => TRUE,
                                    'mime'    => TRUE,
@@ -90,6 +88,11 @@ class ActionMiscGetFile extends SmartAction
     
     public function validate( $data = FALSE )
     {
+        if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
+        {
+            throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
+        }
+        
         foreach($data['fields'] as $key)
         {
             if(!isset($this->tblFields_pic[$key]))
