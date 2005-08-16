@@ -7,6 +7,50 @@
 <title>SMART3 - <?php echo $tpl['node']['title'];  ?></title>
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<style type="text/css">
+<!--
+.nodelevel0 {
+	font-size: 18px;
+	font-weight: bold;
+	padding-top: 10px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.nodelevel1 {
+	font-size: 16px;
+	font-weight: bold;
+	padding-top: 8px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.nodelevel2 {
+	font-size: 14px;
+	font-weight: 500;
+	padding-top: 6px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.nodelevel3 {
+	font-size: 12px;
+	font-weight: 500;
+	padding-top: 4px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+.nodelevel4 , .nodelevel5 , .nodelevel6{
+	font-size: 10px;
+	font-weight: 500;
+	padding-top: 2px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+}
+-->
+</style>
 </head>
 
 <body>
@@ -27,16 +71,13 @@
           <tr>
             <td>
            <!-- print title and body of the contact navigation node -->
-           <h3>
-             <?php echo $tpl['node']['title'];  ?>
-           </h3>
+           <h3><?php echo $tpl['node']['title'];  ?></h3>
             <?php if(!empty($tpl['node']['body'])): ?>
          <div class="text"><?php echo $tpl['node']['body'];  ?></div>
       <?php endif; ?>  
       <div class="sitemap">
             <?php foreach($tpl['tree'] as $node):  ?>
-              <?php echo str_repeat('-&nbsp;',$node['level'] * 3); ?><a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a><br />
-              <br />
+              <div class="nodelevel<?php echo $node['level']; ?>"><?php echo str_repeat('&nbsp;&nbsp;',$node['level'] * 3); ?>- <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a></div>
             <?php endforeach; ?>  
       </div> 
          </td>
