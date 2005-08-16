@@ -9,7 +9,7 @@
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
 </head>
 
-<body topmargin="0">
+<body>
 
 <table width="760" border="0" align="center" cellpadding="0" cellspacing="0" class="maintab">
   <tr>

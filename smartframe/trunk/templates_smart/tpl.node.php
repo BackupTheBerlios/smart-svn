@@ -20,28 +20,20 @@
   font-size: 12px;
   color: #2E2E2E;
 }
--->
-</style>
-<style type="text/css">
-<!--
 .filelink {
   font-size: 14px;
 }
--->
-</style>
-<style type="text/css">
-<!--
 .downloads {
   font-size: 14px;
   font-weight: bold;
   color: #0000CC;
   letter-spacing: 3px;
-}
+}  
 -->
 </style>
 </head>
 
-<body topmargin="0">
+<body>
 
 <table width="760" border="0" align="center" cellpadding="0" cellspacing="0" class="maintab">
   <tr>
@@ -66,22 +58,24 @@
           <?php if(count($tpl['childNodes']) > 0): ?>           
           <table width="200"  border="0" align="right" cellpadding="0" cellspacing="0" class="subnodetable">
              <tr>
-               <td align="left" valign="top" class="subnodetitle" colspan="2">Subnodes</td>
+               <td align="left" valign="top" class="subnodetitle">Subnodes</td>
              </tr>
              <?php $table = TRUE; endif; ?>
-             <?php foreach($tpl['childNodes'] as $cnode): ?>
              <tr>
-               <td width="10" class="subnode">&nbsp;-&nbsp;</td>
-               <td width="190" class="subnode">
-             <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a>
-             <?php if(!empty($cnode['short_text'])): ?>
-              <div class="font10"><?php echo $cnode['short_text']; ?></div>
-           <?php endif; ?>
-         </td>
-             </tr>
-             <?php endforeach; ?>
+               <td width="190" align="left" valign="top">
+				<ul class="subnodeul">
+				<?php foreach($tpl['childNodes'] as $cnode): ?>
+				<li class="subnodelist">
+				   <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a>
+                   <?php if(!empty($cnode['short_text'])): ?>
+                      <div class="font10"><?php echo $cnode['short_text']; ?></div>
+                   <?php endif; ?></li>
+				<?php endforeach; ?>
+				</ul>			   
+               </td>
+             </tr>			 
              <?php if(isset($table)):  ?>
-                </table>     
+             </table>     
              <?php endif; ?>
            <!-- print title and body of a navigation node -->
            <h3>

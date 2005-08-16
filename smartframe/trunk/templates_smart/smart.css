@@ -1,6 +1,8 @@
 body {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	background-color: #FFFFFF;
+	padding-top: 0px;
+	margin-top: 0px;	
 }
 .leftcol {
 	border-top-width: 0px;
@@ -65,7 +67,21 @@ body {
 	border-left: 5px solid #516570;
 
 }
-
+.subnodeul {
+	list-style-position: outside;
+	list-style-type: circle;
+}
+.subnodelist {
+	padding-top: 0px;
+	padding-right: 0px;
+	padding-bottom: 0px;
+	padding-left: 0px;
+	font-size: 10px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 3px;
+	margin-left: 0px;
+}
  #navcontainer
 {
 width: 120px;
