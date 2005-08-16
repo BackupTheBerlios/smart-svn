@@ -26,6 +26,7 @@
         <td width="638" align="left" valign="top"><table width="638" border="0" cellspacing="4" cellpadding="2">
           <tr>
             <td align="left" valign="top">
+			<!-- Language switcher -->
 			<table width="97" border="0" align="right" cellpadding="2" cellspacing="2">
               <tr>
                 <td width="89" align="left" valign="top" class="font12">
