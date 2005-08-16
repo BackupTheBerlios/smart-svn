@@ -6,6 +6,7 @@
 <meta name="keywords" content="php,framework,module,scalable,flexible,mvc,application,design,Armand,Turpel,Luxembourg">
 <title>SMART3 PHP Framework - Scalable Application Design</title>
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
+<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
 </head>
 
 <body topmargin=0>

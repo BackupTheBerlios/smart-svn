@@ -13,6 +13,7 @@
 } 
 </script>
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
+<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .filedesc {

@@ -6,6 +6,7 @@
 <meta name="keywords" content="">
 <title>SMART3 - <?php echo $tpl['node']['title'];  ?></title>
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
+<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .unnamed1 {
