@@ -60,10 +60,10 @@
              <tr>
                <td align="left" valign="top" class="subnodetitle">Subnodes</td>
              </tr>
-             <?php $table = TRUE; endif; ?>
              <tr>
                <td width="190" align="left" valign="top">
 				<ul class="subnodeul">
+				<?php $table = TRUE; endif; ?>
 				<?php foreach($tpl['childNodes'] as $cnode): ?>
 				<li class="subnodelist">
 				   <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a>
@@ -71,10 +71,10 @@
                       <div class="font10"><?php echo $cnode['short_text']; ?></div>
                    <?php endif; ?></li>
 				<?php endforeach; ?>
+				<?php if(isset($table)):  ?>
 				</ul>			   
                </td>
              </tr>			 
-             <?php if(isset($table)):  ?>
              </table>     
              <?php endif; ?>
            <!-- print title and body of a navigation node -->
