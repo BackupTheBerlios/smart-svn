@@ -45,14 +45,7 @@ class ViewIndex extends SmartView
         // depended of the client browser language
         // the following action fetch the german or english text
         // of the front page
-        if($this->getBrowserLang() == 'en')
-        {
-            $id_text = 4;
-        }
-        else
-        {
-            $id_text = 1;
-        }
+        $id_text = $this->getLangRelatedIDtext();
 
         // get text for the front page
         $this->model->action('misc','getText', 
@@ -118,6 +111,52 @@ class ViewIndex extends SmartView
             }
         }
         return 'en';
+    }
+    /**
+     * get language related text ID - 1='en' 2='de'
+     *
+     * @return int
+     */       
+    private function getLangRelatedIDtext()
+    {
+        if(isset($_GET['lang']))
+        {
+            if($_GET['lang'] == 'de')
+            {
+                $this->model->session->set('lang','de');
+                $this->tplVar['lang'] = 'de';
+                return 1;
+            }
+            else
+            {
+                $this->model->session->set('lang','en');
+                $this->tplVar['lang'] = 'en';
+                return 4;
+            }
+        }    
+        elseif(NULL !== ($lang = $this->model->session->get('lang')))
+        {
+            if($lang == 'de')
+            {
+                $this->tplVar['lang'] = 'de';
+                return 1;
+            }
+            else
+            {
+                $this->tplVar['lang'] = 'en';
+                return 4;
+            }
+        }
+        elseif($this->getBrowserLang() == 'de')
+        {
+            $this->tplVar['lang'] = 'de';
+            return 1;
+        }
+        else
+        {
+            $this->tplVar['lang'] = 'en';
+            return 4;
+        }    
     }
 }
 
