@@ -47,6 +47,10 @@ body {
 	border-left-style: solid;
 	border-left-color: #516570;
 }
+.font12 {
+	font-size: 12px;
+	font-weight: bold;
+}
 .sitemap {
         font-size: 12px;
 	padding-top: 10px;

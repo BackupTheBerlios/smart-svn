@@ -26,6 +26,13 @@
         <td width="638" align="left" valign="top"><table width="638" border="0" cellspacing="4" cellpadding="2">
           <tr>
             <td align="left" valign="top">
+			<table width="97" border="0" align="right" cellpadding="2" cellspacing="2">
+              <tr>
+                <td width="89" align="left" valign="top" class="font12">
+				<?php if($tpl['lang']=='en'): ?><a href="?lang=de">deutsche Version</a><?php else: ?><a href="?lang=en">english version</a><?php endif; ?>
+				</td>
+              </tr>
+            </table>
               <!-- Page main text -->
               <?php echo $tpl['text']['body']; ?>
               </td>
