@@ -77,7 +77,7 @@ class ViewNavigationEditNode extends SmartView
         }
 
         // forward to node x without update
-        if(isset($_POST['gotonode']) && !preg_match("/[^0-9]+/",$_POST['gotonode']))
+        if(isset($_POST['gotonode']) && ($_POST['gotonode'] != ''))
         {
             $this->unlocknode();
             $this->redirect((int)$_POST['gotonode']);        
