@@ -1,6 +1,6 @@
 <script language="JavaScript" type="text/JavaScript">
 </script>
-<form name="addtext" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=misc&view=addtext">
+<form accept-charset="<?php echo $tpl['charset']; ?>" name="addtext" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=misc&view=addtext">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td colspan="2" align="left" valign="top" class="moduleheader2">Add Text</td>
@@ -10,10 +10,10 @@
       <?php if(count($tpl['error'])>0): ?>
       <tr>
         <td width="312" align="left" valign="top" class="itemerror">
-		<?php foreach($tpl['error'] as $err): ?>
-		    <?php echo $err; ?><br />
-	    <?php endforeach; ?> 		
-		</td>
+    <?php foreach($tpl['error'] as $err): ?>
+        <?php echo $err; ?><br />
+      <?php endforeach; ?>    
+    </td>
       </tr>
       <?php endif; ?>
       <tr>

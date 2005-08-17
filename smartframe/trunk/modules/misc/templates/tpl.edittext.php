@@ -198,7 +198,7 @@ function MM_swapImage() { //v3.0
 }
 -->
 </style>
-<form action="<?php echo SMART_CONTROLLER; ?>?mod=misc&view=edittext" method="post" enctype="multipart/form-data" name="edittext" id="edittext">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=misc&view=edittext" method="post" enctype="multipart/form-data" name="edittext" id="edittext">
 <input name="id_text" type="hidden" value="<?php echo $tpl['text']['id_text']; ?>">
 <input name="canceledit" type="hidden" id="canceledit" value="">
 <input name="modifytextdata" type="hidden" value="true">
