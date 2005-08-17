@@ -53,8 +53,8 @@ Text Wikki &nbsp;&nbsp;</td>
       </tr>
 	  -->
       <tr>
-        <td align="left" valign="top" class="font10bold">&nbsp;Thumbnails width in pixels</td>
-        <td align="left" valign="top" class="font10">&nbsp;</td>
+        <td width="62%" align="left" valign="top" class="font10bold">&nbsp;Thumbnails width in pixels</td>
+        <td width="38%" align="left" valign="top" class="font10"><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">back</a></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10">&nbsp;<input name="thumb_width" type="text" value="<?php echo $tpl['option']['thumb_width']; ?>" size="4" maxlength="3"></td>

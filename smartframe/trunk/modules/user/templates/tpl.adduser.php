@@ -1,14 +1,14 @@
-<form name="adduser" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=adduser">
+<form accept-charset="<?php echo $tpl['charset']; ?>" name="adduser" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=adduser">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
     <td width="99%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
       <?php if(count($tpl['error'])>0): ?>
       <tr>
         <td align="left" valign="top" class="itemerror">
-		<?php foreach($tpl['error'] as $error): ?>
-		<?php echo $error; ?><br />
-		<?php endforeach; ?>
-		</td>
+    <?php foreach($tpl['error'] as $error): ?>
+    <?php echo $error; ?><br />
+    <?php endforeach; ?>
+    </td>
       </tr>
       <?php endif; ?>
       <tr>
