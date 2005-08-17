@@ -101,7 +101,7 @@ class ActionUserSetup extends SmartAction
         $sql = "INSERT INTO {$data['dbtablesprefix']}user_config
                    (`thumb_width`, `img_size_max`,`file_size_max`)
                   VALUES
-                   (200,100000,100000)";
+                   (120,200000,200000)";
         $this->model->dba->query($sql); 
 
         $passwd = md5($data['superuser_passwd']);
