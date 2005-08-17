@@ -40,7 +40,7 @@ class ViewOptionsMain extends SmartView
         {
             $this->template       = 'error';
             $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to change global options!';
+            $this->tplVar['error'] = 'You dont have the rights to change global options!';
             $this->dontPerform = TRUE;
         }
     } 
@@ -70,8 +70,8 @@ class ViewOptionsMain extends SmartView
      */
     private function setTemplateVars()
     {
-        $this->tplVar['publicTplFolder']      = $this->config['templates_folder'];
-        $this->tplVar['publicViewFolder']     = $this->config['views_folder'];
+        $this->tplVar['publicTplFolder']      = str_replace("/","",$this->config['templates_folder']);
+        $this->tplVar['publicViewFolder']     = str_replace("/","",$this->config['views_folder']);
         $this->tplVar['allPublicViewFolders'] = $this->getPublicFolders( 'views_' );
         $this->tplVar['allPublicTplFolders']  = $this->getPublicFolders( 'templates_' );
 
@@ -123,8 +123,8 @@ class ViewOptionsMain extends SmartView
         {
             if(preg_match("/^templates_[a-zA-Z0-9_-]+/",$_POST['templates_folder']) )
             {
-                $this->fields['templates_folder'] = (string)$_POST['templates_folder'];
-                $this->config['templates_folder'] = (string)$_POST['templates_folder'];
+                $this->fields['templates_folder'] = (string)$_POST['templates_folder'].'/';
+                $this->config['templates_folder'] = (string)$_POST['templates_folder'].'/';
             }
         }  
 
@@ -132,8 +132,8 @@ class ViewOptionsMain extends SmartView
         {
             if(preg_match("/^views_[a-zA-Z0-9_-]+/",$_POST['views_folder']) )
             {
-                $this->fields['views_folder'] = (string)$_POST['views_folder'];
-                $this->config['views_folder'] = (string)$_POST['views_folder'];
+                $this->fields['views_folder'] = (string)$_POST['views_folder'].'/';
+                $this->config['views_folder'] = (string)$_POST['views_folder'].'/';
             }
         }  
         
