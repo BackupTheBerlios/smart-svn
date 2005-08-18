@@ -11,7 +11,7 @@
     font-weight: bold;
 }
 .style6 {
-    font-size: 24px;
+    font-size: 12px;
     color: #FFCC00;
 }
 .style8 {color: #0033CC}
@@ -48,7 +48,7 @@ function subok(s){
         <tr>
           <td width="31%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="139" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" width="129" height="50"><font size="2"><strong> </strong></font></td>
+              <td width="139" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" width="129" height="50"> Ver.: 0.2a</td>
               </tr>
           </table></td>
           <td width="25%" align="right" valign="top" class="font10"> <br /><a href="<?php echo $tpl['publicWebController']; ?>">Switch to the  public page</a></td>
@@ -87,7 +87,7 @@ function subok(s){
   <tr>
       <td align="left" valign="top" bgcolor="#EBEBEB"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
           <tr>
-              <td><span class="font9 style8">&copy; 2005 Armand Turpel <a href="mailto:smart@open-publisher.net">smart@open-publisher.net</a>. Project site -&gt; <a href="http://smart.open-publisher.net" target="_blank">SMART</a>. Released under the <a href="http://www.gnu.org/copyleft/lgpl.html" target="_blank">GNU Lesser Public License</a></span></td>
+              <td><span class="font9 style8">&copy; 2005 Armand Turpel <a href="mailto:smart@open-publisher.net">smart@open-publisher.net</a>. Project site -&gt; <a href="http://smart.open-publisher.net" target="_blank">SMART3</a>.</span></td>
           </tr>
     </table></td>
   </tr>
