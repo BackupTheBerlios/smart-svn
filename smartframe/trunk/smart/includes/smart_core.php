@@ -60,7 +60,12 @@ $SmartConfig['cache_path'] = SMART_BASE_DIR . 'cache/';
 $SmartConfig['base_module'] = 'common';
 
 /**
- * The common module name. This module is required!
+ * The default module name. This module is required!
+ */
+$SmartConfig['default_module'] = 'default';
+
+/**
+ * The setup module name. This module is required!
  */
 $SmartConfig['setup_module'] = 'setup';
   
