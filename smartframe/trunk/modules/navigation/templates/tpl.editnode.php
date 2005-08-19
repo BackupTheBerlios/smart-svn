@@ -9,18 +9,16 @@
     relative_urls : true,
     mode : "exact",
     content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
-  extended_valid_elements : "blockquote",
-  theme_advanced_containers_default_align : "left",
+    theme_advanced_containers_default_align : "left",
     theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;",
-    //extended_valid_elements : "p[class=smart3],h1[class=smart3],h2[class=smart3],h3[class=smart3],h4[class=smart3],h5[class=smart3],h6[class=smart3],pre[class=smart3],a[class=smart3],br[class=smart3],hr[class=smart3]",
     elements : "body",
     theme : "advanced",
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",   
-    theme_advanced_buttons1 : "textblock,bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect",   
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect",   
     theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,save",  
     theme_advanced_buttons3 : "", 
-    plugins : "textblock,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace"
+    plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace"
     
   });
  function insertFile(folder,title,file,id_file)
