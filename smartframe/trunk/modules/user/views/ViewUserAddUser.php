@@ -95,7 +95,7 @@ class ViewUserAddUser extends SmartView
             if(FALSE !== ($id_user = $this->model->action( 'user','add',$_data )))
             {
                 // reload the user module on success
-                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user&view=edituser&id_user='.$id_user);
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=user&view=editUser&id_user='.$id_user);
                 exit; 
             }
             else
