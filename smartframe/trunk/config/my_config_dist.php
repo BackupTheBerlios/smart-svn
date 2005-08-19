@@ -21,11 +21,11 @@
 
 /*
  * Check if this script is included in the Smart environment
- * (Do not remove/change this definition)
+ * (Do not remove/change this check)
  */
 if (!defined( 'SMART_SECURE_INCLUDE' ))
 {
-    die('no permission on smart_core.php');
+    exit;
 }
 
 /**
@@ -39,23 +39,24 @@ $SmartConfig['admin_web_controller'] = 'admin.php';
 $SmartConfig['public_web_controller'] = 'index.php';
 
 /**
+ * The common module name. This module is required!
+ */
+$SmartConfig['base_module'] = 'common';
+
+/**
  * Path to the config dir
  */
 $SmartConfig['config_path'] = SMART_BASE_DIR . 'config/';
+
 /**
- * Idem for the directory of log files.
+ * Path to the logs dir
  */
 $SmartConfig['logs_path'] = SMART_BASE_DIR . 'logs/';
 
 /**
- * Cache folder.
+ * Path to the cache dir
  */
 $SmartConfig['cache_path'] = SMART_BASE_DIR . 'cache/';
-    
-/**
- * The common module name. This module is required!
- */
-$SmartConfig['base_module'] = 'common';
 
 /**
  * Name of the cache type class
@@ -80,20 +81,19 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
                                           'foreach','endforeach','while','do','for',
                                           'continue','break','switch','case',
                                           'echo','print','print_r','var_dump','exit',
-                                          'defined','define',
-                                          'isset','empty','count');
+                                          'defined','define','isset','empty','count');
                                           
 /**
  * Default templates and views folder
  */
 $SmartConfig['default_template_folder'] = 'templates_smart/';
-$SmartConfig['default_view_folder'] = 'views_smart/';
+$SmartConfig['default_view_folder']     = 'views_smart/';
 
 /**
- * Default views.
+ * Default index and error views.
  */
 $SmartConfig['default_view'] = 'index';
-$SmartConfig['error_view'] = 'error';
+$SmartConfig['error_view']   = 'error';
 
 /**
  * message log types ('LOG|SHOW')
