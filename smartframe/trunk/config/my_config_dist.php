@@ -44,6 +44,16 @@ $SmartConfig['public_web_controller'] = 'index.php';
 $SmartConfig['base_module'] = 'common';
 
 /**
+ * The default module name. This module is required!
+ */
+$SmartConfig['default_module'] = 'default';
+
+/**
+ * The setup module name. This module is required!
+ */
+$SmartConfig['setup_module'] = 'setup';
+
+/**
  * Path to the config dir
  */
 $SmartConfig['config_path'] = SMART_BASE_DIR . 'config/';
