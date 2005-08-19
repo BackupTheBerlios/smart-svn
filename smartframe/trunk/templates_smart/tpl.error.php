@@ -1,3 +1,4 @@
+<!-- prevent direct all -->
 <?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>

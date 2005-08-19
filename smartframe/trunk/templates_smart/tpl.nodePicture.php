@@ -1,8 +1,13 @@
+<!-- --- prevent direct all --- -->
 <?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+
+<!-- --- show picture title --- -->
 <title>Picture - <?php echo $tpl['pic']['title'] ?></title>
+
+<!-- --- charset setting --- -->
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>">
 <style type="text/css">
 <!--
@@ -19,6 +24,8 @@ body {
 </head>
 
 <body>
+
+<!-- --- show table with picture and description --- -->
 <table width="<?php echo $tpl['pic']['width'] ?>" border="0" align="center" cellpadding="0" cellspacing="5">
   <tr>
     <td align="left" valign="top"><h3><?php echo $tpl['pic']['title'] ?></h3></td>
