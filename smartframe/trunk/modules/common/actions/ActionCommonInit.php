@@ -23,7 +23,7 @@ else
     $tmp_separator = ':';
 
 // set include path to extern packages
-ini_set( 'include_path', SMART_BASE_DIR . 'modules/common/includes/PEAR' . $tmp_separator . ini_get('include_path') );
+//ini_set( 'include_path', SMART_BASE_DIR . 'modules/common/includes/PEAR' . $tmp_separator . ini_get('include_path') );
 unset($tmp_separator); 
 
 // util class
@@ -36,7 +36,7 @@ require_once(SMART_BASE_DIR . 'modules/common/includes/SmartSessionHandler.php')
 require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonSession.php');
 
 // session class
-require_once(SMART_BASE_DIR . 'modules/common/includes/SmartMysqli.php');
+require_once(SMART_BASE_DIR . 'modules/common/includes/SmartMySqli.php');
 
 // get_magic_quotes_gpc
 define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
