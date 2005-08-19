@@ -49,10 +49,12 @@ function subok(s){
 <body>
 <?php $show_button=TRUE; ?>
 <?php if(count($tpl['folder_error'])>0): ?>
-    <div class="error"><?php foreach($tpl['folder_error'] as $err) echo $err; ?></div><br>
+   <?php foreach($tpl['folder_error'] as $err): ?>
+    <div class="error"><?php echo $err; ?></div>
+   <?php endforeach; ?>
 <?php $show_button=FALSE; endif; ?>
 <?php if($show_button==FALSE): ?>
-    <br><br><div class="error"><br>Please change the folder rights and reload this page!</div><br><br>
+   <br><div class="error"><br>Please change the folder rights and reload this page!</div><br><br>
 <?php endif; ?>
 <?php if(count($tpl['error'])>0): ?>
     <?php foreach($tpl['error'] as $err): ?>
