@@ -123,8 +123,8 @@ class ViewOptionsMain extends SmartView
         {
             if(preg_match("/^templates_[a-zA-Z0-9_-]+/",$_POST['templates_folder']) )
             {
-                $this->fields['templates_folder'] = (string)$_POST['templates_folder'].'/';
-                $this->config['templates_folder'] = (string)$_POST['templates_folder'].'/';
+                $this->fields['templates_folder'] = (string)$_POST['templates_folder'];
+                $this->config['templates_folder'] = (string)$_POST['templates_folder'];
             }
         }  
 
@@ -132,8 +132,8 @@ class ViewOptionsMain extends SmartView
         {
             if(preg_match("/^views_[a-zA-Z0-9_-]+/",$_POST['views_folder']) )
             {
-                $this->fields['views_folder'] = (string)$_POST['views_folder'].'/';
-                $this->config['views_folder'] = (string)$_POST['views_folder'].'/';
+                $this->fields['views_folder'] = (string)$_POST['views_folder'];
+                $this->config['views_folder'] = (string)$_POST['views_folder'];
             }
         }  
         

@@ -14,7 +14,7 @@
         <td align="left" valign="top" class="font10">
 		<?php foreach($tpl['allPublicTplFolders'] as $_tpl): ?>
 		<input name="templates_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($tpl['publicTplFolder']==$_tpl) echo " checked"; ?>> 
-		<?php echo $_tpl; ?><br /><br />
+		<?php echo $_tpl; ?>/<br /><br />
 		<?php endforeach; ?>
 		</td>
       </tr>
@@ -25,7 +25,7 @@
         <td align="left" valign="top" class="font10">
 		<?php foreach($tpl['allPublicViewFolders'] as $_view): ?>
 		<input name="views_folder" type="radio" value="<?php echo $_view; ?>"<?php if($tpl['publicViewFolder']==$_view) echo " checked"; ?>> 
-		<?php echo $_view; ?><br /><br />
+		<?php echo $_view; ?>/<br /><br />
 		<?php endforeach; ?>		
 		</td>
       </tr>
