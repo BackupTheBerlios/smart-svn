@@ -49,15 +49,15 @@ function subok(s){
 <body>
 <?php $show_button=TRUE; ?>
 <?php if(count($tpl['folder_error'])>0): ?>
-    <div class="error"><?php foreach($tpl['folder_error'] as $err) echo $err; ?></div>
+    <div class="error"><?php foreach($tpl['folder_error'] as $err) echo $err; ?></div><br>
 <?php $show_button=FALSE; endif; ?>
 <?php if($show_button==FALSE): ?>
-    <div class="error"><br>Please change the folder rights and reload this page!<br><br></div>
+    <br><br><div class="error"><br>Please change the folder rights and reload this page!</div><br><br>
 <?php endif; ?>
 <?php if(count($tpl['error'])>0): ?>
     <?php foreach($tpl['error'] as $err): ?>
-	  <div class="error"><?php echo $err; ?><br><br></div>
-	<?php endforeach; ?>
+    <div class="error"><?php echo $err; ?><br><br></div>
+  <?php endforeach; ?>
 <?php endif; ?>
 <form name="setup" id="setup" method="post" action="<?php echo SMART_CONTROLLER; ?>">
 <table width="750" border="0" align="center" cellpadding="0" cellspacing="0">
