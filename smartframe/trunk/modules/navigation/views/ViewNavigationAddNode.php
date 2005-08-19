@@ -59,7 +59,7 @@ class ViewNavigationAddNode extends SmartView
         {
             if(FALSE !== ($new_id_node = $this->addNode( $id_node )))
             {
-                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=navigation&view=editnode&id_node='.$new_id_node);
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=navigation&view=editNode&id_node='.$new_id_node);
                 exit;
                 //throw new SmartForwardAdminViewException('naviagtion','index');
             }
