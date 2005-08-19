@@ -44,7 +44,7 @@ class ViewMiscAddText extends SmartView
         {
             if(FALSE !== ($id_text = $this->addText()))
             {
-                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=misc&view=edittext&id_text='.$id_text);
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=misc&view=editText&id_text='.$id_text);
                 exit;
             }
         }
