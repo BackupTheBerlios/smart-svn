@@ -203,7 +203,7 @@ function MM_swapImage() { //v3.0
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=editnode" method="post" enctype="multipart/form-data" name="editnode" id="editnode">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=editNode" method="post" enctype="multipart/form-data" name="editnode" id="editnode">
 <input name="id_node" type="hidden" value="<?php echo $tpl['node']['id_node']; ?>">
 <input name="gotonode" type="hidden" value="">
 <input name="modifynodedata" type="hidden" value="true">
