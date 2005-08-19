@@ -52,7 +52,7 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
 </td>
     <td width="11%" align="center" valign="top" class="font12">
     <?php if($tpl['showLink']==TRUE): ?>
-       <a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=addnode&id_node=<?php echo $tpl['id_node']; ?>">add node</a>
+       <a href="<?php echo SMART_CONTROLLER; ?>?mod=navigation&view=addNode&id_node=<?php echo $tpl['id_node']; ?>">add node</a>
     <?php endif; ?>
     <p><a href="javascript:nodemap();">NodesMap</a></p></td>
   </tr>
