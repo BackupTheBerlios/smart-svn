@@ -37,7 +37,7 @@ class ViewMiscAddText extends SmartView
         // init template array to fill with node data
         $this->tplVar['title'] = '';
         // Init template form field values
-        $this->tplVar['error'] = FALSE;
+        $this->tplVar['error'] = array();
         
         // add node
         if( isset($_POST['addtext']) )
@@ -74,7 +74,8 @@ class ViewMiscAddText extends SmartView
         }
         
         return $this->model->action('misc', 'addText', 
-                             array('fields' => array('title'   => SmartCommonUtil::stripSlashes(strip_tags((string)$_POST['title'])),
+                             array('error'  => &$this->tplVar['error'],
+                                   'fields' => array('title'   => SmartCommonUtil::stripSlashes(strip_tags((string)$_POST['title'])),
                                                      'status'  => 1)));        
     }
 }
