@@ -35,7 +35,7 @@ class SmartTplContainerPhp extends SmartTplContainer
         $viewLoader = & $this->viewLoader;
          
         // build the whole file path to the TEMPLATE file
-        $template = SMART_BASE_DIR . $this->templateFolder . '/tpl.' . $this->template . '.php';
+        $template = SMART_BASE_DIR . $this->templateFolder . 'tpl.' . $this->template . '.php';
         
         if($this->config['useCodeAnalyzer'] == TRUE)
         {

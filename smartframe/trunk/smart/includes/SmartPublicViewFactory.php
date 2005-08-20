@@ -52,7 +52,7 @@ class SmartPublicViewFactory extends SmartViewFactory
         if( !isset($this->$requestedView) || ($args[3] == TRUE) )
         {
             // path to the modules view class
-            $class_file = SMART_BASE_DIR . $this->model->config['views_folder'] .'/'.$requestedView.'.php';
+            $class_file = SMART_BASE_DIR . $this->model->config['views_folder'] . $requestedView.'.php';
 
             if(@file_exists($class_file))
             {
