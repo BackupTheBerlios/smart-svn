@@ -1,14 +1,28 @@
 Smart3 PHP Framework install instructions
 ---------------------------------------------
 
-Put the whole package somewhere under the document root folder.
-Point your browser to admin.php. You should see an install page.
+The installation of Smart3 is simple. Upload the extracted files to a folder somewere
+under the document root of the webserver. Create a MySql 4.1 DataBase. 
 
-After successfull setup you are forwarded to the login page. 
-You can login with username: "superuser", the password created
-during the install and the right captcha number.
+The following folders must be writeable by php scripts:
 
-You can fill the database with the whole documentation which you
-can find in /sql/smart3.sql
-Start phpMyAdmin and execute this sql file in the smart3 install database.
-Make shure that you havent change the install db table prefixe "smart_"
+    * /cache
+    * /config
+    * /data
+    * /data/common
+    * /data/common/captcha
+    * /data/misc
+    * /data/navigation
+    * /data/user
+    * /logs
+
+Point your browser to the admin.php file. You should see a setup formular. Follow the instructions.
+ 
+If it is the first time you use Smart3 and you want to test it you should select utf-8 
+as character set and let the tables prefix as it is. After successfull submiting the 
+form you are forwarded to the login of Smart3.
+
+For testing you can fill the database with the content of this manual after the successfull 
+installation. Execute the following sql file using phpMyAdmin:
+
+/sql/smart3.sql 
