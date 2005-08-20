@@ -70,8 +70,8 @@ class ViewOptionsMain extends SmartView
      */
     private function setTemplateVars()
     {
-        $this->tplVar['publicTplFolder']      = str_replace("/","",$this->config['templates_folder']);
-        $this->tplVar['publicViewFolder']     = str_replace("/","",$this->config['views_folder']);
+        $this->tplVar['publicTplFolder']      = $this->config['templates_folder'];
+        $this->tplVar['publicViewFolder']     = $this->config['views_folder'];
         $this->tplVar['allPublicViewFolders'] = $this->getPublicFolders( 'views_' );
         $this->tplVar['allPublicTplFolders']  = $this->getPublicFolders( 'templates_' );
 
@@ -85,6 +85,11 @@ class ViewOptionsMain extends SmartView
     {
         $folders = array();
         $main_dir = SMART_BASE_DIR ;
+        
+        if($folder_prefix == 'templates_')
+        {
+            $folders[] = '';
+        }
           
         if ( (($handle = @opendir( $main_dir ))) != FALSE )
         {
@@ -97,7 +102,7 @@ class ViewOptionsMain extends SmartView
                 $match_str = "/^{$folder_prefix}/";
                 if(is_dir($_dir) && preg_match("$match_str", $_dir))
                 {
-                    $folders[] = $_dir;
+                    $folders[] = $_dir . '/';
                 }
             }
             @closedir( $handle );
@@ -119,9 +124,9 @@ class ViewOptionsMain extends SmartView
     {
         $this->fields  = array();
 
-        if(isset($_POST['templates_folder']) && !empty($_POST['templates_folder']))
+        if(isset($_POST['templates_folder']))
         {
-            if(preg_match("/^templates_[a-zA-Z0-9_-]+/",$_POST['templates_folder']) )
+            if(!strstr(".",$_POST['templates_folder']) )
             {
                 $this->fields['templates_folder'] = (string)$_POST['templates_folder'];
                 $this->config['templates_folder'] = (string)$_POST['templates_folder'];
