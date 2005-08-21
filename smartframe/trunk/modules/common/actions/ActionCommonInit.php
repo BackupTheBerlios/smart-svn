@@ -102,6 +102,14 @@ class ActionCommonInit extends SmartAction
         // load global config variables of the common module   
         $this->loadConfig(); 
 
+        // enable zlib output compression
+        if($this->config['output_compression'] == TRUE)
+        {
+            ini_set('zlib.output_compression',          '1');     
+            ini_set('zlib.output_compression_level',    $this->config['output_compression_level']);
+            ini_set('zlib.output_handler',              '');
+        }
+        
         // set charset
         ini_set( "default_charset",$this->config['charset']);
         @header( "Content-type: text/html; charset={$this->config['charset']}" );    
