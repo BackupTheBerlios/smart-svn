@@ -106,6 +106,16 @@ $SmartConfig['default_view'] = 'index';
 $SmartConfig['error_view']   = 'error';
 
 /**
+ * enable output compression (FALSE = disable, TRUE = enable)
+ */
+$SmartConfig['output_compression']       = FALSE;
+
+/**
+ * output compression level 1-9
+ */
+$SmartConfig['output_compression_level'] = '4';
+
+/**
  * message log types ('LOG|SHOW')
  */
 $SmartConfig['message_handle'] = 'LOG';
