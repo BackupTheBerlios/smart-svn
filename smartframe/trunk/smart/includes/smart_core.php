@@ -98,8 +98,8 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
 /**
  * Default templates and views folder
  */
-$SmartConfig['default_template_folder'] = 'templates_smart';
-$SmartConfig['default_view_folder']     = 'views_smart';
+$SmartConfig['default_template_folder'] = 'templates_smart/';
+$SmartConfig['default_view_folder']     = 'views_smart/';
 
 /**
  * Default views.
