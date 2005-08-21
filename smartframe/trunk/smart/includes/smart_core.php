@@ -99,13 +99,23 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
  * Default templates and views folder
  */
 $SmartConfig['default_template_folder'] = 'templates_smart';
-$SmartConfig['default_view_folder'] = 'views_smart';
+$SmartConfig['default_view_folder']     = 'views_smart';
 
 /**
  * Default views.
  */
 $SmartConfig['default_view'] = 'index';
-$SmartConfig['error_view'] = 'error';
+$SmartConfig['error_view']   = 'error';
+
+/**
+ * enable output compression (FALSE = disable, TRUE = enable)
+ */
+$SmartConfig['output_compression']       = FALSE;
+
+/**
+ * output compression level 1-9
+ */
+$SmartConfig['output_compression_level'] = '4';
 
 /**
  * message log types ('LOG|SHOW')
