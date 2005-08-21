@@ -5,7 +5,7 @@
 <ul id="navlist">
 
   <!-- link to the entry page -->
-  <li><a href="<?php echo SMART_CONTROLLER; ?>">Home</a></li>
+  <li><a href="<?php echo SMART_CONTROLLER; ?><?php if(isset($tpl['lang'])) echo '?lang='.$tpl['lang']; ?>">Home</a></li>
   
   <!-- output all root navigation nodes -->
   <?php foreach($tpl['rootNodes'] as $node): ?>    
