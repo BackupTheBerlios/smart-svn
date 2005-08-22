@@ -73,7 +73,6 @@ class ActionSetupInsertSampleContent extends SmartAction
                     $this->model->dba->query($sql);   
                 }
             }
-            fclose($handle);
         }
     }
 }
