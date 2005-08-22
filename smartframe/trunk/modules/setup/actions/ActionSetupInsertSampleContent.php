@@ -13,7 +13,8 @@
  * ActionSetupInsertSampleContent class 
  *
  * USAGE:
- * $model->action('setup','insertSampleContent')
+ * $model->action('setup','insertSampleContent',
+ *                array('prefix' => string))     // DBtablePrefix
  *
  */
 class ActionSetupInsertSampleContent extends SmartAction
@@ -74,6 +75,21 @@ class ActionSetupInsertSampleContent extends SmartAction
                 }
             }
         }
+    }
+    
+    public function validate( $data = FALSE )
+    {
+        if(!isset($data['prefix']))
+        {
+            throw new SmartModelException("data 'prefix' key is required");
+        }
+        
+        if(!is_string($data['prefix']))
+        {
+            throw new SmartModelException("data 'prefix' key value isnt from type string");
+        }        
+        
+        return TRUE;
     }
 }
 
