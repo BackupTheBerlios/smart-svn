@@ -50,6 +50,12 @@ class ViewSetupIndex extends SmartView
         {
             try
             { 
+                // if insert sample content, use always utf-8 charset
+                if(isset($_POST['insert_sample_content']))
+                {
+                    $_REQUEST['charset'] = 'utf-8';     
+                }
+                
                 $data = array('superuser_passwd' => SmartCommonUtil::stripSlashes($_REQUEST['syspassword']),
                               'dbtablesprefix'   => SmartCommonUtil::stripSlashes($_REQUEST['dbtablesprefix']),
                               'dbhost'           => SmartCommonUtil::stripSlashes($_REQUEST['dbhost']),
@@ -65,6 +71,12 @@ class ViewSetupIndex extends SmartView
                 // write config file with database connection settings      
                 $this->model->action( $this->config['base_module'],'setDbConfig', 
                                       array( 'dbConnect' => & $this->viewVar['setup_config']['db']) );     
+
+                // insert sample content
+                if(isset($_POST['insert_sample_content']))
+                {
+                    $this->model->action('setup','insertSampleContent');     
+                }
                 
                 // reload the admin interface after successfull setup
                 ob_clean();

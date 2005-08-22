@@ -143,6 +143,14 @@ function subok(s){
           <input name="syspassword" type="text" size="50" maxlength="255" value="<?php if(isset($tpl['form_syspassword'])) echo $tpl['form_syspassword'] ?>"/>
         </td>
       </tr>
+      <tr bgcolor="#CCCCCC">
+        <td colspan="2" align="left" valign="top"><span class="subtitle">&nbsp;Insert sample content?</span></td>
+        </tr>
+      <tr>
+        <td align="left" valign="top"><input type="checkbox" name="insert_sample_content" value="yes"> 
+          <span class="normal">yes</span></td>
+        <td align="left" valign="top">&nbsp;</td>
+      </tr>
     </table></td>
   </tr>
   <tr>
