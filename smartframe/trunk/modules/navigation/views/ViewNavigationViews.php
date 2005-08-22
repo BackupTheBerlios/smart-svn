@@ -53,7 +53,7 @@ class ViewNavigationViews extends SmartView
     {
         if(isset($_REQUEST['register']))
         {
-            if(is_array($_POST['availableview']))
+            if(isset($_POST['availableview']) && is_array($_POST['availableview']))
             {
                 foreach($_POST['availableview'] as $name)
                 {
@@ -65,7 +65,7 @@ class ViewNavigationViews extends SmartView
         }
         elseif(isset($_REQUEST['unregister']))
         {
-            if(is_array($_POST['registeredview']))
+            if(isset($_POST['registeredview']) && is_array($_POST['registeredview']))
             {
                 foreach($_POST['registeredview'] as $id_view)
                 {
