@@ -75,7 +75,8 @@ class ViewSetupIndex extends SmartView
                 // insert sample content
                 if(isset($_POST['insert_sample_content']))
                 {
-                    $this->model->action('setup','insertSampleContent');     
+                    $this->model->action('setup','insertSampleContent', 
+                                         array('prefix' => $_REQUEST['dbtablesprefix']));     
                 }
                 
                 // reload the admin interface after successfull setup

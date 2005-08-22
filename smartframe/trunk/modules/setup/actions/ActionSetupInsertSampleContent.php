@@ -65,6 +65,10 @@ class ActionSetupInsertSampleContent extends SmartAction
             {
                 if(preg_match("/^INSERT/",$line))
                 {
+                    if("smart_" != $data['prefix'])
+                    {
+                        $line = str_replace("INSERT INTO `smart_","INSERT INTO `".$data['prefix'],$line);
+                    }
                     $sql = preg_replace("/;\r\n$/","",$line);
                     $this->model->dba->query($sql);   
                 }
