@@ -22,7 +22,7 @@ If it is the first time you use Smart3 and you want to test it you should select
 as character set and let the tables prefix as it is. After successfull submiting the 
 form you are forwarded to the login of Smart3.
 
-For testing you can fill the database with the content of this manual after the successfull 
-installation. Execute the following sql file using phpMyAdmin:
+For testing you can fill the database with the content of the manual after the successfull 
+installation. Execute the following sql file using phpMyAdmin in the created database:
 
 /sql/smart3.sql 

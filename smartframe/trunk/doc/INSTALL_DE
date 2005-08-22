@@ -1,0 +1,33 @@
+Smart3 Framework Installationsanweisung
+---------------------------------------
+
+Entpacken sie das komprimierte Archiv und kopieren sie den Inhalt irgendwo
+in ein Ordner der über den Webserver erreichbar ist. Erstellen sie ein
+MySql 4.1 Datenbank. Überprüfen sie ob folgende Ordner von php beschreibar sind:
+
+    * /cache
+    * /config
+    * /data
+    * /data/common
+    * /data/common/captcha
+    * /data/misc
+    * /data/navigation
+    * /data/user
+    * /logs
+
+Rufen sie in iherem Internet Browser die Datei admin.php auf die sich
+im Wurzelordner befindet. Sie sollten jetzt eine Seite sehen mit
+der die Installation des Systems gemacht werden kann. Fogen sie
+den Anweisungen.
+
+Nachdem sie das Installationsformular abgeschickt haben werden sie
+zum Administrationslogin weitergeleitet. Hier können sie sich
+,it dem login 'superuser', dem erstellten Passwort und dem
+turing Key einloggen.
+
+Um das Framework zu testen sollten sie die Datenbank jetzt,
+nach dem erfolgreichen Setup, mit Beispielinhalt füllen. 
+Starten sie dazu phpMyAdmin und führen sie die 
+Datei /sql/smart3.sql in der erstellten Datenbank aus. Der
+Inhalt besteht aus der kompletten Dokumentation in
+englischer und deutscher Sprache.
