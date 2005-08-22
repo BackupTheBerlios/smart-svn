@@ -171,20 +171,23 @@ class ViewNavigationEditNode extends SmartView
             // get associated view of the parent node
             if($this->tplVar['node']['id_parent'] != 0)
             {
+                $tmp_id_view = array();
                 // get current node data
                 $this->model->action('navigation','getNode', 
-                                     array('result'  => & $this->tplVar['node'],
+                                     array('result'  => & $tmp_id_view,
                                            'id_node' => (int)$this->tplVar['node']['id_parent'],
                                            'error'   => & $this->tplVar['error'],
                                            'fields'  => array('id_view'))); 
+                                           
+                $this->tplVar['node']['id_view'] = $tmp_id_view['id_view'];
             }
         }
-        
+ 
         // get all available public views
         $this->tplVar['publicViews'] = array();
         $this->model->action( 'navigation','getNodePublicViews',
                               array('result' => &$this->tplVar['publicViews'],
-                                    'fields' => array('id_view','name')) );     
+                                    'fields' => array('id_view','name')) );                              
     }  
 
     private function updateNodeData()
