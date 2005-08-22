@@ -17,17 +17,11 @@ MySql 4.1 Datenbank. Überprüfen sie ob folgende Ordner von php beschreibar sind:
 
 Rufen sie in iherem Internet Browser die Datei admin.php auf die sich
 im Wurzelordner befindet. Sie sollten jetzt eine Seite sehen mit
-der die Installation des Systems gemacht werden kann. Fogen sie
+der die Installation des Systems gemacht werden kann. Folgen sie
 den Anweisungen.
 
 Nachdem sie das Installationsformular abgeschickt haben werden sie
 zum Administrationslogin weitergeleitet. Hier können sie sich
-,it dem login 'superuser', dem erstellten Passwort und dem
+mit dem login 'superuser', dem erstellten Passwort und dem
 turing Key einloggen.
 
-Um das Framework zu testen sollten sie die Datenbank jetzt,
-nach dem erfolgreichen Setup, mit Beispielinhalt füllen. 
-Starten sie dazu phpMyAdmin und führen sie die 
-Datei /sql/smart3.sql in der erstellten Datenbank aus. Der
-Inhalt besteht aus der kompletten Dokumentation in
-englischer und deutscher Sprache.
