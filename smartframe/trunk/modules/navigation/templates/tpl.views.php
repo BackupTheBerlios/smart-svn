@@ -17,8 +17,7 @@
               <td height="29" align="left" valign="top" class="font10bold">
                 <?php foreach($tpl['availableViews'] as $view): ?>
                   <input type="checkbox" name="availableview[]" value="<?php echo $view['name'] ?>">
-                  <?php echo $view['name'] ?>
-                  <?php if($view['tpl'] != TRUE): ?>(no associated template)<?php endif; ?><br>
+                  <?php echo $view['name'] ?><br>
                 <?php endforeach; ?>
               </td>
             </tr>
