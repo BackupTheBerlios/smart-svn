@@ -1,0 +1,14 @@
+Smart3 0.2a - Readme
+--------------------
+
+Dieses ist die erste Version von Smart3. Das Project befindet
+sich noch in einer alpha Phase und sollte nur für
+Testzwecke benutzt werden
+
+Das Basisframework benötigt php5.
+Die Module benötigen MySql 4.1
+
+Installationsanweisungen: 
+
+INSTALL_EN (english)
+INSTALL_DE (deutsch)
