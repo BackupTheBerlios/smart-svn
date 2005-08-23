@@ -52,9 +52,9 @@ class ViewNavigationNodemap extends SmartView
     public function perform()
     {   
         // get the opener module
-        if(isset($_REQUEST['mod']))
+        if(isset($_REQUEST['openerModule']))
         {
-            $this->tplVar['mod'] = (string)$_REQUEST['mod'];
+            $this->tplVar['mod'] = (string)$_REQUEST['openerModule'];
         }
         else
         {
