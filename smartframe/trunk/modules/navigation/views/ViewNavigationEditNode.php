@@ -232,6 +232,7 @@ class ViewNavigationEditNode extends SmartView
             
         if($_POST['delete_node'] == '1')
         {
+            $this->unlockNode();
             $this->deleteNode( $_POST['id_node'] );
             $this->reorderRank( (int)$_POST['id_parent'] );
             $this->redirect( $id_parent );
