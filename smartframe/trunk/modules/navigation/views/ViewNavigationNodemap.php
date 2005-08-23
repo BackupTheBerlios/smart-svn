@@ -51,6 +51,16 @@ class ViewNavigationNodemap extends SmartView
     */
     public function perform()
     {   
+        // get the opener module
+        if(isset($_REQUEST['mod']))
+        {
+            $this->tplVar['mod'] = (string)$_REQUEST['mod'];
+        }
+        else
+        {
+            $this->tplVar['mod'] = 'navigation';
+        }
+        
         $this->tplVar['tree'] = FALSE;
         
         // get whole node tree

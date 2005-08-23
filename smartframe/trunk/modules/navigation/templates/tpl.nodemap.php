@@ -15,6 +15,6 @@ parent.opener.location.href =link; }
 </style>
 <div class="sitemap">
 <?php foreach($tpl['tree'] as $node):  ?>
-<?php echo str_repeat('-&nbsp;',$node['level'] * 3); ?><a href="javascript:goto_node('<?php echo SMART_CONTROLLER; ?>?mod=navigation&id_node=<?php echo $node['id_node']; ?>');"><?php echo $node['title']; ?></a><br />
+<?php echo str_repeat('-&nbsp;',$node['level'] * 3); ?><a href="javascript:goto_node('<?php echo SMART_CONTROLLER; ?>?mod=<?php echo $node['mod']; ?>&id_node=<?php echo $node['id_node']; ?>');"><?php echo $node['title']; ?></a><br />
 <?php endforeach; ?>  
 </div> 
