@@ -83,7 +83,7 @@ class ActionNavigationGetChilds extends ActionNavigation
             $tmp = array();
             foreach ($data['fields'] as $f)
             {
-                $tmp[$f] = stripslashes($row[$f]);
+                $tmp[$f] = $row[$f];
             }  
             $data['result'][] = $tmp;
         }
