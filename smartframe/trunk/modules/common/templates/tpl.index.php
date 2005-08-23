@@ -31,9 +31,9 @@ function subok(s){
 <style type="text/css">
 <!--
 .topselect {
-	font-size: 12px;
-	color: #660000;
-	background-color: #FFFFFF;
+  font-size: 12px;
+  color: #660000;
+  background-color: #FFFFFF;
 }
 -->
 </style>
@@ -48,12 +48,12 @@ function subok(s){
         <tr>
           <td width="31%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="139" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" width="129" height="50"> Ver.: 0.2a</td>
+              <td width="139" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" width="129" height="50"> Ver.: 0.2.0.1a</td>
               </tr>
           </table></td>
           <td width="25%" align="right" valign="top" class="font10"> <br /><a href="<?php echo $tpl['publicWebController']; ?>">Switch to the  public page</a></td>
           <td width="33%" align="right" valign="top" class="font10">
-		   <br />
+       <br />
             <?php if(!isset($tpl['notLogged'])): ?> 
             <form action="index.php" method="post">
                 GoTo &gt;
@@ -68,7 +68,7 @@ function subok(s){
             <?php endif; ?>
           </td>
           <td width="11%" align="right" valign="top">
-		       <br />
+           <br />
               <a href="<?php echo $tpl['adminWebController']; ?>?mod=user&view=adminLogout" class="font12">Logout</a>
           </td>
         </tr>
@@ -80,7 +80,7 @@ function subok(s){
 <?php endif; ?>
         <?php /* ### include the module view (template) ### */ ?>
         <?php $viewLoader->{$tpl['moduleRootView']}(); ?>
-<?php if($tpl['showHeaderFooter'] == TRUE): ?>		
+<?php if($tpl['showHeaderFooter'] == TRUE): ?>    
   <?php if($tpl['isUserLogged'] == TRUE): ?>  
     </td>
   </tr>
