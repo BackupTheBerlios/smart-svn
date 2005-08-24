@@ -153,6 +153,9 @@ class ViewOptionsMain extends SmartView
             $this->fields['disable_cache'] = 0;
             $this->config['disable_cache'] = 0;
        }
+
+       $this->fields['rejected_files'] = (string)$_POST['rejected_files'];
+       $this->config['rejected_files'] = (string)$_POST['rejected_files'];
         
         return TRUE;
     }    
