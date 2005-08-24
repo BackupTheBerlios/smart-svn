@@ -65,13 +65,14 @@ class ActionCommonSetup extends SmartAction
                  `charset`          varchar(50) NOT NULL default '',
                  `templates_folder` varchar(255) NOT NULL default '',
                  `views_folder`     varchar(255) NOT NULL default '',
-                 `disable_cache`    tinyint(1) NOT NULL default 1)";
+                 `disable_cache`    tinyint(1) NOT NULL default 1,
+                 `rejected_files`   text NOT NULL default '')";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
-                 (`charset`,`templates_folder`, `views_folder`)
+                 (`charset`,`templates_folder`, `views_folder`,`rejected_files`)
                 VALUES
-                 ('{$data['charset']}','{$this->model->config['default_template_folder']}','{$this->model->config['default_view_folder']}')";
+                 ('{$data['charset']}','{$this->model->config['default_template_folder']}','{$this->model->config['default_view_folder']}','.php,.php3,.php4,.php5,.phps')";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_module (

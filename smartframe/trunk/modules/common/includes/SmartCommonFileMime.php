@@ -176,7 +176,14 @@ class SmartCommonFileMime
          ".ice"     => "x-conference-xcooltalk"
         );
         
-        return $_mimetypes[SmartCommonFileMime::getExtension( strtolower($file) )];
+        $ext = SmartCommonFileMime::getExtension( strtolower($file) );
+        
+        if(!isset($_mimetypes[$ext]))
+        {
+            return 'unknown';
+        }
+        
+        return $_mimetypes[$ext];
     }    
 }
 
