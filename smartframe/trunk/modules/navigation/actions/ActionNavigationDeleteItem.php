@@ -156,7 +156,7 @@ class ActionNavigationDeleteItem extends SmartAction
             // delete whole tree
             SmartCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
-            $this->model->action( 'navigation','update',
+            $this->model->action( 'navigation','updateNode',
                                   array('id_node' => (int)$this->idNode,
                                         'fields'  => array('media_folder' => '')) );
         }
@@ -173,11 +173,11 @@ class ActionNavigationDeleteItem extends SmartAction
         {
             while ( (( $file = readdir( $handle ) )) != false )
             {
-                if ( ( $file == "." ) || ( $file == ".." ) )
+                if ( ( $file == "." ) || ( $file == ".." ) || is_dir($dir . '/' . $file) )
                 {
                     continue;
                 }
-                if ( @is_file( $dir . '/' . $file ) )
+                if ( file_exists( $dir . '/' . $file ) )
                 {
                     return FALSE;
                 }

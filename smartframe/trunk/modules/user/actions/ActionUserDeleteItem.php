@@ -177,11 +177,11 @@ class ActionUserDeleteItem extends SmartAction
         {
             while ( (( $file = readdir( $handle ) )) != false )
             {
-                if ( ( $file == "." ) || ( $file == ".." ) )
+                if ( ( $file == "." ) || ( $file == ".." ) || is_dir($dir . '/' . $file) )
                 {
                     continue;
                 }
-                if ( @is_file( $dir . '/' . $file ) )
+                if ( file_exists( $dir . '/' . $file ) )
                 {
                     return FALSE;
                 }

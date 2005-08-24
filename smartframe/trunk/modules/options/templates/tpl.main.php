@@ -47,6 +47,12 @@
         </td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Disallowed file uploads</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><textarea name="rejected_files" cols="80" rows="3"><?php echo $tpl['rejectedFiles']; ?></textarea></td>
+      </tr>	  
+      <tr>
         <td>&nbsp;</td>
       </tr>
       <tr>

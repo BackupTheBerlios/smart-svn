@@ -57,7 +57,7 @@ class ActionNavigationUpdateNode extends ActionNavigation
                    $fields
                 WHERE
                 `id_node`={$data['id_node']}";
-        
+
         $stmt = $this->model->dba->prepare($sql);                    
         
         foreach($data['fields'] as $key => $val)

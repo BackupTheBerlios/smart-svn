@@ -198,7 +198,7 @@ function MM_swapImage() { //v3.0
       <tr>
         <td width="25%" align="left" valign="top" class="itemerror" colspan="2">
     <?php foreach($tpl['error'] as $err): ?>
-       <?php echo err; ?><br />
+       <?php echo $err; ?><br />
     <?php endforeach; ?>
     </td>
       </tr>

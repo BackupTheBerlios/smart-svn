@@ -189,7 +189,7 @@ class ViewNavigationOptions extends SmartView
         } 
         else
         {
-            $this->fields['use_files'] = 0;
+            $this->fields['use_files'] = (int)$_POST['use_files'];
         }
         
         if(count($this->tplVar['error']) > 0)

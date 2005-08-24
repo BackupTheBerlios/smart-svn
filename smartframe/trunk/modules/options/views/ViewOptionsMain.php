@@ -74,6 +74,7 @@ class ViewOptionsMain extends SmartView
         $this->tplVar['publicViewFolder']     = $this->config['views_folder'];
         $this->tplVar['allPublicViewFolders'] = $this->getPublicFolders( 'views_' );
         $this->tplVar['allPublicTplFolders']  = $this->getPublicFolders( 'templates_' );
+        $this->tplVar['rejectedFiles']        = $this->config['rejected_files'];
 
         $this->tplVar['disableCache']         = $this->config['disable_cache'];
     } 

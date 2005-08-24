@@ -70,6 +70,7 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         {
             throw new SmartModelException("'error' var isnt from type array!");
         }    
+        
         // check if postName exists
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
@@ -88,6 +89,11 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         {
             $data['error'][] = 'File upload failed';
         }  
+        
+        if(FALSE == $this->isAllowedExtension( $data ))
+        {
+            $data['error'][] = 'This file type isnt allowed to upload';
+        }        
         
         if(!isset($data['item']))
         {
@@ -254,7 +260,29 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
     {
         include_once(SMART_BASE_DIR.'modules/common/includes/SmartCommonFileMime.php');
         return SmartCommonFileMime::getMime($file);
-    }        
+    }     
+    /**
+     * check if the file type to upload is allowed
+     *
+     * @param param $array
+     * @return bool
+     */       
+    private function isAllowedExtension( &$data )
+    {
+        if(preg_match("/(\.[^.]+)$/i",$_FILES[$data['postName']]['name'],$file_ext))
+        {
+            $disallowed_ext = explode(",",$this->config['rejected_files']);
+            foreach($disallowed_ext as $ext)
+            {
+                $t = "/".trim($ext)."/i";
+                if(preg_match($t,$file_ext[1]))
+                {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }
 }
 
 ?>

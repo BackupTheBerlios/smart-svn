@@ -216,11 +216,15 @@ function MM_swapImage() { //v3.0
     </tr>
   <tr>
     <td width="80%" align="left" valign="top">      <table width="100%" border="0" cellspacing="3" cellpadding="3">
-      <?php if($tpl['error'] != FALSE): ?>
+      <?php if(count($tpl['error'])>0): ?>
       <tr>
-        <td height="25" align="left" valign="top" class="itemerror"><?php echo $tpl['error']; ?></td>
+        <td height="25" align="left" valign="top" class="itemerror">
+    <?php foreach($tpl['error'] as $err): ?>
+        <?php echo $err; ?><br />
+      <?php endforeach; ?> 
+    </td>
       </tr>
-      <?php endif; ?>
+      <?php endif; ?>   
       <tr>
         <td align="left" valign="top" >
          <div class="font12 indent5">

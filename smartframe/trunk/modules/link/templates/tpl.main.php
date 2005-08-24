@@ -24,9 +24,17 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
   </div>
   <?php if(isset($tpl['nodes']) && (count($tpl['nodes'])>0)): ?>
     <?php foreach($tpl['nodes'] as $node): ?>
-    <table width="100%"  border="0" cellspacing="2" cellpadding="2">
+    <table width="100%"  border="0" cellspacing="2" cellpadding="0">
       <tr>
-        <td width="99%" align="left" valign="top" class="itemnormal">
+        <td width="1%" align="left" valign="top" class="font10">&nbsp;</td>
+        <td width="1%" align="left" valign="top" class="font10">
+           <?php if($node['status']==1): ?>
+              <img src="./modules/common/media/pics/inactive.png" width="21" height="21">
+           <?php elseif($node['status']==2): ?>
+              <img src="./modules/common/media/pics/active.png" width="21" height="21">
+           <?php endif; ?>		
+		</td>
+        <td width="98%" align="left" valign="top" class="font10">
           <?php echo '<a href="'.SMART_CONTROLLER.'?mod=link&id_node='.$node['id_node'].'">'.$node['title'].'</a>'; ?>
         </td>
       </tr>
@@ -42,16 +50,16 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
     <?php foreach($tpl['links'] as $link): ?>
     <table width="100%"  border="0" cellspacing="2" cellpadding="2">
       <tr>
-        <td width="21" align="left" valign="top" class="itemnormal">
+        <td width="1%" align="left" valign="top" class="itemnormal">
     <?php if($link['status']==1): ?>
     <img src="./modules/common/media/pics/inactive.png" width="21" height="21">
     <?php elseif($link['status']==2): ?>
     <img src="./modules/common/media/pics/active.png" width="21" height="21">
     <?php endif; ?>
     </td>
-        <td width="38" align="left" valign="top" class="font9">
+        <td width="1%" align="left" valign="top" class="font9">
 		<?php if(($tpl['showLink']==TRUE)&&($link['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=link&view=editLink&id_node=<?php echo $tpl['id_node']; ?>&id_link=<?php echo $link['id_link']; ?>">edit</a><?php else: ?>edit<?php endif; ?>&nbsp;</td>
-          <td width="606" align="left" valign="top" class="itemnormal">
+          <td width="98%" align="left" valign="top" class="itemnormal">
                 <?php echo '<a href="'.$link['url'].'" target="_blank">'.$link['title'].'</a>'; ?>
 				<?php if(!empty($link['description'])): ?>
 				   <div class="font10"><?php echo $link['description']; ?></div>

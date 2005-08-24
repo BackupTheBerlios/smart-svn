@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewNavigationMain
+ * ViewLinkAddLink
  *
  */
  
@@ -52,6 +52,7 @@ class ViewLinkAddLink extends SmartView
         {
             if(TRUE === $this->validate())
             {
+                // check if id_node has changed
                 if($_REQUEST['id_node'] != $_REQUEST['link_id_node'])
                 {
                     $id_node = $_REQUEST['link_id_node'];

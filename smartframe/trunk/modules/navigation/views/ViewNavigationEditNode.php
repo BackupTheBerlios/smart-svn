@@ -341,7 +341,7 @@ class ViewNavigationEditNode extends SmartView
         }  
         
         // if no error occure update node data
-        if($this->tplVar['error'] == FALSE)
+        if(count($this->tplVar['error']) == 0)
         {
             // update node data
             $this->updateNode( $rank, $use_text_format );

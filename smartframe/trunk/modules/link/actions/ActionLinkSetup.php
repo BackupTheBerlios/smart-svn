@@ -55,6 +55,13 @@ class ActionLinkSetup extends SmartAction
                    KEY `id_node` (`id_node`),
                    KEY `id_link` (`id_link`))";
         $this->model->dba->query($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}link_user_rel (
+                   `id_link`      int(11) unsigned NOT NULL default 0,
+                   `id_user`      int(11) unsigned NOT NULL default 0,
+                   KEY `id_link` (`id_link`),
+                   KEY `id_user` (`id_user`))";
+        $this->model->dba->query($sql);
        
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
