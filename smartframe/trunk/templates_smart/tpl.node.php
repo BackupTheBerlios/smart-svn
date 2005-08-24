@@ -115,6 +115,23 @@
                </table>
              <?php endforeach; ?>
            <?php endif; ?> 
+		   
+           <!-- --- show navigation node related files for download --- -->
+           <?php if(count($tpl['links'])>0): ?>
+             <div class="downloads">Links:</div>
+             <?php foreach($tpl['links'] as $link): ?>
+               <table width="350" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td height="19" class="filelink"><a href="<?php echo $link['url']; ?>" target="_blank"><?php echo $link['title']; ?></a></td>
+                </tr>
+                <?php if(!empty($link['description'])): ?>
+                <tr>
+                  <td class="filedesc"><?php echo $link['description']; ?></td>
+                </tr>
+                <?php endif; ?>
+               </table><br />
+             <?php endforeach; ?>
+           <?php endif; ?> 		   
          </td>
          </tr>
         </table>
