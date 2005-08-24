@@ -68,10 +68,10 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
       </tr>
     </table>
     <?php endforeach; ?>
-    <?php else: ?> 
-  <br><br><div class="font12bold">There is currently no link under this node. You may add some one here.</div><br><br>  
-  <?php endif; ?>   
-</td>
+	<?php elseif(($tpl['showLink']==TRUE)&&($tpl['showAddLink']==TRUE)): ?>
+        <br><br><div class="font12bold">There is currently no link under this node. You may add some one here.</div><br><br>  
+    <?php endif; ?>   
+    </td>
     <td width="11%" align="center" valign="top" class="font12">
     <?php if(($tpl['showLink']==TRUE)&&($tpl['showAddLink']==TRUE)): ?>
        <a href="<?php echo SMART_CONTROLLER; ?>?mod=link&view=addLink&id_node=<?php echo $tpl['id_node']; ?>">add link</a>
