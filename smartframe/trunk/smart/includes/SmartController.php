@@ -154,7 +154,8 @@ class SmartController extends SmartObject
     {
         $e->flag = array('debug'          => $this->config['debug'],
                          'logs_path'      => $this->config['logs_path'],
-                         'message_handle' => $this->config['message_handle']);  
+                         'message_handle' => $this->config['message_handle'],
+                         'system_email'   => $this->config['system_email']);  
         return;
     }
 
