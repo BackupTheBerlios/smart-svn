@@ -44,8 +44,14 @@ class ViewLinkAddLink extends SmartView
         // Init error array
         $this->tplVar['error']  = array();
 
-
-        $this->tplVar['id_node'] = $_REQUEST['id_node'];
+        if(isset($_REQUEST['id_node']))
+        {
+            $this->tplVar['id_node'] = $_REQUEST['id_node'];
+        }
+        else
+        {
+            $this->tplVar['id_node'] = '0';
+        }
 
         // add link
         if( isset($_POST['addlink']) )
