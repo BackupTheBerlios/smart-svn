@@ -98,7 +98,7 @@ class ActionMiscSetup extends SmartAction
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                 VALUES
-                 ('misc','Misc Content Management',4,'0.1',1,'DATE: 30.7.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
+                 ('misc','Misc Content Management',5,'0.1',1,'DATE: 30.7.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
         $this->model->dba->query($sql);            
 
         return TRUE;
