@@ -116,7 +116,12 @@ $SmartConfig['output_compression']       = FALSE;
 $SmartConfig['output_compression_level'] = '4';
 
 /**
- * message log types ('LOG|SHOW')
+ * recipient email of system messages: system@foo.com
+ */
+$SmartConfig['system_email'] = '';
+
+/**
+ * message log types ('LOG|SHOW|MAIL')
  */
 $SmartConfig['message_handle'] = 'LOG';
  
