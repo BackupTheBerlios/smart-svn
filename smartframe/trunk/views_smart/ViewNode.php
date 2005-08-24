@@ -71,7 +71,15 @@ class ViewNode extends SmartView
                                                       'size',
                                                       'mime',
                                                       'title',
-                                                      'description')) );                       
+                                                      'description')) );   
+                                                      
+        // get node related links
+        $this->model->action('link','getLinks', 
+                             array('result'  => & $this->tplVar['links'],
+                                   'id_node' => (int)$this->current_id_node,
+                                   'status'  => array('=','2'),
+                                   'fields'  => array('title','url','id_link',
+                                                      'description')));   
     }
 
     /**
@@ -135,6 +143,7 @@ class ViewNode extends SmartView
         $this->tplVar['childNodes'] = array();
         $this->tplVar['nodeBranch'] = array();
         $this->tplVar['nodeFiles']  = array();
+        $this->tplVar['links']      = array();
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];
