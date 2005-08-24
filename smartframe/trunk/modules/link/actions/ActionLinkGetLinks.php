@@ -183,7 +183,7 @@ class ActionLinkGetLinks extends SmartAction
         }
         
         return TRUE;
-    }
+    }    
 }
 
 ?>

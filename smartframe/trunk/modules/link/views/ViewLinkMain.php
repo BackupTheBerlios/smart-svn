@@ -75,6 +75,8 @@ class ViewLinkMain extends SmartView
                                    'fields'  => array('title','url','id_link',
                                                       'description','status')));
 
+        // get link locks
+        $this->getLocks();
     }  
  
     /**
@@ -139,6 +141,34 @@ class ViewLinkMain extends SmartView
             return FALSE;
         }
     }
+     /**
+     * assign template variables with lock status of each link
+     *
+     */   
+    private function getLocks()
+    {
+        $row = 0;
+        
+        foreach($this->tplVar['links'] as $link)
+        {
+            // lock the user to edit
+            $result = $this->model->action('link','lock',
+                                     array('job'        => 'is_locked',
+                                           'id_link'    => (int)$link['id_link'],
+                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
+                                           
+            if(($result !== TRUE) && ($result !== FALSE))
+            {
+                $this->tplVar['links'][$row]['lock'] = TRUE;  
+            } 
+            else
+            {
+                $this->tplVar['links'][$row]['lock'] = FALSE;  
+            }
+            
+            $row++;
+        }    
+    }       
 }
 
 ?>
