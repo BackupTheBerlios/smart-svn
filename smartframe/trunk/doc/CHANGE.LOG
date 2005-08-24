@@ -3,8 +3,10 @@ Smart3 Framework Change.log
 
 0.2.0.2a
 --------
-- added link module
+- added simple link module
 - added sending system messages by email. see: my_config_dist.php.
+- added disallowed upload files in options
+- fixed modules data dir handling
 
 0.2.0.1a
 --------
