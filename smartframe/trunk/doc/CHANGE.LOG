@@ -1,6 +1,11 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.0.2a
+--------
+- added link module
+- added sending system messages by email. see: my_config_dist.php.
+
 0.2.0.1a
 --------
 - it is possible to insert sample content on the setup page.
