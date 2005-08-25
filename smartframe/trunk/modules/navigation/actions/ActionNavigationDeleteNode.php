@@ -92,6 +92,11 @@ class ActionNavigationDeleteNode extends SmartAction
                    `id_node`={$id_node}";
 
         $this->model->dba->query($sql);
+        
+        // delete all node related content
+        $this->model->broadcast('deleteNodeRelatedContent', 
+                                array('id_node'   => (int)$id_node));   
+        
            
     }
     
