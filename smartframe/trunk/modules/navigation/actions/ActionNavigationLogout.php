@@ -42,7 +42,8 @@ class ActionNavigationLogout extends SmartAction
     {
         if( !isset($data['loggedUserId']) || !is_int($data['loggedUserId']) )
         {        
-            throw new SmartModelException ('"loggedUserId" must be defined and from type int'); 
+            trigger_error('"loggedUserId" must be defined and from type int', E_USER_ERROR); 
+            return FALSE;
         }
     
         return TRUE;
