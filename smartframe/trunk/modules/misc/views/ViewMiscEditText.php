@@ -254,7 +254,7 @@ class ViewMiscEditText extends SmartView
         }  
         
         // if no error occure update text data
-        if($this->tplVar['error'] == FALSE)
+        if(count($this->tplVar['error']) == 0)
         {
             // update text data
             $this->updatetext( $use_text_format );
