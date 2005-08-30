@@ -89,7 +89,7 @@ $SmartConfig['useCodeAnalyzer'] = FALSE;
  * Allowed php constructs in templates
  */
 $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif',
-                                          'foreach','endforeach','while','do','for',
+                                          'foreach','endforeach','while','do','for','endfor',
                                           'continue','break','switch','case',
                                           'echo','print','print_r','var_dump','exit',
                                           'defined','define',
