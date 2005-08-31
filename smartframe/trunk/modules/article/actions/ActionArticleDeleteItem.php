@@ -39,7 +39,7 @@ class ActionArticleDeleteItem extends SmartAction
             $this->deletePicture($data);
         }
         
-        $this->removeEmptyDirectory();
+        $this->removeEmptyDirectory( $data );
   
         return TRUE;
     }
@@ -81,13 +81,15 @@ class ActionArticleDeleteItem extends SmartAction
         $this->model->action('article','getPicture',
                              array('result' => & $pic,
                                    'id_pic' => (int)$data['id_pic'],
+                                   'error'  => & $data['error'],
                                    'fields' => array('file','id_article')));   
 
         $article = array();
 
-        $this->model->action('article','getNode',
+        $this->model->action('article','getArticle',
                              array('result'     => & $article,
                                    'id_article' => (int)$pic['id_article'],
+                                   'error'      => & $data['error'],
                                    'fields'     => array('media_folder')));   
 
         $this->idArticle   = $pic['id_article'];
@@ -104,6 +106,7 @@ class ActionArticleDeleteItem extends SmartAction
         // remove picture reference from database
         $this->model->action('article','updatePicture',
                              array('action'     => 'delete',
+                                   'error'      => & $data['error'],
                                    'id_pic'     => (int)$data['id_pic'],
                                    'id_article' => (int)$pic['id_article']));    
     }  
@@ -119,6 +122,7 @@ class ActionArticleDeleteItem extends SmartAction
 
         $this->model->action('article','getFile',
                              array('result'  => & $file,
+                                   'error'   => & $data['error'],
                                    'id_file' => (int)$data['id_file'],
                                    'fields'  => array('file','id_article')));   
 
@@ -126,6 +130,7 @@ class ActionArticleDeleteItem extends SmartAction
 
         $this->model->action('article','getArticle',
                              array('result'     => & $article,
+                                   'error'      => & $data['error'],
                                    'id_article' => (int)$file['id_article'],
                                    'fields'     => array('media_folder')));   
 
@@ -139,6 +144,7 @@ class ActionArticleDeleteItem extends SmartAction
         // remove file reference from database
         $this->model->action('article','updateFile',
                              array('action'     => 'delete',
+                                   'error'      => & $data['error'],
                                    'id_file'    => (int)$data['id_file'],
                                    'id_article' => (int)$file['id_article']));    
     }
@@ -147,7 +153,7 @@ class ActionArticleDeleteItem extends SmartAction
      *
      * @return bool
      */  
-    private function removeEmptyDirectory()
+    private function removeEmptyDirectory( &$data )
     {
         $dir = SMART_BASE_DIR . 'data/article/' . $this->mediaFolder;
         
@@ -158,6 +164,7 @@ class ActionArticleDeleteItem extends SmartAction
             // remove media_folder reference
             $this->model->action( 'article','updateArticle',
                                   array('id_article' => (int)$this->idArticle,
+                                        'error'      => & $data['error'],
                                         'fields'     => array('media_folder' => '')) );
         }
     }

@@ -49,7 +49,7 @@ class ActionArticleDeleteLogo extends SmartAction
                                    'error'      => & $data['error'],
                                    'fields'     => array('logo' => '')));
 
-        $this->removeEmptyDirectory( $article['media_folder'] );
+        $this->removeEmptyDirectory( $article['media_folder'], $data );
         
         return TRUE;
     }
@@ -77,9 +77,8 @@ class ActionArticleDeleteLogo extends SmartAction
     /**
      * remove empty user directory
      *
-     * @return bool
      */  
-    private function removeEmptyDirectory( &$media_folder )
+    private function removeEmptyDirectory( &$media_folder, &$data )
     {
         $dir = SMART_BASE_DIR . 'data/article/' . $media_folder;
         
@@ -89,7 +88,8 @@ class ActionArticleDeleteLogo extends SmartAction
             SmartCommonUtil::deleteDirTree( $dir );
             // remove media_folder reference
             $this->model->action( 'article','updateArticle',
-                                  array('id_article' => (int)$this->idArticle,
+                                  array('id_article' => (int)$data['id_article'],
+                                        'error'      => & $data['error'],
                                         'fields'     => array('media_folder' => '')) );
         }
     }
