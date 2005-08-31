@@ -29,6 +29,15 @@ body {
     font-weight: bold;
 }
 .font14 {font-size: 14px}
+.font14bold {
+    font-size: 14px;
+    font-weight: bold;
+}
+.font16 {font-size: 16px}
+.font16bold {
+    font-size: 16px;
+    font-weight: bold;
+}
 .font9 {font-size: 9px}
 .font9bold {
     font-size: 9px;
