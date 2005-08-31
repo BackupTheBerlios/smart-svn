@@ -21,8 +21,8 @@ final class SmartSessionHandler
 
     function __construct( & $db, & $tablePrefix )
     {
-        $this->db = $db;
-        $this->dbTablePrefix = $tablePrefix;
+        $this->db = & $db;
+        $this->dbTablePrefix = & $tablePrefix;
         
         session_set_save_handler(
             array(& $this, 'open'),

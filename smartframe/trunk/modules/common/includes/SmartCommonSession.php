@@ -85,11 +85,11 @@ class SmartCommonSession extends SmartObject
     {
         if (empty($name))
             return false;
-
-        session_unregister($name);
-
+        
         $_SESSION[$name] = NULL;
-
+        
+        session_unregister($name);
+        
         return true;
     }
 
