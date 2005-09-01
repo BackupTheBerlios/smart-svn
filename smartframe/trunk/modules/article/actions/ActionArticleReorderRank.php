@@ -29,12 +29,13 @@ class ActionArticleReorderRank extends SmartAction
     {
         $sql = "
             SELECT
-                `id_article`
+                a.`id_article`
             FROM
-                {$this->config['dbTablePrefix']}article_node_rel
+                {$this->config['dbTablePrefix']}article_article AS a,
+                {$this->config['dbTablePrefix']}article_node_rel AS r
             WHERE
-                `id_node`={$data['id_node']} 
-            ORDER BY `rank` ASC";
+                r.`id_node`={$data['id_node']} 
+            ORDER BY a.`rank` ASC";
         
         $rs = $this->model->dba->query($sql);
         

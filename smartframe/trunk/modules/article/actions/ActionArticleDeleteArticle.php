@@ -64,9 +64,16 @@ class ActionArticleDeleteArticle extends SmartAction
 
         $this->model->dba->query($sql);
         
-        $sql = "SELECT `media_folder` FROM {$this->config['dbTablePrefix']}article_article
-                  WHERE
-                   `id_article`={$data['id_article']}";
+        $sql = "SELECT 
+                  a.`media_folder`,
+                  r.`id_node`
+                FROM 
+                  {$this->config['dbTablePrefix']}article_article AS a,
+                  {$this->config['dbTablePrefix']}article_node_rel AS r
+                WHERE
+                   a.`id_article`={$data['id_article']}
+                AND
+                   a.`id_article`=r.`id_article`";
                    
         $rs = $this->model->dba->query($sql);
 
@@ -83,6 +90,10 @@ class ActionArticleDeleteArticle extends SmartAction
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);
+        
+        // reorder node related article ranks
+        $this->model->action('article','reorderRank',
+                             array('id_node' => (int)$row['id_node']) );        
     } 
     /**
      * validate data array
