@@ -438,8 +438,6 @@ class ViewUserEditUser extends SmartView
         $roles = array('10'  => 'Superuser',
                        '20'  => 'Administrator',
                        '40'  => 'Editor',
-                       '60'  => 'Author',
-                       '80'  => 'Contributor',
                        '100' => 'Webuser'); 
         
         $this->tplVar['form_roles'] = array();
@@ -447,7 +445,7 @@ class ViewUserEditUser extends SmartView
         foreach($roles as $key => $val)
         {
             // just the roles on which the logged user have rights
-            if(($this->viewVar['loggedUserRole'] < $key) && ($this->viewVar['loggedUserRole'] < 60))
+            if(($this->viewVar['loggedUserRole'] < $key) && ($this->viewVar['loggedUserRole'] <= 40))
             {
                 $this->tplVar['form_roles'][$key] = $val;
             }
@@ -475,7 +473,7 @@ class ViewUserEditUser extends SmartView
      */
     private function checkViewPermission()
     {
-        if($this->viewVar['loggedUserRole'] < 60)
+        if($this->viewVar['loggedUserRole'] <= 40)
         {
             return TRUE;
         }
