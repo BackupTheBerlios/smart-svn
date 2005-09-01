@@ -10,31 +10,31 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionLinkDeleteNodeRelatedContent class 
+ * ActionArticleDeleteNodeRelatedContent class 
  *
  * USAGE:
  *
- * $model->action('link','linkDeleteNodeRelatedContent',
+ * $model->action('article','deleteNodeRelatedContent',
  *                array('id_node' => int))
  *
  *
  * DEPENDENCIES:
- * - $this->model->action('link','deleteLink');
+ * - $this->model->action('article','deleteArticle');
  *
  */
  
-class ActionLinkDeleteNodeRelatedContent extends SmartAction
+class ActionArticleDeleteNodeRelatedContent extends SmartAction
 {
     /**
-     * delete navigation node related links
+     * delete navigation node related articles
      *
      * @param array $data
      */
     public function perform( $data = FALSE )
     {  
         $sql = "SELECT 
-                    `id_link` 
-                FROM {$this->config['dbTablePrefix']}link_node_rel
+                    `id_article` 
+                FROM {$this->config['dbTablePrefix']}article_node_rel
                 WHERE
                    `id_node`={$data['id_node']}";
                    
@@ -42,12 +42,12 @@ class ActionLinkDeleteNodeRelatedContent extends SmartAction
         
         while($row = $rs->fetchAssoc())
         {
-            $this->model->action('link','deleteLink',
-                                 array('id_link' => (int)$row['id_link'],
-                                       'id_node' => (int)$data['id_node']));
+            $this->model->action('article','deleteArticle',
+                                 array('id_article' => (int)$row['id_article'],
+                                       'id_node'    => (int)$data['id_node']));
         }        
                    
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_node_rel
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_node_rel
                   WHERE
                    `id_node`={$data['id_node']}";
 
