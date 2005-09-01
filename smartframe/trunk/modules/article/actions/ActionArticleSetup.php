@@ -42,7 +42,6 @@ class ActionArticleSetup extends SmartAction
                    `description`   text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `body`          mediumtext CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `ps`            text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `fulltextbody`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `format`        tinyint(1) NOT NULL default 0,
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,                   
@@ -132,8 +131,8 @@ class ActionArticleSetup extends SmartAction
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_config (
                  `thumb_width`     smallint(4) NOT NULL default 120,
-                 `img_size_max`    int(11) NOT NULL default 200000,
-                 `file_size_max`   int(11) NOT NULL default 200000,
+                 `img_size_max`    int(11) NOT NULL default 250000,
+                 `file_size_max`   int(11) NOT NULL default 2000000,
                  `force_format`    tinyint(1) NOT NULL default 2,
                  `default_format`  tinyint(1) NOT NULL default 2,
                  `default_lang`    char(2) NOT NULL default 'en',
@@ -141,15 +140,21 @@ class ActionArticleSetup extends SmartAction
                  `use_keywords`    tinyint(1) NOT NULL default 0,
                  `use_articledate` tinyint(1) NOT NULL default 0,
                  `use_changedate`  tinyint(1) NOT NULL default 0,
-                 `use_overtitle`   tinyint(1) NOT NULL default 1,
-                 `use_subtitle`    tinyint(1) NOT NULL default 1,
-                 `use_header`      tinyint(1) NOT NULL default 1,
-                 `use_description` tinyint(1) NOT NULL default 1,
-                 `use_ps`          tinyint(1) NOT NULL default 1,
-                 `use_logo`        tinyint(1) NOT NULL default 1,
+                 `use_overtitle`   tinyint(1) NOT NULL default 0,
+                 `use_subtitle`    tinyint(1) NOT NULL default 0,
+                 `use_header`      tinyint(1) NOT NULL default 0,
+                 `use_description` tinyint(1) NOT NULL default 0,
+                 `use_ps`          tinyint(1) NOT NULL default 0,
+                 `use_logo`        tinyint(1) NOT NULL default 0,
                  `use_images`      tinyint(1) NOT NULL default 1,
                  `use_files`       tinyint(1) NOT NULL default 1)";
         $this->model->dba->query($sql);  
+
+        $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}article_config
+                   (`thumb_width`)
+                  VALUES
+                   (120)";
+        $this->model->dba->query($sql);   
   
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `release`)

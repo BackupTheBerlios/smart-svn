@@ -88,7 +88,7 @@ class ViewArticleModArticle extends SmartView
         }
 
         // change nothing and switch back
-        if(isset($_POST['canceledit']) && ($_POST['canceledit'] == '1'))
+        if(isset($_POST['back']) && ($_POST['back'] == 'back'))
         {
             $this->redirect();        
         }
@@ -161,6 +161,7 @@ class ViewArticleModArticle extends SmartView
         {   
             $this->model->action('article','addItem',
                                  array('item'        => 'picture',
+                                       'error'       => & $this->tplVar['error'],
                                        'id_article'  => (int)$this->current_id_article,
                                        'postName'    => 'picture',
                                        'error'       => & $this->tplVar['error']) ); 
@@ -188,6 +189,7 @@ class ViewArticleModArticle extends SmartView
         {
             $this->model->action('article','deleteItem',
                                  array('id_article' => (int)$this->current_id_article,
+                                       'error'      => & $this->tplVar['error'],
                                        'id_pic'     => (int)$_POST['imageID2del']) ); 
             $noRedirect = TRUE;
         }
@@ -196,6 +198,7 @@ class ViewArticleModArticle extends SmartView
         {   
             $this->model->action('article','moveItemRank',
                                  array('id_article' => (int)$this->current_id_article,
+                                       'error'      => & $this->tplVar['error'],
                                        'id_pic'     => (int)$_POST['imageIDmoveUp'],
                                        'dir'        => 'up') ); 
             $noRedirect = TRUE;
@@ -206,6 +209,7 @@ class ViewArticleModArticle extends SmartView
             $this->model->action('article','moveItemRank',
                                  array('id_article' => (int)$this->current_id_article,
                                        'id_pic'     => (int)$_POST['imageIDmoveDown'],
+                                       'error'      => & $this->tplVar['error'],
                                        'dir'        => 'down') ); 
             $noRedirect = TRUE;
         } 
@@ -215,6 +219,7 @@ class ViewArticleModArticle extends SmartView
             $this->model->action('article','moveItemRank',
                                  array('id_article' => (int)$this->current_id_article,
                                        'id_file'    => (int)$_POST['fileIDmoveUp'],
+                                       'error'      => & $this->tplVar['error'],
                                        'dir'        => 'up') );     
             $noRedirect = TRUE;
         }
@@ -224,6 +229,7 @@ class ViewArticleModArticle extends SmartView
             $this->model->action('article','moveItemRank',
                                  array('id_article' => (int)$this->current_id_article,
                                        'id_file'    => (int)$_POST['fileIDmoveDown'],
+                                       'error'      => & $this->tplVar['error'],
                                        'dir'        => 'down') );  
             $noRedirect = TRUE;
         } 
@@ -242,6 +248,7 @@ class ViewArticleModArticle extends SmartView
         {   
             $this->model->action('article','deleteItem',
                                  array('id_article' => (int)$this->current_id_article,
+                                       'error'      => & $this->tplVar['error'],
                                        'id_file'    => (int)$_POST['fileID2del']) );
             $noRedirect = TRUE;
         }  
@@ -251,6 +258,7 @@ class ViewArticleModArticle extends SmartView
         {
             $this->model->action( 'article','updateItem',
                                   array('item'    => 'pic',
+                                        'error'   => & $this->tplVar['error'],
                                         'ids'     => &$_POST['picid'],
                                         'fields'  => array('description' => &$_POST['picdesc'],
                                                            'title'       => &$_POST['pictitle'])));
@@ -262,6 +270,7 @@ class ViewArticleModArticle extends SmartView
         {
             $this->model->action( 'article','updateItem',
                                   array('item'    => 'file',
+                                        'error'   => & $this->tplVar['error'],
                                         'ids'     => &$_POST['fileid'],
                                         'fields'  => array('description' => &$_POST['filedesc'],
                                                            'title'       => &$_POST['filetitle'])));
@@ -284,7 +293,7 @@ class ViewArticleModArticle extends SmartView
                                        'error'      => & $this->tplVar['error'],
                                        'fields'     => $fields));                          
     
-            if(!isset($noRedirect))
+            if(!isset($noRedirect) && !isset($_POST['refresh']))
             {
                 $this->redirect(); 
             }
