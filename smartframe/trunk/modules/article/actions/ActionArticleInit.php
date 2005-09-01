@@ -33,6 +33,7 @@ class ActionArticleInit extends SmartAction
     public function perform( $data = FALSE )
     {
         $this->checkModuleVersion();
+        $this->model->action('article','changedateStatus');
     } 
     /**
      * Check module version and upgrade or install this module if necessairy
