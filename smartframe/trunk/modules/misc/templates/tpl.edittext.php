@@ -29,10 +29,10 @@ function insertFileDesc(desc)
 {
     tinyMCE.execCommand('mceInsertContent',0,desc);
 }
-function insertImage(controller,path,file,title,id_pic,width,height,jsc)
+function insertImage(controller,path,file,title,id_pic,id_text,width,height,jsc)
 {
   if(jsc==1){
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=textPicture&id_pic='+id_pic+'\','+width+','+height+');"><img src="'+path+file+'" id="'+file+'" title="'+title+'" border="0" /></a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=picture&id_text='+id_text+'&id_pic='+id_pic+'\','+width+','+height+');"><img src="'+path+file+'" id="'+file+'" title="'+title+'" border="0" /></a>');
     }
   else {
     tinyMCE.execCommand('mceInsertContent',0,'<img src="'+path+file+'" id="'+file+'" title="'+title+'" border="0" width="'+width+'" height="'+height+'" />'); 
@@ -367,7 +367,7 @@ Wikki </td>
                     </tr>
                     <tr>
                       <td align="right" valign="top">
-            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/misc/<?php echo $tpl['text']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>',1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)">
+            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/misc/<?php echo $tpl['text']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $tpl['text']['id_text']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>',1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)">
             <img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert thumbnail <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:deletepic(document.forms['edittext'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_pic','','modules/common/media/pics/deleteover.png',0)"></a>
             <a href="javascript:deletepic(document.forms['edittext'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Del<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/deleteover.png',0)">
