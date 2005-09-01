@@ -161,14 +161,12 @@ class ViewCommonIndex extends SmartView
         // User Role flags
         // Admin  = 20
         // Editor = 40
-        // Author = 60
-        // Contributor = 80
         // Webuser = 100
         //
         // Webuser (100) hasnt access to the admin section
         //
         if(($this->viewVar['loggedUserRole'] === NULL) || 
-           ($this->viewVar['loggedUserRole'] >= 100))
+           ($this->viewVar['loggedUserRole'] > 40))
         {
             $this->setLoginTarget();
         }
