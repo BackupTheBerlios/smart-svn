@@ -20,7 +20,8 @@
 class ActionArticleDeleteExpired extends SmartAction
 {
     /**
-     * delete expired article to delete
+     * delete article with status 0=delete which the last update is 
+     * older than one day
      *
      * @param array $data
      */
