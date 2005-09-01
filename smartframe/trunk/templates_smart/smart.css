@@ -15,6 +15,32 @@ body {
 	border-right-color: #516570;
 
 }
+.body {
+	font-size: 12px;
+	color: #333333;	
+}
+.overtitle {
+	font-size: 12px;
+	color: #777777;	
+	font-weight: bold;
+}
+.subtitle {
+	font-size: 10px;
+	color: #333333;	
+}
+.header {
+	font-size: 12px;
+	color: #000000;	
+	font-weight: bold;
+}
+.ps {
+	font-size: 10px;
+	color: #333333;	
+}
+.description {
+	font-size: 12px;
+	color: #333333;	
+}
 .branch {
 	font-size: 10px;	
 }

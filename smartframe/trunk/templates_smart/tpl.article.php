@@ -86,7 +86,7 @@
 						 <?php if(!empty($tpl['article']['header'])): ?>
 						    <div class="header"><?php echo $tpl['article']['header'];  ?></div>
 						 <?php endif; ?>
-                         <div class="text"><?php echo $tpl['article']['body'];  ?></div>
+                         <div class="body"><?php echo $tpl['article']['body'];  ?></div>
 						 <?php if(!empty($tpl['article']['ps'])): ?>
 						    <div class="ps"><?php echo $tpl['article']['ps'];  ?></div>
 						 <?php endif; ?>
