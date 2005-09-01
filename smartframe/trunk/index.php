@@ -71,6 +71,11 @@ include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
 // Include the system core file. use this for production in order to the previous include
 //include( SMART_BASE_DIR . 'smart/includes/smart_all_in_one.php' );
 
+/*
+ * Set controller type
+ */
+$SmartConfig['controller_type'] = 'web';
+
 $smartController = SmartController::newInstance('SmartWebController');
 
 $smartController->dispatch();

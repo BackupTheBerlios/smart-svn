@@ -68,6 +68,11 @@ define('SMART_BASE_DIR', dirname(__FILE__) . '/');
 // Include the system core file
 include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
 
+/*
+ * Set controller type
+ */
+$SmartConfig['controller_type'] = 'admin';
+
 $smartController = SmartController::newInstance('SmartWebAdminController');
 
 $smartController->dispatch();
