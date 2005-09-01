@@ -59,78 +59,105 @@
     </td>
         <td width="638" align="left" valign="top"><table width="638" border="0" cellspacing="4" cellpadding="2">
           <tr>
-            <td>
-            
-               <!-- --- show current navigation node branche --- -->
-               <div class="branch">Top /
-                 <?php  foreach($tpl['nodeBranch'] as $bnode): ?>
-                   <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
-                 <?php endforeach; ?>
-                 <hr class="hr" />
-               </div>    
-               
-               <!-- --- show child nodes of the current navigation node --- -->
-               <?php if(count($tpl['childNodes']) > 0): ?>         
-               <table width="200"  border="0" align="right" cellpadding="0" cellspacing="0" class="subnodetable">
+            <td align="left" valign="top" width="2%" >
+               <table width="100%" border="0" cellspacing="2" cellpadding="2">
                  <tr>
-                   <td align="left" valign="top" class="subnodetitle">Subnodes</td>
+                   <td>
+                    <!-- --- show current navigation node branche --- -->
+                    <div class="branch">Top /
+                     <?php  foreach($tpl['nodeBranch'] as $bnode): ?>
+                       <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
+                     <?php endforeach; ?>
+                     <hr class="hr" />
+                    </div>  				   
+				   </td>
                  </tr>
                  <tr>
-                   <td width="190" align="left" valign="top">
-                     <ul class="subnodeul">
-                       <?php foreach($tpl['childNodes'] as $cnode): ?>
-                         <li class="subnodelist">
-                           <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a>
-                           <?php if(!empty($cnode['short_text'])): ?>
-                              <div class="font10"><?php echo $cnode['short_text']; ?></div>
-                           <?php endif; ?></li>
-                       <?php endforeach; ?>
-                    </ul>        
-                  </td>
-                </tr>       
-              </table>    
-             <?php endif; ?>
-             
-           <!-- print title and body of a navigation node -->
-           <h3>
-             <?php echo $tpl['node']['title'];  ?>
-           </h3>
-           <div class="text"><?php echo $tpl['node']['body'];  ?></div>
-           
-           <!-- --- show navigation node related files for download --- -->
-           <?php if(count($tpl['nodeFiles'])>0): ?>
-             <div class="downloads">Downloads:</div>
-             <?php foreach($tpl['nodeFiles'] as $file): ?>
-               <table width="350" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td class="filelink"><a href="<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/<?php echo $file['file']; ?>"><?php if(!empty($file['title'])){echo $file['title'];}else{echo $file['file'];} ?></a></td>
-                </tr>
-                <?php if(!empty($file['description'])): ?>
-                <tr>
-                  <td class="filedesc"><?php echo $file['description']; ?></td>
-                </tr>
-                <?php endif; ?>
+                   <td align="left" valign="top">
+                   <table width="200" border="0" align="right" cellpadding="0" cellspacing="0">
+                     <tr>
+                       <td><!-- --- show child nodes of the current navigation node --- -->
+                         <?php if(count($tpl['childNodes']) > 0): ?>
+                         <table width="200"  border="0" cellpadding="0" cellspacing="0" class="subnodetable">
+                           <tr>
+                             <td align="left" valign="top" class="subnodetitle">Subnodes</td>
+                           </tr>
+                           <tr>
+                             <td width="190" align="left" valign="top">
+                               <ul class="subnodeul">
+                                 <?php foreach($tpl['childNodes'] as $cnode): ?>
+                                 <li class="subnodelist"> <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $cnode['id_node']; ?>"><?php echo $cnode['title']; ?></a>
+                                     <?php if(!empty($cnode['short_text'])): ?>
+                                     <div class="font10"><?php echo $cnode['short_text']; ?></div>
+                                     <?php endif; ?>
+                                 </li>
+                                 <?php endforeach; ?>
+                               </ul>
+                             </td>
+                           </tr>
+                         </table><br>
+                         <?php endif; ?>
+                         <!-- --- show child nodes of the current navigation node --- -->
+                         <?php if(count($tpl['nodeArticles']) > 0): ?>
+                         <table width="200"  border="0" cellpadding="0" cellspacing="0" class="subnodetable">
+                           <tr>
+                             <td align="left" valign="top" class="subnodetitle">Articles</td>
+                           </tr>
+                           <tr>
+                             <td width="190" align="left" valign="top">
+                               <ul class="subnodeul">
+                                 <?php foreach($tpl['nodeArticles'] as $article): ?>
+                                 <li class="subnodelist"> <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $tpl['node']['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a> </li>
+                                 <?php endforeach; ?>
+                               </ul>
+                             </td>
+                           </tr>
+                         </table>
+                         <?php endif; ?>
+                       </td>
+                     </tr>
+                   </table>
+                         <!-- print title and body of a navigation node -->
+                         <h3> <?php echo $tpl['node']['title'];  ?> </h3>
+                         <span class="text"><?php echo $tpl['node']['body'];  ?></span>
+                         <!-- --- show navigation node related files for download --- -->
+                         <?php if(count($tpl['nodeFiles'])>0): ?>
+                         <div class="downloads">Downloads:</div>
+                         <?php foreach($tpl['nodeFiles'] as $file): ?>
+                         <table width="350" border="0" cellspacing="0" cellpadding="0">
+                           <tr>
+                             <td class="filelink"><a href="<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/<?php echo $file['file']; ?>">
+                               <?php if(!empty($file['title'])){echo $file['title'];}else{echo $file['file'];} ?>
+                             </a></td>
+                           </tr>
+                           <?php if(!empty($file['description'])): ?>
+                           <tr>
+                             <td class="filedesc"><?php echo $file['description']; ?></td>
+                           </tr>
+                           <?php endif; ?>
+                         </table>
+                         <?php endforeach; ?>
+                         <?php endif; ?>
+                         <!-- --- show navigation node related files for download --- -->
+                         <?php if(count($tpl['links'])>0): ?>
+                         <div class="downloads">Links:</div>
+                         <?php foreach($tpl['links'] as $link): ?>
+                         <table width="350" border="0" cellspacing="0" cellpadding="0">
+                           <tr>
+                             <td height="19" class="filelink"><a href="<?php echo $link['url']; ?>" target="_blank"><?php echo $link['title']; ?></a></td>
+                           </tr>
+                           <?php if(!empty($link['description'])): ?>
+                           <tr>
+                             <td class="filedesc"><?php echo $link['description']; ?></td>
+                           </tr>
+                           <?php endif; ?>
+                         </table>
+                         <br />
+                         <?php endforeach; ?>
+                         <?php endif; ?></td>
+                 </tr>
                </table>
-             <?php endforeach; ?>
-           <?php endif; ?> 
-		   
-           <!-- --- show navigation node related files for download --- -->
-           <?php if(count($tpl['links'])>0): ?>
-             <div class="downloads">Links:</div>
-             <?php foreach($tpl['links'] as $link): ?>
-               <table width="350" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                  <td height="19" class="filelink"><a href="<?php echo $link['url']; ?>" target="_blank"><?php echo $link['title']; ?></a></td>
-                </tr>
-                <?php if(!empty($link['description'])): ?>
-                <tr>
-                  <td class="filedesc"><?php echo $link['description']; ?></td>
-                </tr>
-                <?php endif; ?>
-               </table><br />
-             <?php endforeach; ?>
-           <?php endif; ?> 		   
-         </td>
+               </td>
          </tr>
         </table>
           </td>
