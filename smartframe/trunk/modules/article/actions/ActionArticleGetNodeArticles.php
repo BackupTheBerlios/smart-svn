@@ -17,8 +17,8 @@
  *                array('id_node' => int,
  *                      'result'  => & array,
  *                      'status'  => array('>|<|=|>=|<=|!=',1|2),            // optional
- *                      'order'   => array('rank|title|activedate|
- *                                          inactivedate|pubdate|
+ *                      'order'   => array('rank|title|
+ *                                          articledate|pubdate|
  *                                          overtitle|subtitle', 'asc|desc'),// optional
  *                      'fields   => array('id_article','status','rank',
  *                                         'activedate','inactivedate','pubdate',
@@ -38,9 +38,8 @@ class ActionArticleGetNodeArticles extends SmartAction
     protected $tblFields_article = array('id_article'   => 'Int',
                                          'status'       => 'Int',
                                          'rank'         => 'Int',
-                                         'activedate'   => 'String',
-                                         'inactivedate' => 'String',
                                          'pubdate'      => 'String',
+                                         'articledate'  => 'String',
                                          'lang'         => 'String',
                                          'title'        => 'String',
                                          'overtitle'    => 'String',
@@ -49,8 +48,8 @@ class ActionArticleGetNodeArticles extends SmartAction
                                          'description'  => 'String',
                                          'body'         => 'String',
                                          'ps'           => 'String',
-                                         'fulltextbody' => 'String',
                                          'format'       => 'Int',
+                                         'logo'         => 'String',
                                          'media_folder' => 'String');
 
     /**

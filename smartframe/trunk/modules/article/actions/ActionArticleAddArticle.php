@@ -121,14 +121,6 @@ class ActionArticleAddArticle extends SmartAction
                    ({$data['id_node']},{$new_id_article})";
 
         $this->model->dba->query($sql);     
-
-        // insert new user-article relation
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_user_rel
-                   (id_user,id_article)
-                  VALUES
-                   ({$data['id_user']},{$new_id_article})";
-
-        $this->model->dba->query($sql);  
        
         return $new_id_article;
     } 
@@ -189,16 +181,7 @@ class ActionArticleAddArticle extends SmartAction
         elseif($data['id_node'] == 0)
         {
             throw new SmartModelException("id_node=0 isnt allowed");
-        }  
-
-        if(!isset($data['id_user'])) 
-        {
-            throw new SmartModelException("'id_user' isnt defined");
-        }
-        elseif(!is_int($data['id_user']))
-        {
-            throw new SmartModelException("'id_user' isnt from type int");
-        }           
+        }            
         
         return TRUE;
     }  

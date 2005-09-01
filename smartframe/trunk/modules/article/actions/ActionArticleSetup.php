@@ -86,20 +86,6 @@ class ActionArticleSetup extends SmartAction
                    KEY `id_article` (`id_article`),
                    KEY `id_node`    (`id_node`))";
         $this->model->dba->query($sql);
-
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_user_rel (
-                   `id_article`     int(11) unsigned NOT NULL default 0,
-                   `id_user`        int(11) unsigned NOT NULL default 0,
-                   KEY `id_article` (`id_article`),
-                   KEY `id_user`    (`id_user`))";
-        $this->model->dba->query($sql);
-
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_key_rel (
-                   `id_article`     int(11) unsigned NOT NULL default 0,
-                   `id_key`         int(11) unsigned NOT NULL default 0,
-                   KEY `id_article` (`id_article`),
-                   KEY `id_key`     (`id_key`))";
-        $this->model->dba->query($sql);
   
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_media_pic (
                    `id_pic`       int(11) unsigned NOT NULL auto_increment,
