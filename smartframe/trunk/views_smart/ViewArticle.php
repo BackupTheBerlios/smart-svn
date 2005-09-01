@@ -25,7 +25,7 @@
  * $cacheExpire - Expire time in seconds of the cache for this view. 0 means cache disabled
  */
 
-class ViewNode extends SmartView
+class ViewArticle extends SmartView
 {
     /**
      * Cache expire time in seconds for this view
@@ -45,15 +45,7 @@ class ViewNode extends SmartView
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'fields'  => array('title','body','id_node','media_folder')));                             
-
-        // get child nodes content of the requested node
-        // only with status=2, means active      
-        $this->model->action('navigation','getChilds', 
-                             array('result'  => & $this->tplVar['childNodes'],
-                                   'id_node' => (int)$this->current_id_node,
-                                   'status'  => array('=',2),
-                                   'fields'  => array('title','short_text','id_node')));
+                                   'fields'  => array('title','id_node')));                             
  
         // get navigation node branch content of the requested node
         $this->model->action('navigation','getBranch', 
@@ -62,32 +54,22 @@ class ViewNode extends SmartView
                                    'fields'  => array('title','id_node')));  
                                  
         // get node attached files
-        $this->model->action('navigation','getAllFiles',
-                             array('result'  => & $this->tplVar['nodeFiles'],
-                                   'id_node' => (int)$this->current_id_node,
-                                   'order'   => 'rank',
-                                   'fields'  => array('id_file',
-                                                      'file',
-                                                      'size',
-                                                      'mime',
-                                                      'title',
-                                                      'description')) );   
+        $this->model->action('article','getAllFiles',
+                             array('result'     => & $this->tplVar['articleFiles'],
+                                   'id_article' => (int)$this->current_id_article,
+                                   'order'      => 'rank',
+                                   'fields'     => array('id_file','file',
+                                                         'size','mime',
+                                                         'title','description')) );   
 
-        // get node related article titles                                                      
-        $this->model->action('article','getNodeArticles',
-                             array('id_node' => (int)$this->current_id_node,
-                                   'result'  => & $this->tplVar['nodeArticles'],
+        // get article data                                                    
+        $this->model->action('article','getArticle',
+                             array('id_article' => (int)$this->current_id_article,
+                                   'result'  => & $this->tplVar['article'],
                                    'status'  => array('=',4),
-                                   'order'   => array('rank', 'asc'),
-                                   'fields'  => array('id_article','title') ));
-
-        // get node related links
-        $this->model->action('link','getLinks', 
-                             array('result'  => & $this->tplVar['links'],
-                                   'id_node' => (int)$this->current_id_node,
-                                   'status'  => array('=','2'),
-                                   'fields'  => array('title','url','id_link',
-                                                      'description')));   
+                                   'fields'  => array('id_article','title',
+                                                      'header','overtitle',
+                                                      'subtitle','body','ps') ));  
     }
 
     /**
@@ -123,6 +105,7 @@ class ViewNode extends SmartView
         }
         else
         {
+            $this->current_id_article = (int)$_REQUEST['id_article']; 
             $this->current_id_node    = (int)$_REQUEST['id_node'];          
         }
         
@@ -148,11 +131,9 @@ class ViewNode extends SmartView
     {
         // template array variables
         $this->tplVar['node']         = array();
-        $this->tplVar['childNodes']   = array();
         $this->tplVar['nodeBranch']   = array();
-        $this->tplVar['nodeFiles']    = array();
-        $this->tplVar['nodeArticles'] = array();
-        $this->tplVar['links']        = array();
+        $this->tplVar['articleFiles'] = array();
+        $this->tplVar['article']      = array();
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];
