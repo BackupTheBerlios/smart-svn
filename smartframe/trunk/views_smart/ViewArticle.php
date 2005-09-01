@@ -10,19 +10,8 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewNode class
+ * ViewArticle class
  *
- * The parent variables are:
- * $tplVar  - Array that may contains template variables
- * $viewVar - Array that may contains view variables, which
- *            are needed by some followed nested views.
- * $model   - The model object
- *            We need it to call modules actions
- * $template - Here you can define an other template name as the default
- * $renderTemplate - Is there a template associated with this view?
- *                   SMART_TEMPLATE_RENDER or SMART_TEMPLATE_RENDER_NONE
- * $viewData - Data passed to this view by the caller
- * $cacheExpire - Expire time in seconds of the cache for this view. 0 means cache disabled
  */
 
 class ViewArticle extends SmartView
@@ -34,26 +23,26 @@ class ViewArticle extends SmartView
     public $cacheExpire = 3600;
     
     /**
-     * Execute the view of the "node" template
+     * Execute the view of the "article" template
      */
     function perform()
     { 
         // init variables (see private function below)
         $this->initVars();
           
-        // get requested node content
+        // get node title and id of the article node
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
                                    'id_node' => (int)$this->current_id_node,
                                    'fields'  => array('title','id_node')));                             
  
-        // get navigation node branch content of the requested node
+        // get navigation node branch content of the requested article
         $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->tplVar['nodeBranch'],
                                    'id_node' => (int)$this->current_id_node,
                                    'fields'  => array('title','id_node')));  
                                  
-        // get node attached files
+        // get article attached files
         $this->model->action('article','getAllFiles',
                              array('result'     => & $this->tplVar['articleFiles'],
                                    'id_article' => (int)$this->current_id_article,
@@ -97,16 +86,30 @@ class ViewArticle extends SmartView
      */
     public function prependFilterChain()
     {
-        // fetch the current id_node. If no id_node defined or not numeric
-        // this view class loads the error template
-        if( !isset($_REQUEST['id_node']) || is_array($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
+        // check id_node, id_article and view request var
+        // 
+        if( !isset($_GET['id_node'])   || 
+            is_array($_GET['id_node']) || 
+            preg_match("/[^0-9]+/",$_GET['id_node']) ) 
+        {
+            $this->template  = 'error';   
+        }
+        elseif( !isset($_GET['id_article'])   || 
+                is_array($_GET['id_article']) || 
+                preg_match("/[^0-9]+/",$_GET['id_article']) ) 
+        {
+            $this->template  = 'error';   
+        }    
+        elseif( !isset($_GET['view'])     || 
+                !is_string($_GET['view']) || 
+                ($_GET['view'] !== 'article') ) 
         {
             $this->template  = 'error';     
-        }
+        }          
         else
         {
-            $this->current_id_article = (int)$_REQUEST['id_article']; 
-            $this->current_id_node    = (int)$_REQUEST['id_node'];          
+            $this->current_id_article = (int)$_GET['id_article']; 
+            $this->current_id_node    = (int)$_GET['id_node'];          
         }
         
         // filter action of the common module to prevent browser caching
