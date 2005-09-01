@@ -83,7 +83,8 @@ class ActionArticleUpdateArticle extends SmartAction
         $sql = "
             UPDATE {$this->config['dbTablePrefix']}article_article
                 SET
-                   $fields
+                   $fields,
+                   `modifydate`=NOW()
                 WHERE
                 `id_article`={$data['id_article']}";
         

@@ -34,6 +34,7 @@ class ActionArticleInit extends SmartAction
     {
         $this->checkModuleVersion();
         $this->model->action('article','changedateStatus');
+        $this->model->action('article','deleteExpired');
     } 
     /**
      * Check module version and upgrade or install this module if necessairy

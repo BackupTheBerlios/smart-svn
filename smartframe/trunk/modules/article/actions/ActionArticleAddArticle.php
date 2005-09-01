@@ -97,9 +97,9 @@ class ActionArticleAddArticle extends SmartAction
         }          
         
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_article
-                   ($fields)
+                   ($fields,`modifydate`)
                   VALUES
-                   ($quest)";
+                   ($quest,NOW())";
 
         $stmt = $this->model->dba->prepare($sql);                    
         

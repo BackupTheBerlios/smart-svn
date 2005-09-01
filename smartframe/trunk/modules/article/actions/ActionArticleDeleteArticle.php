@@ -52,13 +52,13 @@ class ActionArticleDeleteArticle extends SmartAction
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_pic
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_media_pic
                   WHERE
                    `id_article`={$data['id_article']}";
 
         $this->model->dba->query($sql);
 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_file
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_media_file
                   WHERE
                    `id_article`={$data['id_article']}";
 

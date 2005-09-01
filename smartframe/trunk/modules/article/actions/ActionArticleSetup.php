@@ -35,6 +35,7 @@ class ActionArticleSetup extends SmartAction
                    `lang`          char(2) NOT NULL default 'en', 
                    `pubdate`       datetime NOT NULL default '0000-00-00 00:00:00',
                    `articledate`   datetime NOT NULL default '0000-00-00 00:00:00',
+                   `modifydate`    datetime NOT NULL default '0000-00-00 00:00:00',
                    `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `overtitle`     text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `subtitle`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
@@ -46,7 +47,7 @@ class ActionArticleSetup extends SmartAction
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,                   
                    PRIMARY KEY        (`id_article`),
-                   KEY                (`status`,`pubdate`),
+                   KEY                (`status`,`pubdate`,`modifydate`),
                    KEY `articledate`  (`articledate`),
                    KEY `lang`         (`lang`),
                    KEY `rank`         (`rank`))";
