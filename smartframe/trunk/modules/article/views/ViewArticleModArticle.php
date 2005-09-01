@@ -104,19 +104,22 @@ class ViewArticleModArticle extends SmartView
         {      
             $this->updateArticleData();
         }
+
+        // article fields to get
+        $articleFields = array('id_article','title','body','media_folder');
+        // add fields depended on configuration settings
+        $this->addGetArticleFields( $articleFields );
         
         // get demanded article data
         $this->model->action('article','getArticle', 
                              array('result'     => & $this->tplVar['article'],
                                    'id_article' => (int)$this->current_id_article,
                                    'error'      => & $this->tplVar['error'],
-                                   'fields'     => array('id_article','title','overtitle',
-                                                         'subtitle','description','header',
-                                                         'body','ps','logo','media_folder')));
+                                   'fields'     => $articleFields));
 
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->tplVar['article'], 
-                                        array('title','overtitle','subtitle') );                            
+                                        $articleFields );                            
 
         // get user picture thumbnails
         $this->model->action('article','getAllThumbs',
@@ -287,18 +290,16 @@ class ViewArticleModArticle extends SmartView
         // if no error occure update text data
         if(count($this->tplVar['error']) == 0)
         {
-            $fields = array('title'       => SmartCommonUtil::stripSlashes((string)$_POST['title']),
-                            'overtitle'   => SmartCommonUtil::stripSlashes((string)$_POST['overtitle']),
-                            'subtitle'    => SmartCommonUtil::stripSlashes((string)$_POST['subtitle']),
-                            'header'      => SmartCommonUtil::stripSlashes((string)$_POST['header']),
-                            'description' => SmartCommonUtil::stripSlashes((string)$_POST['description']),
-                            'body'        => SmartCommonUtil::stripSlashes((string)$_POST['body']),
-                            'ps'          => SmartCommonUtil::stripSlashes((string)$_POST['ps']));
+            $articleFields = array('title'  => SmartCommonUtil::stripSlashes((string)$_POST['title']),
+                                   'body'   => SmartCommonUtil::stripSlashes((string)$_POST['body']));
+
+            // add fields depended on configuration settings
+            $this->addSetArticleFields( $articleFields );         
     
             $this->model->action('article','updateArticle',
                                  array('id_article' => (int)$this->current_id_article,
                                        'error'      => & $this->tplVar['error'],
-                                       'fields'     => $fields));                          
+                                       'fields'     => $articleFields));                          
     
             if(!isset($noRedirect) && !isset($_POST['refresh']))
             {
@@ -399,7 +400,67 @@ class ViewArticleModArticle extends SmartView
     {
         @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=article&view=editArticle&id_article='.$this->current_id_article.'&id_node='.$this->current_id_node);
         exit;      
-    }   
+    }  
+    
+    /**
+     * add article fields to get depended on the configuration settings
+     *
+     */     
+    private function addGetArticleFields( & $articleFields )
+    {
+        if($this->config['article']['use_overtitle'] == 1)
+        {
+            array_push($articleFields, 'overtitle');
+        }
+        if($this->config['article']['use_subtitle'] == 1)
+        {
+            array_push($articleFields, 'subtitle');
+        }   
+        if($this->config['article']['use_description'] == 1)
+        {
+            array_push($articleFields, 'description');
+        }
+        if($this->config['article']['use_header'] == 1)
+        {
+            array_push($articleFields, 'header');
+        }   
+        if($this->config['article']['use_ps'] == 1)
+        {
+            array_push($articleFields, 'ps');
+        }
+        if($this->config['article']['use_logo'] == 1)
+        {
+            array_push($articleFields, 'logo');
+        }        
+    }
+
+    /**
+     * set article field values depended on the configuration settings
+     *
+     */      
+    private function addSetArticleFields( & $articleFields )
+    {
+        if($this->config['article']['use_overtitle'] == 1)
+        {
+            $articleFields['overtitle'] = SmartCommonUtil::stripSlashes((string)$_POST['overtitle']);
+        }
+        if($this->config['article']['use_subtitle'] == 1)
+        {
+            $articleFields['subtitle'] = SmartCommonUtil::stripSlashes((string)$_POST['subtitle']);
+        }   
+        if($this->config['article']['use_description'] == 1)
+        {
+            $articleFields['description'] = SmartCommonUtil::stripSlashes((string)$_POST['description']);
+        }
+        if($this->config['article']['use_header'] == 1)
+        {
+            $articleFields['header'] = SmartCommonUtil::stripSlashes((string)$_POST['header']);
+        }   
+        if($this->config['article']['use_ps'] == 1)
+        {
+            $articleFields['ps'] = SmartCommonUtil::stripSlashes((string)$_POST['ps']);
+        }               
+    }     
 }
 
 ?>
