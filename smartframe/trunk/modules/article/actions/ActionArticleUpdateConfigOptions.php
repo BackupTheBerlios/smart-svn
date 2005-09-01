@@ -41,6 +41,10 @@ class ActionArticleUpdateConfigOptions extends SmartAction
                             'use_description' => 'Int',
                             'use_header'      => 'Int',
                             'use_ps'          => 'Int',
+                            'use_changedate'  => 'Int',
+                            'use_articledate' => 'Int',
+                            'use_users'       => 'Int',
+                            'use_keywords'    => 'Int',
                             'use_logo'        => 'Int',
                             'use_images'      => 'Int',
                             'use_files'       => 'Int');

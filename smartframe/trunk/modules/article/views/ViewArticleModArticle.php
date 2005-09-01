@@ -32,7 +32,14 @@ class ViewArticleModArticle extends SmartView
      * current id_node
      * @var int $current_id_node
      */
-    private $current_id_node;    
+    private $current_id_node;   
+    
+   /**
+     * current id_article
+     * @var int $current_id_article
+     */
+    private $current_id_article;   
+    
    /**
      * execute the perform methode
      * @var bool $dontPerform
@@ -61,13 +68,13 @@ class ViewArticleModArticle extends SmartView
             $this->tplVar['error'] = 'Fatal error: No "id_node" or "id_article" session var defined';
             $this->dontPerform = TRUE;          
         }
-
+        
+        // is article locked by an other user
         $is_locked = $this->model->action('article','lock',
                                           array('job'        => 'is_locked',
                                                 'id_article' => (int)$this->current_id_article,
                                                 'by_id_user' => (int)$this->viewVar['loggedUserId']));
 
-        // is article locked by an other user
         if( TRUE !== $is_locked )
         {
             $this->template        = 'error';
