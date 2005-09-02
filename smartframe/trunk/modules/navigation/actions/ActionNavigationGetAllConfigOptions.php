@@ -32,8 +32,6 @@ class ActionNavigationGetAllConfigOptions extends SmartAction
         $rs = $this->model->dba->query($sql);
         
         $data['result'] = $rs->fetchAssoc();
-        
-        return TRUE;
     } 
     
     public function validate( $data = FALSE )

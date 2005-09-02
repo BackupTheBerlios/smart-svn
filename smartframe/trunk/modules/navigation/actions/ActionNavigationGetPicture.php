@@ -81,11 +81,10 @@ class ActionNavigationGetPicture extends SmartAction
 
         $rs = $this->model->dba->query($sql);
         
-        $data['result'] = array();
-        
-        $data['result'] = $rs->fetchAssoc();
-        
-        return TRUE;
+        if($rs->numRows() > 0)
+        {
+            $data['result'] = $rs->fetchAssoc();     
+        }
     } 
     
     public function validate( $data = FALSE )

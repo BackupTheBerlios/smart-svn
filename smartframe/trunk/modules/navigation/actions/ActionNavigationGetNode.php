@@ -63,16 +63,10 @@ class ActionNavigationGetNode extends ActionNavigation
                 {$sql_where}";
         
         $rs = $this->model->dba->query($sql);
-        $data['result'] = $rs->fetchAssoc();
-        
-        return TRUE;
-
-        foreach ($data['fields'] as $f)
+        if($rs->numRows() > 0)
         {
-            $data['result'][$f] = $row[$f];
-        }              
-        
-
+            $data['result'] = $rs->fetchAssoc();     
+        }
     } 
     /**
      * validate data array

@@ -124,13 +124,8 @@ class ActionNavigationGetBranch extends ActionNavigation
 
         if($row = $rs->fetchAssoc())
         {
-            $tmp = array();
-            foreach ($data['fields'] as $f)
-            {
-                $tmp[$f] = $row[$f];
-            }  
-            $data['result'][] = $tmp;
-            $data['id_node'] = $row['id_parent'];
+            $data['result'][] = $row;
+            $data['id_node']  = $row['id_parent'];
             $this->getBranch($data);
         }    
     }
