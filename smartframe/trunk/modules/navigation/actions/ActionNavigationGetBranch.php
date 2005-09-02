@@ -48,7 +48,7 @@ class ActionNavigationGetBranch extends ActionNavigation
         }
         
         $comma = '';
-        $_fields = '';
+        $this->_fields = '';
         foreach ($data['fields'] as $f)
         {
             $this->_fields .= $comma.'`'.$f.'`';
