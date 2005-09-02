@@ -100,7 +100,7 @@ class ViewPicture extends SmartView
         }
 
         // check wether to fetch a picture from the
-        // navigation or article module
+        // navigation, article or misc module
         // 
         if( isset($_REQUEST['id_node']) ) 
         {
@@ -110,6 +110,10 @@ class ViewPicture extends SmartView
         {
             $this->module  = 'article';     
         } 
+        elseif( isset($_REQUEST['id_text']) ) 
+        {
+            $this->module  = 'misc';     
+        }        
         else 
         {
             $this->template     = 'error'; 

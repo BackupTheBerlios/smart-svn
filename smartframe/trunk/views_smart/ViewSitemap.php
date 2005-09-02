@@ -53,8 +53,17 @@ class ViewSitemap extends SmartView
                                    'status'  => array('=', 2),
                                    'fields'  => array('id_parent','status','id_node','title')));   
 
-                                 
-        return TRUE;
+        // get for each node the related articles
+        foreach($this->tplVar['tree'] as & $node)
+        {
+            $node['article'] = array();                                                   
+            $this->model->action('article','getNodeArticles',
+                                 array('id_node' => (int)$node['id_node'],
+                                       'result'  => & $node['article'],
+                                       'status'  => array('=',4),
+                                       'order'   => array('rank', 'asc'),
+                                       'fields'  => array('id_article','title') ));                     
+        }
     }
 
     /**
