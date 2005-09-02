@@ -14,11 +14,11 @@
   border-bottom-color: #1958b7;
 }
 .headerdesc {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
   color: #EAEAEA;
-  letter-spacing: 3px;
-  word-spacing: 5px;
+  letter-spacing: 1px;
+  word-spacing: 2px;
 }
 -->
 </style>
@@ -27,7 +27,7 @@
 <!--
 .searchform {
 	font-size: 12px;
-	color: #000066;
+	color: #FFFFFF;
 	background-color: #6699CC;
 	height: 18px;
 }
