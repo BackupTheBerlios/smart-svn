@@ -60,13 +60,12 @@ class ActionMiscGetAllThumbs extends SmartAction
             ORDER BY
                 `rank` ASC";
 
-        if($rs->numRows() > 0)
+        $rs = $this->model->dba->query($sql);
+
+        while($row = $rs->fetchAssoc())
         {
-            while($row = $rs->fetchAssoc())
-            {
-                $data['result'][] = $row;
-            }        
-        }
+            $data['result'][] = $row;
+        } 
     } 
     
     public function validate( $data = FALSE )
