@@ -19,7 +19,7 @@
 class ActionArticleOptimizeDbTables extends SmartAction
 {                                      
     /**
-     * create article index
+     * optimize article module DB tables
      *
      * @param array $data
      */
