@@ -101,6 +101,8 @@ class ViewUserEditUser extends SmartView
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->tplVar['user'], array('name','lastname') );
 
+        $this->tplVar['user']['thumb'] = array();
+
         // get user picture thumbnails
         $this->model->action('user','getAllThumbs',
                              array('result'  => & $this->tplVar['user']['thumb'],
@@ -124,6 +126,8 @@ class ViewUserEditUser extends SmartView
             $this->tplVar['user']['thumb'][$x]['description'] = addslashes($this->tplVar['user']['thumb'][$x]['description']);
             $x++;
         }
+
+        $this->tplVar['user']['file'] = array();
 
         // get user files
         $this->model->action('user','getAllFiles',
