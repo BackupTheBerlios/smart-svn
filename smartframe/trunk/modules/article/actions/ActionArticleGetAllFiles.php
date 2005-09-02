@@ -60,15 +60,10 @@ class ActionArticleGetAllFiles extends SmartAction
 
         $rs = $this->model->dba->query($sql);
         
-        if($rs->numRows() > 0)
+        while($row = $rs->fetchAssoc())
         {
-            while($row = $rs->fetchAssoc())
-            {
-                $data['result'][] = $row;
-            }        
-        }
-        
-        return TRUE;
+            $data['result'][] = $row;
+        } 
     } 
     
     public function validate( $data = FALSE )
