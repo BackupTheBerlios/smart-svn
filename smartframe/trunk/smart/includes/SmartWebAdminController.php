@@ -35,7 +35,12 @@ class SmartWebAdminController extends SmartController
         include_once( SMART_BASE_DIR . 'smart/includes/SmartAdminViewFactory.php' );
 
         try
-        {      
+        {   
+            /*
+             * Set controller type
+             */
+            $this->config['controller_type'] = 'admin'; 
+            
             // create a view factory instance
             // this instance aggregates the view factory object
             $this->view = new SmartAdminViewFactory( $this->model, $this->config );

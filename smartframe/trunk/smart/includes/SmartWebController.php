@@ -36,6 +36,11 @@ class SmartWebController extends SmartController
 
         try
         {
+            /*
+             * Set controller type
+             */
+            $this->config['controller_type'] = 'web';   
+            
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );
 
