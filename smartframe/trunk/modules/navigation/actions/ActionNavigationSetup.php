@@ -48,6 +48,16 @@ class ActionNavigationSetup extends SmartAction
                    KEY `view`      (`id_view`))";
         $this->model->dba->query($sql);
 
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_index (
+                   `id_node`    int(11) unsigned NOT NULL default 0,
+                   `text1`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `text2`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `text3`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `text4`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',                   
+                   UNIQUE KEY `id_node` (`id_node`),
+                   FULLTEXT   (`text1`,`text2`,`text3`,`text4`))";
+        $this->model->dba->query($sql);
+
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_node_lock (
                    `id_node`      int(11) unsigned NOT NULL default 0,
                    `lock_time`    datetime NOT NULL default '0000-00-00 00:00:00',
