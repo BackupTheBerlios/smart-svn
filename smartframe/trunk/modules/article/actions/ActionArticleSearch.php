@@ -34,6 +34,7 @@ class ActionArticleSearch extends SmartAction
      * Allowed article fields and its type
      */
     protected $tblFields_article = array('id_article'   => 'Int',
+                                         'id_node'      => 'Int',
                                          'status'       => 'Int',
                                          'rank'         => 'Int',
                                          'articledate'  => 'String',
@@ -60,6 +61,10 @@ class ActionArticleSearch extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
+            if($f == 'id_node')
+            {
+                continue;
+            }
             $_fields .= $comma.'a.`'.$f.'`';
             $comma = ',';
         }
@@ -84,16 +89,20 @@ class ActionArticleSearch extends SmartAction
         
         $sql = "
             SELECT
-                {$_fields}
+                {$_fields},
+                r.id_node
             FROM
-                {$this->config['dbTablePrefix']}article_index   AS i,
-                {$this->config['dbTablePrefix']}article_article AS a
+                {$this->config['dbTablePrefix']}article_index    AS i,
+                {$this->config['dbTablePrefix']}article_article  AS a,
+                {$this->config['dbTablePrefix']}article_node_rel AS r
             WHERE MATCH 
                 (i.`text1`,i.`text2`,i.`text3`,i.`text4`) 
             AGAINST 
                 ('{$search_string}' IN BOOLEAN MODE)
             AND 
                 a.`id_article`=i.`id_article` 
+            AND 
+                i.`id_article`=r.`id_article`                 
                 {$sql_where}
                 {$sql_order}";
         
