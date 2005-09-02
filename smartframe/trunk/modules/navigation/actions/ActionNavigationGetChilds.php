@@ -76,13 +76,10 @@ class ActionNavigationGetChilds extends ActionNavigation
         
         $rs = $this->model->dba->query($sql);
 
-        if($rs->numRows() > 0)
+        while($row = $rs->fetchAssoc())
         {
-            while($row = $rs->fetchAssoc())
-            {
-                $data['result'][] = $row;
-            }        
-        }
+            $data['result'][] = $row;
+        }        
     } 
     /**
      * validate data array
