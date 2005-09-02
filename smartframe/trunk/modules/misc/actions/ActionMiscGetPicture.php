@@ -80,10 +80,10 @@ class ActionMiscGetPicture extends SmartAction
                 {$where}";
 
         $rs = $this->model->dba->query($sql);
-        
-        $data['result'] = $rs->fetchAssoc();
-        
-        return TRUE;
+        if($rs->numRows() > 0)
+        {
+            $data['result'] = $rs->fetchAssoc();     
+        }
     } 
     
     public function validate( $data = FALSE )

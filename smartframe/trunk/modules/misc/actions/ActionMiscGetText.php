@@ -75,9 +75,10 @@ class ActionMiscGetText extends SmartAction
                 {$sql_where}";
         
         $rs = $this->model->dba->query($sql);
-        $data['result'] = $rs->fetchAssoc();
-
-        return TRUE;
+        if($rs->numRows() > 0)
+        {
+            $data['result'] = $rs->fetchAssoc();     
+        }
     } 
     /**
      * validate data array
