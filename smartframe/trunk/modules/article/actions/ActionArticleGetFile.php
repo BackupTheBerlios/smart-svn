@@ -59,7 +59,10 @@ class ActionArticleGetFile extends SmartAction
 
         $rs = $this->model->dba->query($sql);
         
-        $data['result'] = $rs->fetchAssoc();
+        if($rs->numRows() > 0)
+        {
+            $data['result'] = $rs->fetchAssoc();     
+        }
     } 
     
     public function validate( $data = FALSE )
