@@ -62,12 +62,13 @@ class ActionArticleGetAllThumbs extends SmartAction
 
         $rs = $this->model->dba->query($sql);
         
-        $data['result'] = array();
-        
-        while($row = $rs->fetchAssoc())
-        {            
-            $data['result'][] = $row;
-        } 
+        if($rs->numRows() > 0)
+        {
+            while($row = $rs->fetchAssoc())
+            {
+                $data['result'][] = $row;
+            }        
+        }
         
         return TRUE;
     } 
