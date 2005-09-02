@@ -68,14 +68,7 @@ class ActionLinkGetLink extends SmartAction
                 {$sql_where}";
         
         $rs = $this->model->dba->query($sql);
-        $data['result'] = $rs->fetchAssoc();
-        
-        return TRUE;
-
-        foreach ($data['fields'] as $f)
-        {
-            $data['result'][$f] = $row[$f];
-        }              
+        $data['result'] = $rs->fetchAssoc();     
     } 
     /**
      * validate data array
