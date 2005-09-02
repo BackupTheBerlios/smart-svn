@@ -53,13 +53,19 @@
         <td align="left" valign="top"><textarea name="rejected_files" cols="80" rows="3"><?php echo $tpl['rejectedFiles']; ?></textarea></td>
       </tr>	  
       <tr>
+        <td align="left" valign="top" class="font10bold">Optimize Database Tables</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><input type="submit" name="optimize" value="optimize"></td>
+      </tr>
+      <tr>
         <td>&nbsp;</td>
       </tr>
       <tr>
-        <td><input type="submit" name="updateOptions" value="update"></td>
+        <td>&nbsp;</td>
       </tr>
     </table></td>
-    <td width="26%" align="left" valign="top" class="font10bold">&nbsp;</td>
+    <td width="26%" align="left" valign="top" class="font10bold"><input type="submit" name="updateOptions" value="update"></td>
   </tr>
 </table>
 </form>

@@ -62,6 +62,10 @@ class ViewOptionsMain extends SmartView
         {
                 $this->model->action( 'options','deletePublicCache');         
         }
+        elseif(isset($_POST['optimize']))
+        {
+                $this->model->broadcast( 'optimizeDbTables');         
+        }
         $this->setTemplateVars();
     }  
     
