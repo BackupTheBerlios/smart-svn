@@ -94,8 +94,6 @@ class ActionUserGetUsers extends ActionUser
             
             $data['result'][] = $row;
         } 
-        
-        return TRUE;
     } 
     
     public function validate( $data = FALSE )

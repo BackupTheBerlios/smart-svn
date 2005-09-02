@@ -52,20 +52,19 @@ class ActionUserGetUser extends ActionUser
                 `id_user`={$data['id_user']}";
         
         $rs = $this->model->dba->query($sql);
-        
-        $row = $rs->fetchAssoc();
-
-        foreach ($data['fields'] as $f)
+        if($rs->numRows() > 0)
         {
-            $data['result'][$f] = $row[$f];
-        }  
+            $data['result'] = $rs->fetchAssoc();     
+        }
+        else
+        {
+            return;
+        }
             
         if(isset($data['translate_role']) && isset($data['result']['role']))
         {
             $data['result']['role_t'] = $this->userRole[$data['result']['role']];    
         }
-        
-        return TRUE;
     } 
     
     public function validate( $data = FALSE )

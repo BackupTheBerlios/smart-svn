@@ -61,15 +61,11 @@ class ActionUserGetAllThumbs extends SmartAction
                 `rank` ASC";
 
         $rs = $this->model->dba->query($sql);
-        
-        $data['result'] = array();
-        
+
         while($row = $rs->fetchAssoc())
         {            
             $data['result'][] = $row;
         } 
-        
-        return TRUE;
     } 
     
     public function validate( $data = FALSE )
