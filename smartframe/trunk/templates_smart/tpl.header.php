@@ -28,7 +28,17 @@
 .searchform {
 	font-size: 12px;
 	color: #000066;
-	background-color: #CCCCCC;
+	background-color: #6699CC;
+	height: 18px;
+}
+-->
+</style>
+<style type="text/css">
+<!--
+.form {
+	margin: 0px;
+	padding: 0px;
+	height: 18px;
 }
 -->
 </style>
@@ -50,8 +60,8 @@
         </tr>
     </table></td>
   </tr>
-  <tr><td align="right" valign="middle" bgcolor="#2175bc" height="25" class="line">
-                   <form name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search">
+  <tr><td height="18" align="right" valign="middle" bgcolor="#2175bc" class="line">
+                   <form name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search" class="form">
                     <input name="search" type="text" value="search" size="30" maxlength="255" class="searchform"> &nbsp;
                 </form>
   </td>
