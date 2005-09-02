@@ -23,6 +23,15 @@
 -->
 </style>
 
+<style type="text/css">
+<!--
+.searchform {
+	font-size: 12px;
+	color: #000066;
+	background-color: #CCCCCC;
+}
+-->
+</style>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td height="50" align="left" valign="top" bgcolor="#2175bc" class="line">
@@ -30,8 +39,21 @@
         <tr>
           <td width="20%" align="left" valign="top">
           <img src="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart_logo.gif" width="129" height="50" border="0"></td>
-          <td width="80%" align="left" valign="bottom" class="headerdesc">PHP - scalable application design</td>
+          <td width="80%" align="left" valign="bottom"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+              <tr>
+                <td align="right" valign="top"></td>
+              </tr>
+              <tr>
+                <td align="left" valign="bottom" class="headerdesc">PHP - scalable application design </td>
+              </tr>
+          </table></td>
         </tr>
     </table></td>
+  </tr>
+  <tr><td align="right" valign="middle" bgcolor="#2175bc" height="25" class="line">
+                   <form name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search">
+                    <input name="search" type="text" value="search" size="30" maxlength="255" class="searchform"> &nbsp;
+                </form>
+  </td>
   </tr>
 </table>
