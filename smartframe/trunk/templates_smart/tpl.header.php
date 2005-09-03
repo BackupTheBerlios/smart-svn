@@ -20,21 +20,16 @@
   letter-spacing: 1px;
   word-spacing: 2px;
 }
--->
-</style>
-
-<style type="text/css">
-<!--
+.version {
+	font-size: 12px;
+	color: #CCCCCC;
+}
 .searchform {
 	font-size: 12px;
 	color: #FFFFFF;
 	background-color: #6699CC;
 	height: 18px;
 }
--->
-</style>
-<style type="text/css">
-<!--
 .form {
 	margin: 0px;
 	padding: 0px;
@@ -54,16 +49,24 @@
                 <td align="right" valign="top"></td>
               </tr>
               <tr>
-                <td align="left" valign="bottom" class="headerdesc">PHP - scalable application design </td>
+                <td align="left" valign="bottom" class="headerdesc">PHP5 Framework - scalable application design </td>
               </tr>
           </table></td>
         </tr>
     </table></td>
   </tr>
   <tr><td height="18" align="right" valign="middle" bgcolor="#2175bc" class="line">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td width="56%" class="version">&nbsp;&nbsp;version: 0.2.0.3a - 2005-09-03</td>
+            <td width="44%" align="right" valign="middle">
                    <form accept-charset="<?php echo $tpl['charset']; ?>" name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search" class="form">
                     <input name="search" type="text" value="search" size="30" maxlength="255" class="searchform"> &nbsp;
-                </form>
+              </form>			
+			</td>
+          </tr>
+         </table>
+
   </td>
   </tr>
 </table>
