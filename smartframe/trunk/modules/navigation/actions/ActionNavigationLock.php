@@ -139,7 +139,7 @@ class ActionNavigationLock extends SmartAction
         
         if($result == FALSE)
         {
-            $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_node_lock
+            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}navigation_node_lock
                         (`id_node`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_node']},NOW(),{$data['by_id_user']})";
