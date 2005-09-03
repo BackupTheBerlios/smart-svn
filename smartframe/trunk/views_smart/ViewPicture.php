@@ -118,7 +118,9 @@ class ViewPicture extends SmartView
         {
             $this->template     = 'error'; 
             $this->dontPerform  = TRUE; 
-        }    
+        }  
+        
+        $this->tplVar['module'] = $this->module;
         
         // filter action of the common module to prevent browser caching
         $this->model->action( 'common', 'filterDisableBrowserCache');    
