@@ -61,7 +61,7 @@
     </table></td>
   </tr>
   <tr><td height="18" align="right" valign="middle" bgcolor="#2175bc" class="line">
-                   <form name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search" class="form">
+                   <form accept-charset="<?php echo $tpl['charset']; ?>" name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search" class="form">
                     <input name="search" type="text" value="search" size="30" maxlength="255" class="searchform"> &nbsp;
                 </form>
   </td>
