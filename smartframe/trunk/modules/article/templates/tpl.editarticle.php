@@ -59,7 +59,7 @@ function cancel_edit(f)
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editarticle" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
 <input name="id_article" type="hidden" value="<?php echo $tpl['article']['id_article']; ?>">
 <input name="id_node" type="hidden" value="<?php echo $tpl['id_node']; ?>">
 <input name="gotonode" type="hidden" value="">
@@ -100,7 +100,7 @@ function cancel_edit(f)
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td width="35%" align="left" valign="top" class="font12bold">Status </td>
-              <td width="53%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modarticle">Modify article content</a></td>
+              <td width="53%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle">Modify article content</a></td>
               <td width="12%" align="right" valign="top" class="font10bold"><input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
               </tr>
             <tr>
