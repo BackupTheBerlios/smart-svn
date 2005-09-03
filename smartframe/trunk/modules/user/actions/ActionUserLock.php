@@ -133,7 +133,7 @@ class ActionUserLock extends SmartAction
         
         if($result == FALSE)
         {
-            $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_lock
+            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}user_lock
                         (`id_user`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_user']},NOW(),{$data['by_id_user']})";
