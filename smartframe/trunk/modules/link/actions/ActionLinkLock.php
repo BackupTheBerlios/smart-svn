@@ -139,7 +139,7 @@ class ActionLinkLock extends SmartAction
         
         if($result == FALSE)
         {
-            $sql = "INSERT INTO {$this->config['dbTablePrefix']}link_lock
+            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}link_lock
                         (`id_link`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_link']},NOW(),{$data['by_id_user']})";
