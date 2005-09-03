@@ -113,7 +113,7 @@ class ActionNavigationGetBranch extends ActionNavigation
     private function getBranch( &$data )
     {
         $sql = "
-            SELECT
+            SELECT SQL_CACHE
                 {$this->_fields}
             FROM
                 {$this->config['dbTablePrefix']}navigation_node
@@ -133,7 +133,7 @@ class ActionNavigationGetBranch extends ActionNavigation
     private function getIdParent( $id_node )
     {
         $sql = "
-            SELECT
+            SELECT SQL_CACHE
                 `id_parent`
             FROM
                 {$this->config['dbTablePrefix']}navigation_node

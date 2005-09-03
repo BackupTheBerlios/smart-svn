@@ -54,7 +54,7 @@ class ActionNavigationGetNode extends ActionNavigation
         }
         
         $sql = "
-            SELECT
+            SELECT SQL_CACHE
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}navigation_node

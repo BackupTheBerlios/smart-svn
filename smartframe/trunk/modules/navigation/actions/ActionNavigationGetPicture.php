@@ -69,7 +69,7 @@ class ActionNavigationGetPicture extends SmartAction
         }
 
         $sql = "
-            SELECT
+            SELECT SQL_CACHE
                 {$_fields}
                 {$sel}
             FROM

@@ -50,7 +50,7 @@ class ActionNavigationGetFile extends SmartAction
         }
 
         $sql = "
-            SELECT
+            SELECT SQL_CACHE
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}navigation_media_file
