@@ -51,7 +51,7 @@ class ActionMiscGetAllThumbs extends SmartAction
         }
 
         $sql = "
-            SELECT
+            SELECT SQL_CACHE
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}misc_text_pic
