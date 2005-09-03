@@ -268,9 +268,16 @@ class ViewArticleEditArticle extends SmartView
      */
     private function updateArticle()
     {
+        $this->getNewIdNode();
+        
         $articleFields = array('id_node'  => (int)$this->current_id_node,
                                'status'   => (int)$_POST['status'],
                                'pubdate'  => $this->buildDate('pubdate'));
+
+        if(isset($this->node_has_changed))
+        {
+            $articleFields['rank'] = $this->getLastRank( $this->current_id_node );
+        }
 
         // add fields depended on configuration settings
         $this->addSetArticleFields( $articleFields ); 
@@ -279,6 +286,11 @@ class ViewArticleEditArticle extends SmartView
                              array('id_article' => (int)$this->current_id_article,
                                    'error'      => &$this->tplVar['error'],
                                    'fields'     => $articleFields));    
+
+        if(isset($this->node_has_changed))
+        {
+            $this->reorderRank( $_REQUEST['id_node'] );
+        }
     }
     
     /**
@@ -425,8 +437,38 @@ class ViewArticleEditArticle extends SmartView
             if($_POST['article_id_node'] !== '0')
             {
                 $this->current_id_node = (int)$_POST['article_id_node'];
+                $this->node_has_changed = TRUE;
             }
         }
+    } 
+    
+    /**
+     * Get last rank of an given id_node
+     *
+     * @param int $id_node
+     */    
+    private function getLastRank( $id_node )
+    {
+        $rank = 0;
+        $this->model->action('article','getLastRank',
+                             array('id_node' => (int)$id_node,
+                                   'result'  => &$rank ));
+
+        if($rank > 0)
+        {
+            $rank++;
+        }
+        return $rank;
+    }
+    /**
+     * reorder rank list when moving a node
+     *
+     * @param int $id_node
+     */      
+    private function reorderRank( $id_node )
+    {
+        $this->model->action('article','reorderRank',
+                             array('id_node' => (int)$id_node));
     }      
 }
 
