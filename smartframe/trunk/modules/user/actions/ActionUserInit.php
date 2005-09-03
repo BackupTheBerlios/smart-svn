@@ -66,7 +66,7 @@ class ActionUserInit extends SmartAction
      */    
     private function loadConfig()
     {
-        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}user_config";
+        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}user_config";
         
         $rs = $this->model->dba->query($sql);
         
