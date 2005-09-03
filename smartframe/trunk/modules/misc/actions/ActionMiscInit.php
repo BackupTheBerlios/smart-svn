@@ -56,7 +56,7 @@ class ActionMiscInit extends SmartAction
      */    
     private function loadConfig()
     {
-        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}misc_config";
+        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}misc_config";
         
         $rs = $this->model->dba->query($sql);
         
