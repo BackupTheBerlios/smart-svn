@@ -139,7 +139,7 @@ class ActionArticleLock extends SmartAction
         
         if($result == FALSE)
         {
-            $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_lock
+            $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_lock
                         (`id_article`,`lock_time`,`by_id_user`)
                     VALUES
                        ({$data['id_article']},NOW(),{$data['by_id_user']})";

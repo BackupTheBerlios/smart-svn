@@ -75,7 +75,7 @@ class ActionArticleSetup extends SmartAction
                    `id_article`      int(11) unsigned NOT NULL default 0,
                    `lock_time`       datetime NOT NULL default '0000-00-00 00:00:00',
                    `by_id_user`      int(11) unsigned NOT NULL default 0,
-                   KEY `id_article` (`id_article`),
+                   UNIQUE KEY `id_article` (`id_article`),
                    KEY `lock_time`  (`lock_time`),
                    KEY `by_id_user` (`by_id_user`))";
         $this->model->dba->query($sql);
