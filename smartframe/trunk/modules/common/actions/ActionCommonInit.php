@@ -126,7 +126,7 @@ class ActionCommonInit extends SmartAction
      */    
     private function loadModulesInfo()
     {
-        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}common_module ORDER BY `rank` ASC";
+        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}common_module ORDER BY `rank` ASC";
         
         $rs = $this->model->dba->query($sql);
         
@@ -144,7 +144,7 @@ class ActionCommonInit extends SmartAction
      */    
     private function loadConfig()
     {
-        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}common_config";
+        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}common_config";
         
         $rs = $this->model->dba->query($sql);
         
