@@ -164,14 +164,14 @@ class ActionArticleLock extends SmartAction
     }   
     
     /**
-     * Delete all locks which are older than 1 hour
+     * Delete all locks which are older than 5 hour
      *
      */    
     private function deleteExpiredLocks()
     {
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock
                   WHERE
-                   `lock_time` < NOW()-3600";
+                   `lock_time` < NOW()-18000";
 
         $this->model->dba->query($sql);         
     }  
