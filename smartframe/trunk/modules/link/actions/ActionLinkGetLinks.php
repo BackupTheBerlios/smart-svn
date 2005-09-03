@@ -71,7 +71,7 @@ class ActionLinkGetLinks extends SmartAction
         }        
         
         $sql = "
-            SELECT
+            SELECT SQL_CACHE
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}link_links AS l,
