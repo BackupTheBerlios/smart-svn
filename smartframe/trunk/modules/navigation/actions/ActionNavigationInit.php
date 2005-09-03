@@ -57,7 +57,7 @@ class ActionNavigationInit extends SmartAction
      */    
     private function loadConfig()
     {
-        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}navigation_config";
+        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}navigation_config";
         
         $rs = $this->model->dba->query($sql);
         
