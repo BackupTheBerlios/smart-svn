@@ -35,6 +35,8 @@ class ActionArticleReorderRank extends SmartAction
                 {$this->config['dbTablePrefix']}article_node_rel AS r
             WHERE
                 r.`id_node`={$data['id_node']} 
+            AND
+                r.id_article=a.id_article
             ORDER BY a.`rank` ASC";
         
         $rs = $this->model->dba->query($sql);
