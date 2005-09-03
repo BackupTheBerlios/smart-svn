@@ -12,6 +12,15 @@
 <!-- --- use allways the php relative path definition to include media files --- -->
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+
+<script language="JavaScript" type="text/JavaScript">
+    function showimage(theURL,widthx,heightx){
+        w = widthx+20;
+        h = heightx+100;
+        newwin= window.open(theURL,'image','width='+w+',height='+h+',dependent=no,directories=no,scrollbars=no,toolbar=no,menubar=no,location=no,resizable=yes,left=0,top=0,screenX=0,screenY=0'); 
+} 
+</script>
+
 </head>
 
 <body>
