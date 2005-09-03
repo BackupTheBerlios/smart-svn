@@ -27,7 +27,7 @@ class ActionArticleGetAllConfigOptions extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $sql = "SELECT * FROM {$this->config['dbTablePrefix']}article_config";
+        $sql = "SELECT SQL_CACHE * FROM {$this->config['dbTablePrefix']}article_config";
 
         $rs = $this->model->dba->query($sql);
         

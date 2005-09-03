@@ -87,7 +87,7 @@ class ActionArticleGetNodeArticles extends SmartAction
         }        
         
         $sql = "
-            SELECT
+            SELECT SQL_CACHE
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}article_article AS a,
