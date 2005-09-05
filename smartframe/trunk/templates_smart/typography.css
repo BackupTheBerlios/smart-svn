@@ -94,3 +94,10 @@ a:hover {
 
 
 }
+a.smart_pager {
+	font-size: 10px;
+}
+span.smart_pager {
+	font-size: 10px;
+	font-weight: bold;
+}

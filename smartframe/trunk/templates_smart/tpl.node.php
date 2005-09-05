@@ -76,7 +76,7 @@
                    <td align="left" valign="top">
                    <table width="200" border="0" align="right" cellpadding="0" cellspacing="0">
                      <tr>
-                       <td><!-- --- show child nodes of the current navigation node --- -->
+                       <td align="center" valign="top"><!-- --- show child nodes of the current navigation node --- -->
                          <?php if(count($tpl['childNodes']) > 0): ?>
                          <table width="200"  border="0" cellpadding="0" cellspacing="0" class="subnodetable">
                            <tr>
@@ -110,6 +110,13 @@
                                  <li class="subnodelist"> <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $tpl['node']['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a> </li>
                                  <?php endforeach; ?>
                                </ul>
+                             </td>
+                           </tr>
+                           <tr>
+                             <td width="190" align="center" valign="top">
+								 <?php if(!empty($tpl['pager'])): ?>
+								      <?php echo $tpl['pager']; ?>
+								 <?php endif; ?>
                              </td>
                            </tr>
                          </table>
