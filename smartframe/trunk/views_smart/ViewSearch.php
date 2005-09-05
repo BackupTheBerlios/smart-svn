@@ -35,6 +35,8 @@ class ViewSearch extends SmartView
                              array('result'  => & $this->tplVar['articles'], 
                                    'search'  => (string)$this->searchString,
                                    'status'  => array('=',4),
+                                   'limit'   => array('perPage' => $this->articlesPerPage,
+                                                      'numPage' => (int)$this->pageNumber),                                   
                                    'fields'  => array('id_article','title') ));  
 
         // get node + node branch of each article
@@ -53,9 +55,20 @@ class ViewSearch extends SmartView
             $this->model->action('navigation','getNode', 
                                  array('result'  => & $article['node'],
                                        'id_node' => (int)$article['id_node'],
-                                       'fields'  => array('title','id_node')));                             
-                                   
+                                       'fields'  => array('title','id_node')));
         }
+        
+        // create article pager links
+        $this->model->action('article','pager', 
+                             array('result'     => & $this->tplVar['pager'],
+                                   'search'     => (string)$this->searchString,
+                                   'status'     => array('=','4'),
+                                   'perPage'    => $this->articlesPerPage,
+                                   'numPage'    => (int)$this->pageNumber,
+                                   'delta'      => 10,
+                                   'url'        => SMART_CONTROLLER.'?view=search&search='.$this->pagerUrlSearchString,
+                                   'var_prefix' => 'search_',
+                                   'css_class'  => 'search_pager'));          
     }
 
     /**
@@ -103,13 +116,20 @@ class ViewSearch extends SmartView
      */    
     private function initVars()
     {
-        if( isset($_REQUEST['search']) )
+        if( isset($_POST['search']) )
         {
-            $this->searchString = SmartCommonUtil::stripSlashes((string)$_REQUEST['search']);
+            $this->searchString = SmartCommonUtil::stripSlashes((string)$_POST['search']);
+            $this->pagerUrlSearchString = urlencode(SmartCommonUtil::stripSlashes((string)$_POST['search']));
         }
+        elseif( isset($_GET['search']) )
+        {
+            $this->searchString = urldecode(SmartCommonUtil::stripSlashes((string)$_GET['search']));
+            $this->pagerUrlSearchString = SmartCommonUtil::stripSlashes((string)$_GET['search']);
+        }        
         else
         {
             $this->searchString = '';
+            $this->pagerUrlSearchString = '';
         }
         
         // assign template variable with search string
@@ -117,6 +137,20 @@ class ViewSearch extends SmartView
         
         // template array variables
         $this->tplVar['articles'] = array();
+        $this->tplVar['pager']    = '';
+        
+        // set articles limit per page
+        $this->articlesPerPage = 10;
+        
+        // get current article pager page
+        if(!isset($_GET['search_page']))
+        {
+            $this->pageNumber = 1;
+        }
+        else
+        {
+            $this->pageNumber = (int)$_GET['search_page'];
+        }
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];
