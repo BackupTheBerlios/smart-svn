@@ -109,7 +109,7 @@ class ActionArticleGetNodeArticles extends SmartAction
                 {$sql_where} 
                 {$sql_order}
                 {$sql_limit}";
-        echo $sql;
+
         $rs = $this->model->dba->query($sql);
         
         while($row = $rs->fetchAssoc())
