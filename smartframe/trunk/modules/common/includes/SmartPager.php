@@ -67,10 +67,10 @@ class SmartPager
      */
     private function getTotalDeltaPages()
     {
-        if (($this->config['numItems'] % $this->config['delta']) > 0) {
-            $totalDeltaPages = ceil((float)$this->config['numItems'] / (float)$this->config['delta']);
+        if (($this->totalPages % $this->config['delta']) > 0) {
+            $totalDeltaPages = ceil((float)$this->totalPages / (float)$this->config['delta']);
         } else {
-            $totalDeltaPages = $this->config['numItems'] / $this->config['delta'];
+            $totalDeltaPages = $this->totalPages / $this->config['delta'];
         }
 
         return $totalDeltaPages;
@@ -189,7 +189,7 @@ class SmartPager
         for( $p=$start; $p <= $end; $p++ )
         {
             // check if there are no more items
-            if($p > $this->config['numItems'])
+            if((($p-1) * $this->config['perPage']) > $this->config['numItems'])
             {
                 break;
             }
