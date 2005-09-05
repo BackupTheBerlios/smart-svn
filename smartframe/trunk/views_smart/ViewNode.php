@@ -73,12 +73,14 @@ class ViewNode extends SmartView
                                                       'title',
                                                       'description')) );   
 
-        // get node related article titles                                                      
+        // get node related article titles count by 10                                                     
         $this->model->action('article','getNodeArticles',
                              array('id_node' => (int)$this->current_id_node,
                                    'result'  => & $this->tplVar['nodeArticles'],
                                    'status'  => array('=',4),
                                    'order'   => array('rank', 'asc'),
+                                   'perPage' => $this->articlesPerPage,
+                                   'numPage' => (int)$this->pageNumber,
                                    'fields'  => array('id_article','title') ));
 
         // get node related links
@@ -88,6 +90,18 @@ class ViewNode extends SmartView
                                    'status'  => array('=','2'),
                                    'fields'  => array('title','url','id_link',
                                                       'description')));   
+
+        // create article pager links
+        $this->model->action('article','pager', 
+                             array('result'     => & $this->tplVar['pager'],
+                                   'id_node'    => (int)$this->current_id_node,
+                                   'status'     => array('=','4'),
+                                   'perPage'    => $this->articlesPerPage,
+                                   'numPage'    => (int)$this->pageNumber,
+                                   'delta'      => 5,
+                                   'url'        => SMART_CONTROLLER.'?id_node='.$this->current_id_node,
+                                   'var_prefix' => 'article_',
+                                   'css_class'  => 'smart_pager'));  
     }
 
     /**
@@ -153,6 +167,19 @@ class ViewNode extends SmartView
         $this->tplVar['nodeFiles']    = array();
         $this->tplVar['nodeArticles'] = array();
         $this->tplVar['links']        = array();
+        $this->tplVar['pager']        = '';
+
+        // pager variables
+        $this->articlesPerPage = 10;
+        // get current article pager page
+        if(!isset($_GET['article_page']))
+        {
+            $this->pageNumber = 1;
+        }
+        else
+        {
+            $this->pageNumber = (int)$_GET['article_page'];
+        }
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];
