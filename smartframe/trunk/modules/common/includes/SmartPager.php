@@ -189,7 +189,7 @@ class SmartPager
         for( $p=$start; $p <= $end; $p++ )
         {
             // check if there are no more items
-            if((($p-1) * $this->config['perPage']) > $this->config['numItems'])
+            if((($p-1) * $this->config['perPage']) >= $this->config['numItems'])
             {
                 break;
             }
