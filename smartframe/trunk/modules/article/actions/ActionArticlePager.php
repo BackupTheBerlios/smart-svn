@@ -68,9 +68,9 @@ class ActionArticlePager extends SmartAction
                         'numPage'    => (int)$data['numPage'],
                         'delta'      => (int)$data['delta'],
                         'result'     => & $data['result'],
-                        'url'        => $data['url'],
-                        'var_prefix' => $data['var_prefix'],
-                        'css_class'  => $data['css_class']);        
+                        'url'        => (string)$data['url'],
+                        'var_prefix' => (string)$data['var_prefix'],
+                        'css_class'  => (string)$data['css_class']);        
 
         new SmartPager( $config );   
     } 

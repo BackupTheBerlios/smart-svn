@@ -85,6 +85,16 @@ class ActionArticleGetNodeArticles extends SmartAction
         {
             $sql_order = "ORDER BY a.title ASC";
         }        
+
+        if(isset($data['perPage']))
+        { 
+            $numPage = ($data['numPage'] - 1) * $data['perPage'];
+            $sql_limit = " LIMIT {$numPage},{$data['perPage']}";
+        }
+        else
+        {
+            $sql_limit = "";
+        }   
         
         $sql = "
             SELECT SQL_CACHE
@@ -97,8 +107,9 @@ class ActionArticleGetNodeArticles extends SmartAction
             AND
                 a.`id_article`=r.`id_article` 
                 {$sql_where} 
-                {$sql_order}";
-        
+                {$sql_order}
+                {$sql_limit}";
+        echo $sql;
         $rs = $this->model->dba->query($sql);
         
         while($row = $rs->fetchAssoc())
@@ -141,7 +152,25 @@ class ActionArticleGetNodeArticles extends SmartAction
         {
             throw new SmartModelException('Missing "result" array var: '); 
         }
+        
+        if(isset($data['numPage']) && !is_int($data['numPage']))
+        {
+            throw new SmartModelException('numPage" isnt from type int'); 
+        }  
+        elseif( $data['numPage'] < 1 )
+        {
+            $data['numPage'] = 0;
+        }
 
+        if(isset($data['perPage']) && !is_int($data['perPage']))
+        {
+            throw new SmartModelException('"perPage" isnt from type int'); 
+        }  
+        elseif( $data['perPage'] < 2 )
+        {
+            throw new SmartModelException('"perPage" must be >= 2');
+        }
+        
         if(isset($data['status']))
         {
             if(!is_array($data['status']))
