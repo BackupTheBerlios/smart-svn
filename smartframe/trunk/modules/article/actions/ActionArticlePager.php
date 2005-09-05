@@ -66,16 +66,29 @@ class ActionArticlePager extends SmartAction
         {
             $sql_where = "";
         }
+
+        if(isset($data['id_node']))
+        {
+            $where = "r.`id_node`={$data['id_node']}
+                      AND a.`id_article`=r.`id_article`";
+            $table = "{$this->config['dbTablePrefix']}article_node_rel AS r";
+        }
+        elseif(isset($data['search']))
+        {
+            $search_string = $this->model->dba->escape( $data['search'] );
+            $where = "MATCH (i.`text1`,i.`text2`,i.`text3`,i.`text4`)
+                      AGAINST ('{$search_string}' IN BOOLEAN MODE) 
+                      AND i.id_article=a.id_article ";
+            $table = "{$this->config['dbTablePrefix']}article_index AS i";
+        }        
         
         $sql = "SELECT SQL_CACHE
                     count(a.`id_article`) AS numArticles
                 FROM 
                     {$this->config['dbTablePrefix']}article_article AS a,
-                    {$this->config['dbTablePrefix']}article_node_rel AS r
+                    {$table}
                 WHERE
-                   r.`id_node`={$data['id_node']}
-                AND
-                   a.`id_article`=r.`id_article`
+                   {$where}
                 $sql_where";
                    
         $rs = $this->model->dba->query($sql);
@@ -100,13 +113,20 @@ class ActionArticlePager extends SmartAction
      */    
     public function validate( $data = FALSE )
     { 
-        if(!isset($data['id_node']))
+        if(isset($data['id_node']))
         {
-            throw new SmartModelException('"id_node" isnt defined');        
+            if(!is_int($data['id_node']))
+            {
+                throw new SmartModelException('"id_node" isnt from type int');        
+            }     
         }    
-        elseif(!is_int($data['id_node']))
+
+        if(isset($data['search']))
         {
-            throw new SmartModelException('"id_node" isnt from type int');        
+            if(!is_string($data['search']))
+            {
+                throw new SmartModelException('"search" isnt from type string');        
+            }     
         }
 
         if(isset($data['status']))

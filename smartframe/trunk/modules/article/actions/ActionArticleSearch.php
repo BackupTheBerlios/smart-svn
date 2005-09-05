@@ -85,6 +85,20 @@ class ActionArticleSearch extends SmartAction
             $sql_order = "ORDER BY a.title ASC";
         } 
 
+        if(isset($data['limit']))
+        { 
+            if( $data['limit']['numPage'] < 1 )
+            {
+                $data['limit']['numPage'] = 1;
+            }        
+            $numPage = ($data['limit']['numPage'] - 1) * $data['limit']['perPage'];
+            $sql_limit = " LIMIT {$numPage},{$data['limit']['perPage']}";
+        }
+        else
+        {
+            $sql_limit = "";
+        }   
+
         $search_string = $this->model->dba->escape( $data['search'] );
         
         $sql = "
@@ -104,7 +118,8 @@ class ActionArticleSearch extends SmartAction
             AND 
                 i.`id_article`=r.`id_article`                 
                 {$sql_where}
-                {$sql_order}";
+                {$sql_order}
+                {$sql_limit}";
         
         $rs = $this->model->dba->query($sql);
         
@@ -142,6 +157,30 @@ class ActionArticleSearch extends SmartAction
         {
             throw new SmartModelException('"result" isnt from type array'); 
         }        
+
+        if(isset($data['limit']))
+        {        
+            if(!isset($data['limit']['numPage']))
+            {
+                throw new SmartModelException('numPage" isnt defined'); 
+            } 
+            if(!is_int($data['limit']['numPage']))
+            {
+                throw new SmartModelException('numPage" isnt from type int'); 
+            }             
+            if(!isset($data['limit']['perPage']))
+            {
+                throw new SmartModelException('"perPage" isnt defined'); 
+            } 
+            if(!is_int($data['limit']['perPage']))
+            {
+                throw new SmartModelException('"perPage" isnt from type int'); 
+            }  
+            elseif( $data['limit']['perPage'] < 2 )
+            {
+                throw new SmartModelException('"perPage" must be >= 2');
+            }
+        }
 
         if(isset($data['status']))
         {
