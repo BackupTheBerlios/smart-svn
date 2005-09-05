@@ -39,7 +39,25 @@ class ActionArticlePager extends SmartAction
      * @param array $data
      */
     public function perform( $data = FALSE )
-    { 
+    {
+        // check pager variables
+        if(!isset($data['perPage']) || ($data['perPage'] == 0))
+        {
+            $data['perPage'] = 10;
+        }
+        if(!isset($data['numPage']) || ($data['numPage'] == 0))
+        {
+            $data['numPage'] = 1;
+        }      
+        if(!isset($data['delta']))
+        {
+            $data['delta'] = 5;
+        }  
+        if(!isset($data['css_class']))
+        {
+            $data['css_class'] = 'smart_pager';
+        }      
+    
         if(isset($data['status']))
         {
             $sql_where = " AND a.`status`{$data['status'][0]}{$data['status'][1]}";
@@ -110,23 +128,7 @@ class ActionArticlePager extends SmartAction
                 }
             }
         }
-
-        if(!isset($data['perPage']))
-        {
-            $data['perPage'] = 10;
-        }
-        if(!isset($data['numPage']))
-        {
-            $data['numPage'] = 1;
-        }      
-        if(!isset($data['delta']))
-        {
-            $data['delta'] = 5;
-        }  
-        if(!isset($data['css_class']))
-        {
-            $data['css_class'] = 'smart_pager';
-        }         
+       
         if(!isset($data['result']))
         {
             throw new SmartModelException('"result" isnt defined'); 

@@ -88,6 +88,10 @@ class ActionArticleGetNodeArticles extends SmartAction
 
         if(isset($data['perPage']))
         { 
+            if( $data['numPage'] < 1 )
+            {
+                $data['numPage'] = 1;
+            }        
             $numPage = ($data['numPage'] - 1) * $data['perPage'];
             $sql_limit = " LIMIT {$numPage},{$data['perPage']}";
         }
@@ -157,10 +161,6 @@ class ActionArticleGetNodeArticles extends SmartAction
         {
             throw new SmartModelException('numPage" isnt from type int'); 
         }  
-        elseif( $data['numPage'] < 1 )
-        {
-            $data['numPage'] = 0;
-        }
 
         if(isset($data['perPage']) && !is_int($data['perPage']))
         {
