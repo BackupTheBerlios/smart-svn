@@ -79,8 +79,8 @@ class ViewNode extends SmartView
                                    'result'  => & $this->tplVar['nodeArticles'],
                                    'status'  => array('=',4),
                                    'order'   => array('rank', 'asc'),
-                                   'perPage' => $this->articlesPerPage,
-                                   'numPage' => (int)$this->pageNumber,
+                                   'limit'   => array('perPage' => $this->articlesPerPage,
+                                                      'numPage' => (int)$this->pageNumber),
                                    'fields'  => array('id_article','title') ));
 
         // get node related links
@@ -169,7 +169,7 @@ class ViewNode extends SmartView
         $this->tplVar['links']        = array();
         $this->tplVar['pager']        = '';
 
-        // pager variables
+        // set articles limit per page
         $this->articlesPerPage = 10;
         // get current article pager page
         if(!isset($_GET['article_page']))
