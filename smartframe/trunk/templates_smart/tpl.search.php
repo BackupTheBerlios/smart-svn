@@ -21,6 +21,13 @@
   font-weight: bold;
   color: #0000CC;
 }  
+a.search_pager {
+	font-size: 14px;
+}
+span.search_pager {
+	font-size: 14px;
+	font-weight: bold;
+}
 -->
 </style>
 </head>
@@ -56,6 +63,15 @@
                  </tr>
                  <tr>
                    <td align="left" valign="top">
+				   <?php if(!empty($tpl['pager'])): ?>
+				   <table width="100%" border="0" cellspacing="2" cellpadding="2">
+                      <tr>
+                         <td width="190" align="left" valign="top">
+						    <?php echo $tpl['pager']; ?>
+                         </td>
+                      </tr>
+				   </table>
+				   <?php endif; ?>
 				   <?php if(count($tpl['articles']) > 0): ?>
                          <table width="90%"  border="0" cellpadding="0" cellspacing="0">
                            <tr>
@@ -75,6 +91,15 @@
                              </td>
                            </tr>
                          </table>
+				   <?php if(!empty($tpl['pager'])): ?>
+				   <table width="100%" border="0" cellspacing="2" cellpadding="2">
+                      <tr>
+                         <td width="190" align="left" valign="top">
+						    <?php echo $tpl['pager']; ?>
+                         </td>
+                      </tr>
+				   </table>
+				   <?php endif; ?>						 
 				   <?php else: ?>
 				   no article found
 				   <?php endif; ?>

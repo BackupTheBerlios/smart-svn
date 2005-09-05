@@ -112,13 +112,13 @@
                                </ul>
                              </td>
                            </tr>
+						   <?php if(!empty($tpl['pager'])): ?>
                            <tr>
                              <td width="190" align="center" valign="top">
-								 <?php if(!empty($tpl['pager'])): ?>
-								      <?php echo $tpl['pager']; ?>
-								 <?php endif; ?>
+						         <?php echo $tpl['pager']; ?>
                              </td>
                            </tr>
+						   <?php endif; ?>
                          </table>
                          <?php endif; ?>
                        </td>
