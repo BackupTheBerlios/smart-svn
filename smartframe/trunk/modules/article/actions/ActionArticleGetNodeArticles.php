@@ -86,14 +86,14 @@ class ActionArticleGetNodeArticles extends SmartAction
             $sql_order = "ORDER BY a.title ASC";
         }        
 
-        if(isset($data['perPage']))
+        if(isset($data['limit']))
         { 
-            if( $data['numPage'] < 1 )
+            if( $data['limit']['numPage'] < 1 )
             {
-                $data['numPage'] = 1;
+                $data['limit']['numPage'] = 1;
             }        
-            $numPage = ($data['numPage'] - 1) * $data['perPage'];
-            $sql_limit = " LIMIT {$numPage},{$data['perPage']}";
+            $numPage = ($data['limit']['numPage'] - 1) * $data['limit']['perPage'];
+            $sql_limit = " LIMIT {$numPage},{$data['limit']['perPage']}";
         }
         else
         {
@@ -156,19 +156,29 @@ class ActionArticleGetNodeArticles extends SmartAction
         {
             throw new SmartModelException('Missing "result" array var: '); 
         }
-        
-        if(isset($data['numPage']) && !is_int($data['numPage']))
-        {
-            throw new SmartModelException('numPage" isnt from type int'); 
-        }  
 
-        if(isset($data['perPage']) && !is_int($data['perPage']))
-        {
-            throw new SmartModelException('"perPage" isnt from type int'); 
-        }  
-        elseif( $data['perPage'] < 2 )
-        {
-            throw new SmartModelException('"perPage" must be >= 2');
+        if(isset($data['limit']))
+        {        
+            if(!isset($data['limit']['numPage']))
+            {
+                throw new SmartModelException('numPage" isnt defined'); 
+            } 
+            if(!is_int($data['limit']['numPage']))
+            {
+                throw new SmartModelException('numPage" isnt from type int'); 
+            }             
+            if(!isset($data['limit']['perPage']))
+            {
+                throw new SmartModelException('"perPage" isnt defined'); 
+            } 
+            if(!is_int($data['limit']['perPage']))
+            {
+                throw new SmartModelException('"perPage" isnt from type int'); 
+            }  
+            elseif( $data['limit']['perPage'] < 2 )
+            {
+                throw new SmartModelException('"perPage" must be >= 2');
+            }
         }
         
         if(isset($data['status']))
