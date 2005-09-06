@@ -117,26 +117,26 @@ class ActionArticleSetup extends SmartAction
         $this->model->dba->query($sql);        
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_config (
-                 `thumb_width`     smallint(4) NOT NULL default 120,
-                 `img_size_max`    int(11) NOT NULL default 250000,
-                 `file_size_max`   int(11) NOT NULL default 2000000,
-                 `force_format`    tinyint(1) NOT NULL default 2,
-                 `default_format`  tinyint(1) NOT NULL default 2,
-                 `default_lang`    char(2) NOT NULL default 'en',
-                 `order`           varchar(10) NOT NULL default '',
-                 `ordertype`       varchar(4) NOT NULL default '',
-                 `use_users`       tinyint(1) NOT NULL default 0,
-                 `use_keywords`    tinyint(1) NOT NULL default 0,
-                 `use_articledate` tinyint(1) NOT NULL default 0,
-                 `use_changedate`  tinyint(1) NOT NULL default 0,
-                 `use_overtitle`   tinyint(1) NOT NULL default 0,
-                 `use_subtitle`    tinyint(1) NOT NULL default 0,
-                 `use_header`      tinyint(1) NOT NULL default 0,
-                 `use_description` tinyint(1) NOT NULL default 0,
-                 `use_ps`          tinyint(1) NOT NULL default 0,
-                 `use_logo`        tinyint(1) NOT NULL default 0,
-                 `use_images`      tinyint(1) NOT NULL default 1,
-                 `use_files`       tinyint(1) NOT NULL default 1)";
+                 `thumb_width`       smallint(4) NOT NULL default 120,
+                 `img_size_max`      int(11) NOT NULL default 250000,
+                 `file_size_max`     int(11) NOT NULL default 2000000,
+                 `force_format`      tinyint(1) NOT NULL default 2,
+                 `default_format`    tinyint(1) NOT NULL default 2,
+                 `default_lang`      char(2) NOT NULL default 'en',
+                 `default_order`     varchar(10) NOT NULL default '',
+                 `default_ordertype` varchar(4) NOT NULL default '',
+                 `use_users`         tinyint(1) NOT NULL default 0,
+                 `use_keywords`      tinyint(1) NOT NULL default 0,
+                 `use_articledate`   tinyint(1) NOT NULL default 0,
+                 `use_changedate`    tinyint(1) NOT NULL default 0,
+                 `use_overtitle`     tinyint(1) NOT NULL default 0,
+                 `use_subtitle`      tinyint(1) NOT NULL default 0,
+                 `use_header`        tinyint(1) NOT NULL default 0,
+                 `use_description`   tinyint(1) NOT NULL default 0,
+                 `use_ps`            tinyint(1) NOT NULL default 0,
+                 `use_logo`          tinyint(1) NOT NULL default 0,
+                 `use_images`        tinyint(1) NOT NULL default 1,
+                 `use_files`         tinyint(1) NOT NULL default 1)";
         $this->model->dba->query($sql);  
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}article_config
