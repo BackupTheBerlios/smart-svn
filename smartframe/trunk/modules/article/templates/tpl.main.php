@@ -8,6 +8,13 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
 .optsel {
   background-color: #CCCCCC;
 }
+a.search_pager {
+	font-size: 14px;
+}
+span.search_pager {
+	font-size: 14px;
+	font-weight: bold;
+}
 -->
 </style>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
@@ -48,6 +55,17 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
       </tr>  
 	  </table>
     <?php if(count($tpl['articles'])>0): ?>
+     <!-- show pager links to other result pages -->	 
+	<?php if(!empty($tpl['pager'])): ?>
+		<table width="100%" border="0" cellspacing="6" cellpadding="0">
+            <tr>
+               <td width="190" align="left" valign="top">
+			     <?php echo $tpl['pager']; ?>
+               </td>
+            </tr>
+	  </table>
+		<hr>
+	<?php endif; ?>	
     <table width="100%"  border="0" cellspacing="2" cellpadding="2">
 	<?php endif; ?>
     <?php foreach($tpl['articles'] as $article): ?>	
@@ -67,18 +85,30 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
       restrict	  	  	  	  
     <?php endif; ?>
     </td>
-        <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_up=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
-        <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_down=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
+        <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_up=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
+        <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_down=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
         <td width="99%" align="left" valign="top" class="itemnormal">
-		  <?php if(($tpl['showArticle']==TRUE)&&($article['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a><?php else: ?><?php echo $article['title']; ?><?php endif; ?>
+		  <?php if(($tpl['showArticle']==TRUE)&&($article['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><?php echo $article['title']; ?></a><?php else: ?><?php echo $article['title']; ?><?php endif; ?>
 				<?php if(!empty($article['description'])): ?>
 				   <div class="font10"><?php echo $article['description']; ?></div>
 				<?php endif; ?>
         </td>
       </tr>
-	<?php endforeach; ?>  
+	<?php endforeach; ?>  	
 	<?php if(count($tpl['articles'])>0): ?>
     </table>
+     <!-- show pager links to other result pages -->	 
+	<?php if(!empty($tpl['pager'])): ?>
+	    <hr>
+		<table width="100%" border="0" cellspacing="6" cellpadding="0">
+            <tr>
+               <td width="190" align="left" valign="top">
+			     <?php echo $tpl['pager']; ?>
+               </td>
+            </tr>
+	  </table>
+		<hr>
+	<?php endif; ?>	
     <?php endif; ?> 
 	
 	<?php elseif(($tpl['showArticle']==TRUE)&&($tpl['showAddArticle']==TRUE)): ?>
