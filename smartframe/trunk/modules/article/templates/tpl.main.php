@@ -122,20 +122,22 @@ span.search_pager {
        <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=addArticle&id_node=<?php echo $tpl['id_node']; ?>">add article</a>
     <?php endif; ?>
     <p><a href="javascript:nodemap();">NodesMap</a></p>
+    <?php if(isset($tpl['articles']) && (count($tpl['articles'])>0)): ?>	
 	   <div class="font10">
 		<form name="order" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $tpl['id_node']; ?>">
 		article order: <br> 
-            <select name="order" class="topselect" >
+            <select name="order" class="topselect">
             <option value="title"<?php if($tpl['order']=='title') echo ' selected="selected"'; ?>>title</option>
             <option value="pubdate"<?php if($tpl['order']=='pubdate') echo ' selected="selected"'; ?>>publish date</option>
             <option value="modifydate"<?php if($tpl['order']=='modifydate') echo ' selected="selected"'; ?>>modify date</option>
 			<option value="articledate"<?php if($tpl['order']=='articledate') echo ' selected="selected"'; ?>>article date</option>
             <option value="rank"<?php if($tpl['order']=='rank') echo ' selected="selected"'; ?>>rank</option>
             </select><br>
-			asc: <input name="ordertype" type="radio" value="asc"<?php if($tpl['ordertype']=='asc') echo ' checked="checked"'; ?>> 
-			desc: <input name="ordertype" type="radio" value="desc"<?php if($tpl['ordertype']=='desc') echo ' checked="checked"'; ?>>
-			<br><input type="submit" name="reorder" value="reorder">
-      </form></div>	
+			asc: <input name="ordertype" type="radio" value="asc"<?php if($tpl['ordertype']=='asc') echo ' checked="checked"'; ?> class="topselect"> 
+			desc: <input name="ordertype" type="radio" value="desc"<?php if($tpl['ordertype']=='desc') echo ' checked="checked"'; ?> class="topselect">
+			<br><input type="submit" name="reorder" value="reorder" class="topselect">
+      </form></div>
+	  <?php endif; ?>	
 	</td>
   </tr>
 </table>
