@@ -195,6 +195,7 @@ class ViewArticleMain extends SmartView
             $this->tplVar['ordertype'] = (string)$_POST['ordertype'];
             $this->model->session->set('article_order', (string)$_POST['order']);
             $this->model->session->set('ordertype', (string)$_POST['ordertype']);
+            $this->model->session->del('article_page');
         }
         elseif(NULL !== ($order = $this->model->session->get('article_order')))
         {
@@ -209,23 +210,32 @@ class ViewArticleMain extends SmartView
                                  $this->model->config['article']['default_ordertype']);
             $this->tplVar['order'] = $this->model->config['article']['default_order'];
             $this->tplVar['ordertype'] = $this->model->config['article']['default_ordertype'];
-            $this->model->session->set('article_order', $this->model->config['article']['default_order']);
-            $this->model->session->set('ordertype', $this->model->config['article']['default_ordertype']);
+            $this->model->session->set('article_order', 
+                                       $this->model->config['article']['default_order']);
+            $this->model->session->set('ordertype', 
+                                       $this->model->config['article']['default_ordertype']);
         }
 
         // set articles limit per page
         $this->articlesPerPage = 15;
         
         // get current article pager page
-        if(!isset($_GET['article_page']))
-        {
-            $this->pageNumber = 1;
-            $this->tplVar['article_page'] = 1;
-        }
-        else
+        if(isset($_GET['article_page']))
         {
             $this->pageNumber = (int)$_GET['article_page'];
             $this->tplVar['article_page'] = (int)$_GET['article_page'];
+            $this->model->session->set('article_page', (int)$_GET['article_page']);        
+        }
+        elseif(NULL !== ($article_page = $this->model->session->get('article_page')))
+        {
+            $this->pageNumber = $article_page;
+            $this->tplVar['article_page'] = $article_page;
+        }        
+        else
+        {
+            $this->pageNumber = 1;
+            $this->tplVar['article_page'] = 1;
+            $this->model->session->set('article_page', 1);
         } 
         
         // The url passed to the pager action
