@@ -205,11 +205,11 @@ class ViewArticleMain extends SmartView
         }        
         else
         {
-            $this->order = array('rank','asc');
-            $this->tplVar['order'] = 'rank';
-            $this->tplVar['ordertype'] = 'asc';
-            $this->model->session->set('article_order', 'rank');
-            $this->model->session->set('ordertype', 'asc');
+            $this->order = array($this->model->config['article']['order'],$this->model->config['article']['ordertype']);
+            $this->tplVar['order'] = $this->model->config['article']['order'];
+            $this->tplVar['ordertype'] = $this->model->config['article']['ordertype'];
+            $this->model->session->set('article_order', $this->model->config['article']['order']);
+            $this->model->session->set('ordertype', $this->model->config['article']['ordertype']);
         }
 
         // set articles limit per page

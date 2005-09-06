@@ -123,6 +123,8 @@ class ActionArticleSetup extends SmartAction
                  `force_format`    tinyint(1) NOT NULL default 2,
                  `default_format`  tinyint(1) NOT NULL default 2,
                  `default_lang`    char(2) NOT NULL default 'en',
+                 `order`           varchar(10) NOT NULL default '',
+                 `ordertype`       varchar(4) NOT NULL default '',
                  `use_users`       tinyint(1) NOT NULL default 0,
                  `use_keywords`    tinyint(1) NOT NULL default 0,
                  `use_articledate` tinyint(1) NOT NULL default 0,
@@ -138,9 +140,9 @@ class ActionArticleSetup extends SmartAction
         $this->model->dba->query($sql);  
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}article_config
-                   (`thumb_width`)
+                   (`thumb_width`,`order`,`ordertype`)
                   VALUES
-                   (120)";
+                   (120,'rank','asc')";
         $this->model->dba->query($sql);   
   
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module

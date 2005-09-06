@@ -67,7 +67,23 @@
 		</td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
+        <td>Default article order</td>
+      </tr>
+      <tr>
+        <td>
+            <select name="order" class="topselect">
+            <option value="title"<?php if($tpl['option']['order']=='title') echo ' selected="selected"'; ?>>title</option>
+            <option value="pubdate"<?php if($tpl['option']['order']=='pubdate') echo ' selected="selected"'; ?>>publish date</option>
+            <option value="modifydate"<?php if($tpl['option']['order']=='modifydate') echo ' selected="selected"'; ?>>modify date</option>
+			<option value="articledate"<?php if($tpl['option']['order']=='articledate') echo ' selected="selected"'; ?>>article date</option>
+            <option value="rank"<?php if($tpl['option']['order']=='rank') echo ' selected="selected"'; ?>>rank</option>
+            </select><br>
+			asc: <input name="ordertype" type="radio" value="asc"<?php if($tpl['option']['ordertype']=='asc') echo ' checked="checked"'; ?> class="topselect"> 
+			desc: <input name="ordertype" type="radio" value="desc"<?php if($tpl['option']['ordertype']=='desc') echo ' checked="checked"'; ?> class="topselect">	
+		</td>
+      </tr>
+      <tr>
+        <td></td>
       </tr>
       <tr>
         <td><input type="submit" name="updateOptions" value="update"></td>

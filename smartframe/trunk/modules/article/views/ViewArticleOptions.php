@@ -45,7 +45,7 @@ class ViewArticleOptions extends SmartView
         {
             $this->template       = 'error';
             $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to change navigation module options!';
+            $this->tplVar['error'][] = 'You have not the rights to change navigation module options!';
             $this->dontPerform = TRUE;
         }
     } 
@@ -56,8 +56,6 @@ class ViewArticleOptions extends SmartView
     */
     public function perform()
     {   
-        $this->tplVar['error'] = FALSE;
-        
         if(isset($_POST['updateOptions']))
         {
             if(TRUE == $this->validatePostData())
@@ -236,14 +234,26 @@ class ViewArticleOptions extends SmartView
         {
             $this->fields['use_files'] = (int)$_POST['use_files'];
         }
-        
-        if(count($this->tplVar['error']) > 0)
+
+        if(isset($_POST['order']))
         {
-            return FALSE;
+            $this->fields['order'] = (string)$_POST['order'];
+        } 
+        else
+        {
+            $this->fields['order'] = 'rank';
         }
         
+        if(isset($_POST['ordertype']))
+        {
+            $this->fields['ordertype'] = (string)$_POST['ordertype'];
+        } 
+        else
+        {
+            $this->fields['ordertype'] = 'asc';
+        }
         
-        if(count($this->tplVar['error'])>0)
+        if(count($this->tplVar['error']) > 0)
         {
             return FALSE;
         }
