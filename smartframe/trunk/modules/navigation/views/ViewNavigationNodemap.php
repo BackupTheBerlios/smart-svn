@@ -55,6 +55,7 @@ class ViewNavigationNodemap extends SmartView
         if(isset($_REQUEST['openerModule']))
         {
             $this->tplVar['mod'] = (string)$_REQUEST['openerModule'];
+            $this->tplVar['url_pager_var'] = (string)$_REQUEST['openerModule'].'_page=1';
         }
         else
         {
