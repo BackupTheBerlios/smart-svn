@@ -93,7 +93,21 @@ class ViewArticleMain extends SmartView
                                    'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'order'   => array('rank','asc'),
+                                   'limit'   => array('perPage' => $this->articlesPerPage,
+                                                      'numPage' => (int)$this->pageNumber),                                   
                                    'fields'  => array('title','id_article','status')));                                   
+
+        // create article pager links
+        $this->model->action('article','pager', 
+                             array('result'     => & $this->tplVar['pager'],
+                                   'id_node'    => (int)$this->current_id_node,
+                                   'perPage'    => $this->articlesPerPage,
+                                   'numPage'    => (int)$this->pageNumber,
+                                   'delta'      => 10,
+                                   'url'        => $this->pagerUrl,
+                                   'var_prefix' => 'article_',
+                                   'css_class'  => 'smart_pager'));  
+
 
         // get article locks
         $this->getLocks();
@@ -167,9 +181,29 @@ class ViewArticleMain extends SmartView
         // data of the branch nodes
         $this->tplVar['branch'] = array();  
         // data of the node articles
-        $this->tplVar['articles'] = array();         
+        $this->tplVar['articles'] = array();  
+        // pager links
+        $this->tplVar['pager'] = '';
         // errors
-        $this->tplVar['error']  = FALSE;    
+        $this->tplVar['error']  = FALSE;   
+        
+        // set articles limit per page
+        $this->articlesPerPage = 15;
+        
+        // get current article pager page
+        if(!isset($_GET['article_page']))
+        {
+            $this->pageNumber = 1;
+            $this->tplVar['article_page'] = 1;
+        }
+        else
+        {
+            $this->pageNumber = (int)$_GET['article_page'];
+            $this->tplVar['article_page'] = (int)$_GET['article_page'];
+        } 
+        
+        // The url passed to the pager action
+        $this->pagerUrl = SMART_CONTROLLER.'?mod=article&id_node='.$this->current_id_node;    
     }
      /**
      * has the logged the rights to modify?
