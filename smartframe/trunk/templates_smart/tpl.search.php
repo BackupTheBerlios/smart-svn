@@ -64,13 +64,14 @@ span.search_pager {
                  <tr>
                    <td align="left" valign="top">
 				   <?php if(!empty($tpl['pager'])): ?>
-				   <table width="100%" border="0" cellspacing="2" cellpadding="2">
+				   <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                          <td width="190" align="left" valign="top">
 						    <?php echo $tpl['pager']; ?>
                          </td>
                       </tr>
 				   </table>
+				   <hr>
 				   <?php endif; ?>
 				   <?php if(count($tpl['articles']) > 0): ?>
                          <table width="90%"  border="0" cellpadding="0" cellspacing="0">
@@ -92,7 +93,8 @@ span.search_pager {
                            </tr>
                          </table>
 				   <?php if(!empty($tpl['pager'])): ?>
-				   <table width="100%" border="0" cellspacing="2" cellpadding="2">
+				   <hr>
+				   <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                          <td width="190" align="left" valign="top">
 						    <?php echo $tpl['pager']; ?>
