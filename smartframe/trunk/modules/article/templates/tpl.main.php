@@ -21,9 +21,9 @@ span.search_pager {
   <tr>
     <td width="86%" align="left" valign="top">
   <div class="font12 indent5">
-  <a href="<?php echo SMART_CONTROLLER; ?>?mod=article">Top</a>
+  <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&article_page=1">Top</a>
   <?php foreach($tpl['branch'] as $node): ?>
-   / <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a>
+   / <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $node['id_node']; ?>&article_page=1"><?php echo $node['title']; ?></a>
   <?php endforeach; ?>
   <?php if($tpl['id_node']!=0): ?>
      <span class="font12bold"> / <?php echo $tpl['node']['title']; ?></span>
@@ -42,7 +42,7 @@ span.search_pager {
            <?php endif; ?>		
 		</td>
         <td width="98%" align="left" valign="top" class="font10">
-          <?php echo '<a href="'.SMART_CONTROLLER.'?mod=article&id_node='.$node['id_node'].'">'.$node['title'].'</a>'; ?>
+          <?php echo '<a href="'.SMART_CONTROLLER.'?mod=article&id_node='.$node['id_node'].'&article_page=1">'.$node['title'].'</a>'; ?>
         </td>
       </tr>
     </table>
@@ -86,11 +86,11 @@ span.search_pager {
     <?php endif; ?>
     </td>
 	   <?php if($tpl['order']=='rank'): ?>
-        <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_up=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
-        <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_down=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
+        <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_up=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
+        <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_down=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
        <?php endif; ?>
         <td width="99%" align="left" valign="top" class="itemnormal">
-		  <?php if(($tpl['showArticle']==TRUE)&&($article['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><?php echo $article['title']; ?></a><?php else: ?><?php echo $article['title']; ?><?php endif; ?>
+		  <?php if(($tpl['showArticle']==TRUE)&&($article['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a><?php else: ?><?php echo $article['title']; ?><?php endif; ?>
 		  <?php if(!empty($article['description'])): ?>
 			<div class="font10"><?php echo $article['description']; ?></div>
 		  <?php endif; ?>
