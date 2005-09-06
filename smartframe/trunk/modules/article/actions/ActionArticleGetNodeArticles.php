@@ -40,6 +40,7 @@ class ActionArticleGetNodeArticles extends SmartAction
                                          'rank'         => 'Int',
                                          'pubdate'      => 'String',
                                          'articledate'  => 'String',
+                                         'modifydate'   => 'String',
                                          'lang'         => 'String',
                                          'title'        => 'String',
                                          'overtitle'    => 'String',

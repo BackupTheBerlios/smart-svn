@@ -92,7 +92,7 @@ class ViewArticleMain extends SmartView
                              array('result'  => & $this->tplVar['articles'],
                                    'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
-                                   'order'   => array('rank','asc'),
+                                   'order'   => $this->order,
                                    'limit'   => array('perPage' => $this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),                                   
                                    'fields'  => array('title','id_article','status')));                                   
@@ -187,6 +187,31 @@ class ViewArticleMain extends SmartView
         // errors
         $this->tplVar['error']  = FALSE;   
         
+        // set article order
+        if(isset($_POST['order']))
+        {
+            $this->order = array((string)$_POST['order'],(string)$_POST['ordertype']);
+            $this->tplVar['order'] = (string)$_POST['order']; 
+            $this->tplVar['ordertype'] = (string)$_POST['ordertype'];
+            $this->model->session->set('article_order', (string)$_POST['order']);
+            $this->model->session->set('ordertype', (string)$_POST['ordertype']);
+        }
+        elseif(NULL !== ($order = $this->model->session->get('article_order')))
+        {
+            $ordertype = $this->model->session->get('ordertype');
+            $this->order = array($order,$ordertype);
+            $this->tplVar['order'] = $order;
+            $this->tplVar['ordertype'] = (string)$ordertype;
+        }        
+        else
+        {
+            $this->order = array('rank','asc');
+            $this->tplVar['order'] = 'rank';
+            $this->tplVar['ordertype'] = 'asc';
+            $this->model->session->set('article_order', 'rank');
+            $this->model->session->set('ordertype', 'asc');
+        }
+
         // set articles limit per page
         $this->articlesPerPage = 15;
         

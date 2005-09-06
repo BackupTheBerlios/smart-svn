@@ -19,7 +19,7 @@ span.search_pager {
 </style>
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td width="89%" align="left" valign="top">
+    <td width="86%" align="left" valign="top">
   <div class="font12 indent5">
   <a href="<?php echo SMART_CONTROLLER; ?>?mod=article">Top</a>
   <?php foreach($tpl['branch'] as $node): ?>
@@ -51,7 +51,7 @@ span.search_pager {
   <?php if(isset($tpl['articles']) && (count($tpl['articles'])>0)): ?>
     <table width="100%"  border="0" cellspacing="2" cellpadding="2">
       <tr>
-        <td align="left" valign="top" bgcolor="#CCCCFF" class="font12bold">&nbsp;Articles</td>
+        <td width="55%" align="left" valign="top" bgcolor="#CCCCFF" class="font12bold">&nbsp;Articles</td>
       </tr>  
 	  </table>
     <?php if(count($tpl['articles'])>0): ?>
@@ -85,13 +85,15 @@ span.search_pager {
       restrict	  	  	  	  
     <?php endif; ?>
     </td>
+	   <?php if($tpl['order']=='rank'): ?>
         <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_up=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><img src="./modules/common/media/pics/up.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
         <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_down=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
+       <?php endif; ?>
         <td width="99%" align="left" valign="top" class="itemnormal">
 		  <?php if(($tpl['showArticle']==TRUE)&&($article['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&article_page=<?php echo $tpl['article_page']; ?>"><?php echo $article['title']; ?></a><?php else: ?><?php echo $article['title']; ?><?php endif; ?>
-				<?php if(!empty($article['description'])): ?>
-				   <div class="font10"><?php echo $article['description']; ?></div>
-				<?php endif; ?>
+		  <?php if(!empty($article['description'])): ?>
+			<div class="font10"><?php echo $article['description']; ?></div>
+		  <?php endif; ?>
         </td>
       </tr>
 	<?php endforeach; ?>  	
@@ -115,10 +117,25 @@ span.search_pager {
         <br><br><div class="font12bold">There is currently no article under this node. You may add some one here.</div><br><br>  
     <?php endif; ?>   
     </td>
-    <td width="11%" align="center" valign="top" class="font12">
+    <td width="14%" align="left" valign="top" class="font12">
     <?php if(($tpl['showArticle']==TRUE)&&($tpl['showAddArticle']==TRUE)): ?>
        <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=addArticle&id_node=<?php echo $tpl['id_node']; ?>">add article</a>
     <?php endif; ?>
-    <p><a href="javascript:nodemap();">NodesMap</a></p></td>
+    <p><a href="javascript:nodemap();">NodesMap</a></p>
+	   <div class="font10">
+		<form name="order" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $tpl['id_node']; ?>">
+		article order: <br> 
+            <select name="order" class="topselect" >
+            <option value="title"<?php if($tpl['order']=='title') echo ' selected="selected"'; ?>>title</option>
+            <option value="pubdate"<?php if($tpl['order']=='pubdate') echo ' selected="selected"'; ?>>publish date</option>
+            <option value="modifydate"<?php if($tpl['order']=='modifydate') echo ' selected="selected"'; ?>>modify date</option>
+			<option value="articledate"<?php if($tpl['order']=='articledate') echo ' selected="selected"'; ?>>article date</option>
+            <option value="rank"<?php if($tpl['order']=='rank') echo ' selected="selected"'; ?>>rank</option>
+            </select><br>
+			asc: <input name="ordertype" type="radio" value="asc"<?php if($tpl['ordertype']=='asc') echo ' checked="checked"'; ?>> 
+			desc: <input name="ordertype" type="radio" value="desc"<?php if($tpl['ordertype']=='desc') echo ' checked="checked"'; ?>>
+			<br><input type="submit" name="reorder" value="reorder">
+      </form></div>	
+	</td>
   </tr>
 </table>
