@@ -235,22 +235,22 @@ class ViewArticleOptions extends SmartView
             $this->fields['use_files'] = (int)$_POST['use_files'];
         }
 
-        if(isset($_POST['order']))
+        if(isset($_POST['default_order']))
         {
-            $this->fields['order'] = (string)$_POST['order'];
+            $this->fields['default_order'] = (string)$_POST['default_order'];
         } 
         else
         {
-            $this->fields['order'] = 'rank';
+            $this->fields['default_order'] = 'rank';
         }
         
-        if(isset($_POST['ordertype']))
+        if(isset($_POST['default_ordertype']))
         {
-            $this->fields['ordertype'] = (string)$_POST['ordertype'];
+            $this->fields['default_ordertype'] = (string)$_POST['default_ordertype'];
         } 
         else
         {
-            $this->fields['ordertype'] = 'asc';
+            $this->fields['default_ordertype'] = 'asc';
         }
         
         if(count($this->tplVar['error']) > 0)
