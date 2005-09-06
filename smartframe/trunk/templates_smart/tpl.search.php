@@ -55,7 +55,7 @@ span.search_pager {
                <table width="100%" border="0" cellspacing="2" cellpadding="2">
                  <tr>
                    <td>
-                    <!-- --- show current navigation node branche --- -->
+                    <!-- --- show search string --- -->
                     <div class="branch">Search: "<?php echo $tpl['search']; ?>"
                       <hr class="hr" />
                     </div>  				   
@@ -63,6 +63,7 @@ span.search_pager {
                  </tr>
                  <tr>
                    <td align="left" valign="top">
+				   <!-- show pager links to other result pages -->
 				   <?php if(!empty($tpl['pager'])): ?>
 				   <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
@@ -73,6 +74,7 @@ span.search_pager {
 				   </table>
 				   <hr>
 				   <?php endif; ?>
+				   <!-- show search result -->
 				   <?php if(count($tpl['articles']) > 0): ?>
                          <table width="90%"  border="0" cellpadding="0" cellspacing="0">
                            <tr>
@@ -92,6 +94,7 @@ span.search_pager {
                              </td>
                            </tr>
                          </table>
+				   <!-- show pager links to other result pages -->	 
 				   <?php if(!empty($tpl['pager'])): ?>
 				   <hr>
 				   <table width="100%" border="0" cellspacing="0" cellpadding="0">
