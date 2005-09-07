@@ -39,6 +39,7 @@ class ActionArticleSearch extends SmartAction
                                          'rank'         => 'Int',
                                          'articledate'  => 'String',
                                          'pubdate'      => 'String',
+                                         'modifydate'   => 'String',
                                          'lang'         => 'String',
                                          'title'        => 'String',
                                          'overtitle'    => 'String',
@@ -69,11 +70,11 @@ class ActionArticleSearch extends SmartAction
             $comma = ',';
         }
         
-        $sql_where = "";      
+        $sql_status = "";      
         
         if(isset($data['status']))
         {
-            $sql_where = " AND a.`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_status = " AND a.`status`{$data['status'][0]}{$data['status'][1]}";
         }
 
         if(isset($data['order']))
@@ -116,8 +117,8 @@ class ActionArticleSearch extends SmartAction
             AND 
                 a.`id_article`=i.`id_article` 
             AND 
-                i.`id_article`=r.`id_article`                 
-                {$sql_where}
+                i.`id_article`=r.`id_article` 
+                {$sql_status}
                 {$sql_order}
                 {$sql_limit}";
         
