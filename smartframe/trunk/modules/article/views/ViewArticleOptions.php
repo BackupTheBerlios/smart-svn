@@ -56,6 +56,11 @@ class ViewArticleOptions extends SmartView
     */
     public function perform()
     {   
+        if(isset($this->dontPerform))
+        {
+            rteturn;
+        }
+        
         if(isset($_POST['updateOptions']))
         {
             if(TRUE == $this->validatePostData())
@@ -255,10 +260,69 @@ class ViewArticleOptions extends SmartView
         
         if(count($this->tplVar['error']) > 0)
         {
+            $this->resetFields();
             return FALSE;
         }
         
         return TRUE;
+    }
+   /**
+    * reset form data
+    *
+    */      
+    private function resetFields()
+    {
+        $this->tplVar['option'] = array();
+        if(isset($_POST['thumb_width']))
+        {
+            $this->tplVar['option']['thumb_width']  = (int)SmartCommonUtil::stripSlashes($_POST['thumb_width']);   
+        }
+        if(isset($_POST['img_size_max']))
+        {
+            $this->tplVar['option']['img_size_max'] = (int)SmartCommonUtil::stripSlashes($_POST['img_size_max']);   
+        }
+        if(isset($_POST['file_size_max']))
+        {
+            $this->tplVar['option']['file_size_max'] = (int)SmartCommonUtil::stripSlashes($_POST['file_size_max']);   
+        }
+        if(isset($_POST['use_overtitle']))
+        {
+            $this->tplVar['option']['use_overtitle']  = (int)SmartCommonUtil::stripSlashes($_POST['use_overtitle']);   
+        }
+        if(isset($_POST['use_subtitle']))
+        {
+            $this->tplVar['option']['use_subtitle'] = (int)SmartCommonUtil::stripSlashes($_POST['use_subtitle']);   
+        }
+        if(isset($_POST['use_description']))
+        {        
+            $this->tplVar['option']['use_description'] = (int)SmartCommonUtil::stripSlashes($_POST['use_description']);   
+        }
+        if(isset($_POST['use_header']))
+        {           
+            $this->tplVar['option']['use_header']  = (int)SmartCommonUtil::stripSlashes($_POST['use_header']);   
+        }
+        if(isset($_POST['use_ps']))
+        {         
+            $this->tplVar['option']['use_ps'] = (int)SmartCommonUtil::stripSlashes($_POST['use_ps']);   
+        }
+        if(isset($_POST['use_changedate']))
+        { 
+            $this->tplVar['option']['use_changedate'] = (int)SmartCommonUtil::stripSlashes($_POST['use_changedate']);   
+        }
+        if(isset($_POST['use_articledate']))
+        { 
+            $this->tplVar['option']['use_articledate']  = (int)SmartCommonUtil::stripSlashes($_POST['use_articledate']);   
+        }
+        if(isset($_POST['use_logo']))
+        { 
+            $this->tplVar['option']['use_logo'] = (int)SmartCommonUtil::stripSlashes($_POST['use_logo']);   
+        }
+        if(isset($_POST['use_images']))
+        { 
+            $this->tplVar['option']['use_images'] = (int)SmartCommonUtil::stripSlashes($_POST['use_images']);   
+        }
+        $this->tplVar['option']['default_order'] = (string)SmartCommonUtil::stripSlashes($_POST['default_order']);   
+        $this->tplVar['option']['default_ordertype'] = (string)SmartCommonUtil::stripSlashes($_POST['default_ordertype']);   
     }
 }
 
