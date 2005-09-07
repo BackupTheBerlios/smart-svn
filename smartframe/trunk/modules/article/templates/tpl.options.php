@@ -67,10 +67,10 @@
 		</td>
       </tr>
       <tr>
-        <td>Default article order</td>
+        <td align="left" valign="top" class="font10bold">Default article order</td>
       </tr>
       <tr>
-        <td>
+        <td align="left" valign="top" class="font10">
             <select name="default_order" class="topselect">
             <option value="title"<?php if($tpl['option']['default_order']=='title') echo ' selected="selected"'; ?>>title</option>
             <option value="pubdate"<?php if($tpl['option']['default_order']=='pubdate') echo ' selected="selected"'; ?>>publish date</option>
