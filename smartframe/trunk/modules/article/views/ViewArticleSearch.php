@@ -191,22 +191,6 @@ class ViewArticleSearch extends SmartView
                                        $this->model->config['article']['default_ordertype']);
         }
     }
-     /**
-     * has the logged the rights to modify?
-     * at least edit (40) rights are required
-     *
-     */      
-    private function allowModify()
-    {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
-        {
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
-    }
 }
 
 ?>

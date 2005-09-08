@@ -140,7 +140,7 @@ class ActionArticleSetup extends SmartAction
         $this->model->dba->query($sql);  
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}article_config
-                   (`thumb_width`,`order`,`ordertype`)
+                   (`thumb_width`,`default_order`,`default_ordertype`)
                   VALUES
                    (120,'rank','asc')";
         $this->model->dba->query($sql);   
