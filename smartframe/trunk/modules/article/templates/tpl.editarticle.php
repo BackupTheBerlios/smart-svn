@@ -100,7 +100,7 @@ function cancel_edit(f)
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td width="35%" align="left" valign="top" class="font12bold">Status </td>
-              <td width="53%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle">Modify article content</a></td>
+              <td width="53%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1">Modify article content</a></td>
               <td width="12%" align="right" valign="top" class="font10bold"><input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
               </tr>
             <tr>

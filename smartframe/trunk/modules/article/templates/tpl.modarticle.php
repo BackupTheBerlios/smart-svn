@@ -185,7 +185,7 @@ function MM_swapImage() { //v3.0
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
 <input name="id_article" type="hidden" value="<?php echo $tpl['article']['id_article']; ?>">
 <input name="canceledit" type="hidden" id="canceledit" value="">
 <input name="modifyarticledata" type="hidden" value="true">
