@@ -63,9 +63,9 @@ span.smart_pager {
                   <li class="subnodelist">
                     <div class="branch">
                       <?php  foreach($article['nodeBranch'] as $bnode): ?>
-                      <a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>');"><?php echo $bnode['title']; ?></a> /
+                      <a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>&article_page=1');"><?php echo $bnode['title']; ?></a> /
                       <?php endforeach; ?>
-					<a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $article['node']['id_node']; ?>');"><?php echo $article['node']['title']; ?></a> </div>
+					<a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $article['node']['id_node']; ?>&article_page=1');"><?php echo $article['node']['title']; ?></a> </div>
                     <div class="branch">
 					 Publish Date: <?php echo $article['pubdate']; ?><br>
 					 Last modified: <?php echo $article['modifydate']; ?><br>
