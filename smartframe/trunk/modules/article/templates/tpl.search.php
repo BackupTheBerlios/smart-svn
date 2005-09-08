@@ -115,17 +115,6 @@ span.smart_pager {
 	    <br>
 		 <input name="searchbutton" type="submit" value="search" class="topselect">
 	  </form>
-          </p>
-      <p>
-          <?php if(count($tpl['error'])>0):  ?>
-          <br>
-          <br>
-          <?php foreach($tpl['error'] as $error): ?>
-             <?php echo $error; ?><br>
-             <br>
-          <?php endforeach; ?>
-          <?php endif; ?>
-	        
-      </p></td>
+      </td>
   </tr>
 </table>
