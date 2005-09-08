@@ -93,6 +93,10 @@ span.search_pager {
         <td width="1" align="left" valign="top" class="itemnormal"><?php if($tpl['showArticle']==TRUE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&id_article_down=<?php echo $article['id_article']; ?>&id_node=<?php echo $tpl['id_node']; ?>"><img src="./modules/common/media/pics/down.png" width="21" height="21" border="0"></a><?php else: ?>&nbsp;<?php endif; ?></td>
        <?php endif; ?>
         <td width="99%" align="left" valign="top" class="itemnormal">
+                    <div class="font10">
+					 Publish Date: <?php echo $article['pubdate']; ?><br>
+					 Last modified: <?php echo $article['modifydate']; ?><br>
+					</div>		
 		  <?php if(($tpl['showArticle']==TRUE)&&($article['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&disableMainMenu=1"><?php echo $article['title']; ?></a><?php else: ?><?php echo $article['title']; ?><?php endif; ?>
 		  <?php if(!empty($article['description'])): ?>
 			<div class="font10"><?php echo $article['description']; ?></div>

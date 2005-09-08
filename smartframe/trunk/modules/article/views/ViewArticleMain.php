@@ -78,7 +78,8 @@ class ViewArticleMain extends SmartView
                              array('result'  => & $this->tplVar['nodes'],
                                    'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
-                                   'fields'  => array('title','id_node','id_parent','status')));
+                                   'fields'  => array('title','id_node','id_parent',
+                                                      'status')));
     
         // get navigation node branch of the current node
         $this->model->action('navigation','getBranch', 
@@ -95,7 +96,8 @@ class ViewArticleMain extends SmartView
                                    'order'   => $this->order,
                                    'limit'   => array('perPage' => $this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),                                   
-                                   'fields'  => array('title','id_article','status')));                                   
+                                   'fields'  => array('title','id_article','status',
+                                                      'pubdate','modifydate')));                                   
 
         // create article pager links
         $this->model->action('article','pager', 
