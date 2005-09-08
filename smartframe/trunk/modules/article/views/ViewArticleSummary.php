@@ -37,7 +37,7 @@ class ViewArticleSummary extends SmartView
         // init variables for this view
         $this->initVars();
 
-        // search articles                                                   
+        // get last published articles                                                   
         $this->model->action('article','select',
                              array('result'  => & $this->tplVar['art_pubdate'], 
                                    'limit'   => array('perPage' => 5,
@@ -66,7 +66,7 @@ class ViewArticleSummary extends SmartView
             $this->getLock( $article );                            
         }
         
-        // search articles                                                   
+        // get last modified articles                                                    
         $this->model->action('article','select',
                              array('result'  => & $this->tplVar['art_modifydate'], 
                                    'limit'   => array('perPage' => 5,
@@ -127,22 +127,6 @@ class ViewArticleSummary extends SmartView
         // template array variables
         $this->tplVar['art_pubdate']    = array();
         $this->tplVar['art_modifydate'] = array();
-    }
-     /**
-     * has the logged the rights to modify?
-     * at least edit (40) rights are required
-     *
-     */      
-    private function allowModify()
-    {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
-        {
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
     }
 }
 
