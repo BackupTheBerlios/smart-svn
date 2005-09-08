@@ -11,7 +11,7 @@
 	<?php endif; ?>	
 	</td>
     <td width="24%" align="center" class="moduleheader">
-	<?php if($tpl['disableMainMenu']!=TRUE): ?>
+	<?php if(($tpl['disableMainMenu']!=TRUE)&&($tpl['show_admin_link']==TRUE)): ?>
 	   <a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=options" class="font10">article module options</a>
 	<?php endif; ?>
 	</td>
