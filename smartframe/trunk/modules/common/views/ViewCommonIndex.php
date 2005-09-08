@@ -76,6 +76,16 @@ class ViewCommonIndex extends SmartView
             $view = $_REQUEST['view'];    
         }
         
+        // disable main menu ?
+        if(isset($_REQUEST['disableMainMenu']))
+        {
+            $this->tplVar['disableMainMenu'] = TRUE;   
+        } 
+        else
+        {
+            $this->tplVar['disableMainMenu'] = FALSE;   
+        }
+        
         // assign the template root view variable
         $this->tplVar['moduleRootView'] = ucfirst($module).'Index';
         

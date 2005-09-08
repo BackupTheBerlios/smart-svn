@@ -57,7 +57,7 @@ function subok(s){
             <?php if(!isset($tpl['notLogged'])): ?> 
             <form action="index.php" method="post">
                 GoTo &gt;
-                <select name="mod" class="topselect" onChange="go('<?php echo $tpl['adminWebController']; ?>?mod='+this.form.mod.options[this.form.mod.options.selectedIndex].value)">
+                <select name="mod" class="topselect" onChange="go('<?php echo $tpl['adminWebController']; ?>?mod='+this.form.mod.options[this.form.mod.options.selectedIndex].value)"<?php if($tpl['disableMainMenu']==TRUE) echo ' disabled="disabled"'; ?>>
                  <?php foreach($tpl['moduleList'] as $key => $val): ?>
           <?php if($val['visibility'] == TRUE): ?>
                     <option value='<?php echo $key; ?>'<?php if($tpl['requestedModule'] == $key) echo " selected='selected'"; ?>><?php echo $val['alias']; ?></option>
