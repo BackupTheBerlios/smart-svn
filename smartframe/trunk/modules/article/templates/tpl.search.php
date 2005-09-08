@@ -56,7 +56,7 @@ span.smart_pager {
           <!-- show search result -->
           <?php if(count($tpl['articles']) > 0): ?>
           <table width="90%"  border="0" cellpadding="0" cellspacing="0">
-            <tr>
+            <tr>			
               <td width="190" align="left" valign="top">
                 <ul class="subnodeul">
                   <?php foreach($tpl['articles'] as $article): ?>
@@ -65,8 +65,27 @@ span.smart_pager {
                       <?php  foreach($article['nodeBranch'] as $bnode): ?>
                       <a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $bnode['id_node']; ?>');"><?php echo $bnode['title']; ?></a> /
                       <?php endforeach; ?>
-                    <a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $article['node']['id_node']; ?>');"><?php echo $article['node']['title']; ?></a> </div>
+					<a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&id_node=<?php echo $article['node']['id_node']; ?>');"><?php echo $article['node']['title']; ?></a> </div>
+                    <div class="branch">
+					 Publish Date: <?php echo $article['pubdate']; ?><br>
+					 Last modified: <?php echo $article['modifydate']; ?><br>
+					</div>
                     <div class="article"><a href="javascript:goto_item('<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&id_node=<?php echo $article['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>');"><?php echo $article['title']; ?></a></div>
+                      <div class="branch">status: 
+					   <?php if($article['status']==0): ?>
+                          delete
+                       <?php elseif($article['status']==1): ?>
+                          cancel
+                       <?php elseif($article['status']==2): ?>
+                          propose
+                      <?php elseif($article['status']==3): ?>
+                          edit
+                      <?php elseif($article['status']==4): ?>
+                          publish
+                      <?php elseif($article['status']==5): ?>
+                          restrict	  	  	  	  
+                      <?php endif; ?>					
+					</div>
                     <br>
                   </li>
                   <?php endforeach; ?>
