@@ -169,8 +169,6 @@ class ActionArticleSetup extends SmartAction
                                      {$data['dbtablesprefix']}article_changedate,
                                      {$data['dbtablesprefix']}article_lock,
                                      {$data['dbtablesprefix']}article_node_rel,
-                                     {$data['dbtablesprefix']}article_key_rel,
-                                     {$data['dbtablesprefix']}article_user_rel,
                                      {$data['dbtablesprefix']}article_media_pic,
                                      {$data['dbtablesprefix']}article_media_file,
                                      {$data['dbtablesprefix']}article_config";
