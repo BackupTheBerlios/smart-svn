@@ -59,7 +59,7 @@ function cancel_edit(f)
 }
 -->
 </style>
-<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
+<form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&disableMainMenu=1" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
 <input name="id_article" type="hidden" value="<?php echo $tpl['article']['id_article']; ?>">
 <input name="id_node" type="hidden" value="<?php echo $tpl['id_node']; ?>">
 <input name="gotonode" type="hidden" value="">
@@ -100,9 +100,11 @@ function cancel_edit(f)
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td width="35%" align="left" valign="top" class="font12bold">Status </td>
-              <td width="53%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1">Modify article content</a></td>
-              <td width="12%" align="right" valign="top" class="font10bold"><input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
-              </tr>
+              <td width="22%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1">Modify article content</a></td>
+              <td width="43%" align="right" valign="top" class="font10bold"><input name="back" type="button" id="back" value="Back" onClick="cancel_edit(this.form);">
+                <input name="refresh" type="submit" id="refresh" value="Refresh">
+                <input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+            </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
                 <option value="4" <?php if($tpl['article']['status'] == 4) echo 'selected="selected"'; ?>>publish</option>
@@ -112,7 +114,7 @@ function cancel_edit(f)
                 <option value="0" <?php if($tpl['article']['status'] == 0) echo 'selected="selected"'; ?>>delete</option>
               </select></td>
               <td align="right" valign="top">&nbsp;</td>
-              <td align="right" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+              <td align="right" valign="top">&nbsp;</td>
             </tr>
           </table></td>
       </tr>   
@@ -282,7 +284,7 @@ function cancel_edit(f)
           <div align="right">          </div></td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+        <td align="left" valign="top">&nbsp;</td>
       </tr>
     </table>
     </td>

@@ -173,7 +173,10 @@ class ViewArticleEditArticle extends SmartView
             $this->unlockArticle();
             $this->model->session->del('id_node');
             $this->model->session->del('id_article');
-            $this->redirect( $this->current_id_node );
+            if(!isset($_POST['refresh']))
+            {
+                $this->redirect( $this->current_id_node );
+            }
         }    
     }
      /**
