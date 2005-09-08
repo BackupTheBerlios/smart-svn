@@ -194,47 +194,35 @@ class ViewArticleEditArticle extends SmartView
     private function initVars()
     {
         // get node Id of the demanded article
-        if(isset($_GET['id_node']))
+        if(isset($_REQUEST['id_node']))
         {
-            if(!isset($_GET['id_node']) || 
-               preg_match("/[^0-9]+/",$_GET['id_node']) )
+            if(!isset($_REQUEST['id_node']) || 
+               preg_match("/[^0-9]+/",$_REQUEST['id_node']) )
             {
                 return FALSE;
             } 
-            $this->current_id_node = $_GET['id_node'];
-            $this->model->session->set('id_node', (int)$_GET['id_node']);        
+            $this->current_id_node = $_REQUEST['id_node'];
+            $this->model->session->set('id_node', (int)$_REQUEST['id_node']);        
         }
         elseif(NULL === ($this->current_id_node = $this->model->session->get('id_node')))
         {
-            if(!isset($_POST['id_node']) || 
-               preg_match("/[^0-9]+/",$_POST['id_node']) )
-            {
-                return FALSE;
-            } 
-            $this->current_id_node = $_POST['id_node'];
-            $this->model->session->set('id_node', (int)$_POST['id_node']);
+            return FALSE;
         }  
         // get article ID
-        if(isset($_GET['id_article']))
+        if(isset($_REQUEST['id_article']))
         {
-            if(!isset($_GET['id_article']) || 
+            if(!isset($_REQUEST['id_article']) || 
                preg_match("/[^0-9]+/",$_GET['id_article']) )
             {
                 return FALSE;
             } 
-            $this->current_id_article = $_GET['id_article'];
-            $this->model->session->set('id_article', (int)$_GET['id_article']);        
+            $this->current_id_article = $_REQUEST['id_article'];
+            $this->model->session->set('id_article', (int)$_REQUEST['id_article']);        
         }
         // get demanded article Id
         elseif(NULL === ($this->current_id_article = $this->model->session->get('id_article')))
         {
-            if(!isset($_POST['id_article']) || 
-               preg_match("/[^0-9]+/",$_POST['id_article']) )
-            {
-                return FALSE;
-            } 
-            $this->current_id_article = $_POST['id_article'];
-            $this->model->session->set('id_article', (int)$_POST['id_article']);
+            return FALSE;
         }
 
         // template variables
