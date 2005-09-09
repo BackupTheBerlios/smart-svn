@@ -67,6 +67,8 @@ class ActionArticlePager extends SmartAction
             $sql_where = "";
         }
 
+        $table = "";
+
         if(isset($data['id_node']))
         {
             $where = "a.`id_node`={$data['id_node']}";
