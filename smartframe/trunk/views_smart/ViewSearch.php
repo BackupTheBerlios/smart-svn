@@ -37,7 +37,7 @@ class ViewSearch extends SmartView
                                    'status'  => array('=',4),
                                    'limit'   => array('perPage' => $this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),                                   
-                                   'fields'  => array('id_article','title') ));  
+                                   'fields'  => array('id_article','title','id_node') ));  
 
         // get node + node branch of each article
         foreach($this->tplVar['articles'] as & $article)
