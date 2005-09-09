@@ -69,9 +69,7 @@ class ActionArticlePager extends SmartAction
 
         if(isset($data['id_node']))
         {
-            $where = "r.`id_node`={$data['id_node']}
-                      AND a.`id_article`=r.`id_article`";
-            $table = "{$this->config['dbTablePrefix']}article_node_rel AS r";
+            $where = "a.`id_node`={$data['id_node']}";
         }
         elseif(isset($data['search']))
         {

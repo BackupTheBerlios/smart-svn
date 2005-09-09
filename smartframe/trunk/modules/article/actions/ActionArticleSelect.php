@@ -62,10 +62,6 @@ class ActionArticleSelect extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            if($f == 'id_node')
-            {
-                continue;
-            }
             $_fields .= $comma.'a.`'.$f.'`';
             $comma = ',';
         }
@@ -140,11 +136,9 @@ class ActionArticleSelect extends SmartAction
         
         $sql = "
             SELECT
-                {$_fields},
-                r.id_node
+                {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article  AS a,
-                {$this->config['dbTablePrefix']}article_node_rel AS r
+                {$this->config['dbTablePrefix']}article_article
             WHERE 
                 a.`id_article`=r.`id_article` 
                 {$sql_pubdate}

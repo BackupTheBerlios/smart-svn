@@ -162,17 +162,14 @@ class ActionArticleMoveArticleRank extends SmartAction
     {
         $sql = "
             SELECT
-                a.`id_article`,
-                a.`rank`
+                `id_article`,
+                `rank`
             FROM
-                {$this->config['dbTablePrefix']}article_article as a,
-                {$this->config['dbTablePrefix']}article_node_rel as r
+                {$this->config['dbTablePrefix']}article_article
             WHERE
-                r.`id_node`={$id_node}
-            AND 
-                r.`id_article`=a.`id_article`
+                `id_node`={$id_node}
             AND
-                a.`rank`={$rank}";
+                `rank`={$rank}";
         
         $rs = $this->model->dba->query($sql);
         return $rs->fetchAssoc();   

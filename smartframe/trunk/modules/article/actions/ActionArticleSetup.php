@@ -30,6 +30,7 @@ class ActionArticleSetup extends SmartAction
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}article_article (
                    `id_article`    int(11) unsigned NOT NULL auto_increment,
+                   `id_node`       int(11) unsigned NOT NULL default 1,
                    `status`        tinyint(1) NOT NULL default 0,
                    `rank`          smallint(4) unsigned NOT NULL default 0,
                    `lang`          char(2) NOT NULL default 'en', 
@@ -50,7 +51,8 @@ class ActionArticleSetup extends SmartAction
                    KEY                (`status`,`pubdate`,`modifydate`),
                    KEY `articledate`  (`articledate`),
                    KEY `lang`         (`lang`),
-                   KEY `rank`         (`rank`))";
+                   KEY `rank`         (`rank`),
+                   KEY `id_node`      (`id_node`))";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_changedate (
@@ -78,13 +80,6 @@ class ActionArticleSetup extends SmartAction
                    UNIQUE KEY `id_article` (`id_article`),
                    KEY `lock_time`  (`lock_time`),
                    KEY `by_id_user` (`by_id_user`))";
-        $this->model->dba->query($sql);
-
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_node_rel (
-                   `id_article`     int(11) unsigned NOT NULL default 0,
-                   `id_node`        int(11) unsigned NOT NULL default 0,
-                   KEY `id_article` (`id_article`),
-                   KEY `id_node`    (`id_node`))";
         $this->model->dba->query($sql);
   
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_media_pic (

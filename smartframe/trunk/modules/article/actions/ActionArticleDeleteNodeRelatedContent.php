@@ -34,7 +34,7 @@ class ActionArticleDeleteNodeRelatedContent extends SmartAction
     {  
         $sql = "SELECT 
                     `id_article` 
-                FROM {$this->config['dbTablePrefix']}article_node_rel
+                FROM {$this->config['dbTablePrefix']}article_article
                 WHERE
                    `id_node`={$data['id_node']}";
                    
@@ -45,13 +45,7 @@ class ActionArticleDeleteNodeRelatedContent extends SmartAction
             $this->model->action('article','deleteArticle',
                                  array('id_article' => (int)$row['id_article'],
                                        'id_node'    => (int)$data['id_node']));
-        }        
-                   
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_node_rel
-                  WHERE
-                   `id_node`={$data['id_node']}";
-
-        $this->model->dba->query($sql);        
+        }             
     } 
     /**
      * validate data array

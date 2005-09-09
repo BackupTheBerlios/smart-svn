@@ -30,15 +30,12 @@ class ActionArticleGetLastRank extends SmartAction
     {
         $sql = "
             SELECT
-                a.`rank`
+                `rank`
             FROM
-                {$this->config['dbTablePrefix']}article_article AS a,
-                {$this->config['dbTablePrefix']}article_node_rel AS r
+                {$this->config['dbTablePrefix']}article_article
             WHERE
-                r.`id_node`={$data['id_node']}
-            AND
-                r.`id_article`=a.`id_article`
-            ORDER BY a.`rank` DESC
+                `id_node`={$data['id_node']}
+            ORDER BY `rank` DESC
             LIMIT 1";
         
         $rs = $this->model->dba->query($sql);

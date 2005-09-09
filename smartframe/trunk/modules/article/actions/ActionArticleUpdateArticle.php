@@ -72,7 +72,7 @@ class ActionArticleUpdateArticle extends SmartAction
         
         foreach($data['fields'] as $key => $val)
         {
-            if(($key == 'id_node') || ($key == 'changedate') || ($key == 'changestatus'))
+            if(($key == 'changedate') || ($key == 'changestatus'))
             {
                 continue;
             }
@@ -101,17 +101,6 @@ class ActionArticleUpdateArticle extends SmartAction
         }
        
         $stmt->execute();     
-
-        if(isset($data['fields']['id_node']))
-        {
-            // update node-article relation
-            $sql = "UPDATE {$this->config['dbTablePrefix']}article_node_rel
-                       SET `id_node`={$data['fields']['id_node']}
-                      WHERE
-                       `id_article`={$data['id_article']}";
-
-            $this->model->dba->query($sql);  
-        }
         
         if(isset($data['fields']['changedate']))
         {

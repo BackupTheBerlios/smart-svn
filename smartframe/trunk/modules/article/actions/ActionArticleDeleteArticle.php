@@ -27,13 +27,7 @@ class ActionArticleDeleteArticle extends SmartAction
      * @param array $data
      */
     public function perform( $data = FALSE )
-    { 
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_node_rel
-                    WHERE
-                       `id_article`={$data['id_article']}";
-
-        $this->model->dba->query($sql);
-        
+    {         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock
                   WHERE
                    `id_article`={$data['id_article']}";
@@ -53,15 +47,12 @@ class ActionArticleDeleteArticle extends SmartAction
         $this->model->dba->query($sql);
         
         $sql = "SELECT 
-                  a.`media_folder`,
-                  r.`id_node`
+                  `media_folder`,
+                  `id_node`
                 FROM 
-                  {$this->config['dbTablePrefix']}article_article AS a,
-                  {$this->config['dbTablePrefix']}article_node_rel AS r
+                  {$this->config['dbTablePrefix']}article_article
                 WHERE
-                   a.`id_article`={$data['id_article']}
-                AND
-                   a.`id_article`=r.`id_article`";
+                   `id_article`={$data['id_article']}";
                    
         $rs = $this->model->dba->query($sql);
 

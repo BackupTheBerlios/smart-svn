@@ -30,7 +30,6 @@ class ActionArticleOptimizeDbTables extends SmartAction
                   {$this->config['dbTablePrefix']}article_changedate,
                   {$this->config['dbTablePrefix']}article_index,
                   {$this->config['dbTablePrefix']}article_lock,
-                  {$this->config['dbTablePrefix']}article_node_rel,
                   {$this->config['dbTablePrefix']}article_media_pic,
                   {$this->config['dbTablePrefix']}article_media_file";
         

@@ -20,7 +20,7 @@
  *                      'order'   => array('rank|title|
  *                                          articledate|pubdate|
  *                                          overtitle|subtitle', 'asc|desc'),// optional
- *                      'fields   => array('id_article','status','rank',
+ *                      'fields   => array('id_node','id_article','status','rank',
  *                                         'activedate','inactivedate','pubdate',
  *                                         'lang','title','overtitle',
  *                                         'subtitle','header','description',
@@ -36,6 +36,7 @@ class ActionArticleGetNodeArticles extends SmartAction
      * Allowed article fields and its type
      */
     protected $tblFields_article = array('id_article'   => 'Int',
+                                         'id_node'      => 'Int',
                                          'status'       => 'Int',
                                          'rank'         => 'Int',
                                          'pubdate'      => 'String',
@@ -65,13 +66,13 @@ class ActionArticleGetNodeArticles extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'a.`'.$f.'`';
+            $_fields .= $comma.'`'.$f.'`';
             $comma = ',';
         }
         
         if(isset($data['status']))
         {
-            $sql_where = " AND a.`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_where = " AND `status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
@@ -80,11 +81,11 @@ class ActionArticleGetNodeArticles extends SmartAction
         
         if(isset($data['order']))
         {
-            $sql_order = " ORDER BY a.{$data['order'][0]} {$data['order'][1]}";
+            $sql_order = " ORDER BY {$data['order'][0]} {$data['order'][1]}";
         }
         else
         {
-            $sql_order = "ORDER BY a.title ASC";
+            $sql_order = "ORDER BY title ASC";
         }        
 
         if(isset($data['limit']))
@@ -105,12 +106,9 @@ class ActionArticleGetNodeArticles extends SmartAction
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article AS a,
-                {$this->config['dbTablePrefix']}article_node_rel AS r
+                {$this->config['dbTablePrefix']}article_article
             WHERE
-                r.`id_node`={$data['id_node']} 
-            AND
-                a.`id_article`=r.`id_article` 
+                `id_node`={$data['id_node']}
                 {$sql_where} 
                 {$sql_order}
                 {$sql_limit}";

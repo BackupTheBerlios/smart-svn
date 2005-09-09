@@ -95,11 +95,11 @@ class ActionArticleAddArticle extends SmartAction
             $fields .= $comma.'`rank`';
             $quest  .= $comma.$this->getRank( $data['id_node'] );        
         }          
-        
+ 
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_article
-                   ($fields,`modifydate`)
+                   ($fields,`id_node`,`modifydate`)
                   VALUES
-                   ($quest,NOW())";
+                   ($quest,$data['id_node'],NOW())";
 
         $stmt = $this->model->dba->prepare($sql);                    
         
@@ -111,18 +111,7 @@ class ActionArticleAddArticle extends SmartAction
         
         $stmt->execute();
         
-        // get id of the new article
-        $new_id_article = $this->model->dba->lastInsertID();
-       
-        // insert new node-article relation
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_node_rel
-                   (id_node,id_article)
-                  VALUES
-                   ({$data['id_node']},{$new_id_article})";
-
-        $this->model->dba->query($sql);     
-       
-        return $new_id_article;
+        return $this->model->dba->lastInsertID();
     } 
     
     /**
@@ -195,15 +184,12 @@ class ActionArticleAddArticle extends SmartAction
     {
         $sql = "
             SELECT
-                a.`rank`
+                `rank`
             FROM
-                {$this->config['dbTablePrefix']}article_article AS a,
-                {$this->config['dbTablePrefix']}article_node_rel AS r
+                {$this->config['dbTablePrefix']}article_article
             WHERE
-                r.`id_node`={$id_node}
-            AND
-                r.`id_article`=a.`id_article`
-            ORDER BY a.`rank` DESC
+                `id_node`={$id_node}
+            ORDER BY `rank` DESC
             LIMIT 1";
         
         $rs = $this->model->dba->query($sql);

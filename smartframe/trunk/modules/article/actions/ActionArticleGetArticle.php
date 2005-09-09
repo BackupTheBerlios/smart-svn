@@ -17,7 +17,7 @@
  *                array('id_article' => int, 
  *                      'result'     => & array, 
  *                      'status'     => array('<|>|<=|>=|=', 1|2),     // optional
- *                      'fields      => array('id_article','status','rank',
+ *                      'fields      => array('id_node','id_article','status','rank',
  *                                            'activedate','inactivedate','pubdate',
  *                                            'lang','title','overtitle',
  *                                            'subtitle','header','description',
@@ -32,6 +32,7 @@ class ActionArticleGetArticle extends SmartAction
      * Allowed article fields and its type
      */
     protected $tblFields_article = array('id_article'   => 'Int',
+                                         'id_node'      => 'Int',
                                          'status'       => 'Int',
                                          'rank'         => 'Int',
                                          'articledate'  => 'String',
