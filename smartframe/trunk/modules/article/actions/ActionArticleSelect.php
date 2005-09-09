@@ -62,7 +62,7 @@ class ActionArticleSelect extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'a.`'.$f.'`';
+            $_fields .= $comma.'`'.$f.'`';
             $comma = ',';
         }
         
@@ -73,49 +73,49 @@ class ActionArticleSelect extends SmartAction
         
         if(isset($data['status']))
         {
-            $sql_status = " AND a.`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_status = " AND `status`{$data['status'][0]}{$data['status'][1]}";
         }
 
         if(isset($data['pubdate']))
         {
             $pubdate1 = $this->model->dba->escape($data['pubdate'][1]);
-            $sql_pubdate = " AND a.`pubdate`{$data['pubdate'][0]}'{$pubdate1}'";
+            $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}'{$pubdate1}'";
             if(isset($data['pubdate'][2]))
             {
                 $pubdate3 = $this->model->dba->escape($data['pubdate'][3]);
-                $sql_pubdate .= " AND a.`pubdate`{$data['pubdate'][2]}'{$pubdate3}'";            
+                $sql_pubdate .= " AND `pubdate`{$data['pubdate'][2]}'{$pubdate3}'";            
             }
         }
 
         if(isset($data['modifydate']))
         {
             $modifydate1 = $this->model->dba->escape($data['modifydate'][1]);
-            $sql_modifydate = " AND a.`modifydate`{$data['modifydate'][0]}'{$modifydate1}'";
+            $sql_modifydate = " AND `modifydate`{$data['modifydate'][0]}'{$modifydate1}'";
             if(isset($data['modifydate'][2]))
             {
                 $modifydate2 = $this->model->dba->escape($data['modifydate'][3]);
-                $sql_modifydate .= " AND a.`modifydate`{$data['modifydate'][2]}{$modifydate2}";            
+                $sql_modifydate .= " AND `modifydate`{$data['modifydate'][2]}{$modifydate2}";            
             }
         }
 
         if(isset($data['articledate']))
         {
             $articledate1 = $this->model->dba->escape($data['articledate'][1]);
-            $sql_articledate = " AND a.`articledate`{$data['articledate'][0]}'{$articledate1}'";
+            $sql_articledate = " AND `articledate`{$data['articledate'][0]}'{$articledate1}'";
             if(isset($data['articledate'][2]))
             {
                 $articledate2 = $this->model->dba->escape($data['articledate'][3]);
-                $sql_articledate .= " AND a.`articledate`{$data['articledate'][2]}{$articledate2}";            
+                $sql_articledate .= " AND `articledate`{$data['articledate'][2]}{$articledate2}";            
             }
         }
 
         if(isset($data['order']))
         {
-            $sql_order = " ORDER BY a.{$data['order'][0]} {$data['order'][1]}";
+            $sql_order = " ORDER BY {$data['order'][0]} {$data['order'][1]}";
         }
         else
         {
-            $sql_order = "ORDER BY a.title ASC";
+            $sql_order = "ORDER BY title ASC";
         } 
 
         if(isset($data['limit']))
@@ -140,7 +140,7 @@ class ActionArticleSelect extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}article_article
             WHERE 
-                a.`id_article`=r.`id_article` 
+                1=1
                 {$sql_pubdate}
                 {$sql_modifydate}
                 {$sql_articledate}

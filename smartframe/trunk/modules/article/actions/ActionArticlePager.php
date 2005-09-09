@@ -77,13 +77,13 @@ class ActionArticlePager extends SmartAction
             $where = "MATCH (i.`text1`,i.`text2`,i.`text3`,i.`text4`)
                       AGAINST ('{$search_string}' IN BOOLEAN MODE) 
                       AND i.id_article=a.id_article ";
-            $table = "{$this->config['dbTablePrefix']}article_index AS i";
+            $table = ",{$this->config['dbTablePrefix']}article_index AS i";
         }        
         
         $sql = "SELECT SQL_CACHE
                     count(a.`id_article`) AS numArticles
                 FROM 
-                    {$this->config['dbTablePrefix']}article_article AS a,
+                    {$this->config['dbTablePrefix']}article_article AS a
                     {$table}
                 WHERE
                    {$where}
