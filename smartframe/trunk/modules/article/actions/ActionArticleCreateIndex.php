@@ -48,9 +48,9 @@ class ActionArticleCreateIndex extends SmartAction
 
         $substring = array();
    
-        for($i = 0; $i <= 256000; $i = $i + 64000)
+        for($i = 0; $i <= 262140; $i = $i + 65535)
         {
-            $substring[] = substr($this->model->dba->escape($content), $i, 64000);
+            $substring[] = substr($this->model->dba->escape($content), $i, 65535);
         }
         
         $this->insert( $data['id_article'], $substring );   
