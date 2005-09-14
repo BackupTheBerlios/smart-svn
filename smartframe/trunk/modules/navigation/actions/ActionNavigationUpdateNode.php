@@ -66,7 +66,16 @@ class ActionNavigationUpdateNode extends ActionNavigation
             $stmt->$methode($val);
         }
        
-        $stmt->execute();           
+        $stmt->execute();  
+        
+        if(isset($data['fields']['title'])       ||
+           isset($data['fields']['short_text'])   ||
+           isset($data['fields']['body']))
+        {
+            // update navigation index
+            $this->model->action('navigation','createIndex',
+                                 array('id_node' => (int)$data['id_node']) );
+        }
         
         return TRUE;
     } 
