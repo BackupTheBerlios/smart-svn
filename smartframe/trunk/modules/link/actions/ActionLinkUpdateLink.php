@@ -10,24 +10,17 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionNavigationUpdateNode class 
+ * ActionLinkUpdateLink class 
  *
  * USAGE:
- * $model->action('navigation','UpdateNode',
- *                array('id_node' => int,
+ * $model->action('link','updateLink',
+ *                array('id_link' => int,
  *                      'fields'  => array('id_node'      => 'Int',
- *                                         'id_parent'    => 'Int',
- *                                         'id_sector'    => 'Int',
- *                                         'id_view'      => 'Int',
  *                                         'status'       => 'Int',
- *                                         'rank'         => 'Int',
- *                                         'format'       => 'Int',
- *                                         'logo'         => 'String',
- *                                         'media_folder' => 'String',
- *                                         'lang'         => 'String',
  *                                         'title'        => 'String',
- *                                         'short_text'   => 'String',
- *                                         'body'         => 'String')))
+ *                                         'description'  => 'String',
+ *                                         'url'          => 'String',
+                                           'hits'         => 'Int',)))
  */
  
 class ActionLinkUpdateLink extends SmartAction
@@ -55,10 +48,6 @@ class ActionLinkUpdateLink extends SmartAction
         
         foreach($data['fields'] as $key => $val)
         {
-            if($key == 'id_node')
-            {
-                continue;
-            }
             $fields .= $comma.'`'.$key.'`=?';
             $comma = ',';
         }
@@ -73,24 +62,12 @@ class ActionLinkUpdateLink extends SmartAction
         $stmt = $this->model->dba->prepare($sql);                    
         
         foreach($data['fields'] as $key => $val)
-        {
-            if($key == 'id_node')
-            {
-                continue;
-            }        
+        {      
             $methode = 'set'.$this->tblFields_link[$key];
             $stmt->$methode($val);
         }
        
-        $stmt->execute();     
-        
-        // update node-link relation
-        $sql = "UPDATE {$this->config['dbTablePrefix']}link_node_rel
-                   SET `id_node`={$data['fields']['id_node']}
-                  WHERE
-                   `id_link`={$data['id_link']}";
-
-        $this->model->dba->query($sql);             
+        $stmt->execute();             
     } 
     /**
      * validate data array

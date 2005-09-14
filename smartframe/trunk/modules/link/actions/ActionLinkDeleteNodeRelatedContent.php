@@ -32,22 +32,7 @@ class ActionLinkDeleteNodeRelatedContent extends SmartAction
      */
     public function perform( $data = FALSE )
     {  
-        $sql = "SELECT 
-                    `id_link` 
-                FROM {$this->config['dbTablePrefix']}link_node_rel
-                WHERE
-                   `id_node`={$data['id_node']}";
-                   
-        $rs = $this->model->dba->query($sql);
-        
-        while($row = $rs->fetchAssoc())
-        {
-            $this->model->action('link','deleteLink',
-                                 array('id_link' => (int)$row['id_link'],
-                                       'id_node' => (int)$data['id_node']));
-        }        
-                   
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_node_rel
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_links
                   WHERE
                    `id_node`={$data['id_node']}";
 

@@ -29,6 +29,7 @@ class ActionLinkGetLink extends SmartAction
      * Allowed link fields and its type
      */
     protected $tblFields_link = array('id_link'     => 'Int',
+                                      'id_node'     => 'Int',
                                       'status'      => 'Int',
                                       'title'       => 'String',
                                       'description' => 'String',

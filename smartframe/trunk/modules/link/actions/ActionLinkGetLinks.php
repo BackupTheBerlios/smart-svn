@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionNavigationGetNode class 
+ * ActionLinkGetLinks class 
  * USAGE:
  *
  * $model->action('link','getLinks',
@@ -18,7 +18,7 @@
  *                      'result'  => & array,
  *                      'status'  => array('>|<|=|>=|<=|!=',1|2),           // optional
  *                      'order'   => array('hits|title','asc|desc'),        // optional
- *                      'fields   => array('id_link','url','title',
+ *                      'fields   => array('id_node','id_link','url','title',
  *                                         'description','hits') ));
  *
  */
@@ -30,6 +30,7 @@ class ActionLinkGetLinks extends SmartAction
      * Allowed link fields and its type
      */
     protected $tblFields_link = array('id_link'     => 'Int',
+                                      'id_node'     => 'Int',
                                       'status'      => 'Int',
                                       'title'       => 'String',
                                       'description' => 'String',
@@ -48,13 +49,13 @@ class ActionLinkGetLinks extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'l.`'.$f.'`';
+            $_fields .= $comma.'`'.$f.'`';
             $comma = ',';
         }
         
         if(isset($data['status']))
         {
-            $sql_where = " AND l.`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_where = " AND `status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
@@ -63,35 +64,29 @@ class ActionLinkGetLinks extends SmartAction
         
         if(isset($data['order']))
         {
-            $sql_order = " ORDER BY l.{$data['order'][0]} {$data['order'][1]}";
+            $sql_order = " ORDER BY {$data['order'][0]} {$data['order'][1]}";
         }
         else
         {
-            $sql_order = "ORDER BY l.title ASC";
+            $sql_order = "ORDER BY title ASC";
         }        
         
         $sql = "
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}link_links AS l,
-                {$this->config['dbTablePrefix']}link_node_rel AS r
+                {$this->config['dbTablePrefix']}link_links
             WHERE
-                r.`id_node`={$data['id_node']} 
-            AND
-                l.`id_link`=r.`id_link` 
+                `id_node`={$data['id_node']} 
                 {$sql_where} 
                 {$sql_order}";
         
         $rs = $this->model->dba->query($sql);
 
-        if($rs->numRows() > 0)
+        while($row = $rs->fetchAssoc())
         {
-            while($row = $rs->fetchAssoc())
-            {
-                $data['result'][] = $row;
-            }        
-        }
+            $data['result'][] = $row;
+        }        
         
         return TRUE;
     } 

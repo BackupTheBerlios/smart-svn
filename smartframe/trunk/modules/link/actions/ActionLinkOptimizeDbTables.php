@@ -27,8 +27,7 @@ class ActionLinkOptimizeDbTables extends SmartAction
     {
         $sql = "OPTIMIZE NO_WRITE_TO_BINLOG TABLE 
                   {$this->config['dbTablePrefix']}link_links,
-                  {$this->config['dbTablePrefix']}link_lock,
-                  {$this->config['dbTablePrefix']}link_node_rel";
+                  {$this->config['dbTablePrefix']}link_lock";
         
         $this->model->dba->query($sql);
     } 

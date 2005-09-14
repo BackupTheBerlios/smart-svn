@@ -57,9 +57,9 @@ class ActionLinkAddLink extends SmartAction
         }        
         
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}link_links
-                   ($fields)
+                   (`id_node`,$fields)
                   VALUES
-                   ($quest)";
+                   ({$data['id_node']},$quest)";
 
         $stmt = $this->model->dba->prepare($sql);                    
         
@@ -73,14 +73,6 @@ class ActionLinkAddLink extends SmartAction
         
         // get id of the new link
         $new_id_link = $this->model->dba->lastInsertID();
-       
-        // insert new node-link relation
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}link_node_rel
-                   (id_node,id_link)
-                  VALUES
-                   ({$data['id_node']},{$new_id_link})";
-
-        $this->model->dba->query($sql);     
        
         return $new_id_link;
     } 

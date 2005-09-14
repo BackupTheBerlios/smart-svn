@@ -29,15 +29,18 @@ class ActionLinkSetup extends SmartAction
         }
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}link_links (
-                   `id_link`       int(11) unsigned NOT NULL auto_increment,
-                   `status`        tinyint(1) NOT NULL default 0,
-                   `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `description`   text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
-                   `url`           text NOT NULL default '',
-                   `hits`          int(11) unsigned NOT NULL default 0,
-                   PRIMARY KEY     (`id_link`),
-                   KEY `status`    (`status`),
-                   KEY `hits`      (`hits`))";
+                   `id_link`     int(11) unsigned NOT NULL auto_increment,
+                   `id_node`     int(11) unsigned NOT NULL default 0,
+                   `status`      tinyint(1) NOT NULL default 0,
+                   `title`       text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `description` text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `url`         text NOT NULL default '',
+                   `hits`        int(11) unsigned NOT NULL default 0,
+                   PRIMARY KEY   (`id_link`),
+                   KEY `id_node` (`id_node`),
+                   KEY `status`  (`status`),
+                   KEY `hits`    (`hits`),
+                   FULLTEXT      (`title`,`description`))";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}link_lock (
@@ -47,13 +50,6 @@ class ActionLinkSetup extends SmartAction
                    UNIQUE KEY `id_link`    (`id_link`),
                    KEY `lock_time`  (`lock_time`),
                    KEY `by_id_user` (`by_id_user`))";
-        $this->model->dba->query($sql);
-
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}link_node_rel (
-                   `id_link`      int(11) unsigned NOT NULL default 0,
-                   `id_node`      int(11) unsigned NOT NULL default 0,
-                   KEY `id_node` (`id_node`),
-                   KEY `id_link` (`id_link`))";
         $this->model->dba->query($sql);
        
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module

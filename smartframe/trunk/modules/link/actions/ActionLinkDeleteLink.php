@@ -15,7 +15,7 @@
  * USAGE:
  *
  * $model->action('link','deleteLink',
- *                array('id_link'  => int, 'id_node'  => int))
+ *                array('id_link'  => int))
  *
  */
  
@@ -28,14 +28,6 @@ class ActionLinkDeleteLink extends SmartAction
      */
     public function perform( $data = FALSE )
     {        
-        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_node_rel
-                  WHERE
-                   `id_node`={$data['id_node']}
-                  AND
-                   `id_link`={$data['id_link']}";
-
-        $this->model->dba->query($sql);
-        
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_links
                   WHERE
                    `id_link`={$data['id_link']}";
@@ -49,16 +41,7 @@ class ActionLinkDeleteLink extends SmartAction
      * @return bool true or false on error
      */    
     public function validate( $data = FALSE )
-    { 
-        if(!isset($data['id_node']))
-        {
-            throw new SmartModelException('"id_node" isnt defined');        
-        }    
-        elseif(!is_int($data['id_node']))
-        {
-            throw new SmartModelException('"id_node" isnt from type int');        
-        }
-        
+    {         
         if(!isset($data['id_link']))
         {
             throw new SmartModelException('"id_link" isnt defined');        
