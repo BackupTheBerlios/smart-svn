@@ -73,25 +73,13 @@ INSERT INTO `smart_article_index` VALUES (25, ' Public Projects Views and Templa
 # Dumping data for table `smart_link_links`
 #
 
-INSERT INTO `smart_link_links` VALUES (1, 2, 'PHP.NET', 'PHP  is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML.', 'http://www.php.net', 0);
-INSERT INTO `smart_link_links` VALUES (2, 2, 'Apache HTTP Server', 'The Apache HTTP Server Project is an effort to develop and maintain an open-source HTTP server for modern operating systems including UNIX and Windows NT. The goal of this project is to provide a secure, efficient and extensible server that provides HTTP services in sync with the current HTTP standards.', 'http://httpd.apache.org', 0);
-INSERT INTO `smart_link_links` VALUES (3, 2, 'WACT', ' The Web Application Component Toolkit is a modular patterns based framework for creating high performance web applications. WACT assists in implementing the Model View Controller pattern and the related Domain Model, Template View, Front Controller and Application Controller patterns.', 'http://www.phpwact.org', 0);
-INSERT INTO `smart_link_links` VALUES (4, 2, 'MSDN Tutorial', 'The purpose of many computer systems is to retrieve data from a data store and display it for the user. After the user changes the data, the system stores the updates in the data store. Because the key flow of information is between the data store and the user interface, you might be inclined to tie these two pieces together to reduce the amount of coding and to improve application performance. However, this seemingly natural approach has some significant problems. One problem is that the user interface tends to change much more frequently than the data storage system. Another problem with coupling the data and user interface pieces is that business applications tend to incorporate business logic that goes far beyond data transmission.', 'http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnpatterns/html/DesMVC.asp', 0);
-INSERT INTO `smart_link_links` VALUES (5, 2, 'PHP Resource Index', 'Hundreds of PHP resources, categorized and searchable', 'http://php.resourceindex.com/', 0);
-INSERT INTO `smart_link_links` VALUES (6, 2, 'Phpfreaks', 'This website exists to provide you with information to use while learning or developing PHP and MySQL. If you need PHP Help or you would like to provide PHP Help to other developers, you are in the right place. Additionally, we offer Apache Help, MySQL Help, Javascript Help, CSS Help, XML Help and much more.', 'http://www.phpfreaks.com/', 0);
-INSERT INTO `smart_link_links` VALUES (7, 2, 'Werberdev', 'Code Examples, Articles, Tutorials', 'http://www.weberdev.com/', 0);
-
-#
-# Dumping data for table `smart_link_node_rel`
-#
-
-INSERT INTO `smart_link_node_rel` VALUES (1, 37);
-INSERT INTO `smart_link_node_rel` VALUES (2, 37);
-INSERT INTO `smart_link_node_rel` VALUES (3, 38);
-INSERT INTO `smart_link_node_rel` VALUES (4, 38);
-INSERT INTO `smart_link_node_rel` VALUES (5, 39);
-INSERT INTO `smart_link_node_rel` VALUES (6, 39);
-INSERT INTO `smart_link_node_rel` VALUES (7, 39);
+INSERT INTO `smart_link_links` VALUES (1, 37, 2, 'PHP.NET', 'PHP  is a widely-used general-purpose scripting language that is especially suited for Web development and can be embedded into HTML.', 'http://www.php.net', 0);
+INSERT INTO `smart_link_links` VALUES (2, 37, 2, 'Apache HTTP Server', 'The Apache HTTP Server Project is an effort to develop and maintain an open-source HTTP server for modern operating systems including UNIX and Windows NT. The goal of this project is to provide a secure, efficient and extensible server that provides HTTP services in sync with the current HTTP standards.', 'http://httpd.apache.org', 0);
+INSERT INTO `smart_link_links` VALUES (3, 38, 2, 'WACT', ' The Web Application Component Toolkit is a modular patterns based framework for creating high performance web applications. WACT assists in implementing the Model View Controller pattern and the related Domain Model, Template View, Front Controller and Application Controller patterns.', 'http://www.phpwact.org', 0);
+INSERT INTO `smart_link_links` VALUES (4, 38, 2, 'MSDN Tutorial', 'The purpose of many computer systems is to retrieve data from a data store and display it for the user. After the user changes the data, the system stores the updates in the data store. Because the key flow of information is between the data store and the user interface, you might be inclined to tie these two pieces together to reduce the amount of coding and to improve application performance. However, this seemingly natural approach has some significant problems. One problem is that the user interface tends to change much more frequently than the data storage system. Another problem with coupling the data and user interface pieces is that business applications tend to incorporate business logic that goes far beyond data transmission.', 'http://msdn.microsoft.com/library/default.asp?url=/library/en-us/dnpatterns/html/DesMVC.asp', 0);
+INSERT INTO `smart_link_links` VALUES (5, 39, 2, 'PHP Resource Index', 'Hundreds of PHP resources, categorized and searchable', 'http://php.resourceindex.com/', 0);
+INSERT INTO `smart_link_links` VALUES (6, 39, 2, 'Phpfreaks', 'This website exists to provide you with information to use while learning or developing PHP and MySQL. If you need PHP Help or you would like to provide PHP Help to other developers, you are in the right place. Additionally, we offer Apache Help, MySQL Help, Javascript Help, CSS Help, XML Help and much more.', 'http://www.phpfreaks.com/', 0);
+INSERT INTO `smart_link_links` VALUES (7, 39, 2, 'Werberdev', 'Code Examples, Articles, Tutorials', 'http://www.weberdev.com/', 0);
 
 #
 # Dumping data for table `smart_misc_text`
