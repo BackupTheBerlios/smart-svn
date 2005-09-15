@@ -29,6 +29,7 @@ class ActionCommonSetup extends SmartAction
         
         $data['config']['db']['dbTablePrefix'] = $data['dbtablesprefix'];    
         $data['config']['db']['dbhost']        = $data['dbhost'];
+        $data['config']['db']['dbhostport']    = $data['dbhostport'];
         $data['config']['db']['dbuser']        = $data['dbuser'];
         $data['config']['db']['dbpasswd']      = $data['dbpasswd'];
         $data['config']['db']['dbname']        = $data['dbname'];
@@ -36,8 +37,11 @@ class ActionCommonSetup extends SmartAction
 
         try
         {
-            $this->model->dba = new DbMysqli( $data['config']['db']['dbhost'] ,$data['config']['db']['dbuser'],
-                                              $data['config']['db']['dbpasswd'],$data['config']['db']['dbname'] );
+            $this->model->dba = new DbMysqli( $data['config']['db']['dbhost'] ,
+                                              $data['config']['db']['dbhostport'] ,
+                                              $data['config']['db']['dbuser'],
+                                              $data['config']['db']['dbpasswd'],
+                                              $data['config']['db']['dbname'] );
                                               
             $this->model->dba->connect();  
         }
