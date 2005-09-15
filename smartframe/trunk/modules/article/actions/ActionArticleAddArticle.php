@@ -111,7 +111,13 @@ class ActionArticleAddArticle extends SmartAction
         
         $stmt->execute();
         
-        return $this->model->dba->lastInsertID();
+        $id_article = $this->model->dba->lastInsertID();
+
+        // update article index
+        $this->model->action('article','createIndex',
+                              array('id_article' => (int)$id_article) );
+        
+        return $id_article;
     } 
     
     /**
