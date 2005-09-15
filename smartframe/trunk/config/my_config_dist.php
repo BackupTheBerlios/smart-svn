@@ -72,7 +72,12 @@ $SmartConfig['cache_path'] = SMART_BASE_DIR . 'cache/';
  * Name of the cache type class
  */
 $SmartConfig['cache_type'] = 'SmartFileViewCache';
-  
+
+/**
+ * cache time type       // filemtime or filestime
+ */
+$SmartConfig['cache_time_type'] = 'filemtime';
+ 
 /**
  * Name of the template engine class
  */
