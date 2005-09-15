@@ -47,7 +47,8 @@ class ActionNavigationSetup extends SmartAction
                    KEY              (`id_parent`,`rank`,`status`),
                    KEY `id_sector`  (`id_sector`),
                    KEY `modifydate` (`modifydate`), 
-                   KEY `view`       (`id_view`))";
+                   KEY `view`       (`id_view`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_index (
@@ -57,7 +58,8 @@ class ActionNavigationSetup extends SmartAction
                    `text3`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `text4`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',                   
                    UNIQUE KEY `id_node` (`id_node`),
-                   FULLTEXT   (`text1`,`text2`,`text3`,`text4`))";
+                   FULLTEXT   (`text1`,`text2`,`text3`,`text4`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_node_lock (
@@ -66,7 +68,8 @@ class ActionNavigationSetup extends SmartAction
                    `by_id_user`   int(11) unsigned NOT NULL default 0,
                    UNIQUE KEY `id_node` (`id_node`),
                    KEY `lock_time`  (`lock_time`),
-                   KEY `by_id_user` (`by_id_user`))";
+                   KEY `by_id_user` (`by_id_user`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_media_pic (
@@ -82,7 +85,8 @@ class ActionNavigationSetup extends SmartAction
                    `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY    (`id_pic`),
-                   KEY            (`id_node`,`rank`))";
+                   KEY            (`id_node`,`rank`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_media_file (
@@ -95,7 +99,8 @@ class ActionNavigationSetup extends SmartAction
                    `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY    (`id_file`),
-                   KEY            (`id_node`,`rank`))";
+                   KEY            (`id_node`,`rank`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);        
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_config (
@@ -109,14 +114,16 @@ class ActionNavigationSetup extends SmartAction
                  `use_body`       tinyint(1) NOT NULL default 1,
                  `use_logo`       tinyint(1) NOT NULL default 1,
                  `use_images`     tinyint(1) NOT NULL default 1,
-                 `use_files`      tinyint(1) NOT NULL default 1)";
+                 `use_files`      tinyint(1) NOT NULL default 1) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_view (
                    `id_view`      int(11) unsigned NOT NULL auto_increment,
                    `name`         varchar(255) NOT NULL default '',
                    `description`  text NOT NULL default '',
-                   PRIMARY KEY    (`id_view`))";
+                   PRIMARY KEY    (`id_view`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
 
         $sql = "INSERT INTO {$data['dbtablesprefix']}navigation_config
