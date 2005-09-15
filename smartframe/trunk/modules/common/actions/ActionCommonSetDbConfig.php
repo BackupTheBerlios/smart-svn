@@ -69,7 +69,7 @@ class ActionCommonSetDbConfig extends SmartAction
         $str .= '$db'." = array();\n\n";
         
         $str .= '$db["dbhost"]'       ." = '{$data['dbConnect']['dbhost']}';\n";
-        $str .= '$db["dbhostport"]'   ." = '{$data['dbConnect']['dbhostport']}';\n";
+        $str .= '$db["dbport"]'       ." = '{$data['dbConnect']['dbport']}';\n";
         $str .= '$db["dbcharset"]'    ." = '{$data['dbConnect']['dbcharset']}';\n";
         $str .= '$db["dbuser"]'       ." = '{$data['dbConnect']['dbuser']}';\n";
         $str .= '$db["dbpasswd"]'     ." = '{$data['dbConnect']['dbpasswd']}';\n";
