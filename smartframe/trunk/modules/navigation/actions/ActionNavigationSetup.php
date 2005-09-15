@@ -156,7 +156,9 @@ class ActionNavigationSetup extends SmartAction
                                      {$data['dbtablesprefix']}navigation_node_lock,
                                      {$data['dbtablesprefix']}navigation_media_pic,
                                      {$data['dbtablesprefix']}navigation_media_file,
-                                     {$data['dbtablesprefix']}navigation_config";
+                                     {$data['dbtablesprefix']}navigation_config,
+                                     {$data['dbtablesprefix']}navigation_index,
+                                     {$data['dbtablesprefix']}navigation_view";
         $this->model->dba->query($sql);  
     }
 }
