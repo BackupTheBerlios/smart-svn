@@ -30,7 +30,7 @@ class ActionUserSetup extends SmartAction
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_user (
                    `id_user`      int(11) unsigned NOT NULL auto_increment,
-                   `login`        varchar(20) NOT NULL default '',
+                   `login`        varchar(30) NOT NULL default '',
                    `passwd`       char(32) NOT NULL,
                    `role`         tinyint(3) unsigned NOT NULL default 10,
                    `status`       tinyint(1) NOT NULL default 1,
@@ -41,16 +41,20 @@ class ActionUserSetup extends SmartAction
                    `format`       tinyint(1) NOT NULL default 0,
                    `logo`         varchar(255) NOT NULL default '',
                    `media_folder` char(32) NOT NULL,
-                   PRIMARY KEY     (`id_user`),
-                   KEY (`login`,`passwd`,`status`),
-                   KEY (`role`))";
+                   PRIMARY KEY       (`id_user`),
+                   KEY               (`login`,`passwd`,`status`),
+                   KEY `user_status` (`status`),
+                   KEY `role`        (`role`),
+                   FULLTEXT          (`login`,`description`,`name`,`lastname`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_access (
                    `id_user`   int(11) unsigned NOT NULL default 0,
                    `access`    datetime NOT NULL default '0000-00-00 00:00:00',
                    UNIQUE KEY `id_user` (`id_user`),
-                   KEY `access`         (`access`))";
+                   KEY `access`         (`access`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_lock (
@@ -59,7 +63,8 @@ class ActionUserSetup extends SmartAction
                    `by_id_user`   int(11) unsigned NOT NULL default 0,
                    UNIQUE KEY `id_user`    (`id_user`),
                    KEY `lock_time`  (`lock_time`),
-                   KEY `by_id_user` (`by_id_user`))";
+                   KEY `by_id_user` (`by_id_user`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_media_pic (
@@ -74,7 +79,8 @@ class ActionUserSetup extends SmartAction
                    `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY     (`id_pic`),
-                   KEY (`id_user`,`rank`))";
+                   KEY (`id_user`,`rank`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_media_file (
@@ -87,7 +93,8 @@ class ActionUserSetup extends SmartAction
                    `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY     (`id_file`),
-                   KEY `id_user`   (`id_user`,`rank`))";
+                   KEY `id_user`   (`id_user`,`rank`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);        
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_config (
@@ -95,7 +102,8 @@ class ActionUserSetup extends SmartAction
                  `img_size_max`   int(11) NOT NULL default 100000,
                  `file_size_max`  int(11) NOT NULL default 100000,
                  `force_format`   tinyint(1) NOT NULL default 2,
-                 `default_format` tinyint(1) NOT NULL default 2)";
+                 `default_format` tinyint(1) NOT NULL default 2) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['dbtablesprefix']}user_config
