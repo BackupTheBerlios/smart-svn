@@ -30,7 +30,7 @@ class ActionUserSetup extends SmartAction
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_user (
                    `id_user`      int(11) unsigned NOT NULL auto_increment,
-                   `login`        varchar(30) NOT NULL default '',
+                   `login`        varchar(30) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `passwd`       char(32) NOT NULL,
                    `role`         tinyint(3) unsigned NOT NULL default 10,
                    `status`       tinyint(1) NOT NULL default 1,
@@ -45,7 +45,7 @@ class ActionUserSetup extends SmartAction
                    KEY               (`login`,`passwd`,`status`),
                    KEY `user_status` (`status`),
                    KEY `role`        (`role`),
-                   FULLTEXT          (`login`,`description`,`name`,`lastname`)) 
+                   FULLTEXT          (`login`,`name`,`lastname`,`description`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
