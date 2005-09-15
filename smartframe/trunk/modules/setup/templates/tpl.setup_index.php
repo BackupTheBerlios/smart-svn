@@ -104,7 +104,9 @@ function subok(s){
       <tr>
         <td width="19%" align="left" valign="top"><span class="normal">Host:</span></td>
         <td width="81%" align="left" valign="top">
-          <input name="dbhost" type="text" size="50" maxlength="255" value="<?php if(isset($tpl['form_dbhost'])) echo $tpl['form_dbhost']; ?>"/>
+          <input name="dbhost" type="text" size="50" maxlength="255" value="<?php if(isset($tpl['form_dbhost'])) echo $tpl['form_dbhost']; ?>"/> 
+          <span class="normal">Port:</span>
+          <input name="dbport" type="text" size="6" maxlength="6" value="<?php if(isset($tpl['form_dbport'])) echo $tpl['form_dbport']; ?>"/>
         </td>
       </tr>
       <tr>

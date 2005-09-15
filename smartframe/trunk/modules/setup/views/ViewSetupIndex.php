@@ -59,6 +59,7 @@ class ViewSetupIndex extends SmartView
                 $data = array('superuser_passwd' => SmartCommonUtil::stripSlashes($_REQUEST['syspassword']),
                               'dbtablesprefix'   => SmartCommonUtil::stripSlashes($_REQUEST['dbtablesprefix']),
                               'dbhost'           => SmartCommonUtil::stripSlashes($_REQUEST['dbhost']),
+                              'dbport'           => SmartCommonUtil::stripSlashes($_REQUEST['dbport']),
                               'dbuser'           => SmartCommonUtil::stripSlashes($_REQUEST['dbuser']),
                               'dbpasswd'         => SmartCommonUtil::stripSlashes($_REQUEST['dbpasswd']),
                               'dbname'           => SmartCommonUtil::stripSlashes($_REQUEST['dbname']),
@@ -130,6 +131,14 @@ class ViewSetupIndex extends SmartView
         if(isset($_REQUEST['dbhost']))
         {
           $this->tplVar['form_dbhost'] = SmartCommonUtil::stripSlashes($_REQUEST['dbhost']);   
+        }
+        if(isset($_REQUEST['dbport']))
+        {
+          $this->tplVar['form_dbport'] = SmartCommonUtil::stripSlashes($_REQUEST['dbport']);   
+        }    
+        elseif(!isset($this->tplVar['form_dbhostport']))
+        {
+          $this->tplVar['form_dbport'] = '3306';           
         }
         if(isset($_REQUEST['dbuser']))
         {
@@ -208,6 +217,7 @@ class ViewSetupIndex extends SmartView
         $data = array('superuser_passwd' => SmartCommonUtil::stripSlashes($_REQUEST['syspassword']),
                       'dbtablesprefix'   => SmartCommonUtil::stripSlashes($_REQUEST['dbtablesprefix']),
                       'dbhost'           => SmartCommonUtil::stripSlashes($_REQUEST['dbhost']),
+                      'dbhostport'       => SmartCommonUtil::stripSlashes($_REQUEST['dbhostport']),
                       'dbuser'           => SmartCommonUtil::stripSlashes($_REQUEST['dbuser']),
                       'dbpasswd'         => SmartCommonUtil::stripSlashes($_REQUEST['dbpasswd']),
                       'dbname'           => SmartCommonUtil::stripSlashes($_REQUEST['dbname']),
