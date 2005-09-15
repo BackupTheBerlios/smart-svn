@@ -98,7 +98,11 @@ class ActionNavigationAddNode extends ActionNavigation
         {
             $this->setIdSector();
         }
-       
+        
+        // update node index
+        $this->model->action('navigation','createIndex',
+                              array('id_node' => (int)$new_id_node) );
+
         return $new_id_node;
     } 
     

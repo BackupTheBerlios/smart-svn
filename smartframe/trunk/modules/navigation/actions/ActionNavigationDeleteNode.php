@@ -73,6 +73,12 @@ class ActionNavigationDeleteNode extends SmartAction
 
         $this->model->dba->query($sql);
 
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}navigation_index
+                  WHERE
+                   `id_node`={$id_node}";
+
+        $this->model->dba->query($sql);
+
         $sql = "SELECT `media_folder` FROM {$this->config['dbTablePrefix']}navigation_node
                   WHERE
                    `id_node`={$id_node}";

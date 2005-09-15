@@ -61,7 +61,7 @@ class ActionNavigationCreateIndex extends SmartAction
      */    
     public function validate( $data = FALSE )
     { 
-        if(!issset($data['id_node']))
+        if(!isset($data['id_node']))
         {
             throw new SmartModelException('"id_node" isnt defined');        
         }
