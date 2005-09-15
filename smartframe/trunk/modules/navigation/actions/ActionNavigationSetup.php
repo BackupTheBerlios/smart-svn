@@ -35,6 +35,7 @@ class ActionNavigationSetup extends SmartAction
                    `id_view`       int(11) unsigned NOT NULL default 0,
                    `status`        tinyint(1) NOT NULL default 0,
                    `rank`          smallint(4) unsigned NOT NULL default 0,
+                   `modifydate`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                    `lang`          char(2) NOT NULL default 'en',
                    `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `short_text`    text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
@@ -42,10 +43,11 @@ class ActionNavigationSetup extends SmartAction
                    `format`        tinyint(1) NOT NULL default 0,
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,
-                   PRIMARY KEY     (`id_node`),
-                   KEY             (`id_parent`,`rank`,`status`),
-                   KEY `id_sector` (`id_sector`),
-                   KEY `view`      (`id_view`))";
+                   PRIMARY KEY      (`id_node`),
+                   KEY              (`id_parent`,`rank`,`status`),
+                   KEY `id_sector`  (`id_sector`),
+                   KEY `modifydate` (`modifydate`), 
+                   KEY `view`       (`id_view`))";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_index (
