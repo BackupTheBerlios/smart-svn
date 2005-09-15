@@ -40,7 +40,8 @@ class ActionLinkSetup extends SmartAction
                    KEY `id_node` (`id_node`),
                    KEY `status`  (`status`),
                    KEY `hits`    (`hits`),
-                   FULLTEXT      (`title`,`description`))";
+                   FULLTEXT      (`title`,`description`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}link_lock (
@@ -49,7 +50,8 @@ class ActionLinkSetup extends SmartAction
                    `by_id_user`   int(11) unsigned NOT NULL default 0,
                    UNIQUE KEY `id_link`    (`id_link`),
                    KEY `lock_time`  (`lock_time`),
-                   KEY `by_id_user` (`by_id_user`))";
+                   KEY `by_id_user` (`by_id_user`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
        
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
