@@ -43,11 +43,12 @@ class ActionNavigationSetup extends SmartAction
                    `format`        tinyint(1) NOT NULL default 0,
                    `logo`          varchar(255) NOT NULL default '',
                    `media_folder`  char(32) NOT NULL,
-                   PRIMARY KEY      (`id_node`),
-                   KEY              (`id_parent`,`rank`,`status`),
-                   KEY `id_sector`  (`id_sector`),
-                   KEY `modifydate` (`modifydate`), 
-                   KEY `view`       (`id_view`)) 
+                   PRIMARY KEY       (`id_node`),
+                   KEY               (`id_parent`,`rank`,`status`),
+                   KEY `node_status` (`status`),
+                   KEY `id_sector`   (`id_sector`),
+                   KEY `modifydate`  (`modifydate`), 
+                   KEY `view`        (`id_view`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
