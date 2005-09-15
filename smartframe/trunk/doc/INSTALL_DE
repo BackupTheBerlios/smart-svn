@@ -8,6 +8,7 @@ MySql 4.1 Datenbank. Überprüfen sie ob folgende Ordner von php beschreibar sind:
     * /cache
     * /config
     * /data
+    * /data/article
     * /data/common
     * /data/common/captcha
     * /data/misc
@@ -18,7 +19,9 @@ MySql 4.1 Datenbank. Überprüfen sie ob folgende Ordner von php beschreibar sind:
 Rufen sie in iherem Internet Browser die Datei admin.php auf die sich
 im Wurzelordner befindet. Sie sollten jetzt eine Seite sehen mit
 der die Installation des Systems gemacht werden kann. Folgen sie
-den Anweisungen.
+den Anweisungen. Zum testen sollten sie beim Setup unter
+"Insert Sample Content" die checkbox "yes" aktivieren. Damit
+wird die Datenbank mit Beispielinhalt gefüllt.
 
 Nachdem sie das Installationsformular abgeschickt haben werden sie
 zum Administrationslogin weitergeleitet. Hier können sie sich
