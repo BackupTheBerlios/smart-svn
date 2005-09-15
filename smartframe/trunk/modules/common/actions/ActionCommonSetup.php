@@ -175,7 +175,8 @@ class ActionCommonSetup extends SmartAction
         {
             $sql = "DROP TABLE IF EXISTS 
                         {$data['dbtablesprefix']}common_module,
-                        {$data['dbtablesprefix']}common_config";
+                        {$data['dbtablesprefix']}common_config,
+                        {$data['dbtablesprefix']}common_session";
             $this->model->dba->query($sql); 
         }
         
