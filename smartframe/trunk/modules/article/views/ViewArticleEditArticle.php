@@ -215,7 +215,7 @@ class ViewArticleEditArticle extends SmartView
         if(isset($_REQUEST['id_article']))
         {
             if(!isset($_REQUEST['id_article']) || 
-               preg_match("/[^0-9]+/",$_GET['id_article']) )
+               preg_match("/[^0-9]+/",$_REQUEST['id_article']) )
             {
                 return FALSE;
             } 
