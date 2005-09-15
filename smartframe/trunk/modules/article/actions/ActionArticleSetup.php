@@ -36,7 +36,7 @@ class ActionArticleSetup extends SmartAction
                    `lang`          char(2) NOT NULL default 'en', 
                    `pubdate`       datetime NOT NULL default '0000-00-00 00:00:00',
                    `articledate`   datetime NOT NULL default '0000-00-00 00:00:00',
-                   `modifydate`    datetime NOT NULL default '0000-00-00 00:00:00',
+                   `modifydate`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                    `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `overtitle`     text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `subtitle`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
@@ -52,7 +52,8 @@ class ActionArticleSetup extends SmartAction
                    KEY `articledate`  (`articledate`),
                    KEY `lang`         (`lang`),
                    KEY `rank`         (`rank`),
-                   KEY `id_node`      (`id_node`))";
+                   KEY `id_node`      (`id_node`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_changedate (
@@ -60,7 +61,8 @@ class ActionArticleSetup extends SmartAction
                    `changedate`     datetime NOT NULL default '0000-00-00 00:00:00',
                    `status`         tinyint(1) NOT NULL default 0,
                    KEY `changedate` (`changedate`),
-                   UNIQUE KEY `id_article` (`id_article`))";
+                   UNIQUE KEY `id_article` (`id_article`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_index (
@@ -70,7 +72,8 @@ class ActionArticleSetup extends SmartAction
                    `text3`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `text4`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',                   
                    UNIQUE KEY `id_article` (`id_article`),
-                   FULLTEXT   (`text1`,`text2`,`text3`,`text4`))";
+                   FULLTEXT   (`text1`,`text2`,`text3`,`text4`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_lock (
@@ -79,7 +82,8 @@ class ActionArticleSetup extends SmartAction
                    `by_id_user`      int(11) unsigned NOT NULL default 0,
                    UNIQUE KEY `id_article` (`id_article`),
                    KEY `lock_time`  (`lock_time`),
-                   KEY `by_id_user` (`by_id_user`))";
+                   KEY `by_id_user` (`by_id_user`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
   
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_media_pic (
@@ -95,7 +99,8 @@ class ActionArticleSetup extends SmartAction
                    `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY    (`id_pic`),
-                   KEY            (`id_article`,`rank`))";
+                   KEY            (`id_article`,`rank`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_media_file (
@@ -108,7 +113,8 @@ class ActionArticleSetup extends SmartAction
                    `title`        text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `description`  text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    PRIMARY KEY    (`id_file`),
-                   KEY            (`id_article`,`rank`))";
+                   KEY            (`id_article`,`rank`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);        
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_config (
@@ -131,7 +137,8 @@ class ActionArticleSetup extends SmartAction
                  `use_ps`            tinyint(1) NOT NULL default 0,
                  `use_logo`          tinyint(1) NOT NULL default 0,
                  `use_images`        tinyint(1) NOT NULL default 1,
-                 `use_files`         tinyint(1) NOT NULL default 1)";
+                 `use_files`         tinyint(1) NOT NULL default 1) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);  
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}article_config

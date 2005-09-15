@@ -132,8 +132,6 @@ class ActionArticleSelect extends SmartAction
             $sql_limit = "";
         }   
 
-        $search_string = $this->model->dba->escape( $data['search'] );
-        
         $sql = "
             SELECT
                 {$_fields}
