@@ -58,8 +58,11 @@ class ViewArticleOptions extends SmartView
     {   
         if(isset($this->dontPerform))
         {
-            rteturn;
+            return;
         }
+        
+        $this->tplVar['error'] = array();
+        $this->fields  = array();
         
         if(isset($_POST['updateOptions']))
         {
@@ -83,9 +86,6 @@ class ViewArticleOptions extends SmartView
     */    
     private function validatePostData()
     {
-        $this->tplVar['error'] = array();
-        $this->fields  = array();
-        
         if(isset($_POST['thumb_width']) && !empty($_POST['thumb_width']))
         {
             if(($_POST['thumb_width'] > 10) && ($_POST['thumb_width'] <= 250))
