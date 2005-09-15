@@ -58,7 +58,8 @@ class ActionCommonSetup extends SmartAction
                  `session_id`   varchar(32) NOT NULL default '', 
                  `modtime`      int(11) NOT NULL default '0',
                  `session_data` text NOT NULL default '',
-                 PRIMARY KEY   (`session_id`))";
+                 PRIMARY KEY   (`session_id`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
             
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_config (
@@ -66,7 +67,8 @@ class ActionCommonSetup extends SmartAction
                  `templates_folder` varchar(255) NOT NULL default '',
                  `views_folder`     varchar(255) NOT NULL default '',
                  `disable_cache`    tinyint(1) NOT NULL default 1,
-                 `rejected_files`   text NOT NULL default '')";
+                 `rejected_files`   text NOT NULL default '') 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
@@ -83,7 +85,8 @@ class ActionCommonSetup extends SmartAction
                  `version`     varchar(255) NOT NULL default '',
                  `visibility`  tinyint(1) NOT NULL default 0,
                  `release`     text NOT NULL default '',
-                 PRIMARY KEY   (`id_module`))";
+                 PRIMARY KEY   (`id_module`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
