@@ -303,7 +303,7 @@ class ViewArticleModArticle extends SmartView
                                        'error'      => & $this->tplVar['error'],
                                        'fields'     => $articleFields));                          
 
-            if($_POST['finishupdate']=='Submit')
+            if(isset($_POST['finishupdate']) && ($_POST['finishupdate']=='Submit'))
             {
                 $this->redirect(); 
             }
