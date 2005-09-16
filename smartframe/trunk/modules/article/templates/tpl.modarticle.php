@@ -1,6 +1,6 @@
 <?php if($tpl['format']==2): ?>
 <!-- tinyMCE -->
-<script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
@@ -13,13 +13,13 @@
     theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;",
     elements : "body",
     theme : "advanced",
+	theme_advanced_resizing : true,
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",   
-    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect",   
-    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,save",  
-    theme_advanced_buttons3 : "", 
-    plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace"
-    
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect,charmap,preview,fullscreen",   
+    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,anchor,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,separator,pastetext,pasteword,selectall",  
+    theme_advanced_buttons3 : "", 	
+    plugins : "fullscreen,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace,paste" 
   });
  function insertFile(folder,title,file,id_file)
 {

@@ -95,7 +95,7 @@ class ViewArticleModArticle extends SmartView
         }
 
         // change nothing and switch back
-        if(isset($_POST['back']) && ($_POST['back'] == 'back'))
+        if(isset($_POST['back']) && ($_POST['back'] == 'Back'))
         {
             $this->redirect();        
         }
@@ -161,6 +161,8 @@ class ViewArticleModArticle extends SmartView
 
     private function updateArticleData()
     {
+        $noRedirect = FALSE;
+        
         if(empty($_POST['title']))
         {
             $this->tplVar['error'][] = 'Article title is empty!';
@@ -300,8 +302,8 @@ class ViewArticleModArticle extends SmartView
                                  array('id_article' => (int)$this->current_id_article,
                                        'error'      => & $this->tplVar['error'],
                                        'fields'     => $articleFields));                          
-    
-            if(!isset($noRedirect) && !isset($_POST['refresh']))
+
+            if($_POST['finishupdate']=='Submit')
             {
                 $this->redirect(); 
             }
