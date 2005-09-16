@@ -48,14 +48,14 @@ function subok(s){
         <tr>
           <td width="31%" align="left" valign="top"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="139" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" width="129" height="50"> Ver.: 0.2.0.4a</td>
+              <td width="139" align="left" valign="top" class="style6"><img src="./modules/common/media/smart_logo.gif" width="129" height="50"> Ver.: 0.2.0.5a</td>
               </tr>
           </table></td>
           <td width="25%" align="right" valign="top" class="font10"> <br />
-		  <?php if($tpl['disableMainMenu']!=TRUE): ?>
-		      <a href="<?php echo $tpl['publicWebController']; ?>">Switch to the  public page</a>
-		  <?php endif; ?>
-		  </td>
+      <?php if($tpl['disableMainMenu']!=TRUE): ?>
+          <a href="<?php echo $tpl['publicWebController']; ?>">Switch to the  public page</a>
+      <?php endif; ?>
+      </td>
           <td width="33%" align="right" valign="top" class="font10">
        <br />
             <?php if(!isset($tpl['notLogged'])): ?> 
