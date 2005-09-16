@@ -1,6 +1,14 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.0.5a
+--------
+- fixed image bug in article,navigation and misc module
+- added admin view folder select in configuration array. 
+  It's now possible to develop more than one admin view
+  and its templates. Means switching between multiple
+  admin layouts.
+
 0.2.0.4a
 --------
 - enhanced the article module
