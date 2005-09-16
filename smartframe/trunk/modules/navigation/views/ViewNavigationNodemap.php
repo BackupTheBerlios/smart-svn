@@ -59,6 +59,7 @@ class ViewNavigationNodemap extends SmartView
         }
         else
         {
+            $this->tplVar['url_pager_var'] = '';
             $this->tplVar['mod'] = 'navigation';
         }
         
