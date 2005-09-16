@@ -64,11 +64,11 @@ class SmartFileViewCache extends SmartCache
     {
         if($this->config['cache_time_type'] == 'filemtime')
         {
-            return $this->_filemtime( $expire, & $viewId );
+            return $this->_filemtime( $expire, $viewId );
         }
         elseif($this->config['cache_time_type'] == 'filestime')
         {
-            return $this->_filestime( $expire, & $viewId );
+            return $this->_filestime( $expire, $viewId );
         }
     }
 
