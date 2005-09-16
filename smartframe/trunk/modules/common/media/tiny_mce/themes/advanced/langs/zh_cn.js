@@ -1,63 +1,65 @@
 // Simplified Chinese lang variables contributed by cube316 (cube316@gmail.com)
-//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµÄÖĞÎÄÖ§³Ö
+//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµ&Auml;&Ouml;ĞÎ&Auml;&Ouml;§³&Ouml;
 
-tinyMCELang['lang_theme_style_select'] = '¸ñÊ½';
-tinyMCELang['lang_theme_code_desc'] = '±à¼­HTMLÔ´´úÂë';
-tinyMCELang['lang_theme_code_title'] = 'HTMLÔ´´úÂë±à¼­Æ÷';
-tinyMCELang['lang_theme_code_wordwrap'] = '×Ô¶¯»»ĞĞ';
-tinyMCELang['lang_theme_sub_desc'] = 'ÏÂ±ê';
-tinyMCELang['lang_theme_sup_desc'] = 'ÉÏ±ê';
-tinyMCELang['lang_theme_hr_desc'] = '²åÈëË®Æ½Ïß';
-tinyMCELang['lang_theme_removeformat_desc'] = 'ÒÆ³ı¸ñÊ½';
-tinyMCELang['lang_theme_custom1_desc'] = 'ÕâÀïÌîĞ´ÓÃ»§×Ô¶¨ÒåµÄÃèÊö';
-tinyMCELang['lang_insert_image_border'] = '±ß¿ò';
-tinyMCELang['lang_insert_image_dimensions'] = 'Î¬Êı';
-tinyMCELang['lang_insert_image_vspace'] = 'Ë®Æ½¼ä¾à';
-tinyMCELang['lang_insert_image_hspace'] = '´¹Ö±¼ä¾à';
-tinyMCELang['lang_insert_image_align'] = '¶ÔÆë·½Ê½';
-tinyMCELang['lang_insert_image_align_default'] = 'Ä¬ÈÏ';
-tinyMCELang['lang_insert_image_align_baseline'] = '»ùÏß';
-tinyMCELang['lang_insert_image_align_top'] = '¶¥¶Ë';
-tinyMCELang['lang_insert_image_align_middle'] = '¾ÓÖĞ¶ÔÆë';
-tinyMCELang['lang_insert_image_align_bottom'] = 'µ×²¿';
-tinyMCELang['lang_insert_image_align_texttop'] = 'ÎÄ×ÖÉÏ·½';
-tinyMCELang['lang_insert_image_align_absmiddle'] = '¾ø¶Ô¾ÓÖĞ';
-tinyMCELang['lang_insert_image_align_absbottom'] = '¾ø¶Ôµ×²¿';
-tinyMCELang['lang_insert_image_align_left'] = '×ó¶ÔÆë';
-tinyMCELang['lang_insert_image_align_right'] = 'ÓÒ¶ÔÆë';
-tinyMCELang['lang_theme_font_size'] = '-- Font size --';
-tinyMCELang['lang_theme_fontdefault'] = '-- Font family --';
-tinyMCELang['lang_theme_block'] = '-- Format --';
-tinyMCELang['lang_theme_paragraph'] = '¶ÎÂä';
-tinyMCELang['lang_theme_div'] = '²ã';
-tinyMCELang['lang_theme_address'] = 'µØÖ·';
-tinyMCELang['lang_theme_pre'] = 'Ô¤¸ñÊ½»¯µÄ';
-tinyMCELang['lang_theme_h1'] = '±êÌâ 1';
-tinyMCELang['lang_theme_h2'] = '±êÌâ 2';
-tinyMCELang['lang_theme_h3'] = '±êÌâ 3';
-tinyMCELang['lang_theme_h4'] = '±êÌâ 4';
-tinyMCELang['lang_theme_h5'] = '±êÌâ 5';
-tinyMCELang['lang_theme_h6'] = '±êÌâ 6';
-tinyMCELang['lang_theme_colorpicker_title'] = 'Ñ¡ÔñÑÕÉ«';
-tinyMCELang['lang_theme_colorpicker_apply'] = 'Ó¦ÓÃ';
-tinyMCELang['lang_theme_forecolor_desc'] = 'Ñ¡ÔñÎÄ×ÖÑÕÉ«';
-tinyMCELang['lang_theme_backcolor_desc'] = 'Ñ¡Ôñ±³¾°ÑÕÉ«';
-tinyMCELang['lang_theme_charmap_title'] = 'Ñ¡ÔñÌØÊâ·ûºÅ';
-tinyMCELang['lang_theme_charmap_desc'] = '²åÈëÌØÊâ·ûºÅ';
-tinyMCELang['lang_theme_visualaid_desc'] = '¿ª¹Ø²»¿É¼ûÔªËØ';
-tinyMCELang['lang_insert_anchor_title'] = '²åÈë/±à¼­ Ãªµã';
-tinyMCELang['lang_insert_anchor_name'] = 'ÃªµãÃû³Æ';
-tinyMCELang['lang_theme_anchor_desc'] = '²åÈë/±à¼­ Ãªµã';
-tinyMCELang['lang_theme_insert_link_titlefield'] = '±êÌâ';
-tinyMCELang['lang_theme_clipboard_msg'] = '¼ôÇĞ/¸´ÖÆ/Õ³Ìù¹¦ÄÜÔÚMozillaºÍFirefoxÉÏÉĞ²»¿ÉÓÃ¡£\nÄãÏëÁË½â¹ØÓÚÕâ¸öÎÊÌâµÄ¸ü¶àĞÅÏ¢Âğ£¿';
-tinyMCELang['lang_theme_path'] = 'Â·¾¶';
-tinyMCELang['lang_cut_desc'] = '¼ôÇĞ';
-tinyMCELang['lang_copy_desc'] = '¸´ÖÆ';
-tinyMCELang['lang_paste_desc'] = 'Õ³Ìù';
-tinyMCELang['lang_link_list'] = 'Á´½ÓÁĞ±í';
-tinyMCELang['lang_image_list'] = 'Í¼ÏñÁĞ±í';
-tinyMCELang['lang_browse'] = 'ä¯ÀÀ';
-tinyMCELang['lang_image_props_desc'] = 'Í¼ÏñÊôĞÔ';
-tinyMCELang['lang_newdocument_desc'] = 'ĞÂ½¨ÎÄµµ';
-tinyMCELang['lang_class'] = 'Àà';
-tinyMCELang['lang_newdocument'] = 'Are you sure you want clear all contents?';
+tinyMCE.addToLang('',{
+theme_style_select : '¸ñÊ½',
+theme_code_desc : '±à¼­HTMLÔ´´úÂë',
+theme_code_title : 'HTMLÔ´´úÂë±à¼­Æ÷',
+theme_code_wordwrap : '×Ô¶¯»»ĞĞ',
+theme_sub_desc : 'ÏÂ±ê',
+theme_sup_desc : 'ÉÏ±ê',
+theme_hr_desc : '²&aring;ÈëË®Æ½Ïß',
+theme_removeformat_desc : 'ÒÆ³ı¸ñÊ½',
+theme_custom1_desc : 'ÕâÀïÌîĞ´ÓÃ»§×Ô¶¨Ò&aring;µ&Auml;ÃèÊ&ouml;',
+insert_image_border : '±ß¿ò',
+insert_image_dimensions : 'Î¬Êı',
+insert_image_vspace : 'Ë®Æ½¼&auml;¾à',
+insert_image_hspace : '´¹&Ouml;±¼&auml;¾à',
+insert_image_align : '¶ÔÆë·½Ê½',
+insert_image_align_default : '&Auml;¬ÈÏ',
+insert_image_align_baseline : '»ùÏß',
+insert_image_align_top : '¶¥¶Ë',
+insert_image_align_middle : '¾Ó&Ouml;Ğ¶ÔÆë',
+insert_image_align_bottom : 'µ×²¿',
+insert_image_align_texttop : 'Î&Auml;×&Ouml;ÉÏ·½',
+insert_image_align_absmiddle : '¾ø¶Ô¾Ó&Ouml;Ğ',
+insert_image_align_absbottom : '¾ø¶Ôµ×²¿',
+insert_image_align_left : '×ó¶ÔÆë',
+insert_image_align_right : 'ÓÒ¶ÔÆë',
+theme_font_size : '-- Font size --',
+theme_fontdefault : '-- Font family --',
+theme_block : '-- Format --',
+theme_paragraph : '¶ÎÂ&auml;',
+theme_div : '²ã',
+theme_address : 'µØ&Ouml;·',
+theme_pre : 'Ô¤¸ñÊ½»¯µ&Auml;',
+theme_h1 : '±êÌâ 1',
+theme_h2 : '±êÌâ 2',
+theme_h3 : '±êÌâ 3',
+theme_h4 : '±êÌâ 4',
+theme_h5 : '±êÌâ 5',
+theme_h6 : '±êÌâ 6',
+theme_colorpicker_title : 'Ñ¡ÔñÑÕÉ«',
+theme_colorpicker_apply : 'Ó¦ÓÃ',
+theme_forecolor_desc : 'Ñ¡ÔñÎ&Auml;×&Ouml;ÑÕÉ«',
+theme_backcolor_desc : 'Ñ¡Ôñ±³¾°ÑÕÉ«',
+theme_charmap_title : 'Ñ¡ÔñÌØÊâ·ûº&Aring;',
+theme_charmap_desc : '²&aring;ÈëÌØÊâ·ûº&Aring;',
+theme_visualaid_desc : '¿ª¹Ø²»¿É¼ûÔªËØ',
+insert_anchor_title : '²&aring;Èë/±à¼­ Ãªµã',
+insert_anchor_name : 'ÃªµãÃû³Æ',
+theme_anchor_desc : '²&aring;Èë/±à¼­ Ãªµã',
+theme_insert_link_titlefield : '±êÌâ',
+theme_clipboard_msg : '¼ôÇĞ/¸´&Ouml;Æ/Õ³Ìù¹¦&Auml;ÜÔÚMozillaºÍFirefoxÉÏÉĞ²»¿ÉÓÃ¡£\n&Auml;ãÏëÁË½â¹ØÓÚÕâ¸&ouml;ÎÊÌâµ&Auml;¸ü¶àĞ&Aring;Ï¢Âğ£¿',
+theme_path : 'Â·¾¶',
+cut_desc : '¼ôÇĞ',
+copy_desc : '¸´&Ouml;Æ',
+paste_desc : 'Õ³Ìù',
+link_list : 'Á´½ÓÁĞ±í',
+image_list : 'Í¼ÏñÁĞ±í',
+browse : '&auml;¯ÀÀ',
+image_props_desc : 'Í¼ÏñÊôĞÔ',
+newdocument_desc : 'ĞÂ½¨Î&Auml;µµ',
+class_name : 'Àà',
+newdocument : 'Are you sure you want clear all contents?'
+});

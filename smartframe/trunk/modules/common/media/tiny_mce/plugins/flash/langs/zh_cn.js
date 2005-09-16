@@ -1,8 +1,10 @@
 // Simplified Chinese lang variables contributed by cube316 (cube316@gmail.com)
-//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµÄÖĞÎÄÖ§³Ö
+//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµ&Auml;&Ouml;ĞÎ&Auml;&Ouml;§³&Ouml;
 
-tinyMCELang['lang_insert_flash']      = '²åÈë/±à¼­ FlashµçÓ°';
-tinyMCELang['lang_insert_flash_file'] = 'FlashÎÄ¼ş(.swf)';
-tinyMCELang['lang_insert_flash_size'] = '³ß´ç';
-tinyMCELang['lang_insert_flash_list'] = 'FlashÎÄ¼şÁĞ±í';
-tinyMCELang['lang_flash_props'] = 'FlashÊôĞÔ';
+tinyMCE.addToLang('',{
+insert_flash : '²&aring;Èë/±à¼­ FlashµçÓ°',
+insert_flash_file : 'FlashÎ&Auml;¼ş(.swf)',
+insert_flash_size : '³ß´ç',
+insert_flash_list : 'FlashÎ&Auml;¼şÁĞ±í',
+flash_props : 'FlashÊôĞÔ'
+});

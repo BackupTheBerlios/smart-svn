@@ -1,42 +1,44 @@
 // Simplified Chinese lang variables contributed by cube316 (cube316@gmail.com)
-//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµÄÖĞÎÄÖ§³Ö
+//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµ&Auml;&Ouml;ĞÎ&Auml;&Ouml;§³&Ouml;
 
-tinyMCELang['lang_table_desc'] = '²åÈëĞÂ±í¸ñ';
-tinyMCELang['lang_table_insert_row_before_desc'] = 'ÔÚÇ°Ãæ²åÈëĞĞ';
-tinyMCELang['lang_table_insert_row_after_desc'] = 'ÔÚºóÃæ²åÈëĞĞ';
-tinyMCELang['lang_table_delete_row_desc'] = 'É¾³ıĞĞ';
-tinyMCELang['lang_table_insert_col_before_desc'] = 'ÔÚÇ°Ãæ²åÈëÁĞ';
-tinyMCELang['lang_table_insert_col_after_desc'] = 'ÔÚºóÃæ²åÈëÁĞ';
-tinyMCELang['lang_table_delete_col_desc'] = 'É¾³ıÁĞ';
-tinyMCELang['lang_insert_table_title'] = '²åÈë/ĞŞ¸Ä ±í¸ñ';
-tinyMCELang['lang_insert_table_width'] = '¿í¶È';
-tinyMCELang['lang_insert_table_height'] = '¸ß¶È';
-tinyMCELang['lang_insert_table_cols'] = 'ÁĞÊı';
-tinyMCELang['lang_insert_table_rows'] = 'ĞĞÊı';
-tinyMCELang['lang_insert_table_cellspacing'] = '¼ä¾à';
-tinyMCELang['lang_insert_table_cellpadding'] = 'Ìî³ä';
-tinyMCELang['lang_insert_table_border'] = '±ß¿ò';
-tinyMCELang['lang_insert_table_align'] = '¶ÔÆë·½Ê½';
-tinyMCELang['lang_insert_table_align_default'] = 'Ä¬ÈÏ';
-tinyMCELang['lang_insert_table_align_left'] = '×ó¶ÔÆë';
-tinyMCELang['lang_insert_table_align_right'] = 'ÓÒ¶ÔÆë';
-tinyMCELang['lang_insert_table_align_middle'] = '¾ÓÖĞ¶ÔÆë';
-tinyMCELang['lang_insert_table_class'] = 'Àà';
-tinyMCELang['lang_table_row_title'] = '±í¸ñĞĞÊôĞÔ';
-tinyMCELang['lang_table_cell_title'] = 'µ¥Ôª¸ñÊôĞÔ';
-tinyMCELang['lang_table_row_desc'] = '±í¸ñĞĞÊôĞÔ';
-tinyMCELang['lang_table_cell_desc'] = 'µ¥Ôª¸ñÊôĞÔ';
-tinyMCELang['lang_insert_table_valign'] = '´¹Ö±¶ÔÆë';
-tinyMCELang['lang_insert_table_align_top'] = '¶¥¶Ë';
-tinyMCELang['lang_insert_table_align_bottom'] = 'µ×²¿';
-tinyMCELang['lang_table_props_desc'] = '±í¸ñÊôĞÔ';
-tinyMCELang['lang_table_bordercolor'] = '±ß¿òÑÕÉ«';
-tinyMCELang['lang_table_bgcolor'] = '±³¾°ÑÕÉ«';
-tinyMCELang['lang_table_merge_cells_title'] = 'ºÏ²¢µ¥Ôª¸ñ';
-tinyMCELang['lang_table_split_cells_desc'] = '²ğ·Öµ¥Ôª¸ñ';
-tinyMCELang['lang_table_merge_cells_desc'] = 'ºÏ²¢µ¥Ôª¸ñ';
-tinyMCELang['lang_table_cut_row_desc'] = '¼ôÇĞĞĞ';
-tinyMCELang['lang_table_copy_row_desc'] = '¸´ÖÆĞĞ';
-tinyMCELang['lang_table_paste_row_before_desc'] = 'ÔÚÇ°Ãæ²åÈëĞĞ';
-tinyMCELang['lang_table_paste_row_after_desc'] = 'ÔÚºóÃæ²åÈëĞĞ';
-tinyMCELang['lang_table_insert_desc'] = 'Insert a new table';
+tinyMCE.addToLang('',{
+table_desc : '²&aring;ÈëĞÂ±í¸ñ',
+table_insert_row_before_desc : 'ÔÚÇ°Ãæ²&aring;ÈëĞĞ',
+table_insert_row_after_desc : 'ÔÚºóÃæ²&aring;ÈëĞĞ',
+table_delete_row_desc : 'É¾³ıĞĞ',
+table_insert_col_before_desc : 'ÔÚÇ°Ãæ²&aring;ÈëÁĞ',
+table_insert_col_after_desc : 'ÔÚºóÃæ²&aring;ÈëÁĞ',
+table_delete_col_desc : 'É¾³ıÁĞ',
+insert_table_title : '²&aring;Èë/ĞŞ¸&Auml; ±í¸ñ',
+insert_table_width : '¿í¶È',
+insert_table_height : '¸ß¶È',
+insert_table_cols : 'ÁĞÊı',
+insert_table_rows : 'ĞĞÊı',
+insert_table_cellspacing : '¼&auml;¾à',
+insert_table_cellpadding : 'Ìî³&auml;',
+insert_table_border : '±ß¿ò',
+insert_table_align : '¶ÔÆë·½Ê½',
+insert_table_align_default : '&Auml;¬ÈÏ',
+insert_table_align_left : '×ó¶ÔÆë',
+insert_table_align_right : 'ÓÒ¶ÔÆë',
+insert_table_align_middle : '¾Ó&Ouml;Ğ¶ÔÆë',
+insert_table_class_name : 'Àà',
+table_row_title : '±í¸ñĞĞÊôĞÔ',
+table_cell_title : 'µ¥Ôª¸ñÊôĞÔ',
+table_row_desc : '±í¸ñĞĞÊôĞÔ',
+table_cell_desc : 'µ¥Ôª¸ñÊôĞÔ',
+insert_table_valign : '´¹&Ouml;±¶ÔÆë',
+insert_table_align_top : '¶¥¶Ë',
+insert_table_align_bottom : 'µ×²¿',
+table_props_desc : '±í¸ñÊôĞÔ',
+table_bordercolor : '±ß¿òÑÕÉ«',
+table_bgcolor : '±³¾°ÑÕÉ«',
+table_merge_cells_title : 'ºÏ²¢µ¥Ôª¸ñ',
+table_split_cells_desc : '²ğ·&Ouml;µ¥Ôª¸ñ',
+table_merge_cells_desc : 'ºÏ²¢µ¥Ôª¸ñ',
+table_cut_row_desc : '¼ôÇĞĞĞ',
+table_copy_row_desc : '¸´&Ouml;ÆĞĞ',
+table_paste_row_before_desc : 'ÔÚÇ°Ãæ²&aring;ÈëĞĞ',
+table_paste_row_after_desc : 'ÔÚºóÃæ²&aring;ÈëĞĞ',
+table_insert_desc : 'Insert a new table'
+});

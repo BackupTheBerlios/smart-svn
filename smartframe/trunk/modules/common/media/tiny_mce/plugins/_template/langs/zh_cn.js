@@ -1,7 +1,9 @@
 // Simplified Chinese lang variables contributed by cube316 (cube316@gmail.com)
-//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµÄÖĞÎÄÖ§³Ö
+//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµ&Auml;&Ouml;ĞÎ&Auml;&Ouml;§³&Ouml;
 
-/* Remember to namespace the language parameters lang_<your plugin>_<some name> */
+/* Remember to namespace the language parameters <your plugin>_<some name> */
 
-tinyMCELang['lang_template_title'] = 'Õâ½öÊÇÄ£°åµÄµ¯³ö´°¿Ú';
-tinyMCELang['lang_template_desc'] = 'Õâ½öÊÇÄ£°åµÄ°´Å¥';
+tinyMCE.addToLang('',{
+template_title : 'Õâ½&ouml;ÊÇ&Auml;£°&aring;µ&Auml;µ¯³&ouml;´°¿Ú',
+template_desc : 'Õâ½&ouml;ÊÇ&Auml;£°&aring;µ&Auml;°´&Aring;¥'
+});

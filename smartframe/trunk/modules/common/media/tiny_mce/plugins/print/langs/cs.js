@@ -1,3 +1,11 @@
-// CS lang variables 
+/**
+ * Czech lang variables 
+ * encoding: utf-8
+ *  
+ * $Id$ 
+ */  
 
-tinyMCELang['lang_print_desc'] = 'Tisk';
+tinyMCE.addToLang('',{
+print_desc : 'Tisk'
+});
+

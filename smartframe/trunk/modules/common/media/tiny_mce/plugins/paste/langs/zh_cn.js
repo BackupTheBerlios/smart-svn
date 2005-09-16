@@ -1,9 +1,11 @@
 // Simplified Chinese lang variables contributed by cube316 (cube316@gmail.com)
-//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµÄÖĞÎÄÖ§³Ö
+//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµ&Auml;&Ouml;ĞÎ&Auml;&Ouml;§³&Ouml;
 
-tinyMCELang['lang_paste_text_desc'] = '×÷Îª´¿ÎÄ±¾Õ³Ìù';
-tinyMCELang['lang_paste_text_title'] = 'Ê¹ÓÃ¿ì½İ¼ü CTRL+V ½«ÎÄ±¾Õ³Ìùµ½ÒÔÏÂ´°¿ÚÖĞ.';
-tinyMCELang['lang_paste_text_linebreaks'] = '±£Áô»»ĞĞ·û';
-tinyMCELang['lang_paste_word_desc'] = '´ÓWordÕ³Ìù';
-tinyMCELang['lang_paste_word_title'] = 'Ê¹ÓÃ¿ì½İ¼ü CTRL+V ½«ÎÄ±¾Õ³Ìùµ½ÒÔÏÂ´°¿ÚÖĞ.';
-tinyMCELang['lang_selectall_desc'] = 'È«Ñ¡';
+tinyMCE.addToLang('',{
+paste_text_desc : '×÷Îª´¿Î&Auml;±¾Õ³Ìù',
+paste_text_title : 'Ê¹ÓÃ¿ì½İ¼ü CTRL+V ½«Î&Auml;±¾Õ³Ìùµ½ÒÔÏÂ´°¿Ú&Ouml;Ğ.',
+paste_text_linebreaks : '±£Áô»»ĞĞ·û',
+paste_word_desc : '´ÓWordÕ³Ìù',
+paste_word_title : 'Ê¹ÓÃ¿ì½İ¼ü CTRL+V ½«Î&Auml;±¾Õ³Ìùµ½ÒÔÏÂ´°¿Ú&Ouml;Ğ.',
+selectall_desc : 'È«Ñ¡'
+});

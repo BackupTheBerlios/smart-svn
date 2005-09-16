@@ -1,20 +1,22 @@
 // Simplified Chinese lang variables contributed by cube316 (cube316@gmail.com)
-//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµÄÖĞÎÄÖ§³Ö
+//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµ&Auml;&Ouml;ĞÎ&Auml;&Ouml;§³&Ouml;
 
-tinyMCELang['lang_searchreplace_search_desc'] = '²éÕÒ';
-tinyMCELang['lang_searchreplace_searchnext_desc'] = 'ÔÙ´Î²éÕÒ';
-tinyMCELang['lang_searchreplace_replace_desc'] = '²éÕÒ/Ìæ»»';
-tinyMCELang['lang_searchreplace_notfound'] = 'ËÑË÷Íê±Ï£¬Ã»ÓĞÕÒµ½Òª²éÕÒµÄ×Ö·û´®¡£';
-tinyMCELang['lang_searchreplace_search_title'] = '²éÕÒ';
-tinyMCELang['lang_searchreplace_replace_title'] = '²éÕÒ/Ìæ»»';
-tinyMCELang['lang_searchreplace_allreplaced'] = 'ËùÓĞ³öÏÖµÄ×Ö·û´®ÒÑÌæ»»Íê±Ï¡£';
-tinyMCELang['lang_searchreplace_findwhat'] = '²éÕÒ';
-tinyMCELang['lang_searchreplace_replacewith'] = 'Ìæ»»Îª';
-tinyMCELang['lang_searchreplace_direction'] = '·½Ïò';
-tinyMCELang['lang_searchreplace_up'] = 'ÏòÉÏ';
-tinyMCELang['lang_searchreplace_down'] = 'ÏòÏÂ';
-tinyMCELang['lang_searchreplace_case'] = 'Æ¥Åä´óĞ¡Ğ´';
-tinyMCELang['lang_searchreplace_findnext'] = '²éÕÒÏÂÒ»¸ö';
-tinyMCELang['lang_searchreplace_replace'] = 'Ìæ»»';
-tinyMCELang['lang_searchreplace_replaceall'] = 'È«²¿Ìæ»»';
-tinyMCELang['lang_searchreplace_cancel'] = 'È¡Ïû';
+tinyMCE.addToLang('',{
+searchreplace_search_desc : '²éÕÒ',
+searchreplace_searchnext_desc : 'ÔÙ´Î²éÕÒ',
+searchreplace_replace_desc : '²éÕÒ/Ìæ»»',
+searchreplace_notfound : 'ËÑË÷Íê±Ï£¬Ã»ÓĞÕÒµ½Òª²éÕÒµ&Auml;×&Ouml;·û´®¡£',
+searchreplace_search_title : '²éÕÒ',
+searchreplace_replace_title : '²éÕÒ/Ìæ»»',
+searchreplace_allreplaced : 'ËùÓĞ³&ouml;Ï&Ouml;µ&Auml;×&Ouml;·û´®ÒÑÌæ»»Íê±Ï¡£',
+searchreplace_findwhat : '²éÕÒ',
+searchreplace_replacewith : 'Ìæ»»Îª',
+searchreplace_direction : '·½Ïò',
+searchreplace_up : 'ÏòÉÏ',
+searchreplace_down : 'ÏòÏÂ',
+searchreplace_case : 'Æ¥&Aring;&auml;´óĞ¡Ğ´',
+searchreplace_findnext : '²éÕÒÏÂÒ»¸&ouml;',
+searchreplace_replace : 'Ìæ»»',
+searchreplace_replaceall : 'È«²¿Ìæ»»',
+searchreplace_cancel : 'È¡Ïû'
+});

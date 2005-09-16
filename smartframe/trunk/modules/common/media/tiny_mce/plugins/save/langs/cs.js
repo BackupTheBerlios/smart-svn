@@ -1,3 +1,11 @@
-// UK lang variables
+/**
+ * Czech lang variables 
+ * encoding: utf-8
+ *  
+ * $Id$ 
+ */  
 
-tinyMCELang['lang_save_desc'] = 'Uloûit'; 
+tinyMCE.addToLang('',{
+save_desc : 'Ulo≈æit'
+});
+

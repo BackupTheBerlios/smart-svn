@@ -1,6 +1,7 @@
 // Simplified Chinese lang variables contributed by cube316 (cube316@gmail.com)
-//«Î∑√Œ  http://www.cube316.net/ “‘ªÒ»°TinyMCEµƒ÷–Œƒ÷ß≥÷
+//«Î∑√Œ  http://www.cube316.net/ “‘ªÒ»°TinyMCEµ&Auml;&Ouml;–Œ&Auml;&Ouml;ß≥&Ouml;
 
-tinyMCELang['lang_insert_emotions_title'] = '≤Â»Î±Ì«È';
-tinyMCELang['lang_emotions_desc'] = '±Ì«È';
-
+tinyMCE.addToLang('',{
+insert_emotions_title : '≤&aring;»Î±Ì«È',
+emotions_desc : '±Ì«È'
+});

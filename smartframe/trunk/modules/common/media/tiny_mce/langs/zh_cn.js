@@ -1,40 +1,42 @@
 // Simplified Chinese lang variables contributed by cube316 (cube316@gmail.com)
-//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµÄÖĞÎÄÖ§³Ö
+//Çë·ÃÎÊ http://www.cube316.net/ ÒÔ»ñÈ¡TinyMCEµ&Auml;&Ouml;ĞÎ&Auml;&Ouml;§³&Ouml;
 
-tinyMCELang['lang_bold_desc'] = '´ÖÌå';
-tinyMCELang['lang_italic_desc'] = 'Ğ±Ìå';
-tinyMCELang['lang_underline_desc'] = 'ÏÂ»®Ïß';
-tinyMCELang['lang_striketrough_desc'] = 'É¾³ıÏß';
-tinyMCELang['lang_justifyleft_desc'] = '×ó¶ÔÆë';
-tinyMCELang['lang_justifycenter_desc'] = '¾ÓÖĞ¶ÔÆë';
-tinyMCELang['lang_justifyright_desc'] = 'ÓÒ¶ÔÆë';
-tinyMCELang['lang_justifyfull_desc'] = 'Á½¶Ë¶ÔÆë';
-tinyMCELang['lang_bullist_desc'] = 'ÎŞĞòÁĞ±í';
-tinyMCELang['lang_numlist_desc'] = 'ÓĞĞòÁĞ±í';
-tinyMCELang['lang_outdent_desc'] = '¼õÉÙËõ½ø';
-tinyMCELang['lang_indent_desc'] = 'Ôö¼ÓËõ½ø';
-tinyMCELang['lang_undo_desc'] = '³·Ïû';
-tinyMCELang['lang_redo_desc'] = 'ÖØ×ö';
-tinyMCELang['lang_link_desc'] = '²åÈë/±à¼­ Á´½Ó';
-tinyMCELang['lang_unlink_desc'] = 'É¾³ıÁ´½Ó';
-tinyMCELang['lang_image_desc'] = '²åÈë/±à¼­ Í¼Ïñ';
-tinyMCELang['lang_cleanup_desc'] = 'Çå³ıÈßÓà´úÂë';
-tinyMCELang['lang_focus_alert'] = 'ÔÚÊ¹ÓÃ´ËÃüÁîÇ°Ä³¸ö±à¼­Æ÷±ØĞëÏÈ»ñµÃ½¹µã£¡';
-tinyMCELang['lang_edit_confirm'] = 'ÄãÏëÔÚ´ËTextAreaÉÏÊ¹ÓÃËù¼û¼´ËùµÃ±à¼­Æ÷Ã´£¿';
-tinyMCELang['lang_insert_link_title'] = '²åÈë/±à¼­ Á´½Ó';
-tinyMCELang['lang_insert'] = '²åÈë';
-tinyMCELang['lang_update'] = '¸üĞÂ';
-tinyMCELang['lang_cancel'] = 'È¡Ïû';
-tinyMCELang['lang_insert_link_url'] = 'Á´½ÓµØÖ·';
-tinyMCELang['lang_insert_link_target'] = 'Ä¿±ê';
-tinyMCELang['lang_insert_link_target_same'] = 'ÔÚÍ¬Ò»´°¿ÚÖĞ´ò¿ªÁ´½Ó';
-tinyMCELang['lang_insert_link_target_blank'] = 'ÔÚĞÂ´°¿ÚÖĞ´ò¿ªÁ´½Ó';
-tinyMCELang['lang_insert_image_title'] = '²åÈë/±à¼­ Í¼Ïñ';
-tinyMCELang['lang_insert_image_src'] = 'Í¼ÏñµØÖ·';
-tinyMCELang['lang_insert_image_alt'] = 'Í¼ÏñÃèÊö';
-tinyMCELang['lang_help_desc'] = '°ïÖú';
-tinyMCELang['lang_bold_img'] = "bold.gif";
-tinyMCELang['lang_italic_img'] = "italic.gif";
-tinyMCELang['lang_underline_img'] = "underline.gif";
-tinyMCELang['lang_clipboard_msg'] = '¼ôÇĞ/¸´ÖÆ/Õ³Ìù¹¦ÄÜÔÚMozillaºÍFirefoxÉÏÉĞ²»¿ÉÓÃ¡£\nÄãÏëÁË½â¹ØÓÚÕâ¸öÎÊÌâµÄ¸ü¶àĞÅÏ¢Âğ£¿';
-tinyMCELang['lang_popup_blocked'] = 'Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.';
+tinyMCE.addToLang('',{
+bold_desc : '´&Ouml;Ì&aring;',
+italic_desc : 'Ğ±Ì&aring;',
+underline_desc : 'ÏÂ»®Ïß',
+striketrough_desc : 'É¾³ıÏß',
+justifyleft_desc : '×ó¶ÔÆë',
+justifycenter_desc : '¾Ó&Ouml;Ğ¶ÔÆë',
+justifyright_desc : 'ÓÒ¶ÔÆë',
+justifyfull_desc : 'Á½¶Ë¶ÔÆë',
+bullist_desc : 'ÎŞĞòÁĞ±í',
+numlist_desc : 'ÓĞĞòÁĞ±í',
+outdent_desc : '¼õÉÙËõ½ø',
+indent_desc : 'Ô&ouml;¼ÓËõ½ø',
+undo_desc : '³·Ïû',
+redo_desc : '&Ouml;Ø×&ouml;',
+link_desc : '²&aring;Èë/±à¼­ Á´½Ó',
+unlink_desc : 'É¾³ıÁ´½Ó',
+image_desc : '²&aring;Èë/±à¼­ Í¼Ïñ',
+cleanup_desc : 'Ç&aring;³ıÈßÓà´úÂë',
+focus_alert : 'ÔÚÊ¹ÓÃ´ËÃüÁîÇ°&Auml;³¸&ouml;±à¼­Æ÷±ØĞëÏÈ»ñµÃ½¹µã£¡',
+edit_confirm : '&Auml;ãÏëÔÚ´ËTextAreaÉÏÊ¹ÓÃËù¼û¼´ËùµÃ±à¼­Æ÷Ã´£¿',
+insert_link_title : '²&aring;Èë/±à¼­ Á´½Ó',
+insert : '²&aring;Èë',
+update : '¸üĞÂ',
+cancel : 'È¡Ïû',
+insert_link_url : 'Á´½ÓµØ&Ouml;·',
+insert_link_target : '&Auml;¿±ê',
+insert_link_target_same : 'ÔÚÍ¬Ò»´°¿Ú&Ouml;Ğ´ò¿ªÁ´½Ó',
+insert_link_target_blank : 'ÔÚĞÂ´°¿Ú&Ouml;Ğ´ò¿ªÁ´½Ó',
+insert_image_title : '²&aring;Èë/±à¼­ Í¼Ïñ',
+insert_image_src : 'Í¼ÏñµØ&Ouml;·',
+insert_image_alt : 'Í¼ÏñÃèÊ&ouml;',
+help_desc : '°ï&Ouml;ú',
+bold_img : "bold.gif",
+italic_img : "italic.gif",
+underline_img : "underline.gif",
+clipboard_msg : '¼ôÇĞ/¸´&Ouml;Æ/Õ³Ìù¹¦&Auml;ÜÔÚMozillaºÍFirefoxÉÏÉĞ²»¿ÉÓÃ¡£\n&Auml;ãÏëÁË½â¹ØÓÚÕâ¸&ouml;ÎÊÌâµ&Auml;¸ü¶àĞ&Aring;Ï¢Âğ£¿',
+popup_blocked : 'Sorry, but we have noticed that your popup-blocker has disabled a window that provides application functionality. You will need to disable popup blocking on this site in order to fully utilize this tool.'
+});

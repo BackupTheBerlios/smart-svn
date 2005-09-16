@@ -1,3 +1,11 @@
-// UK lang variables
+/**
+ * Czech lang variables 
+ * encoding: utf-8
+ *  
+ * $Id$ 
+ */  
 
-tinyMCELang['lang_preview_desc'] = 'Náhled';
+tinyMCE.addToLang('',{
+preview_desc : 'NÃ¡hled'
+});
+
