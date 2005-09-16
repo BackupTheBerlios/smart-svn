@@ -1,0 +1,30 @@
+Smart3 Framework Change.log
+---------------------------
+
+0.2.0.4a
+--------
+- enhanced the article module
+- added pager classes
+- minor changes
+- fixed a few bugs
+
+0.2.0.3a
+--------
+- added article module
+- added article search public view.
+- fixed a few bugs
+
+0.2.0.2a
+--------
+- added simple link module
+- added sending system messages by email. see: my_config_dist.php.
+- added disallowed upload files in options
+- fixed modules data dir handling
+
+0.2.0.1a
+--------
+- it is possible to insert sample content on the setup page.
+
+0.2a
+----
+Initial release
