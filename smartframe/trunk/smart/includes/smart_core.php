@@ -101,7 +101,12 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
                                           'isset','empty','count');
 
 /**
- * Default templates and views folder
+ * admin view folder
+ */
+$SmartConfig['admin_view_folder'] = 'views/';                                          
+                                          
+/**
+ * Default template and view folders
  */
 $SmartConfig['default_template_folder'] = 'templates_smart/';
 $SmartConfig['default_view_folder']     = 'views_smart/';

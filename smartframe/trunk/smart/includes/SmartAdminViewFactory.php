@@ -57,7 +57,7 @@ class SmartAdminViewFactory extends SmartViewFactory
         if( !isset($this->$requestedView) || ($args[3] == TRUE) )
         {
             // path to the modules view class
-            $class_file = SMART_BASE_DIR . 'modules/'. strtolower($view_match[1]) . '/views/View' . $view_name . '.php';
+            $class_file = SMART_BASE_DIR . 'modules/'. strtolower($view_match[1]) . '/'.$this->model->config['admin_view_folder'].'View' . $view_name . '.php';
 
             if(@file_exists($class_file))
             {
