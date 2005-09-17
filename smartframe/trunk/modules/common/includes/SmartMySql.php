@@ -35,40 +35,41 @@ class DbMysql
         $this->dbport   = $dbport;
         $this->dbsocket = $dbsocket;
         $this->dbflags  = $dbflags;
-        
-        $this->dbh = mysqli_init();
     }
   
     public function connect( $options = FALSE ) 
-    {
-        if(($options != FALSE) && is_array($options))
-        {
-            foreach($options as $key => $val)
-            {
-                if(FALSE == $this->dbh->options($key, $val))
-                {
-                    throw new SmartDbException($this->dbh->error);
-                }
-            }
-        }
-        
-        $connect = $this->dbh->real_connect($this->dbhost, $this->user, $this->pass, $this->dbname, $this->dbport, $this->dbsocket, $this->dbflags);
+    {        
+        $this->dbh = mysql_connect($this->dbhost, $this->user, $this->pass, false, $this->dbflags);
     
-        if(FALSE == $connect) 
+        if(FALSE == $this->dbh) 
         {
-            throw new SmartDbException($this->dbh->error);
+            throw new SmartDbException( $this->error() );
+        }
+        $this->selectDatabase( $this->dbname );
+    }
+
+    /**
+     * Select a database
+     *
+     * @param string $db_name Name of a database to select
+     */
+    public function selectDatabase( $db_name )
+    {       
+        if( !mysql_select_db( $db_name, $this->dbh ) )
+        {
+            throw new SmartDbException( $this->error() );
         }
     }
 
     public function query( $query, $mode = MYSQLI_STORE_RESULT ) 
     {
-        $result = $this->dbh->query($query, $mode); 
+        $result = mysql_query($query, $this->dbh); 
 
         if(FALSE === $result) 
         {
-            throw new SmartDbException($this->dbh->error);
+            throw new SmartDbException($this->error( 'QUERY: ' . $query ));
         }
-        elseif(TRUE !== $result) 
+        else 
         {
             $stmt = new DbMysqlStatement;
             $stmt->result = $result;
@@ -78,85 +79,97 @@ class DbMysql
     
     public function affectedRows() 
     {
-        return $this->dbh->affected_rows;
+        return mysql_affected_rows( $this->dbh );
     }        
     
     public function prepare($query) 
     {
-        $result = $this->dbh->prepare( $query ); 
-
-        if(!$result) 
-        {
-            throw new SmartDbException($this->dbh->error);
-        }
-        
-        $stmt = new DbMysqlBindStatement;  
-        $stmt->result = & $result;
-        return $stmt;
+         throw new SmartDbException('Prepare statement not yet supported');
     }   
     
     public function escape( $str )
     {
-        return $this->dbh->real_escape_string( $str );
+        return mysql_real_escape_string( $str, $this->dbh );
     }
     
     public function close()
     {
-        return $this->dbh->close();
+        return mysql_close( $this->dbh );
     }   
 
     public function serverVersion()
     {
-        return $this->dbh->server_info;
+        return mysql_get_server_info( $this->dbh );
     }   
     
     public function queryInfo()
     {
-        return $this->dbh->info;
+        return FALSE;
     }  
     
     public function setCharset( $charset )
     {
-        return $this->dbh->set_charset($charset);
+        throw new SmartDbException('setCharset() not supported');
     }  
     
     public function lastInsertID()
     {
-        return $this->dbh->insert_id;
-    }     
+        return mysql_insert_id( $this->dbh );
+    } 
+    
+    /**
+     * Get the MySql error message text
+     *
+     * @return string MySql error message text else false.
+     */
+    private function error( $message = '' )
+    {
+        if(mysql_errno() > 0)
+        {
+            return 'SQL-ERROR: '.chr(10).mysql_error().chr(10).'SQL_ERROR_NO: '.chr(10).mysql_errno().chr(10).chr(10).$message;
+        }
+        else
+        {
+            return FALSE;
+        }
+    }    
 }
 
 class DbMysqlStatement
 {
-    public $result;
+    public  $result;
 
-    private $fetchResultType = array('ASSOC' => MYSQLI_ASSOC,
-                                    'NUM'   => MYSQLI_NUM,
-                                    'BOTH'  => MYSQLI_BOTH);
+    private $fetchResultType = array('ASSOC' => MYSQL_ASSOC,
+                                    'NUM'   => MYSQL_NUM,
+                                    'BOTH'  => MYSQL_BOTH);
         
     public function fetchRow() 
     {
-        return $this->result->fetch_row( $this->result );
+        if(!$result = mysql_fetch_row( $this->result ))
+        {
+            throw new SmartDbException( $this->error() );
+        }
+        return $result;
     }
     
     public function fetchAssoc() 
     {
-        return $this->result->fetch_assoc();
+        return mysql_fetch_assoc( $this->result );
     }
 
     public function fetchObject() 
     {
-        return $this->result->fetch_object( $this->result );
+        return mysql_fetch_object( $this->result );
     }
 
     public function fetchArray( $type = 'ASSOC' ) 
     {
-        return $this->result->fetch_array( $this->result, $this->fetchResultType[$type] );
+        return mysql_fetch_array( $this->result, $this->fetchResultType[$type] );
     }
 
     public function numRows() 
     {
-        return $this->result->num_rows;
+        return mysql_num_rows( $this->result );
     }    
    
     public function fetchAll( $type = 'fetchAssoc' ) 
@@ -168,15 +181,10 @@ class DbMysqlStatement
         }
         return $retval;
     }
-    
-    public function close()
-    {
-        return $this->result->close();
-    }    
-    
+      
     public function free()
     {
-        return $this->result->free();
+        return mysql_free_result( $this->result );
     }       
 }
 

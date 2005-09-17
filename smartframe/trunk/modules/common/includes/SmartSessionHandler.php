@@ -55,13 +55,13 @@ final class SmartSessionHandler
   
     public function write($id, $sess_data) 
     {
-        $stmt = $this->db->prepare("REPLACE INTO {$this->dbTablePrefix}common_session
+        $id        = $this->db->escape($id);
+        $sess_data = $this->db->escape( $sess_data );
+        $modtime   = time();
+    
+        $this->db->query("REPLACE INTO {$this->dbTablePrefix}common_session
                                        (session_id, session_data, modtime) 
-                                    VALUES(?,?,?)");
-        $stmt->setString($id);
-        $stmt->setString($sess_data);
-        $stmt->setInt(time());
-        $stmt->execute();
+                                  VALUES('{$id}','{$sess_data}',{$modtime})");
     }
   
     public function destroy($id) 
