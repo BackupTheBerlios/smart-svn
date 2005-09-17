@@ -180,7 +180,8 @@ class ActionCommonInit extends SmartAction
      *
      */    
     private function getMySqlExtensionType()
-    {return 'MySql';
+    {
+        //return 'MySql';
         if( function_exists('mysqli_init') )
         {
             return 'MySqli';
