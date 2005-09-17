@@ -114,13 +114,13 @@ class ActionUserUpdatePicture extends SmartAction
     
     private function update(&$data)
     {
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['user'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "UPDATE {$this->config['dbTablePrefix']}user_user
@@ -129,15 +129,7 @@ class ActionUserUpdatePicture extends SmartAction
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['user'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_user[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();  
+        $this->model->dba->query($sql);  
     }    
 }
 

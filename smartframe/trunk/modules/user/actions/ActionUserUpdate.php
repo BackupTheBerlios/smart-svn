@@ -32,13 +32,13 @@ class ActionUserUpdate extends ActionUser
                 $data['user']['passwd'] = md5($data['user']['passwd']);
         }  
         
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['user'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "UPDATE {$this->config['dbTablePrefix']}user_user
@@ -47,16 +47,8 @@ class ActionUserUpdate extends ActionUser
                   WHERE
                    `id_user`={$data['id_user']}";
 
-        $stmt = $this->model->dba->prepare($sql);                    
+        $this->model->dba->query($sql);     
         
-        foreach($data['user'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_user[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();
-       
         return TRUE;
     }
     

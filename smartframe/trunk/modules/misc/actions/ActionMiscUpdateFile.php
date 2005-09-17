@@ -119,13 +119,13 @@ class ActionMiscUpdateFile extends SmartAction
     
     private function update(&$data)
     {
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "UPDATE {$this->config['dbTablePrefix']}misc_text
@@ -134,15 +134,7 @@ class ActionMiscUpdateFile extends SmartAction
                   WHERE
                    `id_text`={$data['id_text']}";
 
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_node[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();  
+        $this->model->dba->query($sql);  
     }    
 }
 

@@ -43,40 +43,27 @@ class ActionMiscUpdateItem extends SmartAction
      */
     function perform( $data = FALSE )
     { 
-
-        $comma = '';
-        $fields = '';
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
-        }
-
-        $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
-                  SET
-                   $fields
-                  WHERE
-                   `{$this->tbl_field}`=?";
-
-        $stmt = $this->model->dba->prepare($sql);       
-
         $x = 0;
         foreach($data['ids'] as $id)
         {
+            $comma  = "";
+            $fields = "";
+        
             foreach($data['fields'] as $key => $val)
             {
-                $methode = 'set'.$this->tblFields_item[$key];
-                $stmt->$methode($val[$x]);
+                $fields .= $comma."`".$key."`='".$this->model->dba->escape($val[$x])."'";
+                $comma   = ",";
             }
-        
-            // set id_xxx
-            $stmt->setInt( $id ); 
-        
-            $stmt->execute();   
+
+            $sql = "UPDATE {$this->config['dbTablePrefix']}{$this->table}
+                      SET
+                       $fields
+                      WHERE
+                       `{$this->tbl_field}`={$id}";
+
+            $this->model->dba->query($sql);    
             $x++;
         }
-        return TRUE;
     }
     
     /**

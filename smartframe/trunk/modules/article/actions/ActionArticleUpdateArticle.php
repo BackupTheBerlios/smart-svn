@@ -67,8 +67,8 @@ class ActionArticleUpdateArticle extends SmartAction
      */
     function perform( $data = FALSE )
     {
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['fields'] as $key => $val)
         {
@@ -76,31 +76,18 @@ class ActionArticleUpdateArticle extends SmartAction
             {
                 continue;
             }
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma = ",";
         }
         
         $sql = "
             UPDATE {$this->config['dbTablePrefix']}article_article
                 SET
-                   $fields,
-                   `modifydate`=NOW()
+                   $fields
                 WHERE
                 `id_article`={$data['id_article']}";
         
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            if(($key == 'id_node') || ($key == 'changedate') || ($key == 'changestatus'))
-            {
-                continue;
-            }        
-            $methode = 'set'.$this->tblFields_article[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();     
+        $stmt = $this->model->dba->query($sql);                       
         
         if(isset($data['fields']['changedate']))
         {

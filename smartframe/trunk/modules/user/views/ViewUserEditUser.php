@@ -296,7 +296,7 @@ class ViewUserEditUser extends SmartView
                                         'fields'  => array('description' => &$_POST['filedesc'],
                                                            'title'       => &$_POST['filetitle'])));
         }  
-        
+       
         // check if required fields are empty
         if (FALSE == $this->checkEmptyFields())
         {
@@ -316,8 +316,8 @@ class ViewUserEditUser extends SmartView
                                         'description' => SmartCommonUtil::stripSlashes((string)$_POST['description'])));
 
         // if a logged user modify its own account data disable status and role settings
-        if(($this->viewVar['loggedUserId'] != $_REQUEST['id_user']) && ($this->viewVar['loggedUserRole'] != 10))
-        {  
+        if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
+        {
             $_data['user']['status'] = (int)$_POST['status']; 
             $_data['user']['role']   = (int)$_POST['role'];
         }
@@ -330,7 +330,7 @@ class ViewUserEditUser extends SmartView
         // add new user data
         if(TRUE == $this->model->action( 'user','update',$_data ))
         {
-            if(!isset($dont_forward))
+            if(isset($_POST['updateuser']) && ($_POST['updateuser'] == 'Submit'))
             {
                 $this->unlockUser();
                 $this->redirect();

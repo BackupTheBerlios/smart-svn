@@ -248,7 +248,7 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top"><input name="email" type="text" id="passwd" size="30" maxlength="255" value="<?php echo $tpl['user']['email']; ?>">
 * </td>
         <td rowspan="2" align="right" valign="bottom"><input name="updatethisuser" type="hidden" value="1">
-          <input name="update" type="submit" id="update" value="Submit">
+          <input name="updateuser" type="submit" value="Submit">
           <?php if($tpl['showButton']==TRUE): ?>
                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">

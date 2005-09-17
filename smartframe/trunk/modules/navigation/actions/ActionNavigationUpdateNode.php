@@ -42,13 +42,13 @@ class ActionNavigationUpdateNode extends ActionNavigation
      */
     function perform( $data = FALSE )
     {
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "
@@ -58,15 +58,7 @@ class ActionNavigationUpdateNode extends ActionNavigation
                 WHERE
                 `id_node`={$data['id_node']}";
 
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_node[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();  
+        $this->model->dba->query($sql);                    
         
         if(isset($data['fields']['title'])       ||
            isset($data['fields']['short_text'])   ||

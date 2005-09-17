@@ -43,13 +43,13 @@ class ActionLinkUpdateLink extends SmartAction
      */
     function perform( $data = FALSE )
     {
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "
@@ -59,15 +59,7 @@ class ActionLinkUpdateLink extends SmartAction
                 WHERE
                 `id_link`={$data['id_link']}";
         
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {      
-            $methode = 'set'.$this->tblFields_link[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();             
+        $this->model->dba->query($sql);                               
     } 
     /**
      * validate data array

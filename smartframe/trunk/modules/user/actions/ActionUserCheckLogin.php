@@ -43,27 +43,18 @@ class ActionUserCheckLogin extends SmartAction
                 FROM
                     {$this->config['dbTablePrefix']}user_user
                 WHERE
-                    login=?
+                    login='{$login}'
                 AND
-                    passwd=?
+                    passwd='{$pass}'
                 AND
                     status=2";
 
-        $stmt = $this->model->dba->prepare($sql);
+        $rs = $this->model->dba->query($sql);
 
-        $stmt->setString( $data['login'] );
-        $stmt->setString( md5( $data['passwd'] ));       
-        
-        $id_user = 0;
-        $role    = 0;
-        $stmt->bindResult(array( & $id_user, & $role ));
-        
-        $stmt->execute();
-
-        if($stmt->fetch())
+        if($row = $rs->fetchAssoc())
         {
-            $this->model->session->set('loggedUserId',   $id_user);
-            $this->model->session->set('loggedUserRole', $role);
+            $this->model->session->set('loggedUserId',   $row['id_user']);
+            $this->model->session->set('loggedUserRole', $row['role']);
 
             return TRUE;
         }

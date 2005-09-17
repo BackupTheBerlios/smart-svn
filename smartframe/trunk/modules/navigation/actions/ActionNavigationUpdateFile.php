@@ -120,13 +120,13 @@ class ActionNavigationUpdateFile extends SmartAction
     
     private function update(&$data)
     {
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "UPDATE {$this->config['dbTablePrefix']}navigation_node
@@ -135,15 +135,7 @@ class ActionNavigationUpdateFile extends SmartAction
                   WHERE
                    `id_node`={$data['id_node']}";
 
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_node[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();  
+        $this->model->dba->query($sql);
     }    
 }
 

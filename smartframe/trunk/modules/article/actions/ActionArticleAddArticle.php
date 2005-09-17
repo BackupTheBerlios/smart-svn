@@ -67,49 +67,41 @@ class ActionArticleAddArticle extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $comma = '';
-        $fields = '';
-        $quest = '';
+        $comma  = "";
+        $fields = "";
+        $quest  = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`';
-            $quest  .= $comma.'?';
-            $comma   = ',';
+            $fields .= $comma."`".$key."`";
+            $quest  .= $comma."'".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }        
-        
+         
         if(!isset($data['fields']['pubdate']))
         {
-            $fields .= $comma.'`pubdate`';
-            $quest  .= $comma.'NOW()';        
+            $fields .= $comma."`pubdate`";
+            $quest  .= $comma."NOW()";        
         }
         
         if(!isset($data['fields']['articledate']))
         {
-            $fields .= $comma.'`articledate`';
-            $quest  .= $comma.'NOW()';        
+            $fields .= $comma."`articledate`";
+            $quest  .= $comma."NOW()";        
         }  
         
         if(!isset($data['fields']['rank']))
         {
-            $fields .= $comma.'`rank`';
+            $fields .= $comma."`rank`";
             $quest  .= $comma.$this->getRank( $data['id_node'] );        
         }          
- 
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_article
-                   ($fields,`id_node`,`modifydate`)
-                  VALUES
-                   ($quest,$data['id_node'],NOW())";
 
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_article[$key];
-            $stmt->$methode($val);
-        }
-        
-        $stmt->execute();
+        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_article
+                   ($fields,`id_node`)
+                  VALUES
+                   ({$quest},{$data['id_node']})";
+
+        $this->model->dba->query($sql);                    
         
         $id_article = $this->model->dba->lastInsertID();
 

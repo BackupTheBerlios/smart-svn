@@ -46,13 +46,13 @@ class ActionNavigationUpdateConfigOptions extends SmartAction
      */
     function perform( $data = FALSE )
     {
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "
@@ -60,17 +60,7 @@ class ActionNavigationUpdateConfigOptions extends SmartAction
                 SET
                    $fields";
         
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_config[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();           
-        
-        return TRUE;
+        $this->model->dba->query($sql);                    
     } 
     /**
      * validate data array

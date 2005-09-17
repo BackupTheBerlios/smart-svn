@@ -42,32 +42,24 @@ class ActionUserAdd extends ActionUser
         // encrypt password
         $data['user']['passwd'] = md5($data['user']['passwd']);
         
-        $comma = '';
-        $fields = '';
-        $quest = '';
+        $comma  = "";
+        $fields = "";
+        $quest  = "";
         
         foreach($data['user'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`';
-            $quest .= $comma.'?';
-            $comma = ',';
-        }
+            $fields .= $comma."`".$key."`";
+            $quest  .= $comma."'".$this->model->dba->escape($val)."'";
+            $comma   = ",";
+        }    
         
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}user_user
                    ($fields)
                   VALUES
                    ($quest)";
 
-        $stmt = $this->model->dba->prepare($sql);                    
+        $this->model->dba->query($sql);
         
-        foreach($data['user'] as $key => $val)
-        {
-            // set field type
-            $methode = 'set'.$this->tblFields_user[$key];
-            // add value
-            $stmt->$methode($val);
-        }
-        $stmt->execute();
         // return user id
         return $this->model->dba->lastInsertID();
     }
@@ -230,6 +222,8 @@ class ActionUserAdd extends ActionUser
      */    
     function loginExists( $login )
     {
+        $login = $this->model->dba->escape( $login );
+        
         $sql = "
             SELECT
                 id_user

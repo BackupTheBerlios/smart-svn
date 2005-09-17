@@ -33,28 +33,18 @@ class ActionUserUpdateOptions extends smartAction
     function perform( $data = FALSE )
     { 
         
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "UPDATE {$this->config['dbTablePrefix']}user_config SET $fields";
 
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();
-       
-        return TRUE;
+        $this->model->dba->query($sql);
     }
     
     /**

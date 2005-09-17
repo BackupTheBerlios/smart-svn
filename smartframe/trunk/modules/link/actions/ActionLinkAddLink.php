@@ -45,32 +45,24 @@ class ActionLinkAddLink extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-        $comma = '';
-        $fields = '';
-        $quest = '';
+        $comma  = "";
+        $fields = "";
+        $quest  = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`';
-            $quest  .= $comma.'?';
-            $comma   = ',';
-        }        
+            $fields .= $comma."`".$key."`";
+            $quest  .= $comma."'".$this->model->dba->escape($val)."'";
+            $comma   = ",";
+        }          
         
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}link_links
                    (`id_node`,$fields)
                   VALUES
                    ({$data['id_node']},$quest)";
 
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_link[$key];
-            $stmt->$methode($val);
-        }
-        
-        $stmt->execute();
-        
+        $this->model->dba->query($sql);                    
+
         // get id of the new link
         $new_id_link = $this->model->dba->lastInsertID();
        

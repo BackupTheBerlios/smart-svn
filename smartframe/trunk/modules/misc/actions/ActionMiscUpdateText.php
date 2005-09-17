@@ -47,13 +47,13 @@ class ActionMiscUpdateText extends SmartAction
      */
     function perform( $data = FALSE )
     {
-        $comma = '';
-        $fields = '';
+        $comma  = "";
+        $fields = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
-            $comma = ',';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
+            $comma   = ",";
         }
         
         $sql = "
@@ -63,17 +63,7 @@ class ActionMiscUpdateText extends SmartAction
                 WHERE
                 `id_text`={$data['id_text']}";
         
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_text[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();           
-        
-        return TRUE;
+        $this->model->dba->query($sql); 
     } 
     /**
      * validate data array

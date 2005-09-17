@@ -38,58 +38,37 @@ class ActionNavigationAddNode extends ActionNavigation
      */
     public function perform( $data = FALSE )
     {
-        
-        
-        $comma = '';
-        $fields = '';
-        $quest = '';
+        $comma  = "";
+        $fields = "";
+        $quest  = "";
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`';
-            $quest  .= $comma.'?';
-            $comma   = ',';
-        }
+            $fields .= $comma."`".$key."`";
+            $quest  .= $comma."'".$this->model->dba->escape($val)."'";
+            $comma   = ",";
+        }    
 
         // id_sector is required
-        $fields .= $comma.'`id_sector`';
-        $quest  .= $comma.'?';
+        $fields    .= $comma.'`id_sector`';
+        $id_sector  = $this->getIdSector( $data['id_parent'] );
+        $quest     .= $comma.$id_sector;
         
         // id_parent is required
         $fields .= $comma.'`id_parent`';
-        $quest  .= $comma.'?'; 
+        $quest  .= $comma.$data['id_parent']; 
         
         // id_parent is required
         $fields .= $comma.'`rank`';
-        $quest  .= $comma.'?';         
+        $quest  .= $comma.$this->getRank( $data['id_parent'] );         
         
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}navigation_node
                    ($fields)
                   VALUES
                    ($quest)";
 
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_node[$key];
-            $stmt->$methode($val);
-        }
-        
-        //  retrive the sector of the parent node
-        $id_sector = $this->getIdSector( $data['id_parent'] );
-        
-        // set id_sector
-        $stmt->setInt( $id_sector ); 
-        
-        // set id_parent
-        $stmt->setInt( $data['id_parent'] ); 
+        $this->model->dba->query($sql);                    
 
-        // set rank
-        $stmt->setInt( $this->getRank( $data['id_parent'] ) );
-        
-        $stmt->execute();
-        
         // get id of the new node
         $new_id_node = $this->model->dba->lastInsertID();
        

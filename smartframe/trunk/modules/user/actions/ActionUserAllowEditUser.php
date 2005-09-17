@@ -40,25 +40,18 @@ class ActionUserAllowEditUser extends SmartAction
                 FROM
                     {$this->config['dbTablePrefix']}user_user
                 WHERE
-                    id_user=?";
+                    id_user={$data['id_user']}";
         
-        $stmt = $this->model->dba->prepare($sql);
-        $stmt->setInt($data['id_user']);
-        
-        $role = FALSE;
-        $stmt->bindResult( array(&$role) ); 
-        
-        $stmt->execute();
-        $stmt->fetch();
-        
-        if($role == FALSE)
+        $stmt = $this->model->dba->query($sql);
+
+        if( !$row = $stmt->fetchAssoc() )
         {
             return FALSE;
         }
         
         // accord permission if the role of the user to edit
         // is greater than the role of the logged user
-        if($role > $this->model->session->get('loggedUserRole'))
+        if($row['role'] > $this->model->session->get('loggedUserRole'))
         {
             return TRUE;
         }
