@@ -8,6 +8,8 @@ Smart3 Framework Change.log
   It's now possible to develop more than one admin view
   and its templates. Means switching between multiple
   admin layouts.
+- added support of the mysql client extension. 
+  It supports now mysql and mysqli.
 
 0.2.0.4a
 --------
