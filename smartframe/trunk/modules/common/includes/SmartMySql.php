@@ -61,7 +61,7 @@ class DbMysql
         }
     }
 
-    public function query( $query, $mode = MYSQLI_STORE_RESULT ) 
+    public function query( $query, $mode = '' ) 
     {
         $result = mysql_query($query, $this->dbh); 
 
