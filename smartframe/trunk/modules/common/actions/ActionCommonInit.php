@@ -35,9 +35,6 @@ require_once(SMART_BASE_DIR . 'modules/common/includes/SmartSessionHandler.php')
 // session class
 require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonSession.php');
 
-// session class
-require_once(SMART_BASE_DIR . 'modules/common/includes/SmartMySqli.php');
-
 // get_magic_quotes_gpc
 define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
 
@@ -77,8 +74,11 @@ class ActionCommonInit extends SmartAction
 
         try
         {
-            $this->model->dba = new DbMysqli( $db['dbhost']  ,$db['dbuser'],
-                                              $db['dbpasswd'],$db['dbname'] );
+            $mysqlExtension = $this->getMySqlExtensionType();
+            // session class
+            require_once(SMART_BASE_DIR . 'modules/common/includes/Smart'.$mysqlExtension.'.php');
+            $this->model->dba = new DbMysql( $db['dbhost']  ,$db['dbuser'],
+                                             $db['dbpasswd'],$db['dbname'] );
                                               
             $dbaOptions = array(MYSQLI_OPT_CONNECT_TIMEOUT => 5);
             $this->model->dba->connect();  
@@ -173,7 +173,23 @@ class ActionCommonInit extends SmartAction
         }
         
         unset($info);
-    }    
+    } 
+    
+    /**
+     * Get mysql extension type
+     *
+     */    
+    private function getMySqlExtensionType()
+    {
+        if( function_exists('mysqli_init') )
+        {
+            return 'MySqli';
+        }
+        elseif( function_exists('mysql_connect') )
+        {
+            return 'MySql';
+        }  
+    }        
 }
 
 ?>
