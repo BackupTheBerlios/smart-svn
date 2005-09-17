@@ -37,7 +37,7 @@ class ActionCommonSetup extends SmartAction
 
         try
         {
-            $this->model->dba = new DbMysqli( $data['config']['db']['dbhost'] ,
+            $this->model->dba = new DbMysql( $data['config']['db']['dbhost'] ,
                                               $data['config']['db']['dbuser'],
                                               $data['config']['db']['dbpasswd'],
                                               $data['config']['db']['dbname'],

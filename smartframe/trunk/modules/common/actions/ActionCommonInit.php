@@ -52,7 +52,10 @@ class ActionCommonInit extends SmartAction
      */
     public function perform( $data = FALSE )
     {
-                    
+        $mysqlExtension = $this->getMySqlExtensionType();
+        // session class
+        require_once(SMART_BASE_DIR . 'modules/common/includes/Smart'.$mysqlExtension.'.php');
+             
         // Check if a setup was successfull done else launch setup > 'setup' module
         if(file_exists($this->config['config_path'] . 'dbConnect.php'))
         {
@@ -74,9 +77,6 @@ class ActionCommonInit extends SmartAction
 
         try
         {
-            $mysqlExtension = $this->getMySqlExtensionType();
-            // session class
-            require_once(SMART_BASE_DIR . 'modules/common/includes/Smart'.$mysqlExtension.'.php');
             $this->model->dba = new DbMysql( $db['dbhost']  ,$db['dbuser'],
                                              $db['dbpasswd'],$db['dbname'] );
                                               
@@ -180,7 +180,7 @@ class ActionCommonInit extends SmartAction
      *
      */    
     private function getMySqlExtensionType()
-    {
+    {return 'MySql';
         if( function_exists('mysqli_init') )
         {
             return 'MySqli';
