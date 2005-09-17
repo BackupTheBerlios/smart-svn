@@ -80,7 +80,7 @@ class ActionCommonInit extends SmartAction
             $this->model->dba = new DbMysql( $db['dbhost']  ,$db['dbuser'],
                                              $db['dbpasswd'],$db['dbname'] );
                                               
-            $dbaOptions = array(MYSQLI_OPT_CONNECT_TIMEOUT => 5);
+            //$dbaOptions = array(MYSQLI_OPT_CONNECT_TIMEOUT => 5);
             $this->model->dba->connect();  
             $this->model->dba->query("SET CHARACTER SET '{$db['dbcharset']}'");        
         }
