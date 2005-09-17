@@ -40,7 +40,7 @@ class ActionOptionsUpdateConfigOptions extends SmartAction
         
         foreach($data['fields'] as $key => $val)
         {
-            $fields .= $comma.'`'.$key.'`=?';
+            $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
             $comma = ',';
         }
         
@@ -49,15 +49,7 @@ class ActionOptionsUpdateConfigOptions extends SmartAction
                 SET
                    $fields";
         
-        $stmt = $this->model->dba->prepare($sql);                    
-        
-        foreach($data['fields'] as $key => $val)
-        {
-            $methode = 'set'.$this->tblFields_config[$key];
-            $stmt->$methode($val);
-        }
-       
-        $stmt->execute();           
+        $this->model->dba->query($sql);                             
         
         return TRUE;
     } 
