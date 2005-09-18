@@ -126,8 +126,7 @@ class SmartWebController extends SmartController
         {
             ob_end_flush();
             $buffer_level--;
-        }
-        exit;        
+        }     
     }
     /**
      * Validate view request name.
