@@ -142,7 +142,7 @@ class SmartWebController extends SmartController
 
         if(!@file_exists(SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php'))
         {
-            throw new SmartViewException('View class dosent exists: ' . SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php');
+            throw new SmartViewException('View class dosent exists: ' . SMART_BASE_DIR . $this->model->config['views_folder'] . 'View' . ucfirst($view_name) . '.php');
         }
 
         return $view_name;
