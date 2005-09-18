@@ -41,11 +41,14 @@ class ActionNavigationRelatedView extends SmartAction
                 n.`id_view`=v.`id_view`";
 
         $rs = $this->model->dba->query($sql);
-        $row = $rs->fetchAssoc();
-
-        if(isset($row['name']))
+        
+        if( $row = $rs->fetchAssoc() )
         {
-           $data['result'] = $row['name'];
+            $data['result'] = $row['name'];
+        }
+        else
+        {
+            $data['result'] = '';
         }
     } 
     /**
