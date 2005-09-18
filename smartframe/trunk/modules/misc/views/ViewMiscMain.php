@@ -64,7 +64,7 @@ class ViewMiscMain extends SmartView
             $result = $this->model->action('misc','lock',
                                      array('job'        => 'is_textlocked',
                                            'id_text'    => (int)$text['id_text'],
-                                           'by_id_user' => $this->viewVar['loggedUserId']) );
+                                           'by_id_user' => (int)$this->viewVar['loggedUserId']) );
                                            
             if(($result !== TRUE) && ($result !== FALSE))
             {
