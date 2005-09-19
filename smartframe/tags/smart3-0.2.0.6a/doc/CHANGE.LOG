@@ -1,0 +1,47 @@
+Smart3 Framework Change.log
+---------------------------
+
+0.2.0.6a
+--------
+- fixed bug in misc module (only on *nix)
+- added javacript compression for tinymce editor
+- fixed some links in the doc
+- fixed small error log bug
+
+0.2.0.5a
+--------
+- fixed image bug in article,navigation and misc module
+- added admin view folder select in configuration array. 
+  It's now possible to develop more than one admin view
+  and its templates. Means switching between multiple
+  admin layouts.
+- added support of the mysql client extension. 
+  It supports now mysql and mysqli.
+
+0.2.0.4a
+--------
+- enhanced the article module
+- added pager classes
+- minor changes
+- fixed a few bugs
+
+0.2.0.3a
+--------
+- added article module
+- added article search public view.
+- fixed a few bugs
+
+0.2.0.2a
+--------
+- added simple link module
+- added sending system messages by email. see: my_config_dist.php.
+- added disallowed upload files in options
+- fixed modules data dir handling
+
+0.2.0.1a
+--------
+- it is possible to insert sample content on the setup page.
+
+0.2a
+----
+Initial release
