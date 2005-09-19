@@ -1,6 +1,13 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.0.6a
+--------
+- fixed bug in misc module (only on *nix)
+- added javacript compression for tinymce editor
+- fixed some links in the doc
+- fixed small error log bug
+
 0.2.0.5a
 --------
 - fixed image bug in article,navigation and misc module
