@@ -1,6 +1,6 @@
 <?php if($tpl['format']==2): ?>
 <!-- tinyMCE -->
-<script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
