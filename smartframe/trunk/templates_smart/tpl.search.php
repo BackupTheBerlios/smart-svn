@@ -76,9 +76,9 @@ span.search_pager {
 				   <?php endif; ?>
 				   <!-- show search result -->
 				   <?php if(count($tpl['articles']) > 0): ?>
-                         <table width="90%"  border="0" cellpadding="0" cellspacing="0">
+                         <table width="100%"  border="0" cellpadding="0" cellspacing="0">
                            <tr>
-                             <td width="190" align="left" valign="top">
+                             <td width="100%" align="left" valign="top">
                                <ul class="subnodeul">
                                  <?php foreach($tpl['articles'] as $article): ?>
                                  <li class="subnodelist"> 
@@ -99,7 +99,7 @@ span.search_pager {
 				   <hr>
 				   <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
-                         <td width="190" align="left" valign="top">
+                         <td width="100%" align="left" valign="top">
 						    <?php echo $tpl['pager']; ?>
                          </td>
                       </tr>
