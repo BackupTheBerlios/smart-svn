@@ -91,7 +91,7 @@ function subok(s){
   <tr>
       <td align="left" valign="top" bgcolor="#EBEBEB"><table width="100%"  border="0" cellspacing="2" cellpadding="2">
           <tr>
-              <td><span class="font9 style8">&copy; 2005 Armand Turpel <a href="mailto:smart@open-publisher.net">framework@smart3.org</a>. Project site -&gt; <a href="http://www.smart3.org" target="_blank">SMART3</a>.</span></td>
+              <td><span class="font9 style8">&copy; 2005 Armand Turpel <a href="mailto:framework@smart3.org">framework@smart3.org</a>. Project site -&gt; <a href="http://www.smart3.org" target="_blank">SMART3</a>.</span></td>
           </tr>
     </table></td>
   </tr>
