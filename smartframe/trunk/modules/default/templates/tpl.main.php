@@ -5,4 +5,5 @@
   <!-- nested includes of whatWouldYouDo views from other modules if provided -->
   <?php $viewLoader->broadcast( 'whatWouldYouDo' ) ?>
   <p>&nbsp;</p>
+    <p align="right"><a href="<?php echo SMART_CONTROLLER; ?>?mod=default&view=systemInfo">Show System Info</a>&nbsp;&nbsp;&nbsp;</p>
     <p>&nbsp;</p>
