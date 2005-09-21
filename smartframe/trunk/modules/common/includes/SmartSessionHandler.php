@@ -45,7 +45,7 @@ final class SmartSessionHandler
   
     public function read($id) 
     {
-        $result = $this->db->query("SELECT SQL_NO_CACHE session_data 
+        $result = $this->db->query("SELECT SQL_CACHE session_data 
                                            FROM {$this->dbTablePrefix}common_session 
                                            WHERE session_id = '$id'");
 
