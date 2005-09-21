@@ -182,13 +182,13 @@ class ViewSetupIndex extends SmartView
         {
             $this->tplVar['error'][] = 'Database Name field is empty';
         }  
-        elseif(preg_match("/[^a-zA-Z_0-9]/",$_REQUEST['dbname']))
+        elseif(preg_match("/[^a-zA-Z_0-9-]/",$_REQUEST['dbname']))
         {
-            $this->tplVar['error'][] = 'Only a-z A-Z _ 0-9 chars for database name are accepted';
+            $this->tplVar['error'][] = 'Only a-z A-Z _ 0-9 - chars for database name are accepted';
         }    
-        if(preg_match("/[^a-zA-Z_0-9]/",$_REQUEST['dbtablesprefix']))
+        if(preg_match("/[^a-zA-Z_0-9-]/",$_REQUEST['dbtablesprefix']))
         {
-            $this->tplVar['error'][] = 'Only a-z A-Z _ 0-9 chars for database name prefix are accepted';
+            $this->tplVar['error'][] = 'Only a-z A-Z _ 0-9 - chars for database name prefix are accepted';
         }         
         
         if(empty($_REQUEST['syspassword']))
