@@ -1,6 +1,11 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.0.7a
+--------
+- fixed small setup bug
+- minor fixes
+
 0.2.0.6a
 --------
 - fixed bug in misc module (only on *nix)
