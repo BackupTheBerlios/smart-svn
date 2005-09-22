@@ -107,7 +107,7 @@
                              <td width="190" align="left" valign="top">
                                <ul class="subnodeul">
                                  <?php foreach($tpl['nodeArticles'] as $article): ?>
-                                 <li class="subnodelist"> <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $tpl['node']['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a> </li>
+                                 <li class="subnodelist"> <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a> </li>
                                  <?php endforeach; ?>
                                </ul>
                              </td>

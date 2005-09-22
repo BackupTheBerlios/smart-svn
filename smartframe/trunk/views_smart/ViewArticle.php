@@ -29,17 +29,26 @@ class ViewArticle extends SmartView
     { 
         // init variables (see private function below)
         $this->initVars();
+
+        // get article data                                                    
+        $this->model->action('article','getArticle',
+                             array('id_article' => (int)$this->current_id_article,
+                                   'result'  => & $this->tplVar['article'],
+                                   'status'  => array('=',4),
+                                   'fields'  => array('id_article','id_node','title',
+                                                      'header','overtitle',
+                                                      'subtitle','body','ps') ));  
           
         // get node title and id of the article node
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
-                                   'id_node' => (int)$this->current_id_node,
+                                   'id_node' => (int)$this->tplVar['article']['id_node'],
                                    'fields'  => array('title','id_node')));                             
  
         // get navigation node branch content of the requested article
         $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->tplVar['nodeBranch'],
-                                   'id_node' => (int)$this->current_id_node,
+                                   'id_node' => (int)$this->tplVar['article']['id_node'],
                                    'fields'  => array('title','id_node')));  
                                  
         // get article attached files
@@ -50,15 +59,6 @@ class ViewArticle extends SmartView
                                    'fields'     => array('id_file','file',
                                                          'size','mime',
                                                          'title','description')) );   
-
-        // get article data                                                    
-        $this->model->action('article','getArticle',
-                             array('id_article' => (int)$this->current_id_article,
-                                   'result'  => & $this->tplVar['article'],
-                                   'status'  => array('=',4),
-                                   'fields'  => array('id_article','title',
-                                                      'header','overtitle',
-                                                      'subtitle','body','ps') ));  
     }
 
     /**
@@ -88,13 +88,7 @@ class ViewArticle extends SmartView
     {
         // check id_node, id_article and view request var
         // 
-        if( !isset($_GET['id_node'])   || 
-            is_array($_GET['id_node']) || 
-            preg_match("/[^0-9]+/",$_GET['id_node']) ) 
-        {
-            $this->template  = 'error';   
-        }
-        elseif( !isset($_GET['id_article'])   || 
+        if( !isset($_GET['id_article'])   || 
                 is_array($_GET['id_article']) || 
                 preg_match("/[^0-9]+/",$_GET['id_article']) ) 
         {
@@ -108,8 +102,7 @@ class ViewArticle extends SmartView
         }          
         else
         {
-            $this->current_id_article = (int)$_GET['id_article']; 
-            $this->current_id_node    = (int)$_GET['id_node'];          
+            $this->current_id_article = (int)$_GET['id_article'];         
         }
         
         // filter action of the common module to prevent browser caching
