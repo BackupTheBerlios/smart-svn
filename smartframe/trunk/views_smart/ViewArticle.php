@@ -86,7 +86,7 @@ class ViewArticle extends SmartView
      */
     public function prependFilterChain()
     {
-        // check id_node, id_article and view request var
+        // check id_article and view request var
         // 
         if( !isset($_GET['id_article'])   || 
                 is_array($_GET['id_article']) || 
