@@ -99,9 +99,9 @@ class SmartPublicViewFactory extends SmartViewFactory
         
         // Aggregate the main configuration array
         $view->config = & $this->model->config;
-
-        // Aggregate view loader object
-        //$view->viewLoader = $this;
+        
+        // Set template engine
+        $this->model->config['template_engine'] = & $view->templateEngine;
 
         // include template container
         if( $view->renderTemplate == TRUE )

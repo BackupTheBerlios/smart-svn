@@ -53,6 +53,12 @@ class SmartView extends SmartObject
     public $errorView = 'error';
 
      /**
+     * Template engine
+     * @var string $templateEngine
+     */
+    public $templateEngine = 'SmartTplContainerPhp';
+
+     /**
      * Template related to this view
      * @var string $template
      */
