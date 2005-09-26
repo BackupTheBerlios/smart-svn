@@ -56,6 +56,8 @@ class ViewOptionsMain extends SmartView
             {
                 $this->model->action( 'options','updateConfigOptions',
                                       array('fields' => &$this->fields)); 
+                
+                $this->model->action( 'options','deletePublicCache'); 
             }        
         }
         elseif(isset($_POST['deletePublicCache']))
