@@ -133,11 +133,8 @@ class ViewOptionsMain extends SmartView
 
         if(isset($_POST['templates_folder']))
         {
-            if(!strstr(".",$_POST['templates_folder']) )
-            {
-                $this->fields['templates_folder'] = (string)$_POST['templates_folder'];
-                $this->config['templates_folder'] = (string)$_POST['templates_folder'];
-            }
+            $this->fields['templates_folder'] = (string)$_POST['templates_folder'];
+            $this->config['templates_folder'] = (string)$_POST['templates_folder'];
         }  
 
         if(isset($_POST['views_folder']) && !empty($_POST['views_folder']))
