@@ -82,7 +82,17 @@ class SmartErrorHandler
                               background-color: #CCCCCC;
                               padding: 5px;
                               border: thin solid #666666;">'.$message.'</pre><br />';
-        }         
+        }    
+        // email this message
+        if(strstr($this->config['message_handle'], 'MAIL') && !empty($this->config['system_email']))
+        {
+            $header  = "From: Smart3 System <{$this->config['system_email']}>\r\n";
+            $header .= "MIME-Version: 1.0\r\n";
+            $header .= "Content-Type: text/plain; charset=\"iso-8859-1\"\r\n";
+            $header .= "Content-Transfer-Encoding: 8bit";
+            
+            @mail($this->config['system_email'], "Smart3 System Message", $message, $header);
+        }           
     }
 }
 ?>
