@@ -22,11 +22,11 @@
   color: #0000CC;
 }  
 a.search_pager {
-	font-size: 14px;
+  font-size: 14px;
 }
 span.search_pager {
-	font-size: 14px;
-	font-weight: bold;
+  font-size: 14px;
+  font-weight: bold;
 }
 -->
 </style>
@@ -58,24 +58,24 @@ span.search_pager {
                     <!-- --- show search string --- -->
                     <div class="branch">Search: "<?php echo $tpl['search']; ?>"
                       <hr class="hr" />
-                    </div>  				   
-				   </td>
+                    </div>             
+           </td>
                  </tr>
                  <tr>
                    <td align="left" valign="top">
-				   <!-- show pager links to other result pages -->
-				   <?php if(!empty($tpl['pager'])): ?>
-				   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+           <!-- show pager links to other result pages -->
+           <?php if(!empty($tpl['pager'])): ?>
+           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                          <td width="190" align="left" valign="top">
-						    <?php echo $tpl['pager']; ?>
+                <?php echo $tpl['pager']; ?>
                          </td>
                       </tr>
-				   </table>
-				   <hr>
-				   <?php endif; ?>
-				   <!-- show search result -->
-				   <?php if(count($tpl['articles']) > 0): ?>
+           </table>
+           <hr>
+           <?php endif; ?>
+           <!-- show search result -->
+           <?php if(count($tpl['articles']) > 0): ?>
                          <table width="100%"  border="0" cellpadding="0" cellspacing="0">
                            <tr>
                              <td width="100%" align="left" valign="top">
@@ -86,29 +86,29 @@ span.search_pager {
                                     <?php  foreach($article['nodeBranch'] as $bnode): ?>
                                        <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
                                     <?php endforeach; ?>
-					                <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $article['node']['id_node']; ?>"><?php echo $article['node']['title']; ?></a>
-								   </div> 
-								 <div class="article"><a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $article['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a></div><br></li>
+                          <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $article['node']['id_node']; ?>"><?php echo $article['node']['title']; ?></a>
+                   </div> 
+                 <div class="article"><a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a></div><br></li>
                                  <?php endforeach; ?>
                                </ul>
                              </td>
                            </tr>
                          </table>
-				   <!-- show pager links to other result pages -->	 
-				   <?php if(!empty($tpl['pager'])): ?>
-				   <hr>
-				   <table width="100%" border="0" cellspacing="0" cellpadding="0">
+           <!-- show pager links to other result pages -->   
+           <?php if(!empty($tpl['pager'])): ?>
+           <hr>
+           <table width="100%" border="0" cellspacing="0" cellpadding="0">
                       <tr>
                          <td width="100%" align="left" valign="top">
-						    <?php echo $tpl['pager']; ?>
+                <?php echo $tpl['pager']; ?>
                          </td>
                       </tr>
-				   </table>
-				   <?php endif; ?>						 
-				   <?php else: ?>
-				   no article found
-				   <?php endif; ?>
-				   </td>
+           </table>
+           <?php endif; ?>             
+           <?php else: ?>
+           no article found
+           <?php endif; ?>
+           </td>
                  </tr>
                </table>
                </td>
