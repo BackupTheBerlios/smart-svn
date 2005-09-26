@@ -35,7 +35,7 @@
 </head>
 
 <body>
-
+ 
 <table width="760" border="0" align="center" cellpadding="0" cellspacing="0" class="maintab">
   <tr>
     <td>
@@ -50,7 +50,7 @@
         <td width="120" align="left" valign="top" bgcolor="#2096DB" class="leftcol">
             
             <!-- --- include main navigation menu links view --- -->
-            {$tpl.includeMainNavigation}  
+            {$tpl.includeMainNavigationSmarty}  
         </td>
         <td width="638" align="left" valign="top">
          <table width="638" border="0" cellspacing="4" cellpadding="2">
