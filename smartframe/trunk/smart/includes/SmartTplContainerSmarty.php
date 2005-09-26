@@ -31,9 +31,6 @@ class SmartTplContainerSmarty extends SmartTplContainer
      */
     public function renderTemplate()
     {
-        // disable E_STRICT for Smarty
-        $old_error_reporting = error_reporting($this->config['error_reporting'] & ~E_STRICT);
-        
         if(!isset($this->viewVar['smarty']))
         {
             $this->viewVar['smarty'] = new Smarty;
@@ -41,7 +38,6 @@ class SmartTplContainerSmarty extends SmartTplContainer
             $this->viewVar['smarty']->template_dir = SMART_BASE_DIR . $this->templateFolder;
             $this->viewVar['smarty']->config_dir   = SMART_BASE_DIR . 'config/';
             $this->viewVar['smarty']->php_handling = SMARTY_PHP_QUOTE;
-            $this->viewVar['smarty']->error_reporting = $this->config['error_reporting'];
         }
 
         // assign smarty template variables
@@ -75,9 +71,6 @@ class SmartTplContainerSmarty extends SmartTplContainer
         ob_start();
         include($this->viewVar['smarty']->compile_dir.$this->template.'.php');
         $this->tplBufferContent = ob_get_clean(); 
-        
-        // reset error_reporting
-        error_reporting($old_error_reporting);
     } 
 
     /**
