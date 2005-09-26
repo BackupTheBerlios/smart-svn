@@ -149,11 +149,13 @@ class ViewIndex extends SmartView
         }
         elseif($this->getBrowserLang() == 'de')
         {
+            $this->model->session->set('lang','de');
             $this->tplVar['lang'] = 'de';
             return 1;
         }
         else
         {
+            $this->model->session->set('lang','en');
             $this->tplVar['lang'] = 'en';
             return 4;
         }    

@@ -58,6 +58,7 @@ class ViewSimpleNodeSmarty extends SmartView
                              array('id_text' => 3,
                                    'result'  => & $this->tplVar['footer'],
                                    'fields'  => array('body')));  
+                                 
         return TRUE;
     }
 
@@ -123,7 +124,7 @@ class ViewSimpleNodeSmarty extends SmartView
         $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
         
         $this->tplVar['includeHeader']         = '<?php $viewLoader->header(); ?>';
-        $this->tplVar['includeMainNavigation'] = '<?php $viewLoader->mainNavigation(); ?>';
+        $this->tplVar['includeMainNavigationSmarty'] = '<?php $viewLoader->mainNavigationSmarty(); ?>';
         
         // charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];          
