@@ -92,6 +92,7 @@ INSERT INTO `smart_navigation_node` VALUES (40, 6, 2, 2, 2, 4, '2005-09-15 13:18
 INSERT INTO `smart_navigation_node` VALUES (41, 22, 1, 2, 2, 3, '2005-09-19 10:18:11', 'en', 'Links Module', '', '<p>With this simple module you can manage extern link references. You can add to each navigation node extern links. This module is an example of how to link content to a navigation node. Other modules like an article module would work the same way.<br /> </p> <p>This module provide a couple of action classes. But you need only one class to build public project:</p>  <h5>getLinks</h5>  <p><strong>Description:</strong> Fill an array with the content of links that are linked to a navigation node.<br /> </p>  <p><strong>Usage:</strong></p>  <pre>$this-&gt;model-&gt;action(''link'', ''getLinks'',<br />                         array(''id_node'' =&gt; integer,<br />                               ''result''  =&gt; &amp; array,<br />                               ''status''  =&gt; array,       // optional<br />                               ''order''   =&gt; array,       // optional<br />                               ''fields''  =&gt; array(''title'',''url'',<br />                                                  ''description'',''status'') ));</pre>', 0, '', '');
 
 
-INSERT INTO `smart_navigation_view` VALUES (1, 'simpleNode', '');
-INSERT INTO `smart_navigation_view` VALUES (2, 'node', '');
-INSERT INTO `smart_navigation_view` VALUES (4, 'sitemap', '');
+INSERT INTO `smart_navigation_view` VALUES (1, 'SimpleNode', '');
+INSERT INTO `smart_navigation_view` VALUES (2, 'Node', '');
+INSERT INTO `smart_navigation_view` VALUES (4, 'Sitemap', '');
+INSERT INTO `smart_navigation_view` VALUES (4, 'SimpleNodeSmarty', '');
