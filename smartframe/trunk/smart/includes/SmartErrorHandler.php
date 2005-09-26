@@ -24,7 +24,7 @@ class SmartErrorHandler
     */    
     function __construct( & $config )
     {
-        set_error_handler     (array( &$this, '_php_error_handler' ));
+        set_error_handler (array( &$this, '_php_error_handler' ), $this->config['error_reporting']);
         
         $this->config = & $config;
     }  

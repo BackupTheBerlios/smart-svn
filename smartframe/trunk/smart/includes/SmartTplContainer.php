@@ -30,6 +30,13 @@ class SmartTplContainer extends SmartContainer
      * @var mixed $vars
      */
     public $vars = NULL;
+
+    /**
+     * View variables
+     *
+     * @var mixed $vars
+     */
+    public $viewVar = NULL;
     
     /**
      * View loader object

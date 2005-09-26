@@ -61,7 +61,7 @@ class SmartController extends SmartObject
 
             // set error reporting
             error_reporting( $this->config['error_reporting'] );
- 
+
             // create base smart container instance
             $SmartContainer = new SmartContainer( $this->config );
 

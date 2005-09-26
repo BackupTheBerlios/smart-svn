@@ -100,6 +100,14 @@ class SmartPublicViewFactory extends SmartViewFactory
         // Aggregate the main configuration array
         $view->config = & $this->model->config;
         
+        // Aggregate view container object
+        $viewContainer = SmartContainer::newInstance('SmartViewContainer', $this->model->config);
+        // use this to pass variables inside the view(s)
+        $view->viewVar = & $viewContainer->vars;
+
+        // pass parameter data to the view
+        $view->viewData = $args[0];
+
         // Set template engine
         $this->model->config['template_engine'] = & $view->templateEngine;
 
@@ -114,18 +122,12 @@ class SmartPublicViewFactory extends SmartViewFactory
             $tplContainer->config = & $this->model->config;
             // aggregate this object
             $tplContainer->viewLoader = & $this;
+            // pass view vars to the tpl container
+            $tplContainer->viewVar = & $view->viewVar;            
             // aggregate this container variable to store template variables
             $view->tplVar = & $tplContainer->vars; 
         }
-
-        // Aggregate view container object
-        $viewContainer = SmartContainer::newInstance('SmartViewContainer', $this->model->config);
-        // use this to pass variables inside the view(s)
-        $view->viewVar = & $viewContainer->vars;
-
-        // pass parameter data to the view
-        $view->viewData = $args[0];
-            
+        
         // run authentication
         $view->auth();
             

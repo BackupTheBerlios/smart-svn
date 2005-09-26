@@ -17,21 +17,6 @@
 
 define('SMARTY_DIR', SMART_BASE_DIR . 'smart/includes/smarty/');
 include_once(SMARTY_DIR . 'Smarty.class.php');
-
-class SmartSmarty extends Smarty
-{
-    // check if the template needs to be compiled by Smarty
-    public function smartCompileTemplate( $resource_name )
-    {
-        $_smarty_compile_path = $this->_get_compile_path($resource_name);
-        
-        if( $this->_is_compiled($resource_name, $_smarty_compile_path) )
-        { 
-            return FALSE;    
-        }
-        return TRUE;  
-    }
-}
  
 class SmartTplContainerSmarty extends SmartTplContainer
 {
@@ -46,15 +31,21 @@ class SmartTplContainerSmarty extends SmartTplContainer
      */
     public function renderTemplate()
     {
-        $smarty = new SmartSmarty;
-        $smarty->compile_dir  = SMART_BASE_DIR . 'cache/smartyCompiled/';
-        $smarty->template_dir = SMART_BASE_DIR . $this->templateFolder;
-        $smarty->config_dir   = SMART_BASE_DIR . 'config/';
+        // disable E_STRICT for Smarty
+        $old_error_reporting = error_reporting($this->config['error_reporting'] & ~E_STRICT);
         
-        $smarty->php_handling = SMARTY_PHP_QUOTE;
-    
-        // get reference of the template variables
-        $smarty->assign_by_ref("tpl", $this->vars);
+        if(!isset($this->viewVar['smarty']))
+        {
+            $this->viewVar['smarty'] = new Smarty;
+            $this->viewVar['smarty']->compile_dir  = SMART_BASE_DIR . 'cache/smartyCompiled/';
+            $this->viewVar['smarty']->template_dir = SMART_BASE_DIR . $this->templateFolder;
+            $this->viewVar['smarty']->config_dir   = SMART_BASE_DIR . 'config/';
+            $this->viewVar['smarty']->php_handling = SMARTY_PHP_QUOTE;
+            $this->viewVar['smarty']->error_reporting = $this->config['error_reporting'];
+        }
+
+        // assign smarty template variables
+        $this->viewVar['smarty']->assign_by_ref("tpl", $this->vars);
 
         // get reference of the view loader methode to include
         // nested views in templates
@@ -77,17 +68,16 @@ class SmartTplContainerSmarty extends SmartTplContainer
         {
             throw new SmartTplException("Template dosent exists: ".$template);
         }
-        
-        // check if the template needs to be compiled by Smarty
-        if($smarty->smartCompileTemplate('tpl.' . $this->template . '.php'))
-        {
-            $content = $smarty->fetch( 'tpl.' . $this->template . '.php' );
-            $this->write($content, $smarty->compile_dir.$this->template.'.php');
-        }
+
+        $content = $this->viewVar['smarty']->fetch( 'tpl.' . $this->template . '.php' );
+        $this->write($content, $this->viewVar['smarty']->compile_dir.$this->template.'.php');
         
         ob_start();
-        include($smarty->compile_dir.$this->template.'.php');
-        $this->tplBufferContent = ob_get_clean();      
+        include($this->viewVar['smarty']->compile_dir.$this->template.'.php');
+        $this->tplBufferContent = ob_get_clean(); 
+        
+        // reset error_reporting
+        error_reporting($old_error_reporting);
     } 
 
     /**
