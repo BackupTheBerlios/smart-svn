@@ -122,7 +122,7 @@ class SmartPublicViewFactory extends SmartViewFactory
             // parent template container class
             include_once( SMART_BASE_DIR . 'smart/includes/SmartTplContainer.php' );
             // get template container object
-            $tplContainer = SmartContainer::newInstance( $this->model->config['template_engine'], $this->model->config );
+            $tplContainer = SmartContainer::newInstance( $this->model->config['public_template_engine'], $this->model->config );
             // aggregate the global config array
             $tplContainer->config = & $this->model->config;
             // aggregate this object
@@ -143,7 +143,10 @@ class SmartPublicViewFactory extends SmartViewFactory
         if(($view->cacheExpire != 0) && ($this->model->config['disable_cache'] == 0))
         {
             $cache = SmartCache::newInstance($this->model->config['cache_type'], $this->model->config);
-            $cacheid = $requestedView.serialize($args).serialize($_REQUEST).$_SERVER['PHP_SELF'];
+            if(($cacheid = $view->cacheId) == FALSE)
+            {
+                $cacheid = $requestedView.serialize($args).serialize($_REQUEST).$_SERVER['PHP_SELF'];
+            }
             if($cache->cacheIdExists( $view->cacheExpire, $cacheid))
             {
                 return;

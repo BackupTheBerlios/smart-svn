@@ -87,12 +87,18 @@ class SmartView extends SmartObject
      * @var int $cacheExpire 0 = cache disabled
      */
     public $cacheExpire = 0;
+    
+     /**
+     * Cache ID
+     * @var string $cacheId
+     */
+    public $cacheId = FALSE;    
 
     /**
      * constructor
      *
      */
-    function __construct()
+    public function __construct()
     {
     }
 
@@ -100,7 +106,7 @@ class SmartView extends SmartObject
      * perform
      *
      */
-    function perform()
+    public function perform()
     {
     }
 
@@ -108,7 +114,7 @@ class SmartView extends SmartObject
      * authentication
      *
      */
-    function auth()
+    public function auth()
     {
     }
 
@@ -116,7 +122,7 @@ class SmartView extends SmartObject
      * prepend filter chain
      *
      */
-    function prependFilterChain()
+    public function prependFilterChain()
     {
     }
 
@@ -124,7 +130,7 @@ class SmartView extends SmartObject
      * append filter chain
      *
      */
-    function appendFilterChain( & $tplBufferContent )
+    public function appendFilterChain( & $tplBufferContent )
     {
     }
 }
