@@ -49,6 +49,12 @@ class ActionCommonCheckFolderRights extends SmartAction
             $data['error'][] = 'Must be writeable by php scripts: '.$cache_folder;    
         }          
 
+        $smartyCompiled = $this->model->config['cache_path'] . 'smartyCompiled';
+        if(!is_writeable($smartyCompiled))
+        {
+            $data['error'][] = 'Must be writeable by php scripts: '.$smartyCompiled;    
+        }    
+
         return TRUE;
     } 
     /**
