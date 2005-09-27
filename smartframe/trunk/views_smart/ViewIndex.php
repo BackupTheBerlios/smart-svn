@@ -113,7 +113,7 @@ class ViewIndex extends SmartView
         return 'en';
     }
     /**
-     * get language related text ID - 1='en' 2='de'
+     * get language related text ID - 1='en' 2='de' 5='fr'
      *
      * @return int
      */       
@@ -127,6 +127,12 @@ class ViewIndex extends SmartView
                 $this->tplVar['lang'] = 'de';
                 return 1;
             }
+            elseif($_GET['lang'] == 'fr')
+            {
+                $this->model->session->set('lang','fr');
+                $this->tplVar['lang'] = 'fr';
+                return 5;
+            }            
             else
             {
                 $this->model->session->set('lang','en');
@@ -141,21 +147,29 @@ class ViewIndex extends SmartView
                 $this->tplVar['lang'] = 'de';
                 return 1;
             }
+            elseif($lang == 'fr')
+            {
+                $this->tplVar['lang'] = 'fr';
+                return 5;
+            }            
             else
             {
                 $this->tplVar['lang'] = 'en';
                 return 4;
             }
         }
-        elseif($this->getBrowserLang() == 'de')
+        elseif(($lang = $this->getBrowserLang()) == 'de')
         {
-            $this->model->session->set('lang','de');
             $this->tplVar['lang'] = 'de';
             return 1;
         }
+        elseif($lang == 'fr')
+        {
+            $this->tplVar['lang'] = 'fr';
+            return 5;
+        }        
         else
         {
-            $this->model->session->set('lang','en');
             $this->tplVar['lang'] = 'en';
             return 4;
         }    

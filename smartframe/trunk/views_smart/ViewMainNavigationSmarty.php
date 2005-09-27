@@ -52,28 +52,7 @@ class ViewMainNavigationSmarty extends SmartView
                                      'status'  => array('=', 2),
                                      'fields'  => array('title','id_node')));   
          $this->setLang();
-    }
-    /**
-     * get language related text ID - 1='en' 2='de'
-     *
-     * @return int
-     */       
-    private function setLang()
-    {
-        if(isset($_GET['lang']))
-        {
-            $this->tplVar['lang'] = $_GET['lang'];
-            $this->model->session->set('lang',$_GET['lang']);
-        }    
-        elseif(NULL !== ($lang = $this->model->session->get('lang')))
-        {
-            $this->tplVar['lang'] = $lang;
-        }
-        else
-        {
-            $this->tplVar['lang'] = 'en';
-        }   
-    }    
+    }  
 }
 
 ?>

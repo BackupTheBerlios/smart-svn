@@ -44,18 +44,34 @@
           <tr>
             <td align="left" valign="top">
             
-              <!-- --- Language switcher --- -->
-              <table width="97" border="0" align="right" cellpadding="2" cellspacing="2">
-              <tr>
-                <td width="89" align="left" valign="top" class="font12">
-                 <?php if($tpl['lang']=='en'): ?><a href="?lang=de">deutsche Version</a><?php else: ?><a href="?lang=en">english version</a><?php endif; ?>
-                </td>
-              </tr>
-              </table>
+              <table width="100%" border="0" cellspacing="2" cellpadding="2">
+                <tr>
+                  <td align="center" valign="middle" class="font12">
+          <?php if($tpl['lang']=='en'): ?>
+              english version
+          <?php else: ?>
+              <a href="?lang=en">english version</a>
+          <?php endif; ?>
+          </td>
+                  <td align="center" valign="middle" class="font12">
+          <?php if($tpl['lang']=='de'): ?>
+              deutsche version
+          <?php else: ?>
+              <a href="?lang=de">deutsche version</a>
+          <?php endif; ?>         
+          </td>
+                  <td align="center" valign="middle" class="font12">
+          <?php if($tpl['lang']=='fr'): ?>
+              version fran&ccedil;aise
+          <?php else: ?>
+              <a href="?lang=fr">version fran&ccedil;aise</a>
+          <?php endif; ?>         
+          </td>
+                </tr>
+              </table><hr>
               
               <!-- --- Page main text --- -->
-              <?php echo $tpl['text']['body']; ?>
-              </td>
+              <?php echo $tpl['text']['body']; ?>              </td>
           </tr>
         </table>
           </td>
