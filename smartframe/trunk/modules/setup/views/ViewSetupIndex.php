@@ -136,7 +136,7 @@ class ViewSetupIndex extends SmartView
         {
           $this->tplVar['form_dbport'] = SmartCommonUtil::stripSlashes($_REQUEST['dbport']);   
         }    
-        elseif(!isset($this->tplVar['form_dbhostport']))
+        elseif(!isset($this->tplVar['form_dbport']))
         {
           $this->tplVar['form_dbport'] = '3306';           
         }
@@ -217,7 +217,7 @@ class ViewSetupIndex extends SmartView
         $data = array('superuser_passwd' => SmartCommonUtil::stripSlashes($_REQUEST['syspassword']),
                       'dbtablesprefix'   => SmartCommonUtil::stripSlashes($_REQUEST['dbtablesprefix']),
                       'dbhost'           => SmartCommonUtil::stripSlashes($_REQUEST['dbhost']),
-                      'dbhostport'       => SmartCommonUtil::stripSlashes($_REQUEST['dbhostport']),
+                      'dbport'           => SmartCommonUtil::stripSlashes($_REQUEST['dbport']),
                       'dbuser'           => SmartCommonUtil::stripSlashes($_REQUEST['dbuser']),
                       'dbpasswd'         => SmartCommonUtil::stripSlashes($_REQUEST['dbpasswd']),
                       'dbname'           => SmartCommonUtil::stripSlashes($_REQUEST['dbname']),
