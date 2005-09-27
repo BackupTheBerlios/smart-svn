@@ -59,7 +59,7 @@ class ActionLinkSetup extends SmartAction
                   VALUES
                    ('link',
                     'Links Management',
-                    3,
+                    6,
                     '0.1',
                     1,
                     'DATE: 23.8.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
