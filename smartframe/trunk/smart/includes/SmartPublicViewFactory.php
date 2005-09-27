@@ -28,8 +28,10 @@ class SmartPublicViewFactory extends SmartViewFactory
      */
     public function __call( $viewname, $args )
     {
+        $viewname = ucfirst($viewname);
+        
         // build the whole view class name
-        $requestedView = 'View'.ucfirst($viewname);
+        $requestedView = 'View'.$viewname;
 
         // avoid E_NOTICE message if $args elements are not defined
         if( !isset( $args[0] ) ) 
@@ -109,7 +111,10 @@ class SmartPublicViewFactory extends SmartViewFactory
         $view->viewData = $args[0];
 
         // Set template engine
-        $this->model->config['template_engine'] = & $view->templateEngine;
+        if($view->templateEngine != FALSE)
+        {
+            $this->model->config['public_template_engine'] = & $view->templateEngine;
+        }
 
         // include template container
         if( $view->renderTemplate == TRUE )

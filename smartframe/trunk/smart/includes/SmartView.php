@@ -56,7 +56,7 @@ class SmartView extends SmartObject
      * Template engine
      * @var string $templateEngine
      */
-    public $templateEngine = 'SmartTplContainerPhp';
+    public $templateEngine = FALSE;
 
      /**
      * Template related to this view
