@@ -98,15 +98,15 @@
            <!-- --- show the whole navigation node tree (sitemap) --- -->
            <div class="sitemap">
            <?php foreach($tpl['tree'] as $node):  ?>
-		     <table width="100%" border="0" cellspacing="0" cellpadding="0">
+         <table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                <td width="1%" align="left" valign="top"><?php echo str_repeat('&nbsp;&nbsp;',$node['level'] * 2); ?></td>
                <td width="99%" align="left" valign="top" class="nodelevel<?php echo $node['level']; ?>">
-                 -<a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a>			   
-			     <?php foreach($node['article'] as $article): ?>
-			       <div class="articlelevel">* <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $node['id_node']; ?>&id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a></div>
-			     <?php endforeach; ?>
-			   </td>
+                 -<a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a>        
+           <?php foreach($node['article'] as $article): ?>
+             <div class="articlelevel">* <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a></div>
+           <?php endforeach; ?>
+         </td>
               </tr>
              </table>
            <?php endforeach; ?>  
