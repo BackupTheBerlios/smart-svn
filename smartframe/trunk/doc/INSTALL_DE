@@ -6,6 +6,7 @@ in ein Ordner der über den Webserver erreichbar ist. Erstellen sie ein
 MySql 4.1 Datenbank. Überprüfen sie ob folgende Ordner von php beschreibar sind:
 
     * /cache
+    * /cache/smartyCompiled
     * /config
     * /data
     * /data/article

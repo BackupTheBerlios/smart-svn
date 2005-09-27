@@ -10,6 +10,7 @@ Verifiez si les scripts php ont le droit d'écrirent dans les
 répertoires suivants:
 
     * /cache
+    * /cache/smartyCompiled
     * /config
     * /data
     * /data/article

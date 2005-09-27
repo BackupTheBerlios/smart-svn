@@ -7,6 +7,7 @@ under the document root of the webserver. Create a MySql 4.1 DataBase.
 The following folders must be writeable by php scripts:
 
     * /cache
+    * /cache/smartyCompiled
     * /config
     * /data
     * /data/article
