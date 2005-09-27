@@ -58,7 +58,7 @@
   <tr><td height="18" align="right" valign="middle" bgcolor="#2175bc" class="line">
          <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
-            <td width="56%" class="version">&nbsp;&nbsp;version: 0.2.0.6a - 2005-09-19</td>
+            <td width="56%" class="version">&nbsp;&nbsp;version: 0.2.0.8a - 2005-09-27</td>
             <td width="44%" align="right" valign="middle">
                    <form accept-charset="<?php echo $tpl['charset']; ?>" name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search" class="form">
                     <input name="search" type="text" value="search" size="30" maxlength="255" class="searchform"> &nbsp;
