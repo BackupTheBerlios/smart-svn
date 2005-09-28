@@ -158,7 +158,7 @@ $SmartConfig['debug'] = FALSE;
 $SmartConfig['media_folder_rights'] = 0777;
 $SmartConfig['media_file_rights']   = 0777;
 
-// Check if there is a custom config file else load default config settings
+// Check if there is a custom config file else use default config settings
 //
 if (@file_exists(SMART_BASE_DIR . 'config/my_config.php'))
 {
@@ -174,7 +174,7 @@ $SmartConfig['view_map']  = array();
 /**
  * Version info
  */
-$SmartConfig['smart_version'] = '0.2.0.2a';
+$SmartConfig['smart_version'] = '0.2.0.8a';
 $SmartConfig['smart_version_name'] = 'SMART3';
 
 /**
@@ -191,29 +191,37 @@ define('SMART_NO_ACTION',                1001);
 define('SMART_NO_TEMPLATE',              1003);
 define('SMART_NO_VIEW',                  1004);
 
-// smart object class
+#so smart object
 include_once( SMART_BASE_DIR . 'smart/includes/SmartObject.php' );
+#so
 
-// smart exceptions
+#se smart exceptions
 include_once( SMART_BASE_DIR . 'smart/includes/SmartException.php' );
+#se
 
-// include smartErrorHandler
+#eh error handler
 include_once( SMART_BASE_DIR . 'smart/includes/SmartErrorHandler.php' );
+#eh
 
-// The base container object
+#co container object
 include_once( SMART_BASE_DIR . 'smart/includes/SmartContainer.php' );
+#co
 
-// action class
+#ac action class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartAction.php' );
+#ac
 
-// model class
+#mc model class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartModel.php' );
+#mc
 
-// controller class
+#cc controller class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartController.php' );
+#cc
 
-// cache class
+#scc cache class
 include_once( SMART_BASE_DIR . 'smart/includes/SmartCache.php' );
+#scc
 
 // pass the config array to the controller
 SmartController::setConfig( $SmartConfig );
