@@ -50,8 +50,7 @@ class ViewMainNavigationSmarty extends SmartView
                                array('id_node' => 0,
                                      'result'  => & $this->tplVar['rootNodes'],
                                      'status'  => array('=', 2),
-                                     'fields'  => array('title','id_node')));   
-         $this->setLang();
+                                     'fields'  => array('title','id_node')));
     }  
 }
 

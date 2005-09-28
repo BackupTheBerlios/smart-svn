@@ -123,7 +123,7 @@ class ViewSimpleNodeSmarty extends SmartView
         
         $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
         
-        $this->tplVar['includeHeader']         = '<?php $viewLoader->header(); ?>';
+        $this->tplVar['includeHeader']         = '<?php $viewLoader->headerSmarty(); ?>';
         $this->tplVar['includeMainNavigationSmarty'] = '<?php $viewLoader->mainNavigationSmarty(); ?>';
         
         // charset used for the html pages

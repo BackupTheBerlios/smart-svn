@@ -1,0 +1,33 @@
+<?php
+// ----------------------------------------------------------------------
+// Smart PHP Framework
+// Copyright (c) 2005
+// by Armand Turpel < smart@open-publisher.net >
+// http://smart.open-publisher.net/
+// ----------------------------------------------------------------------
+// LICENSE GPL
+// To read the license please visit http://www.gnu.org/copyleft/gpl.html
+// ----------------------------------------------------------------------
+
+/**
+ * ViewHeaderSmarty class
+ */
+
+class ViewHeaderSmarty extends SmartView
+{
+    /**
+     * The template name associated with this view
+     */
+    public $template = 'headerSmarty';
+    
+    /**
+     * Execute the view of the "headerSmarty" template
+     */
+    function perform()
+    {
+        // template var of the relative path
+        $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
+    }
+}
+
+?>
