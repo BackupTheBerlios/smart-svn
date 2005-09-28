@@ -168,7 +168,7 @@ class SmartPublicViewFactory extends SmartViewFactory
             }
             else
             {
-                $tplContainer->template = $view->template;
+                $tplContainer->template = ucfirst($view->template);
             }
             
             // which template folder to use?
