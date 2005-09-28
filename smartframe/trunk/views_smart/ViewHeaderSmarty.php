@@ -27,6 +27,10 @@ class ViewHeaderSmarty extends SmartView
     {
         // template var of the relative path
         $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
+        // charset used for the html pages
+        $this->tplVar['charset'] = & $this->config['charset'];
+        // main controller
+        $this->tplVar['smartController'] = SMART_CONTROLLER; 
     }
 }
 
