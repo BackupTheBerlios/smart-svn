@@ -181,7 +181,6 @@ class ActionCommonInit extends SmartAction
      */    
     private function getMySqlExtensionType()
     {
-        //return 'MySql';
         if( function_exists('mysqli_init') )
         {
             return 'MySqli';
@@ -189,7 +188,11 @@ class ActionCommonInit extends SmartAction
         elseif( function_exists('mysql_connect') )
         {
             return 'MySql';
-        }  
+        } 
+        else
+        {
+            throw new SmartModelException( "It seem that there isnt the php extension 'mysql' nor 'mysqli' installed on your system. Check this!" );        
+        }
     }        
 }
 
