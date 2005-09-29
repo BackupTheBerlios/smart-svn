@@ -1,5 +1,4 @@
-<!-- --- prevent direct all --- -->
-<?php if (!defined('SMART_SECURE_INCLUDE')) exit; ?>
+{literal}
 <style type="text/css">
 <!--
 .line {
@@ -37,13 +36,14 @@
 }
 -->
 </style>
+{/literal}
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td height="50" align="left" valign="top" bgcolor="#2175bc" class="line">
       <table width="100%" border="0" cellspacing="0" cellpadding="2">
         <tr>
           <td width="20%" align="left" valign="top">
-          <img src="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart_logo.gif" width="129" height="50" border="0"></td>
+          <img src="{$tpl.relativePath}templates_smart/smart_logo.gif" width="129" height="50" border="0"></td>
           <td width="80%" align="left" valign="bottom"><table width="100%" border="0" cellspacing="0" cellpadding="0">
               <tr>
                 <td align="right" valign="top"></td>
@@ -60,7 +60,7 @@
           <tr>
             <td width="56%" class="version">&nbsp;&nbsp;version: 0.2.0.8a - 2005-09-29</td>
             <td width="44%" align="right" valign="middle">
-                   <form accept-charset="<?php echo $tpl['charset']; ?>" name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search" class="form">
+                   <form accept-charset="{$tpl.charset}" name="form2" method="post" action="{$tpl.smartController}?view=search" class="form">
                     <input name="search" type="text" value="search" size="30" maxlength="255" class="searchform"> &nbsp;
               </form>     
       </td>
