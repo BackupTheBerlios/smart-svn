@@ -59,7 +59,7 @@ class ViewNavigationViews extends SmartView
                 {
                     $this->model->action('navigation','registerViews',
                                          array('action' => 'register',
-                                               'name'   => strtolower((string)$name)) );  
+                                               'name'   => (string)$name) );  
                 }
             }
         }
