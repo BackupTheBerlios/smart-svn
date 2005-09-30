@@ -20,7 +20,7 @@ class ViewSearch extends SmartView
      * Cache expire time in seconds for this view
      * 0 = cache disabled
      */
-    public $cacheExpire = 3600;
+    public $cacheExpire = 300;
     
     /**
      * Execute the view of the "search" template
@@ -34,7 +34,8 @@ class ViewSearch extends SmartView
         $this->model->action('article','search',
                              array('result'  => & $this->tplVar['articles'], 
                                    'search'  => (string)$this->searchString,
-                                   'status'  => array('=',4),
+                                   'status'  => array('=', 4),
+                                   'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                    'limit'   => array('perPage' => $this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),                                   
                                    'fields'  => array('id_article','title','id_node') ));  
@@ -63,6 +64,7 @@ class ViewSearch extends SmartView
                              array('result'     => & $this->tplVar['pager'],
                                    'search'     => (string)$this->searchString,
                                    'status'     => array('=','4'),
+                                   'pubdate'    => array('<=', 'CURRENT_TIMESTAMP'),
                                    'perPage'    => $this->articlesPerPage,
                                    'numPage'    => (int)$this->pageNumber,
                                    'delta'      => 10,
