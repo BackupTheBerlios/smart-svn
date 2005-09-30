@@ -34,6 +34,11 @@ include_once(SMART_BASE_DIR . 'modules/common/includes/SmartPager.php');
 class ActionArticlePager extends SmartAction
 {
     /**
+     * Allowed sql caching
+     */
+    protected $sqlCache = 'SQL_CACHE';
+    
+    /**
      * build pager links
      *
      * @param array $data
@@ -67,6 +72,15 @@ class ActionArticlePager extends SmartAction
             $sql_where = "";
         }
 
+        if(isset($data['pubdate']))
+        {
+            $sql_pubdate = " AND a.`pubdate`{$data['pubdate'][0]}{$data['pubdate'][1]}()";
+        }
+        else
+        {
+            $sql_pubdate = "";
+        }  
+
         $table = "";
 
         if(isset($data['id_node']))
@@ -82,14 +96,15 @@ class ActionArticlePager extends SmartAction
             $table = ",{$this->config['dbTablePrefix']}article_index AS i";
         }        
         
-        $sql = "SELECT SQL_CACHE
+        $sql = "SELECT {$this->sqlCache}
                     count(a.`id_article`) AS numArticles
                 FROM 
                     {$this->config['dbTablePrefix']}article_article AS a
                     {$table}
                 WHERE
                    {$where}
-                $sql_where";
+                   {$sql_where}
+                   {$sql_pubdate}";
                    
         $rs = $this->model->dba->query($sql);
         $row = $rs->fetchAssoc();    
@@ -147,6 +162,36 @@ class ActionArticlePager extends SmartAction
                     throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
                 }
             }
+        }
+
+        if(isset($data['disable_sql_cache']))
+        {
+            if(!preg_match("/^SQL_NO_CACHE$/",$data['disable_sql_cache']))
+            {
+                throw new SmartModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
+            }
+            $this->sqlCache = 'SQL_NO_CACHE';
+        }
+
+        if(isset($data['pubdate']))
+        {
+            if(!is_array($data['pubdate']))
+            {
+                throw new SmartModelException('"pubdate" isnt an array'); 
+            }
+            else
+            {
+                if(!preg_match("/>|<|=|>=|<=|!=/",$data['pubdate'][0]))
+                {
+                    throw new SmartModelException('Wrong "pubdate" array[0] value: '.$data['pubdate'][0]); 
+                }
+
+                if(!isset($data['pubdate'][1]) || !preg_match("/^CURRENT_TIMESTAMP$/i",$data['pubdate'][1]))
+                {
+                    throw new SmartModelException('Wrong "pubdate" array[1] value: '.$data['pubdate'][1]); 
+                }
+            }
+            $this->sqlCache = 'SQL_NO_CACHE';
         }
        
         if(!isset($data['result']))
