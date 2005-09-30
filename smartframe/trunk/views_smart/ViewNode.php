@@ -31,7 +31,7 @@ class ViewNode extends SmartView
      * Cache expire time in seconds for this view
      * 0 = cache disabled
      */
-    public $cacheExpire = 3600;
+    public $cacheExpire = 300;
     
     /**
      * Execute the view of the "node" template
@@ -80,7 +80,7 @@ class ViewNode extends SmartView
                                    'status'  => array('=', 4),
                                    'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                    'order'   => array('rank', 'asc'),
-                                   'limit'   => array('perPage' => $this->articlesPerPage,
+                                   'limit'   => array('perPage' => (int)$this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),
                                    'fields'  => array('id_article','title') ));
 
