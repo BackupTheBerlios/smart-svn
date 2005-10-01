@@ -36,6 +36,13 @@ class DbMysql
         $this->dbsocket = $dbsocket;
         $this->dbflags  = $dbflags;
     }
+
+    public function __destruct()
+    {
+        // php version 5.0.5 eject an E_WARNING if we dont do this
+        session_write_close();
+        mysql_close();
+    }
   
     public function connect( $options = FALSE ) 
     {        
@@ -46,13 +53,6 @@ class DbMysql
             throw new SmartDbException( $this->error() );
         }
         $this->selectDatabase( $this->dbname );
-    }
-
-    public function __destruct()
-    {
-        // php version 5.0.5 eject an E_WARNING if we dont do this
-        session_write_close();
-        mysql_close();
     }
 
     /**
