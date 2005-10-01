@@ -337,7 +337,7 @@ class captcha
      */    
     function _delete_expired_files()
     {
-        $directory = & dir($this->_basedir.'data/common/captcha');
+        $directory = dir($this->_basedir.'data/common/captcha');
     
         while (false != ($filename = $directory->read()))
         {
