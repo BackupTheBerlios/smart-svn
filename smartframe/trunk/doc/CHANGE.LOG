@@ -1,6 +1,10 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.0.9a
+--------
+- fixed some nasty warnings under php version 5.0.5
+
 0.2.0.8a
 --------
 - fixed small error reporting bug in error handler
