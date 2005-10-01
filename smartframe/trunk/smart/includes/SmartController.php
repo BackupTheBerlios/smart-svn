@@ -52,7 +52,7 @@ class SmartController extends SmartObject
      * 
      * @param array $config Main Smart config array
      */
-    function __construct()
+    public function __construct()
     {
         try
         {            
@@ -103,7 +103,7 @@ class SmartController extends SmartObject
 
             // get exsisting module folders
             //
-            $tmp_directory =& dir( SMART_BASE_DIR . 'modules');
+            $tmp_directory = dir( SMART_BASE_DIR . 'modules');
     
             while (FALSE != ($tmp_dirname = $tmp_directory->read()))
             {

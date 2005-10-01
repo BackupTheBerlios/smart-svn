@@ -174,22 +174,13 @@ $SmartConfig['view_map']  = array();
 /**
  * Version info
  */
-$SmartConfig['smart_version'] = '0.2.0.8a';
+$SmartConfig['smart_version'] = '0.2.0.9a';
 $SmartConfig['smart_version_name'] = 'SMART3';
 
 /**
  * Disable cache global
  */
 $SmartConfig['disable_cache'] = 0;
-
-/**
- * Error flags
- */
-define('SMART_DIE',                      999); 
-define('SMART_NO_MODULE',                1000);
-define('SMART_NO_ACTION',                1001);
-define('SMART_NO_TEMPLATE',              1003);
-define('SMART_NO_VIEW',                  1004);
 
 #so smart object
 include_once( SMART_BASE_DIR . 'smart/includes/SmartObject.php' );

@@ -86,7 +86,7 @@ class SmartPublicViewFactory extends SmartViewFactory
             }            
             else
             {
-                throw new SmartViewException("View dosent exists: ".$class_file, SMART_NO_VIEW);
+                throw new SmartViewException("View dosent exists: ".$class_file);
             }
         }
            

@@ -39,7 +39,7 @@ class SmartAction extends SmartObject
      *
      * @param mixed $data Data passed to the constructor
      */
-    function __construct( $data = FALSE )
+    public function __construct( $data = FALSE )
     {
         $this->constructorData = & $data;
     }

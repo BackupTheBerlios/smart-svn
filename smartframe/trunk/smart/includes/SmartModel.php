@@ -57,7 +57,7 @@ class SmartModel extends SmartObject
      * 
      * @param array $config Main Smart config array
      */
-    function __construct( & $config )
+    public function __construct( & $config )
     {
         $this->config = & $config;
     }
@@ -182,7 +182,7 @@ class SmartModel extends SmartObject
      * @param mixed $data Data passed to the action
      * @param mixed $constructor_data Data passed to the action constructor
      * @param bool $force_instance If true force a new instance even if it exists
-     * @return bool True on success else false
+     * @return mixed null if action dosent exists
      */    
     public function action( $module, $action, $data = FALSE, $constructor_data = FALSE, $force_instance = FALSE )
     {
@@ -221,7 +221,7 @@ class SmartModel extends SmartObject
             }
             else
             {
-                return SMART_NO_ACTION;
+                return NULL;
             }
         }
 
