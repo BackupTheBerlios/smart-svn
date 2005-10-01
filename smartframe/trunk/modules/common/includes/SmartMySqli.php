@@ -38,6 +38,13 @@ class DbMysql
         
         $this->dbh = mysqli_init();
     }
+
+    public function __destruct()
+    {
+        // php version 5.0.5 eject an E_WARNING if we dont do this
+        session_write_close();
+        $this->dbh->close();
+    }
   
     public function connect( $options = FALSE ) 
     {
