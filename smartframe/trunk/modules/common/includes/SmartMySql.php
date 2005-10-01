@@ -41,7 +41,7 @@ class DbMysql
     {
         // php version 5.0.5 eject an E_WARNING if we dont do this
         session_write_close();
-        mysql_close();
+        mysql_close( $this->dbh );
     }
   
     public function connect( $options = FALSE ) 
