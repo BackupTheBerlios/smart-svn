@@ -50,7 +50,13 @@ final class SmartSessionHandler
                                            WHERE session_id = '$id'");
 
         $f = $result->fetchAssoc();
-        return $f['session_data'];
+
+        if( isset($f['session_data']) )
+        {
+            return $f['session_data'];
+        }
+        
+        return "";        
     }
   
     public function write($id, $sess_data) 
