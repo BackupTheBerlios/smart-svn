@@ -29,6 +29,11 @@
 class ActionArticleGetArticle extends SmartAction
 {
     /**
+     * Allowed sql caching
+     */
+    protected $sqlCache = 'SQL_CACHE';
+    
+    /**
      * Allowed article fields and its type
      */
     protected $tblFields_article = array('id_article'   => 'Int',
@@ -79,15 +84,25 @@ class ActionArticleGetArticle extends SmartAction
         {
             $sql_where = "";
         }
+
+        if(isset($data['pubdate']))
+        {
+            $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}{$data['pubdate'][1]}()";
+        }
+        else
+        {
+            $sql_pubdate = "";
+        }  
         
         $sql = "
-            SELECT SQL_CACHE
+            SELECT {$this->sqlCache}
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}article_article
             WHERE
                 `id_article`={$data['id_article']} 
-                {$sql_where}";
+                {$sql_where}
+                {$sql_pubdate}";
         
         $rs = $this->model->dba->query($sql);
         
@@ -176,6 +191,36 @@ class ActionArticleGetArticle extends SmartAction
                     throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
                 }
             }
+        }
+
+        if(isset($data['disable_sql_cache']))
+        {
+            if(!preg_match("/^SQL_NO_CACHE$/",$data['disable_sql_cache']))
+            {
+                throw new SmartModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
+            }
+            $this->sqlCache = 'SQL_NO_CACHE';
+        }
+        
+        if(isset($data['pubdate']))
+        {
+            if(!is_array($data['pubdate']))
+            {
+                throw new SmartModelException('"pubdate" isnt an array'); 
+            }
+            else
+            {
+                if(!preg_match("/>|<|=|>=|<=|!=/",$data['pubdate'][0]))
+                {
+                    throw new SmartModelException('Wrong "pubdate" array[0] value: '.$data['pubdate'][0]); 
+                }
+
+                if(!isset($data['pubdate'][1]) || !preg_match("/^CURRENT_TIMESTAMP$/i",$data['pubdate'][1]))
+                {
+                    throw new SmartModelException('Wrong "pubdate" array[1] value: '.$data['pubdate'][1]); 
+                }
+            }
+            $this->sqlCache = 'SQL_NO_CACHE';
         }
         
         return TRUE;
