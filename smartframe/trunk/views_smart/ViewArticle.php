@@ -20,7 +20,7 @@ class ViewArticle extends SmartView
      * Cache expire time in seconds for this view
      * 0 = cache disabled
      */
-    public $cacheExpire = 3600;
+    public $cacheExpire = 300;
     
     /**
      * Execute the view of the "article" template
@@ -35,6 +35,7 @@ class ViewArticle extends SmartView
                              array('id_article' => (int)$this->current_id_article,
                                    'result'  => & $this->tplVar['article'],
                                    'status'  => array('=',4),
+                                   'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                    'fields'  => array('id_article','id_node','title',
                                                       'header','overtitle',
                                                       'subtitle','body','ps') ));  
