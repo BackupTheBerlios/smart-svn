@@ -8,8 +8,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>">
 <meta name="keywords" content="">
 
-<!-- --- output current navigation node title --- -->
-<title>SMART3 - <?php echo $tpl['node']['title'];  ?></title>
+<!-- --- output page title --- -->
+<title>SMART3 - Error Page</title>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
