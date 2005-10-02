@@ -19,7 +19,7 @@
  *
  */
  
-class ActionNavigationCheckStatusOfParentNodes extends SmartAction
+class ActionNavigationCheckNodeStatus extends SmartAction
 {
     /**
      * Status check flag of the parent nodes
