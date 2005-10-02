@@ -39,6 +39,19 @@ class ViewArticle extends SmartView
                                    'fields'  => array('id_article','id_node','title',
                                                       'header','overtitle',
                                                       'subtitle','body','ps') ));  
+
+        // check if the article node has at least status 2
+        // this check prevent direct access to articles which parent nodes havent status 2
+        $statusCheck = $this->model->action('navigation','checkNodeStatus', 
+                                            array('id_node' => (int)$this->tplVar['article']['id_node'],
+                                                  'status'  => array('>=',2)));  
+                                   
+        if($statusCheck == FALSE)
+        {
+            $this->template          = 'error'; 
+            $this->tplVar['message'] = "The requested article isnt accessible";
+            return;
+        } 
           
         // get node title and id of the article node
         $this->model->action('navigation','getNode', 

@@ -38,6 +38,12 @@ class ViewNode extends SmartView
      */
     function perform()
     { 
+        // dont proceed if an error occure
+        if(isset( $this->dontPerform ))
+        {
+            return;
+        }
+        
         // init variables (see private function below)
         $this->initVars();
           
@@ -135,7 +141,9 @@ class ViewNode extends SmartView
         // this view class loads the error template
         if( !isset($_REQUEST['id_node']) || is_array($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
         {
-            $this->template  = 'error';     
+            $this->template          = 'error';  
+            $this->tplVar['message'] = "Wrong id_node value";
+            $this->dontPerform       = TRUE;
         }
         else
         {
@@ -143,7 +151,20 @@ class ViewNode extends SmartView
         }
         
         // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
+        $this->model->action( 'common', 'filterDisableBrowserCache');  
+        
+        // check if the demanded node has at least status 2
+        // this check prevents direct access to nodes which parent nodes havent status 2
+        $statusCheck = $this->model->action('navigation','checkNodeStatus', 
+                                            array('id_node' => (int)$this->current_id_node,
+                                                  'status'  => array('>=',2)));  
+                                   
+        if($statusCheck == FALSE)
+        {
+            $this->template          = 'error'; 
+            $this->tplVar['message'] = "The requested node isnt accessible";
+            $this->dontPerform       = TRUE;
+        } 
     }
 
     /**
