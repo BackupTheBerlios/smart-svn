@@ -38,21 +38,21 @@ class ViewNode extends SmartView
      */
     function perform()
     { 
+        // init variables (see private function below)
+        $this->initVars();
+        
         // dont proceed if an error occure
         if(isset( $this->dontPerform ))
         {
             return;
         }
         
-        // init variables (see private function below)
-        $this->initVars();
-          
-        // get requested node content
+         // get requested node content
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
                                    'id_node' => (int)$this->current_id_node,
                                    'fields'  => array('title','body','id_node','media_folder')));                             
-
+         
         // get child nodes content of the requested node
         // only with status=2, means active      
         $this->model->action('navigation','getChilds', 
