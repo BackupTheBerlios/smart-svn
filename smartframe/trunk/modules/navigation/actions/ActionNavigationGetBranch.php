@@ -28,7 +28,7 @@
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
  
 class ActionNavigationGetBranch extends ActionNavigation
-{
+{ 
     /**
      * get navigation node branch
      *
@@ -40,13 +40,13 @@ class ActionNavigationGetBranch extends ActionNavigation
         {
             return TRUE;
         }
-        
+
         // id_parent is required for internal use
         if(!in_array('id_parent',$data['fields']))
         {
             array_push($data['fields'],'id_parent');
         }
-        
+
         $comma = '';
         $this->_fields = '';
         foreach ($data['fields'] as $f)
@@ -102,6 +102,7 @@ class ActionNavigationGetBranch extends ActionNavigation
         {
             throw new SmartModelException('Missing "result" array var or "result isnt defined as an array.'); 
         }
+        
         return TRUE;
     }
     
@@ -119,7 +120,7 @@ class ActionNavigationGetBranch extends ActionNavigation
                 {$this->config['dbTablePrefix']}navigation_node
             WHERE
                 `id_node`={$data['id_node']}";
-        
+
         $rs = $this->model->dba->query($sql);
 
         if($row = $rs->fetchAssoc())

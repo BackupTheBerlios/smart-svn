@@ -29,7 +29,7 @@
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
  
 class ActionNavigationGetChilds extends ActionNavigation
-{
+{   
     /**
      * get navigation node data
      *
@@ -48,7 +48,7 @@ class ActionNavigationGetChilds extends ActionNavigation
         
         if(isset($data['status']))
         {
-            $sql_where = " AND `status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_where = " AND `status`{$data['status'][0]}{$data['status'][1]}";         
         }
         else
         {

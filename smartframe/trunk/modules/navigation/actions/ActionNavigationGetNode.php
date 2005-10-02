@@ -27,7 +27,7 @@
 include_once(SMART_BASE_DIR . 'modules/navigation/includes/ActionNavigation.php');
  
 class ActionNavigationGetNode extends ActionNavigation
-{
+{  
     /**
      * get navigation node data
      *
