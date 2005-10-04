@@ -32,9 +32,10 @@ class ViewSearch extends SmartView
           
         // search articles                                                   
         $this->model->action('article','search',
-                             array('result'  => & $this->tplVar['articles'], 
-                                   'search'  => (string)$this->searchString,
-                                   'status'  => array('=', 4),
+                             array('result'     => & $this->tplVar['articles'], 
+                                   'search'     => (string)$this->searchString,
+                                   'status'     => array('=', 4),
+                                   'nodeStatus' => array('>=', 2),
                                    'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                    'limit'   => array('perPage' => $this->articlesPerPage,
                                                       'numPage' => (int)$this->pageNumber),                                   
@@ -64,6 +65,7 @@ class ViewSearch extends SmartView
                              array('result'     => & $this->tplVar['pager'],
                                    'search'     => (string)$this->searchString,
                                    'status'     => array('=','4'),
+                                   'nodeStatus' => array('>=', 2),
                                    'pubdate'    => array('<=', 'CURRENT_TIMESTAMP'),
                                    'perPage'    => $this->articlesPerPage,
                                    'numPage'    => (int)$this->pageNumber,
@@ -135,7 +137,8 @@ class ViewSearch extends SmartView
         }
         
         // assign template variable with search string
-        $this->tplVar['search'] = & $this->searchString;
+        $this->tplVar['search']     = & $this->searchString;
+        $this->tplVar['formsearch'] = htmlentities($this->searchString);
         
         // template array variables
         $this->tplVar['articles'] = array();

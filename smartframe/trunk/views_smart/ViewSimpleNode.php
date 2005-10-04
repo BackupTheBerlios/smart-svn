@@ -33,7 +33,7 @@ class ViewSimpleNode extends SmartView
      * Cache expire time in seconds
      * 0 = cache disabled
      */
-    public $cacheExpire = 3600;
+    public $cacheExpire = 300;
     
     /**
      * Execute the view of the "node" template
@@ -41,6 +41,12 @@ class ViewSimpleNode extends SmartView
     function perform()
     {     
         $this->initVars();
+
+        // dont proceed if an error occure
+        if(isset( $this->dontPerform ))
+        {
+            return;
+        }
         
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
@@ -74,19 +80,33 @@ class ViewSimpleNode extends SmartView
      */
     public function prependFilterChain()
     {
+        // filter action of the common module to prevent browser caching
+        $this->model->action( 'common', 'filterDisableBrowserCache');    
+        
         // fetch the current id_node. If no id_node defined or not numeric
         // this view class loads the error template
         if( !isset($_REQUEST['id_node']) || preg_match("/[^0-9]+/",$_REQUEST['id_node']) ) 
         {
-            $this->template  = 'error';     
+            $this->template          = 'error';   
+            $this->tplVar['message'] = "Wrong id_node value";
+            $this->dontPerform = TRUE;
+            return;
         }
         else
         {
             $this->current_id_node    = (int)$_REQUEST['id_node'];          
         }
-        
-        // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
+
+        // check if the demanded node has at least status 2
+        $nodeStatus = $this->model->action('navigation','getNodeStatus', 
+                                            array('id_node' => (int)$this->current_id_node));  
+                     
+        if( $nodeStatus < 2 )
+        {
+            $this->template          = 'error'; 
+            $this->tplVar['message'] = "The requested node isnt accessible";
+            $this->dontPerform       = TRUE;
+        } 
     }
 
     /**

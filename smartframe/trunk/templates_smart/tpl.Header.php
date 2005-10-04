@@ -61,7 +61,7 @@
             <td width="56%" class="version">&nbsp;&nbsp;version: 0.2.0.9a - 2005-10-02</td>
             <td width="44%" align="right" valign="middle">
                    <form accept-charset="<?php echo $tpl['charset']; ?>" name="form2" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=search" class="form">
-                    <input name="search" type="text" value="search" size="30" maxlength="255" class="searchform"> &nbsp;
+                    <input name="search" type="text" value="<?php if(isset($tpl['formsearch'])) echo $tpl['formsearch']; else echo "search"; ?>" size="30" maxlength="255" class="searchform"> &nbsp;
               </form>     
       </td>
           </tr>

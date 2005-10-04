@@ -19,8 +19,8 @@
 </script>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
-<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
-<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .filedesc {
@@ -68,28 +68,28 @@
                      <?php  foreach($tpl['nodeBranch'] as $bnode): ?>
                        <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
                      <?php endforeach; ?>
-					 <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $tpl['node']['id_node']; ?>"><?php echo $tpl['node']['title']; ?></a>
+           <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $tpl['node']['id_node']; ?>"><?php echo $tpl['node']['title']; ?></a>
                      <hr class="hr" />
-                    </div>  				   
-				   </td>
+                    </div>             
+           </td>
                  </tr>
                  <tr>
                    <td align="left" valign="top">
                          <!-- print title and body of a navigation node -->
-						 <?php if(!empty($tpl['article']['overtitle'])): ?>
-						    <div class="overtitle"><?php echo $tpl['article']['overtitle'];  ?></div>
-						 <?php endif; ?>
+             <?php if(!empty($tpl['article']['overtitle'])): ?>
+                <div class="overtitle"><?php echo $tpl['article']['overtitle'];  ?></div>
+             <?php endif; ?>
                          <h3><?php echo $tpl['article']['title'];  ?></h3>
-						 <?php if(!empty($tpl['article']['subtitle'])): ?>
-						    <div class="subtitle"><?php echo $tpl['article']['subtitle'];  ?></div>
-						 <?php endif; ?>
-						 <?php if(!empty($tpl['article']['header'])): ?>
-						    <div class="header"><?php echo $tpl['article']['header'];  ?></div>
-						 <?php endif; ?>
+             <?php if(!empty($tpl['article']['subtitle'])): ?>
+                <div class="subtitle"><?php echo $tpl['article']['subtitle'];  ?></div>
+             <?php endif; ?>
+             <?php if(!empty($tpl['article']['header'])): ?>
+                <div class="header"><?php echo $tpl['article']['header'];  ?></div>
+             <?php endif; ?>
                          <div class="body"><?php echo $tpl['article']['body'];  ?></div>
-						 <?php if(!empty($tpl['article']['ps'])): ?>
-						    <div class="ps"><?php echo $tpl['article']['ps'];  ?></div>
-						 <?php endif; ?>
+             <?php if(!empty($tpl['article']['ps'])): ?>
+                <div class="ps"><?php echo $tpl['article']['ps'];  ?></div>
+             <?php endif; ?>
                          <!-- --- show navigation node related files for download --- -->
                          <?php if(count($tpl['articleFiles'])>0): ?>
                          <div class="downloads">Downloads:</div>

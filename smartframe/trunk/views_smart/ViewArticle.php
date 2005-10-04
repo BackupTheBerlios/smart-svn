@@ -30,6 +30,12 @@ class ViewArticle extends SmartView
         // init variables (see private function below)
         $this->initVars();
 
+        // dont proceed if an error occure
+        if(isset( $this->dontPerform ))
+        {
+            return;
+        }
+
         // get article data                                                    
         $this->model->action('article','getArticle',
                              array('id_article' => (int)$this->current_id_article,
@@ -41,12 +47,10 @@ class ViewArticle extends SmartView
                                                       'subtitle','body','ps') ));  
 
         // check if the article node has at least status 2
-        // this check prevent direct access to articles which parent nodes havent status 2
-        $statusCheck = $this->model->action('navigation','checkNodeStatus', 
-                                            array('id_node' => (int)$this->tplVar['article']['id_node'],
-                                                  'status'  => array('>=',2)));  
-                                   
-        if($statusCheck == FALSE)
+        $nodeStatus = $this->model->action('navigation','getNodeStatus', 
+                                            array('id_node' => (int)$this->tplVar['article']['id_node']));  
+                     
+        if( $nodeStatus < 2 )
         {
             $this->template          = 'error'; 
             $this->tplVar['message'] = "The requested article isnt accessible";
@@ -100,27 +104,33 @@ class ViewArticle extends SmartView
      */
     public function prependFilterChain()
     {
-        // check id_article and view request var
+        // filter action of the common module to prevent browser caching
+        $this->model->action( 'common', 'filterDisableBrowserCache');    
+        
+        // validate id_article and view request var
         // 
         if( !isset($_GET['id_article'])   || 
                 is_array($_GET['id_article']) || 
                 preg_match("/[^0-9]+/",$_GET['id_article']) ) 
         {
-            $this->template  = 'error';   
+            $this->template          = 'error';   
+            $this->tplVar['message'] = "Wrong id_article value";
+            $this->dontPerform = TRUE;
+            return; 
         }    
         elseif( !isset($_GET['view'])     || 
                 !is_string($_GET['view']) || 
                 ($_GET['view'] !== 'article') ) 
         {
-            $this->template  = 'error';     
+            $this->template          = 'error';   
+            $this->tplVar['message'] = "Wrong view value";
+            $this->dontPerform = TRUE;
+            return;    
         }          
         else
         {
             $this->current_id_article = (int)$_GET['id_article'];         
         }
-        
-        // filter action of the common module to prevent browser caching
-        $this->model->action( 'common', 'filterDisableBrowserCache');    
     }
 
     /**
@@ -147,6 +157,8 @@ class ViewArticle extends SmartView
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];
+        // relative path to the smart directory
+        $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
     }
 }
 

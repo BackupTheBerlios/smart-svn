@@ -19,8 +19,8 @@
 </script>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
-<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
-<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .filedesc {
@@ -69,8 +69,8 @@
                        <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
                      <?php endforeach; ?>
                      <hr class="hr" />
-                    </div>  				   
-				   </td>
+                    </div>             
+           </td>
                  </tr>
                  <tr>
                    <td align="left" valign="top">
@@ -112,13 +112,13 @@
                                </ul>
                              </td>
                            </tr>
-						   <?php if(!empty($tpl['pager'])): ?>
+               <?php if(!empty($tpl['pager'])): ?>
                            <tr>
                              <td width="190" align="center" valign="top">
-						         <?php echo $tpl['pager']; ?>
+                     <?php echo $tpl['pager']; ?>
                              </td>
                            </tr>
-						   <?php endif; ?>
+               <?php endif; ?>
                          </table>
                          <?php endif; ?>
                        </td>
