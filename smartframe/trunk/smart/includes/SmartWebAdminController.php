@@ -86,11 +86,7 @@ class SmartWebAdminController extends SmartController
             {
                 $this->model->broadcast( 'init' );
             }
-            $methode = ucfirst( $this->config['base_module'] ) . 'Index';
-            $_REQUEST['view'] = $e->view;
-            $_REQUEST['mod']  = $e->module;
-
-            $this->view->{$methode}();  
+            $this->view->{$e->view}($e->data, $e->constructorData);  
         }      
 
         ob_end_flush();
