@@ -118,7 +118,7 @@ class SmartWebController extends SmartController
         }        
         catch(SmartForwardAdminViewException $e)
         {
-            die('Setup not yet done. Please run the admin web controller');
+            die('Setup not yet done. Please run the admin web controller. Usually it is admin.php');
         }  
 
         $buffer_level = ob_get_level ();        
