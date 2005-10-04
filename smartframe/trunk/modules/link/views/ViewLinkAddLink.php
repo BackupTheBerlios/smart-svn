@@ -41,6 +41,8 @@ class ViewLinkAddLink extends SmartView
         $this->tplVar['description'] = '';
         $this->tplVar['branch'] = array();  
         $this->tplVar['childs'] = array();
+        $this->tplVar['tree']   = array();
+        
         // Init error array
         $this->tplVar['error']  = array();
 
