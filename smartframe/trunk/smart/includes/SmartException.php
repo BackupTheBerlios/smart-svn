@@ -186,21 +186,24 @@ class SmartDbException extends SmartException
 
 class SmartForwardAdminViewException extends Exception
 {
+    public $module;
     public $view;
     public $data;
     public $constructorData;
     public $broadcast;
     
-    public function __construct ($module, $view = 'index', $data = FALSE, $constructorData = FALSE, $broadcast = FALSE)
+    public function __construct ($module = 'default', $view = 'index', $data = FALSE, $constructorData = FALSE, $broadcast = FALSE)
     {
+        ob_end_clean();
+        ob_start();
         parent::__construct(NULL,0);
 
         $this->broadcast = $broadcast;
 
-        $this->view = ucfirst($module).ucfirst($view);
+        $this->module = $module;
+        $this->view = ucfirst($view);
         $this->data = & $data;
         $this->constructorData = & $constructorData;
-        ob_clean();
     }   
 }
 

@@ -98,10 +98,10 @@ class SmartAdminViewFactory extends SmartViewFactory
         $view = $this->$requestedView;
           
         // Aggregate model object
-        $view->model = $this->model;
+        $view->model = & $this->model;
         
         // Aggregate session object
-        $view->session = $this->model->session;        
+        $view->session = & $this->model->session;        
 
         // Aggregate the main configuration array
         $view->config = & $this->model->config;
@@ -127,7 +127,7 @@ class SmartAdminViewFactory extends SmartViewFactory
         $view->viewVar = & $viewContainer->vars;
 
         // pass parameter data to the view
-        $view->viewData = $args[0];
+        $view->viewData = & $args[0];
             
         // run authentication
         $view->auth();
