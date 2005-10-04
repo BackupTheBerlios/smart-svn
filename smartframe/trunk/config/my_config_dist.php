@@ -80,6 +80,7 @@ $SmartConfig['cache_time_type'] = 'filemtime';
 
 /**
  * Name of the template engine class used for the public templates
+ * 'SmartTplContainerPhp' or 'SmartTplContainerSmarty'
  */
 $SmartConfig['public_template_engine'] = 'SmartTplContainerPhp';
 
