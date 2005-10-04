@@ -38,6 +38,7 @@ class ViewArticleAddArticle extends SmartView
         $this->tplVar['title']  = '';
         // Init error array
         $this->tplVar['error']  = array();
+        $this->tplVar['tree']   = array();
 
         if(isset($_REQUEST['id_node']))
         {
