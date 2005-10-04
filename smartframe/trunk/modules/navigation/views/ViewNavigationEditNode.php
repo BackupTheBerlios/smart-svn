@@ -192,8 +192,8 @@ class ViewNavigationEditNode extends SmartView
 
     private function updateNodeData()
     {
-        $node_was_moved  = FALSE;
-        $use_text_format = FALSE;
+        $this->node_was_moved  = FALSE;
+        $use_text_format       = FALSE;
 
         if(empty($_POST['title']))
         {
@@ -201,7 +201,7 @@ class ViewNavigationEditNode extends SmartView
             return;
         }
         
-        // check if id_parent has change
+        // check if id_parent has changed
         if($_POST['id_parent'] != $_POST['node_id_parent'])
         {
             $id_parent = (string)$_POST['node_id_parent'];
@@ -217,7 +217,7 @@ class ViewNavigationEditNode extends SmartView
                 {
                     $rank = 0;
                 }
-                $node_was_moved = TRUE;
+                $this->node_was_moved = TRUE;
             }
             else
             {
@@ -345,7 +345,7 @@ class ViewNavigationEditNode extends SmartView
         {
             // update node data
             $this->updateNode( $rank, $use_text_format );
-            if($node_was_moved == TRUE)
+            if($this->node_was_moved == TRUE)
             {
                 $this->reorderRank( (int)$_POST['id_parent'] );
             }
@@ -465,12 +465,46 @@ class ViewNavigationEditNode extends SmartView
      * @param int $rank New rank
      */
     private function updateNode( $rank, $format )
-    {
+    { 
         $fields = array('id_parent'  => (int)$_POST['node_id_parent'],
                         'status'     => (int)$_POST['status'],
                         'title'      => SmartCommonUtil::stripSlashes((string)$_POST['title']),
                         'short_text' => SmartCommonUtil::stripSlashes((string)$_POST['short_text']),
                         'body'       => SmartCommonUtil::stripSlashes((string)$_POST['body']));
+
+        if($this->node_was_moved == TRUE)
+        {
+            // get id_sector and status of the new parent node
+            $new_parent_node_data = array();
+            $this->model->action('navigation','getNode',
+                                  array('id_node' => (int)$_POST['node_id_parent'],
+                                        'result'  => & $new_parent_node_data,
+                                        'fields'  => array('status','id_sector','id_view')));
+            
+            // only if the new parent node status = 1 (inactive)
+            if($new_parent_node_data['status'] == 1)
+            {
+                $fields['status'] = $new_parent_node_data['status'];
+            }
+            
+            $fields['id_sector'] = $new_parent_node_data['id_sector'];
+            $fields['id_view']   = $new_parent_node_data['id_view'];
+            
+            // updates id_sector and status of subnodes
+            $this->model->action('navigation','updateSubNodes',
+                                  array('id_node' => (int)$_REQUEST['id_node'],
+                                        'fields'  => array('status'    => (int)$fields['status'],
+                                                           'id_sector' => (int)$fields['id_sector'],
+                                                           'id_view'   => (int)$fields['id_view'])));    
+        }
+        elseif($_POST['old_status'] != $_POST['status'])
+        {
+            // updates status of subnodes
+            $this->model->action('navigation','updateSubNodes',
+                                  array('id_node' => (int)$_REQUEST['id_node'],
+                                        'fields'  => array('status' => (int)$fields['status'])));                                        
+        
+        }
                         
         if($rank != FALSE)
         {

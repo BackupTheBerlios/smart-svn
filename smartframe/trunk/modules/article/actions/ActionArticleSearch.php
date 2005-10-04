@@ -96,6 +96,18 @@ class ActionArticleSearch extends SmartAction
             $sql_pubdate = "";
         }  
 
+        if(isset($data['nodeStatus']))
+        {
+            $sql_nodestatus = " AND a.id_node=n.id_node 
+                                AND n.`status`{$data['nodeStatus'][0]}{$data['nodeStatus'][1]}";
+            $nodetable = ",{$this->config['dbTablePrefix']}navigation_node AS n";
+        }
+        else
+        {
+            $sql_nodestatus = "";
+            $nodetable = "";
+        } 
+
         if(isset($data['limit']))
         { 
             if( $data['limit']['numPage'] < 1 )
@@ -118,6 +130,7 @@ class ActionArticleSearch extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}article_index    AS i,
                 {$this->config['dbTablePrefix']}article_article  AS a
+                {$nodetable}
             WHERE MATCH 
                 (i.`text1`,i.`text2`,i.`text3`,i.`text4`) 
             AGAINST 
@@ -125,6 +138,7 @@ class ActionArticleSearch extends SmartAction
             AND 
                 a.`id_article`=i.`id_article` 
                 {$sql_status}
+                {$sql_nodestatus}
                 {$sql_pubdate}
                 {$sql_order}
                 {$sql_limit}";
@@ -265,6 +279,26 @@ class ActionArticleSearch extends SmartAction
                 }
             }
             $this->sqlCache = 'SQL_NO_CACHE';
+        }
+
+        if(isset($data['nodeStatus']))
+        {
+            if(!is_array($data['nodeStatus']))
+            {
+                throw new SmartModelException('"nodeStatus" isnt an array'); 
+            }
+            else
+            {
+                if(!isset($data['nodeStatus'][0]) || !preg_match("/>|<|=|>=|<=|!=/",$data['nodeStatus'][0]))
+                {
+                    throw new SmartModelException('Wrong "nodeStatus" array[0] value: '.$data['nodeStatus'][0]); 
+                }
+
+                if(!isset($data['nodeStatus'][1]) || !is_int($data['nodeStatus'][1]))
+                {
+                    throw new SmartModelException('Wrong "nodeStatus" array[1] value: '.$data['nodeStatus'][1]); 
+                }
+            }
         }
         
         return TRUE;

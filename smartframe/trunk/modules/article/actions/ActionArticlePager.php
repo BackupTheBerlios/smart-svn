@@ -81,6 +81,18 @@ class ActionArticlePager extends SmartAction
             $sql_pubdate = "";
         }  
 
+        if(isset($data['nodeStatus']))
+        {
+            $sql_nodestatus = " AND a.id_node=n.id_node 
+                                AND n.`status`{$data['nodeStatus'][0]}{$data['nodeStatus'][1]}";
+            $nodetable = ",{$this->config['dbTablePrefix']}navigation_node AS n";
+        }
+        else
+        {
+            $sql_nodestatus = "";
+            $nodetable = "";
+        } 
+
         $table = "";
 
         if(isset($data['id_node']))
@@ -101,9 +113,11 @@ class ActionArticlePager extends SmartAction
                 FROM 
                     {$this->config['dbTablePrefix']}article_article AS a
                     {$table}
+                    {$nodetable}
                 WHERE
                    {$where}
                    {$sql_where}
+                   {$sql_nodestatus}
                    {$sql_pubdate}";
                    
         $rs = $this->model->dba->query($sql);
@@ -218,6 +232,26 @@ class ActionArticlePager extends SmartAction
             }  
         }          
        
+        if(isset($data['nodeStatus']))
+        {
+            if(!is_array($data['nodeStatus']))
+            {
+                throw new SmartModelException('"nodeStatus" isnt an array'); 
+            }
+            else
+            {
+                if(!isset($data['nodeStatus'][0]) || !preg_match("/>|<|=|>=|<=|!=/",$data['nodeStatus'][0]))
+                {
+                    throw new SmartModelException('Wrong "nodeStatus" array[0] value: '.$data['nodeStatus'][0]); 
+                }
+
+                if(!isset($data['nodeStatus'][1]) || !is_int($data['nodeStatus'][1]))
+                {
+                    throw new SmartModelException('Wrong "nodeStatus" array[1] value: '.$data['nodeStatus'][1]); 
+                }
+            }
+        }
+
         return TRUE;
     }
 }

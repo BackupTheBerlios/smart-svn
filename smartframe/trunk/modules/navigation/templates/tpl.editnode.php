@@ -209,6 +209,7 @@ function MM_swapImage() { //v3.0
 <input name="modifynodedata" type="hidden" value="true">
 <input name="canceledit" type="hidden" id="canceledit" value="">
 <input name="id_parent" type="hidden" value="<?php echo $tpl['node']['id_parent']; ?>">
+<input name="old_status" type="hidden" value="<?php echo $tpl['node']['status']; ?>">
 <input name="delete_node" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>

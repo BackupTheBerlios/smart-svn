@@ -13,9 +13,8 @@
  * ActionNavigationGetNodeStatus class 
  *
  * USAGE:
- * $model->action('navigation','checkStatusOfParentNodes',
- *                array('id_node' => int, 
- *                      'status'  => array('<|>|<=|>=|=', 1|2)))
+ * $node_status = $model->action('navigation','getNodeStatus',
+ *                               array('id_node' => int))
  *
  */
  
@@ -25,6 +24,7 @@ class ActionNavigationGetNodeStatus extends SmartAction
      * get node status
      *
      * @param array $data
+     * @return node status id or FALSE
      */
     function perform( $data = FALSE )
     {
@@ -34,7 +34,7 @@ class ActionNavigationGetNodeStatus extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}navigation_node
             WHERE
-                `id_node`={$id_node}";
+                `id_node`={$data['id_node']}";
         
         $rs = $this->model->dba->query( $sql );  
         

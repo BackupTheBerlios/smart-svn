@@ -113,7 +113,7 @@ class ViewSetupIndex extends SmartView
                 $this->tplVar['error'][] = $e->getMessage();
             }            
         }
-
+echo "aaaaaaaaaaaaaaaaaa";
         // Fill up the form field variables with posted data        
         if(isset($_REQUEST['dbtype']))
         {

@@ -37,7 +37,6 @@ class ActionNavigationGetTree extends ActionNavigation
     function perform( $data = FALSE )
     { 
         $this->result_tree = &$data['result'];
-        $this->result_tree = array();
         $this->selectTree( $data );
         
         $this->tree( $data['id_node'] );
@@ -61,6 +60,15 @@ class ActionNavigationGetTree extends ActionNavigation
             {
                 throw new SmartModelException("Field '".$val."' dosent exists!");
             }
+        }
+
+        if(!isset($data['result']))
+        {
+            throw new SmartModelException('"result" isnt defined');        
+        }
+        elseif(!is_array($data['result']))
+        {
+            throw new SmartModelException('"result" isnt from type array');        
         }
 
         if(!isset($data['id_node']))
