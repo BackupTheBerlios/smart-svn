@@ -63,7 +63,7 @@ class ViewNavigationNodemap extends SmartView
             $this->tplVar['mod'] = 'navigation';
         }
         
-        $this->tplVar['tree'] = FALSE;
+        $this->tplVar['tree'] = array();
         
         // get whole node tree
         $this->model->action('navigation','getTree', 
