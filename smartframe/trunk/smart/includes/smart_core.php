@@ -24,7 +24,7 @@ if (!defined( 'SMART_SECURE_INCLUDE' ))
 
 // Start output buffering
 //
-ob_end_clean();
+@ob_end_clean();
 ob_start();
 
 // init smart configuration array
