@@ -69,7 +69,7 @@ define('SMART_BASE_DIR', dirname(__FILE__) . '/');
 // Include the system core file. use this for debuging
 include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
 // Include the system core file. use this for production in order to the previous include
-//include( SMART_BASE_DIR . 'smart/includes/smart_all_in_one.php' );
+// include( SMART_BASE_DIR . 'smart/includes/smart_all_in_one.php' );
 
 $smartController = SmartController::newInstance('SmartWebController');
 
