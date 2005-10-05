@@ -4,8 +4,9 @@ Smart3 Framework Change.log
 0.2.0.9a
 --------
 - fixed some nasty warnings under php version 5.0.5
+- fixed sql language encoding bug
 - added article select with pubdate option
-- added ActionNavigationCheckNodeStatus.php action class
+- added ActionNavigationGetNodeStatus.php action class
 - modified public error template
 
 0.2.0.8a
