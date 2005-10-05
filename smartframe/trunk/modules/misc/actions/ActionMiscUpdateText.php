@@ -55,7 +55,7 @@ class ActionMiscUpdateText extends SmartAction
             $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
             $comma   = ",";
         }
-        
+       
         $sql = "
             UPDATE {$this->config['dbTablePrefix']}misc_text
                 SET

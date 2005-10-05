@@ -35,9 +35,8 @@ class ViewDefaultSystemInfo extends SmartView
     function perform()
     {
         $this->tplVar['phpVersion'] = phpversion();
-        
         $this->tplVar['mysqlInfo'] = array();
-        
+
         $this->model->action('common','mysqlInfo', 
                              array('result' => &$this->tplVar['mysqlInfo']));
     }     

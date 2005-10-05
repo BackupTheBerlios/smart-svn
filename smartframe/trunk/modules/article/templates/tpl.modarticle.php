@@ -13,12 +13,13 @@
     theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;",
     elements : "body",
     theme : "advanced",
-	theme_advanced_resizing : true,
+    entity_encoding : "raw",
+    theme_advanced_resizing : true,
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",   
     theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect,charmap,preview,fullscreen",   
     theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,anchor,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,separator,pastetext,pasteword,selectall",  
-    theme_advanced_buttons3 : "", 	
+    theme_advanced_buttons3 : "",   
     plugins : "fullscreen,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace,paste" 
   });
  function insertFile(folder,title,file,id_file)
@@ -211,58 +212,58 @@ function MM_swapImage() { //v3.0
     </td>
       </tr>
       <?php endif; ?>   
-	  <?php if($tpl['use_overtitle']==1): ?>
+    <?php if($tpl['use_overtitle']==1): ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Overtitle</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><input name="overtitle" type="text" id="overtitle" size="90" maxlength="1024" value="<?php echo $tpl['article']['overtitle']; ?>"></td>
       </tr>
-	  <?php endif; ?> 
+    <?php endif; ?> 
       <tr>
         <td align="left" valign="top" class="font10bold">Title</td>
       </tr>
       <tr>
         <td align="left" valign="top"><input name="title" type="text" id="title" size="90" maxlength="1024" value="<?php echo $tpl['article']['title']; ?>"></td>
       </tr>
-	  <?php if($tpl['use_subtitle']==1): ?>
+    <?php if($tpl['use_subtitle']==1): ?>
       <tr>
         <td align="left" valign="top" class="font10bold">Subtitle</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><input name="subtitle" type="text" id="subtitle" size="90" maxlength="1024" value="<?php echo $tpl['article']['subtitle']; ?>"></td>
       </tr>
-	  <?php endif; ?> 	
-	  <?php if($tpl['use_description']==1): ?>  
+    <?php endif; ?>   
+    <?php if($tpl['use_description']==1): ?>  
       <tr>
         <td align="left" valign="top" class="font10bold">Description</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><textarea name="description" cols="90" rows="3" id="description"><?php echo $tpl['article']['description']; ?></textarea></td>
       </tr>
-	  <?php endif; ?> 
-	  <?php if($tpl['use_header']==1): ?>  
+    <?php endif; ?> 
+    <?php if($tpl['use_header']==1): ?>  
       <tr>
         <td align="left" valign="top" class="font10bold">Header</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><textarea name="header" cols="90" rows="3" id="header"><?php echo $tpl['article']['header']; ?></textarea></td>
       </tr>
-	  <?php endif; ?> 	  
+    <?php endif; ?>     
       <tr>
         <td align="left" valign="top" class="font10bold">Body</td>
       </tr>
       <tr>
         <td align="left" valign="top"><textarea name="body" cols="90" rows="15" id="body"><?php echo $tpl['article']['body']; ?></textarea></td>
       </tr>
-	  <?php if($tpl['use_ps']==1): ?>  
+    <?php if($tpl['use_ps']==1): ?>  
       <tr>
         <td align="left" valign="top" class="font10bold">Post Script</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><textarea name="ps" cols="90" rows="3" id="ps"><?php echo $tpl['article']['ps']; ?></textarea></td>
       </tr>
-	  <?php endif; ?> 	 	  
+    <?php endif; ?>       
       <tr>
         <td align="left" valign="top"><input name="back" type="submit" id="back" value="Back">
           <input name="refresh" type="submit" id="refresh" value="Refresh">
@@ -348,7 +349,7 @@ function MM_swapImage() { //v3.0
         </td>
       </tr>
     </table>
-      <?php endif; ?>	
+      <?php endif; ?> 
     <?php if($tpl['use_images']==1): ?>
       <table width="200" border="0" cellspacing="0" cellpadding="4">
         <tr>

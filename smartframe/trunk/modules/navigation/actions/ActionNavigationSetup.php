@@ -21,7 +21,7 @@ class ActionNavigationSetup extends SmartAction
      *
      */
     public function perform( $data = FALSE )
-    {
+    {  
         if(isset($data['rollback']))
         {
             $this->rollback($data);
@@ -142,7 +142,7 @@ class ActionNavigationSetup extends SmartAction
                     '0.1',
                     1,
                     'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
-        $this->model->dba->query($sql);            
+        $this->model->dba->query($sql);          
     } 
     
     /**

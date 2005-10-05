@@ -12,6 +12,7 @@
     theme_advanced_containers_default_align : "left",
     theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;",
     elements : "body",
+    entity_encoding : "raw",
     theme : "advanced",
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",   

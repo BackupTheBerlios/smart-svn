@@ -12,13 +12,14 @@
     theme_advanced_containers_default_align : "left",
     theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;",
     elements : "body",
+    entity_encoding : "raw",
     theme : "advanced",
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",   
-    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect",   
-    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,save",  
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect,charmap,preview,fullscreen",   
+    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,separator,pastetext,pasteword,selectall",  
     theme_advanced_buttons3 : "", 
-    plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace"
+    plugins : "fullscreen,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace,paste"
     
   });
  function insertFile(folder,title,file,id_file)
