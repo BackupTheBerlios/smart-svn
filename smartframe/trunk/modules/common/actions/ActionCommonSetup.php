@@ -44,6 +44,7 @@ class ActionCommonSetup extends SmartAction
                                               $data['config']['db']['dbport']);
                                               
             $this->model->dba->connect();  
+            $this->model->dba->query("SET NAMES '{$data['config']['db']['dbcharset']}'"); 
         }
         catch(SmartDbException $e)
         {
