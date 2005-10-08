@@ -66,7 +66,10 @@ class ViewArticle extends SmartView
         // if the requested node is only available for registered users
         if( ($this->tplVar['node']['status'] == 3) && ($this->tplVar['isUserLogged'] == FALSE) )
         {
-              @header('Location: '.SMART_CONTROLLER.'?view=login&url='.base64_encode('view=article&id_article='.$this->current_id_article));
+              // set url vars to come back to this page after login
+              $this->model->session->set('url','view=article&id_article='.$this->current_id_article);
+              // switch to the login page
+              @header('Location: '.SMART_CONTROLLER.'?view=login');
               exit;
         }
  
