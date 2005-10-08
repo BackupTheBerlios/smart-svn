@@ -6,14 +6,14 @@
 
 <!-- --- charset setting --- -->
 <meta http-equiv="Content-Type" content="text/html; charset=<?php echo $tpl['charset']; ?>">
-<meta name="keywords" content="">
+<meta name="robots" content="noindex,nofollow" />
 
 <!-- --- output page title --- -->
-<title>SMART3 - Error Page</title>
+<title>SMART3 - Public Login Page</title>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
-<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
-<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
 <script language="JavaScript">
    function subok(s){
       s.value = "wait ...";
@@ -101,8 +101,9 @@
         <td width="638" align="left" valign="top">
          <table width="638" border="0" cellspacing="4" cellpadding="2">
           <tr>
-            <td align="left" valign="top"><form name="form1" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=login">
-              <table width="32%" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
+            <td align="center" valign="top">
+			  <strong>The requested content is only available for registered users.</strong><br><br>			<form name="form1" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=login">
+              <table width="350" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
                 <tr align="center" valign="middle">
                   <td colspan="2" class="logintitle">Login</td>
                 </tr>
@@ -113,7 +114,6 @@
                 </tr>
                 <tr>
                   <td width="26%" valign="top" align="left" class="loginitem"> Login<br>
-				      <input name="url" type="hidden" value="<?php echo $tpl['url']; ?>">
                       <input type="text" name="login" maxlength="1000" size="25" value="<?php echo $tpl['login']; ?>">
                   </td>
                   <td width="74%" valign="top" align="center"> </td>

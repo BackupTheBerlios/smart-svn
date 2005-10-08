@@ -51,7 +51,10 @@ class ViewLogin extends SmartView
             if($login == TRUE)
             {
                 ob_clean();
-                @header('Location: '.SMART_CONTROLLER.'?'.base64_decode($_POST['url']));
+                // get url vars to switch to the destination page
+                $url = $this->model->session->get('url');
+                $this->model->session->del('url');
+                @header('Location: '.SMART_CONTROLLER.'?'.$url);
                 exit;            
             }
         }
@@ -85,7 +88,6 @@ class ViewLogin extends SmartView
         $this->tplVar['captcha_pic'] = '';
         $this->tplVar['public_key']  = '';
         $this->tplVar['login']       = '';
-        $this->tplVar['url']         = $_REQUEST['url'];
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];

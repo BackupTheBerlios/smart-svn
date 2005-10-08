@@ -158,7 +158,10 @@ class ViewNode extends SmartView
         // if the requested node is only available for registered users
         elseif( ($nodeStatus == 3) && ($this->tplVar['isUserLogged'] == FALSE) )
         {
-              @header('Location: '.SMART_CONTROLLER.'?view=login&url='.base64_encode('id_node='.$this->current_id_node));
+              // set url vars to come back to this page after login
+              $this->model->session->set('url','id_node='.$this->current_id_node);
+              // switch to the login page
+              @header('Location: '.SMART_CONTROLLER.'?view=login');
               exit;
         }
     }
