@@ -50,7 +50,7 @@ class ViewSitemap extends SmartView
         $this->model->action('navigation','getTree', 
                              array('id_node' => 0,
                                    'result'  => & $this->tplVar['tree'],
-                                   'status'  => array('=', 2),
+                                   'status'  => array('>=', 2),
                                    'fields'  => array('id_parent','status','id_node','title')));   
 
         // get for each node the related articles

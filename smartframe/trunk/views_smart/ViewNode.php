@@ -40,7 +40,7 @@ class ViewNode extends SmartView
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'status'  => array('=',2),
+                                   'status'  => array('>=',2),
                                    'fields'  => array('title','body','id_node','media_folder')));
          
         // get child nodes content of the requested node
@@ -48,7 +48,7 @@ class ViewNode extends SmartView
         $this->model->action('navigation','getChilds', 
                              array('result'  => & $this->tplVar['childNodes'],
                                    'id_node' => (int)$this->current_id_node,
-                                   'status'  => array('=',2),
+                                   'status'  => array('>=',2),
                                    'fields'  => array('title','short_text','id_node')));
  
         // get navigation node branch content of the requested node
@@ -147,13 +147,20 @@ class ViewNode extends SmartView
         // check if the demanded node has at least status 2
         $nodeStatus = $this->model->action('navigation','getNodeStatus', 
                                             array('id_node' => (int)$this->current_id_node));  
-                     
+        
+        // if the requested node isnt active
         if( $nodeStatus < 2 )
         {
             $this->template          = 'error'; 
             $this->tplVar['message'] = "The requested node isnt accessible";
             $this->dontPerform       = TRUE;
         } 
+        // if the requested node is only available for registered users
+        elseif( ($nodeStatus == 3) && ($this->tplVar['isUserLogged'] == FALSE) )
+        {
+              @header('Location: '.SMART_CONTROLLER.'?view=login&url='.base64_encode('id_node='.$this->current_id_node));
+              exit;
+        }
     }
 
     /**

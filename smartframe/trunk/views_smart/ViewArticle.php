@@ -61,7 +61,14 @@ class ViewArticle extends SmartView
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
                                    'id_node' => (int)$this->tplVar['article']['id_node'],
-                                   'fields'  => array('title','id_node')));                             
+                                   'fields'  => array('title','id_node','status')));                             
+
+        // if the requested node is only available for registered users
+        if( ($this->tplVar['node']['status'] == 3) && ($this->tplVar['isUserLogged'] == FALSE) )
+        {
+              @header('Location: '.SMART_CONTROLLER.'?view=login&url='.base64_encode('view=article&id_article='.$this->current_id_article));
+              exit;
+        }
  
         // get navigation node branch content of the requested article
         $this->model->action('navigation','getBranch', 
