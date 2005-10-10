@@ -84,6 +84,7 @@ class ViewArticle extends SmartView
         {
             $this->tplVar['isUserLogged'] = TRUE;
         }
+
         $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');     
     }
 
@@ -151,6 +152,10 @@ class ViewArticle extends SmartView
         $this->tplVar['charset'] = & $this->config['charset'];
         // relative path to the smart directory
         $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
+        
+        // we need this template vars to show admin links if the user is logged
+        $this->tplVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
+        $this->tplVar['adminWebController']  = $this->config['admin_web_controller'];
     }
 
     /**

@@ -126,8 +126,14 @@ class ViewSitemap extends SmartView
         $this->tplVar['tree'] = array();
         $this->tplVar['node'] = array();
         
-        // charset used for the html pages
+        // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];
+        // relative path to the smart directory
+        $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
+        
+        // we need this template vars to show admin links if the user is logged
+        $this->tplVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
+        $this->tplVar['adminWebController']  = $this->config['admin_web_controller']; 
     }
 }
 
