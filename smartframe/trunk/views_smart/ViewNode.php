@@ -73,7 +73,7 @@ class ViewNode extends SmartView
         $this->model->action('article','getNodeArticles',
                              array('id_node' => (int)$this->current_id_node,
                                    'result'  => & $this->tplVar['nodeArticles'],
-                                   'status'  => array('=', 4),
+                                   'status'  => array('>=', 4),
                                    'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                    'order'   => array('rank', 'asc'),
                                    'limit'   => array('perPage' => (int)$this->articlesPerPage,
@@ -92,7 +92,7 @@ class ViewNode extends SmartView
         $this->model->action('article','pager', 
                              array('result'     => & $this->tplVar['pager'],
                                    'id_node'    => (int)$this->current_id_node,
-                                   'status'     => array('=', '4'),
+                                   'status'     => array('>=', '4'),
                                    'pubdate'    => array('<=', 'CURRENT_TIMESTAMP'),
                                    'perPage'    => $this->articlesPerPage,
                                    'numPage'    => (int)$this->pageNumber,
@@ -118,7 +118,7 @@ class ViewNode extends SmartView
         {
             $this->tplVar['isUserLogged'] = TRUE;
         }
-        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');     
+        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole'); 
     }
 
     /**
@@ -154,6 +154,8 @@ class ViewNode extends SmartView
             $this->template          = 'error'; 
             $this->tplVar['message'] = "The requested node isnt accessible";
             $this->dontPerform       = TRUE;
+            // disable caching
+            $this->cacheExpire = 0;
         } 
         // if the requested node is only available for registered users
         elseif( ($nodeStatus == 3) && ($this->tplVar['isUserLogged'] == FALSE) )
@@ -207,6 +209,9 @@ class ViewNode extends SmartView
         $this->tplVar['charset'] = & $this->config['charset'];
         // relative path to the smart directory
         $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
+        
+        $this->tplVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
+        $this->tplVar['adminWebController']  = $this->config['admin_web_controller'];        
     }
 }
 

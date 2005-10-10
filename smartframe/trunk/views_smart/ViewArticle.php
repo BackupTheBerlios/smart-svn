@@ -27,52 +27,31 @@ class ViewArticle extends SmartView
      */
     function perform()
     { 
-        // init variables (see private function below)
-        $this->initVars();
-
         // dont proceed if an error occure
         if(isset( $this->dontPerform ))
         {
             return;
         }
 
+        // init variables (see private function below)
+        $this->initVars();
+
         // get article data                                                    
         $this->model->action('article','getArticle',
                              array('id_article' => (int)$this->current_id_article,
                                    'result'  => & $this->tplVar['article'],
-                                   'status'  => array('=',4),
+                                   'status'  => array('>=',4),
                                    'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                    'fields'  => array('id_article','id_node','title',
                                                       'header','overtitle',
                                                       'subtitle','body','ps') ));  
-
-        // check if the article node has at least status 2
-        $nodeStatus = $this->model->action('navigation','getNodeStatus', 
-                                            array('id_node' => (int)$this->tplVar['article']['id_node']));  
-                     
-        if( $nodeStatus < 2 )
-        {
-            $this->template          = 'error'; 
-            $this->tplVar['message'] = "The requested article isnt accessible";
-            return;
-        } 
           
         // get node title and id of the article node
         $this->model->action('navigation','getNode', 
                              array('result'  => & $this->tplVar['node'],
                                    'id_node' => (int)$this->tplVar['article']['id_node'],
-                                   'fields'  => array('title','id_node','status')));                             
-
-        // if the requested node is only available for registered users
-        if( ($this->tplVar['node']['status'] == 3) && ($this->tplVar['isUserLogged'] == FALSE) )
-        {
-              // set url vars to come back to this page after login
-              $this->model->session->set('url','view=article&id_article='.$this->current_id_article);
-              // switch to the login page
-              @header('Location: '.SMART_CONTROLLER.'?view=login');
-              exit;
-        }
- 
+                                   'fields'  => array('title','id_node')));                             
+    
         // get navigation node branch content of the requested article
         $this->model->action('navigation','getBranch', 
                              array('result'  => & $this->tplVar['nodeBranch'],
@@ -141,6 +120,9 @@ class ViewArticle extends SmartView
         {
             $this->current_id_article = (int)$_GET['id_article'];         
         }
+        
+        // check permission to access this article if it has status protected
+        $this->checkPermission();
     }
 
     /**
@@ -169,6 +151,45 @@ class ViewArticle extends SmartView
         $this->tplVar['charset'] = & $this->config['charset'];
         // relative path to the smart directory
         $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
+    }
+
+    /**
+     * check if the article
+     *
+     */        
+    private function checkPermission()
+    {
+        $result = array();
+        // get article status and its node status
+        $valide = $this->model->action('article','getStatus', 
+                                       array('id_article' => (int)$this->current_id_article,
+                                             'result'     => & $result));  
+
+        if( ($valide == FALSE)             ||
+            ($result['nodeStatus']    < 2) || 
+            ($result['articleStatus'] < 4))
+        {
+            $this->template          = 'error'; 
+            $this->tplVar['message'] = "The requested article isnt accessible";
+            $this->dontPerform = TRUE;
+            // disable caching
+            $this->cacheExpire = 0;
+            return;
+        } 
+
+        if( $this->tplVar['isUserLogged'] == FALSE )
+        {
+            // the requested article is only available for registered users
+            if( ($result['nodeStatus']    == 3) || 
+                ($result['articleStatus'] == 5) )
+            {
+                // set url vars to come back to this page after login
+                $this->model->session->set('url','view=article&id_article='.$this->current_id_article);
+                // switch to the login page
+                @header('Location: '.SMART_CONTROLLER.'?view=login');
+                exit;
+            }
+        }
     }
 }
 

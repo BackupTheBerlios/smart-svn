@@ -75,7 +75,8 @@ class ViewLogin extends SmartView
         {
             $this->tplVar['isUserLogged'] = TRUE;
         }
-        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');     
+        // get user role
+        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');
     }    
     
     /**
@@ -94,7 +95,10 @@ class ViewLogin extends SmartView
         // relative path to the smart directory
         $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
     }  
-    
+    /**
+     * reset form data
+     *
+     */     
     private function resetFormData()
     {
         $this->tplVar['login'] = htmlentities(strip_tags(SmartCommonUtil::stripSlashes($_POST['login'])));     
