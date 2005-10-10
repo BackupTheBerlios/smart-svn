@@ -137,12 +137,20 @@ class SmartWebController extends SmartController
     {
         if(preg_match("/[^a-zA-Z0-9_]/", $view_name))
         {
-            throw new SmartViewException('Wrong view fromat: ' . $view_name);
+            if($this->config['debug'] == TRUE)
+            {
+                throw new SmartViewException('Wrong view fromat: ' . $view_name);
+            }
+            return $this->config['default_view'];
         }
 
         if(!@file_exists(SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php'))
         {
-            throw new SmartViewException('View class dosent exists: ' . SMART_BASE_DIR . $this->model->config['views_folder'] . 'View' . ucfirst($view_name) . '.php');
+            if($this->config['debug'] == TRUE)
+            {
+                throw new SmartViewException('View class dosent exists: ' . SMART_BASE_DIR . $this->model->config['views_folder'] . 'View' . ucfirst($view_name) . '.php');
+            }
+            return $this->config['default_view'];
         }
 
         return $view_name;
