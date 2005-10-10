@@ -218,7 +218,7 @@ class SmartForwardPublicViewException extends Exception
         $this->data = & $data;
         $this->constructorData = & $constructorData;
         
-       // ob_clean();
+        ob_clean();
     }   
 }
 ?>
