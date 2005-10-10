@@ -60,7 +60,7 @@ class ViewSitemap extends SmartView
             $this->model->action('article','getNodeArticles',
                                  array('id_node' => (int)$node['id_node'],
                                        'result'  => & $node['article'],
-                                       'status'  => array('=',4),
+                                       'status'  => array('>=',4),
                                        'order'   => array('rank', 'asc'),
                                        'fields'  => array('id_article','title') ));                     
         }
