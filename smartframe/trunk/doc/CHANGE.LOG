@@ -1,6 +1,11 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.1a
+--------
+- in modules "navigation" and "article" you can now set content to protect,
+  means only registered user have access to.
+
 0.2.0.9a
 --------
 - fixed some nasty warnings under php version 5.0.5
