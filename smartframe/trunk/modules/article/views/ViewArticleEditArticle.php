@@ -18,7 +18,7 @@
  * 2 = propose
  * 3 = edit
  * 4 = publish
- * 5 = restrict
+ * 5 = protect
  *
  */
  

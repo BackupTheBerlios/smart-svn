@@ -9,32 +9,32 @@ function gotonode(f,x){
 var flag = 0;
 function enablechangedate(f)
 {
-	if(flag==0)
-	{
-		flag = 1;
-	    f.changedate_year.disabled="";
-		f.changedate_month.disabled="";
-		f.changedate_day.disabled="";
-		f.changedate_hour.disabled="";
-		f.changedate_minute.disabled="";
-		f.changedatebutton.value="disable";
-	    f.ch1.disabled="";
-		f.ch2.disabled="";
-		f.ch3.disabled="";
-	}
-	else
-	{
-	    flag = 0;
-	    f.changedate_year.disabled="disabled";
-		f.changedate_month.disabled="disabled";
-		f.changedate_day.disabled="disabled";
-		f.changedate_hour.disabled="disabled";
-		f.changedate_minute.disabled="disabled";
-		f.ch1.disabled="disabled";
-		f.ch2.disabled="disabled";
-		f.ch3.disabled="disabled";
-		f.changedatebutton.value="enable";	
-	}
+  if(flag==0)
+  {
+    flag = 1;
+      f.changedate_year.disabled="";
+    f.changedate_month.disabled="";
+    f.changedate_day.disabled="";
+    f.changedate_hour.disabled="";
+    f.changedate_minute.disabled="";
+    f.changedatebutton.value="disable";
+      f.ch1.disabled="";
+    f.ch2.disabled="";
+    f.ch3.disabled="";
+  }
+  else
+  {
+      flag = 0;
+      f.changedate_year.disabled="disabled";
+    f.changedate_month.disabled="disabled";
+    f.changedate_day.disabled="disabled";
+    f.changedate_hour.disabled="disabled";
+    f.changedate_minute.disabled="disabled";
+    f.ch1.disabled="disabled";
+    f.ch2.disabled="disabled";
+    f.ch3.disabled="disabled";
+    f.changedatebutton.value="enable";  
+  }
 }
 function cancel_edit(f)
 {
@@ -78,9 +78,9 @@ function cancel_edit(f)
             <?php endforeach; ?>
             <?php if($tpl['id_node']!=0): ?>
                / <a href="javascript:gotonode(document.forms['editarticle'],<?php echo $tpl['node']['id_node']; ?>);"><?php echo $tpl['node']['title']; ?></a>
-            <?php endif; ?>			
-		 </div>  	
-	</td>
+            <?php endif; ?>     
+     </div>   
+  </td>
   </tr>
   <tr>
     <td class="font16bold"><?php echo $tpl['article']['title']; ?><hr></td>
@@ -107,6 +107,7 @@ function cancel_edit(f)
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
+                <option value="5" <?php if($tpl['article']['status'] == 5) echo 'selected="selected"'; ?>>protect</option>
                 <option value="4" <?php if($tpl['article']['status'] == 4) echo 'selected="selected"'; ?>>publish</option>
                 <option value="3" <?php if($tpl['article']['status'] == 3) echo 'selected="selected"'; ?>>edit</option>
                 <option value="2" <?php if($tpl['article']['status'] == 2) echo 'selected="selected"'; ?>>propose</option>
@@ -123,12 +124,12 @@ function cancel_edit(f)
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">
-		    <select name="article_id_node" size="1" id="article_id_node" class="treeselectbox">
+        <select name="article_id_node" size="1" id="article_id_node" class="treeselectbox">
                 <option value="0">Top</option>
                 <?php foreach($tpl['tree'] as $val):  ?>
                 <option value="<?php echo $val['id_node']; ?>" <?php if($val['id_node'] == $tpl['id_node'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
                 <?php endforeach; ?>
-			</select></td>
+      </select></td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font12bold">Publish Date</td>
@@ -145,25 +146,25 @@ function cancel_edit(f)
           <tr>
             <td align="left" valign="top"><input name="pubdate_year" type="text" size="5" maxlength="4" value="<?php echo $tpl['article']['pubdate']['year']; ?>"></td>
             <td align="left" valign="top"><select name="pubdate_month">
-			  <?php for($month=1;$month<13;$month++): ?>
+        <?php for($month=1;$month<13;$month++): ?>
               <option value="<?php echo $month; ?>" <?php if($tpl['article']['pubdate']['month'] == $month) echo 'selected="selected"'; ?>><?php echo $month; ?></option>
               <?php endfor; ?>
             </select>
               </td>
             <td align="left" valign="top"><select name="pubdate_day">
-			  <?php for($day=1;$day<32;$day++): ?>
+        <?php for($day=1;$day<32;$day++): ?>
               <option value="<?php echo $day; ?>" <?php if($tpl['article']['pubdate']['day'] == $day) echo 'selected="selected"'; ?>><?php echo $day; ?></option>
-              <?php endfor; ?>			  			  
+              <?php endfor; ?>                
             </select>
               </td>
             <td align="left" valign="top"><select name="pubdate_hour">
-			  <?php for($hour=0;$hour<24;$hour++): ?>
+        <?php for($hour=0;$hour<24;$hour++): ?>
               <option value="<?php echo $hour; ?>" <?php if($tpl['article']['pubdate']['hour'] == $hour) echo 'selected="selected"'; ?>><?php echo $hour; ?></option>
               <?php endfor; ?>
             </select>
               </td>
             <td align="left" valign="top"><select name="pubdate_minute">
-			  <?php for($minute=0;$minute<60;$minute++): ?>
+        <?php for($minute=0;$minute<60;$minute++): ?>
               <option value="<?php echo $minute; ?>" <?php if($tpl['article']['pubdate']['minute'] == $minute) echo 'selected="selected"'; ?>><?php echo $minute; ?></option>
               <?php endfor; ?>
             </select>
@@ -171,7 +172,7 @@ function cancel_edit(f)
           </tr>
         </table></td>
       </tr>
-	  <?php if($tpl['use_changedate']==1): ?>
+    <?php if($tpl['use_changedate']==1): ?>
       <tr>
         <td align="left" valign="top" class="font12bold">Change Status Date</td>
       </tr>
@@ -233,8 +234,8 @@ function cancel_edit(f)
             </tr>
           </table></td>
       </tr>
-	  <?php endif; ?>
-	  <?php if($tpl['use_articledate']==1): ?>
+    <?php endif; ?>
+    <?php if($tpl['use_articledate']==1): ?>
       <tr>
         <td align="left" valign="top" class="font12bold">Original Date</td>
       </tr>
@@ -278,7 +279,7 @@ function cancel_edit(f)
         </table>
           </td>
       </tr>
-	  <?php endif; ?>
+    <?php endif; ?>
       <tr>
         <td align="left" valign="top" class="font9"> 
           <div align="right">          </div></td>
