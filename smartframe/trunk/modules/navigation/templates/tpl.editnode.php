@@ -245,7 +245,7 @@ function MM_swapImage() { //v3.0
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
-                <option value="3" <?php if($tpl['node']['status'] == 3) echo 'selected="selected"'; ?>>restricted</option>
+                <option value="3" <?php if($tpl['node']['status'] == 3) echo 'selected="selected"'; ?>>protect</option>
                 <option value="2" <?php if($tpl['node']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
                 <option value="1" <?php if($tpl['node']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
               </select></td>
