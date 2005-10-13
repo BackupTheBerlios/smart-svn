@@ -1,9 +1,9 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart PHP Framework
-// Copyright (c) 2004, 2005
-// by Armand Turpel < smart@open-publisher.net >
-// http://smart.open-publisher.net/
+// Smart3 PHP Framework
+// Copyright (c) 2004, 2005, 2005
+// by Armand Turpel < framework@smart3.org >
+// http://www.smart3.org/
 // ----------------------------------------------------------------------
 // GNU LESSER GENERAL PUBLIC LICENSE
 // To read the license please visit http://www.gnu.org/licenses/lgpl.txt

@@ -1,9 +1,9 @@
 <?php
 // ----------------------------------------------------------------------
-// Smart PHP Framework
-// Copyright (c) 2004
-// by Armand Turpel < smart@open-publisher.net >
-// http://smart.open-publisher.net/
+// Smart3 PHP Framework
+// Copyright (c) 2004, 2005
+// by Armand Turpel < framework@smart3.org >
+// http://www.smart3.org/
 // ----------------------------------------------------------------------
 // LICENSE GPL
 // To read the license please visit http://www.gnu.org/copyleft/gpl.html
@@ -141,7 +141,7 @@ class ActionNavigationSetup extends SmartAction
                     2,
                     '0.1',
                     1,
-                    'DATE: 6.5.2005 AUTHOR: Armand Turpel <smart@open-publisher.net>')";
+                    'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);          
     } 
     
