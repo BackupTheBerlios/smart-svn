@@ -55,7 +55,7 @@ class SmartController extends SmartObject
     public function __construct()
     {
         try
-        {            
+        {   
             // set reference to the config array
             $this->config = & self::$smartConfig;
 

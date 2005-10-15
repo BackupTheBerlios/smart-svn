@@ -40,24 +40,29 @@ class SmartCliController extends SmartController
              * Set controller type
              */
             $this->config['controller_type'] = 'cli';   
-            
+ 
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );
-
+            
+            if(defined('SMART_VIEW_FOLDER'))
+            {
+                $this->config['views_folder'] = SMART_VIEW_FOLDER;
+            }            
+            
             // create a SmartCliViewFactory instance
             // this instance aggregates the model object
             $this->view = new SmartCliViewFactory( $this->model, $this->config );
 
             // get the view from the command line
-            if( !isset($argv[1]) )
+            if( !isset($_SERVER['argv'][1]) )
             {
-                $viewRequest = $this->config['cli_default_view'];
+               throw new SmartViewException('No view defined in $argv[1]');
             } 
             else
             {
-                $viewRequest = $argv[1];
+                $viewRequest = $_SERVER['argv'][1];
             }         
-
+            
             // validate view request
             $methode = $this->validateViewName( $viewRequest );
       
@@ -68,31 +73,31 @@ class SmartCliController extends SmartController
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView( $e->getMessage() );
+            exit;
         }
         catch(SmartModelException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace();
-            $this->userErrorView( $e->getMessage() );
+            exit;
         }         
         catch(SmartTplException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView( $e->getMessage() );
+            exit;
         } 
         catch(SmartCacheException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView( $e->getMessage() );
+            exit;
         } 
         catch(SmartDbException $e)
         {
             $this->setExceptionFlags( $e );
             $e->performStackTrace(); 
-            $this->userErrorView( $e->getMessage() );
+            exit;
         }            
         catch(SmartForwardPublicViewException $e)
         {
@@ -119,75 +124,16 @@ class SmartCliController extends SmartController
     {
         if(preg_match("/[^a-zA-Z0-9_]/", $view_name))
         {
-            if($this->config['debug'] == TRUE)
-            {
-                throw new SmartViewException('Wrong view fromat: ' . $view_name);
-            }
-            return $this->config['cli_default_view'];
+            throw new SmartViewException('Wrong view fromat: ' . $view_name);
         }
 
-        if(!@file_exists(SMART_BASE_DIR . $this->model->config['views_folder'] . '/View' . ucfirst($view_name) . '.php'))
+        if(!@file_exists(SMART_BASE_DIR . $this->config['views_folder'] . '/View' . ucfirst($view_name) . '.php'))
         {
-            if($this->config['debug'] == TRUE)
-            {
-                throw new SmartViewException('View class dosent exists: ' . SMART_BASE_DIR . $this->model->config['views_folder'] . 'View' . ucfirst($view_name) . '.php');
-            }
-            return $this->config['cli_default_view'];
+            throw new SmartViewException('View class dosent exists: ' . SMART_BASE_DIR . $this->config['views_folder'] . 'View' . ucfirst($view_name) . '.php');
         }
 
         return $view_name;
     }
-
-    /**
-     * Web user error view is executed if an exception arrise
-     *
-     */    
-    private function userErrorView( $message )
-    {
-        if($this->config['debug'] == FALSE)
-        {
-            $methode = $this->model->config['cli_default_view'];
-        }
-        else
-        {
-            $methode = $this->model->config['cli_error_view'];
-        }
-        
-        try
-        {        
-            $this->view->$methode( $message );   
-        }
-        catch(SmartViewException $e)
-        {
-            $this->setExceptionFlags( $e );
-            $e->performStackTrace();
-            die('Fatal View Error');
-        }
-        catch(SmartModelException $e)
-        {
-            $this->setExceptionFlags( $e );
-            $e->performStackTrace();
-            die('Fatal Model Error');
-        }         
-        catch(SmartTplException $e)
-        {
-            $this->setExceptionFlags( $e );
-            $e->performStackTrace(); 
-            die('Fatal Template Error');
-        } 
-        catch(SmartCacheException $e)
-        {
-            $this->setExceptionFlags( $e );
-            $e->performStackTrace(); 
-            die('Fatal Cache Error');
-        } 
-        catch(SmartDbException $e)
-        {
-            $this->setExceptionFlags( $e );
-            $e->performStackTrace(); 
-            die('Fatal DB Error');
-        }     
-    }    
 }
 
 ?>
