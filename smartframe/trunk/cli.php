@@ -67,7 +67,7 @@ define('SMART_BASE_DIR', dirname(__FILE__) . '/');
 include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
 
 $smartController = SmartController::newInstance('SmartCliController');
-//var_dump($argv);exit;
+
 $smartController->dispatch();
 
 ?>
