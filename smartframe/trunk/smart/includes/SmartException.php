@@ -79,12 +79,19 @@ class SmartException extends Exception
         // Print this message
         if(strstr($this->flag['message_handle'], 'SHOW') && ($this->flag['debug'] == TRUE ))
         {
-            echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
-                              font-size: 10px;
-                              color: #990000;
-                              background-color: #CCCCCC;
-                              padding: 5px;
-                              border: thin solid #666666;">'.$this->exceptionMessage.'</pre><br />';
+            if(!defined('SMART3_CLI_CONTROLLER'))
+            {
+                echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
+                                  font-size: 10px;
+                                  color: #990000;
+                                  background-color: #CCCCCC;
+                                  padding: 5px;
+                                  border: thin solid #666666;">'.$this->exceptionMessage.'</pre><br />';
+            }
+            else
+            {
+                echo $this->exceptionMessage;
+            }
         }  
         // email this message
         if(strstr($this->flag['message_handle'], 'MAIL') && !empty($this->flag['system_email']))

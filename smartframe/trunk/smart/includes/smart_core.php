@@ -119,8 +119,10 @@ $SmartConfig['default_view_folder']     = 'views_smart/';
 /**
  * Default views.
  */
-$SmartConfig['default_view'] = 'index';
-$SmartConfig['error_view']   = 'error';
+$SmartConfig['default_view']     = 'index';
+$SmartConfig['error_view']       = 'error';
+$SmartConfig['cli_default_view'] = 'cliIndex';
+$SmartConfig['cli_error_view']   = 'cliError';
 
 /**
  * enable output compression (FALSE = disable, TRUE = enable)
