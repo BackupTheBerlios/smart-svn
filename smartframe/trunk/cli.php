@@ -1,0 +1,77 @@
+<?php
+// ----------------------------------------------------------------------
+// Smart3 PHP Framework
+// Copyright (c) 2004, 2005, 2005
+// by Armand Turpel < framework@smart3.org >
+// http://www.smart3.org/
+// ----------------------------------------------------------------------
+// GNU LESSER GENERAL PUBLIC LICENSE
+// To read the license please visit http://www.gnu.org/licenses/lgpl.txt
+// ----------------------------------------------------------------------
+
+/*
+ * The CLI Controller
+ *
+ */
+
+/*
+ * Front Controller File Name (this file)
+ */
+if(!defined( 'SMART_CONTROLLER' ))
+{
+   define('SMART_CONTROLLER', 'cli.php'); 
+}
+
+/*
+ * Relative path to SMART. Example: 'test/'
+ */
+if(!defined( 'SMART_RELATIVE_PATH' ))
+{
+   define('SMART_RELATIVE_PATH', './'); 
+}
+
+/*
+ * Force to use the views folder, independed of the sys config settings.
+ */
+/*
+if(!defined( 'SMART_VIEW_FOLDER' ))
+{
+   define('SMART_VIEW_FOLDER', 'views_default/'); 
+}
+*/
+
+/* #################################################### */
+/* ######### Dont change any thing below !!! ########## */
+/* #################################################### */
+
+// exit if this file isnt called from php's cli.
+// only woks if register_globals = off
+if( !isset($argv) )
+{
+    die('Only for cli jobs: exit');
+}
+
+define('SMART3_CLI_CONTROLLER' , TRUE);
+
+/* 
+ * Secure include of files from this script
+ */
+if(!defined( 'SMART_SECURE_INCLUDE' ))
+{
+    define('SMART_SECURE_INCLUDE', 1);
+}
+
+// Define the absolute path to SMART
+//
+define('SMART_BASE_DIR', dirname(__FILE__) . '/');
+
+// Include the system core file. use this for debuging
+include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
+// Include the system core file. use this for production in order to the previous include
+// include( SMART_BASE_DIR . 'smart/includes/smart_all_in_one.php' );
+
+$smartController = SmartController::newInstance('SmartCliController');
+
+$smartController->dispatch();
+
+?>
