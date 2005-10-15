@@ -33,12 +33,10 @@ if(!defined( 'SMART_RELATIVE_PATH' ))
 /*
  * Force to use the views folder, independed of the sys config settings.
  */
-/*
 if(!defined( 'SMART_VIEW_FOLDER' ))
 {
-   define('SMART_VIEW_FOLDER', 'views_default/'); 
+   define('SMART_VIEW_FOLDER', 'views_cli/'); 
 }
-*/
 
 /* #################################################### */
 /* ######### Dont change any thing below !!! ########## */
@@ -46,7 +44,7 @@ if(!defined( 'SMART_VIEW_FOLDER' ))
 
 // exit if this file isnt called from php's cli.
 // only woks if register_globals = off
-if( !isset($argv) )
+if( !isset($_SERVER['argv']) )
 {
     die('Only for cli jobs: exit');
 }
@@ -65,13 +63,11 @@ if(!defined( 'SMART_SECURE_INCLUDE' ))
 //
 define('SMART_BASE_DIR', dirname(__FILE__) . '/');
 
-// Include the system core file. use this for debuging
+// Include the system core file.
 include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
-// Include the system core file. use this for production in order to the previous include
-// include( SMART_BASE_DIR . 'smart/includes/smart_all_in_one.php' );
 
 $smartController = SmartController::newInstance('SmartCliController');
-
+//var_dump($argv);exit;
 $smartController->dispatch();
 
 ?>
