@@ -92,6 +92,9 @@ class SmartCliViewFactory extends SmartViewFactory
            
         // alias to the view object
         $view = $this->$requestedView;
+        
+        // Aggregate command line arguments
+        $view->argv = & $this->argv;
             
         // Aggregate model object
         $view->model = & $this->model;

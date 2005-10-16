@@ -53,16 +53,26 @@ class SmartCliController extends SmartController
             // this instance aggregates the model object
             $this->view = new SmartCliViewFactory( $this->model, $this->config );
 
-            // get the view from the command line
-            // the view name is always the first argument
-            if( !isset($_SERVER['argv'][1]) )
+            // get the command line arguments
+            $this->view->argv = array();            
+            if ($_SERVER['argc'] > 0)
             {
-               throw new SmartViewException('No view defined in $argv[1]');
+                for ($i=1;$i < $_SERVER['argc'];$i++)
+                {
+                    parse_str($_SERVER['argv'][$i],$tmp);
+                    $this->view->argv = array_merge($this->view->argv, $tmp);
+                }
+            }
+
+            // check if a view is defined from the command line
+            if( !isset($this->view->argv['view']) )
+            {
+               throw new SmartViewException('No view defined in $argv["view"]');
             } 
             else
             {
-                $viewRequest = $_SERVER['argv'][1];
-            }         
+                $viewRequest = $this->view->argv['view'];
+            }  
             
             // validate view request
             $methode = $this->validateViewName( $viewRequest );
