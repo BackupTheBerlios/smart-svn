@@ -22,8 +22,8 @@ class ViewCliTest extends SmartCliView
     public function perform()
     {
         $message  = "\n#########################################################";
-        $message .= "\nThis is the Smart3 CLI default view 'cliIndex'.";
-        $message .= "\nThis view does nothing else than printing\n";
+        $message .= "\nThis is the Smart3 CLI default view 'cliTest'.";
+        $message .= "\nThis view does nothing else than printing";
         $message .= "\nout the command line arguments\n";
         $message .= "#########################################################\n";
 
