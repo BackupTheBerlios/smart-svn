@@ -54,6 +54,7 @@ class SmartCliController extends SmartController
             $this->view = new SmartCliViewFactory( $this->model, $this->config );
 
             // get the view from the command line
+            // the view name is always the first argument
             if( !isset($_SERVER['argv'][1]) )
             {
                throw new SmartViewException('No view defined in $argv[1]');
