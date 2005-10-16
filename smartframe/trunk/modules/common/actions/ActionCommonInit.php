@@ -27,7 +27,7 @@ else
 unset($tmp_separator); 
 
 // util class
-require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonUtil.php');
+include_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonUtil.php');
 
 // session handler class
 require_once(SMART_BASE_DIR . 'modules/common/includes/SmartSessionHandler.php');
@@ -90,8 +90,11 @@ class ActionCommonInit extends SmartAction
             throw new SmartModelException;
         }
        
-        // set base url
-        $this->model->baseUrlLocation = SmartCommonUtil::base_location();
+        // set base url, except if the cli controller is used
+        if($this->config['controller_type'] != 'cli')
+        {
+            $this->model->baseUrlLocation = $this->base_location();
+        }
        
         // set session handler
         $this->model->sessionHandler = new SmartSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
@@ -193,7 +196,54 @@ class ActionCommonInit extends SmartAction
         {
             throw new SmartModelException( "It seem that there isnt the php extension 'mysql' nor 'mysqli' installed on your system. Check this!" );        
         }
-    }        
+    }    
+    
+    /**
+     * Get the base location
+     *
+     * @return string base location
+     */
+    private function base_location()
+    {
+        $base_dirname = dirname($_SERVER['PHP_SELF']);
+
+        if($base_dirname == '/' )
+            $base_dirname = '';
+
+        if(isset($_SERVER['SCRIPT_URI']))
+        {
+            $referer = $_SERVER['SCRIPT_URI'];
+        }
+        elseif(isset($_SERVER["HTTP_REFERER"]))
+        {
+            $referer = $_SERVER["HTTP_REFERER"];
+        }
+        elseif(isset($_ENV["HTTPS"]))
+        {
+            $referer = $_ENV["HTTPS"];
+        }
+        else
+        {
+            $referer = 'http://';
+        }
+        
+        // Build the http protocol referrer
+        //
+        if(preg_match("/^http([s]?)/i", $referer, $tmp))
+        {
+            $http = 'http' . $tmp[1] . '://';
+        }
+        elseif(preg_match("/^on$/i", $referer))
+        {
+            $http = 'https://';
+        }    
+        else
+        {
+            $http = $referer;
+        }    
+        
+        return $http . $_SERVER['HTTP_HOST'] . $base_dirname;
+    }      
 }
 
 ?>
