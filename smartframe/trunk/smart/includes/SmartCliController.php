@@ -59,7 +59,8 @@ class SmartCliController extends SmartController
             {
                 for ($i=1;$i < $_SERVER['argc'];$i++)
                 {
-                    parse_str($_SERVER['argv'][$i],$tmp);
+                    $tmp = array();
+                    parse_str($_SERVER['argv'][$i], $tmp);
                     $this->view->argv = array_merge($this->view->argv, $tmp);
                 }
             }
