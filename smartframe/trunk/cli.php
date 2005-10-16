@@ -49,8 +49,6 @@ if( !isset($_SERVER['argv']) )
     die('Only for cli jobs: exit');
 }
 
-define('SMART3_CLI_CONTROLLER' , TRUE);
-
 /* 
  * Secure include of files from this script
  */
