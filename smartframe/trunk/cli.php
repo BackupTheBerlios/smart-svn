@@ -42,13 +42,6 @@ if(!defined( 'SMART_VIEW_FOLDER' ))
 /* ######### Dont change any thing below !!! ########## */
 /* #################################################### */
 
-// exit if this file isnt called from php's cli.
-// only woks if register_globals = off
-if( !isset($_SERVER['argv']) )
-{
-    die('Only for cli jobs: exit');
-}
-
 /* 
  * Secure include of files from this script
  */
