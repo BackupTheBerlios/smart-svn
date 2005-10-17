@@ -7,7 +7,7 @@ Smart3 Framework Change.log
   means only registered user have access to.
 - added cli (command line interface) controller: 
   The cli.php controller and the related views in /views_cli as an example of how to use it
-  Example: ./php cli.php view=cliTest
+  Example: /bin/php cli.php view=cliTest
 
 0.2.0.9a
 --------
