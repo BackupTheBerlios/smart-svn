@@ -3,4 +3,4 @@ php_flag register_globals off
 RewriteEngine on
 RewriteBase /
 
-RewriteRule .*cli.php.* index.php
+RewriteRule cli.php index.php
