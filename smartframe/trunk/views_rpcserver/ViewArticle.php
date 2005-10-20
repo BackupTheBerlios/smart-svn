@@ -21,14 +21,32 @@ class ViewArticle extends SmartXmlRpcView
     
     private $articlelatestPublished_doc = array();
     private $articlelatestModified_doc  = array();    
+
+    /**
+     * verify user and password.
+     * @return bool
+     */
+    private function rpcAuth( &$m )
+    {
+        $user   = $m->getParam(0);
+        $user   = $user->scalarval();
+        $passwd = $m->getParam(1);
+        $passwd = $passwd->scalarval();
+        
+        
+        return $this->model->action( 'user','checkLogin',
+                                      array('login'  => (string)$user,
+                                            'passwd' => (string)$passwd));
+    }
+    
     
     /**
      * Execute this view
      */
     public function perform()
     {
-        $this->articlelatestPublished_sig = array(array($GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcInt']));
-        $this->articlelatestModified_sig  = array(array($GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcInt']));
+        $this->articlelatestPublished_sig = array(array($GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcInt']));
+        $this->articlelatestModified_sig  = array(array($GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcInt']));
         
         $this->articlelatestPublished_doc = 'Get latest x published articles';
         $this->articlelatestModified_doc  = 'Get latest x modifieded articles';        
@@ -49,12 +67,20 @@ class ViewArticle extends SmartXmlRpcView
     
     public function latestPublished( &$m )
     {
+        if(!$this->rpcAuth( &$m ))
+        {
+            return new xmlrpcresp( new xmlrpcval(FALSE, 'boolean') );
+        }
         return $this->latestArticles( $m, 'pubdate' );
 
     }
     
     public function latestModified( &$m )
     {
+        if(!$this->rpcAuth( &$m ))
+        {
+            return new xmlrpcresp( new xmlrpcval(FALSE, 'boolean') );
+        }
         return $this->latestArticles( $m, 'modifydate' );
     } 
     
@@ -62,21 +88,23 @@ class ViewArticle extends SmartXmlRpcView
     {
         $latest = array();
         
-        $numArticles = $m->getParam(0);
+        $numArticles = $m->getParam(2);
         $numArticles = $numArticles->scalarval();
         if( $numArticles < 2 )
         {
             $numArticles = 2;
         }
 
-        // get last published articles                                                   
+        // get last published/modified articles                                                   
         $this->model->action('article','select',
                              array('result'  => & $latest, 
                                    'limit'   => array('perPage' => $numArticles,
                                                       'numPage' => 1),  
                                    'order'   => array($field, 'desc'),
                                    'status'  => array('=', 4),
-                                   'fields'  => array('title','id_article','description',$field) ));
+                                   'fields'  => array('id_article','title',
+                                                      'overtitle','subtitle',
+                                                      'description',$field) ));
                                
         return new xmlrpcresp( new xmlrpcval(serialize($latest), 'base64') );
     }       
