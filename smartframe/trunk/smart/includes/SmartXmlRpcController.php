@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /*
- * Cli controller class
+ * SmartXmlRpcController class
  *
  */
 
@@ -33,7 +33,9 @@ class SmartXmlRpcController extends SmartController
      */
     public function dispatch()
     { 
-        while (@ob_end_clean());
+        // we dont need output buffering
+        @ob_end_clean();
+        
         // parent view class
         include_once( SMART_BASE_DIR . 'smart/includes/SmartXmlRpcView.php' );
         // Include view parent factory class and its child class
@@ -46,6 +48,10 @@ class SmartXmlRpcController extends SmartController
              * Set controller type
              */
             $this->config['controller_type'] = 'xml_rpc';   
+            
+            // reduce error reporting because of the xml_rpc class
+            // which is still php4 code
+            $this->config['error_reporting'] = E_ALL;
  
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );
