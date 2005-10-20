@@ -22,6 +22,7 @@ $authUser    = 'superuser';
 $authPasswd  = 'a';
 
 // the rpc methode to execute
+// you have the choice to get the latest published or modified articles
 $methode     = "article.latestPublished"; // 'article.latestModified' or 
                                           // 'article.latestPublished'
 // number of articles to get
@@ -55,18 +56,18 @@ if(!$response->faultCode())
     $articles = unserialize($result);
     foreach($articles as $art)
     {
-        echo "Date: {$art[$methodeField[$methode]]}<br>";
+        echo "<div>Date: {$art[$methodeField[$methode]]}</div>";
         
         if(!empty($art['overtitle']))
         {
-            echo "Overtitle: {$art['overtitle']}<br>";
+            echo "<div>Overtitle: {$art['overtitle']}</div>";
         }
         
-        echo "Title: <a href='http://{$domain}{$domainPath}index.php?view=article&id_article={$art['id_article']}' target='_blank'>{$art['title']}</a><br>";
+        echo "<div>Title: <a href='http://{$domain}{$domainPath}index.php?view=article&id_article={$art['id_article']}' target='_blank'>{$art['title']}</a></div>";
         
         if(!empty($art['subtitle']))
         {
-            echo "Subtitle: {$art['subtitle']}<br>";
+            echo "<div>Subtitle: {$art['subtitle']}</div>";
         }
         
         if(!empty($art['description']))
