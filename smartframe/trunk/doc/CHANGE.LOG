@@ -8,6 +8,7 @@ Smart3 Framework Change.log
 - added cli (command line interface) controller: 
   The cli.php controller and the related views in /views_cli as an example of how to use it
   Example: /bin/php cli.php view=cliTest
+- added rpcserver.php (XML_RPC Server) controller and related views in /views_rpcserver.
 
 0.2.0.9a
 --------
