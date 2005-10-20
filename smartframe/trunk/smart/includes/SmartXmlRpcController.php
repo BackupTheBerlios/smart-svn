@@ -52,6 +52,9 @@ class SmartXmlRpcController extends SmartController
             // reduce error reporting because of the xml_rpc class
             // which is still php4 code
             $this->config['error_reporting'] = E_ALL;
+            
+            // disable output compression
+            $this->config['output_compression'] = FALSE;
  
             // run broadcast action init event to every module
             $this->model->broadcast( 'init' );
