@@ -10,23 +10,23 @@
 require_once('../smart/includes/xml_rpc/xmlrpc.inc');
 
 // the domain name
-$domain      = "127.0.0.1";
+$domain      = "www.smart3.org";
 // relative path to the smart3 installation
-$domainPath  = "/projects/smartframe/";
+$domainPath  = "/";
 // full url path to the server and the requested view as argument (without 'http://')
 $rpcServer   = "{$domainPath}rpcserver.php?view=Article";
 
 // if registered user required, enter username and password else 
 // let the variables empty
-$authUser    = 'superuser';
-$authPasswd  = 'a';
+$authUser    = 'xmlrpc';
+$authPasswd  = '1234';
 
 // the rpc methode to execute
 // you have the choice to get the latest published or modified articles
 $methode     = "article.latestPublished"; // 'article.latestModified' or 
                                           // 'article.latestPublished'
 // number of articles to get
-$numArticles = 5;
+$numArticles = 8;
 
 ///////////////////////////////////////////////////////////////////////
 
