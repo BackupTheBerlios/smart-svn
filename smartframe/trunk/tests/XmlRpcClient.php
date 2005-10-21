@@ -1,3 +1,8 @@
+<?php
+// set charset
+@header( "Content-type: text/html; charset=utf-8" );  
+?>
+
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -23,7 +28,7 @@ $authPasswd  = '1234';
 
 // the rpc methode to execute
 // you have the choice to get the latest published or modified articles
-$methode     = "article.latestPublished"; // 'article.latestModified' or 
+$methode     = "article.latestModified";  // 'article.latestModified' or 
                                           // 'article.latestPublished'
 // number of articles to get
 $numArticles = 8;
@@ -57,8 +62,10 @@ if(!$response->faultCode())
     
     for($i=0; $i<$max; $i++) 
     {
+        // get element of the array
         $rec = $content->arraymem($i);
 
+        // get the associative array value
         $article_date = $rec->structmem($methodeField[$methode]);
         $article_date = $article_date->scalarval();
         echo "<div>Date: {$article_date}</div>";
