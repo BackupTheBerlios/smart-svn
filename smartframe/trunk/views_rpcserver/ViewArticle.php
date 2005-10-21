@@ -23,16 +23,15 @@ class ViewArticle extends SmartXmlRpcView
     private $articlelatestModified_doc  = array();    
 
     /**
-     * verify user and password.
+     * verify client user and password.
      * @return bool
      */
-    private function rpcAuth( &$m )
+    private function rpcAuth( &$params )
     {
-        $user   = $m->getParam(0);
+        $user   = $params->getParam(0);
         $user   = $user->scalarval();
-        $passwd = $m->getParam(1);
+        $passwd = $params->getParam(1);
         $passwd = $passwd->scalarval();
-        
         
         return $this->model->action( 'user','checkLogin',
                                       array('login'  => (string)$user,
@@ -64,31 +63,44 @@ class ViewArticle extends SmartXmlRpcView
                               "docstring" => $this->articlelatestModified_doc) ));
                           
     }
-    
-    public function latestPublished( &$m )
+    /**
+     * get latest published articles
+     *
+     * @param object $params Client parameters
+     */    
+    public function latestPublished( &$params )
     {
-        if(!$this->rpcAuth( &$m ))
+        if(!$this->rpcAuth( &$params ))
         {
             return new xmlrpcresp( new xmlrpcval(FALSE, 'boolean') );
         }
-        return $this->latestArticles( $m, 'pubdate' );
+        return $this->latestArticles( $params, 'pubdate' );
 
     }
-    
-    public function latestModified( &$m )
+    /**
+     * get latest modifies articles
+     *
+     * @param object $params Client parameters
+     */    
+    public function latestModified( &$params )
     {
-        if(!$this->rpcAuth( &$m ))
+        if(!$this->rpcAuth( &$params ))
         {
             return new xmlrpcresp( new xmlrpcval(FALSE, 'boolean') );
         }
-        return $this->latestArticles( $m, 'modifydate' );
+        return $this->latestArticles( $params, 'modifydate' );
     } 
-    
-    private function latestArticles( &$m, $field )
+    /**
+     * get latest published/modifies articles
+     *
+     * @param object $params Client parameters
+     * @param string $date_field Date field of the article to fetch
+     */     
+    private function latestArticles( &$params, $date_field )
     {
-        $latest = array();
+        $this->viewVar['latest_articles'] = array();
         
-        $numArticles = $m->getParam(2);
+        $numArticles = $params->getParam(2);
         $numArticles = $numArticles->scalarval();
         if( $numArticles < 2 )
         {
@@ -97,17 +109,42 @@ class ViewArticle extends SmartXmlRpcView
 
         // get last published/modified articles                                                   
         $this->model->action('article','select',
-                             array('result'  => & $latest, 
+                             array('result'  => & $this->viewVar['latest_articles'], 
                                    'limit'   => array('perPage' => $numArticles,
                                                       'numPage' => 1),  
-                                   'order'   => array($field, 'desc'),
+                                   'order'   => array($date_field, 'desc'),
                                    'status'  => array('=', 4),
                                    'fields'  => array('id_article','title',
                                                       'overtitle','subtitle',
-                                                      'description',$field) ));
-                               
-        return new xmlrpcresp( new xmlrpcval(serialize($latest), 'base64') );
-    }       
+                                                      'description',$date_field) ));
+        $this->addArray( $date_field );             
+        return new xmlrpcresp( $this->val );
+    }  
+    /**
+     * add articles content as xml_rpc struct array
+     *
+     * @param string $date_field Date field of the article to fetch
+     */     
+    private function addArray( &$date_field )
+    {
+        $content = array();
+        $this->val = new xmlrpcval();
+        
+        foreach($this->viewVar['latest_articles'] as $val)
+        {
+            $struct = array();
+            $struct['id_article']  = new xmlrpcval($val['id_article'], 'int');
+            $struct['title']       = new xmlrpcval($val['title'],      'string');
+            $struct['overtitle']   = new xmlrpcval($val['overtitle'],  'string');
+            $struct['subtitle']    = new xmlrpcval($val['subtitle'],   'string');
+            $struct['description'] = new xmlrpcval($val['description'],'string');
+            $struct[$date_field]   = new xmlrpcval($val[$date_field],  'string');
+            
+            $content[] = new xmlrpcval($struct, 'struct');
+        }
+        
+        $this->val->addArray($content);
+    }
 }
 
 ?>

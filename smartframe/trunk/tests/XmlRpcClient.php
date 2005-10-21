@@ -44,35 +44,50 @@ $msg    = new xmlrpcmsg($methode,
  
 //$client->setDebug(1);
 $response = $client->send($msg);
-$val      = $response->value();
+$content  = $response->value();
 
 if(!$response->faultCode())
 {
-    if(FALSE === ($result = $val->scalarval()))
+    if(FALSE === ($result = $content->scalarval()))
     {
         die("access denied");
-    }
+    } 
     
-    $articles = unserialize($result);
-    foreach($articles as $art)
+    $max = $content->arraysize(); 
+    
+    for($i=0; $i<$max; $i++) 
     {
-        echo "<div>Date: {$art[$methodeField[$methode]]}</div>";
+        $rec = $content->arraymem($i);
+
+        $article_date = $rec->structmem($methodeField[$methode]);
+        $article_date = $article_date->scalarval();
+        echo "<div>Date: {$article_date}</div>";
         
-        if(!empty($art['overtitle']))
+        $overtitle = $rec->structmem('overtitle');
+        $overtitle = $overtitle->scalarval();
+        if(!empty($overtitle))
         {
-            echo "<div>Overtitle: {$art['overtitle']}</div>";
+            echo "<div>Overtitle: {}</div>";
         }
         
-        echo "<div>Title: <a href='http://{$domain}{$domainPath}index.php?view=article&id_article={$art['id_article']}' target='_blank'>{$art['title']}</a></div>";
-        
-        if(!empty($art['subtitle']))
+        $id_article = $rec->structmem('id_article');
+        $id_article = $id_article->scalarval();
+        $title      = $rec->structmem('title');
+        $title      = $title->scalarval();
+        echo "<div>Title: <a href='http://{$domain}{$domainPath}index.php?view=article&id_article={$id_article}' target='_blank'>{$title}</a></div>";
+
+        $subtitle = $rec->structmem('subtitle');
+        $subtitle = $subtitle->scalarval();        
+        if(!empty($subtitle))
         {
-            echo "<div>Subtitle: {$art['subtitle']}</div>";
+            echo "<div>Subtitle: {$subtitle}</div>";
         }
         
-        if(!empty($art['description']))
+        $description = $rec->structmem('description');
+        $description = $description->scalarval();           
+        if(!empty($description))
         {
-            echo "<div>Description: {$art['description']}</div>";
+            echo "<div>Description: {$description}</div>";
         }
         
         echo "<br>";
