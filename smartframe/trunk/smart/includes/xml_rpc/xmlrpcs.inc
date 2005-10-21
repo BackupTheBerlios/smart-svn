@@ -1,7 +1,7 @@
 <?php
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
-// $Id: xmlrpcs.inc,v 1.35 2005/09/16 23:35:58 ggiunta Exp $
+// $Id: xmlrpcs.inc,v 1.36 2005/10/01 18:22:12 ggiunta Exp $
 
 // Copyright (c) 1999,2000,2002 Edd Dumbill.
 // All rights reserved.
@@ -316,7 +316,7 @@
 		var $accepted_compression = array();
 		/// shall we serve calls to system.* methods?
 		var $allow_system_funcs = true;
-		/// list of charset encodings natively accepted for requests
+		/// list of charset encodings for requests
 		var $accepted_charset_encodings = array();
 		
 		function xmlrpc_server($dispMap='', $serviceNow=1)
