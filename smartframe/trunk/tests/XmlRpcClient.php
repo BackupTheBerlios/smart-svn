@@ -40,14 +40,18 @@ $methodeField = array('article.latestModified'  => 'modifydate',
                       'article.latestPublished' => 'pubdate');
 
 // start rpc client
-$client = new xmlrpc_client("{$rpcServer}", $domain, 80);  
+$client = new xmlrpc_client("{$rpcServer}", $domain, 80); 
+//$client->setDebug(1);
+
+//$client->setAcceptedCompression('gzip');
+//$client->setRequestCompression('gzip');
+
 // set rpc methode and parameters
 $msg    = new xmlrpcmsg($methode, 
                 array( new xmlrpcval($authUser,    "string"),
                        new xmlrpcval($authPasswd,  "string"),
                        new xmlrpcval($numArticles, "int") ) );
  
-//$client->setDebug(1);
 $response = $client->send($msg);
 $content  = $response->value();
 
