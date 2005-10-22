@@ -15,8 +15,9 @@
  */
 
 // xml_rpc classes
-include_once( SMART_BASE_DIR . 'smart/includes/xml_rpc/xmlrpc_inutio.php' );
- 
+include_once( SMART_BASE_DIR . 'smart/includes/xml_rpc/xmlrpc.inc' ); 
+include_once( SMART_BASE_DIR . 'smart/includes/xml_rpc/xmlrpcs.inc' ); 
+
 class SmartXmlRpcController extends SmartController
 {
     /**

@@ -14,7 +14,7 @@
  *
  */
 
-class SmartXmlRpcView extends IXR_IntrospectionServer
+class SmartXmlRpcView extends SmartObject
 {
     /**
      * View variable container
@@ -58,7 +58,6 @@ class SmartXmlRpcView extends IXR_IntrospectionServer
      */
     public function __construct()
     {
-        $this->IXR_IntrospectionServer();
     }
 
     /**
