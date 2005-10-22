@@ -15,74 +15,80 @@
  */
 
 class ViewArticle extends SmartXmlRpcView
-{      
+{  
+    private $articlelatestPublished_sig = array();
+    private $articlelatestModified_sig  = array();
+    
+    private $articlelatestPublished_doc = array();
+    private $articlelatestModified_doc  = array();    
+
     /**
      * verify client user and password.
      * @return bool
      */
     private function rpcAuth( &$params )
     {
-        $user   = $params[0];
-        $passwd = $params[1];
+        $user   = $params->getParam(0);
+        $user   = $user->scalarval();
+        $passwd = $params->getParam(1);
+        $passwd = $passwd->scalarval();
         
         return $this->model->action( 'user','checkLogin',
                                       array('login'  => (string)$user,
                                             'passwd' => (string)$passwd));
     }
-
+    
+    
     /**
-     * Execute this view. 
-     * Register callback methods and start XML-RPC server 
+     * Execute this view
      */
     public function perform()
-    {  
-        $this->addCallback(
-                'article.latestPublished',    // XML-RPC method name
-                'this:latestPublished',       // methode to callback
-                array('struct','string', 'string','int'), // Array specifying the method signature
-                'Returns the last published article as a struct array.'  // Documentation string
-               );        
+    {
+        $this->articlelatestPublished_sig = array(array($GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcInt']));
+        $this->articlelatestModified_sig  = array(array($GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcInt']));
+        
+        $this->articlelatestPublished_doc = 'Get latest x published articles';
+        $this->articlelatestModified_doc  = 'Get latest x modifieded articles';        
+        
+        $s = new xmlrpc_server(
+                  array(
+                      "article.latestPublished" =>
+                        array("function"  => array(&$this,'latestPublished'),
+                              "signature" => $this->articlelatestPublished_sig,
+                              "docstring" => $this->articlelatestPublished_doc),
 
-        $this->addCallback(
-                'article.latestModified',
-                'this:latestModified',
-                array('struct','string', 'string','int'),
-                'Returns the last modified article as a struct array.'
-               );  
-               
-        $this->serve();                     
+                      "article.latestModified" =>
+                        array("function"  => array(&$this,'latestModified'),
+                              "signature" => $this->articlelatestModified_sig,
+                              "docstring" => $this->articlelatestModified_doc) ));
+                          
     }
     /**
      * get latest published articles
      *
      * @param object $params Client parameters
-     * @return array struct data
      */    
     public function latestPublished( &$params )
     {
         if(!$this->rpcAuth( &$params ))
         {
-            return new IXR_Error(1000, 'Authentication fails. Registered user required.');
+            return new xmlrpcresp( new xmlrpcval(FALSE, 'boolean') );
         }
-        
-        $this->latestArticles( $params, 'pubdate' );
-        return $this->viewVar['latest_articles'];
+        return $this->latestArticles( $params, 'pubdate' );
+
     }
     /**
      * get latest modifies articles
      *
      * @param object $params Client parameters
-     * @return array struct data
      */    
     public function latestModified( &$params )
     {
         if(!$this->rpcAuth( &$params ))
         {
-            return new IXR_Error(1000, 'Authentication fails. Registered user required.');
+            return new xmlrpcresp( new xmlrpcval(FALSE, 'boolean') );
         }
-        
-        $this->latestArticles( $params, 'modifydate' );
-        return $this->viewVar['latest_articles'];
+        return $this->latestArticles( $params, 'modifydate' );
     } 
     /**
      * get latest published/modifies articles
@@ -94,8 +100,8 @@ class ViewArticle extends SmartXmlRpcView
     {
         $this->viewVar['latest_articles'] = array();
         
-        $numArticles = $params[2];
-
+        $numArticles = $params->getParam(2);
+        $numArticles = $numArticles->scalarval();
         if( $numArticles < 2 )
         {
             $numArticles = 2;
@@ -111,7 +117,34 @@ class ViewArticle extends SmartXmlRpcView
                                    'fields'  => array('id_article','title',
                                                       'overtitle','subtitle',
                                                       'description',$date_field) ));
+        $this->addArray( $date_field );             
+        return new xmlrpcresp( $this->val );
     }  
+    /**
+     * add articles content as xml_rpc struct array
+     *
+     * @param string $date_field Date field of the article to fetch
+     */     
+    private function addArray( &$date_field )
+    {
+        $content = array();
+        $this->val = new xmlrpcval();
+        
+        foreach($this->viewVar['latest_articles'] as $val)
+        {
+            $struct = array();
+            $struct['id_article']  = new xmlrpcval($val['id_article'], 'int');
+            $struct['title']       = new xmlrpcval($val['title'],      'string');
+            $struct['overtitle']   = new xmlrpcval($val['overtitle'],  'string');
+            $struct['subtitle']    = new xmlrpcval($val['subtitle'],   'string');
+            $struct['description'] = new xmlrpcval($val['description'],'string');
+            $struct[$date_field]   = new xmlrpcval($val[$date_field],  'string');
+            
+            $content[] = new xmlrpcval($struct, 'struct');
+        }
+        
+        $this->val->addArray($content);
+    }
 }
 
 ?>
