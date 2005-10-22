@@ -6,12 +6,14 @@
    Site:   http://scripts.incutio.com/xmlrpc/
    Manual: http://scripts.incutio.com/xmlrpc/manual.php
    Made available under the Artistic License: http://www.opensource.org/licenses/artistic-license.php
+
+$HeadURL: http://svn.textpattern.com/current/textpattern/lib/IXRClass.php $
+$LastChangedRevision: 765 $
 */
 
-
 class IXR_Value {
-    public $data;
-    public $type;
+    var $data;
+    var $type;
     function IXR_Value ($data, $type = false) {
         $this->data = $data;
         if (!$type) {
@@ -41,10 +43,10 @@ class IXR_Value {
             return 'double';
         }
         // Deal with IXR object types base64 and date
-        if (is_object($this->data) && ($this->data instanceof IXR_Date)) {
+        if (is_object($this->data) && is_a($this->data, 'IXR_Date')) {
             return 'date';
         }
-        if (is_object($this->data) && ($this->data instanceof IXR_Base64)) {
+        if (is_object($this->data) && is_a($this->data, 'IXR_Base64')) {
             return 'base64';
         }
         // If it is a normal PHP object convert it in to a struct
@@ -117,22 +119,22 @@ class IXR_Value {
 
 
 class IXR_Message {
-    public $message;
-    public $messageType;  // methodCall / methodResponse / fault
-    public $faultCode;
-    public $faultString;
-    public $methodName;
-    public $params;
+    var $message;
+    var $messageType;  // methodCall / methodResponse / fault
+    var $faultCode;
+    var $faultString;
+    var $methodName;
+    var $params;
     // Current variable stacks
-    public $_arraystructs = array();   // The stack used to keep track of the current array/struct
-    public $_arraystructstypes = array(); // Stack keeping track of if things are structs or array
-    public $_currentStructName = array();  // A stack as well
-    public $_param;
-    public $_value;
-    public $_currentTag;
-    public $_currentTagContents;
+    var $_arraystructs = array();   // The stack used to keep track of the current array/struct
+    var $_arraystructstypes = array(); // Stack keeping track of if things are structs or array
+    var $_currentStructName = array();  // A stack as well
+    var $_param;
+    var $_value;
+    var $_currentTag;
+    var $_currentTagContents;
     // The XML parser
-    public $_parser;
+    var $_parser;
     function IXR_Message ($message) {
         $this->message = $message;
     }
@@ -272,10 +274,10 @@ class IXR_Message {
 
 
 class IXR_Server {
-    public $data;
-    public $callbacks = array();
-    public $message;
-    public $capabilities;
+    var $data;
+    var $callbacks = array();
+    var $message;
+    var $capabilities;
     function IXR_Server($callbacks = false, $data = false) {
         $this->setCapabilities();
         if ($callbacks) {
@@ -301,7 +303,7 @@ class IXR_Server {
         }
         $result = $this->call($this->message->methodName, $this->message->params);
         // Is the result an error?
-        if ($result instanceof IXR_Error) {
+        if (is_a($result, 'IXR_Error')) {
             $this->error($result);
         }
         // Encode the result
@@ -361,7 +363,13 @@ EOD;
         $this->output($error->getXml());
     }
     function output($xml) {
-        $xml = '<?xml version="1.0"?>'."\n".$xml;
+        $xml = '<?xml version="1.0" encoding="utf-8" ?>'."\n".$xml;
+    if ( (@strpos($_SERVER["HTTP_ACCEPT_ENCODING"],'gzip') !== false) && extension_loaded('zlib') && 
+      ini_get("zlib.output_compression") == 0 && ini_get('output_handler') != 'ob_gzhandler' && !headers_sent()) 
+    {
+      $xml = gzencode($xml,7,FORCE_GZIP);
+      header("Content-Encoding: gzip");
+    }
         $length = strlen($xml);
         header('Connection: close');
         header('Content-Length: '.$length);
@@ -414,7 +422,7 @@ EOD;
             } else {
                 $result = $this->call($method, $params);
             }
-            if ($result instanceof IXR_Error) {
+            if (is_a($result, 'IXR_Error')) {
                 $return[] = array(
                     'faultCode' => $result->code,
                     'faultString' => $result->message
@@ -428,9 +436,9 @@ EOD;
 }
 
 class IXR_Request {
-    public $method;
-    public $args;
-    public $xml;
+    var $method;
+    var $args;
+    var $xml;
     function IXR_Request($method, $args) {
         $this->method = $method;
         $this->args = $args;
@@ -459,15 +467,15 @@ EOD;
 
 
 class IXR_Client {
-    public $server;
-    public $port;
-    public $path;
-    public $useragent;
-    public $response;
-    public $message = false;
-    public $debug = false;
+    var $server;
+    var $port;
+    var $path;
+    var $useragent;
+    var $response;
+    var $message = false;
+    var $debug = false;
     // Storage place for an error message
-    public $error = false;
+    var $error = false;
     function IXR_Client($server, $path = false, $port = 80) {
         if (!$path) {
             // Assume we have been given a URL instead
@@ -497,21 +505,29 @@ class IXR_Client {
         $request .= "Host: {$this->server}$r";
         $request .= "Content-Type: text/xml$r";
         $request .= "User-Agent: {$this->useragent}$r";
+    // Accept gzipped response if zlib and if php4.3+ (fgets turned binary safe)
+    if ( extension_loaded('zlib') && preg_match('#^(4\.[3-9])|([5-9])#',phpversion()) ) 
+      $request .= "Accept-Encoding: gzip$r";
         $request .= "Content-length: {$length}$r$r";
         $request .= $xml;
         // Now send the request
         if ($this->debug) {
             echo '<pre>'.htmlspecialchars($request)."\n</pre>\n\n";
         }
-        $fp = @fsockopen($this->server, $this->port);
+    // This is to find out when the script unexpectedly dies due to fsockopen
+    ob_start(NULL, 2048);
+    echo "Trying to connect to an RPC Server...";
+        $fp = (is_callable('fsockopen')) ? fsockopen($this->server, $this->port, $errno, $errstr, 45) : false;
+    ob_end_clean();
         if (!$fp) {
-            $this->error = new IXR_Error(-32300, 'transport error - could not open socket');
+            $this->error = new IXR_Error(-32300, 'transport error - could not open socket ('.$errstr.')');
             return false;
         }
         fputs($fp, $request);
         $contents = '';
         $gotFirstLine = false;
         $gettingHeaders = true;
+    $is_gzipped = false;
         while (!feof($fp)) {
             $line = fgets($fp, 4096);
             if (!$gotFirstLine) {
@@ -522,13 +538,25 @@ class IXR_Client {
                 }
                 $gotFirstLine = true;
             }
-            if (trim($line) == '') {
+            if ($gettingHeaders && trim($line) == '') {
                 $gettingHeaders = false;
+        continue;
             }
             if (!$gettingHeaders) {
-                $contents .= trim($line)."\n";
+            // We do a binary comparison of the first two bytes, see
+            // rfc1952, to check wether the content is gzipped.
+        if ( ($contents=='') && (strncmp($line,"\x1F\x8B",2)===0)) 
+          $is_gzipped = true;
+                $contents .= ($is_gzipped) ? $line : trim($line)."\n";
             }
         }
+    # if gzipped, strip the 10 byte header, and pass it to gzinflate (rfc1952)
+    if ($is_gzipped) 
+    {
+      $contents = gzinflate(substr($contents, 10));
+      //simulate trim() for each line; don't know why, but it won't work otherwise
+      $contents = preg_replace('#^[\x20\x09\x0A\x0D\x00\x0B]*(.*)[\x20\x09\x0A\x0D\x00\x0B]*$#m','\\1',$contents);
+    }
         if ($this->debug) {
             echo '<pre>'.htmlspecialchars($contents)."\n</pre>\n\n";
         }
@@ -564,8 +592,8 @@ class IXR_Client {
 
 
 class IXR_Error {
-    public $code;
-    public $message;
+    var $code;
+    var $message;
     function IXR_Error($code, $message) {
         $this->code = $code;
         $this->message = $message;
@@ -596,12 +624,12 @@ EOD;
 
 
 class IXR_Date {
-    public $year;
-    public $month;
-    public $day;
-    public $hour;
-    public $minute;
-    public $second;
+    var $year;
+    var $month;
+    var $day;
+    var $hour;
+    var $minute;
+    var $second;
     function IXR_Date($time) {
         // $time can be a PHP timestamp or an ISO one
         if (is_numeric($time)) {
@@ -612,8 +640,8 @@ class IXR_Date {
     }
     function parseTimestamp($timestamp) {
         $this->year = date('Y', $timestamp);
-        $this->month = date('Y', $timestamp);
-        $this->day = date('Y', $timestamp);
+        $this->month = date('m', $timestamp);
+        $this->day = date('d', $timestamp);
         $this->hour = date('H', $timestamp);
         $this->minute = date('i', $timestamp);
         $this->second = date('s', $timestamp);
@@ -639,7 +667,7 @@ class IXR_Date {
 
 
 class IXR_Base64 {
-    public $data;
+    var $data;
     function IXR_Base64($data) {
         $this->data = $data;
     }
@@ -650,8 +678,8 @@ class IXR_Base64 {
 
 
 class IXR_IntrospectionServer extends IXR_Server {
-    public $signatures;
-    public $help;
+    var $signatures;
+    var $help;
     function IXR_IntrospectionServer() {
         $this->setCallbacks();
         $this->setCapabilities();
@@ -738,7 +766,7 @@ class IXR_IntrospectionServer extends IXR_Server {
                     break;
                 case 'date':
                 case 'dateTime.iso8601':
-                    if (!($arg instanceof IXR_Date)) {
+                    if (!is_a($arg, 'IXR_Date')) {
                         $ok = false;
                     }
                     break;
@@ -795,7 +823,7 @@ class IXR_IntrospectionServer extends IXR_Server {
 
 
 class IXR_ClientMulticall extends IXR_Client {
-    public $calls = array();
+    var $calls = array();
     function IXR_ClientMulticall($server, $path = false, $port = 80) {
         parent::IXR_Client($server, $path, $port);
         $this->useragent = 'The Incutio XML-RPC PHP Library (multicall client)';
