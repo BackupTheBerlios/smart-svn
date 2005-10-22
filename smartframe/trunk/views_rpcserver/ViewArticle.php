@@ -72,7 +72,7 @@ class ViewArticle extends SmartXmlRpcView
     {
         if(!$this->rpcAuth( &$params ))
         {
-            return new xmlrpcresp( new xmlrpcval(FALSE, 'boolean') );
+            return new xmlrpcresp(0, $GLOBALS['xmlrpcerruser'], 'Registered user required');
         }
         return $this->latestArticles( $params, 'pubdate' );
 
@@ -86,7 +86,7 @@ class ViewArticle extends SmartXmlRpcView
     {
         if(!$this->rpcAuth( &$params ))
         {
-            return new xmlrpcresp( new xmlrpcval(FALSE, 'boolean') );
+            return new xmlrpcresp(0, $GLOBALS['xmlrpcerruser'], 'Registered user required');
         }
         return $this->latestArticles( $params, 'modifydate' );
     } 
