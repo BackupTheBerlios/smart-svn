@@ -53,11 +53,6 @@ $content  = $response->value();
 
 if(!$response->faultCode())
 {
-    if(FALSE === ($result = $content->scalarval()))
-    {
-        die("access denied");
-    } 
-    
     $max = $content->arraysize(); 
     
     for($i=0; $i<$max; $i++) 
