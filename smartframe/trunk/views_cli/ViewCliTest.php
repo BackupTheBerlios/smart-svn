@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewCliTest class (default cli view)
+ * ViewCliTest class
  *
  */
 
@@ -23,13 +23,26 @@ class ViewCliTest extends SmartCliView
     {
         $message  = "\n#########################################################";
         $message .= "\nThis is the Smart3 CLI view 'cliTest'.";
-        $message .= "\nThis view does nothing else than printing";
-        $message .= "\nout this message and the command line arguments\n";
+        $message .= "\nThis view print out the top level navigation nodes\n";
         $message .= "#########################################################\n\n";
-
-        $message .= var_export($this->argv, true)."\n";
         
-        print $message;
+        // print header message
+        fwrite(STDOUT, $message, strlen($message));
+        
+        $this->tplVar['rootNodes'] = array(); 
+        // get top level nodes that have id_node = 0 as id_parent
+        $this->model->action( 'navigation', 'getChilds', 
+                              array('id_node' => 0,
+                                    'result'  => & $this->tplVar['rootNodes'],
+                                    'status'  => array('=', 2),
+                                    'fields'  => array('title','id_node'))); 
+
+        // print top level nodes
+        foreach($this->tplVar['rootNodes'] as $node)
+        {
+            $message = "NodeID: {$node['id_node']} \t Title: {$node['title']}\n";
+            fwrite(STDOUT, $message, strlen($message));
+        }
     }
 }
 
