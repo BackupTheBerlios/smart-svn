@@ -156,10 +156,11 @@ class SmartController extends SmartObject
      */
     protected function setExceptionFlags( $e )
     {
-        $e->flag = array('debug'          => $this->config['debug'],
-                         'logs_path'      => $this->config['logs_path'],
-                         'message_handle' => $this->config['message_handle'],
-                         'system_email'   => $this->config['system_email']);  
+        $e->flag = array('debug'           => $this->config['debug'],
+                         'logs_path'       => $this->config['logs_path'],
+                         'message_handle'  => $this->config['message_handle'],
+                         'system_email'    => $this->config['system_email'],
+                         'controller_type' => $this->config['controller_type']);  
         return;
     }
 

@@ -79,7 +79,7 @@ class SmartException extends Exception
         // Print this message
         if(strstr($this->flag['message_handle'], 'SHOW') && ($this->flag['debug'] == TRUE ))
         {
-            if(!defined('SMART3_CLI_CONTROLLER'))
+            if(preg_match("/web|admin/", $this->flag['controller_type']))
             {
                 echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
                                   font-size: 10px;
@@ -88,10 +88,14 @@ class SmartException extends Exception
                                   padding: 5px;
                                   border: thin solid #666666;">'.$this->exceptionMessage.'</pre><br />';
             }
-            else
+            elseif(preg_match("/cli/", $this->flag['controller_type']))
             {
-                echo $this->exceptionMessage;
+                fwrite(STDERR, $this->exceptionMessage, strlen($this->exceptionMessage));
             }
+            elseif(preg_match("/xml_rpc/", $this->flag['controller_type']))
+            {
+                return new xmlrpcresp(0, $GLOBALS['xmlrpcerruser'], $this->exceptionMessage);
+            }            
         }  
         // email this message
         if(strstr($this->flag['message_handle'], 'MAIL') && !empty($this->flag['system_email']))

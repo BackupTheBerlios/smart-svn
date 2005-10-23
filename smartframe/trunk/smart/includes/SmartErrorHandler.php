@@ -76,12 +76,23 @@ class SmartErrorHandler
         // Print this message
         if(strstr($this->config['message_handle'], 'SHOW'))
         {
-            echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
+            if(preg_match("/web|admin/", $this->config['controller_type']))
+            {        
+                echo '<pre style="font-family: Verdana, Arial, Helvetica, sans-serif;
                               font-size: 10px;
                               color: #990000;
                               background-color: #CCCCCC;
                               padding: 5px;
                               border: thin solid #666666;">'.$message.'</pre><br />';
+            }
+            elseif(preg_match("/cli/", $this->config['controller_type']))
+            {
+                fwrite(STDERR, $message, strlen($message));
+            }
+            elseif(preg_match("/xml_rpc/", $this->config['controller_type']))
+            {
+                return new xmlrpcresp(0, $GLOBALS['xmlrpcerruser'], $message);
+            }              
         }    
         // email this message
         if(strstr($this->config['message_handle'], 'MAIL') && !empty($this->config['system_email']))
