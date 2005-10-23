@@ -5,7 +5,7 @@ Smart3 Framework Change.log
 --------
 - in modules "navigation" and "article" you can now set content to protect,
   means only registered user have access to.
-- added cli (command line interface) controller: 
+- added cli (command line interface) controller to build shell applications: 
   The cli.php controller and the related views in /views_cli as an example of how to use it
   Example: /bin/php cli.php view=cliTest
 - added rpcserver.php (XML_RPC Server) controller and related views in /views_rpcserver.
