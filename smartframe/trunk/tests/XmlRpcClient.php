@@ -12,7 +12,7 @@
 
 <?php
 // include the xml_rpc client class
-require_once('../smart/includes/xml_rpc/xmlrpc.inc');
+require_once('../smart/includes/PEAR/XML/RPC/RPC.php');
 
 // the domain name
 $domain      = "www.smart3.org";
@@ -28,29 +28,29 @@ $authPasswd  = '1234';
 
 // the rpc methode to execute
 // you have the choice to get the latest published or modified articles
-$methode     = "article.latestModified";  // 'article.latestModified' or 
-                                          // 'article.latestPublished'
+$methode     = "latestModified";  // 'latestModified' or 
+                                  // 'latestPublished'
 // number of articles to get
 $numArticles = 8;
 
 ///////////////////////////////////////////////////////////////////////
 
 // map methode related fields
-$methodeField = array('article.latestModified'  => 'modifydate',
-                      'article.latestPublished' => 'pubdate');
+$methodeField = array('latestModified'  => 'modifydate',
+                      'latestPublished' => 'pubdate');
 
 // start rpc client
-$client = new xmlrpc_client("{$rpcServer}", $domain, 80); 
+$client = new XML_RPC_Client("{$rpcServer}", $domain, 80); 
 //$client->setDebug(1);
 
 //$client->setAcceptedCompression('gzip');
 //$client->setRequestCompression('gzip');
 
 // set rpc methode and parameters
-$msg    = new xmlrpcmsg($methode, 
-                array( new xmlrpcval($authUser,    "string"),
-                       new xmlrpcval($authPasswd,  "string"),
-                       new xmlrpcval($numArticles, "int") ) );
+$msg    = new XML_RPC_Message($methode, 
+                array( new XML_RPC_Value($authUser,    "string"),
+                       new XML_RPC_Value($authPasswd,  "string"),
+                       new XML_RPC_Value($numArticles, "int") ) );
  
 $response = $client->send($msg);
 $content  = $response->value();
