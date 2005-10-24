@@ -16,16 +16,6 @@
  *
  */
 
-// get os related separator to set include path
-if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
-    $tmp_separator = ';';
-else
-    $tmp_separator = ':';
-
-// set include path to extern packages
-//ini_set( 'include_path', SMART_BASE_DIR . 'modules/common/includes/PEAR' . $tmp_separator . ini_get('include_path') );
-unset($tmp_separator); 
-
 // util class
 include_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonUtil.php');
 
@@ -37,7 +27,6 @@ require_once(SMART_BASE_DIR . 'modules/common/includes/SmartCommonSession.php');
 
 // get_magic_quotes_gpc
 define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
-
 
 class ActionCommonInit extends SmartAction
 {
