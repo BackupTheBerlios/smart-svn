@@ -1,4 +1,5 @@
 <?php
+error_reporting( E_ALL );
 // set charset
 @header( "Content-type: text/html; charset=utf-8" );  
 ?>
@@ -11,18 +12,19 @@
 <body>
 
 <?php
-// include the xml_rpc client class
-require_once('../smart/includes/PEAR/XML/RPC/RPC.php');
+// include the PEAR XML_RPC client class
+include_once('../smart/includes/PEAR/XML/RPC/RPC.php');
 
 // the domain name
 $domain      = "www.smart3.org";
-// relative path to the smart3 installation
+// path to the smart3 installation
 $domainPath  = "/";
-// full url path to the server and the requested view as argument (without 'http://')
+// full path to the server and the requested view as argument
 $rpcServer   = "{$domainPath}rpcserver.php?view=Article";
 
 // if registered user required, enter username and password else 
 // let the variables empty
+// This is the login data for the Smart3 website
 $authUser    = 'xmlrpc';
 $authPasswd  = '1234';
 
@@ -35,7 +37,7 @@ $numArticles = 8;
 
 ///////////////////////////////////////////////////////////////////////
 
-// map methode related fields
+// map methode related node date fields
 $methodeField = array('latestModified'  => 'modifydate',
                       'latestPublished' => 'pubdate');
 
@@ -43,20 +45,17 @@ $methodeField = array('latestModified'  => 'modifydate',
 $client = new XML_RPC_Client("{$rpcServer}", $domain, 80); 
 //$client->setDebug(1);
 
-//$client->setAcceptedCompression('gzip');
-//$client->setRequestCompression('gzip');
-
 // set rpc methode and parameters
-$msg    = new XML_RPC_Message($methode, 
-                array( new XML_RPC_Value($authUser,    "string"),
-                       new XML_RPC_Value($authPasswd,  "string"),
-                       new XML_RPC_Value($numArticles, "int") ) );
+$msg = new XML_RPC_Message($methode, 
+               array( new XML_RPC_Value($authUser,    "string"),
+                      new XML_RPC_Value($authPasswd,  "string"),
+                      new XML_RPC_Value($numArticles, "int") ) );
  
 $response = $client->send($msg);
-$content  = $response->value();
 
 if(!$response->faultCode())
 {
+    $content  = $response->value();
     $max = $content->arraysize(); 
     
     for($i=0; $i<$max; $i++) 
