@@ -182,6 +182,16 @@ $SmartConfig['smart_version_name'] = 'SMART3';
  */
 $SmartConfig['disable_cache'] = 0;
 
+// get os related separator to set include path
+if(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN')
+    $tmp_separator = ';';
+else
+    $tmp_separator = ':';
+
+// set include path to PEAR base
+ini_set( 'include_path', SMART_BASE_DIR . 'smart/includes/PEAR' . $tmp_separator . ini_get('include_path') );
+unset($tmp_separator); 
+
 #so smart object
 include_once( SMART_BASE_DIR . 'smart/includes/SmartObject.php' );
 #so

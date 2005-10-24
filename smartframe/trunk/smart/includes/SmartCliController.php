@@ -13,6 +13,10 @@
  * Cli controller class
  *
  */
+ 
+// pear console Getargs ( http://pear.php.net/package/Console_Getargs/ )
+include_once( SMART_BASE_DIR . 'smart/includes/PEAR/Console/Getargs.php' ); 
+ 
 class SmartCliController extends SmartController
 {
     /**
@@ -53,27 +57,14 @@ class SmartCliController extends SmartController
             // this instance aggregates the model object
             $this->view = new SmartCliViewFactory( $this->model, $this->config );
 
-            // get the command line arguments
-            $this->view->argv = array();            
-            if ($_SERVER['argc'] > 0)
-            {
-                for ($i=1;$i < $_SERVER['argc'];$i++)
-                {
-                    $tmp = array();
-                    parse_str($_SERVER['argv'][$i], $tmp);
-                    $this->view->argv = array_merge($this->view->argv, $tmp);
-                }
-            }
+            // get the command line view arguments -v xxx OR --view xxx
+           $viewRequest = $this->getView();
 
             // check if a view is defined from the command line
-            if( !isset($this->view->argv['view']) )
+            if( $viewRequest == FALSE )
             {
-               throw new SmartViewException('No view defined in $argv["view"]');
+               throw new SmartViewException('No view defined: -v xxx"]');
             } 
-            else
-            {
-                $viewRequest = $this->view->argv['view'];
-            }  
             
             // validate view request
             $methode = $this->validateViewName( $viewRequest );
@@ -145,6 +136,30 @@ class SmartCliController extends SmartController
         }
 
         return $view_name;
+    }
+    /**
+     * get view from command line
+     *
+     */    
+    private function getView()
+    {
+        $x = 0;
+        foreach($_SERVER['argv'] as $arg)
+        {
+            if(preg_match("/(-v|--view)/",$arg, $res))
+            {
+                if($res[1] == '-v')
+                {
+                    return $_SERVER['argv'][++$x];
+                }
+                if($res[1] == '--view')
+                {
+                    return $_SERVER['argv'][++$x];
+                }
+            }
+            $x++;
+        }
+        return FALSE;
     }
 }
 

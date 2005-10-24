@@ -40,6 +40,12 @@ class SmartCliView extends SmartObject
      */
     public $config;   
 
+    /**
+     * Cli arguments
+     * @var object $args
+     */
+    protected $args;
+
      /**
      * Default error view
      * @var string $error_view
@@ -64,6 +70,34 @@ class SmartCliView extends SmartObject
      */
     public function __construct()
     {
+        $console_config = $this->getConfigArray();
+        
+        $configArray = array();
+        
+        // cli view argument definition
+        $configArray['view'] = array('short' => 'v',
+                                     'min'   => 1,
+                                     'max'   => 1,
+                                     'desc'  => 'Set the view to execute.'
+                                      );    
+                                      
+        $console_config = array_merge($configArray, $console_config );
+        
+        $this->args = & Console_Getargs::factory( $console_config );
+
+        if (PEAR::isError($this->args)) 
+        {
+            $mes = '';
+            if ($this->args->getCode() === CONSOLE_GETARGS_ERROR_USER) 
+            {
+                $mes = Console_Getargs::getHelp($console_config, null, $this->args->getMessage())."\n\n";
+            } 
+            else if ($this->args->getCode() === CONSOLE_GETARGS_HELP)
+            {
+                $mes = Console_Getargs::getHelp($console_config)."\n\n";
+            }
+            $this->printError( $mes );
+        }    
     }
 
     /**
@@ -88,6 +122,17 @@ class SmartCliView extends SmartObject
      */
     public function prependFilterChain()
     {
+    }
+    
+    /**
+     * print error
+     *
+     */    
+    protected function printError( $message)
+    {
+        // print error message
+        fwrite(STDERR, $message, strlen($message));
+        exit;       
     }
 }
 
