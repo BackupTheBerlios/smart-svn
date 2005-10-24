@@ -145,7 +145,7 @@ $SmartConfig['message_handle'] = 'LOG';
 /**
  * error reporting
  */
-$SmartConfig['error_reporting'] = E_ALL | E_STRICT;
+$SmartConfig['error_reporting'] = E_ALL;
 
 /**
  * Set debug mode.
