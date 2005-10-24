@@ -1,7 +1,7 @@
 <?php					// -*-c++-*-
 // by Edd Dumbill (C) 1999-2002
 // <edd@usefulinc.com>
-// $Id: xmlrpc.inc,v 1.85 2005/10/20 10:07:31 ggiunta Exp $
+// $Id: xmlrpc.inc,v 1.82 2005/10/02 14:57:10 ggiunta Exp $
 
 
 // Copyright (c) 1999,2000,2002 Edd Dumbill.
@@ -174,7 +174,7 @@
 	$GLOBALS['xmlrpc_internalencoding']='ISO-8859-1';
 
 	$GLOBALS['xmlrpcName']='XML-RPC for PHP';
-	$GLOBALS['xmlrpcVersion']='2.0RC2';
+	$GLOBALS['xmlrpcVersion']='2.0RC1';
 
 	// let user errors start at 800
 	$GLOBALS['xmlrpcerruser']=800;
@@ -1090,11 +1090,9 @@
 			{
 				if(($info = curl_version()) &&
 					((is_string($info) && strpos($info, 'OpenSSL') === null) || (is_array($info) && !isset($info['ssl_version']))))
-				{	
-					$this->errstr='SSL unavailable on this install';
-					$r=&new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['no_ssl'], $GLOBALS['xmlrpcstr']['no_ssl']);
-					return $r;
-				}
+				$this->errstr='SSL unavailable on this install';
+				$r=&new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['no_ssl'], $GLOBALS['xmlrpcstr']['no_ssl']);
+				return $r;
 			}
 
 			if($port == 0)
@@ -1595,12 +1593,9 @@
 		}
 
 		/*
-		* @param string $data the xmlrpc response, eventually including http headers
-		* @param bool   $headers_processed when true prevents parsing HTTP headers for interpretation of content-encoding and conseuqent decoding
-		* @param string $return_type decides return type, i.e. content of response->value(). Either 'xmlrpcvals', 'xml' or 'phpvals'
 		* @access private
 		*/
-		function &parseResponse($data='', $headers_processed=false, $return_type='xmlrpcvals')
+		function &parseResponse($data='', $headers_processed=false, $return_xmlrpcvals=true)
 		{
 			$hdrfnd = 0;
 			if($this->debug)
@@ -1615,7 +1610,6 @@
 				$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['no_data'], $GLOBALS['xmlrpcstr']['no_data']);
 				return $r;
 			}
-
 			// see if we got an HTTP 200 OK, else bomb
 			// but only do this if we're using the HTTP protocol.
 			if(ereg("^HTTP",$data))
@@ -1647,7 +1641,7 @@
 			$GLOBALS['_xh']['stack'] = array();
 			$GLOBALS['_xh']['valuestack'] = array();
 
-			// separate HTTP headers from data and process headers (e.g. reinflate compressed responses)
+			// separate HTTP headers from data
 			if(ereg("^HTTP", $data))
 			{
 				// be tolerant to usage of \n instead of \r\n to separate headers and data
@@ -1769,69 +1763,70 @@
 					}
 					print "</PRE>\n";
 				}
+			}
 
-				// if CURL was used for the call, http headers have been processed,
-				// and dechunking + reinflating have been carried out
-				if(!$headers_processed)
+			// if CURL was used for the call, http headers have been processed,
+			// and dechunking + reinflating have been carried out
+			if(!$headers_processed)
+			{
+				// Decode chunked encoding sent by http 1.1 servers
+				if(isset($GLOBALS['_xh']['headers']['transfer-encoding']) && $GLOBALS['_xh']['headers']['transfer-encoding'] == 'chunked')
 				{
-					// Decode chunked encoding sent by http 1.1 servers
-					if(isset($GLOBALS['_xh']['headers']['transfer-encoding']) && $GLOBALS['_xh']['headers']['transfer-encoding'] == 'chunked')
+					if(!$data = decode_chunked($data))
 					{
-						if(!$data = decode_chunked($data))
-						{
-							error_log('XML-RPC: xmlrpcmsg::parseResponse: errors occurred when trying to rebuild the chunked data received from server');
-							$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['dechunk_fail'], $GLOBALS['xmlrpcstr']['dechunk_fail']);
-							return $r;
-						}
+						error_log('XML-RPC: xmlrpcmsg::parseResponse: errors occurred when trying to rebuild the chunked data received from server');
+						$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['dechunk_fail'], $GLOBALS['xmlrpcstr']['dechunk_fail']);
+						return $r;
 					}
+				}
 
-					// Decode gzip-compressed stuff
-					// code shamelessly inspired from nusoap library by Dietrich Ayala
-					if(isset($GLOBALS['_xh']['headers']['content-encoding']))
+				// Decode gzip-compressed stuff
+				// code shamelessly inspired from nusoap library by Dietrich Ayala
+				if(isset($GLOBALS['_xh']['headers']['content-encoding']))
+				{
+					if($GLOBALS['_xh']['headers']['content-encoding'] == 'deflate' || $GLOBALS['_xh']['headers']['content-encoding'] == 'gzip')
 					{
-						if($GLOBALS['_xh']['headers']['content-encoding'] == 'deflate' || $GLOBALS['_xh']['headers']['content-encoding'] == 'gzip')
+						// if decoding works, use it. else assume data wasn't gzencoded
+						if(function_exists('gzinflate'))
 						{
-							// if decoding works, use it. else assume data wasn't gzencoded
-							if(function_exists('gzinflate'))
+							if($GLOBALS['_xh']['headers']['content-encoding'] == 'deflate' && $degzdata = @gzinflate($data))
 							{
-								if($GLOBALS['_xh']['headers']['content-encoding'] == 'deflate' && $degzdata = @gzinflate($data))
-								{
-									$data = $degzdata;
-									if($this->debug)
-									print "<PRE>---INFLATED RESPONSE---[".strlen($data)." chars]---\n" . htmlentities($data) . "\n---END---</PRE>";
-								}
-								elseif($GLOBALS['_xh']['headers']['content-encoding'] == 'gzip' && $degzdata = @gzinflate(substr($data, 10)))
-								{
-									$data = $degzdata;
-									if($this->debug)
-									print "<PRE>---INFLATED RESPONSE---[".strlen($data)." chars]---\n" . htmlentities($data) . "\n---END---</PRE>";
-								}
-								else
-								{
-									error_log('XML-RPC: xmlrpcmsg::parseResponse: errors occurred when trying to decode the deflated data received from server');
-									$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['decompress_fail'], $GLOBALS['xmlrpcstr']['decompress_fail']);
-									return $r;
-								}
+								$data = $degzdata;
+								if($this->debug)
+								print "<PRE>---INFLATED RESPONSE---[".strlen($data)." chars]---\n" . htmlentities($data) . "\n---END---</PRE>";
+							}
+							elseif($GLOBALS['_xh']['headers']['content-encoding'] == 'gzip' && $degzdata = @gzinflate(substr($data, 10)))
+							{
+								$data = $degzdata;
+								if($this->debug)
+								print "<PRE>---INFLATED RESPONSE---[".strlen($data)." chars]---\n" . htmlentities($data) . "\n---END---</PRE>";
 							}
 							else
 							{
-								error_log('XML-RPC: xmlrpcmsg::parseResponse: the server sent deflated data. Your php install must have the Zlib extension compiled in to support this.');
-								$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['cannot_decompress'], $GLOBALS['xmlrpcstr']['cannot_decompress']);
+								error_log('XML-RPC: xmlrpcmsg::parseResponse: errors occurred when trying to decode the deflated data received from server');
+								$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['decompress_fail'], $GLOBALS['xmlrpcstr']['decompress_fail']);
 								return $r;
 							}
 						}
+						else
+						{
+							error_log('XML-RPC: xmlrpcmsg::parseResponse: the server sent deflated data. Your php install must have the Zlib extension compiled in to support this.');
+							$r =& new xmlrpcresp(0, $GLOBALS['xmlrpcerr']['cannot_decompress'], $GLOBALS['xmlrpcstr']['cannot_decompress']);
+							return $r;
+						}
 					}
-				} // end of 'if needed, de-chunk, re-inflate response'
-
- 			} // end of http header parsing
+				}
+			} // end of 'de-chunk, re-inflate response'
 
 			// be tolerant of extra whitespace in response body
 			$data = trim($data);
 
-			// be tolerant of junk after methodResponse (e.g. javascript ads automatically inserted by free hosts)
+			// try to 'guestimate' the character encoding of the received response
+			$resp_encoding = guess_encoding(@$GLOBALS['_xh']['headers']['content-encoding'], $data);
+
+			// be tolerant of junk after methodResponse (e.g. javascript automatically inserted by free hosts)
 			// idea from Luca Mariano <luca.mariano@email.it> originally in PEARified version of the lib
 			$bd = false;
-      // Poor man's version of strrpos for php 4...
 			$pos = strpos($data, '</methodResponse>');
 			while($pos || is_int($pos))
 			{
@@ -1842,15 +1837,6 @@
 			{
 				$data = substr($data, 0, $bd);
 			}
-
-			if ($return_type == 'xml')
-			{
-				$r =& new xmlrpcresp($data);
-				return $r;
-			}
-
-			// try to 'guestimate' the character encoding of the received response
-			$resp_encoding = guess_encoding(@$GLOBALS['_xh']['headers']['content-encoding'], $data);
 
 			$GLOBALS['_xh']['isf']=0;
 			$GLOBALS['_xh']['isf_reason']='';
@@ -1873,13 +1859,13 @@
 			// the xml parser to give us back data in the expected charset
 			xml_parser_set_option($parser, XML_OPTION_TARGET_ENCODING, $GLOBALS['xmlrpc_internalencoding']);
 
-			if ($return_type == 'phpvals')
+			if ($return_xmlrpcvals)
 			{
-				xml_set_element_handler($parser, 'xmlrpc_se', 'xmlrpc_ee_fast');
+				xml_set_element_handler($parser, 'xmlrpc_se', 'xmlrpc_ee');
 			}
 			else
 			{
-				xml_set_element_handler($parser, 'xmlrpc_se', 'xmlrpc_ee');
+				xml_set_element_handler($parser, 'xmlrpc_se', 'xmlrpc_ee_fast');
 			}
 
 			xml_set_character_data_handler($parser, 'xmlrpc_cd');
@@ -1920,7 +1906,7 @@
 				$r =& new xmlrpcresp(0,  $GLOBALS['xmlrpcerr']['invalid_return'],
 				$GLOBALS['xmlrpcstr']['invalid_return'] . ' ' . $GLOBALS['_xh']['isf_reason']);
 			}
-			elseif ($return_type == 'xmlrpcvals' && !is_object($GLOBALS['_xh']['value']))
+			elseif ($return_xmlrpcvals && !is_object($GLOBALS['_xh']['value']))
 			{
 				// then something odd has happened
 				// and it's time to generate a client side error
@@ -1941,7 +1927,7 @@
 
 				if($GLOBALS['_xh']['isf'])
 				{
-					if ($return_type == 'xmlrpcvals')
+					if ($return_xmlrpcvals)
 					{
 						$errno_v = $v->structmem('faultCode');
 						$errstr_v = $v->structmem('faultString');
