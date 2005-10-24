@@ -16,12 +16,6 @@
 
 class ViewArticle extends SmartXmlRpcView
 {  
-    private $articlelatestPublished_sig = array();
-    private $articlelatestModified_sig  = array();
-    
-    private $articlelatestPublished_doc = array();
-    private $articlelatestModified_doc  = array();    
-
     /**
      * verify client user and password.
      * @return bool
@@ -37,26 +31,29 @@ class ViewArticle extends SmartXmlRpcView
                                       array('login'  => (string)$user,
                                             'passwd' => (string)$passwd));
     }
-    
-    
     /**
      * Execute this view
      */
     public function perform()
     {
         $server = new XML_RPC_Server(
-                      array(
-                            "latestPublished" =>
-                               array("function"  => array(&$this,'latestPublished')),
+                  array(
+                        "latestPublished" =>
+                          array("function"  => array(&$this,'latestPublished'),
+                                "signature" => array(array('boolean','string','string','int')),
+                                "docstring" => 'Return the x latest published articles'),
                             
-                            "latestModified" =>
-                               array("function"  => array(&$this,'latestModified'))
-                            ));    
+                        "latestModified" =>
+                          array("function"  => array(&$this,'latestModified'),
+                                "signature" => array(array('boolean','string','string','int')),
+                                "docstring" => 'Return the x latest modified articles')
+                        ));    
     }
     /**
      * get latest published articles
      *
      * @param object $params Client parameters
+     * @return object XML RPC response
      */    
     public function latestPublished( &$params )
     {
@@ -71,6 +68,7 @@ class ViewArticle extends SmartXmlRpcView
      * get latest modifies articles
      *
      * @param object $params Client parameters
+     * @return object XML RPC response
      */    
     public function latestModified( &$params )
     {
