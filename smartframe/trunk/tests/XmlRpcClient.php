@@ -15,16 +15,16 @@ error_reporting( E_ALL );
 // include the PEAR XML_RPC client class
 include_once('../smart/includes/PEAR/XML/RPC/RPC.php');
 
-// the domain name
+// hostname on the remote machine
 $domain      = "www.smart3.org";
 // path to the smart3 installation
 $domainPath  = "/";
-// full path to the server and the requested view as argument
+// path to the server and the requested view as argument
 $rpcServer   = "{$domainPath}rpcserver.php?view=Article";
 
 // if registered user required, enter username and password else 
 // let the variables empty
-// This is the login data for the Smart3 website
+// This is the login data for the Smart3 website test webservices
 $authUser    = 'xmlrpc';
 $authPasswd  = '1234';
 
