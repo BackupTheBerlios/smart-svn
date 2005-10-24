@@ -39,17 +39,17 @@ class ViewCliTest extends SmartCliView
     {
         // init error string
         $err = '';
-
-        // get the node fields to fetch ( ex.: -f id_node title ) see: $this->nodeFields
-        $this->selectedFields = $this->args->getValue('fields');
-        
+  
         // check if there are some fields defined in -f
-        if(!is_array($this->selectedFields))
+        if(!$this->args->isDefined('fields'))
         {
             $this->selectedFields = array('id_node','title');    
         }        
         else
         {
+            // get the node fields to fetch ( ex.: -f id_node title ) see: $this->nodeFields
+            $this->selectedFields = $this->args->getValue('fields'); 
+            
             // check if the defined fields in -f are
             foreach($this->selectedFields as $field)
             {
@@ -60,9 +60,17 @@ class ViewCliTest extends SmartCliView
             }
         }
         
-        // get id_node value ( ex.: -idn 1 )
-        $this->selectedIdNode = (int)$this->args->getValue('id_node');
-
+        // check if  -idn is defined
+        if(!$this->args->isDefined('id_node'))
+        {
+            $this->selectedIdNode = 0;    
+        }    
+        else
+        {
+            // get id_node value ( ex.: -idn 1 )
+            $this->selectedIdNode = (int)$this->args->getValue('id_node');
+        }
+        
         // print message if error
         if( !empty($err) )
         {
