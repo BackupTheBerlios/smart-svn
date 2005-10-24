@@ -44,24 +44,14 @@ class ViewArticle extends SmartXmlRpcView
      */
     public function perform()
     {
-        $this->articlelatestPublished_sig = array(array($GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcInt']));
-        $this->articlelatestModified_sig  = array(array($GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcString'],$GLOBALS['xmlrpcInt']));
-        
-        $this->articlelatestPublished_doc = 'Get latest x published articles';
-        $this->articlelatestModified_doc  = 'Get latest x modifieded articles';        
-        
-        $s = new xmlrpc_server(
-                  array(
-                      "article.latestPublished" =>
-                        array("function"  => array(&$this,'latestPublished'),
-                              "signature" => $this->articlelatestPublished_sig,
-                              "docstring" => $this->articlelatestPublished_doc),
-
-                      "article.latestModified" =>
-                        array("function"  => array(&$this,'latestModified'),
-                              "signature" => $this->articlelatestModified_sig,
-                              "docstring" => $this->articlelatestModified_doc) ));
-                          
+        $server = new XML_RPC_Server(
+                      array(
+                            "latestPublished" =>
+                               array("function"  => array(&$this,'latestPublished')),
+                            
+                            "latestModified" =>
+                               array("function"  => array(&$this,'latestModified'))
+                            ));    
     }
     /**
      * get latest published articles
@@ -72,10 +62,10 @@ class ViewArticle extends SmartXmlRpcView
     {
         if(!$this->rpcAuth( &$params ))
         {
-            return new xmlrpcresp(0, $GLOBALS['xmlrpcerruser'], 'Registered user required');
+            return new XML_RPC_Response(0, $GLOBALS['XML_RPC_erruser']+1, 'Registered user required');
         }
-        return $this->latestArticles( $params, 'pubdate' );
-
+        $this->latestArticles( $params, 'pubdate' );
+        return new XML_RPC_Response( $this->val );
     }
     /**
      * get latest modifies articles
@@ -86,9 +76,10 @@ class ViewArticle extends SmartXmlRpcView
     {
         if(!$this->rpcAuth( &$params ))
         {
-            return new xmlrpcresp(0, $GLOBALS['xmlrpcerruser'], 'Registered user required');
+            return new XML_RPC_Response(0, $GLOBALS['XML_RPC_erruser']+1, 'Registered user required');
         }
-        return $this->latestArticles( $params, 'modifydate' );
+        $this->latestArticles( $params, 'modifydate' );
+        return new XML_RPC_Response( $this->val );
     } 
     /**
      * get latest published/modifies articles
@@ -101,7 +92,7 @@ class ViewArticle extends SmartXmlRpcView
         $this->viewVar['latest_articles'] = array();
         
         $numArticles = $params->getParam(2);
-        $numArticles = $numArticles->scalarval();
+        $numArticles = (int)$numArticles->scalarval();
         if( $numArticles < 2 )
         {
             $numArticles = 2;
@@ -110,15 +101,15 @@ class ViewArticle extends SmartXmlRpcView
         // get last published/modified articles                                                   
         $this->model->action('article','select',
                              array('result'  => & $this->viewVar['latest_articles'], 
-                                   'limit'   => array('perPage' => $numArticles,
+                                   'limit'   => array('perPage' => (int)$numArticles,
                                                       'numPage' => 1),  
                                    'order'   => array($date_field, 'desc'),
                                    'status'  => array('=', 4),
                                    'fields'  => array('id_article','title',
                                                       'overtitle','subtitle',
                                                       'description',$date_field) ));
-        $this->addArray( $date_field );             
-        return new xmlrpcresp( $this->val );
+
+        $this->addArray( $date_field );        
     }  
     /**
      * add articles content as xml_rpc struct array
@@ -128,21 +119,20 @@ class ViewArticle extends SmartXmlRpcView
     private function addArray( &$date_field )
     {
         $content = array();
-        $this->val = new xmlrpcval();
         
         foreach($this->viewVar['latest_articles'] as $val)
         {
             $struct = array();
-            $struct['id_article']  = new xmlrpcval($val['id_article'], 'int');
-            $struct['title']       = new xmlrpcval($val['title'],      'string');
-            $struct['overtitle']   = new xmlrpcval($val['overtitle'],  'string');
-            $struct['subtitle']    = new xmlrpcval($val['subtitle'],   'string');
-            $struct['description'] = new xmlrpcval($val['description'],'string');
-            $struct[$date_field]   = new xmlrpcval($val[$date_field],  'string');
+            $struct['id_article']  = new XML_RPC_Value($val['id_article'], 'int');
+            $struct['title']       = new XML_RPC_Value($val['title'],      'string');
+            $struct['overtitle']   = new XML_RPC_Value($val['overtitle'],  'string');
+            $struct['subtitle']    = new XML_RPC_Value($val['subtitle'],   'string');
+            $struct['description'] = new XML_RPC_Value($val['description'],'string');
+            $struct[$date_field]   = new XML_RPC_Value($val[$date_field],  'string');
             
-            $content[] = new xmlrpcval($struct, 'struct');
+            $content[] = new XML_RPC_Value($struct, 'struct');
         }
-        
+        $this->val = new XML_RPC_Value();
         $this->val->addArray($content);
     }
 }
