@@ -94,7 +94,7 @@ class SmartException extends Exception
             }
             elseif(preg_match("/xml_rpc/", $this->flag['controller_type']))
             {
-                return new xmlrpcresp(0, $GLOBALS['xmlrpcerruser'], $this->exceptionMessage);
+                return new XML_RPC_Response(0, $GLOBALS['XML_RPC_erruser']+1, $this->exceptionMessage);
             }            
         }  
         // email this message
