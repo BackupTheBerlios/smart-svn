@@ -182,8 +182,8 @@ $SmartConfig['smart_version_name'] = 'SMART3';
  */
 $SmartConfig['disable_cache'] = 0;
 
-// set include path to PEAR base
-ini_set( 'include_path', SMART_BASE_DIR . 'smart/includes/PEAR/' );
+// set include path to pear
+ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'smart/includes/PEAR' . PATH_SEPARATOR . ini_get('include_path') );
 
 #so smart object
 include_once( SMART_BASE_DIR . 'smart/includes/SmartObject.php' );
