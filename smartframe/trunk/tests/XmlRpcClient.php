@@ -24,7 +24,7 @@ ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'smart/includes
 include_once('XML/RPC.php');
 
 // hostname on the remote machine
-$domain      = "new.smart3.org";
+$domain      = "www.smart3.org";
 // path to the smart3 installation
 $domainPath  = "/";
 // path to the server and the requested view as argument
@@ -51,7 +51,7 @@ $methodeField = array('latestModified'  => 'modifydate',
 
 // start rpc client
 $client = new XML_RPC_Client("{$rpcServer}", $domain, 80); 
-//$client->setDebug(1);
+$client->setDebug(1);
 
 // set rpc methode and parameters
 $msg = new XML_RPC_Message($methode, 
