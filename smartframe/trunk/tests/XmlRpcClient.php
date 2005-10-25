@@ -12,11 +12,19 @@ error_reporting( E_ALL );
 <body>
 
 <?php
+
+// Define the absolute path to SMART3
+//
+define('SMART_BASE_DIR', dirname(dirname(__FILE__)) . '/');
+
+// set include path to pear
+ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'smart/includes/PEAR' . PATH_SEPARATOR . ini_get('include_path') );
+
 // include the PEAR XML_RPC client class
-include_once('../smart/includes/PEAR/XML/RPC/RPC.php');
+include_once('XML/RPC.php');
 
 // hostname on the remote machine
-$domain      = "www.smart3.org";
+$domain      = "new.smart3.org";
 // path to the smart3 installation
 $domainPath  = "/";
 // path to the server and the requested view as argument
