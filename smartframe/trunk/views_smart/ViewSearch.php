@@ -137,8 +137,8 @@ class ViewSearch extends SmartView
         }
         
         // assign template variable with search string
-        $this->tplVar['search']     = htmlspecialchars($this->searchString);
-        $this->tplVar['formsearch'] = htmlspecialchars($this->searchString);
+        $this->tplVar['search']     = htmlspecialchars($this->searchString, ENT_COMPAT, $this->config['charset'] );
+        $this->tplVar['formsearch'] = htmlspecialchars($this->searchString, ENT_COMPAT, $this->config['charset'] );
         
         // template array variables
         $this->tplVar['articles'] = array();
