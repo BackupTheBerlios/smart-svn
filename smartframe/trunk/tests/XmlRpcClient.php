@@ -51,7 +51,7 @@ $methodeField = array('latestModified'  => 'modifydate',
 
 // start rpc client
 $client = new XML_RPC_Client("{$rpcServer}", $domain, 80); 
-$client->setDebug(1);
+//$client->setDebug(1);
 
 // set rpc methode and parameters
 $msg = new XML_RPC_Message($methode, 
