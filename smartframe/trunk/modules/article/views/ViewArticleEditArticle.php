@@ -157,6 +157,16 @@ class ViewArticleEditArticle extends SmartView
                                    'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node')));                             
+
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['article']['use_keywords'] == 1)
+        {
+            if(isset($_REQUEST['addkey']))
+            {
+                $this->addKeyword();
+            }
+            $this->getArticleKeywords();
+        }
     }  
    /**
     * Update article data
@@ -169,6 +179,7 @@ class ViewArticleEditArticle extends SmartView
             // get the node ID of this article
             $this->getNewIdNode();
 
+            $this->deleteArticleKeywords();
             $this->updateArticle();
             $this->unlockArticle();
             $this->model->session->del('id_node');
@@ -250,6 +261,12 @@ class ViewArticleEditArticle extends SmartView
         foreach($this->config['article'] as $key => $val)
         {
             $this->tplVar[$key] = $val;
+        }
+
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['article']['use_keywords'] == 1)
+        {
+            $this->tplVar['opener_url_vars'] = base64_encode('&view=editArticle&id_article='.$this->current_id_article.'&id_node='.$this->current_id_node.'&disableMainMenu=1');
         }
         
         return TRUE;
@@ -478,7 +495,81 @@ class ViewArticleEditArticle extends SmartView
     {
         $this->model->action('article','reorderRank',
                              array('id_node' => (int)$id_node));
-    }      
+    }    
+    /**
+     * reorder rank list when moving a node
+     *
+     * @param int $id_node
+     */      
+    private function addKeyword()
+    {
+        // get demanded article data
+        $this->model->action('article','addKeyword', 
+                             array('id_key'     => (int)$_REQUEST['id_key'],
+                                   'id_article' => (int)$this->current_id_article));
+    }  
+    
+    /**
+     * reorder rank list when moving a node
+     *
+     * @param int $id_node
+     */      
+    private function getArticleKeywords()
+    {
+        $this->tplVar['keys'] = array();
+        
+        $keywords = array();
+        
+        // get demanded article data
+        $this->model->action('article','getKeywordIds', 
+                             array('result'     => & $keywords,
+                                   'id_article' => (int)$this->current_id_article));
+
+        foreach($keywords as $key)
+        {
+            $tmp = array();
+            $tmp['id_key'] = $key; 
+            
+            $keyword = array();
+            $this->model->action('keyword','getKeyword', 
+                                 array('result' => & $keyword,
+                                       'id_key' => (int)$key,
+                                       'fields' => array('title','id_key')));          
+            $branch = array();
+            // get navigation node branch of the current node
+            $this->model->action('keyword','getBranch', 
+                                 array('result'  => & $branch,
+                                       'id_key' => (int)$key,
+                                       'fields'  => array('title','id_key')));                 
+
+            $tmp['branch'] = '';
+            
+            foreach($branch as $bkey)
+            {
+                $tmp['branch'] .= '/'.$bkey['title'];
+            }
+            
+            $tmp['branch'] .= '/<strong>'.$keyword['title'].'</strong>';
+            
+            $this->tplVar['keys'][] = $tmp;
+        }
+        sort($this->tplVar['keys']);    
+    }   
+    
+    private function deleteArticleKeywords()
+    {
+        if(isset($_POST['id_key']) && is_array($_POST['id_key']))
+        {
+            foreach($_POST['id_key'] as $id_key)
+            {
+                // get navigation node branch of the current node
+                $this->model->action('article','removeKeyword', 
+                                 array('id_key'     => (int)$id_key,
+                                       'id_article' => (int)$this->current_id_article));                 
+            
+            }
+        }
+    }
 }
 
 ?>

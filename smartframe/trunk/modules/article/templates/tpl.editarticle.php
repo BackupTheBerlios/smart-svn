@@ -1,4 +1,7 @@
 <script language="JavaScript" type="text/JavaScript">
+function keywordmap(){
+mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
 // unlock a node and forward to the node with id x. use this for links
 function gotonode(f,x){
         f.gotonode.value=x;
@@ -280,10 +283,24 @@ function cancel_edit(f)
           </td>
       </tr>
     <?php endif; ?>
-      <tr>
-        <td align="left" valign="top" class="font9"> 
-          <div align="right">          </div></td>
+	<?php if($tpl['use_keywords']==1): ?>
+	      <tr>
+        <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
       </tr>
+      <tr>
+        <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
+      </tr>	  
+      <tr>
+        <td align="left" valign="top" class="font12"> 
+          <?php foreach($tpl['keys'] as $keybranch): ?>
+		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
+		  <?php endforeach; ?>
+		  <?php if(is_array($tpl['keys'])): ?>
+		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
+		  <?php endif; ?>
+		  </td>
+      </tr>
+	  <?php endif; ?>
       <tr>
         <td align="left" valign="top">&nbsp;</td>
       </tr>

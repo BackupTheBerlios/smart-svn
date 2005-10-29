@@ -127,7 +127,7 @@ class ActionArticleSetup extends SmartAction
                  `default_order`     varchar(10) NOT NULL default '',
                  `default_ordertype` varchar(4) NOT NULL default '',
                  `use_users`         tinyint(1) NOT NULL default 0,
-                 `use_keywords`      tinyint(1) NOT NULL default 0,
+                 `use_keywords`      tinyint(1) NOT NULL default 1,
                  `use_articledate`   tinyint(1) NOT NULL default 0,
                  `use_changedate`    tinyint(1) NOT NULL default 0,
                  `use_overtitle`     tinyint(1) NOT NULL default 0,
