@@ -1,7 +1,7 @@
 <script language="JavaScript" type="text/JavaScript">
 function keymap(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
-newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=keymap','',mm); }
+newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map','',mm); }
 </script>
 <style type="text/css">
 <!--

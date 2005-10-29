@@ -53,6 +53,14 @@ class ActionLinkSetup extends SmartAction
                    KEY `by_id_user` (`by_id_user`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}link_key (
+                   `id_link`     int(11) unsigned NOT NULL default 0,
+                   `id_key`      int(11) unsigned NOT NULL default 0,
+                   KEY `id_link` (`id_link`),
+                   KEY `id_key`  (`id_key`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);
        
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                    (`name`, `alias`, `rank`, `version`, `visibility`, `release`)

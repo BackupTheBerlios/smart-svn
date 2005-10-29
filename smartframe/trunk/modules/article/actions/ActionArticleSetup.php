@@ -141,6 +141,14 @@ class ActionArticleSetup extends SmartAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);  
 
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_key (
+                   `id_article`     int(11) unsigned NOT NULL default 0,
+                   `id_key`         int(11) unsigned NOT NULL default 0,
+                   KEY `id_article` (`id_article`),
+                   KEY `id_key`     (`id_key`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);
+
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}article_config
                    (`thumb_width`,`default_order`,`default_ordertype`)
                   VALUES

@@ -106,6 +106,14 @@ class ActionUserSetup extends SmartAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_key (
+                   `id_user`     int(11) unsigned NOT NULL default 0,
+                   `id_key`      int(11) unsigned NOT NULL default 0,
+                   KEY `id_user` (`id_user`),
+                   KEY `id_key`  (`id_key`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);
+
         $sql = "INSERT INTO {$data['dbtablesprefix']}user_config
                    (`thumb_width`, `img_size_max`,`file_size_max`)
                   VALUES

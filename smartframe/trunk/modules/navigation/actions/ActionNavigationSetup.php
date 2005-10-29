@@ -127,6 +127,14 @@ class ActionNavigationSetup extends SmartAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
 
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_key (
+                   `id_node`     int(11) unsigned NOT NULL default 0,
+                   `id_key`      int(11) unsigned NOT NULL default 0,
+                   KEY `id_node` (`id_node`),
+                   KEY `id_key`  (`id_key`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);
+
         $sql = "INSERT INTO {$data['dbtablesprefix']}navigation_config
                    (`thumb_width`, `img_size_max`,`file_size_max`)
                   VALUES
