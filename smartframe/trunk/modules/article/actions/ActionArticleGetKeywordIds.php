@@ -39,7 +39,7 @@ class ActionArticleGetKeywordIds extends SmartAction
         $sql = "SELECT SQL_CACHE
                   ak.`id_key`
                 FROM 
-                  {$this->config['dbTablePrefix']}article_key AS ak
+                  {$this->config['dbTablePrefix']}article_keyword AS ak
                   {$sql_key_table}
                 WHERE
                    ak.`id_article`={$data['id_article']}

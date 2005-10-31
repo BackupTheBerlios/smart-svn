@@ -143,7 +143,7 @@ class ActionArticleFromKeyword extends SmartAction
                 {$_fields}
             FROM
                 {$this->config['dbTablePrefix']}article_article AS aa,
-                {$this->config['dbTablePrefix']}article_key AS ak,
+                {$this->config['dbTablePrefix']}article_keyword AS ak,
                 {$this->config['dbTablePrefix']}navigation_node AS nn
             WHERE
                 ak.`id_key` IN({$this->id_key_list})
