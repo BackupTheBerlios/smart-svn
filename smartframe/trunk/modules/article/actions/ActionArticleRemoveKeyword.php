@@ -10,19 +10,22 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionArticleDeleteArticle class 
+ * ActionArticleRemoveKeyword class 
+ *
+ * remove id_article related id_key
  *
  * USAGE:
  *
- * $model->action('article','deleteArticle',
- *                array('id_article'  => int))
+ * $model->action('article','removeKeyword',
+ *                array('id_article' => int,
+ *                      'id_key'     => int));
  *
  */
  
 class ActionArticleRemoveKeyword extends SmartAction
 {
     /**
-     * delete article and navigation node relation
+     * delete article related key
      *
      * @param array $data
      */
