@@ -28,13 +28,12 @@
   color: #2E2E2E;
 }
 .filelink {
-  font-size: 14px;
+  font-size: 12px;
 }
 .downloads {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   color: #0000CC;
-  letter-spacing: 3px;
 }  
 -->
 </style>
@@ -94,20 +93,40 @@
                          <?php if(count($tpl['articleFiles'])>0): ?>
                          <div class="downloads">Downloads:</div>
                          <?php foreach($tpl['articleFiles'] as $file): ?>
-                         <table width="350" border="0" cellspacing="0" cellpadding="0">
+                         <table width="350" border="0" cellspacing="2" cellpadding="2">
                            <tr>
-                             <td class="filelink"><a href="<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['article']['media_folder']; ?>/<?php echo $file['file']; ?>">
+                             <td width="10" align="left" valign="top" class="filelink">-</td>
+                             <td width="340" align="left" valign="top" class="filelink"><a href="<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['article']['media_folder']; ?>/<?php echo $file['file']; ?>">
                                <?php if(!empty($file['title'])){echo $file['title'];}else{echo $file['file'];} ?>
                              </a></td>
                            </tr>
                            <?php if(!empty($file['description'])): ?>
                            <tr>
-                             <td class="filedesc"><?php echo $file['description']; ?></td>
+                             <td align="left" valign="top" class="filedesc"></td>
+                             <td align="left" valign="top" class="filedesc"><?php echo $file['description']; ?></td>
+                           </tr>
+                           <?php endif; ?>
+                         </table>
+                         <?php endforeach; ?><br /><br />
+                         <?php endif; ?>
+                         <!-- --- show navigation node related files for download --- -->
+                         <?php if(count($tpl['keywordArticle'])>0): ?>
+                         <div class="downloads">See also in keyword related articles:</div>
+                         <?php foreach($tpl['keywordArticle'] as $key_article): ?>
+                         <table width="350" border="0" cellspacing="2" cellpadding="2">
+                           <tr>
+                             <td width="10" align="left" valign="top" class="filelink">-</td>
+                             <td width="340" align="left" valign="top" class="filelink"><a href="<?php echo SMART_CONTROLLER; ?>?view=article&id_article=<?php echo $key_article['id_article']; ?>"><?php echo $key_article['title']; ?></a></td>
+                           </tr>
+                           <?php if(!empty($key_article['description'])): ?>
+                           <tr>
+                             <td align="left" valign="top" class="filedesc">&nbsp;</td>
+                             <td align="left" valign="top" class="filedesc"><?php echo $key_article['description']; ?></td>
                            </tr>
                            <?php endif; ?>
                          </table>
                          <?php endforeach; ?>
-                         <?php endif; ?>
+                         <?php endif; ?>						 
                     </td>
                  </tr>
                </table>
