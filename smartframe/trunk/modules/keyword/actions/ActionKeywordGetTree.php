@@ -17,10 +17,8 @@
  *                array('id_key' => int,      // top level node
  *                      'result'  => & array, 
  *                      'status'  => array('<|>|<=|>=|=', 1|2),     // optional
- *                      'fields'  => array('id_key','status','rank'
- *                                         'format','media_folder','id_parent','id_sector',
- *                                         'title','short_text',
- *                                         'body','id_view','logo')))
+ *                      'fields'  => array('id_key','id_parent',
+ *                                         'title','description')))
  *
  */
 
@@ -38,10 +36,9 @@ class ActionKeywordGetTree extends SmartAction
                             'description' => 'String');
                             
     /**
-     * get navigation node (sub)tree from a given id_key
+     * get keywords (sub)tree from a given id_key
      *
      * @param array $data
-     * @return bool
      */
     function perform( $data = FALSE )
     { 
@@ -112,7 +109,7 @@ class ActionKeywordGetTree extends SmartAction
         return TRUE;
     }
     /**
-     * load the whole navigation node tree in an array
+     * load the whole keyword tree in an array
      *
      * @param array $data
      */    
@@ -164,9 +161,9 @@ class ActionKeywordGetTree extends SmartAction
         }
     }
     /**
-     * get the demanded navigation node (sub)tree of a given id_parent
+     * get the demanded keywords (sub)tree of a given id_parent
      *
-     * @param int $id_parent Node from which we need the (sub)tree
+     * @param int $id_parent Keyword from which we need the (sub)tree
      * @param int $level indent level (for function internal use)
      */       
     private function tree($id_parent = 0, $level = 0)
@@ -190,9 +187,9 @@ class ActionKeywordGetTree extends SmartAction
             {
                 $tmp = array();
 
-                foreach($this->node_tree[$d] as $node => $value)
+                foreach($this->node_tree[$d] as $key => $value)
                 {                
-                    $tmp[$node] = $value; 
+                    $tmp[$key] = $value; 
                 }
                 $tmp['level']  = $level;
                 $tmp['status'] = $this->node_tree[$d]['status'];

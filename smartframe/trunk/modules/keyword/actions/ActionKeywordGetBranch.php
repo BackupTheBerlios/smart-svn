@@ -113,7 +113,7 @@ class ActionKeywordGetBranch extends SmartAction
     }
     
     /**
-     * walk recursive until the top node
+     * walk recursive until the top keyword
      *
      * @param array $data
      */     

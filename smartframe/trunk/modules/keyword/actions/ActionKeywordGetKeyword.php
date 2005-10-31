@@ -17,10 +17,8 @@
  *                array('id_key' => int, 
  *                      'result'  => & array, 
  *                      'status'  => array('<|>|<=|>=|=', 1|2),     // optional
- *                      'fields'  => array('id_key','status','rank'
- *                                         'format','media_folder','id_parent','id_sector',
- *                                         'title','short_text',
- *                                         'body','id_view','logo')))
+ *                      'fields'  => array('id_key','id_parent',
+ *                                         'title','description')))
  *
  */
 
@@ -38,10 +36,9 @@ class ActionKeywordGetKeyword extends SmartAction
                             'description' => 'String');
                             
     /**
-     * get navigation node data
+     * get keyword data
      *
      * @param array $data
-     * @return bool true or false on error
      */
     function perform( $data = FALSE )
     {

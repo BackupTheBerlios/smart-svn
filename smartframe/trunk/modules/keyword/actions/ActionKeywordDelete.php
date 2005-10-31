@@ -22,16 +22,14 @@
 class ActionKeywordDelete extends SmartAction
 {
     /**
-     * delete navigation node and referenced table entries
+     * delete keyword and subkeywords
      *
      * @param array $data
-     * @return bool true or false on error
      */
     public function perform( $data = FALSE )
     {        
         $this->deleteSubKeywords( $data['id_key'] );
         $this->deleteKeyword( $data['id_key'] );
-        return TRUE;
     } 
     /**
      * validate data array
@@ -52,7 +50,12 @@ class ActionKeywordDelete extends SmartAction
 
         return TRUE;
     }
-
+    /**
+     * delete single keyword and send a broadcast action
+     * to other modules
+     *
+     * @param int $id_key
+     */    
     private function deleteKeyword( $id_key )
     {
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}keyword_lock
@@ -69,11 +72,13 @@ class ActionKeywordDelete extends SmartAction
         
         // delete all keyword relations from other modules
         $this->model->broadcast('deleteKeywordRelation', 
-                                array('id_key' => (int)$id_key));   
-        
-           
+                                array('id_key' => (int)$id_key)); 
     }
-    
+    /**
+     * delete subkeyword of a given id_key
+     *
+     * @param int $id_key
+     */      
     private function deleteSubKeywords( $id_key )
     {
         $tree = array();

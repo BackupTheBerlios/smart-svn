@@ -13,21 +13,13 @@
  * ActionKeywordUpdate class 
  *
  * USAGE:
- * $model->action('navigation','UpdateNode',
- *                array('id_key' => int,
- *                      'fields'  => array('id_key'      => 'Int',
- *                                         'id_parent'    => 'Int',
- *                                         'id_sector'    => 'Int',
- *                                         'id_view'      => 'Int',
- *                                         'status'       => 'Int',
- *                                         'rank'         => 'Int',
- *                                         'format'       => 'Int',
- *                                         'logo'         => 'String',
- *                                         'media_folder' => 'String',
- *                                         'lang'         => 'String',
- *                                         'title'        => 'String',
- *                                         'short_text'   => 'String',
- *                                         'body'         => 'String')))
+   $model->action('keyword','update',
+                  array('id_key' => int,
+                        'fields' => array('id_key'      => 'Int',
+                                          'id_parent'   => 'Int',
+                                          'status'      => 'Int',
+                                          'title'       => 'String',
+                                          'description' => 'String')));
  */
 
 class ActionKeywordUpdate extends SmartAction
@@ -44,10 +36,9 @@ class ActionKeywordUpdate extends SmartAction
                             'description' => 'String');
                             
     /**
-     * update navigation node
+     * update keyword data
      *
      * @param array $data
-     * @return bool true or false on error
      */
     function perform( $data = FALSE )
     {

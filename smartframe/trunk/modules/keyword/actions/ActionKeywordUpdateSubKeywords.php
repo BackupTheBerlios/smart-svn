@@ -11,14 +11,14 @@
 
 /**
  * ActionKeywordUpdateSubKeywords class 
- * Update data of subnodes
+ * Update data of subkeywords
  *
  * USAGE:
  *
- * $this->model->action('keyword','updateSubKeywords',
- *                      array('id_key' => int,
- *                            'fields'  => array('status'    => int,
- *                                               'id_sector' => int)));
+   $this->model->action('keyword','updateSubKeywords',
+                        array('id_key' => int,
+                              'fields' => array('status'    => int,
+                                                'id_sector' => int)));
  *
  *
  */
@@ -34,26 +34,26 @@ class ActionKeywordUpdateSubKeywords extends SmartAction
                             'status'       => 'Int');
                             
     /**
-     * update data of subnodes
+     * update data of subkeywords
      *
      * @param array $data
      */
     function perform( $data = FALSE )
     { 
         $tree = array();
-        // get subnode of a given node
+        // get subkeywords of a given keyword
         $this->model->action('keyword','getTree', 
                              array('id_key' => $data['id_key'],
-                                   'result'  => & $tree,
-                                   'fields'  => array('id_parent','status','id_key')));   
+                                   'result' => & $tree,
+                                   'fields' => array('id_parent','status','id_key')));   
         if( count($tree) > 0 )
         {
-            // update subnodes
+            // update subkeywords
             foreach($tree as $node)
             {
                 $this->model->action('keyword','update', 
                                      array('id_key' => (int)$node['id_key'],
-                                           'fields'  => $data['fields'] ));              
+                                           'fields' => $data['fields'] ));              
             }
         }
     } 

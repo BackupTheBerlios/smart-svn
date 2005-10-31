@@ -18,11 +18,8 @@
  *                      'result'  => & array,
  *                      'status'  => array('>|<|=|>=|<=|!=',1|2),           // optional
  *                      'order'   => array('rank|title','asc|desc'),        // optional
- *                      'fields   => array('id_key''id_parent''id_sector',
- *                                         'id_view','status','rank',
- *                                         'format','logo','media_folder',
- *                                         'lang','title','short_text',
- *                                         'body') ));
+ *                      'fields   => array('id_key''id_parent',
+ *                                         'title','description') ));
  *
  */
  
@@ -40,7 +37,7 @@ class ActionKeywordGetChilds extends SmartAction
                             'description' => 'String');
                             
     /**
-     * get navigation node data
+     * get child keywords data
      *
      * @param array $data
      * @return bool true or false on error

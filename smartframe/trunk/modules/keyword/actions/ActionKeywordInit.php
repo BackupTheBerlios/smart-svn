@@ -19,7 +19,7 @@
 class ActionKeywordInit extends SmartAction
 {
     /**
-     * Navigation Module Version
+     * Keyword Module Version
      */
     const MOD_VERSION = '0.1';    
     

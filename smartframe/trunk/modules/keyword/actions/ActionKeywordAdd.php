@@ -15,7 +15,7 @@
  * USAGE:
  * 
  * $model->action('keyword','add',
- *                array('fields' => array('id_parent'    => int,
+ *                array('fields' => array('id_parent'    => Int,
  *                                        'status'       => Int,
  *                                        'title'        => String,
  *                                        'description'  => String)));
@@ -35,7 +35,7 @@ class ActionKeywordAdd extends SmartAction
                             'description'  => 'String');
                             
     /**
-     * Add navigation node
+     * Add keyword
      *
      */
     public function perform( $data = FALSE )
