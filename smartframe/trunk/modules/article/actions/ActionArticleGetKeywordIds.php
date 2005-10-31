@@ -10,16 +10,24 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionArticleAddArticle
+ * ActionArticleGetKeywordIds
+ *
+ * get article related keyword Id's
  *
  * USAGE:
+ *
+ * $model->action('article', 'getKeywordIds',
+ *                array('result'     => &$array(),
+ *                      'id_article' => int,
+ *                      'key_status' => array('>|<|=|>=|<=|!=',1|2) // keyword status - optional
+ *                      ) );
  * 
  */
 
 class ActionArticleGetKeywordIds extends SmartAction
 {                                           
     /**
-     * Add article
+     * get article related keywords
      *
      */
     public function perform( $data = FALSE )

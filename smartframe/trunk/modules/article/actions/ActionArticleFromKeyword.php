@@ -10,19 +10,23 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionArticleGetNodeArticles class 
+ * ActionArticleFromKeyword class 
+ *
+ * Get keyword related articles
+ *
  * USAGE:
  *
- * $model->action('article','getKeywordArticles',
+ * $model->action('article','fromKeyword',
  *                array('id_key_list' => array( int, int,..,..,..),
  *                      'result'      => & array,
- *                      'status'      => array('>|<|=|>=|<=|!=',1|2), // optional
- *                      'key_status'  => array('>|<|=|>=|<=|!=',1|2), // optional
- *                      'node_status' => array('>|<|=|>=|<=|!=',1|2), // optional
- *                      'notin'       => array( integers ),           // optional
+ *                      'status'      => array('>|<|=|>=|<=|!=',1|2), // article status - optional
+ *                      'key_status'  => array('>|<|=|>=|<=|!=',1|2), // keyword status - optional
+ *                      'node_status' => array('>|<|=|>=|<=|!=',1|2), // navigation node status -  optional
+ *                      'exclude'     => array( integers ),           // exclude id_articles's optional
  *                      'order'   => array('rank|title|
  *                                          articledate|pubdate|
- *                                          overtitle|subtitle', 'asc|desc'),// optional
+ *                                          overtitle|subtitle', 'asc|desc'), // optional
+ *                      'disable_sql_cache' => TRUE,  // optional 
  *                      'fields   => array('id_node','id_article','status','rank',
  *                                         'activedate','inactivedate','pubdate',
  *                                         'lang','title','overtitle',
@@ -63,13 +67,17 @@ class ActionArticleFromKeyword extends SmartAction
                                          'media_folder' => 'String');
 
     /**
-     * get articles data of a given id_node
+     * get articles of some given id_key's
      *
      * @param array $data
-     * @return bool true or false on error
      */
     public function perform( $data = FALSE )
     {
+        if(isset($data['disable_sql_cache']))
+        {
+            $this->sqlCache = 'SQL_NO_CACHE';
+        }
+        
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
@@ -78,14 +86,14 @@ class ActionArticleFromKeyword extends SmartAction
             $comma = ',';
         }
 
-        if(isset($data['notin']))
+        if(isset($data['exclude']))
         {
-            $notin = implode(",", $data['notin']);
-            $sql_notin = " AND ak.`id_article` NOT IN($notin)";
+            $exclude = implode(",", $data['exclude']);
+            $sql_exclude = " AND ak.`id_article` NOT IN($exclude)";
         }
         else
         {
-            $sql_notin = "";
+            $sql_exclude = "";
         }
   
         if(isset($data['node_status']))
@@ -147,7 +155,7 @@ class ActionArticleFromKeyword extends SmartAction
                 {$this->config['dbTablePrefix']}navigation_node AS nn
             WHERE
                 ak.`id_key` IN({$this->id_key_list})
-           {$sql_notin}
+           {$sql_exclude}
             AND
                 ak.`id_article`=aa.`id_article`
             AND
@@ -157,7 +165,7 @@ class ActionArticleFromKeyword extends SmartAction
            {$sql_pubdate}
            {$sql_order}
            {$sql_limit}";
-//echo "<pre>$sql</pre>";
+
         $rs = $this->model->dba->query($sql);
         
         while($row = $rs->fetchAssoc())
@@ -255,19 +263,19 @@ class ActionArticleFromKeyword extends SmartAction
         }
 
 
-        if(isset($data['notin']))
+        if(isset($data['exclude']))
         {
-            if(!is_array($data['notin']))
+            if(!is_array($data['exclude']))
             {
-                throw new SmartModelException('"notin" isnt an array'); 
+                throw new SmartModelException('"exclude" isnt an array'); 
             }
             else
             {
-                foreach($data['notin'] as $id_article)
+                foreach($data['exclude'] as $id_article)
                 {
                     if(!is_int($id_article))
                     {
-                        throw new SmartModelException('Wrong "notin" array value: '.$id_article.'. Only integers accepted!'); 
+                        throw new SmartModelException('Wrong "exclude" array value: '.$id_article.'. Only integers accepted!'); 
                     }
                 }
             }
@@ -298,15 +306,6 @@ class ActionArticleFromKeyword extends SmartAction
                     $data['order'][1] = 'ASC';
                 }
             }
-        }
-
-        if(isset($data['disable_sql_cache']))
-        {
-            if(!preg_match("/^SQL_NO_CACHE$/",$data['disable_sql_cache']))
-            {
-                throw new SmartModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
-            }
-            $this->sqlCache = 'SQL_NO_CACHE';
         }
         
         if(isset($data['pubdate']))

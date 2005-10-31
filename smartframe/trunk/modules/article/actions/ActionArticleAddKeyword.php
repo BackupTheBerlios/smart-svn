@@ -10,9 +10,13 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionArticleAddArticle
+ * ActionArticleAddKeyword
  *
  * USAGE:
+ *
+ * $model->action('article', 'addKeyword',
+ *                array('id_article' => int,
+ *                      'id_key'     => int) );
  * 
  */
 
@@ -21,11 +25,12 @@
 class ActionArticleAddKeyword extends SmartAction
 {                                           
     /**
-     * Add article
+     * Add keyword
      *
      */
     public function perform( $data = FALSE )
     {     
+        // return if id_key is still contected to this id_article 
         if($this->isKey( $data['id_article'], $data['id_key'] ) == 1)
         {
             return;
@@ -66,8 +71,11 @@ class ActionArticleAddKeyword extends SmartAction
         return TRUE;
     }  
     /**
-     * Add article
+     * check if id_key is contected to id_article
      *
+     * @param int $id_article
+     * @param int $id_key
+     * @return int num Rows
      */
     private function isKey( $id_article, $id_key )
     {         
