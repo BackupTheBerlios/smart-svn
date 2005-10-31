@@ -12,6 +12,8 @@
 /**
  * ViewArticle class
  *
+ * 
+ *
  */
 
 class ViewArticle extends SmartView
@@ -66,6 +68,34 @@ class ViewArticle extends SmartView
                                    'fields'     => array('id_file','file',
                                                          'size','mime',
                                                          'title','description')) );   
+
+        // get article related keywords
+        $keywords = array();
+        $this->model->action('article','getKeywordIds', 
+                             array('result'     => & $keywords,
+                                   'id_article' => (int)$this->current_id_article));     
+        
+        // if there are article related keywords, 
+        if(count($keywords > 0))
+        {
+            // get articles which have the same keywords
+            // except the current article
+            $exclude_id_article = array( $this->current_id_article );
+            $this->model->action('article','fromKeyword',
+                                 array('id_key_list' => & $keywords,
+                                       'result'      => & $this->tplVar['keywordArticle'],
+                                       'exclude'     => & $exclude_id_article,
+                                       'status'      => array('=', 4),
+                                       'pubdate'     => array('<=', 'CURRENT_TIMESTAMP'),
+                                       'fields'      => array('id_article','id_node','title') )); 
+ 
+            // get links which have the same keywords as the current article
+            $this->model->action('link','fromKeyword',
+                                 array('id_key_list' => & $keywords,
+                                       'result'      => & $this->tplVar['keywordLink'],
+                                       'status'      => array('=', 2),
+                                       'fields'      => array('id_link','url','title') )); 
+        }
     }
 
     /**
@@ -147,6 +177,11 @@ class ViewArticle extends SmartView
         $this->tplVar['nodeBranch']   = array();
         $this->tplVar['articleFiles'] = array();
         $this->tplVar['article']      = array();
+
+        // init template variable for keyword related articles
+        $this->tplVar['keywordArticle'] = array();
+        // init template variable for keyword related links
+        $this->tplVar['keywordLink'] = array();   
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];
@@ -159,7 +194,8 @@ class ViewArticle extends SmartView
     }
 
     /**
-     * check if the article
+     * check permission to access this article
+     * only if the article has the status protect
      *
      */        
     private function checkPermission()
