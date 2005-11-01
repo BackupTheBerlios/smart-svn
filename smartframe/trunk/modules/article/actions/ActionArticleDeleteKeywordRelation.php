@@ -10,19 +10,18 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionArticleRemoveKeyword class 
+ * ActionArticleDeleteKeywordRelation class 
  *
- * remove id_article related id_key
+ * remove all id_key relations
  *
  * USAGE:
  *
- * $model->action('article','removeKeyword',
- *                array('id_article' => int,
- *                      'id_key'     => int));
+ * $model->action('article','deleteKeywordRelation',
+ *                array('id_key' => int));
  *
  */
  
-class ActionArticleRemoveKeyword extends SmartAction
+class ActionArticleDeleteKeywordRelation extends SmartAction
 {
     /**
      * delete article related key
@@ -33,8 +32,6 @@ class ActionArticleRemoveKeyword extends SmartAction
     {         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_keyword
                   WHERE
-                   `id_article`={$data['id_article']}
-                  AND
                    `id_key`={$data['id_key']}";
 
         $this->model->dba->query($sql);   
@@ -46,16 +43,7 @@ class ActionArticleRemoveKeyword extends SmartAction
      * @return bool true or false on error
      */    
     public function validate( $data = FALSE )
-    {         
-        if(!isset($data['id_article']))
-        {
-            throw new SmartModelException('"id_article" isnt defined');        
-        }    
-        elseif(!is_int($data['id_article']))
-        {
-            throw new SmartModelException('"id_article" isnt from type int');        
-        }
-        
+    {                 
         if(!isset($data['id_key'])) 
         {
             throw new SmartModelException("'id_key' isnt defined");
