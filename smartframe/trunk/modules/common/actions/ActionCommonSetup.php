@@ -72,6 +72,7 @@ class ActionCommonSetup extends SmartAction
                  `templates_folder` varchar(255) NOT NULL default '',
                  `views_folder`     varchar(255) NOT NULL default '',
                  `disable_cache`    tinyint(1) NOT NULL default 1,
+                 `max_lock_time`    int(11) NOT NULL default 7200,
                  `rejected_files`   text NOT NULL default '') 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
