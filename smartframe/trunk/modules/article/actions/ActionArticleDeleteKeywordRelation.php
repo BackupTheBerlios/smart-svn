@@ -24,7 +24,7 @@
 class ActionArticleDeleteKeywordRelation extends SmartAction
 {
     /**
-     * delete article related key
+     * delete all key relations
      *
      * @param array $data
      */
