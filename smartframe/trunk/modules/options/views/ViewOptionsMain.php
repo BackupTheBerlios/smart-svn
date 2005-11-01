@@ -68,6 +68,10 @@ class ViewOptionsMain extends SmartView
         {
                 $this->model->broadcast( 'optimizeDbTables');         
         }
+        elseif(isset($_POST['unlockall']))
+        {
+                $this->model->broadcast( 'unlockAll');         
+        }        
         $this->setTemplateVars();
     }  
     

@@ -12,26 +12,26 @@
       </tr>
       <tr>
         <td align="left" valign="top" class="font10">
-		<?php foreach($tpl['allPublicTplFolders'] as $_tpl): ?>
-		<?php if(empty($_tpl)): ?>
-		   <input name="templates_folder" type="radio" value=""<?php if($tpl['publicTplFolder']==$_tpl) echo " checked"; ?>> /<br /><br />		
-		<?php else: ?>
-		   <input name="templates_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($tpl['publicTplFolder']==$_tpl) echo " checked"; ?>> 
-		   <?php echo $_tpl; ?><br /><br />
-		<?php endif; ?>
-		<?php endforeach; ?>
-		</td>
+    <?php foreach($tpl['allPublicTplFolders'] as $_tpl): ?>
+    <?php if(empty($_tpl)): ?>
+       <input name="templates_folder" type="radio" value=""<?php if($tpl['publicTplFolder']==$_tpl) echo " checked"; ?>> /<br /><br />    
+    <?php else: ?>
+       <input name="templates_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($tpl['publicTplFolder']==$_tpl) echo " checked"; ?>> 
+       <?php echo $_tpl; ?><br /><br />
+    <?php endif; ?>
+    <?php endforeach; ?>
+    </td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Public view folders</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10">
-		<?php foreach($tpl['allPublicViewFolders'] as $_view): ?>
-		<input name="views_folder" type="radio" value="<?php echo $_view; ?>"<?php if($tpl['publicViewFolder']==$_view) echo " checked"; ?>> 
-		<?php echo $_view; ?><br /><br />
-		<?php endforeach; ?>		
-		</td>
+    <?php foreach($tpl['allPublicViewFolders'] as $_view): ?>
+    <input name="views_folder" type="radio" value="<?php echo $_view; ?>"<?php if($tpl['publicViewFolder']==$_view) echo " checked"; ?>> 
+    <?php echo $_view; ?><br /><br />
+    <?php endforeach; ?>    
+    </td>
       </tr>
       <tr>
         <td align="left" valign="top"  class="font10bold">Delete whole public cache</td>
@@ -51,7 +51,7 @@
       </tr>
       <tr>
         <td align="left" valign="top"><textarea name="rejected_files" cols="80" rows="3"><?php echo $tpl['rejectedFiles']; ?></textarea></td>
-      </tr>	  
+      </tr>   
       <tr>
         <td align="left" valign="top" class="font10bold">Optimize Database Tables</td>
       </tr>
@@ -63,6 +63,12 @@
       </tr>
       <tr>
         <td align="left" valign="top"><input name="max_lock_time" type="text" id="max_lock_time" value="<?php echo $tpl['maxLockTime']; ?>" size="11" maxlength="11"></td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold">Unlock all</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><input type="submit" name="unlockall" value="unlock all"></td>
       </tr>
     </table></td>
     <td width="26%" align="left" valign="top" class="font10bold"><input type="submit" name="updateOptions" value="update"></td>
