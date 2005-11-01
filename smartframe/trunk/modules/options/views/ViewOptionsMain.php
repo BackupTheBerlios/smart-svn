@@ -158,10 +158,13 @@ class ViewOptionsMain extends SmartView
             $this->config['disable_cache'] = 0;
        }
 
-       if(isset($_POST['max_lock_time']))
+       if(isset($_POST['max_lock_time']) && (strlen($_POST['max_lock_time']) <= 11))
        {
-            $this->fields['max_lock_time'] = (string)$_POST['max_lock_time'];
-            $this->config['max_lock_time'] = (string)$_POST['max_lock_time'];
+            if(preg_match("/[0-9]+/", $_POST['max_lock_time']) )
+            {
+                $this->fields['max_lock_time'] = (string)$_POST['max_lock_time'];
+                $this->config['max_lock_time'] = (string)$_POST['max_lock_time'];
+            }
        }  
 
        $this->fields['rejected_files'] = (string)$_POST['rejected_files'];
