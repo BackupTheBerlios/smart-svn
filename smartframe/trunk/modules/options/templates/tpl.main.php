@@ -59,10 +59,10 @@
         <td align="left" valign="top"><input type="submit" name="optimize" value="optimize"></td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
+        <td align="left" valign="top" class="font10bold">Max Lock Time in Seconds</td>
       </tr>
       <tr>
-        <td>&nbsp;</td>
+        <td align="left" valign="top"><input name="max_lock_time" type="text" id="max_lock_time" value="<?php echo $tpl['maxLockTime']; ?>" size="11" maxlength="11"></td>
       </tr>
     </table></td>
     <td width="26%" align="left" valign="top" class="font10bold"><input type="submit" name="updateOptions" value="update"></td>

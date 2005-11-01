@@ -20,6 +20,7 @@ class ActionOptionsUpdateConfigOptions extends SmartAction
                       array('templates_folder' => 'String',
                             'views_folder'     => 'String',
                             'disable_cache'    => 'Int',
+                            'max_lock_time'    => 'Int',
                             'rejected_files'   => 'String');
     /**
      * update common config values

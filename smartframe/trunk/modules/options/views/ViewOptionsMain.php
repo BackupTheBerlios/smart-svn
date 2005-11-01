@@ -81,6 +81,7 @@ class ViewOptionsMain extends SmartView
         $this->tplVar['allPublicViewFolders'] = $this->getPublicFolders( 'views_' );
         $this->tplVar['allPublicTplFolders']  = $this->getPublicFolders( 'templates_' );
         $this->tplVar['rejectedFiles']        = $this->config['rejected_files'];
+        $this->tplVar['maxLockTime']          = $this->config['max_lock_time'];
 
         $this->tplVar['disableCache']         = $this->config['disable_cache'];
     } 
@@ -156,6 +157,12 @@ class ViewOptionsMain extends SmartView
             $this->fields['disable_cache'] = 0;
             $this->config['disable_cache'] = 0;
        }
+
+       if(isset($_POST['max_lock_time']))
+       {
+            $this->fields['max_lock_time'] = (string)$_POST['max_lock_time'];
+            $this->config['max_lock_time'] = (string)$_POST['max_lock_time'];
+       }  
 
        $this->fields['rejected_files'] = (string)$_POST['rejected_files'];
        $this->config['rejected_files'] = (string)$_POST['rejected_files'];
