@@ -71,8 +71,7 @@ class ActionKeywordDelete extends SmartAction
         $this->model->dba->query($sql);
         
         // delete all keyword relations from other modules
-        $this->model->broadcast('deleteKeywordRelation', 
-                                array('id_key' => (int)$id_key)); 
+        $this->model->broadcast('removeKeyword', array('id_key' => (int)$id_key)); 
     }
     /**
      * delete subkeyword of a given id_key
