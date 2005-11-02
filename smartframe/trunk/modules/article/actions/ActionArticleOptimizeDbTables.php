@@ -31,7 +31,8 @@ class ActionArticleOptimizeDbTables extends SmartAction
                   {$this->config['dbTablePrefix']}article_index,
                   {$this->config['dbTablePrefix']}article_lock,
                   {$this->config['dbTablePrefix']}article_media_pic,
-                  {$this->config['dbTablePrefix']}article_media_file";
+                  {$this->config['dbTablePrefix']}article_media_file,
+                  {$this->config['dbTablePrefix']}article_keyword";
         
         $this->model->dba->query($sql);
     } 
