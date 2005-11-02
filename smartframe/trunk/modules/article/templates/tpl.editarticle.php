@@ -295,7 +295,7 @@ function cancel_edit(f)
           <?php foreach($tpl['keys'] as $keybranch): ?>
 		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
 		  <?php endforeach; ?>
-		  <?php if(is_array($tpl['keys'])): ?>
+		  <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
 		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
 		  <?php endif; ?>
 		  </td>
