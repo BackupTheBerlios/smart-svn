@@ -91,7 +91,8 @@
              <?php endif; ?>
                          <!-- --- show navigation node related files for download --- -->
                          <?php if(count($tpl['articleFiles'])>0): ?>
-                         <div class="downloads">Downloads:</div>
+                         <br /><br />
+						 <div class="downloads">Downloads:</div>
                          <?php foreach($tpl['articleFiles'] as $file): ?>
                          <table width="350" border="0" cellspacing="2" cellpadding="2">
                            <tr>
@@ -107,11 +108,12 @@
                            </tr>
                            <?php endif; ?>
                          </table>
-                         <?php endforeach; ?><br /><br />
+                         <?php endforeach; ?>
                          <?php endif; ?>
-                         <!-- --- show navigation node related files for download --- -->
+                         <!-- --- show keyword related article links --- -->
                          <?php if(count($tpl['keywordArticle'])>0): ?>
-                         <div class="downloads">See also in keyword related articles:</div>
+                         <br /><br />
+						 <div class="downloads">See also in keywords related articles:</div>
                          <?php foreach($tpl['keywordArticle'] as $key_article): ?>
                          <table width="350" border="0" cellspacing="2" cellpadding="2">
                            <tr>
@@ -126,7 +128,26 @@
                            <?php endif; ?>
                          </table>
                          <?php endforeach; ?>
-                         <?php endif; ?>						 
+                         <?php endif; ?>
+                         <!-- --- show keyword related links --- -->
+                         <?php if(count($tpl['keywordLink'])>0): ?>
+                         <br /><br />
+						 <div class="downloads">See also keywords related links:</div>
+                         <?php foreach($tpl['keywordLink'] as $key_link): ?>
+                         <table width="350" border="0" cellspacing="2" cellpadding="2">
+                           <tr>
+                             <td width="10" align="left" valign="top" class="filelink">-</td>
+                             <td width="340" align="left" valign="top" class="filelink"><a href="<?php echo $key_link['url']; ?>" target="_blank"><?php echo $key_link['title']; ?></a></td>
+                           </tr>
+                           <?php if(!empty($key_link['description'])): ?>
+                           <tr>
+                             <td align="left" valign="top" class="filedesc">&nbsp;</td>
+                             <td align="left" valign="top" class="filedesc"><?php echo $key_link['description']; ?></td>
+                           </tr>
+                           <?php endif; ?>
+                         </table>
+                         <?php endforeach; ?>
+                         <?php endif; ?>						 						 
                     </td>
                  </tr>
                </table>

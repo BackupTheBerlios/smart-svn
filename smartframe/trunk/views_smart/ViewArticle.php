@@ -73,7 +73,8 @@ class ViewArticle extends SmartView
         $keywords = array();
         $this->model->action('article','getKeywordIds', 
                              array('result'     => & $keywords,
-                                   'id_article' => (int)$this->current_id_article));     
+                                   'id_article' => (int)$this->current_id_article,
+                                   'key_status' => array('=', 2) ));     
         
         // if there are article related keywords, 
         if(count($keywords > 0))
@@ -94,7 +95,7 @@ class ViewArticle extends SmartView
                                  array('id_key_list' => & $keywords,
                                        'result'      => & $this->tplVar['keywordLink'],
                                        'status'      => array('=', 2),
-                                       'fields'      => array('id_link','url','title') )); 
+                                       'fields'      => array('id_link','url','title','description') )); 
         }
     }
 
