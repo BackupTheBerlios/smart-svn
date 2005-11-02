@@ -67,7 +67,7 @@ class ActionKeywordSetup extends SmartAction
                    (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
                   VALUES
                    ('keyword', 'Keywords Management',
-                    5,
+                    4,
                     '0.1',
                     1,
                     'DATE: 27.10.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";

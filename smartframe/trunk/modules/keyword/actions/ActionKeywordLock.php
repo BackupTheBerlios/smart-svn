@@ -10,53 +10,53 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionNavigationLock class 
+ * ActionkeywordLock class 
  *
  */
 
 /**
  * USE:
  *
- * ** Lock a given node by an node**
+ * ** Lock a given key by an key**
  *
- * $model->action('navigation','lock',
+ * $model->action('keyword','lock',
  *                array('job'    => (string)'lock',
- *                      'id_key => (int)node ID to lock,
- *                      'by_id_key' => (int)node ID that locks));
+ *                      'id_key => (int)key ID to lock,
+ *                      'by_id_user' => (int)key ID that locks));
  *
- * Return: 1) TRUE if a node was successfull locked
- *         2) node ID, which locked the node in an other session
+ * Return: 1) TRUE if a key was successfull locked
+ *         2) key ID, which locked the key in an other session
  *
- * ** Unlock a given node **
+ * ** Unlock a given key **
  *
- * $model->action('navigation','lock',
+ * $model->action('keyword','lock',
  *                array('job'    => (string)'unlock',
- *                      'id_key => (int)locked node ID )); 
+ *                      'id_key => (int)locked key ID )); 
  *
  * 
- * ** Is a node locked ? **
+ * ** Is a key locked ? **
  *
- * $model->action('navigation','lock',
+ * $model->action('keyword','lock',
  *                array('job'    => (string)'is_locked',
- *                      'id_key => (int)node ID ));  
+ *                      'id_key => (int)key ID ));  
  *
- * Return: 1) TRUE if a node was locked by the logged node it self
- *         2) FALSE if a node isnt locked
- *         3) node ID, which locked the node in an other session
+ * Return: 1) TRUE if a key was locked by the logged key it self
+ *         2) FALSE if a key isnt locked
+ *         3) key ID, which locked the key in an other session
  *
  * ** Get all access times **
  *
- * ** unlock all locked node ? **
+ * ** unlock all locked key ? **
  *
- * $model->action('navigation','lock',
+ * $model->action('keyword','lock',
  *                array('job' => (string)'unlock_all'));  
  *
  *
- * ** Remove node locks from a given node that locks **
+ * ** Remove key locks from a given key that locks **
  *
- * $model->action('navigation','lock',
- *                array('job'    => (string)'unlock_from_node',
- *                      'id_key => (int)node ID that locks));  
+ * $model->action('keyword','lock',
+ *                array('job'    => (string)'unlock_from_key',
+ *                      'id_key => (int)key ID that locks));  
  *
  */
 class ActionKeywordLock extends SmartAction
@@ -121,15 +121,15 @@ class ActionKeywordLock extends SmartAction
     }
 
     /**
-     * Lock a node for modifying
+     * Lock a key for modifying
      *
-     * @param array $data Node data
+     * @param array $data key data
      */    
     private function lockKeyword($data)
     {
         $result = $this->isKeywordLocked($data);
-        // False = the node isnt locked
-        // True = the node is locked by the logged user
+        // False = the key isnt locked
+        // True = the key is locked by the logged user
         // if not locked by the logged user, $result
         // contains the id of the user which locks
         if(($result !== FALSE) && ($result !== TRUE))
@@ -150,7 +150,7 @@ class ActionKeywordLock extends SmartAction
     }
     
     /**
-     * Unlock a node
+     * Unlock a key
      *
      * @param array $data
      */    
@@ -200,7 +200,7 @@ class ActionKeywordLock extends SmartAction
     }
     
     /**
-     * Check if a node is locked and if yes by which id_user
+     * Check if a key is locked and if yes by which id_user
      *
      * @param array $data User data
      * @param mixed FALSE if not locked True if locked by the logged user
