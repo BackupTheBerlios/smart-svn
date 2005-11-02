@@ -75,9 +75,9 @@ class ViewArticle extends SmartView
                              array('result'     => & $keywords,
                                    'id_article' => (int)$this->current_id_article,
                                    'key_status' => array('=', 2) ));     
-        
+
         // if there are article related keywords, 
-        if(count($keywords > 0))
+        if(count($keywords) > 0)
         {
             // get articles which have the same keywords
             // except the current article
