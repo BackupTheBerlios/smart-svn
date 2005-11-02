@@ -22,7 +22,7 @@
 class ActionLinkDeleteLink extends SmartAction
 {
     /**
-     * delete link and navigation node relation
+     * delete link and relations
      *
      * @param array $data
      */
@@ -33,6 +33,12 @@ class ActionLinkDeleteLink extends SmartAction
                    `id_link`={$data['id_link']}";
 
         $this->model->dba->query($sql);
+        
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}link_keyword
+                  WHERE
+                   `id_link`={$data['id_link']}";
+
+        $this->model->dba->query($sql);        
     } 
     /**
      * validate data array
