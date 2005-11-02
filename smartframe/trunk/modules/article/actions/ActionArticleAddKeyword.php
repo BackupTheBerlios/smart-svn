@@ -36,7 +36,7 @@ class ActionArticleAddKeyword extends SmartAction
             return;
         }
         
-        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_key
+        $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_keyword
                    (`id_key`,`id_article`)
                   VALUES
                    ({$data['id_key']},{$data['id_article']})";
@@ -82,7 +82,7 @@ class ActionArticleAddKeyword extends SmartAction
         $sql = "SELECT SQL_CACHE
                   `id_key`
                 FROM 
-                  {$this->config['dbTablePrefix']}article_key
+                  {$this->config['dbTablePrefix']}article_keyword
                 WHERE
                    `id_article`={$id_article}
                 AND
