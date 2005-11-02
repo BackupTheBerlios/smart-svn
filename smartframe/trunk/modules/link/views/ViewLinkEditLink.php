@@ -118,11 +118,24 @@ class ViewLinkEditLink extends SmartView
                                    'id_node' => (int)$this->current_id_node,
                                    'error'   => & $this->tplVar['error'],
                                    'fields'  => array('title','id_node')));                             
+
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['link']['use_keywords'] == 1)
+        {
+            if(isset($_REQUEST['addkey']))
+            {
+                $this->addKeyword();
+            }
+            $this->getLinkKeywords();
+        }
     }  
 
     private function updateLinkData()
     {
         $link_was_moved  = FALSE;
+
+        // should we remove link related keywords
+        $this->deleteLinkKeywords();
 
         if(empty($_POST['title']))
         {
@@ -211,7 +224,16 @@ class ViewLinkEditLink extends SmartView
         $this->tplVar['link']  = array();
        
         // errors
-        $this->tplVar['error']  = array();    
+        $this->tplVar['error']  = array();   
+        
+        // use keywords or not
+        $this->tplVar['use_keywords'] = $this->config['link']['use_keywords']; 
+        
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['link']['use_keywords'] == 1)
+        {
+            $this->tplVar['opener_url_vars'] = base64_encode('&view=editLink&id_link='.(int)$_REQUEST['id_link'].'&id_node='.$this->current_id_node.'&disableMainMenu=1');
+        }        
     }
      /**
      * has the logged the rights to modify?
@@ -290,7 +312,80 @@ class ViewLinkEditLink extends SmartView
                              array('job'     => 'unlock',
                                    'id_link' => (int)$_REQUEST['id_link']));    
     }    
+    /**
+     * reorder rank list when moving a node
+     *
+     * @param int $id_node
+     */      
+    private function addKeyword()
+    {
+        // get demanded link data
+        $this->model->action('link','addKeyword', 
+                             array('id_key'  => (int)$_REQUEST['id_key'],
+                                   'id_link' => (int)$_REQUEST['id_link']));
+    }  
     
+    /**
+     * reorder rank list when moving a node
+     *
+     * @param int $id_node
+     */      
+    private function getLinkKeywords()
+    {
+        $this->tplVar['keys'] = array();
+        
+        $keywords = array();
+        
+        // get demanded link data
+        $this->model->action('link','getKeywordIds', 
+                             array('result'  => & $keywords,
+                                   'id_link' => (int)$_REQUEST['id_link']));
+
+        foreach($keywords as $key)
+        {
+            $tmp = array();
+            $tmp['id_key'] = $key; 
+            
+            $keyword = array();
+            $this->model->action('keyword','getKeyword', 
+                                 array('result' => & $keyword,
+                                       'id_key' => (int)$key,
+                                       'fields' => array('title','id_key')));          
+            $branch = array();
+            // get navigation node branch of the current node
+            $this->model->action('keyword','getBranch', 
+                                 array('result' => & $branch,
+                                       'id_key' => (int)$key,
+                                       'fields' => array('title','id_key')));                 
+
+            $tmp['branch'] = '';
+            
+            foreach($branch as $bkey)
+            {
+                $tmp['branch'] .= '/'.$bkey['title'];
+            }
+            
+            $tmp['branch'] .= '/<strong>'.$keyword['title'].'</strong>';
+            
+            $this->tplVar['keys'][] = $tmp;
+        }
+        sort($this->tplVar['keys']);    
+    }   
+    
+    private function deleteLinkKeywords()
+    {
+        if(isset($_POST['id_key']) && is_array($_POST['id_key']))
+        {
+            foreach($_POST['id_key'] as $id_key)
+            {
+                // get navigation node branch of the current node
+                $this->model->action('link','removeKeyword', 
+                                 array('id_key'  => (int)$id_key,
+                                       'id_link' => (int)$_REQUEST['id_link']));                 
+            
+            }
+        }
+    }    
 }
 
 ?>

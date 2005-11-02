@@ -1,5 +1,9 @@
 <script language="JavaScript" type="text/JavaScript">
 <!--
+function keywordmap(){
+mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=link&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+
 function deletelink(f, mes)
 {
       check = confirm(mes);
@@ -51,7 +55,7 @@ function cancel_edit(f)
 <input name="delete_link" type="hidden" value="0">
 <table width="100%" border="0" cellspacing="3" cellpadding="3">
   <tr>
-    <td colspan="2" class="moduleheader2">Edit Link ID: <?php echo $tpl['link']['id_link']; ?></td>
+    <td class="moduleheader2">Edit Link ID: <?php echo $tpl['link']['id_link']; ?></td>
     </tr>
   <tr>
     <td width="80%" align="left" valign="top">      <table width="100%" border="0" cellspacing="3" cellpadding="3">
@@ -75,8 +79,11 @@ function cancel_edit(f)
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td width="10%" align="left" valign="top" class="font10bold">Status </td>
-              <td width="80%" align="left" valign="top" class="font10bold">Navigation Node</td>
-              <td width="10%" align="right" valign="top" class="font10bold"><input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
+              <td width="53%" align="left" valign="top" class="font10bold">Navigation Node</td>
+              <td width="37%" align="right" valign="top" class="font10bold">
+			    <input name="finishupdate" type="submit" id="finishupdate" value="Submit">&nbsp;
+			    <input name="refresh" type="submit" id="refresh" value="Refresh">&nbsp;
+				<input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
@@ -89,7 +96,7 @@ function cancel_edit(f)
                 <option value="<?php echo $val['id_node']; ?>" <?php if($val['id_node'] == $tpl['id_node'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
                 <?php endforeach; ?>
               </select></td>
-              <td align="right" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+              <td align="right" valign="top">&nbsp;</td>
             </tr>
           </table></td>
       </tr>  
@@ -116,12 +123,35 @@ function cancel_edit(f)
           <div align="right"><input name="delete" type="button" id="delete" value="Delete this link" onclick="deletelink(this.form, 'Delete this link?');">
           </div></td>
       </tr>
+	<?php if($tpl['use_keywords']==1): ?>
+	      <tr>
+        <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
+      </tr>
       <tr>
-        <td align="left" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+        <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
+      </tr>	  
+      <tr>
+        <td align="left" valign="top" class="font12"> 
+          <?php foreach($tpl['keys'] as $keybranch): ?>
+		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
+		  <?php endforeach; ?>
+		  <?php if(is_array($tpl['keys'])): ?>
+		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
+		  <?php endif; ?>
+		  </td>
+      </tr>
+	  <?php endif; ?>	  
+      <tr>
+        <td align="left" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit">
+          &nbsp;
+
+          <input name="refresh" type="submit" id="refresh" value="Refresh">
+          &nbsp;
+
+          <input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
       </tr>
     </table>
     </td>
-    <td width="20%" align="left" valign="top" class="font10bold">&nbsp;  </td>
-  </tr>
+    </tr>
 </table>
 </form>
