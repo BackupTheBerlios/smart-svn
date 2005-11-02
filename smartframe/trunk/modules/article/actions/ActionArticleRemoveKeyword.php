@@ -24,6 +24,9 @@
  
 class ActionArticleRemoveKeyword extends SmartAction
 {
+    private $sqlArticle = '';
+    private $sqlKey     = '';
+    
     /**
      * delete article related key
      *
@@ -33,9 +36,8 @@ class ActionArticleRemoveKeyword extends SmartAction
     {         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_keyword
                   WHERE
-                   `id_article`={$data['id_article']}
-                  AND
-                   `id_key`={$data['id_key']}";
+                   {$this->sqlArticle}
+                   {$this->sqlKey}";
 
         $this->model->dba->query($sql);   
     } 
@@ -47,24 +49,35 @@ class ActionArticleRemoveKeyword extends SmartAction
      */    
     public function validate( $data = FALSE )
     {         
-        if(!isset($data['id_article']))
+        if(isset($data['id_article']))
         {
-            throw new SmartModelException('"id_article" isnt defined');        
+            if(!is_int($data['id_article']))
+            {
+                throw new SmartModelException('"id_article" isnt from type int');        
+            }   
+            $this->sqlArticle = "`id_article`={$data['id_article']}";
+            $selcetedItem = TRUE;
         }    
-        elseif(!is_int($data['id_article']))
-        {
-            throw new SmartModelException('"id_article" isnt from type int');        
-        }
         
-        if(!isset($data['id_key'])) 
+        if(isset($data['id_key'])) 
         {
-            throw new SmartModelException("'id_key' isnt defined");
+            if(!is_int($data['id_key']))
+            {
+                throw new SmartModelException("'id_key' isnt from type int");
+            }  
+            if(isset($selcetedItem))
+            {
+                $this->sqlKey = " AND ";
+            }
+            $this->sqlKey .= "`id_key`={$data['id_key']}";
+            $selcetedItem  = TRUE;
         }
-        elseif(!is_int($data['id_key']))
+
+        if(!isset($selcetedItem))
         {
-            throw new SmartModelException("'id_key' isnt from type int");
-        }          
-        
+            throw new SmartModelException('Whether "id_key" nor "id_article" is defined');                      
+        }
+         
         return TRUE;
     }
 }
