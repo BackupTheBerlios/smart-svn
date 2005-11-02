@@ -33,6 +33,7 @@ class ActionArticleInit extends SmartAction
     public function perform( $data = FALSE )
     {
         $this->checkModuleVersion();
+        $this->loadConfig();
         $this->model->action('article','changedateStatus');
         
         // delete expired articles
@@ -50,8 +51,6 @@ class ActionArticleInit extends SmartAction
         // get user module info
         $info = $this->model->getModuleInfo('article');
 
-        $this->loadConfig();
-        
         // need install or upgrade?
         if(0 != version_compare($info['version'], self::MOD_VERSION))
         {
