@@ -188,6 +188,16 @@ class ViewNavigationEditNode extends SmartView
         $this->model->action( 'navigation','getNodePublicViews',
                               array('result' => &$this->tplVar['publicViews'],
                                     'fields' => array('id_view','name')) );                              
+
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['navigation']['use_keywords'] == 1)
+        {
+            if(isset($_REQUEST['addkey']))
+            {
+                $this->addKeyword();
+            }
+            $this->getKeywords();
+        }
     }  
 
     private function updateNodeData()
@@ -340,6 +350,9 @@ class ViewNavigationEditNode extends SmartView
                                                            'title'       => &$_POST['filetitle'])));
         }  
         
+        // Remove selected keyword relations
+        $this->deleteKeywords();
+        
         // if no error occure update node data
         if(count($this->tplVar['error']) == 0)
         {
@@ -429,6 +442,13 @@ class ViewNavigationEditNode extends SmartView
         $this->tplVar['file']   = array();        
         // errors
         $this->tplVar['error']  = array();    
+
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['navigation']['use_keywords'] == 1)
+        {
+            $this->tplVar['opener_url_vars'] = base64_encode('&view=editNode&id_node='.$this->current_id_node.'&disableMainMenu=1');
+        }
+        $this->tplVar['use_keywords'] = $this->config['article']['use_keywords'];
     }
      /**
      * has the logged the rights to modify?
@@ -592,7 +612,80 @@ class ViewNavigationEditNode extends SmartView
                              array('job'     => 'unlock',
                                    'id_node' => (int)$this->current_id_node));    
     }    
+    /**
+     * add keyword to the current node
+     *
+     */      
+    private function addKeyword()
+    {
+        $this->model->action('navigation','addKeyword', 
+                             array('id_key'  => (int)$_REQUEST['id_key'],
+                                   'id_node' => (int)$this->current_id_node));
+    }  
     
+    /**
+     * get node related keywords
+     *
+     */      
+    private function getKeywords()
+    {
+        $this->tplVar['keys'] = array();
+        
+        $keywords = array();
+        
+        // get node related keywords
+        $this->model->action('navigation','getKeywordIds', 
+                             array('result'  => & $keywords,
+                                   'id_node' => (int)$this->current_id_node));
+
+        foreach($keywords as $key)
+        {
+            $tmp = array();
+            $tmp['id_key'] = $key; 
+            
+            $keyword = array();
+            $this->model->action('keyword','getKeyword', 
+                                 array('result' => & $keyword,
+                                       'id_key' => (int)$key,
+                                       'fields' => array('title','id_key')));          
+            $branch = array();
+            // get keywords branches
+            $this->model->action('keyword','getBranch', 
+                                 array('result'  => & $branch,
+                                       'id_key' => (int)$key,
+                                       'fields'  => array('title','id_key')));                 
+
+            $tmp['branch'] = '';
+            
+            foreach($branch as $bkey)
+            {
+                $tmp['branch'] .= '/'.$bkey['title'];
+            }
+            
+            $tmp['branch'] .= '/<strong>'.$keyword['title'].'</strong>';
+            
+            $this->tplVar['keys'][] = $tmp;
+        }
+        sort($this->tplVar['keys']);    
+    }   
+    /**
+     * remove keyword relations
+     *
+     */      
+    private function deleteKeywords()
+    {
+        if(isset($_POST['id_key']) && is_array($_POST['id_key']))
+        {
+            foreach($_POST['id_key'] as $id_key)
+            {
+                // remove a keyword relation
+                $this->model->action('navigation','removeKeyword', 
+                                 array('id_key'  => (int)$id_key,
+                                       'id_node' => (int)$this->current_id_node));                 
+            
+            }
+        }
+    }    
 }
 
 ?>

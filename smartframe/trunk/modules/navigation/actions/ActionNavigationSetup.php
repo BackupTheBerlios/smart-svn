@@ -111,6 +111,7 @@ class ActionNavigationSetup extends SmartAction
                  `force_format`   tinyint(1) NOT NULL default 2,
                  `default_format` tinyint(1) NOT NULL default 2,
                  `default_lang`   char(2) NOT NULL default 'en',
+                 `use_keywords`   tinyint(1) NOT NULL default 1,
                  `use_short_text` tinyint(1) NOT NULL default 1,
                  `use_body`       tinyint(1) NOT NULL default 1,
                  `use_logo`       tinyint(1) NOT NULL default 1,
@@ -127,7 +128,7 @@ class ActionNavigationSetup extends SmartAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_key (
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_keyword (
                    `id_node`     int(11) unsigned NOT NULL default 0,
                    `id_key`      int(11) unsigned NOT NULL default 0,
                    KEY `id_node` (`id_node`),

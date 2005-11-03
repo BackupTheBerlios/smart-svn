@@ -52,6 +52,10 @@ function insertImgDesc(desc)
 <!-- /PEAR text_wikki -->
 <?php endif; ?>
 <script language="JavaScript" type="text/JavaScript">
+function keywordmap(){
+mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=navigation&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+
 function deletenode(f, mes)
 {
       check = confirm(mes);
@@ -235,28 +239,44 @@ function MM_swapImage() { //v3.0
              / <a href="javascript:gotonode(document.forms['editnode'],<?php echo $node['id_node']; ?>);"><?php echo $node['title']; ?></a>
             <?php endforeach; ?></div>    
     </td>
-        </tr>      
+        </tr>
+      <tr>
+        <td align="right" valign="top" ><table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td width="39%" align="left" valign="top"><table width="99%" border="0" cellspacing="2" cellpadding="2">
+              <tr>
+                <td width="10%" align="left" valign="top" class="font10bold">Status </td>
+                </tr>
+              <tr>
+                <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
+                    <option value="3" <?php if($tpl['node']['status'] == 3) echo 'selected="selected"'; ?>>protect</option>
+                    <option value="2" <?php if($tpl['node']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
+                    <option value="1" <?php if($tpl['node']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
+                  </select>
+                </td>
+                </tr>
+            </table></td>
+            <td width="61%" height="28" align="right" valign="top">
+              <input name="finishupdate" type="submit" value="Submit" class="button">
+              <input type="submit" name="refresh" value="refresh" class="button">
+              <input type="button" name="cancel" value="cancel" onClick="cancel_edit(this.form);" class="button">
+            </td>
+          </tr>
+        </table></td>
+      </tr>      
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="10%" align="left" valign="top" class="font10bold">Status </td>
-              <td width="80%" align="left" valign="top" class="font10bold">Parent Node</td>
-              <td width="10%" align="right" valign="top" class="font10bold"><input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
-            </tr>
+              <td width="87%" align="left" valign="top" class="font10bold">Parent Node</td>
+              </tr>
             <tr>
-              <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
-                <option value="3" <?php if($tpl['node']['status'] == 3) echo 'selected="selected"'; ?>>protect</option>
-                <option value="2" <?php if($tpl['node']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
-                <option value="1" <?php if($tpl['node']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
-              </select></td>
               <td align="left" valign="top"><select name="node_id_parent" size="1" id="node_id_parent" class="treeselectbox">
                 <option value="0">Top</option>
                 <?php foreach($tpl['tree'] as $val):  ?>
                 <option value="<?php echo $val['id_node']; ?>" <?php if($val['id_node'] == $tpl['node']['id_parent'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
                 <?php endforeach; ?>
               </select></td>
-              <td align="right" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
-            </tr>
+              </tr>
           </table></td>
       </tr>   
       <tr>
@@ -287,7 +307,19 @@ function MM_swapImage() { //v3.0
           </div></td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+        <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
+          <tr>
+            <td align="left" valign="top">
+              <input name="finishupdate" type="submit" value="Submit" class="button">
+        &nbsp;
+      
+        <input type="submit" name="refresh" value="refresh" class="button">
+        &nbsp;
+      
+        <input type="button" name="cancel" value="cancel" onClick="cancel_edit(this.form);" class="button">
+            </td>
+          </tr>
+        </table></td>
       </tr>
     <?php if($tpl['show_format_switch'] == TRUE): ?>
       <tr>
@@ -313,7 +345,25 @@ Wikki </td>
           </tr>
         </table></td>
       </tr>  
-    <?php endif; ?>   
+    <?php endif; ?>  
+	<?php if($tpl['use_keywords']==1): ?>
+	      <tr>
+        <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
+      </tr>
+      <tr>
+        <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
+      </tr>	  
+      <tr>
+        <td align="left" valign="top" class="font12"> 
+          <?php foreach($tpl['keys'] as $keybranch): ?>
+		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
+		  <?php endforeach; ?>
+		  <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
+		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
+		  <?php endif; ?>
+		  </td>
+      </tr>
+	  <?php endif; ?>	 
     <?php if($tpl['use_files']==1): ?>
       <tr>
         <td align="left" valign="top"><hr>          
