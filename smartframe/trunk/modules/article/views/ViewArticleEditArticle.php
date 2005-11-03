@@ -268,6 +268,7 @@ class ViewArticleEditArticle extends SmartView
         {
             $this->tplVar['opener_url_vars'] = base64_encode('&view=editArticle&id_article='.$this->current_id_article.'&id_node='.$this->current_id_node.'&disableMainMenu=1');
         }
+        $this->tplVar['use_keywords'] = $this->config['article']['use_keywords'];
         
         return TRUE;
     }

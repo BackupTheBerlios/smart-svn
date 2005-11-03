@@ -104,9 +104,9 @@ function cancel_edit(f)
             <tr>
               <td width="35%" align="left" valign="top" class="font12bold">Status </td>
               <td width="22%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1">Modify article content</a></td>
-              <td width="43%" align="right" valign="top" class="font10bold"><input name="back" type="button" id="back" value="Back" onClick="cancel_edit(this.form);">
-                <input name="refresh" type="submit" id="refresh" value="Refresh">
-                <input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+              <td width="43%" align="right" valign="top" class="font10bold"><input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
+                <input name="refresh" type="submit" value="Refresh" class="button">
+                <input name="finishupdate" type="submit" value="Submit" class="button"></td>
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
