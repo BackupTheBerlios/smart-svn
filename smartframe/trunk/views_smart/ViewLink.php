@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * ViewNode class
+ * ViewLink class
  *
  */
 
-class ViewNode extends SmartView
+class ViewLink extends SmartView
 {
     /**
      * Cache expire time in seconds for this view
@@ -57,29 +57,6 @@ class ViewNode extends SmartView
                                    'id_node' => (int)$this->current_id_node,
                                    'fields'  => array('title','id_node')));  
                                  
-        // get node attached files
-        $this->model->action('navigation','getAllFiles',
-                             array('result'  => & $this->tplVar['nodeFiles'],
-                                   'id_node' => (int)$this->current_id_node,
-                                   'order'   => 'rank',
-                                   'fields'  => array('id_file',
-                                                      'file',
-                                                      'size',
-                                                      'mime',
-                                                      'title',
-                                                      'description')) );   
-
-        // get node related article titles count by 10                                                     
-        $this->model->action('article','getNodeArticles',
-                             array('id_node' => (int)$this->current_id_node,
-                                   'result'  => & $this->tplVar['nodeArticles'],
-                                   'status'  => array('>=', 4),
-                                   'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
-                                   'order'   => array('rank', 'asc'),
-                                   'limit'   => array('perPage' => (int)$this->articlesPerPage,
-                                                      'numPage' => (int)$this->pageNumber),
-                                   'fields'  => array('id_article','title') ));
-
         // get node related links
         $this->model->action('link','getLinks', 
                              array('result'  => & $this->tplVar['links'],
@@ -87,37 +64,6 @@ class ViewNode extends SmartView
                                    'status'  => array('=','2'),
                                    'fields'  => array('title','url','id_link',
                                                       'description')));   
-
-        // create article pager links
-        $this->model->action('article','pager', 
-                             array('result'     => & $this->tplVar['pager'],
-                                   'id_node'    => (int)$this->current_id_node,
-                                   'status'     => array('>=', '4'),
-                                   'pubdate'    => array('<=', 'CURRENT_TIMESTAMP'),
-                                   'perPage'    => $this->articlesPerPage,
-                                   'numPage'    => (int)$this->pageNumber,
-                                   'delta'      => 5,
-                                   'url'        => SMART_CONTROLLER.'?id_node='.$this->current_id_node,
-                                   'var_prefix' => 'article_',
-                                   'css_class'  => 'smart_pager'));  
-
-        // get node related keywords
-        $keywords = array();
-        $this->model->action('navigation','getKeywordIds', 
-                             array('result'     => & $keywords,
-                                   'id_node'    => (int)$this->current_id_node,
-                                   'key_status' => array('=', 2) ));     
-
-        // if there are node related keywords, 
-        if(count($keywords) > 0)
-        { 
-            // get links which have the same keywords as the current node
-            $this->model->action('link','fromKeyword',
-                                 array('id_key_list' => & $keywords,
-                                       'result'      => & $this->tplVar['keywordLink'],
-                                       'status'      => array('=', 2),
-                                       'fields'      => array('id_link','url','title','description') )); 
-        }
     }
 
     /**
@@ -193,7 +139,7 @@ class ViewNode extends SmartView
     public function appendFilterChain( & $outputBuffer )
     {
         // filter action of the common module that trims the html output
-        $this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
+        // $this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
     }
 
     /**
@@ -206,22 +152,7 @@ class ViewNode extends SmartView
         $this->tplVar['node']         = array();
         $this->tplVar['childNodes']   = array();
         $this->tplVar['nodeBranch']   = array();
-        $this->tplVar['nodeFiles']    = array();
-        $this->tplVar['nodeArticles'] = array();
         $this->tplVar['links']        = array();
-        $this->tplVar['pager']        = '';
-
-        // set articles limit per page
-        $this->articlesPerPage = 10;
-        // get current article pager page
-        if(!isset($_GET['article_page']))
-        {
-            $this->pageNumber = 1;
-        }
-        else
-        {
-            $this->pageNumber = (int)$_GET['article_page'];
-        }
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];

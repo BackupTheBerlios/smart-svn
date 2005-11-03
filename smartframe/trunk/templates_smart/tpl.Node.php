@@ -28,13 +28,12 @@
   color: #2E2E2E;
 }
 .filelink {
-  font-size: 14px;
+  font-size: 12px;
 }
 .downloads {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: bold;
   color: #0000CC;
-  letter-spacing: 3px;
 }  
 -->
 </style>
@@ -131,7 +130,7 @@
                          <?php if(count($tpl['nodeFiles'])>0): ?>
                          <div class="downloads">Downloads:</div>
                          <?php foreach($tpl['nodeFiles'] as $file): ?>
-                         <table width="350" border="0" cellspacing="0" cellpadding="0">
+                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                            <tr>
                              <td class="filelink"><a href="<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/<?php echo $file['file']; ?>">
                                <?php if(!empty($file['title'])){echo $file['title'];}else{echo $file['file'];} ?>
@@ -145,23 +144,25 @@
                          </table>
                          <?php endforeach; ?>
                          <?php endif; ?>
-                         <!-- --- show navigation node related files for download --- -->
-                         <?php if(count($tpl['links'])>0): ?>
-                         <div class="downloads">Links:</div>
-                         <?php foreach($tpl['links'] as $link): ?>
-                         <table width="350" border="0" cellspacing="0" cellpadding="0">
+                         <!-- --- show keyword related links --- -->
+                         <?php if(count($tpl['keywordLink'])>0): ?>
+                         <br /><br />
+						 <div class="downloads">See also keywords related links:</div>
+                         <?php foreach($tpl['keywordLink'] as $key_link): ?>
+                         <table width="100%" border="0" cellspacing="2" cellpadding="2">
                            <tr>
-                             <td height="19" class="filelink"><a href="<?php echo $link['url']; ?>" target="_blank"><?php echo $link['title']; ?></a></td>
+                             <td width="1%" align="left" valign="top" class="filelink">-</td>
+                             <td width="99%" align="left" valign="top" class="filelink"><a href="<?php echo $key_link['url']; ?>" target="_blank"><?php echo $key_link['title']; ?></a></td>
                            </tr>
-                           <?php if(!empty($link['description'])): ?>
+                           <?php if(!empty($key_link['description'])): ?>
                            <tr>
-                             <td class="filedesc"><?php echo $link['description']; ?></td>
+                             <td align="left" valign="top" class="filedesc">&nbsp;</td>
+                             <td align="left" valign="top" class="filedesc"><?php echo $key_link['description']; ?></td>
                            </tr>
                            <?php endif; ?>
                          </table>
-                         <br />
                          <?php endforeach; ?>
-                         <?php endif; ?></td>
+                         <?php endif; ?>						 </td>
                  </tr>
                </table>
                </td>
