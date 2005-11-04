@@ -72,13 +72,14 @@ class ActionCommonSetup extends SmartAction
                  `templates_folder` varchar(255) NOT NULL default '',
                  `views_folder`     varchar(255) NOT NULL default '',
                  `disable_cache`    tinyint(1) NOT NULL default 1,
+                 `textarea_rows`    tinyint(2) NOT NULL default 25,
                  `max_lock_time`    int(11) NOT NULL default 7200,
                  `rejected_files`   text NOT NULL default '') 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
-                 (`charset`,`templates_folder`, `views_folder`,`rejected_files`)
+                 (`charset`,`templates_folder`, `views_folder`,`rejected_files`,`textarea_rows`)
                 VALUES
                  ('{$data['charset']}','{$this->model->config['default_template_folder']}','{$this->model->config['default_view_folder']}','.php,.php3,.php4,.php5,.phps,.pl,.py')";
         $this->model->dba->query($sql);
