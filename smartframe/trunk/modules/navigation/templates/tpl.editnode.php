@@ -2,6 +2,13 @@
 <!-- tinyMCE -->
 <script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
+function myCustomURLConverter(url, node, on_save) {
+  // Do some custom URL convertion
+  url = url.replace("/\//","");
+
+  // Return new URL
+  return url;
+}
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
     directionality : "ltr",
@@ -298,7 +305,7 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top" class="font10bold">Body</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="body" cols="90" rows="15" id="body"><?php echo $tpl['node']['body']; ?></textarea></td>
+        <td align="left" valign="top"><textarea name="body" cols="90" rows="<?php echo $tpl['textarea_rows']; ?>" id="body"><?php echo $tpl['node']['body']; ?></textarea></td>
       </tr>
     <?php endif; ?>
       <tr>
@@ -346,24 +353,27 @@ Wikki </td>
         </table></td>
       </tr>  
     <?php endif; ?>  
-	<?php if($tpl['use_keywords']==1): ?>
-	      <tr>
+  <?php if($tpl['use_keywords']==1): ?>
+        <tr>
+          <td align="left" valign="top"><hr></td>
+          </tr>
+        <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
       </tr>
       <tr>
         <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
-      </tr>	  
+      </tr>   
       <tr>
         <td align="left" valign="top" class="font12"> 
           <?php foreach($tpl['keys'] as $keybranch): ?>
-		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
-		  <?php endforeach; ?>
-		  <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
-		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
-		  <?php endif; ?>
-		  </td>
+      <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
+      <?php endforeach; ?>
+      <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
+      <div><br />To remove keywords check the keywords and hit refresh or submit</div>
+      <?php endif; ?>
+      </td>
       </tr>
-	  <?php endif; ?>	 
+    <?php endif; ?>  
     <?php if($tpl['use_files']==1): ?>
       <tr>
         <td align="left" valign="top"><hr>          
