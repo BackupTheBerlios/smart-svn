@@ -44,7 +44,7 @@ span.search_pager {
               <img src="./modules/common/media/pics/active.png" width="21" height="21">
            <?php endif; ?>    
     </td>
-        <td width="98%" align="left" valign="top" class="font10">
+        <td width="98%" align="left" valign="top" class="font12">
           <?php echo '<a href="'.SMART_CONTROLLER.'?mod=article&id_node='.$node['id_node'].'&article_page=1">'.$node['title'].'</a>'; ?>
         </td>
       </tr>
