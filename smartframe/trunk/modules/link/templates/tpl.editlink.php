@@ -82,9 +82,9 @@ function cancel_edit(f)
               <td width="10%" align="left" valign="top" class="font10bold">Status </td>
               <td width="53%" align="left" valign="top" class="font10bold">Navigation Node</td>
               <td width="37%" align="right" valign="top" class="font10bold">
-          <input name="finishupdate" type="submit" id="finishupdate" value="Submit">&nbsp;
-          <input name="refresh" type="submit" id="refresh" value="Refresh">&nbsp;
-        <input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
+          <input name="finishupdate" type="submit" id="finishupdate" value="Submit" class="button">&nbsp;
+          <input name="refresh" type="submit" id="refresh" value="Refresh" class="button">&nbsp;
+        <input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);" class="button"></td>
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
@@ -121,7 +121,7 @@ function cancel_edit(f)
       </tr>
       <tr>
         <td align="left" valign="top" class="font9"> 
-          <div align="right"><input name="delete" type="button" id="delete" value="Delete this link" onclick="deletelink(this.form, 'Delete this link?');">
+          <div align="right"><input name="delete" type="button" id="delete" value="Delete this link" onclick="deletelink(this.form, 'Delete this link?');" class="button">
           </div></td>
       </tr>
   <?php if($tpl['use_keywords']==1): ?>
@@ -143,13 +143,13 @@ function cancel_edit(f)
       </tr>
     <?php endif; ?>   
       <tr>
-        <td align="left" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit">
+        <td align="left" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit" class="button">
           &nbsp;
 
-          <input name="refresh" type="submit" id="refresh" value="Refresh">
+          <input name="refresh" type="submit" id="refresh" value="Refresh" class="button">
           &nbsp;
 
-          <input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
+          <input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);" class="button"></td>
       </tr>
     </table>
     </td>
