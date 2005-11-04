@@ -32,9 +32,9 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
               <img src="./modules/common/media/pics/inactive.png" width="21" height="21">
            <?php elseif($node['status']==2): ?>
               <img src="./modules/common/media/pics/active.png" width="21" height="21">
-           <?php endif; ?>		
-		</td>
-        <td width="98%" align="left" valign="top" class="font10">
+           <?php endif; ?>    
+    </td>
+        <td width="98%" align="left" valign="top" class="font12">
           <?php echo '<a href="'.SMART_CONTROLLER.'?mod=link&id_node='.$node['id_node'].'">'.$node['title'].'</a>'; ?>
         </td>
       </tr>
@@ -46,7 +46,7 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
       <tr>
         <td align="left" valign="top" bgcolor="#CCCCFF" class="font12bold">&nbsp;Links</td>
       </tr>  
-	  </table>
+    </table>
     <?php foreach($tpl['links'] as $link): ?>
     <table width="100%"  border="0" cellspacing="2" cellpadding="2">
       <tr>
@@ -58,17 +58,17 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
     <?php endif; ?>
     </td>
         <td width="1%" align="left" valign="top" class="font9">
-		<?php if(($tpl['showLink']==TRUE)&&($link['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=link&view=editLink&id_node=<?php echo $tpl['id_node']; ?>&id_link=<?php echo $link['id_link']; ?>">edit</a><?php else: ?>edit<?php endif; ?>&nbsp;</td>
+    <?php if(($tpl['showLink']==TRUE)&&($link['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=link&view=editLink&id_node=<?php echo $tpl['id_node']; ?>&id_link=<?php echo $link['id_link']; ?>">edit</a><?php else: ?>edit<?php endif; ?>&nbsp;</td>
           <td width="98%" align="left" valign="top" class="itemnormal">
                 <?php echo '<a href="'.$link['url'].'" target="_blank">'.$link['title'].'</a>'; ?>
-				<?php if(!empty($link['description'])): ?>
-				   <div class="font10"><?php echo $link['description']; ?></div>
-				<?php endif; ?>
+        <?php if(!empty($link['description'])): ?>
+           <div class="font10"><?php echo $link['description']; ?></div>
+        <?php endif; ?>
         </td>
       </tr>
     </table>
     <?php endforeach; ?>
-	<?php elseif(($tpl['showLink']==TRUE)&&($tpl['showAddLink']==TRUE)): ?>
+  <?php elseif(($tpl['showLink']==TRUE)&&($tpl['showAddLink']==TRUE)): ?>
         <br><br><div class="font12bold">There is currently no link under this node. You may add some one here.</div><br><br>  
     <?php endif; ?>   
     </td>
