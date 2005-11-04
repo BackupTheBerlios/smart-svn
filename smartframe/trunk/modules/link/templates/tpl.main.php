@@ -58,7 +58,7 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navig
     <?php endif; ?>
     </td>
         <td width="1%" align="left" valign="top" class="font9">
-    <?php if(($tpl['showLink']==TRUE)&&($link['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=link&view=editLink&id_node=<?php echo $tpl['id_node']; ?>&id_link=<?php echo $link['id_link']; ?>">edit</a><?php else: ?>edit<?php endif; ?>&nbsp;</td>
+    <?php if(($tpl['showLink']==TRUE)&&($link['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=link&view=editLink&id_node=<?php echo $tpl['id_node']; ?>&id_link=<?php echo $link['id_link']; ?>&disableMainMenu=1">edit</a><?php else: ?>edit<?php endif; ?>&nbsp;</td>
           <td width="98%" align="left" valign="top" class="itemnormal">
                 <?php echo '<a href="'.$link['url'].'" target="_blank">'.$link['title'].'</a>'; ?>
         <?php if(!empty($link['description'])): ?>
