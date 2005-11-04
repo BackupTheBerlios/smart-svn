@@ -181,11 +181,11 @@ class ViewArticleEditArticle extends SmartView
 
             $this->deleteArticleKeywords();
             $this->updateArticle();
-            $this->unlockArticle();
-            $this->model->session->del('id_node');
-            $this->model->session->del('id_article');
             if(!isset($_POST['refresh']))
             {
+                $this->unlockArticle();
+                $this->model->session->del('id_node');
+                $this->model->session->del('id_article');            
                 $this->redirect( $this->current_id_node );
             }
         }    
