@@ -309,11 +309,6 @@ function MM_swapImage() { //v3.0
       </tr>
     <?php endif; ?>
       <tr>
-        <td align="left" valign="top" class="font9"> 
-          <div align="right"><input name="delete" type="button" id="delete" value="Delete this node" onclick="deletenode(this.form, 'Delete this node?');">
-          </div></td>
-      </tr>
-      <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr>
             <td align="left" valign="top">
@@ -328,6 +323,11 @@ function MM_swapImage() { //v3.0
           </tr>
         </table></td>
       </tr>
+      <tr>
+        <td align="left" valign="top" class="font9"><hr>
+          <div align="right"><input name="delete" type="button" id="delete" value="Delete this node" onclick="deletenode(this.form, 'Delete this node?');">
+          </div><hr></td>
+      </tr>	  
     <?php if($tpl['show_format_switch'] == TRUE): ?>
       <tr>
         <td align="left" valign="top">Use text format:
