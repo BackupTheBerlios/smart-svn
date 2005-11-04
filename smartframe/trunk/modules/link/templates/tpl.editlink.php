@@ -49,6 +49,7 @@ function cancel_edit(f)
 <form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=link&view=editLink" method="post" enctype="multipart/form-data" name="editlink" id="editlink">
 <input name="gotonode" type="hidden" value="">
 <input name="modifylinkdata" type="hidden" value="true">
+<input name="disableMainMenu" type="hidden" value="<?php echo $tpl['disableMainMenu']; ?>">
 <input name="canceledit" type="hidden" id="canceledit" value="">
 <input name="id_node" type="hidden" value="<?php echo $tpl['id_node']; ?>">
 <input name="id_link" type="hidden" value="<?php echo $tpl['link']['id_link']; ?>">
@@ -60,11 +61,11 @@ function cancel_edit(f)
   <tr>
     <td width="80%" align="left" valign="top">      <table width="100%" border="0" cellspacing="3" cellpadding="3">
       <?php if(count($tpl['error'])>0): ?>
-	  <?php foreach($tpl['error'] as $error): ?>
+    <?php foreach($tpl['error'] as $error): ?>
       <tr>
         <td width="312" align="left" valign="top" class="itemerror"><?php echo $error; ?></td>
       </tr>
-	  <?php endforeach; ?>
+    <?php endforeach; ?>
       <?php endif; ?>
       <tr>
         <td align="left" valign="top" >
@@ -81,9 +82,9 @@ function cancel_edit(f)
               <td width="10%" align="left" valign="top" class="font10bold">Status </td>
               <td width="53%" align="left" valign="top" class="font10bold">Navigation Node</td>
               <td width="37%" align="right" valign="top" class="font10bold">
-			    <input name="finishupdate" type="submit" id="finishupdate" value="Submit">&nbsp;
-			    <input name="refresh" type="submit" id="refresh" value="Refresh">&nbsp;
-				<input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
+          <input name="finishupdate" type="submit" id="finishupdate" value="Submit">&nbsp;
+          <input name="refresh" type="submit" id="refresh" value="Refresh">&nbsp;
+        <input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
             </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
@@ -105,7 +106,7 @@ function cancel_edit(f)
       </tr>
       <tr>
         <td align="left" valign="top"><input name="url" type="text" id="url" size="90" maxlength="1024" value="<?php echo $tpl['link']['url']; ?>"></td>
-      </tr>	   
+      </tr>    
       <tr>
         <td align="left" valign="top" class="font10bold">Title</td>
       </tr>
@@ -123,24 +124,24 @@ function cancel_edit(f)
           <div align="right"><input name="delete" type="button" id="delete" value="Delete this link" onclick="deletelink(this.form, 'Delete this link?');">
           </div></td>
       </tr>
-	<?php if($tpl['use_keywords']==1): ?>
-	      <tr>
+  <?php if($tpl['use_keywords']==1): ?>
+        <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
       </tr>
       <tr>
         <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
-      </tr>	  
+      </tr>   
       <tr>
         <td align="left" valign="top" class="font12"> 
           <?php foreach($tpl['keys'] as $keybranch): ?>
-		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
-		  <?php endforeach; ?>
-		  <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
-		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
-		  <?php endif; ?>
-		  </td>
+      <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
+      <?php endforeach; ?>
+      <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
+      <div><br />To remove keywords check the keywords and hit refresh or submit</div>
+      <?php endif; ?>
+      </td>
       </tr>
-	  <?php endif; ?>	  
+    <?php endif; ?>   
       <tr>
         <td align="left" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit">
           &nbsp;

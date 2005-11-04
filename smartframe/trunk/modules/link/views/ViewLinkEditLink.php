@@ -228,6 +228,15 @@ class ViewLinkEditLink extends SmartView
         
         // use keywords or not
         $this->tplVar['use_keywords'] = $this->config['link']['use_keywords']; 
+
+        if(isset($_REQUEST['disableMainMenu']))
+        {
+            $this->tplVar['disableMainMenu']  = "1";  
+        }
+        else
+        {
+            $this->tplVar['disableMainMenu']  = FALSE;  
+        }
         
         // we need the url vars to open this page by the keyword map window
         if($this->config['link']['use_keywords'] == 1)
