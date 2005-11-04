@@ -1,7 +1,9 @@
 <script language="JavaScript" type="text/JavaScript">
+<?php if($tpl['use_keywords']==1): ?>
 function keywordmap(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
 newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=article&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+<?php endif; ?>
 // unlock a node and forward to the node with id x. use this for links
 function gotonode(f,x){
         f.gotonode.value=x;

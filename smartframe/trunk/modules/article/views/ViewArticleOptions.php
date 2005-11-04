@@ -104,13 +104,13 @@ class ViewArticleOptions extends SmartView
         
         if(isset($_POST['img_size_max']) && !empty($_POST['img_size_max']))
         {
-            if(($_POST['img_size_max'] > 0) && ($_POST['img_size_max'] <= 3000000))
+            if(($_POST['img_size_max'] > 0) && ($_POST['img_size_max'] <= 5000000))
             {
                 $this->fields['img_size_max'] = (int)$_POST['img_size_max'];
             }
             else
             {
-                $this->tplVar['error'][] = "Image file size must be between 100 and 3000000!";
+                $this->tplVar['error'][] = "Image file size must be between 100 and 5000000!";
             }
         }
         else
@@ -120,13 +120,13 @@ class ViewArticleOptions extends SmartView
         
         if(isset($_POST['file_size_max']) && !empty($_POST['file_size_max']))
         {
-            if(($_POST['file_size_max'] > 0) && ($_POST['file_size_max'] <= 8000000))
+            if(($_POST['file_size_max'] > 0) && ($_POST['file_size_max'] <= 25000000))
             {
                 $this->fields['file_size_max'] = (int)$_POST['file_size_max'];
             }
             else
             {
-                $this->tplVar['error'][] = "File size must be between 100 and 3000000!";
+                $this->tplVar['error'][] = "File size must be between 100 and 25000000!";
             }
         }
         else
@@ -256,6 +256,15 @@ class ViewArticleOptions extends SmartView
         else
         {
             $this->fields['default_ordertype'] = 'asc';
+        }
+
+        if(isset($_POST['use_keywords']))
+        {
+            $this->fields['use_keywords'] = (int)$_POST['use_keywords'];
+        } 
+        else
+        {
+            $this->fields['use_keywords'] = 0;
         }
         
         if(count($this->tplVar['error']) > 0)
