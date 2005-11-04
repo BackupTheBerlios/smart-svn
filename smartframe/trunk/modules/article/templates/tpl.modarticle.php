@@ -254,7 +254,7 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top" class="font10bold">Body</td>
       </tr>
       <tr>
-        <td align="left" valign="top"><textarea name="body" cols="90" rows="15" id="body"><?php echo $tpl['article']['body']; ?></textarea></td>
+        <td align="left" valign="top"><textarea name="body" cols="90" rows="<?php echo $tpl['textarea_rows']; ?>" id="body"><?php echo $tpl['article']['body']; ?></textarea></td>
       </tr>
     <?php if($tpl['use_ps']==1): ?>  
       <tr>
