@@ -21,6 +21,7 @@ class ActionOptionsUpdateConfigOptions extends SmartAction
                             'views_folder'     => 'String',
                             'disable_cache'    => 'Int',
                             'max_lock_time'    => 'Int',
+                            'textarea_rows'    => 'Int',
                             'rejected_files'   => 'String');
     /**
      * update common config values

@@ -70,6 +70,12 @@
       <tr>
         <td align="left" valign="top"><input type="submit" name="unlockall" value="unlock all"></td>
       </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold">Rows of Textareas</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top"><input name="textarea_rows" type="text" id="textarea_rows" value="<?php echo $tpl['textareaRows']; ?>" size="2" maxlength="3"></td>
+      </tr>	  
     </table></td>
     <td width="26%" align="left" valign="top" class="font10bold"><input type="submit" name="updateOptions" value="update"></td>
   </tr>

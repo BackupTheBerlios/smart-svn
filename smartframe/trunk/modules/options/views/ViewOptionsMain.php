@@ -86,6 +86,7 @@ class ViewOptionsMain extends SmartView
         $this->tplVar['allPublicTplFolders']  = $this->getPublicFolders( 'templates_' );
         $this->tplVar['rejectedFiles']        = $this->config['rejected_files'];
         $this->tplVar['maxLockTime']          = $this->config['max_lock_time'];
+        $this->tplVar['textareaRows']         = $this->config['textarea_rows'];
 
         $this->tplVar['disableCache']         = $this->config['disable_cache'];
     } 
@@ -162,9 +163,18 @@ class ViewOptionsMain extends SmartView
             $this->config['disable_cache'] = 0;
        }
 
+       if(isset($_POST['textarea_rows']) && (strlen($_POST['textarea_rows']) <= 2))
+       {
+            if(preg_match("/[0-9]{1,2}/", $_POST['textarea_rows']) )
+            {
+                $this->fields['textarea_rows'] = (string)$_POST['textarea_rows'];
+                $this->config['textarea_rows'] = (string)$_POST['textarea_rows'];
+            }
+       }  
+
        if(isset($_POST['max_lock_time']) && (strlen($_POST['max_lock_time']) <= 11))
        {
-            if(preg_match("/[0-9]+/", $_POST['max_lock_time']) )
+            if(preg_match("/[0-9]{1,11}/", $_POST['max_lock_time']) )
             {
                 $this->fields['max_lock_time'] = (string)$_POST['max_lock_time'];
                 $this->config['max_lock_time'] = (string)$_POST['max_lock_time'];
