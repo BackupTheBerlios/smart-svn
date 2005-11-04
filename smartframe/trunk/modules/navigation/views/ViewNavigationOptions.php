@@ -85,7 +85,7 @@ class ViewNavigationOptions extends SmartView
         
         if(isset($_POST['thumb_width']) && !empty($_POST['thumb_width']))
         {
-            if(($_POST['thumb_width'] > 10) && ($_POST['thumb_width'] <= 250))
+            if(($_POST['thumb_width'] > 10) && ($_POST['thumb_width'] <= 350))
             {
                 $this->fields['thumb_width'] = (int)$_POST['thumb_width'];
             }
@@ -101,7 +101,7 @@ class ViewNavigationOptions extends SmartView
         
         if(isset($_POST['img_size_max']) && !empty($_POST['img_size_max']))
         {
-            if(($_POST['img_size_max'] > 0) && ($_POST['img_size_max'] <= 3000000))
+            if(($_POST['img_size_max'] > 0) && ($_POST['img_size_max'] <= 10000000))
             {
                 $this->fields['img_size_max'] = (int)$_POST['img_size_max'];
             }
@@ -117,7 +117,7 @@ class ViewNavigationOptions extends SmartView
         
         if(isset($_POST['file_size_max']) && !empty($_POST['file_size_max']))
         {
-            if(($_POST['file_size_max'] > 0) && ($_POST['file_size_max'] <= 8000000))
+            if(($_POST['file_size_max'] > 0) && ($_POST['file_size_max'] <= 25000000))
             {
                 $this->fields['file_size_max'] = (int)$_POST['file_size_max'];
             }
@@ -190,6 +190,15 @@ class ViewNavigationOptions extends SmartView
         else
         {
             $this->fields['use_files'] = (int)$_POST['use_files'];
+        }
+
+        if(isset($_POST['use_keywords']) && ($_POST['use_keywords'] == '1'))
+        {
+            $this->fields['use_keywords'] = (int)$_POST['use_keywords'];
+        } 
+        else
+        {
+            $this->fields['use_keywords'] = 0;
         }
         
         if(count($this->tplVar['error']) > 0)

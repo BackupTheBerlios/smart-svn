@@ -448,7 +448,7 @@ class ViewNavigationEditNode extends SmartView
         {
             $this->tplVar['opener_url_vars'] = base64_encode('&view=editNode&id_node='.$this->current_id_node.'&disableMainMenu=1');
         }
-        $this->tplVar['use_keywords'] = $this->config['article']['use_keywords'];
+        $this->tplVar['use_keywords'] = $this->config['navigation']['use_keywords'];
     }
      /**
      * has the logged the rights to modify?
