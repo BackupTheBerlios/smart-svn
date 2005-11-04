@@ -106,8 +106,8 @@ class ActionNavigationSetup extends SmartAction
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}navigation_config (
                  `thumb_width`    smallint(4) NOT NULL default 120,
-                 `img_size_max`   int(11) NOT NULL default 100000,
-                 `file_size_max`  int(11) NOT NULL default 100000,
+                 `img_size_max`   int(11) NOT NULL default 500000,
+                 `file_size_max`  int(11) NOT NULL default 5000000,
                  `force_format`   tinyint(1) NOT NULL default 2,
                  `default_format` tinyint(1) NOT NULL default 2,
                  `default_lang`   char(2) NOT NULL default 'en',
