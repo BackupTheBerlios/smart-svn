@@ -52,6 +52,11 @@ function insertImgDesc(desc)
 <!-- /PEAR text_wikki -->
 <?php endif; ?>
 <script language="JavaScript" type="text/JavaScript">
+<?php if($tpl['use_keywords']==1): ?>
+function keywordmap(){
+mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
+newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keyword&view=map&openerModule=misc&opener_url_vars=<?php echo $tpl['opener_url_vars']; ?>','',mm); }
+<?php endif; ?>
 function deletetext(f, mes)
 {
       check = confirm(mes);
@@ -221,7 +226,11 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td width="29%" align="left" valign="top" class="font10bold">Status </td>
-              <td width="46%" align="right" valign="top" class="font10bold"><input type="button" name="cancel" value="cancel" onclick="cancel_edit(this.form);"></td>
+              <td width="46%" align="right" valign="top" class="font10bold">
+			  <input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
+                <input name="refresh" type="submit" value="Refresh" class="button">
+                <input name="finishupdate" type="submit" value="Submit" class="button">
+                </td>
               </tr>
             <tr>
               <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
@@ -256,20 +265,28 @@ function MM_swapImage() { //v3.0
           </div></td>
       </tr>
       <tr>
-        <td align="left" valign="top"><input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+        <td align="left" valign="top"><input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
+          <input name="refresh" type="submit" value="Refresh" class="button">
+          <input name="finishupdate" type="submit" value="Submit" class="button"></td>
       </tr>
-    <?php if($tpl['show_format_switch'] == TRUE): ?>
+	<?php if($tpl['use_keywords']==1): ?>
+	      <tr>
+        <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
+      </tr>
       <tr>
-        <td align="left" valign="top">Use text format:
-          <input type="hidden" name="switchformat" value="0">
-          <input type="radio" name="format" value="2" <?php if($tpl['format']==2) echo "checked"; ?> onclick="switch_format(document.forms['edittext'])">
-Wysiwyg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="radio" name="format" value="1" <?php if($tpl['format']==1) echo "checked"; ?> onclick="switch_format(document.forms['edittext'])">
-Wikki </td>
-      </tr> 
-    <?php endif; ?>
-    <?php if($tpl['show_admin_link']==TRUE): ?>
-    <?php endif; ?>   
+        <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
+      </tr>	  
+      <tr>
+        <td align="left" valign="top" class="font12"> 
+          <?php foreach($tpl['keys'] as $keybranch): ?>
+		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
+		  <?php endforeach; ?>
+		  <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
+		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
+		  <?php endif; ?>
+		  </td>
+      </tr>
+	  <?php endif; ?>	    
     <?php if($tpl['use_files']==1): ?>
       <tr>
         <td align="left" valign="top"><hr>          

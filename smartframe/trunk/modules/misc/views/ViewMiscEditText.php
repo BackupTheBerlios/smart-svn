@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * VViewMiscEditText
+ * ViewMiscEditText
  *
  */
  
@@ -150,7 +150,17 @@ class ViewMiscEditText extends SmartView
             $this->convertHtmlSpecialChars( $this->tplVar['file'][$x], array('description') );
             $this->tplVar['file'][$x]['description'] = addslashes($this->tplVar['file'][$x]['description']);
             $x++;
-        }    
+        } 
+        
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['misc']['use_keywords'] == 1)
+        {
+            if(isset($_REQUEST['addkey']))
+            {
+                $this->addKeyword();
+            }
+            $this->getKeywords();
+        }        
     }  
 
     private function updatetextData()
@@ -259,6 +269,8 @@ class ViewMiscEditText extends SmartView
             // update text data
             $this->updatetext( $use_text_format );
 
+            $this->deleteKeywords();
+
             if( isset($_POST['finishupdate']) )
             {
                 $this->unlocktext();
@@ -332,6 +344,14 @@ class ViewMiscEditText extends SmartView
         $this->tplVar['file']  = array();        
         // errors
         $this->tplVar['error']  = array();    
+
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['misc']['use_keywords'] == 1)
+        {
+            $this->tplVar['opener_url_vars'] = base64_encode('&view=editText&id_text='.$this->current_id_text.'&disableMainMenu=1');
+        }
+        $this->tplVar['use_keywords'] = $this->config['misc']['use_keywords'];
+
         
         $this->dontPerform = FALSE; 
     }
@@ -436,6 +456,80 @@ class ViewMiscEditText extends SmartView
         }
         return TRUE;
     }
+    /**
+     * add keyword to the current text
+     *
+     */      
+    private function addKeyword()
+    {
+        $this->model->action('misc','addKeyword', 
+                             array('id_key'  => (int)$_REQUEST['id_key'],
+                                   'id_text' => (int)$this->current_id_text));
+    }  
+    
+    /**
+     * get text related keywords
+     *
+     */      
+    private function getKeywords()
+    {
+        $this->tplVar['keys'] = array();
+        
+        $keywords = array();
+        
+        // get text related keywords
+        $this->model->action('misc','getKeywordIds', 
+                             array('result'  => & $keywords,
+                                   'id_text' => (int)$this->current_id_text));
+
+        foreach($keywords as $key)
+        {
+            $tmp = array();
+            $tmp['id_key'] = $key; 
+            
+            $keyword = array();
+            $this->model->action('keyword','getKeyword', 
+                                 array('result' => & $keyword,
+                                       'id_key' => (int)$key,
+                                       'fields' => array('title','id_key')));          
+            $branch = array();
+            // get keywords branches
+            $this->model->action('keyword','getBranch', 
+                                 array('result'  => & $branch,
+                                       'id_key' => (int)$key,
+                                       'fields'  => array('title','id_key')));                 
+
+            $tmp['branch'] = '';
+            
+            foreach($branch as $bkey)
+            {
+                $tmp['branch'] .= '/'.$bkey['title'];
+            }
+            
+            $tmp['branch'] .= '/<strong>'.$keyword['title'].'</strong>';
+            
+            $this->tplVar['keys'][] = $tmp;
+        }
+        sort($this->tplVar['keys']);    
+    }   
+    /**
+     * remove keyword relations
+     *
+     */      
+    private function deleteKeywords()
+    {
+        if(isset($_POST['id_key']) && is_array($_POST['id_key']))
+        {
+            foreach($_POST['id_key'] as $id_key)
+            {
+                // remove a keyword relation
+                $this->model->action('misc','removeKeyword', 
+                                 array('id_key'  => (int)$id_key,
+                                       'id_text' => (int)$this->current_id_text));                 
+            
+            }
+        }
+    }      
 }
 
 ?>
