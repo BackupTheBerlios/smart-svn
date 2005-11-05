@@ -122,6 +122,7 @@ class ActionMiscSetup extends SmartAction
     public function rollback( &$data )
     {
         $sql = "DROP TABLE IF EXISTS {$data['dbtablesprefix']}misc_text,
+                                     {$data['dbtablesprefix']}misc_keyword,
                                      {$data['dbtablesprefix']}misc_text_lock,
                                      {$data['dbtablesprefix']}misc_text_pic,
                                      {$data['dbtablesprefix']}misc_text_file,
