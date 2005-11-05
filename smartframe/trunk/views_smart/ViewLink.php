@@ -23,7 +23,7 @@ class ViewLink extends SmartView
     public $cacheExpire = 300;
     
     /**
-     * Execute the view of the "node" template
+     * Execute the view of the "link" template
      */
     function perform()
     { 
@@ -62,8 +62,7 @@ class ViewLink extends SmartView
                              array('result'  => & $this->tplVar['links'],
                                    'id_node' => (int)$this->current_id_node,
                                    'status'  => array('=','2'),
-                                   'fields'  => array('title','url','id_link',
-                                                      'description')));   
+                                   'fields'  => array('title','url','description')));   
     }
 
     /**
@@ -158,9 +157,6 @@ class ViewLink extends SmartView
         $this->tplVar['charset'] = & $this->config['charset'];
         // relative path to the smart directory
         $this->tplVar['relativePath'] = SMART_RELATIVE_PATH;
-        
-        // init template variable for keyword related links
-        $this->tplVar['keywordLink'] = array();   
 
         // we need this template vars to show admin links if the user is logged
         $this->tplVar['loggedUserRole']      = $this->viewVar['loggedUserRole'];
