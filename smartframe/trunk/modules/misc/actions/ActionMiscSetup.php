@@ -85,9 +85,19 @@ class ActionMiscSetup extends SmartAction
                  `force_format`   tinyint(1) NOT NULL default 2,
                  `misc_format` tinyint(1) NOT NULL default 2,
                  `misc_lang`   char(2) NOT NULL default 'en',
+                 `use_keywords`   tinyint(1) NOT NULL default 1,
                  `use_images`     tinyint(1) NOT NULL default 1,
                  `use_files`      tinyint(1) NOT NULL default 1)";
         $this->model->dba->query($sql);
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}misc_keyword (
+                   `id_text`     int(11) unsigned NOT NULL default 0,
+                   `id_key`      int(11) unsigned NOT NULL default 0,
+                   KEY `id_text` (`id_text`),
+                   KEY `id_key`  (`id_key`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);
+
 
         $sql = "INSERT INTO {$data['dbtablesprefix']}misc_config
                    (`thumb_width`, `img_size_max`,`file_size_max`)
