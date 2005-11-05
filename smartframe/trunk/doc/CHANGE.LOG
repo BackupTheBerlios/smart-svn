@@ -1,6 +1,12 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.2a
+--------
+- added keyword module
+- added keyword features in modules: misc,article,navigation and link
+- added separated public view and template to show extern links
+
 0.2.1a
 --------
 - in modules "navigation" and "article" you can now set content to protect,
