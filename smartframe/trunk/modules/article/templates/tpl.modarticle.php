@@ -196,9 +196,9 @@ function MM_swapImage() { //v3.0
     <td colspan="2" class="moduleheader2"><table width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td width="66%" align="left" valign="middle" class="moduleheader2">Modify Article Content </td>
-          <td width="34%" align="right" valign="middle"><input name="back" type="submit" id="back" value="Back">
-            <input name="refresh" type="submit" id="refresh" value="Refresh">
-            <input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+          <td width="34%" align="right" valign="middle"><input name="back" type="submit" id="back" value="Back" class="button">
+            <input name="refresh" type="submit" id="refresh" value="Refresh" class="button">
+            <input name="finishupdate" type="submit" id="finishupdate" value="Submit" class="button"></td>
         </tr>
       </table></td>
     </tr>
@@ -266,9 +266,9 @@ function MM_swapImage() { //v3.0
       </tr>
     <?php endif; ?>       
       <tr>
-        <td align="left" valign="top"><input name="back" type="submit" id="back" value="Back">
-          <input name="refresh" type="submit" id="refresh" value="Refresh">
-          <input name="finishupdate" type="submit" id="finishupdate" value="Submit"></td>
+        <td align="left" valign="top"><input name="back" type="submit" id="back" value="Back" class="button">
+          <input name="refresh" type="submit" id="refresh" value="Refresh" class="button">
+          <input name="finishupdate" type="submit" id="finishupdate" value="Submit" class="button"></td>
       </tr> 
     <?php if($tpl['use_files']==1): ?>
       <tr>
