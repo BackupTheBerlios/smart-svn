@@ -91,15 +91,16 @@ class ActionCommonSetup extends SmartAction
                  `alias`       varchar(255) NOT NULL default '',
                  `version`     varchar(255) NOT NULL default '',
                  `visibility`  tinyint(1) NOT NULL default 0,
+                 `perm`        tinyint(3) NOT NULL default 0,
                  `release`     text NOT NULL default '',
                  PRIMARY KEY   (`id_module`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                 (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
+                 (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                 VALUES
-                 ('common','', 0,'0.1',0,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
+                 ('common','', 0,'0.1',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);            
 
         return TRUE;
