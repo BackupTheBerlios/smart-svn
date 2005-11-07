@@ -19,7 +19,7 @@
  * $model->action('misc','fromKeyword',
  *                array('id_key_list' => array( int, int,..,..,..),
  *                      'result'      => & array,
- *                      'status'      => array('>|<|=|>=|<=|!=',1|2), // article status - optional
+ *                      'status'      => array('>|<|=|>=|<=|!=',1|2), // text status - optional
  *                      'key_status'  => array('>|<|=|>=|<=|!=',1|2), // keyword status - optional
  *                      'exclude'     => array( integers ),           // exclude id_textes's optional
  *                      'order'   => array('title', 'asc|desc'), // optional
