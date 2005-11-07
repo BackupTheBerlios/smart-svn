@@ -10,7 +10,7 @@
     mode : "exact",
     content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
-    theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;",
+    theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;Quote=quote;",
     elements : "body",
     entity_encoding : "raw",
     theme : "advanced",
@@ -267,7 +267,8 @@ function MM_swapImage() { //v3.0
       <tr>
         <td align="left" valign="top"><input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
           <input name="refresh" type="submit" value="Refresh" class="button">
-          <input name="finishupdate" type="submit" value="Submit" class="button"></td>
+          <input name="finishupdate" type="submit" value="Submit" class="button">
+		  <hr></td>
       </tr>
 	<?php if($tpl['use_keywords']==1): ?>
 	      <tr>
