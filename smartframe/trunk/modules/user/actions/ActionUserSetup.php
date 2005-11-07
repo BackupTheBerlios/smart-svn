@@ -131,9 +131,9 @@ class ActionUserSetup extends SmartAction
 
         // insert module info data
         $sql = "INSERT INTO {$data['dbtablesprefix']}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
-                   ('user','User Management',8,'0.1',1,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
+                   ('user','User Management',8,'0.1',1,40,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         
         $this->model->dba->query($sql);         
     } 
