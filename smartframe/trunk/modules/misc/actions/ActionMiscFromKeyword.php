@@ -123,6 +123,7 @@ class ActionMiscFromKeyword extends SmartAction
             AND
                 mk.`id_text`=mt.`id_text`
            {$sql_where}
+           GROUP BY mt.`id_text`
            {$sql_order}
            {$sql_limit}";
 
