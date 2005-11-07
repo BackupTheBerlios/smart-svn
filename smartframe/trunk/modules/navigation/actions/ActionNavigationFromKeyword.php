@@ -132,6 +132,7 @@ class ActionNavigationFromKeyword extends SmartAction
             AND
                 nk.`id_node`=nn.`id_node`
            {$sql_status}
+           GROUP BY nk.`id_node`
            {$sql_order}
            {$sql_limit}";
 
