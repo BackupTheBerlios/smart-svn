@@ -17,7 +17,7 @@ function myCustomURLConverter(url, node, on_save) {
     mode : "exact",
     content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
-    theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;",
+    theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;Quote=quote;",
     elements : "body",
     entity_encoding : "raw",
     theme : "advanced",
