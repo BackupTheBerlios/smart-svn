@@ -29,13 +29,14 @@ class ActionOptionsSetup extends SmartAction
         }
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
                    ('options',
                     'Global Options Management',
                     7,
                     '0.1',
                     1,
+                    20,
                     'DATE: 25.7.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);            
     } 
