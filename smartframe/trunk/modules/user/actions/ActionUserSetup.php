@@ -102,11 +102,12 @@ class ActionUserSetup extends SmartAction
                  `img_size_max`   int(11) NOT NULL default 100000,
                  `file_size_max`  int(11) NOT NULL default 100000,
                  `force_format`   tinyint(1) NOT NULL default 2,
-                 `default_format` tinyint(1) NOT NULL default 2) 
+                 `default_format` tinyint(1) NOT NULL default 2,
+                 `use_keywords`   tinyint(1) NOT NULL default 1) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_key (
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_keyword (
                    `id_user`     int(11) unsigned NOT NULL default 0,
                    `id_key`      int(11) unsigned NOT NULL default 0,
                    KEY `id_user` (`id_user`),
@@ -117,7 +118,7 @@ class ActionUserSetup extends SmartAction
         $sql = "INSERT INTO {$data['dbtablesprefix']}user_config
                    (`thumb_width`, `img_size_max`,`file_size_max`)
                   VALUES
-                   (120,200000,200000)";
+                   (120,2000000,10000000)";
         $this->model->dba->query($sql); 
 
         $passwd = md5($data['superuser_passwd']);
