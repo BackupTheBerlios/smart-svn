@@ -164,6 +164,7 @@ class ActionArticleFromKeyword extends SmartAction
            {$sql_where}
            {$sql_pubdate}
            {$sql_order}
+           GROUP BY aa.`id_article`
            {$sql_limit}";
 
         $rs = $this->model->dba->query($sql);
