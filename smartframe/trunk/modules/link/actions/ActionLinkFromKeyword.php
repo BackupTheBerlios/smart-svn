@@ -145,8 +145,10 @@ class ActionLinkFromKeyword extends SmartAction
            {$sql_node_status}
            {$sql_where}
            {$sql_pubdate}
+           GROUP BY ll.`id_link`
            {$sql_order}
-           {$sql_limit}";
+           {$sql_limit}
+           ";
 
         $rs = $this->model->dba->query($sql);
         
