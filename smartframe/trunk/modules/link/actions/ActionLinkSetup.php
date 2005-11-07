@@ -74,13 +74,14 @@ class ActionLinkSetup extends SmartAction
         $this->model->dba->query($sql);   
        
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
                    ('link',
                     'Links Management',
                     6,
                     '0.1',
                     1,
+                    40,
                     'DATE: 23.8.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);            
     } 
