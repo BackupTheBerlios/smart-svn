@@ -102,8 +102,6 @@ class ViewArticleEditArticle extends SmartView
         if(isset($_POST['gotonode']) && ($_POST['gotonode'] != ''))
         {
             $this->unlockArticle();
-            $this->model->session->del('id_node');
-            $this->model->session->del('id_article');
             $this->redirect((int)$_POST['gotonode']);        
         }
 
@@ -111,8 +109,6 @@ class ViewArticleEditArticle extends SmartView
         if(isset($_POST['canceledit']) && ($_POST['canceledit'] == '1'))
         {
             $this->unlockArticle();
-            $this->model->session->del('id_node');
-            $this->model->session->del('id_article');
             $this->redirect((int)$this->current_id_node);        
         }
         
@@ -183,9 +179,7 @@ class ViewArticleEditArticle extends SmartView
             $this->updateArticle();
             if(!isset($_POST['refresh']))
             {
-                $this->unlockArticle();
-                $this->model->session->del('id_node');
-                $this->model->session->del('id_article');            
+                $this->unlockArticle();           
                 $this->redirect( $this->current_id_node );
             }
         }    
@@ -208,36 +202,22 @@ class ViewArticleEditArticle extends SmartView
     private function initVars()
     {
         // get node Id of the demanded article
-        if(isset($_REQUEST['id_node']))
+        if(!isset($_REQUEST['id_node']) || 
+           preg_match("/[^0-9]+/",$_REQUEST['id_node']) )
         {
-            if(!isset($_REQUEST['id_node']) || 
-               preg_match("/[^0-9]+/",$_REQUEST['id_node']) )
-            {
                 return FALSE;
-            } 
-            $this->current_id_node = $_REQUEST['id_node'];
-            $this->model->session->set('id_node', (int)$_REQUEST['id_node']);        
-        }
-        elseif(NULL === ($this->current_id_node = $this->model->session->get('id_node')))
-        {
-            return FALSE;
-        }  
+        } 
+        $this->current_id_node = (int)$_REQUEST['id_node'];
+                   
+
         // get article ID
-        if(isset($_REQUEST['id_article']))
-        {
-            if(!isset($_REQUEST['id_article']) || 
-               preg_match("/[^0-9]+/",$_REQUEST['id_article']) )
-            {
-                return FALSE;
-            } 
-            $this->current_id_article = $_REQUEST['id_article'];
-            $this->model->session->set('id_article', (int)$_REQUEST['id_article']);        
-        }
-        // get demanded article Id
-        elseif(NULL === ($this->current_id_article = $this->model->session->get('id_article')))
+        if(!isset($_REQUEST['id_article']) || 
+           preg_match("/[^0-9]+/",$_REQUEST['id_article']) )
         {
             return FALSE;
-        }
+        } 
+        $this->current_id_article = (int)$_REQUEST['id_article'];
+
 
         // template variables
         //

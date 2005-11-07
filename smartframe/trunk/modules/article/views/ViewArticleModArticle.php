@@ -65,7 +65,7 @@ class ViewArticleModArticle extends SmartView
         {
             $this->template       = 'error';
             $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'Fatal error: No "id_node" or "id_article" session var defined';
+            $this->tplVar['error'] = 'Fatal error: No/Wrong "id_node" or "id_article" var defined';
             $this->dontPerform = TRUE;          
         }
         
@@ -315,18 +315,29 @@ class ViewArticleModArticle extends SmartView
      */      
     private function initVars()
     {
-        if(NULL === ($this->current_id_node = $this->model->session->get('id_node')))
+        // get node Id of the demanded article
+        if(!isset($_REQUEST['id_node']) || 
+           preg_match("/[^0-9]+/",$_REQUEST['id_node']) )
+        {
+                return FALSE;
+        } 
+        $this->current_id_node = (int)$_REQUEST['id_node'];
+                   
+
+        // get article ID
+        if(!isset($_REQUEST['id_article']) || 
+           preg_match("/[^0-9]+/",$_REQUEST['id_article']) )
         {
             return FALSE;
-        }
-        if(NULL === ($this->current_id_article = $this->model->session->get('id_article')))
-        {
-            return FALSE;
-        }
+        } 
+        $this->current_id_article = (int)$_REQUEST['id_article'];
         
         // template variables
         //
         // article data
+        $this->tplVar['id_article'] = $this->current_id_article;
+        $this->tplVar['id_node']    = $this->current_id_node;
+        
         $this->tplVar['article']  = array();
         $this->tplVar['file']     = array();
         $this->tplVar['thumb']    = array();

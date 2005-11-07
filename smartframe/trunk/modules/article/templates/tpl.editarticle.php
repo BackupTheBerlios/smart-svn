@@ -65,7 +65,7 @@ function cancel_edit(f)
 -->
 </style>
 <form accept-charset="<?php echo $tpl['charset']; ?>" action="<?php echo SMART_CONTROLLER; ?>?mod=article&view=editArticle&disableMainMenu=1" method="post" enctype="multipart/form-data" name="editarticle" id="editarticle">
-<input name="id_article" type="hidden" value="<?php echo $tpl['article']['id_article']; ?>">
+<input name="id_article" type="hidden" value="<?php echo $tpl['id_article']; ?>">
 <input name="id_node" type="hidden" value="<?php echo $tpl['id_node']; ?>">
 <input name="gotonode" type="hidden" value="">
 <input name="canceledit" type="hidden" id="canceledit" value="">
@@ -105,7 +105,7 @@ function cancel_edit(f)
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
             <tr>
               <td width="35%" align="left" valign="top" class="font12bold">Status </td>
-              <td width="22%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1">Modify article content</a></td>
+              <td width="22%" align="left" valign="top" class="font12bold"><a href="<?php echo SMART_CONTROLLER; ?>?mod=article&view=modArticle&disableMainMenu=1&id_node=<?php echo $tpl['id_node']; ?>&id_article=<?php echo $tpl['id_article']; ?>">Modify article content</a></td>
               <td width="43%" align="right" valign="top" class="font10bold"><input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
                 <input name="refresh" type="submit" value="Refresh" class="button">
                 <input name="finishupdate" type="submit" value="Submit" class="button"></td>
