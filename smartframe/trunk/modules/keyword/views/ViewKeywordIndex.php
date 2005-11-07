@@ -43,7 +43,20 @@ class ViewKeywordIndex extends SmartView
         {
             $this->tplVar['show_admin_link'] = TRUE;
         }
-        return TRUE;
+    }  
+    /**
+     * prepend filter chain
+     *
+     */
+    public function prependFilterChain()
+    {
+        // only administrators can access keyword module
+        if($this->viewVar['loggedUserRole'] > $this->model->config['keyword']['perm'])
+        {
+            // reload admin
+            @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER);
+            exit;  
+        }
     }     
 }
 
