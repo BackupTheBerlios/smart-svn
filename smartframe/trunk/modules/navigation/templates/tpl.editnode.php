@@ -255,13 +255,13 @@ function MM_swapImage() { //v3.0
                 <td width="10%" align="left" valign="top" class="font10bold">Status </td>
                 </tr>
               <tr>
-                <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
-                    <option value="3" <?php if($tpl['node']['status'] == 3) echo 'selected="selected"'; ?>>protect</option>
-                    <option value="2" <?php if($tpl['node']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
-                    <option value="1" <?php if($tpl['node']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
-                  </select>
+                <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox"<?php if($tpl['show_admin_content']==FALSE): ?> disabled="disabled"<?php endif; ?>>
+                  <option value="3" <?php if($tpl['node']['status'] == 3) echo 'selected="selected"'; ?>>protect</option>
+                  <option value="2" <?php if($tpl['node']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
+                  <option value="1" <?php if($tpl['node']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
+                </select>
                 </td>
-                </tr>
+              </tr>
             </table></td>
             <td width="61%" height="28" align="right" valign="top">
               <input name="finishupdate" type="submit" value="Submit" class="button">
@@ -277,13 +277,13 @@ function MM_swapImage() { //v3.0
               <td width="87%" align="left" valign="top" class="font10bold">Parent Node</td>
               </tr>
             <tr>
-              <td align="left" valign="top"><select name="node_id_parent" size="1" id="node_id_parent" class="treeselectbox">
+              <td align="left" valign="top"><select name="node_id_parent" size="1" id="node_id_parent" class="treeselectbox"<?php if($tpl['show_admin_content']==FALSE): ?> disabled="disabled"<?php endif; ?>>
                 <option value="0">Top</option>
                 <?php foreach($tpl['tree'] as $val):  ?>
                 <option value="<?php echo $val['id_node']; ?>" <?php if($val['id_node'] == $tpl['node']['id_parent'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
                 <?php endforeach; ?>
               </select></td>
-              </tr>
+            </tr>
           </table></td>
       </tr>   
       <tr>
@@ -323,22 +323,14 @@ function MM_swapImage() { //v3.0
           </tr>
         </table></td>
       </tr>
+    <?php if($tpl['show_admin_content']==TRUE): ?>	  
       <tr>
         <td align="left" valign="top" class="font9"><hr>
           <div align="right"><input name="delete" type="button" id="delete" value="Delete this node" onclick="deletenode(this.form, 'Delete this node?');">
-          </div><hr></td>
+          </div>
+          <hr></td>
       </tr>	  
-    <?php if($tpl['show_format_switch'] == TRUE): ?>
-      <tr>
-        <td align="left" valign="top">Use text format:
-          <input type="hidden" name="switchformat" value="0">
-          <input type="radio" name="format" value="2" <?php if($tpl['format']==2) echo "checked"; ?> onclick="switch_format(document.forms['editnode'])">
-Wysiwyg &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="radio" name="format" value="1" <?php if($tpl['format']==1) echo "checked"; ?> onclick="switch_format(document.forms['editnode'])">
-Wikki </td>
-      </tr> 
-    <?php endif; ?>
-    <?php if($tpl['show_admin_link']==TRUE): ?>
+
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr>
@@ -355,8 +347,8 @@ Wikki </td>
     <?php endif; ?>  
   <?php if($tpl['use_keywords']==1): ?>
         <tr>
-          <td align="left" valign="top"><hr></td>
-          </tr>
+          <td align="left" valign="top">&nbsp;</td>
+        </tr>
         <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
       </tr>
@@ -434,7 +426,7 @@ Wikki </td>
       </tr>
     <?php endif; ?>
     </table>
-    </td>
+      <hr></td>
     <td width="20%" align="left" valign="top" class="font10bold">
   <?php if($tpl['use_logo']==1): ?> <table width="200" border="0" cellspacing="0" cellpadding="4">
       <tr>

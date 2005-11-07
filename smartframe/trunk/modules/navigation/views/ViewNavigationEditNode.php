@@ -207,45 +207,71 @@ class ViewNavigationEditNode extends SmartView
 
         if(empty($_POST['title']))
         {
-            $this->tplVar['error'] = 'Node title is empty!';
+            $this->tplVar['error'][] = 'Node title is empty!';
             return;
         }
         
         // check if id_parent has changed
         if($_POST['id_parent'] != $_POST['node_id_parent'])
         {
-            $id_parent = (string)$_POST['node_id_parent'];
-            // check if the new id_parent isnt a subnode of the current node
-            if(FALSE == $this->isSubNode( $id_parent, $_POST['id_node'] ))
+            // only superuser and administrator accounts can move nodes
+            if($this->viewVar['loggedUserRole'] >= 40 )
             {
-                $rank = $this->getLastRank( $id_parent );
-                if($rank !== FALSE)
+                $id_parent = (string)$_POST['node_id_parent'];
+                // check if the new id_parent isnt a subnode of the current node
+                if(FALSE == $this->isSubNode( $id_parent, $_POST['id_node'] ))
                 {
-                    $rank++;
+                    $rank = $this->getLastRank( $id_parent );
+                    if($rank !== FALSE)
+                    {
+                        $rank++;
+                    }
+                    else
+                    {
+                        $rank = 0;
+                    }
+                    $this->node_was_moved = TRUE;
                 }
                 else
                 {
-                    $rank = 0;
+                    $this->tplVar['error'][] = "Circular error! A new parent node cannot be a subnode of the current node.";
                 }
-                $this->node_was_moved = TRUE;
             }
             else
             {
-                $this->tplVar['error'] = "Circular error! A new parent node cannot be a subnode of the current node.";
-            }
+                $this->tplVar['error'][] = "You have no permission to move a node.";
+            }            
         }
         else
         {
             $id_parent = (int)$_POST['id_parent'];
             $rank = FALSE;
         }
+
+        // check if status has changed
+        if($_POST['old_status'] != $_POST['status'])
+        {
+            // only superuser and administrator accounts can change node status
+            if($this->viewVar['loggedUserRole'] >= 40 )
+            {
+                $this->tplVar['error'][] = "You have no permission to change node status.";
+            }
+        }
             
         if($_POST['delete_node'] == '1')
         {
-            $this->unlockNode();
-            $this->deleteNode( $_POST['id_node'] );
-            $this->reorderRank( (int)$_POST['id_parent'] );
-            $this->redirect( $id_parent );
+            // only superuser and administrator accounts can delete nodes
+            if($this->viewVar['loggedUserRole'] < 40 )
+            {
+                $this->unlockNode();
+                $this->deleteNode( $_POST['id_node'] );
+                $this->reorderRank( (int)$_POST['id_parent'] );
+                $this->redirect( $id_parent );
+            }
+            else
+            {
+                $this->tplVar['error'][] = "You have no permission to delete a node.";
+            }              
         }           
         // switch format of textarea editor
         elseif(isset($_POST['switchformat']) && $_POST['switchformat'] == 1)
@@ -442,6 +468,15 @@ class ViewNavigationEditNode extends SmartView
         $this->tplVar['file']   = array();        
         // errors
         $this->tplVar['error']  = array();    
+
+        if($this->viewVar['loggedUserRole'] < 40 )
+        {   
+            $this->tplVar['show_admin_content'] = TRUE;
+        }
+        else
+        {
+            $this->tplVar['show_admin_content'] = FALSE;
+        }
 
         // we need the url vars to open this page by the keyword map window
         if($this->config['navigation']['use_keywords'] == 1)
