@@ -115,7 +115,7 @@ class ViewCommonIndex extends SmartView
         else
         {
             $this->tplVar['showHeaderFooter'] = TRUE;
-        }
+        }       
     }  
 
     /**
@@ -185,6 +185,7 @@ class ViewCommonIndex extends SmartView
         {
             // set template variable
             $this->tplVar['isUserLogged'] = TRUE;
+            $this->tplVar['userRole'] = $this->viewVar['loggedUserRole'];
         }    
     }
 
