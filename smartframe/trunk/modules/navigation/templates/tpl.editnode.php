@@ -255,7 +255,7 @@ function MM_swapImage() { //v3.0
                 <td width="10%" align="left" valign="top" class="font10bold">Status </td>
                 </tr>
               <tr>
-                <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox"<?php if($tpl['show_admin_content']==FALSE): ?> disabled="disabled"<?php endif; ?>>
+                <td align="left" valign="top"><select name="status" size="1" id="status" class="treeselectbox">
                   <option value="3" <?php if($tpl['node']['status'] == 3) echo 'selected="selected"'; ?>>protect</option>
                   <option value="2" <?php if($tpl['node']['status'] == 2) echo 'selected="selected"'; ?>>active</option>
                   <option value="1" <?php if($tpl['node']['status'] == 1) echo 'selected="selected"'; ?>>inactive</option>
@@ -277,7 +277,7 @@ function MM_swapImage() { //v3.0
               <td width="87%" align="left" valign="top" class="font10bold">Parent Node</td>
               </tr>
             <tr>
-              <td align="left" valign="top"><select name="node_id_parent" size="1" id="node_id_parent" class="treeselectbox"<?php if($tpl['show_admin_content']==FALSE): ?> disabled="disabled"<?php endif; ?>>
+              <td align="left" valign="top"><select name="node_id_parent" size="1" id="node_id_parent" class="treeselectbox">
                 <option value="0">Top</option>
                 <?php foreach($tpl['tree'] as $val):  ?>
                 <option value="<?php echo $val['id_node']; ?>" <?php if($val['id_node'] == $tpl['node']['id_parent'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo str_repeat('-',$val['level'] * 3); echo $val['title']; ?></option>
@@ -322,14 +322,13 @@ function MM_swapImage() { //v3.0
             </td>
           </tr>
         </table></td>
-      </tr>
-    <?php if($tpl['show_admin_content']==TRUE): ?>	  
+      </tr>   
       <tr>
         <td align="left" valign="top" class="font9"><hr>
           <div align="right"><input name="delete" type="button" id="delete" value="Delete this node" onclick="deletenode(this.form, 'Delete this node?');">
           </div>
           <hr></td>
-      </tr>	  
+      </tr>   
 
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
@@ -344,7 +343,6 @@ function MM_swapImage() { //v3.0
           </tr>
         </table></td>
       </tr>  
-    <?php endif; ?>  
   <?php if($tpl['use_keywords']==1): ?>
         <tr>
           <td align="left" valign="top">&nbsp;</td>

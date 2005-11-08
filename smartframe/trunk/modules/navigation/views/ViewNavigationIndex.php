@@ -29,21 +29,22 @@ class ViewNavigationIndex extends SmartView
     public  $templateFolder = 'modules/navigation/templates/';
     
     /**
-     * Perform on the index view
+     * prepend filter chain
+     *
      */
-    public function perform()
+    public function prependFilterChain()
     {
-        // set template var to show user options link
-        // only on user main page and if the user role is at least an "admin"
-        if(isset($_REQUEST['view']) && ($this->viewVar['loggedUserRole'] > 20))
+        // all accounts can access the map view
+        if( !isset($_REQUEST['view']) || ($_REQUEST['view'] != "nodemap") )
         {
-            $this->tplVar['show_admin_link'] = FALSE;
+            // only administrators can access keyword module
+            if($this->viewVar['loggedUserRole'] > $this->model->config['module']['navigation']['perm'])
+            {
+                // reload admin
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER);
+                exit;  
+            }
         }
-        else
-        {
-            $this->tplVar['show_admin_link'] = TRUE;
-        }
-        return TRUE;
     }     
 }
 

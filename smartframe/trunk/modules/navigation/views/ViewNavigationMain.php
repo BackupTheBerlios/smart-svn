@@ -45,16 +45,14 @@ class ViewNavigationMain extends SmartView
 
         // move up or down a node
         if( isset($_GET['id_node_up']) && 
-            !preg_match("/[^0-9]+/",$_GET['id_node_up']) &&
-            ($this->allowModify() == TRUE) )
+            !preg_match("/[^0-9]+/",$_GET['id_node_up']) )
         {
             $this->model->action('navigation','moveNodeRank', 
                                  array('id_node' => (int)$_GET['id_node_up'],
                                        'dir'     => 'up'));        
         }
         elseif( isset($_GET['id_node_down']) && 
-                !preg_match("/[^0-9]+/",$_GET['id_node_down']) &&
-                ($this->allowModify() == TRUE) )
+                !preg_match("/[^0-9]+/",$_GET['id_node_down']) )
         {
             $this->model->action('navigation','moveNodeRank', 
                                  array('id_node' => (int)$_GET['id_node_down'],
@@ -134,10 +132,7 @@ class ViewNavigationMain extends SmartView
         {
             $this->tplVar['id_node']  = (int)$_REQUEST['id_node'];
             $this->current_id_node    = (int)$_REQUEST['id_node'];          
-        }
-
-        // set template variable to show edit links        
-        $this->tplVar['showLink'] = $this->allowModify();       
+        }    
         
         // template variables
         //
@@ -149,22 +144,6 @@ class ViewNavigationMain extends SmartView
         $this->tplVar['branch'] = array();  
         // errors
         $this->tplVar['error']  = FALSE;    
-    }
-     /**
-     * has the logged the rights to modify?
-     * at least edit (40) rights are required
-     *
-     */      
-    private function allowModify()
-    {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
-        {
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
     }
 }
 

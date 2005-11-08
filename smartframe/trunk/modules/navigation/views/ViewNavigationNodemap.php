@@ -27,23 +27,6 @@ class ViewNavigationNodemap extends SmartView
      * @var string $template_folder
      */    
     public  $templateFolder = 'modules/navigation/templates/';
-
-    /**
-     * prepend filter chain
-     *
-     */
-    public function prependFilterChain()
-    {
-        // if no rights for the logged user, show error template
-        // only administrators can change options
-        if($this->viewVar['loggedUserRole'] > 20)
-        {
-            $this->template       = 'error';
-            $this->templateFolder = 'modules/common/templates/';
-            $this->tplVar['error'] = 'You have not the rights to change navigation module options!';
-            $this->dontPerform = TRUE;
-        }
-    } 
     
    /**
     * Perform on the main view

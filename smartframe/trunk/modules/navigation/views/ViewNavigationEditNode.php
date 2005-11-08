@@ -469,15 +469,6 @@ class ViewNavigationEditNode extends SmartView
         // errors
         $this->tplVar['error']  = array();    
 
-        if($this->viewVar['loggedUserRole'] < 40 )
-        {   
-            $this->tplVar['show_admin_content'] = TRUE;
-        }
-        else
-        {
-            $this->tplVar['show_admin_content'] = FALSE;
-        }
-
         // we need the url vars to open this page by the keyword map window
         if($this->config['navigation']['use_keywords'] == 1)
         {
@@ -492,7 +483,7 @@ class ViewNavigationEditNode extends SmartView
      */      
     private function allowModify()
     {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
+        if($this->viewVar['loggedUserRole'] <= $this->model->config['module']['navigation']['perm'] )
         {
             return TRUE;
         }
