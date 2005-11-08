@@ -58,7 +58,7 @@ class ViewNavigationWhatWouldYouDo extends SmartView
         
         // add links which are finaly displayed
         // at the main admin page
-        $this->tplVar['navigation']['wwyd'][] = array('link' => '?mod=navigation&view=addNode',
+        $this->tplVar['navigation']['wwyd'][] = array('link' => '?mod=navigation&view=addNode&disableMainMenu=1',
                                                       'text' => 'Add navigation node');
     } 
     /**
