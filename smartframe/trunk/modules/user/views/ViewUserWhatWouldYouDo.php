@@ -66,7 +66,7 @@ class ViewUserWhatWouldYouDo extends SmartView
      */
     private function checkViewPermission()
     {
-        if($this->viewVar['loggedUserRole'] < 60)
+        if($this->viewVar['loggedUserRole'] < 40)
         {
             return TRUE;
         }
