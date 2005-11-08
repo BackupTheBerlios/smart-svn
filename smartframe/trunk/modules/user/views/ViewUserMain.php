@@ -52,8 +52,8 @@ class ViewUserMain extends SmartView
         $this->getLocks();
         
         // set template variable that show the link to add users
-        // only if the logged user have at least editor rights
-        if($this->viewVar['loggedUserRole'] <= 40)
+        // only if the logged user have at least administrator rights
+        if($this->viewVar['loggedUserRole'] <= 20)
         {
             $this->tplVar['showAddUserLink'] = TRUE;
         }
