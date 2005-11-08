@@ -99,8 +99,8 @@ class ActionUserSetup extends SmartAction
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}user_config (
                  `thumb_width`    smallint(4) NOT NULL default 200,
-                 `img_size_max`   int(11) NOT NULL default 100000,
-                 `file_size_max`  int(11) NOT NULL default 100000,
+                 `img_size_max`   int(11) NOT NULL default 500000,
+                 `file_size_max`  int(11) NOT NULL default 5000000,
                  `force_format`   tinyint(1) NOT NULL default 2,
                  `default_format` tinyint(1) NOT NULL default 2,
                  `use_keywords`   tinyint(1) NOT NULL default 1) 
