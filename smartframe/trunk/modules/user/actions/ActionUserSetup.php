@@ -149,6 +149,7 @@ class ActionUserSetup extends SmartAction
                      {$data['dbtablesprefix']}user_user,
                      {$data['dbtablesprefix']}user_access,
                      {$data['dbtablesprefix']}user_lock,
+                     {$data['dbtablesprefix']}user_keyword,
                      {$data['dbtablesprefix']}user_media_pic,
                      {$data['dbtablesprefix']}user_media_file,
                      {$data['dbtablesprefix']}user_config";
