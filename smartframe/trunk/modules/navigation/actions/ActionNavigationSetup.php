@@ -150,7 +150,7 @@ class ActionNavigationSetup extends SmartAction
                     2,
                     '0.1',
                     1,
-                    40,
+                    20,
                     'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);          
     } 
