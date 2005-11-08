@@ -79,7 +79,7 @@ class ActionCommonSetup extends SmartAction
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
-                 (`charset`,`templates_folder`, `views_folder`,`rejected_files`,`textarea_rows`)
+                 (`charset`,`templates_folder`, `views_folder`,`rejected_files`)
                 VALUES
                  ('{$data['charset']}','{$this->model->config['default_template_folder']}','{$this->model->config['default_view_folder']}','.php,.php3,.php4,.php5,.phps,.pl,.py')";
         $this->model->dba->query($sql);
