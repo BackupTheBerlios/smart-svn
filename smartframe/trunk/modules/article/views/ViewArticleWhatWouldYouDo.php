@@ -39,7 +39,7 @@ class ViewArticleWhatWouldYouDo extends SmartView
         
         // add articles which are finaly displayed
         // at the main admin page
-        $this->tplVar['article']['wwyd'][] = array('article' => '?mod=article&view=addArticle',
+        $this->tplVar['article']['wwyd'][] = array('article' => '?mod=article&view=addArticle&disableMainMenu=1',
                                                    'text'    => 'Add Article');
     }     
 }
