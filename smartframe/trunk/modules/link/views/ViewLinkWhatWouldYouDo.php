@@ -39,7 +39,7 @@ class ViewLinkWhatWouldYouDo extends SmartView
         
         // add links which are finaly displayed
         // at the main admin page
-        $this->tplVar['link']['wwyd'][] = array('link' => '?mod=link&view=addLink',
+        $this->tplVar['link']['wwyd'][] = array('link' => '?mod=link&view=addLink&disableMainMenu=1',
                                                 'text' => 'Add Link');
     }     
 }
