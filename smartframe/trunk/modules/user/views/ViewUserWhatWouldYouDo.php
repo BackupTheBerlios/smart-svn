@@ -56,7 +56,7 @@ class ViewUserWhatWouldYouDo extends SmartView
         // init users template variable 
         $this->tplVar['user'] = array();   
         
-        $this->tplVar['user']['wwyd'][] = array('link' => '?mod=user&view=addUser',
+        $this->tplVar['user']['wwyd'][] = array('link' => '?mod=user&view=addUser&disableMainMenu=1',
                                                 'text' => 'Add user');
     }     
     
