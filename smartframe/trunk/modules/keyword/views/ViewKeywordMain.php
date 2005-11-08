@@ -116,10 +116,7 @@ class ViewKeywordMain extends SmartView
         {
             $this->tplVar['id_key']  = (int)$_REQUEST['id_key'];
             $this->current_id_key    = (int)$_REQUEST['id_key'];          
-        }
-
-        // set template variable to show edit links        
-        $this->tplVar['showLink'] = $this->allowModify();       
+        }   
         
         // template variables
         //
@@ -131,22 +128,6 @@ class ViewKeywordMain extends SmartView
         $this->tplVar['branch'] = array();  
         // errors
         $this->tplVar['error']  = FALSE;    
-    }
-     /**
-     * has the logged the rights to modify?
-     * at least edit (40) rights are required
-     *
-     */      
-    private function allowModify()
-    {      
-        if($this->viewVar['loggedUserRole'] <= 40 )
-        {
-            return TRUE;
-        }
-        else
-        {
-            return FALSE;
-        }
     }
 }
 

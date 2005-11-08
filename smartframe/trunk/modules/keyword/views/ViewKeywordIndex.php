@@ -50,12 +50,16 @@ class ViewKeywordIndex extends SmartView
      */
     public function prependFilterChain()
     {
-        // only administrators can access keyword module
-        if($this->viewVar['loggedUserRole'] > $this->model->config['keyword']['perm'])
+        // all accounts can access the map view
+        if( $_REQUEST['view'] != "map" )
         {
-            // reload admin
-            @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER);
-            exit;  
+            // only administrators can access keyword module
+            if($this->viewVar['loggedUserRole'] > $this->model->config['module']['keyword']['perm'])
+            {
+                // reload admin
+                @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER);
+                exit;  
+            }
         }
     }     
 }

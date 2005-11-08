@@ -129,6 +129,7 @@ class ActionCommonInit extends SmartAction
         
         while($row = $rs->fetchAssoc())
         {
+            $this->config['module'][$row['name']] = $row;
             $this->model->register($row['name'], $row); 
         } 
     }
