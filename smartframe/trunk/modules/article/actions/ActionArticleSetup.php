@@ -156,13 +156,14 @@ class ActionArticleSetup extends SmartAction
         $this->model->dba->query($sql);   
   
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
-                   (`name`, `alias`, `rank`, `version`, `visibility`, `release`)
+                   (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                   VALUES
                    ('article',
                     'Article Management',
                     3,
                     '0.1',
                     1,
+                    40,
                     'DATE: 25.8.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);            
     } 
