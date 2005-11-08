@@ -70,12 +70,9 @@ class ViewArticleAddArticle extends SmartView
                                          array('job'        => 'lock',
                                                'id_article' => (int)$new_id_article,
                                                'by_id_user' => (int)$this->viewVar['loggedUserId']) );  
-                
-                    $this->model->session->set('id_article', (int)$new_id_article);
-                    $this->model->session->set('id_node',    (int)$id_node);
                     
                     // goto modarticle view
-                    @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=article&view=modArticle&id_article='.$new_id_article);
+                    @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER.'?mod=article&view=modArticle&id_node='.$id_node.'&id_article='.$new_id_article);
                     exit;
                 }
             }
