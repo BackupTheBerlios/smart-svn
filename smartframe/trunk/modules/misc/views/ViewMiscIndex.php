@@ -34,17 +34,22 @@ class ViewMiscIndex extends SmartView
      */
     function perform()
     {
-        // set template var to show user options link
-        // only on user main page and if the user role is at least an "admin"
-        if(isset($_REQUEST['view']) && ($this->viewVar['loggedUserRole'] > 20))
+    } 
+    
+    /**
+     * prepend filter chain
+     *
+     */
+    public function prependFilterChain()
+    {
+        // only administrators can access misc module
+        if($this->viewVar['loggedUserRole'] > $this->model->config['module']['misc']['perm'])
         {
-            $this->tplVar['show_admin_link'] = FALSE;
+            // reload admin
+            @header('Location: '.$this->model->baseUrlLocation.'/'.SMART_CONTROLLER);
+            exit;  
         }
-        else
-        {
-            $this->tplVar['show_admin_link'] = TRUE;
-        }    
-    }     
+    }         
 }
 
 ?>
