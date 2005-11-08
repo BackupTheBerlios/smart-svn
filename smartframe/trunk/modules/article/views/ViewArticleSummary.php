@@ -40,7 +40,7 @@ class ViewArticleSummary extends SmartView
         // get last published articles                                                   
         $this->model->action('article','select',
                              array('result'  => & $this->tplVar['art_pubdate'], 
-                                   'limit'   => array('perPage' => 5,
+                                   'limit'   => array('perPage' => 10,
                                                       'numPage' => 1),  
                                    'order'   => array('pubdate','desc'),
                                    'fields'  => array('id_article','title','id_node',
@@ -69,7 +69,7 @@ class ViewArticleSummary extends SmartView
         // get last modified articles                                                    
         $this->model->action('article','select',
                              array('result'  => & $this->tplVar['art_modifydate'], 
-                                   'limit'   => array('perPage' => 5,
+                                   'limit'   => array('perPage' => 10,
                                                       'numPage' => 1), 
                                    'order'   => array('modifydate','desc'),
                                    'fields'  => array('id_article','title','id_node',
