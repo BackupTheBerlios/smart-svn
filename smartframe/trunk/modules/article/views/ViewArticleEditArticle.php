@@ -443,7 +443,8 @@ class ViewArticleEditArticle extends SmartView
         {
             if($_POST['article_id_node'] !== '0')
             {
-                $this->current_id_node = (int)$_POST['article_id_node'];
+                $this->current_id_node   = (int)$_POST['article_id_node'];
+                $this->tplVar['id_node'] = $this->current_id_node;
                 $this->node_has_changed = TRUE;
             }
         }
