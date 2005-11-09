@@ -45,7 +45,7 @@ class ViewArticle extends SmartView
                                    'status'  => array('>=',4),
                                    'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                    'fields'  => array('id_article','id_node','title',
-                                                      'header','overtitle',
+                                                      'header','overtitle','media_folder',
                                                       'subtitle','body','ps') ));  
           
         // get node title and id of the article node
