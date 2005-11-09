@@ -214,6 +214,9 @@ class ViewArticle extends SmartView
         {
             $this->template          = 'error'; 
             $this->tplVar['message'] = "The requested article isnt accessible";
+            // template var with charset used for the html pages
+            $this->tplVar['charset'] = & $this->config['charset'];   
+            
             $this->dontPerform = TRUE;
             // disable caching
             $this->cacheExpire = 0;

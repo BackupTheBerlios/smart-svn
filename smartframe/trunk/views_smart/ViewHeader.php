@@ -35,6 +35,9 @@ class ViewHeader extends SmartView
      */
     function perform()
     {
+        // template var with charset used for the html pages
+        $this->tplVar['charset'] = & $this->config['charset'];
+        
         // currently we do nothing here
         return TRUE;
     }

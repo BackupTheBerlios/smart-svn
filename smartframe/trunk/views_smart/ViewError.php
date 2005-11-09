@@ -40,6 +40,9 @@ class ViewError extends SmartView
      */
     function perform( $data = FALSE )
     {
+        // template var with charset used for the html pages
+        $this->tplVar['charset'] = $this->config['charset'];
+
         // assign error message template var
         $this->tplVar['message'] = & $this->viewData;
     }
