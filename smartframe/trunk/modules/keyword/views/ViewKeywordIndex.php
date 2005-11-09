@@ -51,7 +51,7 @@ class ViewKeywordIndex extends SmartView
     public function prependFilterChain()
     {
         // all accounts can access the map view
-        if( $_REQUEST['view'] != "map" )
+        if( isset($_REQUEST['view']) && ($_REQUEST['view'] != "map") )
         {
             // only administrators can access keyword module
             if($this->viewVar['loggedUserRole'] > $this->model->config['module']['keyword']['perm'])
