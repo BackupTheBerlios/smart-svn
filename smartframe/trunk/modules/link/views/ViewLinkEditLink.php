@@ -91,7 +91,7 @@ class ViewLinkEditLink extends SmartView
         }
         
         if( isset($_POST['modifylinkdata']) )
-        {      
+        {
             $this->updateLinkData();
         }
 
@@ -155,6 +155,8 @@ class ViewLinkEditLink extends SmartView
         if($_POST['id_node'] != $_POST['link_id_node'])
         {
             $id_node = (string)$_POST['link_id_node'];
+            $this->tplVar['id_node']  = (int)$_POST['link_id_node'];
+            $this->current_id_node    = (int)$_POST['link_id_node'];
         }
         else
         {
