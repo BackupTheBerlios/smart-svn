@@ -3,7 +3,7 @@ function nodemap(){
 mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=400,height=450';
 newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=navigation&view=nodemap&openerModule=article','',mm); }
 function search_art(search){
-mm='scrollbars=1,toolbar=0,menubar=0,resizable=no,width=700,height=450';
+mm='scrollbars=1,toolbar=0,menubar=0,resizable=yes,width=700,height=450';
 newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=article&view=search&openerModule=article&search='+encodeURI(search),'',mm); }
 </script>
 <style type="text/css">

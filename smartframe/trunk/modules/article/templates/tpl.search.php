@@ -57,7 +57,7 @@ span.smart_pager {
           <?php if(count($tpl['articles']) > 0): ?>
           <table width="90%"  border="0" cellpadding="0" cellspacing="0">
             <tr>			
-              <td width="190" align="left" valign="top">
+              <td width="100%" height="161" align="left" valign="top">
                 <ul class="subnodeul">
                   <?php foreach($tpl['articles'] as $article): ?>
                   <li class="subnodelist">
