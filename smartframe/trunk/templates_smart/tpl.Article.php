@@ -97,7 +97,7 @@
                          <table width="350" border="0" cellspacing="2" cellpadding="2">
                            <tr>
                              <td width="10" align="left" valign="top" class="filelink">-</td>
-                             <td width="340" align="left" valign="top" class="filelink"><a href="<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['article']['media_folder']; ?>/<?php echo $file['file']; ?>">
+                             <td width="340" align="left" valign="top" class="filelink"><a href="<?php echo SMART_RELATIVE_PATH; ?>data/article/<?php echo $tpl['article']['media_folder']; ?>/<?php echo $file['file']; ?>">
                                <?php if(!empty($file['title'])){echo $file['title'];}else{echo $file['file'];} ?>
                              </a></td>
                            </tr>
