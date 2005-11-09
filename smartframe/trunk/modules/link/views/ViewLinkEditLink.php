@@ -111,6 +111,13 @@ class ViewLinkEditLink extends SmartView
 
         // convert some field values to safely include it in template html form fields
         $this->convertHtmlSpecialChars( $this->tplVar['link'], array('title','url') );        
+
+        // get node data of this link
+        $this->model->action('navigation','getNode', 
+                             array('result'  => & $this->tplVar['node'],
+                                   'id_node' => (int)$this->current_id_node,
+                                   'error'   => & $this->tplVar['error'],
+                                   'fields'  => array('title','id_node')));  
     
         // get navigation node branch of the current node
         $this->model->action('navigation','getBranch', 
@@ -148,6 +155,14 @@ class ViewLinkEditLink extends SmartView
 
         if(count($this->tplVar['error']) > 0)
         {
+            return FALSE;
+        }
+        
+        if($_POST['link_id_node'] == 0)
+        {
+            $this->tplVar['id_node']  = (int)$_REQUEST['id_node'];
+            $this->current_id_node    = (int)$_REQUEST['id_node'];
+            $this->tplVar['error'][] = 'Top node isnt allowed!';
             return FALSE;
         }
         

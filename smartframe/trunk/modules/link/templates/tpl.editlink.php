@@ -72,8 +72,9 @@ function cancel_edit(f)
          <div class="font12 indent5">
             <a href="javascript:gotonode(document.forms['editlink'],0);">Top</a>
             <?php foreach($tpl['branch'] as $node): ?>
-             / <a href="javascript:gotonode(document.forms['editlink'],<?php echo $node['id_node']; ?>);"><?php echo $node['title']; ?></a>
-            <?php endforeach; ?></div>    
+             / <a href="javascript:gotonode(document.forms['editlink'],<?php echo $node['id_node']; ?>);"><?php echo $node['title']; ?></a>            
+             <?php endforeach; ?> 
+             / <a href="javascript:gotonode(document.forms['editlink'],<?php echo $tpl['node']['id_node']; ?>);"><?php echo $tpl['node']['title']; ?></a></div>    
     </td>
         </tr>      
       <tr>
