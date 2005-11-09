@@ -46,6 +46,12 @@ class ActionArticleDeleteArticle extends SmartAction
 
         $this->model->dba->query($sql);
 
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_index
+                  WHERE
+                   `id_article`={$data['id_article']}";
+
+        $this->model->dba->query($sql);
+
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_keyword
                   WHERE
                    `id_article`={$data['id_article']}";
