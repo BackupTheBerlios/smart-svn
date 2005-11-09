@@ -17,15 +17,17 @@ function enablechangedate(f)
   if(flag==0)
   {
     flag = 1;
-      f.changedate_year.disabled="";
+    f.changedate_year.disabled="";
     f.changedate_month.disabled="";
     f.changedate_day.disabled="";
     f.changedate_hour.disabled="";
     f.changedate_minute.disabled="";
     f.changedatebutton.value="disable";
-      f.ch1.disabled="";
+    f.ch1.disabled="";
     f.ch2.disabled="";
     f.ch3.disabled="";
+	f.ch4.disabled="";
+	f.ch5.disabled="";
   }
   else
   {
@@ -38,6 +40,8 @@ function enablechangedate(f)
     f.ch1.disabled="disabled";
     f.ch2.disabled="disabled";
     f.ch3.disabled="disabled";
+	f.ch4.disabled="disabled";
+	f.ch5.disabled="disabled";
     f.changedatebutton.value="enable";  
   }
 }
@@ -223,19 +227,23 @@ function cancel_edit(f)
             <td align="left" valign="top">              <input type="button" name="changedatebutton" value="enable" onclick="enablechangedate(this.form);"></td>
           </tr>
         </table>
-          <table width="428" border="0" cellspacing="2" cellpadding="2">
+          <table width="547" border="0" cellspacing="2" cellpadding="2">
             <tr>
-              <td width="46" align="left" valign="top" class="font10bold">&nbsp;</td>
-              <td width="66" align="left" valign="top" class="font10bold">To status:</td>
-              <td width="66" align="left" valign="top" class="font10">delete
+              <td width="20" align="left" valign="top" class="font10bold">&nbsp;</td>
+              <td width="60" align="left" valign="top" class="font10bold">To status:</td>
+              <td width="76" align="left" valign="top" class="font10">delete
                   <input type="radio" name="changestatus" id="ch1" value="0"<?php if($tpl['cd_disable']==TRUE) echo ' disabled="disabled"'; ?><?php if($tpl['article']['changestatus']==0) echo ' checked="checked"'; ?>>
               </td>
-              <td width="72" align="left" valign="top" class="font10">cancel
+              <td width="82" align="left" valign="top" class="font10">cancel
                   <input type="radio" name="changestatus" id="ch2" value="1"<?php if($tpl['cd_disable']==TRUE) echo ' disabled="disabled"'; ?><?php if($tpl['article']['changestatus']==1) echo ' checked="checked"'; ?>>
               </td>
-              <td width="146" align="left" valign="top" class="font10">edit
+              <td width="90" align="left" valign="top" class="font10">edit
                   <input type="radio" name="changestatus" id="ch3" value="3"<?php if($tpl['cd_disable']==TRUE) echo ' disabled="disabled"'; ?><?php if($tpl['article']['changestatus']==3) echo ' checked="checked"'; ?>>
               </td>
+              <td width="76" align="left" valign="top" class="font10">publish
+                <input type="radio" name="changestatus" id="ch4" value="4"<?php if($tpl['cd_disable']==TRUE) echo ' disabled="disabled"'; ?><?php if($tpl['article']['changestatus']==4) echo ' checked="checked"'; ?>></td>
+              <td width="99" align="left" valign="top" class="font10">protect
+                <input type="radio" name="changestatus" id="ch5" value="5"<?php if($tpl['cd_disable']==TRUE) echo ' disabled="disabled"'; ?><?php if($tpl['article']['changestatus']==5) echo ' checked="checked"'; ?>></td>
             </tr>
           </table></td>
       </tr>
