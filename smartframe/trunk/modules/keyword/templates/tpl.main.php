@@ -51,9 +51,7 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keywo
   <?php endif; ?>
 </td>
     <td width="11%" align="center" valign="top" class="font12">
-    <?php if($tpl['showLink']==TRUE): ?>
        <a href="<?php echo SMART_CONTROLLER; ?>?mod=keyword&view=addKeyword&id_key=<?php echo $tpl['id_key']; ?>">add keyword</a>
-    <?php endif; ?>
     <p><a href="javascript:keymap();">KeyMap</a></p></td>
   </tr>
 </table>
