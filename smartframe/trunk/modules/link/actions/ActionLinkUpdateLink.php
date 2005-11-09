@@ -82,7 +82,20 @@ class ActionLinkUpdateLink extends SmartAction
                 throw new SmartModelException("Field '".$key."' dosent exists!");
             }
         }
-
+        
+        if(isset($data['fields']['id_node']))
+        {
+            if(!is_int($data['fields']['id_node']))
+            {
+                throw new SmartModelException("'id_node' isnt from type int");
+            }        
+            elseif($data['fields']['id_node'] == 0)
+            {
+                $data['error'][] = "'id_node' can not be 0";
+                return FALSE;
+            }  
+        }  
+        
         if(!is_int($data['id_link']))
         {
             throw new SmartModelException('"id_link" isnt from type int');        
