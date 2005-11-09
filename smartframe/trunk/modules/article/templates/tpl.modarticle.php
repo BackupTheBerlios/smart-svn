@@ -24,7 +24,7 @@
   });
  function insertFile(folder,title,file,id_file)
 {
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="data/article/'+folder+'/'+file+'" name="'+file+'" title="'+title+'">'+title+'</a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="./data/article/'+folder+'/'+file+'" title="'+title+'">'+title+'</a>');
 }
 function insertFileDesc(desc)
 {
