@@ -86,7 +86,8 @@ class ViewArticle extends SmartView
                                  array('id_key_list' => & $keywords,
                                        'result'      => & $this->tplVar['keywordArticle'],
                                        'exclude'     => & $exclude_id_article,
-                                       'status'      => array('=', 4),
+                                       'status'      => array('>=', 4),
+                                       'node_status' => array('>=', 2),
                                        'pubdate'     => array('<=', 'CURRENT_TIMESTAMP'),
                                        'fields'      => array('id_article','id_node','title') )); 
  
