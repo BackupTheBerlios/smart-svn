@@ -33,7 +33,7 @@ newwindow= window.open('<?php echo SMART_CONTROLLER; ?>?nodecoration=1&mod=keywo
     <img src="./modules/common/media/pics/active.png" width="21" height="21">	
     <?php endif; ?>
     </td>
-        <td width="1%" align="left" valign="top" class="font9"><?php if(($tpl['showLink']==TRUE)&&($key['lock']==FALSE)): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=keyword&view=editKeyword&id_key=<?php echo $key['id_key']; ?>">edit</a><?php endif; ?>&nbsp;</td>
+        <td width="1%" align="left" valign="top" class="font9"><?php if($key['lock']==FALSE): ?><a href="<?php echo SMART_CONTROLLER; ?>?mod=keyword&view=editKeyword&id_key=<?php echo $key['id_key']; ?>">edit</a><?php endif; ?>&nbsp;</td>
           <td width="99%" align="left" valign="top" class="itemnormal">
           <?php if($key['lock']==FALSE): ?>
                 <?php echo '<a href="'.SMART_CONTROLLER.'?mod=keyword&id_key='.$key['id_key'].'">'.$key['title'].'</a>'; ?>
