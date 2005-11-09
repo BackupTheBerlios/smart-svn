@@ -42,6 +42,8 @@ span.search_pager {
               <img src="./modules/common/media/pics/inactive.png" width="21" height="21">
            <?php elseif($node['status']==2): ?>
               <img src="./modules/common/media/pics/active.png" width="21" height="21">
+           <?php elseif($node['status']==3): ?>
+              <img src="./modules/common/media/pics/restricted.png" width="21" height="21">			  
            <?php endif; ?>    
     </td>
         <td width="98%" align="left" valign="top" class="font12">
