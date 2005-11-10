@@ -1,10 +1,10 @@
 <style type="text/css">
 <!--
 .subview {
-	font-size: 12px;
-	font-weight: bold;
-	color: #990000;
-	background-color: #CCCCFF;
+  font-size: 12px;
+  font-weight: bold;
+  color: #990000;
+  background-color: #CCCCFF;
 }
 -->
 </style>
@@ -14,14 +14,14 @@
   </tr>
   <tr>
     <td align="left" valign="top">
-	<form name="format" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=options">
-	<table width="100%" border="0" cellspacing="0" cellpadding="0">
-	<!-- Option to switch between tiny mice and text wiki. reserved for a future release
+  <form name="format" method="post" action="<?php echo SMART_CONTROLLER; ?>?mod=user&view=options">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <!-- Option to switch between tiny mice and text wiki. reserved for a future release
       <tr>
         <td width="46%" height="21" align="left" valign="top" class="font10bold">&nbsp;Fromat of  the users description textarea</td>
         <td width="54%" rowspan="5" align="left" valign="top" class="font10bold"><p><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">back</a></p>
           <p>
-	            <?php if($tpl['uptodate']==TRUE): ?>
+              <?php if($tpl['uptodate']==TRUE): ?>
                 <font color="#FF0000">The user module options are now up to date!</font> </p>          <?php endif; ?></td>
       </tr>
       <tr>
@@ -51,7 +51,7 @@ Text Wikki &nbsp;&nbsp;</td>
         <td align="left" valign="top" class="font10bold">&nbsp;</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
-	  -->
+    -->
       <tr>
         <td width="62%" align="left" valign="top" class="font10bold">&nbsp;Thumbnails width in pixels</td>
         <td width="38%" align="left" valign="top" class="font10"><a href="<?php echo SMART_CONTROLLER; ?>?mod=user">back</a></td>
@@ -69,7 +69,7 @@ Text Wikki &nbsp;&nbsp;</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10">&nbsp;<input name="file_size_max" type="text" size="7" maxlength="6" value="<?php echo $tpl['option']['file_size_max']; ?>" ></td>
+        <td align="left" valign="top" class="font10">&nbsp;<input name="file_size_max" type="text" size="8" maxlength="8" value="<?php echo $tpl['option']['file_size_max']; ?>" ></td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
@@ -81,7 +81,7 @@ Text Wikki &nbsp;&nbsp;</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
-        <td align="left" valign="top" class="font10">&nbsp;<input name="img_size_max" type="text" size="7" maxlength="6" value="<?php echo $tpl['option']['img_size_max']; ?>"></td>
+        <td align="left" valign="top" class="font10">&nbsp;<input name="img_size_max" type="text" size="8" maxlength="8" value="<?php echo $tpl['option']['img_size_max']; ?>"></td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
       <tr>
@@ -90,7 +90,7 @@ Text Wikki &nbsp;&nbsp;</td>
         <td align="left" valign="top" class="font10">&nbsp;</td>
       </tr>
     </table>
-	</form>
-	</td>
+  </form>
+  </td>
   </tr>
 </table>
