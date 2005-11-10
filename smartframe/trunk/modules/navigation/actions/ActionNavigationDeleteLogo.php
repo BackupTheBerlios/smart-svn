@@ -47,6 +47,8 @@ class ActionNavigationDeleteLogo extends SmartAction
                              array('id_node' => (int)$data['id_node'],
                                    'fields'  => array('logo' => '')));
         
+        $this->removeEmptyDirectory( $data['id_node'], $_file['media_folder'] );                           
+        
         return TRUE;
     }
     
@@ -69,6 +71,55 @@ class ActionNavigationDeleteLogo extends SmartAction
         
         return TRUE;
     }
+    /**
+     * remove empty navigation data directory
+     *
+     * @return bool
+     */  
+    private function removeEmptyDirectory( $id_node, &$media_folder )
+    {
+        $dir = SMART_BASE_DIR . 'data/navigation/' . $media_folder;
+        
+        if(TRUE == $this->isDirEmpty( $dir ))
+        {
+            // delete whole tree
+            SmartCommonUtil::deleteDirTree( $dir );
+            // remove media_folder reference
+            $this->model->action( 'navigation','updateNode',
+                                  array('id_node' => (int)$id_node,
+                                        'fields'  => array('media_folder' => '')) );
+        }
+    }
+    /**
+     * check if data directory is empty
+     *
+     * @param string $dir whole dir path
+     * @return bool
+     */     
+    private function isDirEmpty( &$dir )
+    {
+        if ( (($handle = @opendir( $dir ))) != FALSE )
+        {
+            while ( (( $file = readdir( $handle ) )) != false )
+            {
+                if ( ( $file == "." ) || ( $file == ".." ) || is_dir($dir . '/' . $file) )
+                {
+                    continue;
+                }
+                if ( file_exists( $dir . '/' . $file ) )
+                {
+                    return FALSE;
+                }
+            }
+            @closedir( $handle );
+        }
+        else
+        {
+            trigger_error( "Can not open dir: {$dir}", E_USER_ERROR  );
+            return FALSE;
+        }  
+        return TRUE;
+    }    
 }
 
 ?>
