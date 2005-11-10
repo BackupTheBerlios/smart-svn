@@ -139,7 +139,7 @@ class ActionNavigationSetup extends SmartAction
         $sql = "INSERT INTO {$data['dbtablesprefix']}navigation_config
                    (`thumb_width`, `img_size_max`,`file_size_max`)
                   VALUES
-                   (120,100000,100000)";
+                   (120,500000,5000000)";
         $this->model->dba->query($sql); 
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
