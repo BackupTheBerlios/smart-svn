@@ -215,7 +215,7 @@ class ViewNavigationEditNode extends SmartView
         if($_POST['id_parent'] != $_POST['node_id_parent'])
         {
             // only superuser and administrator accounts can move nodes
-            if($this->viewVar['loggedUserRole'] >= 40 )
+            if($this->viewVar['loggedUserRole'] < 40 )
             {
                 $id_parent = (string)$_POST['node_id_parent'];
                 // check if the new id_parent isnt a subnode of the current node
