@@ -6,6 +6,7 @@ Smart3 Framework Change.log
 - added keyword module
 - added keyword features in modules: misc,article,navigation and link
 - added separated public view and template to show extern links
+- fixed the permission system
 
 0.2.1a
 --------
