@@ -2,13 +2,6 @@
 <!-- tinyMCE -->
 <script language="javascript" type="text/javascript" src="<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/tiny_mce/tiny_mce_gzip.php"></script>
 <script language="javascript" type="text/javascript">
-function myCustomURLConverter(url, node, on_save) {
-  // Do some custom URL convertion
-  url = url.replace("/\//","");
-
-  // Return new URL
-  return url;
-}
   // Notice: The simple theme does not use all options some of them are limited to the advanced theme
   tinyMCE.init({
     directionality : "ltr",
@@ -31,7 +24,7 @@ function myCustomURLConverter(url, node, on_save) {
   });
  function insertFile(folder,title,file,id_file)
 {
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="data/navigation/'+folder+'/'+file+'" name="'+file+'" title="'+title+'">'+title+'</a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="data/navigation/'+folder+'/'+file+'" title="'+title+'">'+title+'</a>');
 }
 function insertFileDesc(desc)
 {
@@ -40,10 +33,10 @@ function insertFileDesc(desc)
 function insertImage(controller,path,file,title,id_pic,id_node,width,height,jsc)
 {
   if(jsc==1){
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=picture&id_node='+id_node+'&id_pic='+id_pic+'\','+width+','+height+');"><img src="'+path+file+'" id="'+file+'" title="'+title+'" border="0" /></a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=picture&id_node='+id_node+'&id_pic='+id_pic+'\','+width+','+height+');"><img src="'+path+file+'" title="'+title+'" border="0" /></a>');
     }
   else {
-    tinyMCE.execCommand('mceInsertContent',0,'<img src="'+path+file+'" id="'+file+'" title="'+title+'" border="0" width="'+width+'" height="'+height+'" />'); 
+    tinyMCE.execCommand('mceInsertContent',0,'<img src="'+path+file+'" title="'+title+'" border="0" width="'+width+'" height="'+height+'" />'); 
   }
 }
 function insertImgDesc(desc)
@@ -433,7 +426,7 @@ function MM_swapImage() { //v3.0
       <tr>
         <td align="center" valign="top">
           <?php if(empty($tpl['node']['logo'])): ?>
-      <input name="uploadlogo" type="hidden" value="">
+          <input name="uploadlogo" type="hidden" value="">    
           <input type="file" name="logo" size="10">
           <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
           <?php else: ?>
@@ -472,15 +465,14 @@ function MM_swapImage() { //v3.0
                     </tr>
                     <tr>
                       <td align="right" valign="top">
-            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);"><img src="./data/navigation/<?php echo $tpl['node']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo $thumb['description']; ?>" name="<?php echo $thumb['file']; ?>" width="120" border="0" title="<?php echo $thumb['file']; ?>"></a></td>
+                      <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','data/navigation/<?php echo $tpl['node']['media_folder']; ?>/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 0);"><img src="<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/thumb/<?php echo $thumb['file']; ?>" alt="<?php echo $thumb['description']; ?>" name="<?php echo $thumb['file']; ?>" width="120" border="0" title="<?php echo $thumb['file']; ?>"></a></td>
                       <td align="left" valign="top"> <a href="javascript:moveup(document.forms['editnode'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Up<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/upover.png',0)"><img src="./modules/common/media/pics/up.png" title="Move <?php echo $thumb['file']; ?> up" alt="Move <?php echo $thumb['file']; ?> up" name="Up<?php echo $thumb['id_pic']; ?>" width="21" height="21" border="0" align="right"></a><br/>
                           <br/>
                         <a href="javascript:movedown(document.forms['editnode'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Down<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/downover.png',0)"><img src="./modules/common/media/pics/down.png" title="Move <?php echo $thumb['file']; ?> down" alt="Move <?php echo $thumb['file']; ?> down" name="Down<?php echo $thumb['id_pic']; ?>" width="21" height="21" border="0" align="right"></a></td>
                     </tr>
                     <tr>
                       <td align="right" valign="top">
-            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/navigation/<?php echo $tpl['node']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $tpl['node']['id_node']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)">
-            <img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
+            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','data/navigation/<?php echo $tpl['node']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $tpl['node']['id_node']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>', 1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)"><img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:deletepic(document.forms['editnode'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_pic','','modules/common/media/pics/deleteover.png',0)"></a>
             <a href="javascript:deletepic(document.forms['editnode'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Del<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/deleteover.png',0)">
               <img name="Del<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/delete.png" title="Delete <?php echo $thumb['file']; ?>" alt="Delete <?php echo $thumb['file']; ?>" width="30" height="29" border="0">
