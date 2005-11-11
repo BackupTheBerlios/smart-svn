@@ -33,10 +33,10 @@ function insertFileDesc(desc)
 function insertImage(controller,path,file,title,id_pic,id_node,width,height,jsc)
 {
   if(jsc==1){
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=picture&id_node='+id_node+'&id_pic='+id_pic+'\','+width+','+height+');"><img src="'+path+file+'" title="'+title+'" border="0" /></a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="javascript:showimage(\''+controller+'?view=picture&id_node='+id_node+'&id_pic='+id_pic+'\','+width+','+height+');"><img src="'+path+file+'" title="'+title+'" border="0" class="smart3thumbimage" /></a>');
     }
   else {
-    tinyMCE.execCommand('mceInsertContent',0,'<img src="'+path+file+'" title="'+title+'" border="0" width="'+width+'" height="'+height+'" />'); 
+    tinyMCE.execCommand('mceInsertContent',0,'<img src="'+path+file+'" title="'+title+'" border="0" width="'+width+'" height="'+height+'" class="smart3image" />'); 
   }
 }
 function insertImgDesc(desc)
