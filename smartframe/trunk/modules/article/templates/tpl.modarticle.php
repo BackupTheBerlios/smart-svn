@@ -24,7 +24,7 @@
   });
  function insertFile(folder,title,file,id_file)
 {
-    tinyMCE.execCommand('mceInsertContent',0,'<a href="./data/article/'+folder+'/'+file+'" title="'+title+'">'+title+'</a>');
+    tinyMCE.execCommand('mceInsertContent',0,'<a href="data/article/'+folder+'/'+file+'" title="'+title+'">'+title+'</a>');
 }
 function insertFileDesc(desc)
 {
@@ -386,7 +386,7 @@ function MM_swapImage() { //v3.0
                     </tr>
                     <tr>
                       <td align="right" valign="top">
-            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','<?php echo SMART_RELATIVE_PATH; ?>data/article/<?php echo $tpl['article']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $tpl['article']['id_article']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>',1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)">
+            <a href="javascript:insertImage('<?php echo $tpl['publicWebController']; ?>','data/article/<?php echo $tpl['article']['media_folder']; ?>/thumb/','<?php echo $thumb['file']; ?>','<?php echo $thumb['title']; ?>','<?php echo $thumb['id_pic']; ?>','<?php echo $tpl['article']['id_article']; ?>','<?php echo $thumb['width']; ?>','<?php echo $thumb['height']; ?>',1);" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Insert<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/rewindover.png',0)">
             <img name="Insert<?php echo $thumb['id_pic']; ?>" src="modules/common/media/pics/rewind.png" title="Insert thumbnail <?php echo $thumb['file']; ?> in cursor text position" alt="Insert this picture in texte" width="30" height="29" border="0"></a>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="javascript:deletepic(document.forms['editarticle'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('id_pic','','modules/common/media/pics/deleteover.png',0)"></a>
             <a href="javascript:deletepic(document.forms['editarticle'], <?php echo $thumb['id_pic']; ?>)" onMouseOut="MM_swapImgRestore()" onMouseOver="MM_swapImage('Del<?php echo $thumb['id_pic']; ?>','','modules/common/media/pics/deleteover.png',0)">
