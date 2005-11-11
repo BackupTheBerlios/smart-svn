@@ -1,8 +1,9 @@
 Smart3 Framework Change.log
 ---------------------------
 
-0.2.2a
+0.2.2b
 --------
+- switched to beta stage
 - added keyword module
 - added keyword features in modules: misc,article,navigation and link
 - added separated public view and template to show extern links
