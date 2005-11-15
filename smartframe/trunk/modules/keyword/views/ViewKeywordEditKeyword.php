@@ -141,7 +141,7 @@ class ViewKeywordEditKeyword extends SmartView
             }
             else
             {
-                $this->tplVar['error'] = "Circular error! A new parent keyword cannot be a subkeyword of the current keyword.";
+                $this->tplVar['error'][] = "Circular error! A new parent keyword cannot be a subkeyword of the current keyword.";
             }
         }
         else
@@ -305,6 +305,10 @@ class ViewKeywordEditKeyword extends SmartView
      */    
     private function isSubKeyword( $id_key1, $id_key2  )
     {
+        if($id_key1 == $id_key2)
+        {
+            return TRUE;
+        }
         return $this->model->action('keyword','isSubKeyword',
                                     array('id_key1' => (int)$id_key1,
                                           'id_key2' => (int)$id_key2));
