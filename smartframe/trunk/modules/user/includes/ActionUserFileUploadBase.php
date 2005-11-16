@@ -37,6 +37,12 @@ class ActionUserFileUploadBase extends SmartAction
             
             return FALSE;
         }
+
+        // set media file rights
+        if(!chmod($destination, $this->model->config['media_file_rights']))
+        {
+            trigger_error("Couldnt change file rights: ".$destination, E_USER_ERROR);
+        }
         
         return TRUE;
     }
