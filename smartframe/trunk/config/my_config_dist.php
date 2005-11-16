@@ -146,4 +146,10 @@ $SmartConfig['error_reporting'] = E_ALL;
  */
 $SmartConfig['debug'] = FALSE; 
 
+/**
+ * Rights for media folders and files
+ */
+$SmartConfig['media_folder_rights'] = 0777;
+$SmartConfig['media_file_rights']   = 0777;
+
 ?>
