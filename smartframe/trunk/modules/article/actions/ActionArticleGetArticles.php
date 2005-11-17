@@ -10,24 +10,16 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionArticleFromKeyword class 
- *
- * Get keyword related articles
- *
+ * ActionArticleGetNodeArticles class 
  * USAGE:
  *
- * $model->action('article','fromKeyword',
- *                array('id_key_list' => array( int, int,..,..,..),
- *                      'result'      => & array,
- *                      'status'      => array('>|<|=|>=|<=|!=',1|2), // article status - optional
- *                      'key_status'  => array('>|<|=|>=|<=|!=',1|2), // keyword status - optional
- *                      'node_status' => array('>|<|=|>=|<=|!=',1|2), // navigation node status -  optional
- *                      'exclude'     => array( integers ),           // exclude id_articles's optional
- *                      'exclude_key' => array( integers ),           // exclude id_key's optional
+ * $model->action('article','getArticles',
+ *                array('id_node' => int,
+ *                      'result'  => & array,
+ *                      'status'  => array('>|<|=|>=|<=|!=',1|2),            // optional
  *                      'order'   => array('rank|title|
  *                                          articledate|pubdate|
- *                                          overtitle|subtitle', 'asc|desc'), // optional
- *                      'disable_sql_cache' => TRUE,  // optional 
+ *                                          overtitle|subtitle', 'asc|desc'),// optional
  *                      'fields   => array('id_node','id_article','status','rank',
  *                                         'activedate','inactivedate','pubdate',
  *                                         'lang','title','overtitle',
@@ -37,8 +29,8 @@
  *
  */
 
- 
-class ActionArticleFromKeyword extends SmartAction
+
+class ActionArticleGetArticles extends SmartAction
 {
     /**
      * Allowed sql caching
@@ -68,79 +60,55 @@ class ActionArticleFromKeyword extends SmartAction
                                          'media_folder' => 'String');
 
     /**
-     * get articles of some given id_key's
+     * get articles data of a given id_node
      *
      * @param array $data
+     * @return bool true or false on error
      */
     public function perform( $data = FALSE )
     {
-        if(isset($data['disable_sql_cache']))
-        {
-            $this->sqlCache = 'SQL_NO_CACHE';
-        }
-        
         $comma = '';
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'aa.`'.$f.'`';
+            $_fields .= $comma.'`'.$f.'`';
             $comma = ',';
         }
-
-        if(isset($data['exclude']))
-        {
-            $exclude = implode(",", $data['exclude']);
-            $sql_exclude = " AND ak.`id_article` NOT IN($exclude)";
-        }
-        else
-        {
-            $sql_exclude = "";
-        }
-
-        if(isset($data['exclude_key']))
-        {
-            $excludekey = implode(",", $data['exclude_key']);
-            $sql_exclude_key = " AND ak.`id_key` NOT IN($excludekey)";
-        }
-        else
-        {
-            $sql_exclude_key = "";
-        }
-  
-        if(isset($data['node_status']))
-        {
-            $sql_node_status = " AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]}";
-        }
-        else
-        {
-            $sql_node_status = " AND nn.`status`=2";
-        }
-       
+        
         if(isset($data['status']))
         {
-            $sql_where = " AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_where = "`status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
-            $sql_where = "";
+            $sql_where = "`status`>=4";
         }
         
         if(isset($data['pubdate']))
         {
-            $sql_pubdate = " AND aa.`pubdate`{$data['pubdate'][0]}{$data['pubdate'][1]}()";
+            $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}{$data['pubdate'][1]}()";
         }
         else
         {
             $sql_pubdate = "";
         }  
-        
-        if(isset($data['order']))
+
+        if(isset($data['modifydate']))
         {
-            $sql_order = " ORDER BY aa.{$data['order'][0]} {$data['order'][1]}";
+            $sql_modifydate = " AND `modifydate`{$data['modifydate'][0]}{$data['modifydate'][1]}()";
         }
         else
         {
-            $sql_order = "ORDER BY aa.`title` ASC";
+            $sql_modifydate = "";
+        }  
+        
+        if(isset($data['order']))
+        {
+            $sql_order = " ORDER BY {$data['order'][0]} {$data['order'][1]}";
+        }
+        else
+        {
+            $sql_order = "ORDER BY title ASC";
         }        
 
         if(isset($data['limit']))
@@ -156,28 +124,18 @@ class ActionArticleFromKeyword extends SmartAction
         {
             $sql_limit = "";
         }   
-
+        
         $sql = "
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article AS aa,
-                {$this->config['dbTablePrefix']}article_keyword AS ak,
-                {$this->config['dbTablePrefix']}navigation_node AS nn
+                {$this->config['dbTablePrefix']}article_article
             WHERE
-                ak.`id_key` IN({$this->id_key_list})
-           {$sql_exclude}
-           {$sql_exclude_key}
-            AND
-                ak.`id_article`=aa.`id_article`
-            AND
-                aa.`id_node`=nn.`id_node`
-           {$sql_node_status}
-           {$sql_where}
-           {$sql_pubdate}
-           GROUP BY aa.`id_article`
-           {$sql_order}
-           {$sql_limit}";
+                {$sql_where} 
+                {$sql_pubdate}
+                {$sql_modifydate}
+                {$sql_order}
+                {$sql_limit}";
 
         $rs = $this->model->dba->query($sql);
         
@@ -193,7 +151,7 @@ class ActionArticleFromKeyword extends SmartAction
      * @return bool true or false on error
      */    
     public function validate( $data = FALSE )
-    {
+    { 
         if(!isset($data['fields']) || !is_array($data['fields']) || (count($data['fields'])<1))
         {
             throw new SmartModelException("Array key 'fields' dosent exists, isnt an array or is empty!");
@@ -256,61 +214,6 @@ class ActionArticleFromKeyword extends SmartAction
             }
         }
 
-        if(isset($data['id_key_list']))
-        {
-            if(!is_array($data['id_key_list']))
-            {
-                throw new SmartModelException('"id_key_list" isnt an array'); 
-            }
-            else
-            {
-                foreach($data['id_key_list'] as $id_key)
-                {
-                    if(!is_int($id_key))
-                    {
-                        throw new SmartModelException('Wrong "id_key_list" array value: '.$id_article.'. Only integers accepted!'); 
-                    }
-                }
-                $this->id_key_list = implode(",", $data['id_key_list']);
-            }
-        }
-
-        if(isset($data['exclude_key']))
-        {
-            if(!is_array($data['exclude_key']))
-            {
-                throw new SmartModelException('"exclude_key" isnt an array'); 
-            }
-            else
-            {
-                foreach($data['exclude_key'] as $id_key)
-                {
-                    if(!is_int($id_key))
-                    {
-                        throw new SmartModelException('Wrong "exclude_key" array value: '.$id_key.'. Only integers accepted!'); 
-                    }
-                }
-            }
-        }
-
-        if(isset($data['exclude']))
-        {
-            if(!is_array($data['exclude']))
-            {
-                throw new SmartModelException('"exclude" isnt an array'); 
-            }
-            else
-            {
-                foreach($data['exclude'] as $id_article)
-                {
-                    if(!is_int($id_article))
-                    {
-                        throw new SmartModelException('Wrong "exclude" array value: '.$id_article.'. Only integers accepted!'); 
-                    }
-                }
-            }
-        }
-
         if(isset($data['order']))
         {
             if(!is_array($data['order']))
@@ -337,6 +240,15 @@ class ActionArticleFromKeyword extends SmartAction
                 }
             }
         }
+
+        if(isset($data['disable_sql_cache']))
+        {
+            if(!preg_match("/^SQL_NO_CACHE$/",$data['disable_sql_cache']))
+            {
+                throw new SmartModelException('Wrong "disable_sql_cache" string value: '.$data['disable_sql_cache']); 
+            }
+            $this->sqlCache = 'SQL_NO_CACHE';
+        }
         
         if(isset($data['pubdate']))
         {
@@ -359,44 +271,25 @@ class ActionArticleFromKeyword extends SmartAction
             $this->sqlCache = 'SQL_NO_CACHE';
         }
 
-        if(isset($data['key_status']))
+        if(isset($data['modifydate']))
         {
-            if(!is_array($data['key_status']))
+            if(!is_array($data['modifydate']))
             {
-                throw new SmartModelException('"key_status" isnt an array'); 
+                throw new SmartModelException('"modifydate" isnt an array'); 
             }
             else
             {
-                if(!preg_match("/>|<|=|>=|<=|!=/",$data['key_status'][0]))
+                if(!preg_match("/>|<|=|>=|<=|!=/",$data['modifydate'][0]))
                 {
-                    throw new SmartModelException('Wrong "key_status" array[0] value: '.$data['status'][0]); 
+                    throw new SmartModelException('Wrong "modifydate" array[0] value: '.$data['modifydate'][0]); 
                 }
 
-                if(!isset($data['key_status'][1]) || preg_match("/[^0-9]+/",$data['key_status'][1]))
+                if(!isset($data['modifydate'][1]) || !preg_match("/^CURRENT_TIMESTAMP$/i",$data['modifydate'][1]))
                 {
-                    throw new SmartModelException('Wrong "key_status" array[1] value: '.$data['key_status'][1]); 
+                    throw new SmartModelException('Wrong "modifydate" array[1] value: '.$data['modifydate'][1]); 
                 }
             }
-        }
-
-        if(isset($data['node_status']))
-        {
-            if(!is_array($data['node_status']))
-            {
-                throw new SmartModelException('"node_status" isnt an array'); 
-            }
-            else
-            {
-                if(!preg_match("/>|<|=|>=|<=|!=/",$data['node_status'][0]))
-                {
-                    throw new SmartModelException('Wrong "node_status" array[0] value: '.$data['node_status'][0]); 
-                }
-
-                if(!isset($data['node_status'][1]) || preg_match("/[^0-9]+/",$data['node_status'][1]))
-                {
-                    throw new SmartModelException('Wrong "node_status" array[1] value: '.$data['node_status'][1]); 
-                }
-            }
+            $this->sqlCache = 'SQL_NO_CACHE';
         }
         
         return TRUE;
