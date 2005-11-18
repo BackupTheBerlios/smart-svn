@@ -68,20 +68,28 @@ final class SmartSessionHandler
         $this->db->query("REPLACE INTO {$this->dbTablePrefix}common_session
                                        (session_id, session_data, modtime) 
                                   VALUES('{$id}','{$sess_data}',{$modtime})");
+        return TRUE;
     }
   
     public function destroy($id) 
     {
         $this->db->query("DELETE FROM {$this->dbTablePrefix}common_session
                             WHERE session_id = '$id'");
-  
+        return TRUE;
     }
   
     public function gc($maxlifetime) 
     {
         $ts = time() - $maxlifetime;
         $this->db->query("DELETE FROM {$this->dbTablePrefix}common_session
-                                  WHERE modtime < $ts");
+                                  WHERE `modtime`<{$ts}");
+        
+        if($this->db->affectedRows() > 0)
+        {
+            session_unset();
+            session_destroy();
+        }
+        return TRUE;
     }
 }
 ?>
