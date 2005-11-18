@@ -95,6 +95,7 @@ class ActionCommonInit extends SmartAction
         $this->loadConfig(); 
 
         // start session
+        ini_set('session.gc_probability', 100);
         ini_set('session.gc_maxlifetime', $this->config['session_maxlifetime']);
         $this->model->session = new SmartCommonSession();
 
