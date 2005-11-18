@@ -90,12 +90,13 @@ class ActionCommonInit extends SmartAction
        
         // set session handler
         $this->model->sessionHandler = new SmartSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
-       
-        // start session
-        $this->model->session = new SmartCommonSession();
-       
+              
         // load global config variables of the common module   
         $this->loadConfig(); 
+
+        // start session
+        ini_set('session.gc_maxlifetime', $this->config['session_maxlifetime']);
+        $this->model->session = new SmartCommonSession();
 
         // enable zlib output compression
         if($this->config['output_compression'] == TRUE)
