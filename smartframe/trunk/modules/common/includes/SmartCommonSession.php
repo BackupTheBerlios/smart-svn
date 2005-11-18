@@ -20,11 +20,27 @@ class SmartCommonSession extends SmartObject
      * Constructor
      *
      */    
-    function __construct()
+    function __construct( $session_name = FALSE )
     {
         ini_set('session.use_only_cookies', '1');     
         ini_set('session.use_trans_sid',    '0');
+        
+        if($session_name != FALSE)
+        {
+            session_name( $session_name );
+        }
+        
         session_start();
+    }
+
+    /**
+     * get session id
+     *
+     * @return string
+     */
+    function getId()
+    {
+        return session_id();
     }
 
     /**

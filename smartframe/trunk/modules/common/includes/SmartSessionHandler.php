@@ -84,11 +84,6 @@ final class SmartSessionHandler
         $this->db->query("DELETE FROM {$this->dbTablePrefix}common_session
                                   WHERE `modtime`<{$ts}");
         
-        if($this->db->affectedRows() > 0)
-        {
-            session_unset();
-            session_destroy();
-        }
         return TRUE;
     }
 }
