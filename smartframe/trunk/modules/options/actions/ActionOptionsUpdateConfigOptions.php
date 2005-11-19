@@ -17,12 +17,13 @@
 class ActionOptionsUpdateConfigOptions extends SmartAction
 {
     protected $tblFields_config = 
-                      array('templates_folder' => 'String',
-                            'views_folder'     => 'String',
-                            'disable_cache'    => 'Int',
-                            'max_lock_time'    => 'Int',
-                            'textarea_rows'    => 'Int',
-                            'rejected_files'   => 'String');
+                      array('templates_folder'    => 'String',
+                            'views_folder'        => 'String',
+                            'disable_cache'       => 'Int',
+                            'max_lock_time'       => 'Int',
+                            'session_maxlifetime' => 'Int',
+                            'textarea_rows'       => 'Int',
+                            'rejected_files'      => 'String');
     /**
      * update common config values
      *

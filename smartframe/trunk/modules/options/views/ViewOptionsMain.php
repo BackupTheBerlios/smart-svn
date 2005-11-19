@@ -86,6 +86,7 @@ class ViewOptionsMain extends SmartView
         $this->tplVar['allPublicTplFolders']  = $this->getPublicFolders( 'templates_' );
         $this->tplVar['rejectedFiles']        = $this->config['rejected_files'];
         $this->tplVar['maxLockTime']          = $this->config['max_lock_time'];
+        $this->tplVar['sessionMaxlifetime']   = $this->config['session_maxlifetime'];
         $this->tplVar['textareaRows']         = $this->config['textarea_rows'];
 
         $this->tplVar['disableCache']         = $this->config['disable_cache'];
@@ -171,6 +172,15 @@ class ViewOptionsMain extends SmartView
                 $this->config['textarea_rows'] = (string)$_POST['textarea_rows'];
             }
        }  
+
+       if(isset($_POST['session_maxlifetime']) && (strlen($_POST['session_maxlifetime']) <= 11))
+       {
+            if(preg_match("/[0-9]{1,11}/", $_POST['session_maxlifetime']) )
+            {
+                $this->fields['session_maxlifetime'] = (string)$_POST['session_maxlifetime'];
+                $this->config['session_maxlifetime'] = (string)$_POST['session_maxlifetime'];
+            }
+       } 
 
        if(isset($_POST['max_lock_time']) && (strlen($_POST['max_lock_time']) <= 11))
        {

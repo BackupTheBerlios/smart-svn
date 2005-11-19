@@ -59,6 +59,12 @@
         <td align="left" valign="top"><input type="submit" name="optimize" value="optimize"></td>
       </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Session Life Time in Seconds</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold"><input name="session_maxlifetime" type="text" id="session_maxlifetime" value="<?php echo $tpl['sessionMaxlifetime']; ?>" size="11" maxlength="11"></td>
+      </tr>
+      <tr>
         <td align="left" valign="top" class="font10bold">Max Lock Time in Seconds</td>
       </tr>
       <tr>
