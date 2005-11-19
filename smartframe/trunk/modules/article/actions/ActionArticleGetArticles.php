@@ -10,13 +10,16 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionArticleGetNodeArticles class 
+ * ActionArticleGetArticles class 
  * USAGE:
  *
- * $model->action('article','getNodeArticles',
- *                array('id_node' => int,
- *                      'result'  => & array,
- *                      'status'  => array('>|<|=|>=|<=|!=',1|2),            // optional
+ * $model->action('article','getArticles',
+ *                array('result'      => & array,
+ *                      'status'      => array('>|<|=|>=|<=|!=',1|2|3|4|5), // optional
+ *                      'node_status' => array('>|<|=|>=|<=|!=',1|2|3), // optional
+ *                      'pubdate' => array('>|<|=|>=|<=|!=', 'CURRENT_TIMESTAMP'),
+ *                      'limit'   => array('perPage' => int,
+ *                                         'numPage' => int),
  *                      'order'   => array('rank|title|
  *                                          articledate|pubdate|
  *                                          overtitle|subtitle', 'asc|desc'),// optional
