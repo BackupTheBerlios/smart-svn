@@ -1,0 +1,13 @@
+User-agent: *
+Disallow: /cache
+Disallow: /config
+Disallow: /data
+Disallow: /doc
+Disallow: /logs
+Disallow: /modules
+Disallow: /smart
+Disallow: /templates
+Disallow: /views
+Disallow: /admin.php
+Disallow: /cli.php
+Disallow: /rpcserver.php
