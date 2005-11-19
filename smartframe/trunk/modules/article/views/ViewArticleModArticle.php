@@ -75,7 +75,7 @@ class ViewArticleModArticle extends SmartView
                                                 'id_article' => (int)$this->current_id_article,
                                                 'by_id_user' => (int)$this->viewVar['loggedUserId']));
 
-        if( TRUE !== $is_locked )
+        if( (TRUE !== $is_locked) && (FALSE !== $is_locked) )
         {
             $this->template        = 'error';
             $this->templateFolder  = 'modules/common/templates/';
