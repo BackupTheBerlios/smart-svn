@@ -158,17 +158,13 @@ class ActionCommonInit extends SmartAction
      */    
     private function checkModuleVersion()
     {
-        // get common module info
-        $info = $this->model->getModuleInfo('common');
-       
         // need upgrade?
-        if(0 != version_compare($info['version'], self::MOD_VERSION))
+        if(0 != version_compare($this->config['module']['common']['version'], self::MOD_VERSION))
         {
             // Upgrade this module
-            $this->model->action('common','upgrade',array('new_version' => self::MOD_VERSION));           
+            $this->model->action('common','upgrade',
+                                 array('new_version' => self::MOD_VERSION));           
         }
-        
-        unset($info);
     } 
     
     /**
