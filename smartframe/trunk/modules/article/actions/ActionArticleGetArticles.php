@@ -13,7 +13,7 @@
  * ActionArticleGetNodeArticles class 
  * USAGE:
  *
- * $model->action('article','getArticles',
+ * $model->action('article','getNodeArticles',
  *                array('id_node' => int,
  *                      'result'  => & array,
  *                      'status'  => array('>|<|=|>=|<=|!=',1|2),            // optional
@@ -71,22 +71,22 @@ class ActionArticleGetArticles extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'`'.$f.'`';
+            $_fields .= $comma.'aa.`'.$f.'`';
             $comma = ',';
         }
         
         if(isset($data['status']))
         {
-            $sql_where = "`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_where = "aa.`status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
-            $sql_where = "`status`>=4";
+            $sql_where = "aa.`status`>=4";
         }
         
         if(isset($data['pubdate']))
         {
-            $sql_pubdate = " AND `pubdate`{$data['pubdate'][0]}{$data['pubdate'][1]}()";
+            $sql_pubdate = " AND aa.`pubdate`{$data['pubdate'][0]}{$data['pubdate'][1]}()";
         }
         else
         {
@@ -95,7 +95,7 @@ class ActionArticleGetArticles extends SmartAction
 
         if(isset($data['modifydate']))
         {
-            $sql_modifydate = " AND `modifydate`{$data['modifydate'][0]}{$data['modifydate'][1]}()";
+            $sql_modifydate = " AND aa.`modifydate`{$data['modifydate'][0]}{$data['modifydate'][1]}()";
         }
         else
         {
@@ -104,12 +104,24 @@ class ActionArticleGetArticles extends SmartAction
         
         if(isset($data['order']))
         {
-            $sql_order = " ORDER BY {$data['order'][0]} {$data['order'][1]}";
+            $sql_order = " ORDER BY aa.`{$data['order'][0]}` {$data['order'][1]}";
         }
         else
         {
-            $sql_order = "ORDER BY title ASC";
+            $sql_order = "ORDER BY aa.`title` ASC";
         }        
+
+        if(isset($data['node_status']))
+        {
+            $node_table      = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
+            $sql_node_where  = "AND nn.`id_node`=aa.`id_node` "; 
+            $sql_node_where .= "AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]} "; 
+        }
+        else
+        {
+            $node_table     = "";
+            $sql_node_where = "";
+        }
 
         if(isset($data['limit']))
         { 
@@ -129,9 +141,11 @@ class ActionArticleGetArticles extends SmartAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article
+                {$this->config['dbTablePrefix']}article_article AS aa
+                {$node_table}
             WHERE
                 {$sql_where} 
+                {$sql_node_where}
                 {$sql_pubdate}
                 {$sql_modifydate}
                 {$sql_order}
@@ -290,6 +304,26 @@ class ActionArticleGetArticles extends SmartAction
                 }
             }
             $this->sqlCache = 'SQL_NO_CACHE';
+        }
+
+        if(isset($data['node_status']))
+        {
+            if(!is_array($data['node_status']))
+            {
+                throw new SmartModelException('"node_status" isnt an array'); 
+            }
+            else
+            {
+                if(!preg_match("/>|<|=|>=|<=|!=/",$data['node_status'][0]))
+                {
+                    throw new SmartModelException('Wrong "node_status" array[0] value: '.$data['node_status'][0]); 
+                }
+
+                if(!isset($data['node_status'][1]) || preg_match("/[^0-9]+/",$data['node_status'][1]))
+                {
+                    throw new SmartModelException('Wrong "node_status" array[1] value: '.$data['node_status'][1]); 
+                }
+            }
         }
         
         return TRUE;
