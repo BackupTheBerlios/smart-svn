@@ -104,6 +104,16 @@ class ActionArticleGetArticles extends SmartAction
         {
             $sql_modifydate = "";
         }  
+
+        if(isset($data['exclude']))
+        {
+            $exclude = implode(",", $data['exclude']);
+            $sql_exclude = " AND aa.`id_article` NOT IN($exclude)";
+        }
+        else
+        {
+            $sql_exclude = "";
+        }
         
         if(isset($data['order']))
         {
@@ -149,6 +159,7 @@ class ActionArticleGetArticles extends SmartAction
             WHERE
                 {$sql_where} 
                 {$sql_node_where}
+                {$sql_exclude}
                 {$sql_pubdate}
                 {$sql_modifydate}
                 {$sql_order}
@@ -227,6 +238,24 @@ class ActionArticleGetArticles extends SmartAction
                 if(!isset($data['status'][1]) || preg_match("/[^0-9]+/",$data['status'][1]))
                 {
                     throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                }
+            }
+        }
+
+        if(isset($data['exclude']))
+        {
+            if(!is_array($data['exclude']))
+            {
+                throw new SmartModelException('"exclude" isnt an array'); 
+            }
+            else
+            {
+                foreach($data['exclude'] as $id_article)
+                {
+                    if(!is_int($id_article))
+                    {
+                        throw new SmartModelException('Wrong "exclude" array value: '.$id_article.'. Only integers accepted!'); 
+                    }
                 }
             }
         }
