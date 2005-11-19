@@ -10,11 +10,11 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionCommonFilterTrim
+ * ActionCommonUpgrade
  *
  * USAGE:
  * $model->action( 'common', 'upgrade', 
- *                 array('str' => & (string) );
+ *                 array('new_version' => string ); // new module version
  *
  */
 
@@ -27,6 +27,10 @@ class ActionCommonUpgrade extends SmartAction
      */
     public function perform( $data = FALSE )
     {
+        // do upgrade
+        // .......
+        
+        // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
     
@@ -46,7 +50,9 @@ class ActionCommonUpgrade extends SmartAction
     }    
     
     /**
-     * Validate data passed to this action
+     * update to new module version number
+     *
+     * @param string $version  New module version number
      */
     private function setNewModuleVersionNumber( $version )
     {
@@ -57,9 +63,7 @@ class ActionCommonUpgrade extends SmartAction
                         `id_module`={$this->config['module']['common']['id_module']}";
 
         $this->model->dba->query($sql);          
-    }  
-    
-    
+    }   
 }
 
 ?>
