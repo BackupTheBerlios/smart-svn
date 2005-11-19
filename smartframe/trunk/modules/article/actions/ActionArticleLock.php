@@ -128,6 +128,7 @@ class ActionArticleLock extends SmartAction
     private function lockArticle($data)
     {
         $result = $this->isArticleLocked($data);
+        
         // False = the node isnt locked
         // True = the node is locked by the logged user
         // if not locked by the logged user, $result
@@ -171,7 +172,7 @@ class ActionArticleLock extends SmartAction
     {
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_lock
                   WHERE
-                   `lock_time` < NOW()-18000";
+                   `lock_time` < (NOW()-{$this->config['max_lock_time']})";
 
         $this->model->dba->query($sql);         
     }  
