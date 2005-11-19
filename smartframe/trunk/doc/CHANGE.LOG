@@ -1,6 +1,12 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.3b
+--------
+- fixed self reference of nodes and keywords
+- fixed expired session time settings
+- added session expire time in options
+
 0.2.2b
 --------
 - switched to beta stage
