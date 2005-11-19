@@ -20,7 +20,7 @@ class SmartCommonSession extends SmartObject
      * Constructor
      *
      */    
-    function __construct( $session_name = FALSE )
+    public function __construct( $session_name = FALSE )
     {
         ini_set('session.use_only_cookies', '1');     
         ini_set('session.use_trans_sid',    '0');
@@ -38,7 +38,7 @@ class SmartCommonSession extends SmartObject
      *
      * @return string
      */
-    function getId()
+    public function getId()
     {
         return session_id();
     }
@@ -49,7 +49,7 @@ class SmartCommonSession extends SmartObject
      * @param string $name The nam of the session var
      * @return bool
      */
-    function exists($name)
+    public function exists($name)
     {
         if (empty($name))
             return false;
@@ -64,7 +64,7 @@ class SmartCommonSession extends SmartObject
      * @return mixed The session var if any or NULL
      * @see opSession::getRef()
      */
-    function get($name)
+    public function get($name)
     {
         if ($this->exists($name))
             return $_SESSION[$name];
@@ -79,7 +79,7 @@ class SmartCommonSession extends SmartObject
      * @param mixed $value The var
      * @return bool
      */
-    function set($name, $value)
+    public function set($name, $value)
     {
         if (empty($name))
             return false;
@@ -97,7 +97,7 @@ class SmartCommonSession extends SmartObject
      *
      * @param string $name The name of the var
      */
-    function del($name)
+    public function del($name)
     {
         if (empty($name))
             return false;
@@ -116,7 +116,7 @@ class SmartCommonSession extends SmartObject
      * @return reference to the session var
      * @see opSession::get()
      */
-    function &getReference($name)
+    public function &getReference($name)
     {
         if ($this->exists($name))
             return $_SESSION[$name];
@@ -126,7 +126,7 @@ class SmartCommonSession extends SmartObject
      * Delete all session vars
      *
      */
-    function del_all()
+    public function del_all()
     {
         session_unset();
     } 
@@ -135,7 +135,7 @@ class SmartCommonSession extends SmartObject
      * Destroy the session
      *
      */
-    function destroy()
+    public function destroy()
     {
         $CookieInfo = session_get_cookie_params();
         

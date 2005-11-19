@@ -36,7 +36,7 @@ class ActionCommonInit extends SmartAction
     /**
      * Common Module Version
      */
-    const MOD_VERSION = '0.1';    
+    const MOD_VERSION = '0.2';    
     
     /**
      * Run init process of this module
@@ -45,7 +45,7 @@ class ActionCommonInit extends SmartAction
     public function perform( $data = FALSE )
     {
         $mysqlExtension = $this->getMySqlExtensionType();
-        // session class
+        // db class
         require_once(SMART_BASE_DIR . 'modules/common/includes/Smart'.$mysqlExtension.'.php');
              
         // Check if a setup was successfull done else launch setup > 'setup' module
@@ -81,6 +81,11 @@ class ActionCommonInit extends SmartAction
             // if no database connection stop here
             throw new SmartModelException;
         }
+
+        // load module descriptions into config array   
+        $this->loadModulesInfo();         
+        // check for module upgrade
+        $this->checkModuleVersion();   
        
         // set base url, except if the cli controller is used
         if($this->config['controller_type'] != 'cli')
@@ -94,27 +99,20 @@ class ActionCommonInit extends SmartAction
         // load global config variables of the common module   
         $this->loadConfig(); 
 
-        // start session
-        ini_set('session.gc_probability', 100);
-        ini_set('session.gc_maxlifetime', $this->config['session_maxlifetime']);
-        $this->model->session = new SmartCommonSession();
+        // init and start session
+        $this->startSession();
 
         // enable zlib output compression
         if($this->config['output_compression'] == TRUE)
         {
-            ini_set('zlib.output_compression',          '1');     
-            ini_set('zlib.output_compression_level',    $this->config['output_compression_level']);
-            ini_set('zlib.output_handler',              '');
+            ini_set('zlib.output_compression',       '1');     
+            ini_set('zlib.output_compression_level', $this->config['output_compression_level']);
+            ini_set('zlib.output_handler',           '');
         }
         
         // set charset
         ini_set( "default_charset",$this->config['charset']);
-        @header( "Content-type: text/html; charset={$this->config['charset']}" );    
-        
-        // load module descriptions into config array   
-        $this->loadModulesInfo();         
-
-        $this->checkModuleVersion();
+        @header( "Content-type: text/html; charset={$this->config['charset']}" );         
     } 
 
     /**
@@ -238,7 +236,21 @@ class ActionCommonInit extends SmartAction
         }    
         
         return $http . $_SERVER['HTTP_HOST'] . $base_dirname;
-    }      
+    }   
+    
+    /**
+     * init and start session
+     *
+     */    
+    private function startSession()
+    {
+        ini_set('session.gc_probability', 10);
+        ini_set('session.gc_maxlifetime', $this->config['session_maxlifetime']);
+        $this->model->session = new SmartCommonSession();
+        // delete only expired session of the current user
+        // this isnt the session garbage collector 
+        $this->model->action('common', 'sessionDeleteExpired');   
+    }
 }
 
 ?>
