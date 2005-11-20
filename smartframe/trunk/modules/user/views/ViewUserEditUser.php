@@ -123,7 +123,6 @@ class ViewUserEditUser extends SmartView
         foreach($this->tplVar['user']['thumb'] as $thumb)
         {
             $this->convertHtmlSpecialChars( $this->tplVar['user']['thumb'][$x], array('description') );
-            $this->tplVar['user']['thumb'][$x]['description'] = addslashes($this->tplVar['user']['thumb'][$x]['description']);
             $x++;
         }
 
@@ -147,7 +146,6 @@ class ViewUserEditUser extends SmartView
         foreach($this->tplVar['user']['file'] as $file)
         {
             $this->convertHtmlSpecialChars( $this->tplVar['user']['file'][$x], array('description') );
-            $this->tplVar['user']['file'][$x]['description'] = addslashes($this->tplVar['user']['file'][$x]['description']);
             $x++;
         }
 
