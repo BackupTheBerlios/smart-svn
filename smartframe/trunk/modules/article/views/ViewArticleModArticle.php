@@ -135,8 +135,9 @@ class ViewArticleModArticle extends SmartView
         $x=0;
         foreach($this->tplVar['thumb'] as $thumb)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['thumb'][$x], array('description') );
-            $this->tplVar['thumb'][$x]['description'] = addslashes($this->tplVar['thumb'][$x]['description']);
+            $this->convertHtmlSpecialChars( $this->tplVar['thumb'][$x], array('description','title') );
+            //$this->tplVar['thumb'][$x]['description'] = $this->tplVar['thumb'][$x]['description'];
+            //$this->tplVar['thumb'][$x]['title'] = $this->tplVar['thumb'][$x]['title'];
             $x++;
         }
 
@@ -153,8 +154,8 @@ class ViewArticleModArticle extends SmartView
         $x=0;
         foreach($this->tplVar['file'] as $file)
         {
-            $this->convertHtmlSpecialChars( $this->tplVar['file'][$x], array('description') );
-            $this->tplVar['file'][$x]['description'] = addslashes($this->tplVar['file'][$x]['description']);
+            $this->convertHtmlSpecialChars( $this->tplVar['file'][$x], array('description','title') );
+            $this->tplVar['file'][$x]['description'] = $this->tplVar['file'][$x]['description'];
             $x++;
         }   
     }  
@@ -272,8 +273,8 @@ class ViewArticleModArticle extends SmartView
                                   array('item'    => 'pic',
                                         'error'   => & $this->tplVar['error'],
                                         'ids'     => &$_POST['picid'],
-                                        'fields'  => array('description' => &$_POST['picdesc'],
-                                                           'title'       => &$_POST['pictitle'])));
+                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['picdesc']),
+                                                           'title'       => $this->stripSlashesArray($_POST['pictitle']))));
             $noRedirect = TRUE;
         }        
 
@@ -284,8 +285,8 @@ class ViewArticleModArticle extends SmartView
                                   array('item'    => 'file',
                                         'error'   => & $this->tplVar['error'],
                                         'ids'     => &$_POST['fileid'],
-                                        'fields'  => array('description' => &$_POST['filedesc'],
-                                                           'title'       => &$_POST['filetitle'])));
+                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['filedesc']),
+                                                           'title'       => $this->stripSlashesArray($_POST['filetitle']))));
             $noRedirect = TRUE;
         }  
 
@@ -405,6 +406,22 @@ class ViewArticleModArticle extends SmartView
             $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['charset'] );
         }
     }  
+
+    /**
+     * strip slashes from form fields
+     *
+     * @param array $var_array Associative array
+     */
+    private function stripSlashesArray( &$var_array)
+    {
+        $tmp_array = array();
+        foreach($var_array as $f)
+        {
+            $tmp_array[] = preg_replace("/\"|'/","`",SmartCommonUtil::stripSlashes( $f ));
+        }
+
+        return $tmp_array;
+    } 
     
     /**
      * Redirect to the editArticle view
