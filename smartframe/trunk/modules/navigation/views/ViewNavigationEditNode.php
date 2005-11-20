@@ -140,7 +140,6 @@ class ViewNavigationEditNode extends SmartView
         foreach($this->tplVar['thumb'] as $thumb)
         {
             $this->convertHtmlSpecialChars( $this->tplVar['thumb'][$x], array('description') );
-            $this->tplVar['thumb'][$x]['description'] = addslashes($this->tplVar['thumb'][$x]['description']);
             $x++;
         }
 
@@ -162,7 +161,6 @@ class ViewNavigationEditNode extends SmartView
         foreach($this->tplVar['file'] as $file)
         {
             $this->convertHtmlSpecialChars( $this->tplVar['file'][$x], array('description') );
-            $this->tplVar['file'][$x]['description'] = addslashes($this->tplVar['file'][$x]['description']);
             $x++;
         }    
 
@@ -364,8 +362,8 @@ class ViewNavigationEditNode extends SmartView
             $this->model->action( 'navigation','updateItem',
                                   array('item'    => 'pic',
                                         'ids'     => &$_POST['picid'],
-                                        'fields'  => array('description' => &$_POST['picdesc'],
-                                                           'title'       => &$_POST['pictitle'])));
+                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['picdesc']),
+                                                           'title'       => $this->stripSlashesArray($_POST['pictitle']))));
         }        
 
         // update file data if there file attachments
@@ -374,8 +372,8 @@ class ViewNavigationEditNode extends SmartView
             $this->model->action( 'navigation','updateItem',
                                   array('item'    => 'file',
                                         'ids'     => &$_POST['fileid'],
-                                        'fields'  => array('description' => &$_POST['filedesc'],
-                                                           'title'       => &$_POST['filetitle'])));
+                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['filedesc']),
+                                                           'title'       => $this->stripSlashesArray($_POST['filetitle']))));
         }  
         
         // Remove selected keyword relations
@@ -654,6 +652,22 @@ class ViewNavigationEditNode extends SmartView
                              array('id_key'  => (int)$_REQUEST['id_key'],
                                    'id_node' => (int)$this->current_id_node));
     }  
+
+    /**
+     * strip slashes from form fields
+     *
+     * @param array $var_array Associative array
+     */
+    private function stripSlashesArray( &$var_array)
+    {
+        $tmp_array = array();
+        foreach($var_array as $f)
+        {
+            $tmp_array[] = preg_replace("/\"|'/","`",SmartCommonUtil::stripSlashes( $f ));
+        }
+
+        return $tmp_array;
+    } 
     
     /**
      * get node related keywords
