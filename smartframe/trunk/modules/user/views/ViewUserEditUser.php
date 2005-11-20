@@ -283,8 +283,8 @@ class ViewUserEditUser extends SmartView
             $this->model->action( 'user','updateItem',
                                   array('item'    => 'pic',
                                         'ids'     => &$_POST['pid'],
-                                        'fields'  => array('description' => &$_POST['picdesc'],
-                                                           'title'       => &$_POST['pictitle'])));
+                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['picdesc']),
+                                                           'title'       => $this->stripSlashesArray($_POST['pictitle']))));
         }        
 
         // update file descriptions if there file attachments
@@ -293,8 +293,8 @@ class ViewUserEditUser extends SmartView
             $this->model->action( 'user','updateItem',
                                   array('item'    => 'file',
                                         'ids'     => &$_POST['fid'],
-                                        'fields'  => array('description' => &$_POST['filedesc'],
-                                                           'title'       => &$_POST['filetitle'])));
+                                        'fields'  => array('description' => $this->stripSlashesArray($_POST['filedesc']),
+                                                           'title'       => $this->stripSlashesArray($_POST['filetitle']))));
         }  
        
         // check if required fields are empty
@@ -432,6 +432,22 @@ class ViewUserEditUser extends SmartView
             $var_array[$f] = htmlspecialchars ( $var_array[$f], ENT_COMPAT, $this->config['charset'] );
         }
     }
+
+    /**
+     * strip slashes from form fields
+     *
+     * @param array $var_array Associative array
+     */
+    private function stripSlashesArray( &$var_array)
+    {
+        $tmp_array = array();
+        foreach($var_array as $f)
+        {
+            $tmp_array[] = preg_replace("/\"/","'",SmartCommonUtil::stripSlashes( $f ));
+        }
+
+        return $tmp_array;
+    } 
 
     /**
      * Assign template variable to build the html role select box
