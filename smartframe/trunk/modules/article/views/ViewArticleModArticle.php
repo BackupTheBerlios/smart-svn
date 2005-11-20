@@ -417,7 +417,7 @@ class ViewArticleModArticle extends SmartView
         $tmp_array = array();
         foreach($var_array as $f)
         {
-            $tmp_array[] = preg_replace("/\"|'/","`",SmartCommonUtil::stripSlashes( $f ));
+            $tmp_array[] = preg_replace("/\"/","'",SmartCommonUtil::stripSlashes( $f ));
         }
 
         return $tmp_array;
