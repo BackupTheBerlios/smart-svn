@@ -59,8 +59,13 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
         // validate user name
         elseif( !isset($_FILES[$data['postName']]) )
         {
-            throw new SmartModelException ('You have to select a local file to upload');
+            $data['error'][] = 'You have to select a local file to upload';
         }     
+        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        {
+            $data['error'][] = 'File upload failed';
+        }  
+        
         if(!isset($data['id_article']))
         {
             throw new SmartModelException("No 'id_article' defined. Required!");
@@ -69,6 +74,12 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
         {
             throw new SmartModelException('"id_article" isnt from type int');        
         }        
+
+        if(count($data['error']) > 0)
+        {
+            return FALSE;
+        }
+        
         return TRUE;
     }
 }
