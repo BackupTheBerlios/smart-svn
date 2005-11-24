@@ -52,16 +52,32 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
      */    
     public function validate(  $data = FALSE  )
     {
-        // check if user exists
+        if(!isset($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt set!");
+        }
+        elseif(!is_array($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt from type array!");
+        }        
+        // validate logo upload name
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
             throw new SmartModelException ('"post_name" must be defined in view class'); 
         }
-        // validate user name
         elseif( !isset($_FILES[$data['postName']]) )
         {
             throw new SmartModelException ('You have to select a local file to upload');
         }     
+        elseif( !isset($_FILES[$data['postName']]) )
+        {
+            $data['error'][] = 'You have to select a local file to upload';
+        }     
+        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
+        {
+            $data['error'][] = 'File upload failed';
+        }  
+        
         if(!isset($data['id_node']))
         {
             throw new SmartModelException("No 'id_node' defined. Required!");
@@ -70,6 +86,11 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
         {
             throw new SmartModelException('"id_node" isnt from type int');        
         }        
+
+        if(count($data['error']) > 0)
+        {
+            return FALSE;
+        }
         return TRUE;
     }
 }
