@@ -283,7 +283,8 @@ class ViewNavigationEditNode extends SmartView
         {   
             $this->model->action('navigation','uploadLogo',
                                  array('id_node'  => (int)$_REQUEST['id_node'],
-                                       'postName' => 'logo') );                            
+                                       'postName' => 'logo',
+                                       'error'    => & $this->tplVar['error']) );                            
         }
         // delete logo
         elseif(isset($_POST['deletelogo']) && !empty($_POST['deletelogo']))
