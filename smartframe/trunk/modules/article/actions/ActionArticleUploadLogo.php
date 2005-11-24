@@ -51,12 +51,20 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
      */    
     public function validate(  $data = FALSE  )
     {
-        // check if user exists
+        if(!isset($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt set!");
+        }
+        elseif(!is_array($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt from type array!");
+        }    
+
+        // validate logo upload file name
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
             throw new SmartModelException ('"post_name" must be defined in view class'); 
         }
-        // validate user name
         elseif( !isset($_FILES[$data['postName']]) )
         {
             $data['error'][] = 'You have to select a local file to upload';
