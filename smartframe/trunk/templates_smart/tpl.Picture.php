@@ -13,7 +13,7 @@
 <!--
 body {
   font-family: Verdana, Arial, Helvetica, sans-serif;
-  font-size: 14px;
+  font-size: 1.4em;
   color: #0000CC;
   background-color: #FFFFFF;
   margin: 0px;

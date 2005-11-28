@@ -12,8 +12,8 @@
 <title>SMART3 - Public Login Page</title>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
-<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $tpl['relativePath']; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <script language="JavaScript">
    function subok(s){
       s.value = "wait ...";
@@ -42,7 +42,7 @@
     color: #333333;
 }
 .logintitle {
-    font-size: 12px;
+    font-size: 1.2em;
     font-weight: bold;
     color: #660099;
     border-top-width: 0px;
@@ -57,21 +57,21 @@
     background-color: #66CCFF;
 }
 .loginitem {
-    font-size: 10px;
+    font-size: 1em;
     font-weight: bold;
     color: #333333;
 }
 .loginerror {
-    font-size: 10px;
+    font-size: 1em;
     font-weight: bold;
     color: #CC0000;
 }
 .logintext {
-    font-size: 10px;
+    font-size: 1em;
     color: #333333;
 }
 .loginbutton {
-    font-size: 9px;
+    font-size: 1em;
     color: #000066;
     background-color: #CCCC66;
     font-weight: bold;
@@ -102,7 +102,7 @@
          <table width="638" border="0" cellspacing="4" cellpadding="2">
           <tr>
             <td align="center" valign="top">
-			  <strong>The requested content is only available for registered users.</strong><br><br>			<form name="form1" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=login">
+        <strong>The requested content is only available for registered users.</strong><br><br>      <form name="form1" method="post" action="<?php echo SMART_CONTROLLER; ?>?view=login">
               <table width="350" border="0" cellspacing="0" cellpadding="2" align="center" class="login">
                 <tr align="center" valign="middle">
                   <td colspan="2" class="logintitle">Login</td>

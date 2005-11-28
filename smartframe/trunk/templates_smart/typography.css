@@ -1,72 +1,72 @@
-div,p,ul,li,span,h1,h2,h3,h4,h5,h6{
-        font-size: 12px;
-	padding: 0px;
-	margin: 0px;	
+*{
+	margin:0;
+	padding:0;
+        font-size: 1em;	
 }
+body{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 62.5%;
+	color: #000000,
+	background-color: #FFFFFF;
+	scrollbar-3dlight-color: #F0F0EE;
+	scrollbar-arrow-color: #676662;
+	scrollbar-base-color: #F0F0EE;
+	scrollbar-darkshadow-color: #DDDDDD;
+	scrollbar-face-color: #E0E0DD;
+	scrollbar-highlight-color: #F0F0EE;
+	scrollbar-shadow-color: #F0F0EE;
+	scrollbar-track-color: #F5F5F5;	
+	
+	text-align:center;
+}
+
 p{
+        font-size: 1.2em;
 	padding-bottom: 10px;
 }
 h1,h2,h3,h4,h5,h6{
-	color: #0000FF;
+        font-weight: bold;
 }
 h1{
-	font-size: 36px;
-	padding-bottom: 0px;
-	margin-bottom: 10px;
+	font-size: 1.6em;
+	padding-bottom: 10px;	
 }
 h2{
-	font-size: 24px;
-	padding-bottom: 0px;	
-	margin-bottom: 8px;
+	font-size: 1.6em;
+	padding-bottom: 8px;	
 }
 h3{
-	font-size: 18px;
-	padding-bottom: 0px;
-	margin-bottom: 5px;
+	font-size: 1.4em;
+	padding-bottom: 5px;	
 }
 h4{
-	font-size: 16px;
-	padding-bottom: 0px;	
-        margin-bottom: 5px;
+	font-size: 1.4em;
+	padding-bottom: 5px;	
 }
 h5{
-	font-size: 14px;
-	padding-bottom: 0px;
-	margin-bottom: 5px;
+        font-size: 1.2em;
+	padding-bottom: 5px;		
 }
 h6{
-	font-size: 12px;
-	padding-bottom: 0px;
-	margin-bottom: 2px;
-}
-ul{
-	padding-left: 0px;
-	margin-left: 20px;
-	padding-bottom: 0px;
-	margin-bottom: 5px;	
+        font-size: 1.2em;
+	padding-bottom: 5px;		
 }
 pre {
 	font-family: "Courier New", Courier, mono;
-	font-size: 12px;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	margin-left: 5px;	
+	font-size: 1.2em;
+	margin: 20px;	
 }
-.smart_imagetext {
-	font-size: 10px;
-	color: #0000FF;
+ul,ol{
+        font-size: 1.2em;
+	padding-left: 0px;
+	margin-left: 20px;
+	padding-bottom: 0px;
+	margin-bottom: 10px;	
 }
-.important_color {
+.forecolor {
 	color: #FF0000;
 }
-.important_size {
-	font-size: 14px;
-}
-.important_color_size {
-	font-size: 14px;
-	color: #FF0000;
-}
-.back_color {
+.backcolor {
 	background-color: #EBEBEB;
 }
 .quote {
@@ -74,6 +74,30 @@ pre {
 	margin: 10px;
 	background-color: #EBEBEB;
 }
+.f8{
+	font-size: 0.8em;
+}
+.f10{
+	font-size: 1em;	
+}
+.f12{
+	font-size: 1.2em;
+}
+.f14{
+	font-size: 1.4em;	
+}
+.f16{
+        font-size: 1.6em;		
+}
+.f18{
+        font-size: 1.8em;	
+}
+.f20{
+        font-size: 2em;	
+}
+
+
+
 a {
 	color: #516570;
 }
@@ -81,6 +105,7 @@ a:hover {
 	color: #0000FF;
 }
 .hr {
+        margin-top: 3px;
 	background-color: #516570;
 	height: 2px;
 	width: 100%;

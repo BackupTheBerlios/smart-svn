@@ -17,19 +17,23 @@
 <style type="text/css">
 <!--
 .article {
-  font-size: 12px;
+  font-size: 1.2em;
   font-weight: bold;
   color: #0000CC;
 }  
 a.search_pager {
-  font-size: 14px;
+  font-size: 1.4em;
 }
 span.search_pager {
-  font-size: 14px;
+  font-size: 1.4em;
   font-weight: bold;
+}
+.searchbranch {
+	font-size: 1em;
 }
 -->
 </style>
+
 </head>
 
 <body>
@@ -82,7 +86,7 @@ span.search_pager {
                                <ul class="subnodeul">
                                  <?php foreach($tpl['articles'] as $article): ?>
                                  <li class="subnodelist"> 
-                                   <div class="branch">
+                                   <div class="searchbranch">
                                     <?php  foreach($article['nodeBranch'] as $bnode): ?>
                                        <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
                                     <?php endforeach; ?>

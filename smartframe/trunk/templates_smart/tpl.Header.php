@@ -14,26 +14,25 @@
   border-bottom-color: #1958b7;
 }
 .headerdesc {
-  font-size: 16px;
+  font-size: 1.6em;
   font-weight: bold;
   color: #EAEAEA;
   letter-spacing: 1px;
   word-spacing: 2px;
 }
 .version {
-  font-size: 12px;
+  font-size: 1.2em;
   color: #CCCCCC;
 }
 .searchform {
-  font-size: 12px;
+  font-size: 1.2em;
   color: #FFFFFF;
   background-color: #6699CC;
-  height: 18px;
 }
 .form {
   margin: 0px;
   padding: 0px;
-  height: 18px;
+  height: 1.8em;
 }
 -->
 </style>

@@ -12,19 +12,19 @@
 <title>SMART3 - <?php echo $tpl['node']['title'];  ?></title>
 
 <!-- ### use allways the php relative path definition to include media files ### -->
-<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $tpl['relativePath']; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .desc {
-  font-size: 12px;
+  font-size: 1.2em;
   color: #2E2E2E;
 }
 .link {
-  font-size: 12px;
+  font-size: 1.2em;
 }
 .node {
-  font-size: 12px;
+  font-size: 1.2em;
   font-weight: bold;
   color: #0000CC;
 }  
@@ -69,7 +69,7 @@
                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
                      <tr>
                        <td align="left" valign="top">
-					   <!-- ### show child nodes of the current navigation node ### -->
+             <!-- ### show child nodes of the current navigation node ### -->
                          <?php if(count($tpl['childNodes']) > 0): ?>
                          <table width="100%"  border="0" cellpadding="0" cellspacing="0" class="subnodetable">
                            <tr>
@@ -86,7 +86,7 @@
                              </td>
                            </tr>
                          </table><hr>
-						 <?php endif; ?>
+             <?php endif; ?>
                        </td>
                      </tr>
                    </table>

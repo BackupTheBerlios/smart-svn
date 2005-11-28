@@ -19,8 +19,8 @@
 </script>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
-<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $tpl['relativePath']; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .filedesc {
@@ -41,7 +41,7 @@
 
 <body>
 
-<table width="760" border="0" align="center" cellpadding="0" cellspacing="0" class="maintab">
+<table width="760" border="0" cellpadding="0" cellspacing="0" class="maintab">
   <tr>
     <td>
     
@@ -92,7 +92,7 @@
                          <!-- --- show navigation node related files for download --- -->
                          <?php if(count($tpl['articleFiles'])>0): ?>
                          <br /><br />
-						 <div class="downloads">Downloads:</div>
+             <div class="downloads">Downloads:</div>
                          <?php foreach($tpl['articleFiles'] as $file): ?>
                          <table width="350" border="0" cellspacing="2" cellpadding="2">
                            <tr>
@@ -113,7 +113,7 @@
                          <!-- --- show keyword related article links --- -->
                          <?php if(count($tpl['keywordArticle'])>0): ?>
                          <br /><br />
-						 <div class="downloads">See also in keywords related articles:</div>
+             <div class="downloads">See also in keywords related articles:</div>
                          <?php foreach($tpl['keywordArticle'] as $key_article): ?>
                          <table width="350" border="0" cellspacing="2" cellpadding="2">
                            <tr>
@@ -132,7 +132,7 @@
                          <!-- --- show keyword related links --- -->
                          <?php if(count($tpl['keywordLink'])>0): ?>
                          <br /><br />
-						 <div class="downloads">See also keywords related links:</div>
+             <div class="downloads">See also keywords related links:</div>
                          <?php foreach($tpl['keywordLink'] as $key_link): ?>
                          <table width="350" border="0" cellspacing="2" cellpadding="2">
                            <tr>
@@ -147,7 +147,7 @@
                            <?php endif; ?>
                          </table>
                          <?php endforeach; ?>
-                         <?php endif; ?>						 						 
+                         <?php endif; ?>                         
                     </td>
                  </tr>
                </table>

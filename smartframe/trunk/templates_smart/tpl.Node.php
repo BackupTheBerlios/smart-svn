@@ -19,8 +19,8 @@
 </script>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
-<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <link href="<?php echo $tpl['relativePath']; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo $tpl['relativePath']; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .filedesc {
@@ -35,6 +35,13 @@
   font-weight: bold;
   color: #0000CC;
 }  
+-->
+</style>
+<style type="text/css">
+<!--
+.unnamed1 {
+	font-weight: bold;
+}
 -->
 </style>
 </head>

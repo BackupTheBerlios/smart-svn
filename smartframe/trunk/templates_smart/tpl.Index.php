@@ -10,8 +10,8 @@
 <title>SMART3 PHP Framework - Scalable Application Design</title>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
-<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 
 <script language="JavaScript" type="text/JavaScript">
     function showimage(theURL,widthx,heightx){

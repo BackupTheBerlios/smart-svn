@@ -12,12 +12,12 @@
 <title>SMART3 - <?php echo $tpl['node']['title'];  ?></title>
 
 <!-- --- use allways the php relative path definition to include media files --- -->
-<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/typography.css" rel="stylesheet" type="text/css">
+<link href="<?php echo SMART_RELATIVE_PATH; ?>templates_smart/smart.css" rel="stylesheet" type="text/css">
 <style type="text/css">
 <!--
 .nodelevel0 {
-  font-size: 18px;
+  font-size: 1.8em;
   font-weight: bold;
   padding-top: 10px;
   padding-right: 0px;
@@ -25,7 +25,7 @@
   padding-left: 0px;
 }
 .nodelevel1 {
-  font-size: 16px;
+  font-size: 1.6em;
   font-weight: bold;
   padding-top: 8px;
   padding-right: 0px;
@@ -33,7 +33,7 @@
   padding-left: 0px;
 }
 .nodelevel2 {
-  font-size: 14px;
+  font-size: 1.4em;
   font-weight: 500;
   padding-top: 6px;
   padding-right: 0px;
@@ -41,7 +41,7 @@
   padding-left: 0px;
 }
 .nodelevel3 {
-  font-size: 12px;
+  font-size: 1.2em;
   font-weight: 500;
   padding-top: 4px;
   padding-right: 0px;
@@ -49,7 +49,7 @@
   padding-left: 0px;
 }
 .nodelevel4 , .nodelevel5 , .nodelevel6{
-  font-size: 10px;
+  font-size: 1em;
   font-weight: 500;
   padding-top: 2px;
   padding-right: 0px;
@@ -57,7 +57,7 @@
   padding-left: 0px;
 }
 .articlelevel {
-  font-size: 10px;
+  font-size: 1em;
   font-weight: normal;
   padding-top: 2px;
   padding-right: 0px;
@@ -90,7 +90,7 @@
             <td>
            
            <!-- --- print title and body of the sitemap navigation node --- -->
-           <h3><?php echo $tpl['node']['title'];  ?></h3>
+           <h1><?php echo $tpl['node']['title'];  ?></h1>
            <?php if(!empty($tpl['node']['body'])): ?>
              <div class="text"><?php echo $tpl['node']['body'];  ?></div>
            <?php endif; ?>  
