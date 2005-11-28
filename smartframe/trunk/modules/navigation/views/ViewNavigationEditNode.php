@@ -521,28 +521,32 @@ class ViewNavigationEditNode extends SmartView
 
         if($this->node_was_moved == TRUE)
         {
-            // get id_sector and status of the new parent node
-            $new_parent_node_data = array();
-            $this->model->action('navigation','getNode',
-                                  array('id_node' => (int)$_POST['node_id_parent'],
-                                        'result'  => & $new_parent_node_data,
-                                        'fields'  => array('status','id_sector','id_view')));
-            
-            // only if the new parent node status = 1 (inactive)
-            if($new_parent_node_data['status'] == 1)
-            {
-                $fields['status'] = $new_parent_node_data['status'];
+            $sub_node_fields = array();
+            // if new id_parent != 0 get the info about new parent node
+            if($_POST['node_id_parent'] != 0)
+            {        
+                // get id_sector, id_view and status of the new parent node
+                $new_parent_node_data = array();
+                $this->model->action('navigation','getNode',
+                                      array('id_node' => (int)$_POST['node_id_parent'],
+                                            'result'  => & $new_parent_node_data,
+                                            'fields'  => array('status','id_sector')));
+              
+                $sub_node_fields['status']    = (int)$new_parent_node_data['status'];
+                $sub_node_fields['id_sector'] = (int)$new_parent_node_data['id_sector'];
             }
-            
-            $fields['id_sector'] = $new_parent_node_data['id_sector'];
-            $fields['id_view']   = $new_parent_node_data['id_view'];
+            else
+            {
+                // set this node as sector
+                $sub_node_fields['id_sector'] = (int)$_REQUEST['id_node'];
+            }
             
             // updates id_sector and status of subnodes
             $this->model->action('navigation','updateSubNodes',
                                   array('id_node' => (int)$_REQUEST['id_node'],
-                                        'fields'  => array('status'    => (int)$fields['status'],
-                                                           'id_sector' => (int)$fields['id_sector'],
-                                                           'id_view'   => (int)$fields['id_view'])));    
+                                        'fields'  => $sub_node_fields));  
+            
+            $fields = array_merge($fields,$sub_node_fields); 
         }
         elseif($_POST['old_status'] != $_POST['status'])
         {
@@ -552,12 +556,21 @@ class ViewNavigationEditNode extends SmartView
                                         'fields'  => array('status' => (int)$fields['status'])));                                        
         
         }
+        
+        // set id_view of subnodes
+        if(isset($_POST['viewssubnodes']))
+        {
+            // updates status of subnodes
+            $this->model->action('navigation','updateSubNodes',
+                                  array('id_node' => (int)$_REQUEST['id_node'],
+                                        'fields'  => array('id_view' => (int)$_POST['id_view'])));        
+        }
                         
         if($rank != FALSE)
         {
             $fields['rank'] = $rank;
         }
-        
+
         // only administrators can assign a node related view
         if($this->viewVar['loggedUserRole'] <= 20)
         {

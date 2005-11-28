@@ -10,14 +10,16 @@
     mode : "exact",
     content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
-    theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;Quote=quote;",
+    theme_advanced_styles : "Font Size 8=f8;Font Size 10=f10;Font Size 12=f12;Font Size 14=f14;Font Size 16=f16;Font Size 18=f18;Font Size 20=f20;Forecolor=forecolor;Backcolor=backcolor;Quote=quote;",
     elements : "body",
     entity_encoding : "raw",
+    convert_fonts_to_spans : true,
+    inline_styles : true,    
     theme : "advanced",
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",   
-    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect",   
-    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,save",  
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect,charmap,preview,fullscreen,separator,forecolor,backcolor",   
+    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,saveformat,separator",  
     theme_advanced_buttons3 : "", 
     plugins : "table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace"
     
@@ -332,7 +334,8 @@ function MM_swapImage() { //v3.0
                  <option value="<?php echo $view['id_view']; ?>" <?php if($view['id_view'] == $tpl['node']['id_view'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo $view['name']; ?></option>
               <?php endforeach; ?>
             </select></td>
-            <td width="86%" align="left" valign="top" class="font10bold">Associated view</td>
+            <td width="26%" align="left" valign="top" class="font10bold">Associated view</td>
+            <td width="60%" align="left" valign="top" class="font10bold"><input type="checkbox" name="viewssubnodes" value="1"> update view of subnodes</td>
           </tr>
         </table></td>
       </tr>  
