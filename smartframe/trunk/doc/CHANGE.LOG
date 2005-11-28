@@ -5,6 +5,7 @@ Smart3 Framework Change.log
 --------
 - fixed self reference of nodes and keywords
 - fixed expired session time settings
+- fixed small file upload bug
 - added session expire time in options
 
 0.2.2b
