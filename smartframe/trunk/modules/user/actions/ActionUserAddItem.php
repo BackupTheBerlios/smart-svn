@@ -38,7 +38,8 @@ class ActionUserAddItem extends ActionUserFileUploadBase
 
         if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
         { 
-            throw new SmartModelException ('Cant upload file');   
+            $data['error'][] = 'File upload failed';
+            return FALSE;
         }
         
         switch($data['item'])
@@ -78,10 +79,10 @@ class ActionUserAddItem extends ActionUserFileUploadBase
         {        
             throw new SmartModelException ('"post_name" must be defined in view class'); 
         }
-        // validate user name
-        elseif( !isset($_FILES[$data['postName']]) )
+        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
         {
-            throw new SmartModelException ('You have to select a local file to upload');
+            $data['error'][] = 'File upload failed';
+            return FALSE;
         }    
 
         if(FALSE == $this->isAllowedExtension( $data ))

@@ -51,15 +51,24 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
      */    
     public function validate(  $data = FALSE  )
     {
+        if(!isset($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt set!");
+        }
+        elseif(!is_array($data['error']))
+        {
+            throw new SmartModelException("'error' var isnt from type array!");
+        }    
+        
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
             throw new SmartModelException ('"post_name" must be defined in view class'); 
-        }
-        // check if array entry exists
-        elseif( !isset($_FILES[$data['postName']]) )
+        }    
+        elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
         {
-            throw new SmartModelException ('You have to select a local file to upload');
-        }     
+            $data['error'][] = 'File upload failed';
+            return FALSE;
+        }   
         
         if(!is_int($data['id_user']))
         {
