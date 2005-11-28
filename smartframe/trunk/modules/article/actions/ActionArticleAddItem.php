@@ -38,7 +38,8 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
 
         if(FALSE == $this->moveUploadedFile($_FILES[$data['postName']]['tmp_name'], $file_info['file_path']))
         { 
-            throw new SmartModelException ('Cant upload file');   
+            $data['error'][] = 'File upload failed';
+            return FALSE;
         }
         
         // set table name and item reference

@@ -64,11 +64,7 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
         if( !isset($data['postName']) || empty($data['postName']) )
         {        
             throw new SmartModelException ('"post_name" must be defined in view class'); 
-        }
-        elseif( !isset($_FILES[$data['postName']]) )
-        {
-            $data['error'][] = 'You have to select a local file to upload';
-        }     
+        }  
         elseif( !file_exists($_FILES[$data['postName']]['tmp_name']) )
         {
             $data['error'][] = 'File upload failed';
