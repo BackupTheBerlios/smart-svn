@@ -184,7 +184,8 @@ class ViewUserEditUser extends SmartView
         {   
             $this->model->action('user','uploadLogo',
                                  array('id_user'  => (int)$_REQUEST['id_user'],
-                                       'postName' => 'logo') ); 
+                                       'postName' => 'logo',
+                                       'error'    => & $this->tplVar['error']) ); 
                                         
             $dont_forward = TRUE;
         }
