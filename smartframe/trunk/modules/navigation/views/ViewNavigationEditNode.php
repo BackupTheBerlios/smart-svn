@@ -220,7 +220,8 @@ class ViewNavigationEditNode extends SmartView
                 // check if the new id_parent isnt a subnode of the current node
                 if(FALSE == $this->isSubNode( $new_id_parent, $_POST['id_node'] ))
                 {
-                
+                    $id_parent = (int)$new_id_parent;
+                    
                     $rank = $this->getLastRank( $new_id_parent );
                     if($rank !== FALSE)
                     {
