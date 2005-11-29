@@ -101,7 +101,7 @@ class ActionCommonSetup extends SmartAction
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                 VALUES
-                 ('common','', 0,'0.1',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
+                 ('common','', 0,'0.2',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);            
 
         return TRUE;

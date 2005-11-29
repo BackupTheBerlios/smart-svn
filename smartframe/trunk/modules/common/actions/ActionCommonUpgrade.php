@@ -28,10 +28,29 @@ class ActionCommonUpgrade extends SmartAction
     public function perform( $data = FALSE )
     {
         // do upgrade
-        // .......
+        //
+        if(1 == version_compare('0.1', $this->config['module']['common']['version'], '=') )
+        {
+            // upgrade from module version 0.1 to 0.2
+            $this->upgrade_0_1_to_0_2();          
+        }
         
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
+    }
+
+    /**
+     * upgrade from module version 0.1 to 0.2
+     *
+     */
+    private function upgrade_0_1_to_0_2()
+    {
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                ADD session_maxlifetime int(11) NOT NULL default 7200 
+                AFTER max_lock_time";
+               
+        $this->model->dba->query($sql);
+        $this->config['module']['common']['version'] = '0.2';
     }
     
     /**
