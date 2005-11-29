@@ -34,7 +34,7 @@ class ActionCommonUpgrade extends SmartAction
             // upgrade from module version 0.1 to 0.2
             $this->upgrade_0_1_to_0_2();          
         }
-        
+
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
@@ -65,7 +65,9 @@ class ActionCommonUpgrade extends SmartAction
         if(!is_string($data['new_version']))
         {
             throw new SmartModelException('data var "new_version" isnt from type string');        
-        }        
+        }   
+        
+        return TRUE;
     }    
     
     /**
