@@ -10,17 +10,19 @@
     mode : "exact",
     content_css : "<?php echo SMART_RELATIVE_PATH; ?>modules/common/media/content.css",
     theme_advanced_containers_default_align : "left",
-    theme_advanced_styles : "Image Text=smart_imagetext;Important Color Text=important_color;Important Size Text=important_size;Important ColorSize Text=important_color_size;Back Color=back_color;Quote=quote;",
+    theme_advanced_styles : "Font Size 8=f8;Font Size 10=f10;Font Size 12=f12;Font Size 14=f14;Font Size 16=f16;Font Size 18=f18;Font Size 20=f20;Forecolor=forecolor;Backcolor=backcolor;Quote=quote;",
     elements : "body",
-    entity_encoding : "raw",
     theme : "advanced",
+    entity_encoding : "raw",
+    convert_fonts_to_spans : true,
+    inline_styles : true,
+    theme_advanced_resizing : true,
     theme_advanced_toolbar_location : "top",
     theme_advanced_toolbar_align : "left",   
-    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect,charmap,preview,fullscreen",   
-    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,separator,pastetext,pasteword,selectall",  
-    theme_advanced_buttons3 : "", 
-    plugins : "fullscreen,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace,paste"
-    
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,formatselect,styleselect,charmap,preview,fullscreen,separator",   
+    theme_advanced_buttons2 : "bullist, numlist,outdent,indent,separator,undo,redo,separator,insertdate,inserttime,link,unlink,anchor,cleanup,code,separator,table,hr,removeformat,sub,sup,search,replace,separator,pastetext,pasteword,selectall",  
+    theme_advanced_buttons3 : "",   
+    plugins : "fullscreen,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,zoom,flash,searchreplace,print,contextmenu,searchreplace,paste" 
   });
  function insertFile(folder,title,file,id_file)
 {
@@ -227,7 +229,7 @@ function MM_swapImage() { //v3.0
             <tr>
               <td width="29%" align="left" valign="top" class="font10bold">Status </td>
               <td width="46%" align="right" valign="top" class="font10bold">
-			  <input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
+        <input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
                 <input name="refresh" type="submit" value="Refresh" class="button">
                 <input name="finishupdate" type="submit" value="Submit" class="button">
                 </td>
@@ -268,26 +270,26 @@ function MM_swapImage() { //v3.0
         <td align="left" valign="top"><input name="back" type="button" value="Back" onClick="cancel_edit(this.form);" class="button">
           <input name="refresh" type="submit" value="Refresh" class="button">
           <input name="finishupdate" type="submit" value="Submit" class="button">
-		  <hr></td>
+      <hr></td>
       </tr>
-	<?php if($tpl['use_keywords']==1): ?>
-	      <tr>
+  <?php if($tpl['use_keywords']==1): ?>
+        <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
       </tr>
       <tr>
         <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
-      </tr>	  
+      </tr>   
       <tr>
         <td align="left" valign="top" class="font12"> 
           <?php foreach($tpl['keys'] as $keybranch): ?>
-		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
-		  <?php endforeach; ?>
-		  <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
-		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
-		  <?php endif; ?>
-		  </td>
+      <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
+      <?php endforeach; ?>
+      <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
+      <div><br />To remove keywords check the keywords and hit refresh or submit</div>
+      <?php endif; ?>
+      </td>
       </tr>
-	  <?php endif; ?>	    
+    <?php endif; ?>     
     <?php if($tpl['use_files']==1): ?>
       <tr>
         <td align="left" valign="top"><hr>          
