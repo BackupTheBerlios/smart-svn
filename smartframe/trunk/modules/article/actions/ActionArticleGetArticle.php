@@ -43,6 +43,7 @@ class ActionArticleGetArticle extends SmartAction
                                          'articledate'  => 'String',
                                          'pubdate'      => 'String',
                                          'changedate'   => 'String',
+                                         'modifydate'   => 'String',
                                          'lang'         => 'String',
                                          'title'        => 'String',
                                          'overtitle'    => 'String',
