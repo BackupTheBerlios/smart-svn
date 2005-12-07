@@ -114,10 +114,27 @@ class ActionArticleGetArticles extends SmartAction
         {
             $sql_exclude = "";
         }
+
+        if(isset($data['exclude_node']))
+        {
+            $exclude_node = implode(",", $data['exclude_node']);
+            $sql_exclude_node = " AND aa.`id_node` NOT IN($exclude_node)";
+        }
+        else
+        {
+            $sql_exclude_node = "";
+        }
         
         if(isset($data['order']))
         {
-            $sql_order = " ORDER BY aa.`{$data['order'][0]}` {$data['order'][1]}";
+            if(preg_match("/rand/i",$data['order'][0]))
+            {
+                $sql_order = " ORDER BY RAND()";
+            }
+            else
+            {
+                $sql_order = " ORDER BY aa.`{$data['order'][0]}` {$data['order'][1]}";
+            }
         }
         else
         {
@@ -160,6 +177,7 @@ class ActionArticleGetArticles extends SmartAction
                 {$sql_where} 
                 {$sql_node_where}
                 {$sql_exclude}
+                {$sql_exclude_node}
                 {$sql_pubdate}
                 {$sql_modifydate}
                 {$sql_order}
@@ -260,6 +278,24 @@ class ActionArticleGetArticles extends SmartAction
             }
         }
 
+        if(isset($data['exclude_node']))
+        {
+            if(!is_array($data['exclude_node']))
+            {
+                throw new SmartModelException('"exclude_node" isnt an array'); 
+            }
+            else
+            {
+                foreach($data['exclude_node'] as $id_node)
+                {
+                    if(!is_int($id_node))
+                    {
+                        throw new SmartModelException('Wrong "exclude_node" array value: '.$id_node.'. Only integers accepted!'); 
+                    }
+                }
+            }
+        }
+
         if(isset($data['order']))
         {
             if(!is_array($data['order']))
@@ -268,7 +304,7 @@ class ActionArticleGetArticles extends SmartAction
             }
             else
             {
-                if(!isset($this->tblFields_article[$data['order'][0]]))
+                if(!isset($this->tblFields_article[$data['order'][0]]) && !preg_match("/rand/i",$data['order'][0]) )
                 {
                     throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
                 }
@@ -282,7 +318,7 @@ class ActionArticleGetArticles extends SmartAction
                 }
                 else
                 {
-                    $data['order'][1] = 'ASC';
+                    $data['order'][1] = '';
                 }
             }
         }

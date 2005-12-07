@@ -95,7 +95,14 @@ class ActionArticleGetNodeArticles extends SmartAction
         
         if(isset($data['order']))
         {
-            $sql_order = " ORDER BY {$data['order'][0]} {$data['order'][1]}";
+            if(preg_match("/rand/i",$data['order'][0]))
+            {
+                $sql_order = " ORDER BY RAND()";
+            }
+            else
+            {        
+                $sql_order = " ORDER BY {$data['order'][0]} {$data['order'][1]}";
+            }
         }
         else
         {
@@ -189,9 +196,9 @@ class ActionArticleGetNodeArticles extends SmartAction
             {
                 throw new SmartModelException('"perPage" isnt from type int'); 
             }  
-            elseif( $data['limit']['perPage'] < 2 )
+            elseif( $data['limit']['perPage'] < 1 )
             {
-                throw new SmartModelException('"perPage" must be >= 2');
+                throw new SmartModelException('"perPage" must be >= 1');
             }
         }
         
@@ -223,7 +230,7 @@ class ActionArticleGetNodeArticles extends SmartAction
             }
             else
             {
-                if(!isset($this->tblFields_article[$data['order'][0]]))
+                if(!isset($this->tblFields_article[$data['order'][0]]) && !preg_match("/rand/i",$data['order'][0]))
                 {
                     throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
                 }
@@ -237,7 +244,7 @@ class ActionArticleGetNodeArticles extends SmartAction
                 }
                 else
                 {
-                    $data['order'][1] = 'ASC';
+                    $data['order'][1] = '';
                 }
             }
         }

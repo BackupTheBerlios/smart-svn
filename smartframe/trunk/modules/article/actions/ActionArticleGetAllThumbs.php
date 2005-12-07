@@ -46,19 +46,75 @@ class ActionArticleGetAllThumbs extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'`'.$f.'`';
+            $_fields .= $comma.'amp.`'.$f.'`';
             $comma = ',';
         }
+
+        if(isset($data['status']))
+        { 
+            $article_where  = "AND aa.`id_article`=amp.`id_article`";
+            $article_where .= "AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
+        }
+        else
+        {
+            $article_where = "AND aa.`status`>=4";
+        }
+
+        if(isset($data['node_status']))
+        {
+            $node_table      = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
+            $sql_node_where  = "AND nn.`id_node`=aa.`id_node` "; 
+            $sql_node_where .= "AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]} "; 
+        }
+        else
+        {
+            $node_table     = "";
+            $sql_node_where = "";
+        }
+
+        if(isset($data['order']))
+        {
+            if(preg_match("/rand/i",$data['order'][0]))
+            {
+                $sql_order = " ORDER BY RAND()";
+            }
+            else
+            {        
+                $sql_order = " ORDER BY amp.`{$data['order'][0]}` {$data['order'][1]}";
+            }
+        }
+        else
+        {
+            $sql_order = "";
+        }     
+
+        if(isset($data['limit']))
+        { 
+            if( $data['limit']['numPage'] < 1 )
+            {
+                $data['limit']['numPage'] = 1;
+            }        
+            $numPage = ($data['limit']['numPage'] - 1) * $data['limit']['perPage'];
+            $sql_limit = " LIMIT {$numPage},{$data['limit']['perPage']}";
+        }
+        else
+        {
+            $sql_limit = "";
+        }   
 
         $sql = "
             SELECT SQL_CACHE
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_media_pic
+                {$this->config['dbTablePrefix']}article_media_pic AS amp,
+                {$this->config['dbTablePrefix']}article_article AS aa
+                {$node_table}
             WHERE
-                (`id_article`={$data['id_article']})
-            ORDER BY
-                `rank` ASC";
+                aa.`id_article`={$data['id_article']}
+                {$article_where}
+                {$sql_node_where}
+                {$sql_order}
+                {$sql_limit}";
 
         $rs = $this->model->dba->query($sql);
         
@@ -107,6 +163,97 @@ class ActionArticleGetAllThumbs extends SmartAction
         if(!is_int($data['id_article']))
         {
             throw new SmartModelException("'id_article' isnt from type int");
+        }
+
+        if(isset($data['limit']))
+        {        
+            if(!isset($data['limit']['numPage']))
+            {
+                throw new SmartModelException('numPage" isnt defined'); 
+            } 
+            if(!is_int($data['limit']['numPage']))
+            {
+                throw new SmartModelException('numPage" isnt from type int'); 
+            }             
+            if(!isset($data['limit']['perPage']))
+            {
+                throw new SmartModelException('"perPage" isnt defined'); 
+            } 
+            if(!is_int($data['limit']['perPage']))
+            {
+                throw new SmartModelException('"perPage" isnt from type int'); 
+            }  
+            elseif( $data['limit']['perPage'] < 1 )
+            {
+                throw new SmartModelException('"perPage" must be >= 1');
+            }
+        }
+
+        if(isset($data['order']))
+        {
+            if(!is_array($data['order']))
+            {
+                throw new SmartModelException('"order" action array instruction isnt an array'); 
+            }
+            else
+            {
+                if(!isset($this->tblFields_pic[$data['order'][0]]) && !preg_match("/rand/i",$data['order'][0]) )
+                {
+                    throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
+                }
+
+                if(isset($data['order'][1]))
+                {
+                    if(!preg_match("/asc|desc/i",$data['order'][1]))
+                    {
+                        throw new SmartModelException('Wrong "order" array[1] value: '.$data['order'][1]); 
+                    }
+                }
+                else
+                {
+                    $data['order'][1] = 'ASC';
+                }
+            }
+        }
+
+        if(isset($data['status']))
+        {
+            if(!is_array($data['status']))
+            {
+                throw new SmartModelException('"status" isnt an array'); 
+            }
+            else
+            {
+                if(!preg_match("/>|<|=|>=|<=|!=/",$data['status'][0]))
+                {
+                    throw new SmartModelException('Wrong "status" array[0] value: '.$data['status'][0]); 
+                }
+
+                if(!isset($data['status'][1]) || preg_match("/[^0-9]+/",$data['status'][1]))
+                {
+                    throw new SmartModelException('Wrong "status" array[1] value: '.$data['status'][1]); 
+                }
+            }
+        }
+
+        if(isset($data['node_status']))
+        {
+            if(!is_array($data['node_status']))
+            {
+                throw new SmartModelException('"node_status" isnt an array'); 
+            }
+            else
+            {
+                if(!preg_match("/>|<|=|>=|<=|!=/",$data['node_status'][0]))
+                {
+                    throw new SmartModelException('Wrong "node_status" array[0] value: '.$data['node_status'][0]); 
+                }
+
+                if(!isset($data['node_status'][1]) || preg_match("/[^0-9]+/",$data['node_status'][1]))
+                {
+                    throw new SmartModelException('Wrong "node_status" array[1] value: '.$data['node_status'][1]); 
+                }
+            }
         }
 
         return TRUE;
