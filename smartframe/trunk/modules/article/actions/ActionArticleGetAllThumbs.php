@@ -34,7 +34,8 @@ class ActionArticleGetAllThumbs extends SmartAction
                                    'title'       => TRUE,
                                    'description' => TRUE,
                                    'mime'        => TRUE,
-                                   'size'        => TRUE);
+                                   'size'        => TRUE,
+                                   'media_folder' => TRUE);
     /**
      * get all picture thumbnail data of a node
      *
@@ -46,18 +47,49 @@ class ActionArticleGetAllThumbs extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'amp.`'.$f.'`';
+            if($f == 'media_folder')
+            {
+                $_fields  .= $comma.'aa.`'.$f.'`';          
+            }
+            else
+            {
+                $_fields .= $comma.'amp.`'.$f.'`';
+            }
             $comma = ',';
+        }
+
+        // init sql where statements
+        $node_table     = "";
+        $sql_node_where = "";
+        $sql_article_where = "amp.`id_article`=aa.`id_article`";
+        $sql_articlenode_where = "";
+        $sql_articlesector_where = "";
+        $article_status_where = "AND aa.`status`>=4";
+        $sql_order = "";
+        $sql_limit = "";
+
+        if(isset($data['id_article']))
+        {
+            $sql_article_where  = "amp.`id_article`={$data['id_article']}";
+            $sql_article_where .= "AND amp.`id_article`=aa.`id_article`";
+        }
+
+        if(isset($data['id_node']))
+        {
+            $sql_articlenode_where  = "AND aa.`id_node`={$data['id_node']}";
+        }
+
+        if(isset($data['id_sector']))
+        {
+            $sql_articlesector_where  = "AND nn.`id_sector`={$data['id_sector']}";
+            $node_table = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
+            $sql_node_where  = "AND nn.`id_node`=aa.`id_node` ";
         }
 
         if(isset($data['status']))
         { 
-            $article_where  = "AND aa.`id_article`=amp.`id_article`";
-            $article_where .= "AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
-        }
-        else
-        {
-            $article_where = "AND aa.`status`>=4";
+            $article_status_where  = "AND aa.`id_article`=amp.`id_article`";
+            $article_status_where .= "AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
         }
 
         if(isset($data['node_status']))
@@ -65,11 +97,6 @@ class ActionArticleGetAllThumbs extends SmartAction
             $node_table      = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
             $sql_node_where  = "AND nn.`id_node`=aa.`id_node` "; 
             $sql_node_where .= "AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]} "; 
-        }
-        else
-        {
-            $node_table     = "";
-            $sql_node_where = "";
         }
 
         if(isset($data['order']))
@@ -82,11 +109,7 @@ class ActionArticleGetAllThumbs extends SmartAction
             {        
                 $sql_order = " ORDER BY amp.`{$data['order'][0]}` {$data['order'][1]}";
             }
-        }
-        else
-        {
-            $sql_order = "";
-        }     
+        }   
 
         if(isset($data['limit']))
         { 
@@ -96,11 +119,7 @@ class ActionArticleGetAllThumbs extends SmartAction
             }        
             $numPage = ($data['limit']['numPage'] - 1) * $data['limit']['perPage'];
             $sql_limit = " LIMIT {$numPage},{$data['limit']['perPage']}";
-        }
-        else
-        {
-            $sql_limit = "";
-        }   
+        } 
 
         $sql = "
             SELECT SQL_CACHE
@@ -110,8 +129,10 @@ class ActionArticleGetAllThumbs extends SmartAction
                 {$this->config['dbTablePrefix']}article_article AS aa
                 {$node_table}
             WHERE
-                aa.`id_article`={$data['id_article']}
-                {$article_where}
+                {$sql_article_where}
+                {$article_status_where}
+                {$sql_articlenode_where}
+                {$sql_articlesector_where}
                 {$sql_node_where}
                 {$sql_order}
                 {$sql_limit}";
@@ -156,13 +177,28 @@ class ActionArticleGetAllThumbs extends SmartAction
             throw new SmartModelException("'result' isnt from type array");
         }
 
-        if(!isset($data['id_article']))
+        if(isset($data['id_article']))
         {
-            throw new SmartModelException("No 'id_article' defined");
+            if(!is_int($data['id_article']))
+            {
+                throw new SmartModelException("'id_article' isnt from type int");
+            }
         }
-        if(!is_int($data['id_article']))
+        
+        if(isset($data['id_sector']))
         {
-            throw new SmartModelException("'id_article' isnt from type int");
+            if(!is_int($data['id_sector']))
+            {
+                throw new SmartModelException("'id_sector' isnt from type int");
+            }
+        }
+
+        if(isset($data['id_node']))
+        {
+            if(!is_int($data['id_node']))
+            {
+                throw new SmartModelException("'id_node' isnt from type int");
+            }
         }
 
         if(isset($data['limit']))
