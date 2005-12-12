@@ -124,8 +124,9 @@ class ViewArticleModArticle extends SmartView
         // get user picture thumbnails
         $this->model->action('article','getAllThumbs',
                              array('result'     => & $this->tplVar['thumb'],
-                                   'id_article' => (int)$this->current_id_article,
-                                   'order'      => 'rank',
+                                   'id_article' => array((int)$this->current_id_article),
+                                   'order'      => array('rank','ASC'),
+                                   'status'     => array('>=',0),
                                    'fields'     => array('id_pic','file',
                                                          'size','mime',
                                                          'width','height',

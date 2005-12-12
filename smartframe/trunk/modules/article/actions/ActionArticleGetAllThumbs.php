@@ -70,19 +70,22 @@ class ActionArticleGetAllThumbs extends SmartAction
 
         if(isset($data['id_article']))
         {
-            $sql_article_where  = "amp.`id_article`={$data['id_article']}";
+            $_article_where     = implode(",", $data['id_article']);
+            $sql_article_where  = "amp.`id_article` IN({$_article_where})";
             $sql_article_where .= "AND amp.`id_article`=aa.`id_article`";
         }
 
         if(isset($data['id_node']))
         {
-            $sql_articlenode_where  = "AND aa.`id_node`={$data['id_node']}";
+            $_articlenode_where     = implode(",", $data['id_node']);
+            $sql_articlenode_where  = "AND aa.`id_node` IN({$_articlenode_where})";
         }
 
         if(isset($data['id_sector']))
         {
-            $sql_articlesector_where  = "AND nn.`id_sector`={$data['id_sector']}";
-            $node_table = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
+            $_articlesector_where     = implode(",", $data['id_sector']);
+            $sql_articlesector_where  = "AND nn.`id_sector` IN({$_articlesector_where})";
+            $node_table      = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
             $sql_node_where  = "AND nn.`id_node`=aa.`id_node` ";
         }
 
@@ -179,25 +182,55 @@ class ActionArticleGetAllThumbs extends SmartAction
 
         if(isset($data['id_article']))
         {
-            if(!is_int($data['id_article']))
+            if(!is_array($data['id_article']))
             {
-                throw new SmartModelException("'id_article' isnt from type int");
+                throw new SmartModelException('"id_article" isnt an array'); 
+            }
+            else
+            {
+                foreach($data['id_article'] as $id_article)
+                {
+                    if(!is_int($id_article))
+                    {
+                        throw new SmartModelException('Wrong "id_article" array value: '.$id_article.'. Only integers accepted!'); 
+                    }
+                }
             }
         }
         
         if(isset($data['id_sector']))
         {
-            if(!is_int($data['id_sector']))
+            if(!is_array($data['id_sector']))
             {
-                throw new SmartModelException("'id_sector' isnt from type int");
+                throw new SmartModelException('"id_sector" isnt an array'); 
+            }
+            else
+            {
+                foreach($data['id_sector'] as $id_sector)
+                {
+                    if(!is_int($id_sector))
+                    {
+                        throw new SmartModelException('Wrong "id_sector" array value: '.$id_sector.'. Only integers accepted!'); 
+                    }
+                }
             }
         }
 
         if(isset($data['id_node']))
         {
-            if(!is_int($data['id_node']))
+            if(!is_array($data['id_node']))
             {
-                throw new SmartModelException("'id_node' isnt from type int");
+                throw new SmartModelException('"id_node" isnt an array'); 
+            }
+            else
+            {
+                foreach($data['id_node'] as $id_node)
+                {
+                    if(!is_int($id_node))
+                    {
+                        throw new SmartModelException('Wrong "id_node" array value: '.$id_node.'. Only integers accepted!'); 
+                    }
+                }
             }
         }
 
