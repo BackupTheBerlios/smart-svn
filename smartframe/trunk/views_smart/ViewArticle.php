@@ -63,8 +63,8 @@ class ViewArticle extends SmartView
         // get article attached files
         $this->model->action('article','getAllFiles',
                              array('result'     => & $this->tplVar['articleFiles'],
-                                   'id_article' => (int)$this->current_id_article,
-                                   'order'      => 'rank',
+                                   'id_article' => array((int)$this->current_id_article),
+                                   'order'      => array('rank','ASC'),
                                    'fields'     => array('id_file','file',
                                                          'size','mime',
                                                          'title','description')) );   
