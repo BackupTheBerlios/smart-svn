@@ -59,14 +59,14 @@ class ActionArticleGetAllThumbs extends SmartAction
         }
 
         // init sql where statements
-        $node_table     = "";
-        $sql_node_where = "";
-        $sql_article_where = "amp.`id_article`=aa.`id_article`";
-        $sql_articlenode_where = "";
-        $sql_articlesector_where = "";
-        $article_status_where = "AND aa.`status`>=4";
-        $sql_order = "";
-        $sql_limit = "";
+        $node_table               = "";
+        $sql_node_where           = "";
+        $sql_article_where        = "amp.`id_article`=aa.`id_article`";
+        $sql_articlenode_where    = "";
+        $sql_articlesector_where  = "";
+        $sql_article_status_where = "AND aa.`status`>=4";
+        $sql_order                = "";
+        $sql_limit                = "";
 
         if(isset($data['id_article']))
         {
@@ -91,8 +91,8 @@ class ActionArticleGetAllThumbs extends SmartAction
 
         if(isset($data['status']))
         { 
-            $article_status_where  = "AND aa.`id_article`=amp.`id_article`";
-            $article_status_where .= "AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_article_status_where  = "AND aa.`id_article`=amp.`id_article`";
+            $sql_article_status_where .= "AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
         }
 
         if(isset($data['node_status']))
@@ -133,7 +133,7 @@ class ActionArticleGetAllThumbs extends SmartAction
                 {$node_table}
             WHERE
                 {$sql_article_where}
-                {$article_status_where}
+                {$sql_article_status_where}
                 {$sql_articlenode_where}
                 {$sql_articlesector_where}
                 {$sql_node_where}

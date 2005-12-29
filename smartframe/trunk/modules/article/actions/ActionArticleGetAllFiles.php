@@ -62,7 +62,7 @@ class ActionArticleGetAllFiles extends SmartAction
         $sql_article_where = "amf.`id_article`=aa.`id_article`";
         $sql_articlenode_where = "";
         $sql_articlesector_where = "";
-        $article_status_where = "AND aa.`status`>=4";
+        $sql_article_status_where = "AND aa.`status`>=4";
         $sql_order = "";
         $sql_limit = "";
 
@@ -131,7 +131,7 @@ class ActionArticleGetAllFiles extends SmartAction
                 {$node_table}
             WHERE
                 {$sql_article_where}
-                {$article_status_where}
+                {$sql_article_status_where}
                 {$sql_articlenode_where}
                 {$sql_articlesector_where}
                 {$sql_node_where}

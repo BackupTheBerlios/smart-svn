@@ -25,7 +25,7 @@ class ActionArticleSetup extends SmartAction
         if(isset($data['rollback']))
         {
             $this->rollback($data);
-            return TRUE;
+            return;
         }
         
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}article_article (
@@ -149,6 +149,20 @@ class ActionArticleSetup extends SmartAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);
 
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_node_view_rel (
+                   `id_view`      int(11) unsigned NOT NULL default 0,
+                   `id_node`      int(11) unsigned NOT NULL default 0,
+                   UNIQUE KEY `id_node` (`id_node`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);      
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_view (
+                   `id_view`      int(11) unsigned NOT NULL auto_increment,
+                   `name`         varchar(255) NOT NULL default '',
+                   PRIMARY KEY    (`id_view`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);      
+
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}article_config
                    (`thumb_width`,`default_order`,`default_ordertype`)
                   VALUES
@@ -161,10 +175,10 @@ class ActionArticleSetup extends SmartAction
                    ('article',
                     'Article Management',
                     3,
-                    '0.1',
+                    '0.2',
                     1,
                     40,
-                    'DATE: 25.8.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
+                    'DATE: 28.12.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);            
     } 
     
@@ -181,7 +195,9 @@ class ActionArticleSetup extends SmartAction
                                      {$data['dbtablesprefix']}article_lock,
                                      {$data['dbtablesprefix']}article_media_pic,
                                      {$data['dbtablesprefix']}article_media_file,
-                                     {$data['dbtablesprefix']}article_config";
+                                     {$data['dbtablesprefix']}article_config,
+                                     {$data['dbtablesprefix']}article_view,
+                                     {$data['dbtablesprefix']}article_node_view_rel";
         $this->model->dba->query($sql);  
     }
 }

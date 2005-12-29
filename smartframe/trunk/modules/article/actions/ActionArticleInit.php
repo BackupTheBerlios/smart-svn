@@ -24,7 +24,7 @@ class ActionArticleInit extends SmartAction
     /**
      * Navigation Module Version
      */
-    const MOD_VERSION = '0.1';    
+    const MOD_VERSION = '0.2';    
     
     /**
      * Run init process of this module
@@ -77,6 +77,9 @@ class ActionArticleInit extends SmartAction
         {
             $this->config['article'][$key] = $val; 
         }
+        
+        // this module try to find the view on the related public request var 'id_article'
+        $this->config['view_map']['id_article'] = 'article';        
     }        
 }
 

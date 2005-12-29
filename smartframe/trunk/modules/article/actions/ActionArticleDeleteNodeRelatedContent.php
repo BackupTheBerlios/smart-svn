@@ -45,7 +45,14 @@ class ActionArticleDeleteNodeRelatedContent extends SmartAction
             $this->model->action('article','deleteArticle',
                                  array('id_article' => (int)$row['id_article'],
                                        'id_node'    => (int)$data['id_node']));
-        }             
+        }   
+
+        // delete article node view relation        
+        $sql = "DELETE FROM {$this->config['dbTablePrefix']}article_node_view_rel
+                  WHERE
+                   `id_node`={$data['id_node']}";
+
+        $this->model->dba->query($sql); 
     } 
     /**
      * validate data array
