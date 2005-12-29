@@ -139,16 +139,7 @@ class ViewArticle extends SmartView
             $this->tplVar['message'] = "Wrong id_article value";
             $this->dontPerform = TRUE;
             return; 
-        }    
-        elseif( !isset($_GET['view'])     || 
-                !is_string($_GET['view']) || 
-                ($_GET['view'] !== 'article') ) 
-        {
-            $this->template          = 'error';   
-            $this->tplVar['message'] = "Wrong view value";
-            $this->dontPerform = TRUE;
-            return;    
-        }          
+        }           
         else
         {
             $this->current_id_article = (int)$_GET['id_article'];         
@@ -230,7 +221,7 @@ class ViewArticle extends SmartView
                 ($result['articleStatus'] == 5) )
             {
                 // set url vars to come back to this page after login
-                $this->model->session->set('url','view=article&id_article='.$this->current_id_article);
+                $this->model->session->set('url','id_article='.$this->current_id_article);
                 // switch to the login page
                 @header('Location: '.SMART_CONTROLLER.'?view=login');
                 exit;
