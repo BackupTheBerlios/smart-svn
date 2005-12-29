@@ -324,7 +324,9 @@ function MM_swapImage() { //v3.0
           </div>
           <hr></td>
       </tr>   
-
+      <tr>
+        <td align="left" valign="top" class="font12bold"><a name="views"></a>Node related Views</td>
+      </tr>
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr>
@@ -338,8 +340,14 @@ function MM_swapImage() { //v3.0
             <td width="60%" align="left" valign="top" class="font10bold"><input type="checkbox" name="viewssubnodes" value="1"> update view of subnodes</td>
           </tr>
         </table></td>
-      </tr>  
-  <?php if($tpl['use_keywords']==1): ?>
+      </tr> 
+      <tr>
+        <td align="left" valign="top"> 
+          <!-- nested includes of nodeRelatedPublicView views from other modules if provided -->
+          <?php $viewLoader->broadcast( 'nodeRelatedPublicView' ) ?>
+        </td>
+      </tr>
+      <?php if($tpl['use_keywords']==1): ?>
         <tr>
           <td align="left" valign="top">&nbsp;</td>
         </tr>
