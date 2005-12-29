@@ -58,6 +58,8 @@ class ViewArticleNodeRelatedPublicView extends SmartView
 
         // get article associated public view
         $this->tplVar['articleAssociatedPublicView'] = array();
+        $this->tplVar['articleAssociatedPublicView']['id_view'] = 0;
+        
         $this->model->action( 'article','getNodeAssociatedView',
                               array('result'  => &$this->tplVar['articleAssociatedPublicView'],
                                     'id_node' => (int)$_REQUEST['id_node']) );     
