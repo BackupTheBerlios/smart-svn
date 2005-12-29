@@ -40,7 +40,7 @@
 <style type="text/css">
 <!--
 .unnamed1 {
-	font-weight: bold;
+  font-weight: bold;
 }
 -->
 </style>
@@ -113,7 +113,7 @@
                              <td width="190" align="left" valign="top">
                                <ul class="subnodeul">
                                  <?php foreach($tpl['nodeArticles'] as $article): ?>
-                                 <li class="subnodelist"> <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a> </li>
+                                 <li class="subnodelist"> <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a> </li>
                                  <?php endforeach; ?>
                                </ul>
                              </td>
@@ -154,7 +154,7 @@
                          <!-- --- show keyword related links --- -->
                          <?php if(count($tpl['keywordLink'])>0): ?>
                          <br /><br />
-						 <div class="downloads">See also keywords related links:</div>
+             <div class="downloads">See also keywords related links:</div>
                          <?php foreach($tpl['keywordLink'] as $key_link): ?>
                          <table width="100%" border="0" cellspacing="2" cellpadding="2">
                            <tr>
@@ -169,7 +169,7 @@
                            <?php endif; ?>
                          </table>
                          <?php endforeach; ?>
-                         <?php endif; ?>						 </td>
+                         <?php endif; ?>             </td>
                  </tr>
                </table>
                </td>

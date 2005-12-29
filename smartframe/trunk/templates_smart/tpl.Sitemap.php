@@ -104,7 +104,7 @@
                <td width="99%" align="left" valign="top" class="nodelevel<?php echo $node['level']; ?>">
                  -<a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $node['id_node']; ?>"><?php echo $node['title']; ?></a>        
            <?php foreach($node['article'] as $article): ?>
-             <div class="articlelevel">* <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a></div>
+             <div class="articlelevel">* <a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></div>
            <?php endforeach; ?>
          </td>
               </tr>

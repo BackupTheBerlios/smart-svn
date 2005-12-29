@@ -29,7 +29,7 @@ span.search_pager {
   font-weight: bold;
 }
 .searchbranch {
-	font-size: 1em;
+  font-size: 1em;
 }
 -->
 </style>
@@ -92,7 +92,7 @@ span.search_pager {
                                     <?php endforeach; ?>
                           <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $article['node']['id_node']; ?>"><?php echo $article['node']['title']; ?></a>
                    </div> 
-                 <div class="article"><a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>&view=article"><?php echo $article['title']; ?></a></div><br></li>
+                 <div class="article"><a href="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $article['id_article']; ?>"><?php echo $article['title']; ?></a></div><br></li>
                                  <?php endforeach; ?>
                                </ul>
                              </td>
