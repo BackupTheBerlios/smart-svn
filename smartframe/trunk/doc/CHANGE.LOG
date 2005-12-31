@@ -1,6 +1,11 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.4b
+------
+- upgrade to Tynimce 2.0.1
+- auto public view detection related to articles as it is the case with navigation nodes
+
 0.2.3b
 --------
 - fixed self reference of nodes and keywords
