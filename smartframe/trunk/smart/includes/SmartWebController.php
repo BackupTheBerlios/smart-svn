@@ -78,7 +78,7 @@ class SmartWebController extends SmartController
 
             // validate view request
             $methode = $this->validateViewName( $viewRequest );
-      
+
             // execute the requested view
             $this->view->$methode();          
         }
