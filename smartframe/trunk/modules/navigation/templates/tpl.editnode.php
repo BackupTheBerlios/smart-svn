@@ -325,25 +325,24 @@ function MM_swapImage() { //v3.0
           <hr></td>
       </tr>   
       <tr>
-        <td align="left" valign="top" class="font12bold"><a name="views"></a>Node related Views</td>
+        <td align="left" valign="top" class="font12bold"><a name="views"></a>Node associated view</td>
       </tr>
       <tr>
         <td align="left" valign="top"><table width="100%" border="0" cellspacing="2" cellpadding="2">
           <tr>
-            <td width="14%" align="left" valign="top"><select name="id_view" size="1" id="id_view" class="treeselectbox">
+            <td width="10%" align="left" valign="top"><select name="id_view" size="1" id="id_view" class="treeselectbox">
               <option value="0">No View</option>
               <?php foreach($tpl['publicViews'] as $view):  ?>
                  <option value="<?php echo $view['id_view']; ?>" <?php if($view['id_view'] == $tpl['node']['id_view'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo $view['name']; ?></option>
               <?php endforeach; ?>
             </select></td>
-            <td width="26%" align="left" valign="top" class="font10bold">Associated view</td>
-            <td width="60%" align="left" valign="top" class="font10bold"><input type="checkbox" name="viewssubnodes" value="1"> update view of subnodes</td>
+            <td width="90%" align="left" valign="top" class="font10bold"><input type="checkbox" name="viewssubnodes" value="1"> update view of subnodes</td>
           </tr>
         </table></td>
       </tr> 
       <tr>
         <td align="left" valign="top"> 
-          <!-- nested includes of nodeRelatedPublicView views from other modules if provided -->
+          <!-- nested includes of articleNodeRelatedPublicView views from other modules if provided -->
           <?php $viewLoader->broadcast( 'nodeRelatedPublicView' ) ?>
         </td>
       </tr>
