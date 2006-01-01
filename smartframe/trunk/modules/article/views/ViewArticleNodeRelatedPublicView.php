@@ -70,7 +70,11 @@ class ViewArticleNodeRelatedPublicView extends SmartView
                               array('result' => &$this->tplVar['articlePublicViews'],
                                     'fields' => array('id_view','name')) );         
     }     
-    
+
+    /**
+     * update node related article view
+     *
+     */   
     private function updateArticleNodeView( $id_node, $id_view )
     {
         $this->model->action( 'article','updateNodeView',
