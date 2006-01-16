@@ -13,7 +13,6 @@
     theme_advanced_styles : "Font Size 8=f8;Font Size 10=f10;Font Size 12=f12;Font Size 14=f14;Font Size 16=f16;Font Size 18=f18;Font Size 20=f20;Forecolor=forecolor;Backcolor=backcolor;Quote=quote;",
     elements : "body",
     theme : "advanced",
-    entity_encoding : "raw",
     convert_fonts_to_spans : true,
     inline_styles : true,
     theme_advanced_resizing : true,
