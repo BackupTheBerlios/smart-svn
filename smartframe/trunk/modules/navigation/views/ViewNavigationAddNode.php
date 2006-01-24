@@ -120,11 +120,18 @@ class ViewNavigationAddNode extends SmartView
             $id_view = $tmp['id_view'];
         }
         
-        return $this->model->action('navigation', 'addNode', 
+        $new_id_node = $this->model->action('navigation', 'addNode', 
                              array('id_parent' => (int)$id_parent,
                                    'fields'    => array('title'   => SmartCommonUtil::stripSlashes((string)$_POST['title']),
                                                         'id_view' => (int)$id_view,
-                                                        'status'  => 1)));        
+                                                        'status'  => 1)));    
+
+        // update node related content view                                                        
+        $this->model->broadcast('newNodeContentView', 
+                                array('id_parent' => (int)$id_parent,
+                                      'id_node'   => (int)$new_id_node  ));
+        
+        return $new_id_node;
     }
 }
 
