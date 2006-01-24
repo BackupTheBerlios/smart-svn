@@ -513,12 +513,22 @@ class ViewNavigationEditNode extends SmartView
      * @param int $rank New rank
      */
     private function updateNode( $rank, $format )
-    { 
-        $fields = array('id_parent'  => (int)$_POST['node_id_parent'],
-                        'status'     => (int)$_POST['status'],
-                        'title'      => SmartCommonUtil::stripSlashes((string)$_POST['title']),
-                        'short_text' => SmartCommonUtil::stripSlashes((string)$_POST['short_text']),
-                        'body'       => SmartCommonUtil::stripSlashes((string)$_POST['body']));
+    {
+        $fields = array();
+        
+        if($this->config['navigation']['use_short_text'] == 1)
+        {
+            $fields['short_text'] = SmartCommonUtil::stripSlashes((string)$_POST['short_text']);
+        }
+        
+        if($this->config['navigation']['use_body'] == 1)
+        {
+            $fields['body'] = SmartCommonUtil::stripSlashes((string)$_POST['body']);
+        }
+        
+        $fields['id_parent']  = (int)$_POST['node_id_parent'];
+        $fields['status']     = (int)$_POST['status'];
+        $fields['title']      = SmartCommonUtil::stripSlashes((string)$_POST['title']);
 
         if($this->node_was_moved == TRUE)
         {

@@ -189,7 +189,7 @@ class ViewNavigationOptions extends SmartView
         } 
         else
         {
-            $this->fields['use_files'] = (int)$_POST['use_files'];
+            $this->fields['use_files'] = 0;
         }
 
         if(isset($_POST['use_keywords']) && ($_POST['use_keywords'] == '1'))
