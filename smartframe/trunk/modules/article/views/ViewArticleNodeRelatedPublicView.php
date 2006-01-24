@@ -42,13 +42,17 @@ class ViewArticleNodeRelatedPublicView extends SmartView
                 // update subnodes
                 if(isset($_POST['articleviewssubnodes']) && ($_POST['articleviewssubnodes'] == 1))
                 {
-                    $node_tree = array();
-                    $this->model->action('navigation','getTree',
-                                         array('id_node' => (int)$_REQUEST['id_node'],
-                                               'result'  => &$node_tree, 
-                                               'status'  => array('>',0),
-                                               'fields'  => array('id_node','id_parent','status')));
-                    foreach($node_tree as $node)
+                    // check if the nodeTree array was previously init by an other view
+                    if( !isset($this->viewVar['nodeTree']) )
+                    {
+                        $this->viewVar['nodeTree'] = array();
+                        $this->model->action('navigation','getTree',
+                                             array('id_node' => (int)$_REQUEST['id_node'],
+                                                   'result'  => &$this->viewVar['nodeTree'], 
+                                                   'status'  => array('>',0),
+                                                   'fields'  => array('id_node','id_parent','status')));
+                    }
+                    foreach($this->viewVar['nodeTree'] as $node)
                     {
                         $this->updateArticleNodeView( (int)$node['id_node'], (int)$_POST['article_id_view'] );
                     }
