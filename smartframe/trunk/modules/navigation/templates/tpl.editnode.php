@@ -336,7 +336,8 @@ function MM_swapImage() { //v3.0
                  <option value="<?php echo $view['id_view']; ?>" <?php if($view['id_view'] == $tpl['node']['id_view'] ){ echo 'selected="selected"'; echo 'class="optsel"'; }?>><?php echo $view['name']; ?></option>
               <?php endforeach; ?>
             </select></td>
-            <td width="90%" align="left" valign="top" class="font10bold"><input type="checkbox" name="viewssubnodes" value="1"> update view of subnodes</td>
+            <td width="30%" align="left" valign="top" class="font10bold"><input type="checkbox" name="viewssubnodes" value="1"> update view of subnodes</td>
+           <td width="60%" align="left" valign="top" class="font10bold"><input type="submit" name="refresh" value="Update node view" class="button"></td>
           </tr>
         </table></td>
       </tr> 
