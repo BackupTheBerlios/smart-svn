@@ -26,8 +26,8 @@ class ActionSetupInsertSampleContent extends SmartAction
      */
     function perform( $data = FALSE )
     { 
-        $dir1 = SMART_BASE_DIR . 'data/navigation/-1278757693';
-        $dir2 = SMART_BASE_DIR . 'data/navigation/-1954848877';
+        $dir1 = SMART_BASE_DIR . 'data/article/918413323';
+        $dir2 = SMART_BASE_DIR . 'data/article/1725715675';
         
         if(!is_dir($dir1))
         {
