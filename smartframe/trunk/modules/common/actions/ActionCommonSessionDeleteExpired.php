@@ -37,7 +37,7 @@ class ActionCommonSessionDeleteExpired extends SmartAction
                               `modtime`<{$ts}
                           AND
                               `session_id`='{$this->model->session->getId()}'");
-        
+
         if($result->numRows() > 0)
         {
             $this->model->session->destroy();

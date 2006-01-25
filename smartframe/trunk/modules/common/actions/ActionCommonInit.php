@@ -242,6 +242,7 @@ class ActionCommonInit extends SmartAction
     {
         ini_set('session.gc_probability', 10);
         ini_set('session.gc_maxlifetime', $this->config['session_maxlifetime']);
+        
         $this->model->session = new SmartCommonSession();
         // delete only expired session of the current user
         // this isnt the session garbage collector 
