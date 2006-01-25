@@ -146,6 +146,7 @@ class ViewArticleModArticle extends SmartView
         $this->model->action('article','getAllFiles',
                              array('result'     => & $this->tplVar['file'],
                                    'id_article' => array((int)$this->current_id_article),
+                                   'status'     => array('>=',0),
                                    'order'      => array('rank','ASC'),
                                    'fields'     => array('id_file','file',
                                                          'size','mime',
@@ -156,7 +157,7 @@ class ViewArticleModArticle extends SmartView
         foreach($this->tplVar['file'] as $file)
         {
             $this->convertHtmlSpecialChars( $this->tplVar['file'][$x], array('description','title') );
-            $this->tplVar['file'][$x]['description'] = $this->tplVar['file'][$x]['description'];
+            //$this->tplVar['file'][$x]['description'] = $this->tplVar['file'][$x]['description'];
             $x++;
         }   
     }  

@@ -62,15 +62,15 @@ class ActionArticleGetAllFiles extends SmartAction
         $sql_article_where = "amf.`id_article`=aa.`id_article`";
         $sql_articlenode_where = "";
         $sql_articlesector_where = "";
-        $sql_article_status_where = "AND aa.`status`>=4";
+        $sql_article_status_where = "AND aa.`status` >= 4";
         $sql_order = "";
         $sql_limit = "";
 
         if(isset($data['id_article']))
         {
             $_article_where     = implode(",", $data['id_article']);
-            $sql_article_where  = "amf.`id_article` IN({$_article_where})";
-            $sql_article_where .= "AND amf.`id_article`=aa.`id_article`";
+            $sql_article_where  = "amf.`id_article` IN({$_article_where}) ";
+            $sql_article_where .= " AND amf.`id_article`=aa.`id_article` ";
         }
 
         if(isset($data['id_node']))
@@ -89,8 +89,8 @@ class ActionArticleGetAllFiles extends SmartAction
 
         if(isset($data['status']))
         { 
-            $article_status_where  = "AND aa.`id_article`=amf.`id_article`";
-            $article_status_where .= "AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_article_status_where  = "AND aa.`id_article`=amf.`id_article`";
+            $sql_article_status_where .= "AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
         }
 
         if(isset($data['node_status']))
@@ -137,7 +137,7 @@ class ActionArticleGetAllFiles extends SmartAction
                 {$sql_node_where}
                 {$sql_order}
                 {$sql_limit}";
-
+       
         $rs = $this->model->dba->query($sql);
         
         while($row = $rs->fetchAssoc())

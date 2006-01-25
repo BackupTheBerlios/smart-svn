@@ -102,7 +102,8 @@ class ActionArticleDeleteItem extends SmartAction
         if(!@unlink(SMART_BASE_DIR . 'data/article/'.$article['media_folder'].'/thumb/'.$pic['file']))
         {
            trigger_error('Cant delete article logo: data/article/'.$article['media_folder'].'/thumb/'.$pic['file'], E_USER_WARNING);
-        }    
+        }  
+        
         // remove picture reference from database
         $this->model->action('article','updatePicture',
                              array('action'     => 'delete',
