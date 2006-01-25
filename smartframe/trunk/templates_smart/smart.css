@@ -36,12 +36,10 @@
 	font-size: 1.2em;	
 }
 .subnodetitle {
-	font-size: 1em;
+	font-size: 1.2em;
 	font-weight: bold;
-	color: #EAEAEA;
-	background-color: #516570;
-	text-align: center;
-	vertical-align: middle;
+	color: #0000CC;
+	text-align: left;
 }
 .subnode {
 	font-size: 1em;
@@ -57,12 +55,13 @@
 	border-top-width: 0px;
 	border-right-width: 0px;
 	border-bottom-width: 0px;
-	border-left-width: 2px;
+	border-left-width: 0px;
 	border-top-style: none;
 	border-right-style: none;
 	border-bottom-style: none;
-	border-left-style: solid;
-	border-left-color: #516570;
+	border-left-style: none;
+	padding-left: 20px;
+
 }
 .font12 {
 	font-size: 1.2em;
@@ -149,4 +148,3 @@ border-right: 6px solid #5ba3e0;
 background-color: #2586d7;
 color: #fff;
 }
-
