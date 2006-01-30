@@ -1,6 +1,10 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.5b
+------
+- added GD check in setup module
+
 0.2.4b
 ------
 - upgrade to Tinymce 2.0.2
