@@ -25,6 +25,7 @@ class ActionCommonSetup extends SmartAction
         if(!isset($data['rollback']))
         {
             $this->checkFolders();
+            $this->checkGd();
         }
         
         $data['config']['db']['dbTablePrefix'] = $data['dbtablesprefix'];    
@@ -134,6 +135,18 @@ class ActionCommonSetup extends SmartAction
         {
             throw new Exception('Must be writeable by php scripts: '.$cache_folder);    
         }      
+    }
+
+    /**
+     * Check if GD extension is loaded
+     *
+     */ 
+    private function checkGd()
+    {
+        if(! extension_loaded('gd'))
+        {
+            throw new Exception('The php extension GD is required !');    
+        }    
     }
 
     /**
