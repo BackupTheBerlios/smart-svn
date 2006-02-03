@@ -174,7 +174,7 @@ $SmartConfig['view_map']  = array();
 /**
  * Version info
  */
-$SmartConfig['smart_version'] = '0.2.4b';
+$SmartConfig['smart_version'] = '0.2.5b';
 $SmartConfig['smart_version_name'] = 'SMART3';
 
 /**
