@@ -119,6 +119,12 @@ class ActionCommonSetup extends SmartAction
             throw new Exception('Must be global readable, and writeable by php scripts: '.$captcha_folder);    
         }
 
+        $tinymce_cache_folder = SMART_BASE_DIR . 'data/common/tinymce_cache';
+        if(!is_writeable($tinymce_cache_folder))
+        {
+            throw new Exception('Must be global readable, and writeable by php scripts: '.$tinymce_cache_folder);    
+        }
+
         $config_folder = $this->model->config['config_path'];
         if(!is_writeable($config_folder))
         {
