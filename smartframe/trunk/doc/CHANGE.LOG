@@ -4,6 +4,8 @@ Smart3 Framework Change.log
 0.2.5b
 ------
 - added GD check in setup module
+- added TinyMce cache
+- added rss builder
 
 0.2.4b
 ------
