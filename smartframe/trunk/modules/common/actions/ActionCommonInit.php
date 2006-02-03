@@ -36,7 +36,7 @@ class ActionCommonInit extends SmartAction
     /**
      * Common Module Version
      */
-    const MOD_VERSION = '0.2';    
+    const MOD_VERSION = '0.3';    
     
     /**
      * Run init process of this module
@@ -84,9 +84,10 @@ class ActionCommonInit extends SmartAction
 
         // load module descriptions into config array   
         $this->loadModulesInfo();         
+        
         // check for module upgrade
         $this->checkModuleVersion();   
-       
+  
         // set base url, except if the cli controller is used
         if($this->config['controller_type'] != 'cli')
         {
@@ -98,6 +99,9 @@ class ActionCommonInit extends SmartAction
               
         // load global config variables of the common module   
         $this->loadConfig(); 
+
+        // check for smart core framework version upgrade
+        $this->checkSmartVersion();
 
         // init and start session
         $this->startSession();
@@ -164,6 +168,19 @@ class ActionCommonInit extends SmartAction
             // Upgrade this module
             $this->model->action('common','upgrade',
                                  array('new_version' => self::MOD_VERSION));           
+        }
+    } 
+
+    /**
+     * Check smart core version and send message to all modules
+     *
+     */    
+    private function checkSmartVersion()
+    {
+        if(0 != version_compare($this->config['smart_version_num'], $this->config['smart_version']))
+        {
+            $this->model->broadcast('smartCoreNewVersion',
+                                 array('new_version' => (string)$this->config['smart_version']));           
         }
     } 
     
