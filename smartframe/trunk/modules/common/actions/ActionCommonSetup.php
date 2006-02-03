@@ -125,6 +125,12 @@ class ActionCommonSetup extends SmartAction
             throw new Exception('Must be global readable, and writeable by php scripts: '.$tinymce_cache_folder);    
         }
 
+        $rss_cache = SMART_BASE_DIR . 'data/common/rss_cache';
+        if(!is_writeable($rss_cache))
+        {
+            throw new Exception('Must be global readable, and writeable by php scripts: '.$rss_cache);    
+        }
+
         $config_folder = $this->model->config['config_path'];
         if(!is_writeable($config_folder))
         {
