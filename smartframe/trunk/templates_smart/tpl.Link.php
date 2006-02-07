@@ -30,6 +30,17 @@
 }  
 -->
 </style>
+<style type="text/css">
+<!--
+.rss_box {
+	list-style-type: circle;
+}
+.rss_item {
+	list-style-type: circle;
+	padding-bottom: 15px;
+}
+-->
+</style>
 </head>
 
 <body>
@@ -59,9 +70,11 @@
                     <div class="branch">Top /
                      <?php  foreach($tpl['nodeBranch'] as $bnode): ?>
                        <a href="<?php echo SMART_CONTROLLER; ?>?id_node=<?php echo $bnode['id_node']; ?>"><?php echo $bnode['title']; ?></a> /
-                     <?php endforeach; ?><span class="node"><?php echo $tpl['node']['title'];  ?></span>
+                     <?php endforeach; ?>
+                     <span class="node"><?php echo $tpl['node']['title'];  ?></span>
                      <hr class="hr" />
-                    </div>             
+                    </div>  
+                    <span class="text"><?php echo $tpl['node']['body'];  ?></span>
            </td>
                  </tr>
                  <tr>
