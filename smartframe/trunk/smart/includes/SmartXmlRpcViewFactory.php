@@ -120,7 +120,7 @@ class SmartXmlRpcViewFactory extends SmartViewFactory
         //$view->prependFilterChain();
         
         // perform on the main job
-        $view->perform();         
+        //$view->perform();         
     } 
 }
 
