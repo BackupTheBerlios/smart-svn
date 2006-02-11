@@ -34,6 +34,12 @@ class SmartAjaxView extends SmartObject
      */
     public $config;   
 
+     /**
+     * Registered Ajax methods
+     * @var array $methods
+     */
+    public $methods = array();
+
     /**
      * constructor
      *
