@@ -6,6 +6,7 @@ Smart3 Framework Change.log
 - added GD check in setup module
 - added TinyMce cache
 - added rss builder
+- added ajax server (experimental)
 
 0.2.4b
 ------
