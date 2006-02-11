@@ -11,3 +11,4 @@ Disallow: /views
 Disallow: /admin.php
 Disallow: /cli.php
 Disallow: /rpcserver.php
+Disallow: /ajaxserver.php
