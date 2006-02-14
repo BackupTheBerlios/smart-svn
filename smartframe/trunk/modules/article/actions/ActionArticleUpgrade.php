@@ -80,6 +80,12 @@ class ActionArticleUpgrade extends SmartAction
                    UNIQUE KEY `id_article` (`id_article`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);    
+
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_config
+                ADD `use_article_view` tinyint(1) NOT NULL default 0 
+                AFTER `default_ordertype`";
+               
+        $this->model->dba->query($sql);
     }
     
     /**
