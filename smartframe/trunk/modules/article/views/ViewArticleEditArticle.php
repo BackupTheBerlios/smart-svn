@@ -134,6 +134,7 @@ class ViewArticleEditArticle extends SmartView
         $this->model->action('article','getArticle', 
                              array('result'     => & $this->tplVar['article'],
                                    'id_article' => (int)$this->current_id_article,
+                                   'get_view'   => TRUE,
                                    'error'      => & $this->tplVar['error'],
                                    'fields'     => $articleFields));
 
@@ -163,6 +164,16 @@ class ViewArticleEditArticle extends SmartView
             }
             $this->getArticleKeywords();
         }
+        
+        // we need the url vars to open this page by the keyword map window
+        if($this->config['article']['use_article_view'] == 1)
+        {
+            // get all available registered article public views
+            $this->tplVar['articlePublicViews'] = array();
+            $this->model->action( 'article','getPublicViews',
+                                  array('result' => &$this->tplVar['articlePublicViews'],
+                                        'fields' => array('id_view','name')) );             
+       } 
     }  
    /**
     * Update article data
@@ -174,6 +185,11 @@ class ViewArticleEditArticle extends SmartView
         {
             // get the node ID of this article
             $this->getNewIdNode();
+
+            if($this->config['article']['use_article_view'] == 1)
+            {
+                $this->updateArticleView();
+            }
 
             $this->deleteArticleKeywords();
             $this->updateArticle();
@@ -552,6 +568,21 @@ class ViewArticleEditArticle extends SmartView
             }
         }
     }
+    
+    private function updateArticleView()
+    {
+        if($_POST['article_view'] != 0)
+        {
+            $this->model->action( 'article','updateView',
+                                  array('id_article' => (int)$this->current_id_article,
+                                        'id_view'    => (int)$_POST['article_view']) );
+        }
+        else
+        {
+            $this->model->action( 'article','removeArticleViewRelation',
+                                  array('id_article' => (int)$this->current_id_article) );        
+        }
+    } 
 }
 
 ?>

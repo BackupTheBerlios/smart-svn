@@ -26,8 +26,8 @@ function enablechangedate(f)
     f.ch1.disabled="";
     f.ch2.disabled="";
     f.ch3.disabled="";
-	f.ch4.disabled="";
-	f.ch5.disabled="";
+  f.ch4.disabled="";
+  f.ch5.disabled="";
   }
   else
   {
@@ -40,8 +40,8 @@ function enablechangedate(f)
     f.ch1.disabled="disabled";
     f.ch2.disabled="disabled";
     f.ch3.disabled="disabled";
-	f.ch4.disabled="disabled";
-	f.ch5.disabled="disabled";
+  f.ch4.disabled="disabled";
+  f.ch5.disabled="disabled";
     f.changedatebutton.value="enable";  
   }
 }
@@ -293,24 +293,39 @@ function cancel_edit(f)
           </td>
       </tr>
     <?php endif; ?>
-	<?php if($tpl['use_keywords']==1): ?>
-	      <tr>
+    <?php if($tpl['use_article_view']==1): ?>
+        <tr>
+        <td align="left" valign="top" class="font12bold"><a name="key"></a>Article related view (optionally)</td>
+      </tr> 
+      <tr>
+        <td align="left" valign="top" class="font12"> 
+          <select name="article_view"> 
+          <option value="0">none</option>          
+          <?php foreach($tpl['articlePublicViews'] as $view): ?>
+              <option value="<?php echo $view['id_view']; ?>" <?php if($tpl['article']['id_view'] == $view['id_view']) echo 'selected="selected"'; ?>><?php echo $view['name']; ?></option>
+          <?php endforeach; ?>
+          </select>
+      </td>
+      </tr>
+  <?php endif; ?>    
+  <?php if($tpl['use_keywords']==1): ?>
+        <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
       </tr>
       <tr>
         <td align="right" valign="top" class="font12bold"><a href="javascript:keywordmap();">open keyword map</a></td>
-      </tr>	  
+      </tr>   
       <tr>
         <td align="left" valign="top" class="font12"> 
           <?php foreach($tpl['keys'] as $keybranch): ?>
-		  <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
-		  <?php endforeach; ?>
-		  <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
-		  <div><br />To remove keywords check the keywords and hit refresh or submit</div>
-		  <?php endif; ?>
-		  </td>
+      <input name="id_key[]" type="checkbox" value="<?php echo $keybranch['id_key']; ?>"> <?php echo $keybranch['branch']; ?><br />
+      <?php endforeach; ?>
+      <?php if(is_array($tpl['keys']) && (count($tpl['keys'])>0)): ?>
+      <div><br />To remove keywords check the keywords and hit refresh or submit</div>
+      <?php endif; ?>
+      </td>
       </tr>
-	  <?php endif; ?>
+    <?php endif; ?>
       <tr>
         <td align="left" valign="top">&nbsp;</td>
       </tr>
