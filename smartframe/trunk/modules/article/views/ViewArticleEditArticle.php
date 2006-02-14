@@ -553,7 +553,10 @@ class ViewArticleEditArticle extends SmartView
         }
         sort($this->tplVar['keys']);    
     }   
-    
+    /**
+     * remove article keyword relations
+     *
+     */     
     private function deleteArticleKeywords()
     {
         if(isset($_POST['id_key']) && is_array($_POST['id_key']))
@@ -568,7 +571,10 @@ class ViewArticleEditArticle extends SmartView
             }
         }
     }
-    
+    /**
+     * update article related view
+     *
+     */      
     private function updateArticleView()
     {
         if($_POST['article_view'] != 0)
