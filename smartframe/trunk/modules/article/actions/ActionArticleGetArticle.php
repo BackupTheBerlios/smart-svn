@@ -133,6 +133,35 @@ class ActionArticleGetArticle extends SmartAction
                 $data['result']['changestatus'] = $row['changestatus'];
                 
             }
+        }   
+        
+        if(isset($data['get_view']))
+        {
+            $sql = "
+                SELECT
+                    avr.`id_view`,
+                    av.`name`
+                FROM
+                    {$this->config['dbTablePrefix']}article_view_rel AS avr,
+                    {$this->config['dbTablePrefix']}article_view AS av
+                WHERE
+                    avr.`id_article`={$data['id_article']}
+                AND
+                    avr.`id_view`=av.`id_view`";
+        
+            $rs = $this->model->dba->query($sql);
+            
+            if( $rs->numRows() > 0 )
+            {
+                $row = $rs->fetchAssoc();
+                $data['result']['id_view']   = $row['id_view'];
+                $data['result']['view_name'] = $row['name'];   
+            }
+            else
+            {
+                $data['result']['id_view']   = FALSE;
+                $data['result']['view_name'] = FALSE;            
+            }
         }        
     } 
     /**
