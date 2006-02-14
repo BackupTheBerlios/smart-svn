@@ -24,7 +24,7 @@ class ActionArticleInit extends SmartAction
     /**
      * Navigation Module Version
      */
-    const MOD_VERSION = '0.2';    
+    const MOD_VERSION = '0.3';    
     
     /**
      * Run init process of this module

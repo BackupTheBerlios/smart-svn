@@ -36,6 +36,13 @@ class ActionArticleUpgrade extends SmartAction
             $this->config['module']['article']['version'] = '0.2';
         }
 
+        if(1 == version_compare('0.2', $this->config['module']['article']['version'], '=') )
+        {
+            // upgrade from module version 0.2 to 0.3
+            $this->upgrade_0_2_to_0_3();     
+            $this->config['module']['article']['version'] = '0.3';
+        }
+
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
@@ -59,6 +66,20 @@ class ActionArticleUpgrade extends SmartAction
                    PRIMARY KEY    (`id_view`)) 
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);      
+    }
+
+    /**
+     * upgrade from module version 0.2 to 0.3
+     *
+     */
+    private function upgrade_0_2_to_0_3()
+    {
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_view_rel (
+                   `id_view`      int(11) unsigned NOT NULL default 0,
+                   `id_article`   int(11) unsigned NOT NULL default 0,
+                   UNIQUE KEY `id_article` (`id_article`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);    
     }
     
     /**
