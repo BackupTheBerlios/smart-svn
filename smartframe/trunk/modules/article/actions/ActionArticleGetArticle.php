@@ -17,6 +17,7 @@
  *                array('id_article' => int, 
  *                      'result'     => & array, 
  *                      'status'     => array('<|>|<=|>=|=', 1|2),     // optional
+ *                      'get_view'   => bool,
  *                      'fields      => array('id_node','id_article','status','rank',
  *                                            'activedate','inactivedate','pubdate',
  *                                            'lang','title','overtitle',
@@ -251,6 +252,14 @@ class ActionArticleGetArticle extends SmartAction
                 }
             }
             $this->sqlCache = 'SQL_NO_CACHE';
+        }
+
+        if(isset($data['get_view']))
+        {
+            if(!is_bool$data['get_view'] )
+            {
+                throw new SmartModelException('"get_view" isnt from type bool'); 
+            }
         }
         
         return TRUE;
