@@ -133,6 +133,15 @@ class ViewArticleOptions extends SmartView
         {
             $this->tplVar['error'][] = "File size field is empty!";
         }   
+
+        if(isset($_POST['use_article_view']))
+        {
+            $this->fields['use_article_view'] = 1;
+        }
+        else
+        {
+            $this->fields['use_article_view'] = 0;
+        }  
         
         if(isset($_POST['force_format']) && !empty($_POST['force_format']))
         {

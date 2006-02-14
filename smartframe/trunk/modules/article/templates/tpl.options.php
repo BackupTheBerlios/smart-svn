@@ -50,6 +50,14 @@
       </tr>
     -->
       <tr>
+        <td align="left" valign="top" class="font10bold">Use article related specific view</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+       <input type="checkbox" name="use_article_view" value="1"<?php if($tpl['option']['use_article_view']==1) echo " checked "; ?>><br>
+    </td>
+      </tr>    
+      <tr>
         <td align="left" valign="top" class="font10bold">Use article related content</td>
       </tr>
       <tr>
