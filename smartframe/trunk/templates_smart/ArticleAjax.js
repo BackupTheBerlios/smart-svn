@@ -17,9 +17,9 @@
     {
         document.getElementById('searchresult').innerHTML = '';
 
-	if(result == 0)
+	if(result.length == 0)
 	{
-	    document.getElementById('searchresult').innerHTML = 'Search field is empty';
+	    document.getElementById('searchresult').innerHTML = 'no result';
 	    return;
 	}
         
