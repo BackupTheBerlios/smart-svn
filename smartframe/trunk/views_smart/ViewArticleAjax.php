@@ -83,12 +83,7 @@ class ViewArticleAjax extends SmartAjaxView
      */   
     public function search( $searchObject ) 
     {
-        $searchResult = array();
-        
-        if( empty($searchObject->search) )
-        {
-            return FALSE;
-        }
+        $searchResult = array();       
 
         // search articles                                                   
         $this->model->action('article','search',
