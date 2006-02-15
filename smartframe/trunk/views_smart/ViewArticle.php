@@ -38,6 +38,12 @@ class ViewArticle extends SmartView
         // init variables (see private function below)
         $this->initVars();
 
+        // We need an other template for the ajax demonstration
+        if($this->current_id_article == 50)
+        {
+            $this->template = 'ArticleAjax';
+        }
+
         // get article data                                                    
         $this->model->action('article','getArticle',
                              array('id_article' => (int)$this->current_id_article,
