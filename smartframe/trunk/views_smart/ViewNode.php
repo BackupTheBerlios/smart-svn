@@ -119,7 +119,7 @@ class ViewNode extends SmartView
                                        'fields'      => array('id_link','url','title','description') )); 
         }
         
-        // build rss files
+        // build rss file
         $this->rssBuilder();
     }
 
@@ -245,41 +245,18 @@ class ViewNode extends SmartView
      */     
     private function rssBuilder()
     {
-        // expire time of rss files
-        $expire = 3600;
-        $rssfolder = SMART_BASE_DIR . 'data/common/rss/';
-        $rssfile   = '200_node'.$this->tplVar['node']['id_node'].'.xml';
-        $this->tplVar['node']['rssfile'] = 'data/common/rss/200_node'.$this->tplVar['node']['id_node'].'.xml';
-
-        // check expire time
-        if( file_exists($rssfolder.$rssfile)  )
-        {
-            $cachetime = filemtime($rssfolder.$rssfile);
-
-            if( ($cachetime != FALSE) && ((time() - $expire) < $cachetime)  )
-            {
-                return;
-            } 
-        }  
+        $this->tplVar['node']['rssfile'] = '';
         
-        $rssObject = $this->model->action('common','rssBuilderInit',
-                            array('filename' => 'node'.$this->tplVar['node']['id_node'].'.xml',
-                                  'rss' => array('about'    => 'http://www.smart3.org',
-                                                 'title'    => 'Smart3 php5 framework - '.$this->tplVar['node']['title']) ) );
-                                                 
-        foreach( $this->tplVar['nodeArticles'] as $article)
-        {
-            $this->model->action('common','rssBuilderAddItem',
-                                 array('rssObject' => & $rssObject,
-                                       'about' => 'http://www.smart3.org/index.php?id_article='.$article['id_article'],
-                                       'title' => $article['title']));        
-        }
-        
-        $this->model->action('common','rssBuilderOutput',
-                             array('rssObject' => & $rssObject,
-                                   'format'  => 'save',
-                                   'version' => '2.0',
-                                   'path'    => $rssfolder  ));        
+        $this->model->action('article','nodeBuildRss',
+               array('id_node'      => (int)$this->tplVar['node']['id_node'],
+                     'nodeArticles' => & $this->tplVar['nodeArticles'],
+                     'rssfile'      => & $this->tplVar['node']['rssfile'],
+                     'expire'       => 3600,
+                     'channel' => array('about'    => 'http://www.smart3.org',
+                                        'title'    => 'Smart3 php5 framework - '.$this->tplVar['node']['title']),
+                     'item'    => array('url' => 'http://www.smart3.org/index.php?id_article=')
+                     ) );
+                                                       
     }
 }
 
