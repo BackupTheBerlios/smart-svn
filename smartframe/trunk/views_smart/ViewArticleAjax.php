@@ -93,7 +93,26 @@ class ViewArticleAjax extends SmartAjaxView
                                    'nodeStatus' => array('>=', 2),
                                    'order'      => array('title', 'ASC'),
                                    'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),                                  
-                                   'fields'  => array('id_article','title') ));       
+                                   'fields'  => array('id_node','id_article','title') ));       
+
+        // get node + node branch of each article
+        foreach($searchResult as & $article)
+        {
+            $article['nodeBranch'] = array();
+            $article['node']       = array();
+            
+            // get navigation node branch content of the article node
+            $this->model->action('navigation','getBranch', 
+                             array('result'  => & $article['nodeBranch'],
+                                   'id_node' => (int)$article['id_node'],
+                                   'fields'  => array('title','id_node','id_parent')));   
+                                   
+            // get article node content
+            $this->model->action('navigation','getNode', 
+                                 array('result'  => & $article['node'],
+                                       'id_node' => (int)$article['id_node'],
+                                       'fields'  => array('title','id_node')));
+        }
         
         return $searchResult;
     }     

@@ -15,18 +15,37 @@
     },  
     search: function(result) 
     {
-        document.getElementById('searchresult').innerHTML = '';
+        document.getElementById('searchresult').innerHTML = '<ul>';
 
 	if(result.length == 0)
 	{
-	    document.getElementById('searchresult').innerHTML = 'no result';
-	    return;
+	    document.getElementById('searchresult').innerHTML += '<li>no result</li>';
 	}
-        
-	for (var i = 0; i < result.length; ++i)
+	else
 	{
-      	    document.getElementById('searchresult').innerHTML += '- <a href="index.php?id_article='+result[i]['id_article']+'">'+result[i]['title']+'</a><br />';
+	    for (var i = 0; i < result.length; ++i)
+	    {
+	        document.getElementById('searchresult').innerHTML += '<li><span>';	    
+	    	
+	    	// build the node branch of an article
+	    	for (var b = 0; b < result[i]['nodeBranch'].length; ++b)
+	    	{
+      	            document.getElementById('searchresult').innerHTML += '<a href="index.php?id_node='+result[i]['nodeBranch'][b]['id_node']+'">'+result[i]['nodeBranch'][b]['title']+'</a>/';	    	
+	    	}
+      	        
+      	        // print the node of an article
+      	        document.getElementById('searchresult').innerHTML += '<a href="index.php?id_node='+result[i]['id_node']+'">'+result[i]['node']['title']+'</a>/</span><br />';	    	    	
+      	        
+      	        // print article link title
+      	        document.getElementById('searchresult').innerHTML += '<h4> - <a href="index.php?id_article='+result[i]['id_article']+'">'+result[i]['title']+'</a></h4>';
+      	        
+      	        document.getElementById('searchresult').innerHTML += '</li>';
+      	    }
       	}
+      	document.getElementById('searchresult').innerHTML += '</ul>';
+      	
+      	// reset search button text
+      	document.getElementById('dosearch').value = 'search';
     }   
   }
 
@@ -46,12 +65,16 @@ function doCalculation()
 /**
 * Search function
 */
-function doSearch() 
+function doSearch( s ) 
 {
-    // Create object with values of the form
+    // change search button text
+    document.getElementById('dosearch').value = '... please wait';
+    
+    // Create object with values of the form field
     var objTemp = new Object();
     objTemp['search'] = document.getElementById('search').value;
 
+    // launch remote search
     remoteTest.search(objTemp);
 }
 
