@@ -86,6 +86,12 @@ class ActionArticleUpgrade extends SmartAction
                 AFTER `default_ordertype`";
                
         $this->model->dba->query($sql);
+
+        $rss_folder = SMART_BASE_DIR . 'data/article/rss';
+        if(!is_writeable($rss_folder))
+        {
+            trigger_error('Must be writeable by php scripts: '.$rss_folder, E_USER_WARNING);    
+        }  
     }
     
     /**
