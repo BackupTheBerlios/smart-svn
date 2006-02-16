@@ -29,7 +29,12 @@ class ActionArticleCheckFolderRights extends SmartAction
         if(!is_writeable($article_folder))
         {
             $data['error'][] = 'Must be writeable by php scripts: '.$article_folder;    
-        }      
+        }    
+        $rss_folder = SMART_BASE_DIR . 'data/article/rss';
+        if(!is_writeable($rss_folder))
+        {
+            $data['error'][] = 'Must be writeable by php scripts: '.$rss_folder;    
+        }          
 
         return TRUE;
     } 
