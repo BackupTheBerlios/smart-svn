@@ -120,7 +120,7 @@
              <input type="button" name="dosearch"  id="dosearch" value="search" onclick="doSearch(); return false;">
              <div id="searchresult"></div>                    
              <!-- ########### END AJAX Examples ############ -->  
-             
+             <p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>
                          <!-- --- show navigation node related files for download --- -->
                          <?php if(count($tpl['articleFiles'])>0): ?>
                          <br /><br />

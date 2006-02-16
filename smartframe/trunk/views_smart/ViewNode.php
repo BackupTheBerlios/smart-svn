@@ -212,7 +212,7 @@ class ViewNode extends SmartView
         $this->tplVar['pager']        = '';
 
         // set articles limit per page
-        $this->articlesPerPage = 10;
+        $this->articlesPerPage = 20;
         // get current article pager page
         if(!isset($_GET['article_page']))
         {

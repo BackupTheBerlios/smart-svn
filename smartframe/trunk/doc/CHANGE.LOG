@@ -6,7 +6,8 @@ Smart3 Framework Change.log
 - update to TinyMce 2.0.3
 - added GD check in setup module
 - added TinyMce cache
-- added rss builder
+- added rss builder action
+- added atom builder action
 - added ajax server and usage examples (experimental)
 - added Each article can be assigned with an individual view
 
