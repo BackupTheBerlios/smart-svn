@@ -99,6 +99,7 @@ class ViewCommonIndex extends SmartView
         $this->validateViewName( $this->tplVar['moduleChildView'], $module, $view ); 
         
         // assign some template variables
+        $this->tplVar['smartVersionNumber'] = $this->config['smart_version'];
         $this->tplVar['requestedModule'] = $module;
         $this->tplVar['moduleList'] = $this->model->getModuleInfo();
         $this->tplVar['charset']    = $this->config['charset'];
