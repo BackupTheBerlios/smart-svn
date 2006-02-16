@@ -9,6 +9,19 @@
 // To read the license please visit http://www.gnu.org/copyleft/gpl.html
 // ----------------------------------------------------------------------
 
+/* ********** Copyright notice from the author of the 
+              rss builder classes on which this class is based on 
+************/
+//+----------------------------------------------------------------------+
+//| Copyright(c) 2001-2006 Michael Wimmer                                |
+//+----------------------------------------------------------------------+
+//| I don't have the time to read through all the licences to find out   |
+//| what the exactly say. But it's simple. It's free for non commercial  |
+//| projects, but as soon as you make money with it, i want my share :-) |
+//+----------------------------------------------------------------------+
+//| Authors: Michael Wimmer <flaimo@gmx.net>                             |
+//+----------------------------------------------------------------------+
+
 /**
  * ActionArticleNodeBuildRss class 
  *
