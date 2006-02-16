@@ -256,7 +256,7 @@ class ActionArticleGetArticle extends SmartAction
 
         if(isset($data['get_view']))
         {
-            if(!is_bool$data['get_view'] )
+            if(!is_bool($data['get_view']) )
             {
                 throw new SmartModelException('"get_view" isnt from type bool'); 
             }
