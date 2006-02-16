@@ -205,6 +205,7 @@ class ActionArticleSetup extends SmartAction
                                      {$data['dbtablesprefix']}article_media_file,
                                      {$data['dbtablesprefix']}article_config,
                                      {$data['dbtablesprefix']}article_view,
+                                     {$data['dbtablesprefix']}article_view_rel,
                                      {$data['dbtablesprefix']}article_node_view_rel";
         $this->model->dba->query($sql);  
     }
