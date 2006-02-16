@@ -109,6 +109,9 @@
                              </td>
                            </tr>
                <?php endif; ?>
+                           <tr>
+                             <td align="left" valign="top"><a href="<?php echo $tpl['node']['rssfile']; ?>"><img src="templates_smart/rss.gif" width="36" height="14" border="0"></a></td>
+                           </tr>
                          </table>
                          <?php endif; ?>
                        
