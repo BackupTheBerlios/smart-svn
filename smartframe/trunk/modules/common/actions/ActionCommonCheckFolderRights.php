@@ -55,6 +55,18 @@ class ActionCommonCheckFolderRights extends SmartAction
             $data['error'][] = 'Must be writeable by php scripts: '.$smartyCompiled;    
         }    
 
+        $tinymce_cache_folder = SMART_BASE_DIR . 'data/common/tinymce_cache';
+        if(!is_writeable($tinymce_cache_folder))
+        {
+            $data['error'][] = 'Must be global readable, and writeable by php scripts: '.$tinymce_cache_folder;    
+        }
+
+        $rss_cache = SMART_BASE_DIR . 'data/common/rss_cache';
+        if(!is_writeable($rss_cache))
+        {
+            $data['error'][] = 'Must be global readable, and writeable by php scripts: '.$rss_cache;    
+        }
+        
         return TRUE;
     } 
     /**
