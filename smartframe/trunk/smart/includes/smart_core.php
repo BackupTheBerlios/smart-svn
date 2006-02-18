@@ -150,7 +150,7 @@ $SmartConfig['error_reporting'] = E_ALL;
 /**
  * Set debug mode.
  */
-$SmartConfig['debug'] = FALSE; 
+$SmartConfig['debug'] = TRUE; 
 
 /**
  * Rights for media folders and files
