@@ -59,9 +59,8 @@ class SmartController extends SmartObject
             // set reference to the config array
             $this->config = & self::$smartConfig;
 
-            // disable display errors
-            // smart it self handle errors
-            ini_set('display_errors', FALSE);
+            // display php errors
+            ini_set('display_errors', $this->config['debug']);
 
             // set error reporting
             error_reporting( $this->config['error_reporting'] );
