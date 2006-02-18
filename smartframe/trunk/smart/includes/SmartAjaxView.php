@@ -62,7 +62,7 @@ class SmartAjaxView extends SmartObject
      */
     public function prependFilterChain()
     {
-    }    
+    }     
 }
 
 ?>

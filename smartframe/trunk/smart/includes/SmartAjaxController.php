@@ -72,12 +72,7 @@ class SmartAjaxController extends SmartController
             if( isset($_REQUEST['view']) )
             {
                     $viewRequest = $_REQUEST['view'];
-            } 
-            // get view request
-            else
-            {
-                $viewRequest = 'error';
-            }    
+            }   
             
             // validate view request
             $methode = $this->validateViewName( $viewRequest );
@@ -128,7 +123,7 @@ class SmartAjaxController extends SmartController
         }
 
         if(!@file_exists(SMART_BASE_DIR . $this->config['views_folder'] . '/View' . ucfirst($view_name) . '.php'))
-        {
+        {        
             throw new SmartViewException('View class dosent exists: ' . SMART_BASE_DIR . $this->config['views_folder'] . 'View' . ucfirst($view_name) . '.php');
         }
 
