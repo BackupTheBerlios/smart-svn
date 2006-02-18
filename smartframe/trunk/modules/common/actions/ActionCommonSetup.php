@@ -24,7 +24,6 @@ class ActionCommonSetup extends SmartAction
     {
         if(!isset($data['rollback']))
         {
-            $this->checkFolders();
             $this->checkGd();
         }
         
@@ -107,47 +106,6 @@ class ActionCommonSetup extends SmartAction
 
         return TRUE;
     } 
-    /**
-     * Check if folders are writeable
-     *
-     */ 
-    private function checkFolders()
-    {
-        $captcha_folder = SMART_BASE_DIR . 'data/common/captcha';
-        if(!is_writeable($captcha_folder))
-        {
-            throw new Exception('Must be global readable, and writeable by php scripts: '.$captcha_folder);    
-        }
-
-        $tinymce_cache_folder = SMART_BASE_DIR . 'data/common/tinymce_cache';
-        if(!is_writeable($tinymce_cache_folder))
-        {
-            throw new Exception('Must be global readable, and writeable by php scripts: '.$tinymce_cache_folder);    
-        }
-
-        $rss_cache = SMART_BASE_DIR . 'data/common/rss_cache';
-        if(!is_writeable($rss_cache))
-        {
-            throw new Exception('Must be global readable, and writeable by php scripts: '.$rss_cache);    
-        }
-
-        $config_folder = $this->model->config['config_path'];
-        if(!is_writeable($config_folder))
-        {
-            throw new Exception('Must be writeable by php scripts: '.$config_folder);    
-        }
-
-        $logs_folder = $this->model->config['logs_path'];
-        if(!is_writeable($logs_folder))
-        {
-            die('Must be writeable by php scripts: '.$logs_folder.'. Correct this and reload the page!');    
-        }
-        $cache_folder = $this->model->config['cache_path'];
-        if(!is_writeable($cache_folder))
-        {
-            throw new Exception('Must be writeable by php scripts: '.$cache_folder);    
-        }      
-    }
 
     /**
      * Check if GD extension is loaded
