@@ -31,13 +31,6 @@ define ( 'SMART_MAGIC_QUOTES', get_magic_quotes_gpc());
 // set include path to additional pear packages
 ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'modules/common/includes/PEAR' . PATH_SEPARATOR . ini_get('include_path') );
 
-// set include path to additional rss builder classes
-ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'modules/common/includes/rssbuilder' . PATH_SEPARATOR . ini_get('include_path') );
-
-// set include path to additional atom builder classes
-ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'modules/common/includes/atombuilder' . PATH_SEPARATOR . ini_get('include_path') );
-
-
 class ActionCommonInit extends SmartAction
 {
     /**
