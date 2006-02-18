@@ -247,14 +247,18 @@ class ViewNode extends SmartView
     {
         $this->tplVar['node']['rssfile'] = '';
         
-        $this->model->action('article','nodeBuildRss',
-               array('id_node'      => (int)$this->tplVar['node']['id_node'],
-                     'nodeArticles' => & $this->tplVar['nodeArticles'],
+        $this->model->action('article','feedCreator',
+               array('format'       => 'rss',
+                     'output'       => 'save',
+                     'id_node'      => (int)$this->tplVar['node']['id_node'],
+                     'items'        => & $this->tplVar['nodeArticles'],
                      'rssfile'      => & $this->tplVar['node']['rssfile'],
                      'expire'       => 3600,
                      'channel' => array('about'    => 'http://www.smart3.org',
+                                        'link'     => 'http://www.smart3.org',
+                                        'desc'     => 'test',
                                         'title'    => 'Smart3 php5 framework - '.$this->tplVar['node']['title']),
-                     'item'    => array('url' => 'http://www.smart3.org/index.php?id_article=')
+                     'baseUrl'    => 'http://www.smart3.org/index.php?id_article='
                      ) );
                                                        
     }
