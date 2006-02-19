@@ -79,12 +79,40 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
             throw new SmartModelException('"id_node" isnt from type int');        
         }        
 
+        if(FALSE == $this->isAllowedExtension( $data ))
+        {
+            $data['error'][] = 'This file type isnt allowed to upload';
+        } 
+
         if(count($data['error']) > 0)
         {
             return FALSE;
         }
         return TRUE;
     }
+    
+    /**
+     * check if the file type to upload is allowed
+     *
+     * @param param $array
+     * @return bool
+     */       
+    private function isAllowedExtension( &$data )
+    {
+        if(preg_match("/(\.[^.]+)$/i",$_FILES[$data['postName']]['name'],$file_ext))
+        {
+            $disallowed_ext = explode(",",$this->config['rejected_files']);
+            foreach($disallowed_ext as $ext)
+            {
+                $t = "/".trim($ext)."/i";
+                if(preg_match($t,$file_ext[1]))
+                {
+                    return FALSE;
+                }
+            }
+        }
+        return TRUE;
+    }    
 }
 
 ?>
