@@ -41,14 +41,24 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
             $data['error'][] = 'File upload failed';
             return FALSE;
         }
-        
+
         // set table name and item reference
         if($data['item'] == 'picture')
         {
+            if(FALSE == $this->isAllowedImageExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return;
+            }         
             $this->addPicture($data, $media_folder, $file_info);
         }
         else
         {
+            if(FALSE == $this->isAllowedExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return;
+            }          
             $this->addFile($data, $media_folder, $file_info);
         }
         
@@ -90,11 +100,6 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         {
             $data['error'][] = 'File upload failed';
         }  
-        
-        if(FALSE == $this->isAllowedExtension( $data ))
-        {
-            $data['error'][] = 'This file type isnt allowed to upload';
-        }        
         
         if(!isset($data['item']))
         {
@@ -284,6 +289,21 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         }
         return TRUE;
     }
+    /**
+     * check if the file type to upload is allowed
+     *
+     * @param param $array
+     * @return bool
+     */       
+    private function isAllowedImageExtension( &$data )
+    {
+        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        {
+            return TRUE;
+        }
+        
+        return FALSE;
+    }        
 }
 
 ?>

@@ -99,19 +99,12 @@ class ActionNavigationUploadLogo extends ActionNavigationFileUploadBase
      */       
     private function isAllowedExtension( &$data )
     {
-        if(preg_match("/(\.[^.]+)$/i",$_FILES[$data['postName']]['name'],$file_ext))
+        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
         {
-            $disallowed_ext = explode(",",$this->config['rejected_files']);
-            foreach($disallowed_ext as $ext)
-            {
-                $t = "/".trim($ext)."/i";
-                if(preg_match($t,$file_ext[1]))
-                {
-                    return FALSE;
-                }
-            }
+            return TRUE;
         }
-        return TRUE;
+        
+        return FALSE;
     }    
 }
 

@@ -41,17 +41,25 @@ class ActionUserAddItem extends ActionUserFileUploadBase
             $data['error'][] = 'File upload failed';
             return FALSE;
         }
-        
-        switch($data['item'])
+
+        // set table name and item reference
+        if($data['item'] == 'picture')
         {
-            case 'picture':
-                $this->addPicture($data, $media_folder, $file_info);
-                break;
-            case 'file':
-                $this->addFile($data, $media_folder, $file_info);
-                break;
-            default:
-                throw new SmartModelException("Unknown 'item' :".$data['item']);
+            if(FALSE == $this->isAllowedImageExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return;
+            }         
+            $this->addPicture($data, $media_folder, $file_info);
+        }
+        else
+        {
+            if(FALSE == $this->isAllowedExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return;
+            }          
+            $this->addFile($data, $media_folder, $file_info);
         }
         
         return TRUE;
@@ -84,11 +92,6 @@ class ActionUserAddItem extends ActionUserFileUploadBase
             $data['error'][] = 'File upload failed';
             return FALSE;
         }    
-
-        if(FALSE == $this->isAllowedExtension( $data ))
-        {
-            $data['error'][] = 'This file type isnt allowed to upload';
-        }
 
         if(!isset($data['item']))
         {
@@ -272,7 +275,23 @@ class ActionUserAddItem extends ActionUserFileUploadBase
             }
         }
         return TRUE;
-    }    
+    }  
+    
+    /**
+     * check if the file type to upload is allowed
+     *
+     * @param param $array
+     * @return bool
+     */       
+    private function isAllowedImageExtension( &$data )
+    {
+        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        {
+            return TRUE;
+        }
+        
+        return FALSE;
+    }       
 }
 
 ?>

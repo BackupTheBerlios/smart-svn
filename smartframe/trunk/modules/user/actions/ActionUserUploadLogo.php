@@ -73,9 +73,30 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
         if(!is_int($data['id_user']))
         {
             throw new SmartModelException('Wrong id_user format');        
-        }        
+        }  
+        
+        if(FALSE == $this->isAllowedExtension( $data ))
+        {
+            $data['error'][] = 'This file type isnt allowed to upload';
+        }         
         return TRUE;
     }
+    
+    /**
+     * check if the file type to upload is allowed
+     *
+     * @param param $array
+     * @return bool
+     */       
+    private function isAllowedExtension( &$data )
+    {
+        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        {
+            return TRUE;
+        }
+        
+        return FALSE;
+    }       
 }
 
 ?>
