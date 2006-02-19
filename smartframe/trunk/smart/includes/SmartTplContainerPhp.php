@@ -43,7 +43,7 @@ class SmartTplContainerPhp extends SmartTplContainer
             
             if(FALSE == $this->analyze($template))
             {
-                throw new SmartTplException("Template php function(s) not allowed: <pre>".var_export($this->disallowedItems,true)."<pre>");
+                throw new SmartTplException("Template php constructs not allowed: <pre>".var_export($this->disallowedItems,true)."<pre>");
             }
         }
         
@@ -78,6 +78,15 @@ class SmartTplContainerPhp extends SmartTplContainer
                 $code_is_valide = FALSE;
             }
         }  
+
+        foreach($analyzer->usedVariables as $key => $val)
+        {
+            if(in_array($key, $this->config['disallowedVariables']))
+            {
+                $this->disallowedItems[] = $key;
+                $code_is_valide = FALSE;
+            }
+        } 
 
         return $code_is_valide;
     } 

@@ -101,9 +101,15 @@ $SmartConfig['useCodeAnalyzer'] = FALSE;
 $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif',
                                           'foreach','endforeach','while','do','for','endfor',
                                           'continue','break','switch','case',
-                                          'echo','print','print_r','var_dump','exit',
-                                          'defined','define',
-                                          'isset','empty','count');
+                                          'echo','print','print_r','var_dump',
+                                          'defined','define','isset','empty','count');
+
+/**
+ * Disallowed php variables in templates
+ */
+$SmartConfig['disallowedVariables'] = array('$GLOBALS', 
+                                            '$SmartConfig', 
+                                            '$this');
 
 /**
  * admin view folder
