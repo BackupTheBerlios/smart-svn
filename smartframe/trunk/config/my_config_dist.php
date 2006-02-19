@@ -100,6 +100,13 @@ $SmartConfig['allowedConstructs'] = array('if','else','elseif','else if','endif'
                                           'defined','define','isset','empty','count');
 
 /**
+ * Disallowed php variables in templates
+ */
+$SmartConfig['disallowedVariables'] = array('$GLOBALS', 
+                                            '$SmartConfig',
+                                            '$this');
+
+/**
  * admin view folder
  */
 $SmartConfig['admin_view_folder'] = 'views/';
