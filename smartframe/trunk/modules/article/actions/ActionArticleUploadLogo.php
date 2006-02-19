@@ -69,6 +69,11 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
         {
             $data['error'][] = 'File upload failed';
         }  
+
+        if(FALSE == $this->isAllowedExtension( $data ))
+        {
+            $data['error'][] = 'This file type isnt allowed to upload';
+        } 
         
         if(!isset($data['id_article']))
         {
@@ -86,6 +91,22 @@ class ActionArticleUploadLogo extends ActionArticleFileUploadBase
         
         return TRUE;
     }
+    
+    /**
+     * check if the file type to upload is allowed
+     *
+     * @param param $array
+     * @return bool
+     */       
+    private function isAllowedExtension( &$data )
+    {
+        if(preg_match("/\.(gif|jpg|png)$/i",$_FILES[$data['postName']]['name']))
+        {
+            return TRUE;
+        }
+        
+        return FALSE;
+    }        
 }
 
 ?>
