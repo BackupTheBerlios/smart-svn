@@ -44,21 +44,11 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
         
         // set table name and item reference
         if($data['item'] == 'picture')
-        {
-            if(FALSE == $this->isAllowedImageExtension( $data ))
-            {
-                $data['error'][] = 'This file type isnt allowed to upload';
-                return;
-            }         
+        {       
             $this->addPicture($data, $media_folder, $file_info);
         }
         else
-        {
-            if(FALSE == $this->isAllowedExtension( $data ))
-            {
-                $data['error'][] = 'This file type isnt allowed to upload';
-                return;
-            }          
+        {        
             $this->addFile($data, $media_folder, $file_info);
         }
         
@@ -113,6 +103,25 @@ class ActionArticleAddItem extends ActionArticleFileUploadBase
         {
             throw new SmartModelException("'item' must be 'file' or 'picture'");
         }
+        
+        // set table name and item reference
+        if($data['item'] == 'picture')
+        {
+            if(FALSE == $this->isAllowedImageExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return FALSE;
+            }         
+        }
+        else
+        {
+            if(FALSE == $this->isAllowedExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return FALSE;
+            }          
+        }        
+        
         if(!isset($data['id_article']))
         {
             throw new SmartModelException("No 'id_article' defined");
