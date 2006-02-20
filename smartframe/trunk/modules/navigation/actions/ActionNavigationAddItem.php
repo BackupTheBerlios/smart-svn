@@ -44,21 +44,11 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
 
         // set table name and item reference
         if($data['item'] == 'picture')
-        {
-            if(FALSE == $this->isAllowedImageExtension( $data ))
-            {
-                $data['error'][] = 'This file type isnt allowed to upload';
-                return;
-            }         
+        {       
             $this->addPicture($data, $media_folder, $file_info);
         }
         else
-        {
-            if(FALSE == $this->isAllowedExtension( $data ))
-            {
-                $data['error'][] = 'This file type isnt allowed to upload';
-                return;
-            }          
+        {         
             $this->addFile($data, $media_folder, $file_info);
         }
         
@@ -113,6 +103,25 @@ class ActionNavigationAddItem extends ActionNavigationFileUploadBase
         {
             throw new SmartModelException("'item' must be 'file' or 'picture'");
         }
+        
+        // set table name and item reference
+        if($data['item'] == 'picture')
+        {
+            if(FALSE == $this->isAllowedImageExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return;
+            }         
+        }
+        else
+        {
+            if(FALSE == $this->isAllowedExtension( $data ))
+            {
+                $data['error'][] = 'This file type isnt allowed to upload';
+                return;
+            }          
+        }        
+        
         if(!isset($data['id_node']))
         {
             throw new SmartModelException("No 'id_node' defined");

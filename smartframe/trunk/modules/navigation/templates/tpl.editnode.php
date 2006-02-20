@@ -441,7 +441,7 @@ function MM_swapImage() { //v3.0
           <input type="file" name="logo" size="10">
           <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
           <?php else: ?>
-          <img name="nodelogo" src="<?php echo SMART_RELATIVE_PATH.'data/navigation/'.$tpl['node']['media_folder'].'/'.$tpl['node']['logo']; ?>" alt="Node Logo"> <br>
+          <img name="nodelogo" src="<?php echo SMART_RELATIVE_PATH.'data/navigation/'.$tpl['node']['media_folder'].'/'.$tpl['node']['logo']; ?>" alt="Node Logo" width="150" > <br>
           <input name="deletelogo" type="hidden" value="">
           <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete node logo Picture?');">
           <?php endif; ?>
