@@ -309,7 +309,7 @@ class ViewUserEditUser extends SmartView
         // array with new user data passed to the action
         $_data = array( 'error'     => & $this->tplVar['error'],
                         'id_user'   => (int)$_REQUEST['id_user'],
-                        'user' => array('email'    => SmartCommonUtil::stripSlashes((string)$_POST['email']),
+                        'fields' => array('email'    => SmartCommonUtil::stripSlashes((string)$_POST['email']),
                                         'name'     => SmartCommonUtil::stripSlashes((string)$_POST['name']),
                                         'lastname' => SmartCommonUtil::stripSlashes((string)$_POST['lastname']),
                                         'description' => SmartCommonUtil::stripSlashes((string)$_POST['description'])));
@@ -317,13 +317,13 @@ class ViewUserEditUser extends SmartView
         // if a logged user modify its own account data disable status and role settings
         if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
         {
-            $_data['user']['status'] = (int)$_POST['status']; 
-            $_data['user']['role']   = (int)$_POST['role'];
+            $_data['fields']['status'] = (int)$_POST['status']; 
+            $_data['fields']['role']   = (int)$_POST['role'];
         }
         // add this if the password field isnt empty
         if(!empty($_POST['passwd']))
         {
-            $_data['user']['passwd'] = SmartCommonUtil::stripSlashes((string)$_POST['passwd']);
+            $_data['fields']['passwd'] = SmartCommonUtil::stripSlashes((string)$_POST['passwd']);
         }
         
         // add new user data

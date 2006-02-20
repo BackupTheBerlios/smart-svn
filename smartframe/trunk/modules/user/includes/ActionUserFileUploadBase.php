@@ -119,7 +119,7 @@ class ActionUserFileUploadBase extends SmartAction
         $this->model->action('user','update',
                              array('error'   => & $error,
                                    'id_user' => $id_user,
-                                   'user'    => array('media_folder' => (string)$folder)));
+                                   'fields'  => array('media_folder' => (string)$folder)));
         
         return $folder;
     }

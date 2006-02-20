@@ -162,7 +162,7 @@ class ActionUserDeleteItem extends SmartAction
             $this->model->action( 'user','update',
                                   array('id_user' => (int)$this->idUser,
                                         'error'   => &$error,
-                                        'user' => array('media_folder' => '')) );
+                                        'fields'  => array('media_folder' => '')) );
         }
     }
     /**

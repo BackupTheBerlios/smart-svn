@@ -45,13 +45,13 @@ class ActionUserDeleteLogo extends SmartAction
             throw new SmartModelException('Cant delete user logo: data/user/'.$_file['media_folder'].'/'.$_file['logo']);
         }
         
-        $error = array();
+        $this->error = array();
         $this->model->action('user','update',
-                             array('error'   => & $error,
+                             array('error'   => & $this->error,
                                    'id_user' => (int)$data['id_user'],
-                                   'user'    => array('logo' => '')));
-        
-        return TRUE;
+                                   'fields'  => array('logo' => '')));
+
+        $this->removeEmptyDirectory( $_file['media_folder'], $data );
     }
     
     /**
@@ -99,7 +99,58 @@ class ActionUserDeleteLogo extends SmartAction
         }
         
         return FALSE;    
-    }     
+    } 
+    
+    /**
+     * remove empty user directory
+     *
+     */  
+    private function removeEmptyDirectory( &$media_folder, &$data )
+    {
+        $dir = SMART_BASE_DIR . 'data/user/' . $media_folder;
+        
+        if(TRUE == $this->isDirEmpty( $dir ))
+        {
+            // delete whole tree
+            SmartCommonUtil::deleteDirTree( $dir );
+            // remove media_folder reference
+            $this->model->action( 'user','update',
+                                  array('id_user' => (int)$data['id_user'],
+                                        'error'   => & $this->error,
+                                        'fields'  => array('media_folder' => '')) );
+        }
+    }   
+    
+    /**
+     * check if user directory is empty
+     *
+     * @param string $dir whole dir path
+     * @return bool
+     */     
+    private function isDirEmpty( &$dir )
+    {
+        if ( (($handle = @opendir( $dir ))) != FALSE )
+        {
+            while ( (( $file = readdir( $handle ) )) != false )
+            {
+                if ( ( $file == "." ) || ( $file == ".." ) || is_dir($dir . '/' . $file) )
+                {
+                    continue;
+                }
+                if ( file_exists( $dir . '/' . $file ) )
+                {
+                    return FALSE;
+                }
+            }
+            @closedir( $handle );
+        }
+        else
+        {
+            trigger_error( "Can not open dir: {$dir}", E_USER_ERROR  );
+            return FALSE;
+        }  
+        return TRUE;
+    }       
 }
 
 ?>

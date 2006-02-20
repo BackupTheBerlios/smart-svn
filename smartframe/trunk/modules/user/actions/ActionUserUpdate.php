@@ -27,15 +27,15 @@ class ActionUserUpdate extends ActionUser
     function perform( $data = FALSE )
     { 
         // encrypt password if not empty
-        if(isset($data['user']['passwd']) && !empty($data['user']['passwd']))
+        if(isset($data['fields']['passwd']) && !empty($data['fields']['passwd']))
         {
-                $data['user']['passwd'] = md5($data['user']['passwd']);
+                $data['fields']['passwd'] = md5($data['fields']['passwd']);
         }  
         
         $comma  = "";
         $fields = "";
         
-        foreach($data['user'] as $key => $val)
+        foreach($data['fields'] as $key => $val)
         {
             $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
             $comma   = ",";
@@ -61,7 +61,7 @@ class ActionUserUpdate extends ActionUser
     function validate( $data = FALSE )
     {
         // check if database fields exists
-        foreach($data['user'] as $key => $val)
+        foreach($data['fields'] as $key => $val)
         {
             if(!isset($this->tblFields_user[$key]))
             {
@@ -78,41 +78,41 @@ class ActionUserUpdate extends ActionUser
             throw new SmartModelException("'error' isnt from type array");
         }
 
-        if(isset($data['user']['passwd']) && !empty($data['user']['passwd']))
+        if(isset($data['fields']['passwd']) && !empty($data['fields']['passwd']))
         {
-            if(!is_string($data['user']['passwd']))
+            if(!is_string($data['fields']['passwd']))
             {
                 throw new SmartModelException('"passwd" isnt from type string');                     
             }
             
-            $str_len = strlen( $data['user']['passwd'] );
+            $str_len = strlen( $data['fields']['passwd'] );
             if( ($str_len < 3) || ($str_len > 20) )
             {
                 $data['error'][] = 'Only 3-20 password chars are accepted.';
                 return FALSE;       
             }
         
-            if( @preg_match("/[^a-zA-Z0-9_-]/", $data['user']['passwd']) )
+            if( @preg_match("/[^a-zA-Z0-9_-]/", $data['fields']['passwd']) )
             {
                 $data['error'][] = 'Password entry is not correct! Only 3-30 chars a-zA-Z0-9_- are accepted.';
                 return FALSE;         
             }        
         }
         
-        if(isset($data['user']['name']))
+        if(isset($data['fields']['name']))
         {
-            if(!is_string($data['user']['name']))
+            if(!is_string($data['fields']['name']))
             {
                 throw new SmartModelException('"name" isnt from type string');                     
             }
             
-            if(empty($data['user']['name']))
+            if(empty($data['fields']['name']))
             {
                 $data['error'][] = 'Name is empty';
                 return FALSE; 
             }
             
-            $str_len = strlen( $data['user']['name'] );
+            $str_len = strlen( $data['fields']['name'] );
             if( $str_len > 30 )
             {
                 $data['error'][] = 'Max 30 Name chars are accepted.';
@@ -120,20 +120,20 @@ class ActionUserUpdate extends ActionUser
             }            
         }
 
-        if(isset($data['user']['lastname']))
+        if(isset($data['fields']['lastname']))
         {
-            if(!is_string($data['user']['lastname']))
+            if(!is_string($data['fields']['lastname']))
             {
                 throw new SmartModelException('"name" isnt from type string');                     
             }
             
-            if(empty($data['user']['lastname']))
+            if(empty($data['fields']['lastname']))
             {
                 $data['error'][] = 'Lastname is empty';
                 return FALSE;         
             } 
 
-            $str_len = strlen( $data['user']['lastname'] );
+            $str_len = strlen( $data['fields']['lastname'] );
             if( $str_len > 30 )
             {
                 $data['error'][] = 'Max 30 lastname chars are accepted.';
@@ -141,66 +141,66 @@ class ActionUserUpdate extends ActionUser
             }        
         }
         
-        if(isset($data['user']['email']))
+        if(isset($data['fields']['email']))
         {
-            if(!is_string($data['user']['email']))
+            if(!is_string($data['fields']['email']))
             {
                 throw new SmartModelException('"name" isnt from type string');                     
             }
             
-            if( empty($data['user']['email']) )
+            if( empty($data['fields']['email']) )
             {
                 $data['error'][] = 'Email entry is empty!';
                 return FALSE;        
             } 
 
-            $str_len = strlen( $data['user']['email'] );
+            $str_len = strlen( $data['fields']['email'] );
             if( $str_len > 500 )
             {
                 $data['error'][] = 'Max 500 email chars are accepted.';
                 return FALSE;         
             }  
             
-            if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['user']['email']) )
+            if( !@preg_match("/^[a-zA-Z0-9_.+-]+@[^@]+[^@.]\.[a-zA-Z]{2,}$/", $data['fields']['email']) )
             {
                 $data['error'][] = 'Email entry is not correct!';
                 return FALSE;        
             }            
         }
         
-        if(isset($data['user']['media_folder']))
+        if(isset($data['fields']['media_folder']))
         {
-            if(!is_string($data['user']['media_folder']))
+            if(!is_string($data['fields']['media_folder']))
             {
                 throw new SmartModelException('"media_folder" isnt from type string');                     
             }
             
-            if( @preg_match("/[^0-9-]/", $data['user']['media_folder']) )
+            if( @preg_match("/[^0-9-]/", $data['fields']['media_folder']) )
             {
-                throw new SmartModelException('Wrong media folder value: '.$data['user']['media_folder']);         
+                throw new SmartModelException('Wrong media folder value: '.$data['fields']['media_folder']);         
             }             
         }        
         
-        if(isset($data['user']['status']))
+        if(isset($data['fields']['status']))
         {
-            if(!is_int($data['user']['status']))
+            if(!is_int($data['fields']['status']))
             {
                 throw new SmartModelException('"status" isnt from type int');                     
             }
             
-            if(($data['user']['status'] != 1) && ($data['user']['status'] != 2))
+            if(($data['fields']['status'] != 1) && ($data['fields']['status'] != 2))
             {
-                throw new SmartModelException('Wrong status value: '.$data['user']['status']);          
+                throw new SmartModelException('Wrong status value: '.$data['fields']['status']);          
             }         
         }
 
-        if(isset($data['user']['role']))
+        if(isset($data['fields']['role']))
         {
-            if(!is_int($data['user']['role']))
+            if(!is_int($data['fields']['role']))
             {
                 throw new SmartModelException('"role" isnt from type int');                     
             }               
-            elseif(($data['user']['role'] < 10) || ($data['user']['role'] > 100))
+            elseif(($data['fields']['role'] < 10) || ($data['fields']['role'] > 100))
             {
                 $data['error'][] = 'Rights value must be between 10 an 100';
                 return FALSE;        

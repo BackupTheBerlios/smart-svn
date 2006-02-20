@@ -38,7 +38,7 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
         $this->model->action('user','update',
                              array('error'   => & $error,
                                    'id_user' => (int)$data['id_user'],
-                                   'user'    => array('logo' => $file_info['file_name'])));
+                                   'fields'  => array('logo' => $file_info['file_name'])));
    
         return TRUE;
     }
@@ -78,6 +78,7 @@ class ActionUserUploadLogo extends ActionUserFileUploadBase
         if(FALSE == $this->isAllowedExtension( $data ))
         {
             $data['error'][] = 'This file type isnt allowed to upload';
+            return FALSE;
         }         
         return TRUE;
     }
