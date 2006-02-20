@@ -354,7 +354,7 @@ function MM_swapImage() { //v3.0
         <input name="uploadlogo" type="hidden" value="">
         <input name="update" type="button" id="update" value="Submit" onclick="uploadlogofile(this.form);">
         <?php else: ?>
-      <img name="userlogo" src="<?php echo SMART_RELATIVE_PATH.'data/user/'.$tpl['user']['media_folder'].'/'.$tpl['user']['logo']; ?>" alt="User Logo">
+      <img name="userlogo" src="<?php echo SMART_RELATIVE_PATH.'data/user/'.$tpl['user']['media_folder'].'/'.$tpl['user']['logo']; ?>" alt="User Logo" width="150">
         <br>
         <input name="deletelogo" type="hidden" value="">
         <input type="button" name="eraselogo" value="delete" onclick="dellogo(this.form, 'Delete user logo Picture?');">
