@@ -183,7 +183,7 @@ class ActionArticleSetup extends SmartAction
                    ('article',
                     'Article Management',
                     3,
-                    '0.2',
+                    '0.3',
                     1,
                     40,
                     'DATE: 28.12.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
