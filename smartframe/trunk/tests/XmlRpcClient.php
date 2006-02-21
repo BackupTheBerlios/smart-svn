@@ -87,7 +87,7 @@ if(!$response->faultCode())
         $id_article = $id_article->scalarval();
         $title      = $rec->structmem('title');
         $title      = $title->scalarval();
-        echo "<div>Title: <a href='http://{$domain}{$domainPath}index.php?view=article&id_article={$id_article}' target='_blank'>{$title}</a></div>";
+        echo "<div>Title: <a href='http://{$domain}{$domainPath}index.php?id_article={$id_article}' target='_blank'>{$title}</a></div>";
 
         $subtitle = $rec->structmem('subtitle');
         $subtitle = $subtitle->scalarval();        
