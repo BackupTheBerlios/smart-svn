@@ -43,6 +43,13 @@ class ActionArticleUpgrade extends SmartAction
             $this->config['module']['article']['version'] = '0.3';
         }
 
+        if(1 == version_compare('0.3', $this->config['module']['article']['version'], '=') )
+        {
+            // upgrade from module version 0.3 to 0.4
+            $this->upgrade_0_3_to_0_4();     
+            $this->config['module']['article']['version'] = '0.4';
+        }
+
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
     }
@@ -92,6 +99,45 @@ class ActionArticleUpgrade extends SmartAction
         {
             trigger_error('Must be writeable by php scripts: '.$rss_folder, E_USER_WARNING);    
         }  
+    }
+
+    /**
+     * upgrade from module version 0.3 to 0.4
+     *
+     */
+    private function upgrade_0_3_to_0_4()
+    {
+        $sql = "CREATE TABLE IF NOT EXISTS {$this->config['dbTablePrefix']}article_comment (
+                   `id_comment`    int(11) unsigned NOT NULL auto_increment,
+                   `id_article`    int(11) unsigned NOT NULL default 1,
+                   `id_user`       int(11) unsigned NOT NULL default 0,
+                   `status`        tinyint(1) NOT NULL default 0,
+                   `pubdate`       datetime NOT NULL default '0000-00-00 00:00:00',
+                   `author`        varchar(100) CHARACTER SET {$this->config['dbcharset']} NOT NULL default '',
+                   `email`         varchar(100) NOT NULL default '',
+                   `url`           varchar(255) NOT NULL default '',
+                   `ip`            varchar(100) NOT NULL default '',
+                   `agent`         varchar(255) NOT NULL default '',
+                   `body`          text CHARACTER SET {$this->config['dbcharset']} NOT NULL default '',                  
+                   PRIMARY KEY        (`id_comment`),
+                   KEY                (`status`,`id_article`),
+                   KEY `id_user`      (`id_user`),
+                   FULLTEXT           (`body`,`author`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        
+        $this->model->dba->query($sql);
+
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_article
+                ADD `allow_comment` tinyint(1) NOT NULL default 0,
+                ADD `close_comment` tinyint(1) NOT NULL default 0";
+               
+        $this->model->dba->query($sql);
+        
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_config
+                ADD `use_comment` tinyint(1) NOT NULL default 0
+                AFTER `default_ordertype`";
+               
+        $this->model->dba->query($sql);        
     }
     
     /**

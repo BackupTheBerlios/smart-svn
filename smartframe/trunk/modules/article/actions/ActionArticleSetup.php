@@ -37,6 +37,8 @@ class ActionArticleSetup extends SmartAction
                    `pubdate`       datetime NOT NULL default '0000-00-00 00:00:00',
                    `articledate`   datetime NOT NULL default '0000-00-00 00:00:00',
                    `modifydate`    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                   `allow_comment` tinyint(1) NOT NULL default 0,
+                   `close_comment` tinyint(1) NOT NULL default 0,
                    `title`         text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `overtitle`     text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `subtitle`      text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
@@ -117,6 +119,25 @@ class ActionArticleSetup extends SmartAction
                 ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
         $this->model->dba->query($sql);        
 
+        $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}article_comment (
+                   `id_comment`    int(11) unsigned NOT NULL auto_increment,
+                   `id_article`    int(11) unsigned NOT NULL default 1,
+                   `id_user`       int(11) unsigned NOT NULL default 0,
+                   `status`        tinyint(1) NOT NULL default 0,
+                   `pubdate`       datetime NOT NULL default '0000-00-00 00:00:00',
+                   `author`        varchar(100) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `email`         varchar(100) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
+                   `url`           varchar(255) NOT NULL default '',
+                   `ip`            varchar(100) NOT NULL default '',
+                   `agent`         varchar(255) NOT NULL default '',
+                   `body`          text CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',                  
+                   PRIMARY KEY        (`id_comment`),
+                   KEY                (`status`,`id_article`),
+                   KEY `id_user`      (`id_user`),
+                   FULLTEXT           (`body`,`author`)) 
+                ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci";
+        $this->model->dba->query($sql);
+
         $sql = "CREATE TABLE IF NOT EXISTS {$data['dbtablesprefix']}article_config (
                  `thumb_width`       smallint(4) NOT NULL default 120,
                  `img_size_max`      int(11) NOT NULL default 500000,
@@ -126,6 +147,7 @@ class ActionArticleSetup extends SmartAction
                  `default_lang`      char(2) NOT NULL default 'en',
                  `default_order`     varchar(10) NOT NULL default '',
                  `default_ordertype` varchar(4) NOT NULL default '',
+                 `use_comment`       tinyint(1) NOT NULL default 0,
                  `use_article_view`  tinyint(1) NOT NULL default 0,
                  `use_users`         tinyint(1) NOT NULL default 0,
                  `use_keywords`      tinyint(1) NOT NULL default 1,
@@ -204,6 +226,7 @@ class ActionArticleSetup extends SmartAction
                                      {$data['dbtablesprefix']}article_media_pic,
                                      {$data['dbtablesprefix']}article_media_file,
                                      {$data['dbtablesprefix']}article_config,
+                                     {$data['dbtablesprefix']}article_comment,
                                      {$data['dbtablesprefix']}article_view,
                                      {$data['dbtablesprefix']}article_view_rel,
                                      {$data['dbtablesprefix']}article_node_view_rel";
