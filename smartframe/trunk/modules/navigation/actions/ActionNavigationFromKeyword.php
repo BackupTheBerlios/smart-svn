@@ -74,8 +74,18 @@ class ActionNavigationFromKeyword extends SmartAction
         $_fields = '';
         foreach ($data['fields'] as $f)
         {
-            $_fields .= $comma.'aa.`'.$f.'`';
+            $_fields .= $comma.'nn.`'.$f.'`';
             $comma = ',';
+        }
+
+        if(isset($data['exclude_key']))
+        {
+            $excludekey = implode(",", $data['exclude_key']);
+            $sql_exclude_key = " AND nk.`id_key` NOT IN($excludekey)";
+        }
+        else
+        {
+            $sql_exclude_key = "";
         }
 
         if(isset($data['exclude']))
@@ -90,7 +100,7 @@ class ActionNavigationFromKeyword extends SmartAction
   
         if(isset($data['status']))
         {
-            $sql_status = " AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]}";
+            $sql_status = " AND nn.`status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
@@ -129,6 +139,7 @@ class ActionNavigationFromKeyword extends SmartAction
             WHERE
                 nk.`id_key` IN({$this->id_key_list})
            {$sql_exclude}
+           {$sql_exclude_key}
             AND
                 nk.`id_node`=nn.`id_node`
            {$sql_status}
@@ -251,6 +262,24 @@ class ActionNavigationFromKeyword extends SmartAction
             }
         }
 
+        if(isset($data['exclude_key']))
+        {
+            if(!is_array($data['exclude_key']))
+            {
+                throw new SmartModelException('"exclude_key" isnt an array'); 
+            }
+            else
+            {
+                foreach($data['exclude_key'] as $id_key)
+                {
+                    if(!is_int($id_key))
+                    {
+                        throw new SmartModelException('Wrong "exclude_key" array value: '.$id_key.'. Only integers accepted!'); 
+                    }
+                }
+            }
+        }
+
         if(isset($data['order']))
         {
             if(!is_array($data['order']))
@@ -259,7 +288,7 @@ class ActionNavigationFromKeyword extends SmartAction
             }
             else
             {
-                if(!isset($this->tblFields_article[$data['order'][0]]))
+                if(!isset($this->tblFields_node[$data['order'][0]]))
                 {
                     throw new SmartModelException('Wrong "order" array[0] value: '.$data['order'][0]); 
                 }
