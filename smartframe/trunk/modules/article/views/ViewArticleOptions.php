@@ -134,6 +134,15 @@ class ViewArticleOptions extends SmartView
             $this->tplVar['error'][] = "File size field is empty!";
         }   
 
+        if(isset($_POST['use_comment']))
+        {
+            $this->fields['use_comment'] = 1;
+        }
+        else
+        {
+            $this->fields['use_comment'] = 0;
+        }  
+
         if(isset($_POST['use_article_view']))
         {
             $this->fields['use_article_view'] = 1;

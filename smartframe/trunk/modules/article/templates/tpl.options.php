@@ -50,6 +50,13 @@
       </tr>
     -->
       <tr>
+        <td align="left" valign="top" class="font10bold">Allow article related comments</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+       <input type="checkbox" name="use_comment" value="1"<?php if($tpl['option']['use_comment']==1) echo " checked "; ?>><br>
+    </td>    
+      <tr>
         <td align="left" valign="top" class="font10bold">Use article related specific view</td>
       </tr>
       <tr>
