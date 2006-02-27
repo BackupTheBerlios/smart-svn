@@ -10,32 +10,19 @@
 // ----------------------------------------------------------------------
 
 /**
- * ActionArticleAddArticle
+ * ActionArticleAddComment
  *
  * USAGE:
  * 
- * $model->action('article','addArticle',
- *                array('id_node' => int,                              // required
- *                      'error'   => & array,
- *                      'fields'  => array('status'       => 'Int',
-                                           'rank'         => 'Int',
-                                           'activedate'   => 'String',
-                                           'inactivedate' => 'String',
-                                           'pubdate'      => 'String',
-                                           'lang'         => 'String',
-                                           'title'        => 'String', // title required
-                                           'overtitle'    => 'String',
-                                           'subtitle'     => 'String',
-                                           'header'       => 'String',
-                                           'description'  => 'String',
-                                           'body'         => 'String',
-                                           'ps'           => 'String',
-                                           'fulltextbody' => 'String',
-                                           'format'       => 'Int',
-                                           'media_folder' => 'String')));
+ * $model->action('article','addComment',
+ *                array('fields'  => array('id_article' => 'Int',
+                                           'id_user'    => 'Int',
+                                           'body'       => 'String',
+                                           'author'     => 'String',
+                                           'url'        => 'String',
+                                           'email'      => 'String')));
  *
  *
- * return new id_article (int)
  */
 
 
@@ -49,6 +36,7 @@ class ActionArticleAddComment extends SmartAction
                                  'id_user'    => 'Int',
                                  'body'       => 'String',
                                  'author'     => 'String',
+                                 'url'        => 'String',
                                  'email'      => 'String');
                                          
     /**
@@ -78,7 +66,7 @@ class ActionArticleAddComment extends SmartAction
         $quest  .= $comma."'{$_SERVER["HTTP_USER_AGENT"]}'";  
 
         $fields .= $comma."`status`";
-        $quest  .= $comma."'{$this->model->config['article']['validate_comment']}'";  
+        $quest  .= $comma."'{$this->model->config['article']['default_comment_status']}'";  
 
         $sql = "INSERT INTO {$this->config['dbTablePrefix']}article_comment
                    ($fields)
@@ -102,7 +90,7 @@ class ActionArticleAddComment extends SmartAction
         // check if database fields exists
         foreach($data['fields'] as $key => $val)
         {
-            if(!isset($this->tblFields_article[$key]))
+            if(!isset($this->tblFields[$key]))
             {
                 throw new SmartModelException("Field '".$key."' isnt allowed!");
             }
