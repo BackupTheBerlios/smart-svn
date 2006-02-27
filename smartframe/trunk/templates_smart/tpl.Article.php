@@ -151,6 +151,87 @@
                     </td>
                  </tr>
                </table>
+                      
+                      <?php if(isset($tpl['showComments'])): ?>
+                      <a name="comments"></a>
+                      <div class="downloads"><h2>Article comments: </h2></div>
+                         <?php foreach($tpl['articleComments'] as $comment): ?>
+                         <table width="500" border="0" cellspacing="2" cellpadding="2">
+                           <tr>
+                             <td width="10" align="left" valign="top" class="filelink">-</td>
+                             <td width="490" align="left" valign="top" class="filelink">
+                                Posted by <?php echo $comment['author']; ?>
+                                at <?php echo $comment['pubdate']; ?>
+                                <?php if(!empty($comment['url'])): ?>
+                                  / <a href="<?php echo $comment['url']; ?>">url</a>
+                                <?php  endif; ?>
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="left" valign="top" class="filedesc">&nbsp;</td>
+                             <td align="left" valign="top" class="filedesc"><?php echo $comment['body']; ?></td>
+                           </tr>
+                         </table>
+                         <hr />
+                         <?php endforeach; ?>
+                      <?php endif; ?>  
+                      
+                      <?php if(isset($tpl['showCommentForm'])): ?>
+                      <a name="commentform"></a>
+                      <div class="downloads"><h3>Add article comment: </h3></div>
+                      <?php if(!empty($tpl['cmessage'])): ?>
+                          <div style="font-size:14; color:#FF0000; font-weight: bold;"><?php echo $tpl['cmessage']; ?></div>
+                      <?php endif; ?>                      
+                        <form name="comment" accept-charset="<?php echo $tpl['charset']; ?>" method="post" action="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $tpl['article']['id_article']; ?>#commentform">
+                         <table width="500" border="0" cellspacing="2" cellpadding="2">
+                           <tr>
+                             <td width="120" align="left" valign="top" class="filelink"><strong>Author: </strong></td>
+                             <td width="380" align="left" valign="top" class="filelink">
+                               <input name="cauthor" type="text" value="<?php echo $tpl['cauthor']; ?>" size="50" maxlength="255">
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="left" valign="top" class="filelink"><strong>Email: </strong></td>
+                             <td align="left" valign="top" class="filelink">
+                               <input name="cemail" type="text" value="<?php echo $tpl['cemail']; ?>" size="50" maxlength="255">
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="left" valign="top" class="filelink"><strong>Url: </strong></td>
+                             <td align="left" valign="top" class="filelink">
+                               <input name="curl" type="text" value="<?php echo $tpl['curl']; ?>" size="50" maxlength="255">
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="left" valign="top" class="filelink"><strong>Comment: </strong></td>
+                             <td align="left" valign="top" class="filelink">
+                               <textarea name="cbody" cols="50" rows="15" id="cbody"><?php echo $tpl['cbody']; ?></textarea>
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="left" valign="top" class="filelink"><strong>Turing Key: </strong></td>
+                             <td valign="top" align="left" >
+                               <div><input type="text" name="captcha_turing_key" value="" maxlength="5" size="10">
+                               <input type="hidden" name="captcha_public_key" value="<?php echo $tpl['public_key']; ?>" maxlength="5" size="40">
+                               </div>
+                               <img src="<?php echo $tpl['captcha_pic']; ?>" border="1">
+                             </td>
+                           </tr>
+                           <tr>
+                           
+                             <td align="left" valign="top" class="filelink" colspan="2">
+                               <input name="addComment" type="submit" id="addComment" value="add comment">
+         
+                             </td>
+                           </tr>
+                         </table>
+
+                      <?php endif; ?>                           
+                      
+                    </td>
+                 </tr>
+               </table>               
+               
                </td>
          </tr>
         </table>
