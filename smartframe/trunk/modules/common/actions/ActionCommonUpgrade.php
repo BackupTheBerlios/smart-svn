@@ -39,6 +39,11 @@ class ActionCommonUpgrade extends SmartAction
             // upgrade from module version 0.2 to 0.3
             $this->upgrade_0_2_to_0_3();          
         }
+        if(1 == version_compare('0.3', $this->config['module']['common']['version'], '=') )
+        {
+            // upgrade from module version 0.3 to 0.4
+            $this->upgrade_0_3_to_0_4();          
+        }
         
         // update to new module version number
         $this->setNewModuleVersionNumber( $data['new_version'] ); 
@@ -70,6 +75,20 @@ class ActionCommonUpgrade extends SmartAction
                
         $this->model->dba->query($sql);
         $this->config['smart_version_num'] = '0.3';
+    }
+
+    /**
+     * upgrade from module version 0.3 to 0.4
+     *
+     */
+    private function upgrade_0_3_to_0_4()
+    {
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                ADD `site_url` varchar(255) NOT NULL default '' 
+                AFTER `charset`";
+               
+        $this->model->dba->query($sql);
+        $this->config['smart_version_num'] = '0.4';
     }
     
     /**

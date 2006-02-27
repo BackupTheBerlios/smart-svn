@@ -69,6 +69,7 @@ class ActionCommonSetup extends SmartAction
             
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_config (
                  `charset`             varchar(50) NOT NULL default '',
+                 `site_url`            varchar(255) NOT NULL default '',
                  `templates_folder`    varchar(255) NOT NULL default '',
                  `views_folder`        varchar(255) NOT NULL default '',
                  `disable_cache`       tinyint(1) NOT NULL default 1,
