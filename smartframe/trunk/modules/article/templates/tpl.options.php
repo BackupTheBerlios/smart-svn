@@ -56,7 +56,17 @@
         <td align="left" valign="top" class="font10">
        <input type="checkbox" name="use_comment" value="1"<?php if($tpl['option']['use_comment']==1) echo " checked "; ?>><br>
     </td>    
+      </tr>
       <tr>
+        <td align="left" valign="top" class="font10bold">Default article comments status</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+          inactive: <input name="default_comment_status" type="radio" value="1"<?php if($tpl['option']['default_comment_status']=='1') echo ' checked="checked"'; ?> class="topselect"> 
+          active: <input name="default_comment_status" type="radio" value="2"<?php if($tpl['option']['default_comment_status']=='2') echo ' checked="checked"'; ?> class="topselect"> 
+    </td>    
+      </tr>
+      <tr>      
         <td align="left" valign="top" class="font10bold">Use article related specific view</td>
       </tr>
       <tr>

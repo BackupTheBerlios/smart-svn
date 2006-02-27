@@ -58,7 +58,9 @@ class ActionArticleUpdateArticle extends SmartAction
                                          'ps'           => 'String',
                                          'format'       => 'Int',
                                          'logo'         => 'String',
-                                         'media_folder' => 'String');
+                                         'media_folder' => 'String',
+                                         'allow_comment' => 'Int',
+                                         'close_comment' => 'Int');
                                       
     /**
      * update article

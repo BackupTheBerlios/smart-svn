@@ -143,6 +143,11 @@ class ViewArticleOptions extends SmartView
             $this->fields['use_comment'] = 0;
         }  
 
+        if(isset($_POST['default_comment_status']))
+        {
+            $this->fields['default_comment_status'] = (int)$_POST['default_comment_status'];
+        }  
+
         if(isset($_POST['use_article_view']))
         {
             $this->fields['use_article_view'] = 1;
@@ -350,6 +355,8 @@ class ViewArticleOptions extends SmartView
         }
         $this->tplVar['option']['default_order'] = (string)SmartCommonUtil::stripSlashes($_POST['default_order']);   
         $this->tplVar['option']['default_ordertype'] = (string)SmartCommonUtil::stripSlashes($_POST['default_ordertype']);   
+        $this->tplVar['option']['default_comment_status'] = (int)SmartCommonUtil::stripSlashes($_POST['default_comment_status']);   
+
     }
 }
 

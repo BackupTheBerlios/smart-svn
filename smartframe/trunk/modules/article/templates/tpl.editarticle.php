@@ -307,9 +307,9 @@ function cancel_edit(f)
           </select>
       </td>
       </tr>
-  <?php endif; ?>    
+  <?php endif; ?>  
   <?php if($tpl['use_keywords']==1): ?>
-        <tr>
+      <tr>
         <td align="left" valign="top" class="font12bold"><a name="key"></a>Keywords</td>
       </tr>
       <tr>
@@ -333,4 +333,72 @@ function cancel_edit(f)
     </td>
     </tr>
 </table>
+
+
+<?php if($tpl['use_comment']==1): ?>
+
+<style type="text/css">
+<!--
+.commentbody {
+  font-size: 12px;
+  padding-left: 20px;
+}
+.commenthead {
+  font-size: 12px;
+}
+-->
+</style>
+
+<table width="100%" border="0" cellspacing="3" cellpadding="3">
+      <tr>
+        <td align="left" valign="top" class="font12bold"><a name="key"></a>Article comments</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+        <input type="checkbox" name="allow_comment" value="1"<?php if($tpl['article']['allow_comment']==1) echo " checked "; ?>> allow comments &nbsp;&nbsp;
+        <input type="checkbox" name="close_comment" value="1"<?php if($tpl['article']['close_comment']==1) echo " checked "; ?>> close comments
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input name="refresh" type="submit" value="Refresh" class="button">           
+        </td>
+      </tr> 
+      <tr>
+        <td align="left" valign="top" class="font12bold"><hr /></td>
+      </tr>      
+      <tr>
+        <td align="left" valign="top" class="font10">
+            <?php foreach($tpl['articleComments'] as $comment): ?>
+            <input name="id_comment[]" type="hidden" value="<?php echo $comment['id_comment']; ?>">
+            <table>
+              <tr>
+                <td align="left" valign="top" class="commenthead">
+                  
+                Date: <?php echo $comment['pubdate']; ?> &nbsp;&nbsp;
+                Author: 
+                <?php if(!empty($comment['email'])): ?>
+                    <a href="mailto:<?php echo $comment['email']; ?>"><?php echo $comment['author']; ?></a>
+                <?php else: ?>
+                    <?php echo $comment['author']; ?>
+                <?php endif; ?>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  <?php if( $comment['status'] == 1 ): ?> 
+                    <input type="checkbox" name="id_comment_val[]" value="<?php echo $comment['id_comment']; ?>"> <strong>validate</strong>
+                  <?php endif; ?>
+                     &nbsp;&nbsp;<input type="checkbox" name="id_comment_del[]" value="<?php echo $comment['id_comment']; ?>"> delete             
+                </td>
+              </tr>
+              <tr>
+                <td align="left" valign="top" class="commentbody">
+                    <?php echo $comment['body']; ?>
+                </td>
+              </tr>  
+              <tr>
+                 <td align="left" valign="top"><hr /></td>
+              </tr>               
+            </table>
+            <?php endforeach; ?>
+        </td>
+      </tr>       
+</table>
+
+<?php endif; ?>
 </form>

@@ -42,6 +42,7 @@ class ActionArticleUpdateConfigOptions extends SmartAction
                             'default_format'  => 'Int',
                             'default_order'     => 'String',
                             'default_ordertype' => 'String',
+                            'default_comment_status' => 'Int',
                             'use_comment'       => 'Int',
                             'use_article_view'  => 'Int',
                             'use_overtitle'   => 'Int',

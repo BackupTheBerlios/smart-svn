@@ -56,7 +56,9 @@ class ActionArticleGetArticle extends SmartAction
                                          'fulltextbody' => 'String',
                                          'format'       => 'Int',
                                          'logo'         => 'String',
-                                         'media_folder' => 'String');
+                                         'media_folder' => 'String',
+                                         'allow_comment' => 'Int',
+                                         'close_comment' => 'Int');
     /**
      * get article data
      *

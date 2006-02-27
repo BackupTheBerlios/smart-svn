@@ -126,7 +126,9 @@ class ViewArticleEditArticle extends SmartView
                                                       'id_node','title')));   
 
         // article fields to get
-        $articleFields = array('id_article','title','pubdate','status');
+        $articleFields = array('id_article','title','pubdate',
+                               'status','allow_comment','close_comment');
+                               
         // add fields depended on configuration settings
         $this->addGetArticleFields( $articleFields );
 
@@ -174,6 +176,20 @@ class ViewArticleEditArticle extends SmartView
                                   array('result' => &$this->tplVar['articlePublicViews'],
                                         'fields' => array('id_view','name')) );             
        } 
+       
+       if($this->config['article']['use_comment'] == 1)
+       {
+          $this->tplVar['articleComments'] = array();
+          
+          $this->model->action('article','comments',
+                               array('result' => & $this->tplVar['articleComments'],
+                                     'id_article' => (int)$this->current_id_article,
+                                     'status' => array('>=', 0),
+                                     'fields' => array('id_comment','status',
+                                                       'pubdate','body','id_user',
+                                                       'author','email','url',
+                                                       'ip','agent') ));   
+       }       
     }  
    /**
     * Update article data
@@ -253,6 +269,8 @@ class ViewArticleEditArticle extends SmartView
         // errors
         $this->tplVar['error']  = array();   
 
+        $this->tplVar['use_comment']  = $this->config['article']['use_comment']; 
+
         // assign template config vars
         foreach($this->config['article'] as $key => $val)
         {
@@ -296,6 +314,28 @@ class ViewArticleEditArticle extends SmartView
         $articleFields = array('id_node'  => (int)$this->current_id_node,
                                'status'   => (int)$_POST['status'],
                                'pubdate'  => $this->buildDate('pubdate'));
+
+        if( $this->config['article']['use_comment'] == 1 )
+        {
+            if(isset($_POST['allow_comment']))
+            {
+                $articleFields['allow_comment'] = 1;
+            }
+            else
+            {
+                $articleFields['allow_comment'] = 0;
+            }
+            if(isset($_POST['close_comment']))
+            {
+                $articleFields['close_comment'] = 1;
+            }
+            else
+            {
+                $articleFields['close_comment'] = 0;
+            }            
+            
+            $this->updateComments();
+        }
 
         if(isset($this->node_has_changed))
         {
@@ -589,6 +629,32 @@ class ViewArticleEditArticle extends SmartView
                                   array('id_article' => (int)$this->current_id_article) );        
         }
     } 
+    
+    /**
+     * update article related view
+     *
+     */      
+    private function updateComments()
+    {
+        if(isset($_POST['id_comment_val']) && is_array($_POST['id_comment_val']))
+        {
+            foreach($_POST['id_comment_val'] as $id_comment)
+            {
+                $this->model->action( 'article','updateComment',
+                                      array('id_comment' => (int)$id_comment,
+                                            'fields'     => array('status' => 2) ) );    
+            }
+        }
+        
+        if(isset($_POST['id_comment_del']) && is_array($_POST['id_comment_del']))
+        {
+            foreach($_POST['id_comment_del'] as $id_comment)
+            {
+                $this->model->action( 'article','deleteComment',
+                                      array('id_comment' => (int)$id_comment ));    
+            }
+        }
+    }     
 }
 
 ?>

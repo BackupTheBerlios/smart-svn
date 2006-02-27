@@ -135,7 +135,9 @@ class ActionArticleUpgrade extends SmartAction
         
         $sql = "ALTER TABLE {$this->config['dbTablePrefix']}article_config
                 ADD `use_comment` tinyint(1) NOT NULL default 0
-                AFTER `default_ordertype`";
+                  AFTER `default_ordertype`,
+                ADD `default_comment_status`  tinyint(1) NOT NULL default 1
+                  AFTER `default_ordertype`";
                
         $this->model->dba->query($sql);        
     }
