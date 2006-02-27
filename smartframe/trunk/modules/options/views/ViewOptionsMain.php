@@ -80,6 +80,7 @@ class ViewOptionsMain extends SmartView
      */
     private function setTemplateVars()
     {
+        $this->tplVar['siteUrl']              = $this->config['site_url'];
         $this->tplVar['publicTplFolder']      = $this->config['templates_folder'];
         $this->tplVar['publicViewFolder']     = $this->config['views_folder'];
         $this->tplVar['allPublicViewFolders'] = $this->getPublicFolders( 'views_' );
@@ -138,6 +139,11 @@ class ViewOptionsMain extends SmartView
     {
         $this->fields  = array();
 
+        if(isset($_POST['site_url']))
+        {
+            $this->fields['site_url'] = (string)$_POST['site_url'];
+            $this->config['site_url'] = (string)$_POST['site_url'];
+        }  
         if(isset($_POST['templates_folder']))
         {
             $this->fields['templates_folder'] = (string)$_POST['templates_folder'];

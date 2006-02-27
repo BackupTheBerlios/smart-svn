@@ -8,6 +8,13 @@
   <tr>
     <td width="74%" align="left" valign="top">      <table width="100%" border="0" cellspacing="2" cellpadding="2">
       <tr>
+        <td align="left" valign="top" class="font10bold">Site Url</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold"><input name="site_url" type="text" id="site_url" value="<?php echo $tpl['siteUrl']; ?>" size="55" maxlength="255"></td>
+      </tr>
+      
+      <tr>
         <td align="left" valign="top" class="font10bold">Public template folders</td>
       </tr>
       <tr>
@@ -81,7 +88,7 @@
       </tr>
       <tr>
         <td align="left" valign="top"><input name="textarea_rows" type="text" id="textarea_rows" value="<?php echo $tpl['textareaRows']; ?>" size="2" maxlength="3"></td>
-      </tr>	  
+      </tr>   
     </table></td>
     <td width="26%" align="left" valign="top" class="font10bold"><input type="submit" name="updateOptions" value="update"></td>
   </tr>
