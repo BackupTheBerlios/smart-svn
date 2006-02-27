@@ -52,7 +52,8 @@ class ViewArticle extends SmartView
                                    'pubdate' => array('<=', 'CURRENT_TIMESTAMP'),
                                    'fields'  => array('id_article','id_node','title',
                                                       'header','overtitle','media_folder',
-                                                      'subtitle','body','ps') ));  
+                                                      'subtitle','body','ps',
+                                                      'allow_comment','close_comment') ));  
           
         // get node title and id of the article node
         $this->model->action('navigation','getNode', 
@@ -104,6 +105,44 @@ class ViewArticle extends SmartView
                                        'result'      => & $this->tplVar['keywordLink'],
                                        'status'      => array('=', 2),
                                        'fields'      => array('id_link','url','title','description') )); 
+        }
+        
+        // Should we show and allow article comments and add comment form
+        //
+        if(( $this->config['article']['use_comment']   == 1 ) &&
+             $this->tplVar['article']['allow_comment'] == 1 )
+        {
+            $this->tplVar['cmessage'] = '';
+            $this->tplVar['cauthor'] = '';
+            $this->tplVar['cemail']  = '';
+            $this->tplVar['curl']    = '';
+            $this->tplVar['cbody']   = '';
+            
+            // add comment
+            if(isset($_POST['addComment']))
+            {
+                $this->addComment();
+            }
+            
+            $this->tplVar['showComments'] = TRUE;
+            
+            if($this->tplVar['article']['close_comment'] == 0)
+            {
+                $this->tplVar['showCommentForm'] = TRUE;
+                // create capcha picture and public key
+                $this->model->action( 'common','captchaMake',
+                                      array( 'captcha_pic' => &$this->tplVar['captcha_pic'],
+                                             'public_key'  => &$this->tplVar['public_key'],
+                                             'configPath'  => &$this->config['config_path']));                
+            }
+            
+            $this->model->action('article','comments',
+                               array('result'     => & $this->tplVar['articleComments'],
+                                     'id_article' => (int)$this->current_id_article,
+                                     'status'     => array('=', 2),
+                                     'fields'     => array('id_comment','pubdate',
+                                                           'body','id_user',
+                                                           'author','email','url') ));           
         }
     }
 
@@ -181,7 +220,13 @@ class ViewArticle extends SmartView
         // init template variable for keyword related articles
         $this->tplVar['keywordArticle'] = array();
         // init template variable for keyword related links
-        $this->tplVar['keywordLink'] = array();   
+        $this->tplVar['keywordLink'] = array();
+        // article comments template array
+        $this->tplVar['articleComments'] = array();
+
+        // init captcha vars
+        $this->tplVar['captcha_pic'] = '';
+        $this->tplVar['public_key']  = '';
         
         // template var with charset used for the html pages
         $this->tplVar['charset'] = & $this->config['charset'];
@@ -235,6 +280,96 @@ class ViewArticle extends SmartView
             }
         }
     }
+    /**
+     * add article comment
+     *
+     */     
+    private function addComment()
+    {
+        // validate captcha turing/public keys
+        if (FALSE == $this->model->action( 'common','captchaValidate',
+                                           array('turing_key'  => (string)$_POST['captcha_turing_key'],
+                                                 'public_key'  => (string)$_POST['captcha_public_key'],
+                                                 'configPath'  => (string)$this->config['config_path'])))
+        {
+            $this->tplVar['cmessage'] = 'Wrong turing key';
+            $this->resetFormData();
+            return TRUE;
+        }
+        
+        if( FALSE == $this->validateEmail( $_POST['cemail'] )  )
+        {
+            $this->resetFormData();
+            return TRUE;
+        }
+        
+        if( empty($_POST['author']) )
+        {
+            $_POST['author'] = 'annonymous';
+        }  
+        
+        if(!empty($_POST['cbody']))
+        {
+            $this->model->action('article', 'addComment',
+                   array('fields' => array('id_article' => (int)$this->current_id_article,
+                                           'author'     => (string) $this->strip( $_POST['cauthor'] ),
+                                           'url'        => (string) $this->strip( $_POST['curl'] ),
+                                           'email'      => (string) $this->strip( $_POST['cemail'] ),
+                                           'body'       => (string) $this->strip( $_POST['cbody'] )) ));
+
+            // comment needs to be validate
+            if($this->config['article']['default_comment_status'] == 1)
+            {
+                $this->tplVar['cmessage'] = 'Thanks for your comment. Your comment will be review as soon as possible.';
+            }
+            else
+            {
+                header('Location: index.php?id_article='.$this->current_id_article.'#comments');
+                exit;
+            }
+        }
+        else
+        {
+            $this->resetFormData();
+            $this->tplVar['cmessage'] = "Comment area is empty!";
+        }
+    }
+    /**
+     * validate email field
+     *
+     */     
+    private function validateEmail( &$email )
+    {
+        if(!strstr($email, "\n")  &&
+           (strlen($email) < 255) )
+        {
+            return TRUE;
+        }
+        else
+        {
+            $this->tplVar['cmessage'] = "The email field has wrong values!";
+            return FALSE;
+        }    
+    }
+    /**
+     * strip html tags shlashes
+     *
+     */     
+    private function strip( & $str )
+    {
+          return strip_tags(SmartCommonUtil::stripSlashes( $str ));     
+    }
+    /**
+     * fill form fields with old data
+     *
+     */     
+    private function resetFormData()
+    {
+        $this->tplVar['cauthor'] = htmlentities($this->strip($_POST['cauthor']), ENT_COMPAT, $this->config['charset']);     
+        $this->tplVar['cemail']  = htmlentities($this->strip($_POST['cemail']), ENT_COMPAT, $this->config['charset']);     
+        $this->tplVar['curl']    = htmlentities($this->strip($_POST['curl']), ENT_COMPAT, $this->config['charset']);     
+        $this->tplVar['cbody']   = htmlentities($this->strip($_POST['cbody']), ENT_COMPAT, $this->config['charset']); 
+    }      
 }
 
 ?>
