@@ -178,7 +178,7 @@
                       
                       <?php if(isset($tpl['showCommentForm'])): ?>
                       <a name="commentform"></a>
-                      <div class="downloads"><h3>Add article comment: </h3></div>
+                      <div class="downloads"><h3>Add comment: </h3></div>
                       <?php if(!empty($tpl['cmessage'])): ?>
                           <div style="font-size:14; color:#FF0000; font-weight: bold;"><?php echo $tpl['cmessage']; ?></div>
                       <?php endif; ?>                      
