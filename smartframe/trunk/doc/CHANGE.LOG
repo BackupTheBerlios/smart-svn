@@ -1,6 +1,12 @@
 Smart3 Framework Change.log
 ---------------------------
 
+0.2.6b
+------
+- update to TinyMce 2.0.4
+- added bolg features in article module.
+  Web users can add comments to articles.
+
 0.2.5b
 ------
 - update to TinyMce 2.0.3

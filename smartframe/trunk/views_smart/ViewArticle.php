@@ -22,7 +22,7 @@ class ViewArticle extends SmartView
      * Cache expire time in seconds for this view
      * 0 = cache disabled
      */
-    public $cacheExpire = 300;
+    public $cacheExpire = 0;
     
     /**
      * Execute the view of the "article" template
@@ -39,6 +39,7 @@ class ViewArticle extends SmartView
         $this->initVars();
 
         // We need an other template for the ajax demonstration (german/english article)
+        // "Smart3 and Ajax" article
         if(($this->current_id_article == 50) || ($this->current_id_article == 51))
         {
             $this->template = 'ArticleAjax';
@@ -193,8 +194,8 @@ class ViewArticle extends SmartView
         // validate id_article and view request var
         // 
         if( !isset($_GET['id_article'])   || 
-                is_array($_GET['id_article']) || 
-                preg_match("/[^0-9]+/",$_GET['id_article']) ) 
+            is_array($_GET['id_article']) || 
+            preg_match("/[^0-9]+/",$_GET['id_article']) ) 
         {
             $this->template          = 'error';   
             $this->tplVar['message'] = "Wrong id_article value";
@@ -208,16 +209,6 @@ class ViewArticle extends SmartView
         
         // check permission to access this article if it has status protected
         $this->checkPermission();
-    }
-
-    /**
-     * append filter chain
-     *
-     */
-    public function appendFilterChain( & $outputBuffer )
-    {
-        // filter action of the common module that trims the html output
-        $this->model->action( 'common', 'filterTrim', array('str' => & $outputBuffer) );        
     }
 
     /**
