@@ -107,7 +107,16 @@ class ViewArticle extends SmartView
                                        'fields'      => array('id_link','url','title','description') )); 
         }
         
-        // Should we show and allow article comments and add comment form
+        // Should we show and allow article comments and add a comment form
+        //
+        // $this->config['article']['use_comment'] == 1 
+        // --------------------------------------------
+        // global enables to add comments for all articles
+        //
+        // $this->tplVar['article']['allow_comment'] == 1
+        // ----------------------------------------------
+        // Allow comments for just this article
+        //
         //
         if(( $this->config['article']['use_comment']   == 1 ) &&
              $this->tplVar['article']['allow_comment'] == 1 )
@@ -118,14 +127,11 @@ class ViewArticle extends SmartView
             $this->tplVar['curl']    = '';
             $this->tplVar['cbody']   = '';
             
-            // add comment
-            if(isset($_POST['addComment']))
-            {
-                $this->addComment();
-            }
-            
             $this->tplVar['showComments'] = TRUE;
             
+            // Do we show comments but not the add comment form
+            // Means: Visitors can no more add comments
+            //
             if($this->tplVar['article']['close_comment'] == 0)
             {
                 $this->tplVar['showCommentForm'] = TRUE;
@@ -134,15 +140,24 @@ class ViewArticle extends SmartView
                                       array( 'captcha_pic' => &$this->tplVar['captcha_pic'],
                                              'public_key'  => &$this->tplVar['public_key'],
                                              'configPath'  => &$this->config['config_path']));                
+
+                // add comment
+                if(isset($_POST['addComment']))
+                {
+                    $this->addComment();
+                }
             }
             
+            // get article comments
             $this->model->action('article','comments',
                                array('result'     => & $this->tplVar['articleComments'],
                                      'id_article' => (int)$this->current_id_article,
                                      'status'     => array('=', 2),
                                      'fields'     => array('id_comment','pubdate',
                                                            'body','id_user',
-                                                           'author','email','url') ));           
+                                                           'author','email','url') )); 
+                                                           
+            $this->addHtmlToComments();
         }
     }
 
@@ -317,10 +332,14 @@ class ViewArticle extends SmartView
                                            'email'      => (string) $this->strip( $_POST['cemail'] ),
                                            'body'       => (string) $this->strip( $_POST['cbody'] )) ));
 
+
+            // Send emails if a new comment was added?
+            // $this->sendEmails();
+
             // comment needs to be validate
             if($this->config['article']['default_comment_status'] == 1)
             {
-                $this->tplVar['cmessage'] = 'Thanks for your comment. Your comment will be review as soon as possible.';
+                $this->tplVar['cmessage'] = 'Thanks for your comment. Your comment will be reviewed as soon as possible.';
             }
             else
             {
@@ -369,7 +388,48 @@ class ViewArticle extends SmartView
         $this->tplVar['cemail']  = htmlentities($this->strip($_POST['cemail']), ENT_COMPAT, $this->config['charset']);     
         $this->tplVar['curl']    = htmlentities($this->strip($_POST['curl']), ENT_COMPAT, $this->config['charset']);     
         $this->tplVar['cbody']   = htmlentities($this->strip($_POST['cbody']), ENT_COMPAT, $this->config['charset']); 
-    }      
+    }  
+    /**
+     * send email(s) on new comments
+     *
+     */      
+    private function sendEmails()
+    {
+        // get emails of administrators
+        $adminEmails = array();
+        $this->model->action('user','getUsers',
+                             array('result'  => & $adminEmails,
+                                   'role'    => array('=',20),
+                                   'status'  => array('=',2),
+                                   'fields'  => array('email') ));   
+
+        $adminBody  = 'Hi,<br>A new comment was added to the following article:';        
+        $adminBody .= '<a href="'.$this->config['site_url'].'?id_article='.$this->tplVar['article']['id_article'].'">'.$this->tplVar['article']['title'].'</a>';
+        
+        if($this->config['article']['default_comment_status'] == 1)
+        {
+            $adminBody .= '<br><br>You have to validate new comments!';  
+        }
+        
+        $this->model->action('common', 'sendMail',
+                             array('toEmail'   => & $adminEmails,
+                                   'fromEmail' => '',
+                                   'subject'   => 'New comment added',
+                                   'body'      => (string)$adminBody));     
+                                   
+    }    
+
+    /**
+     * Transform raw comments body to html
+     *
+     */
+    private function addHtmlToComments()
+    {
+        foreach($this->tplVar['articleComments'] as & $comment)
+        {
+            $comment['body'] = nl2br( $comment['body'] );
+        }
+    }
 }
 
 ?>
