@@ -91,7 +91,7 @@ class ViewNode extends SmartView
         // create article pager links
         $this->model->action('article','pager', 
                              array('result'     => & $this->tplVar['pager'],
-                                   'id_node'    => (int)$this->current_id_node,
+                                   'id_node'    => array((int)$this->current_id_node),
                                    'status'     => array('>=', '4'),
                                    'pubdate'    => array('<=', 'CURRENT_TIMESTAMP'),
                                    'perPage'    => $this->articlesPerPage,
