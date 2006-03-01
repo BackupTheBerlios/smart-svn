@@ -126,6 +126,16 @@ class ActionArticleGetArticles extends SmartAction
         {
             $sql_exclude_node = "";
         }
+
+        if(isset($data['exclude_sector']))
+        {
+            $exclude_sector = implode(",", $data['exclude_sector']);
+            $sql_exclude_sector = " AND nn.`id_sector` NOT IN($exclude_sector)";
+        }
+        else
+        {
+            $sql_exclude_sector = "";
+        }
         
         if(isset($data['order']))
         {
@@ -143,15 +153,32 @@ class ActionArticleGetArticles extends SmartAction
             $sql_order = "ORDER BY aa.`title` ASC";
         }        
 
-        if(isset($data['node_status']))
+        if(isset($data['id_node']))
         {
-            $node_table      = ",{$this->config['dbTablePrefix']}navigation_node AS nn";
-            $sql_node_where  = "AND nn.`id_node`=aa.`id_node` "; 
-            $sql_node_where .= "AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]} "; 
+            $nodes = implode(",", $data['id_node']);
+            $sql_where .= " AND aa.`id_node` IN({$nodes})";
         }
         else
         {
-            $node_table     = "";
+            $sql_where .= "";
+        }
+
+        if(isset($data['id_sector']))
+        {
+            $sectors = implode(",", $data['id_sector']);
+            $sql_where .= " AND nn.`id_sector` IN({$sectors})";
+        }
+        else
+        {
+            $sql_where .= "";
+        }
+
+        if(isset($data['node_status']))
+        {
+            $sql_node_where = "AND nn.`status`{$data['node_status'][0]}{$data['node_status'][1]} "; 
+        }
+        else
+        {
             $sql_node_where = "";
         }
 
@@ -173,13 +200,15 @@ class ActionArticleGetArticles extends SmartAction
             SELECT {$this->sqlCache}
                 {$_fields}
             FROM
-                {$this->config['dbTablePrefix']}article_article AS aa
-                {$node_table}
+                {$this->config['dbTablePrefix']}article_article AS aa,
+                {$this->config['dbTablePrefix']}navigation_node AS nn
             WHERE
+                aa.`id_node`=nn.`id_node`
                 {$sql_where} 
                 {$sql_node_where}
                 {$sql_exclude}
                 {$sql_exclude_node}
+                {$sql_exclude_sector}
                 {$sql_pubdate}
                 {$sql_modifydate}
                 {$sql_order}
@@ -217,6 +246,42 @@ class ActionArticleGetArticles extends SmartAction
         {
             throw new SmartModelException('Missing "result" array var: '); 
         }
+
+        if(isset($data['id_node']))
+        {
+            if(is_array($data['id_node']))
+            {
+                foreach($data['id_node'] as $id_node)
+                {
+                    if(!is_int($id_node))
+                    {
+                        throw new SmartModelException('"id_node" array value isnt from type int: '.$id_node); 
+                    }
+                }
+            }
+            else
+            {
+                throw new SmartModelException('"id_node" isnt from type array: '); 
+            }
+        }    
+
+        if(isset($data['id_sector']))
+        {
+            if(is_array($data['id_sector']))
+            {
+                foreach($data['id_sector'] as $id_sector)
+                {
+                    if(!is_int($id_sector))
+                    {
+                        throw new SmartModelException('"id_sector" array value isnt from type int: '.$id_node); 
+                    }
+                }
+            }
+            else
+            {
+                throw new SmartModelException('"id_sector" isnt from type array: '); 
+            }
+        }   
 
         if(isset($data['limit']))
         {        

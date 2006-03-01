@@ -83,26 +83,32 @@ class ActionArticlePager extends SmartAction
 
         if(isset($data['nodeStatus']))
         {
-            $sql_nodestatus = " AND a.id_node=n.id_node 
-                                AND n.`status`{$data['nodeStatus'][0]}{$data['nodeStatus'][1]}";
-            $nodetable = ",{$this->config['dbTablePrefix']}navigation_node AS n";
+            $sql_nodestatus = " AND n.`status`{$data['nodeStatus'][0]}{$data['nodeStatus'][1]}";
         }
         else
         {
             $sql_nodestatus = "";
-            $nodetable = "";
         } 
 
+        $where = "a.`id_node`=n.`id_node`";
         $table = "";
-
+        
         if(isset($data['id_node']))
         {
-            $where = "a.`id_node`={$data['id_node']}";
+            $nodes = implode(",", $data['id_node']);
+            $where .= " AND a.`id_node` IN({$nodes})";
         }
-        elseif(isset($data['search']))
+        
+        if(isset($data['id_sector']))
+        {
+            $sectors = implode(",", $data['id_sector']);
+            $where .= " AND n.`id_sector` IN({$sectors})";
+        }
+        
+        if(isset($data['search']))
         {
             $search_string = $this->model->dba->escape( $data['search'] );
-            $where = "MATCH (i.`text1`,i.`text2`,i.`text3`,i.`text4`)
+            $where .= " AND MATCH (i.`text1`,i.`text2`,i.`text3`,i.`text4`)
                       AGAINST ('{$search_string}' IN BOOLEAN MODE) 
                       AND i.id_article=a.id_article ";
             $table = ",{$this->config['dbTablePrefix']}article_index AS i";
@@ -111,11 +117,12 @@ class ActionArticlePager extends SmartAction
         $sql = "SELECT {$this->sqlCache}
                     count(a.`id_article`) AS numArticles
                 FROM 
-                    {$this->config['dbTablePrefix']}article_article AS a
+                    {$this->config['dbTablePrefix']}article_article AS a,
+                    {$this->config['dbTablePrefix']}navigation_node AS n
                     {$table}
-                    {$nodetable}
                 WHERE
                    {$where}
+                   
                    {$sql_where}
                    {$sql_nodestatus}
                    {$sql_pubdate}";
@@ -144,11 +151,39 @@ class ActionArticlePager extends SmartAction
     { 
         if(isset($data['id_node']))
         {
-            if(!is_int($data['id_node']))
+            if(is_array($data['id_node']))
             {
-                throw new SmartModelException('"id_node" isnt from type int');        
-            }     
+                foreach($data['id_node'] as $id_node)
+                {
+                    if(!is_int($id_node))
+                    {
+                        throw new SmartModelException('"id_node" array value isnt from type int: '.$id_node); 
+                    }
+                }
+            }
+            else
+            {
+                throw new SmartModelException('"id_node" isnt from type array: '); 
+            }
         }    
+
+        if(isset($data['id_sector']))
+        {
+            if(is_array($data['id_sector']))
+            {
+                foreach($data['id_sector'] as $id_sector)
+                {
+                    if(!is_int($id_sector))
+                    {
+                        throw new SmartModelException('"id_sector" array value isnt from type int: '.$id_node); 
+                    }
+                }
+            }
+            else
+            {
+                throw new SmartModelException('"id_sector" isnt from type array: '); 
+            }
+        }  
 
         if(isset($data['search']))
         {
