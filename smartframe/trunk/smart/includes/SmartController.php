@@ -62,6 +62,10 @@ class SmartController extends SmartObject
             // display php errors
             ini_set('display_errors', $this->config['debug']);
 
+            // log file of php errors
+            ini_set('log_errors', TRUE);  
+            ini_set('error_log', SMART_BASE_DIR . 'logs/php_error.log');            
+
             // set error reporting
             error_reporting( $this->config['error_reporting'] );
 

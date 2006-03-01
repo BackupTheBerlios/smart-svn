@@ -74,7 +74,7 @@ class SmartException extends Exception
         // write this message to file
         if(strstr($this->flag['message_handle'], 'LOG'))
         {
-            error_log($this->exceptionMessage."\n\n", 3, $this->flag['logs_path'] . 'error.log');
+            error_log($this->exceptionMessage."\n\n", 3, $this->flag['logs_path'] . 'smart_error.log');
         }  
         // Print this message
         if(strstr($this->flag['message_handle'], 'SHOW') && ($this->flag['debug'] == TRUE ))

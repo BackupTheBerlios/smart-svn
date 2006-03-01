@@ -71,7 +71,7 @@ class SmartErrorHandler
         // Log this message to file
         if(strstr($this->config['message_handle'], 'LOG'))
         {
-            error_log($message."\n\n", 3, $this->config['logs_path'] . 'error.log');
+            error_log($message."\n\n", 3, $this->config['logs_path'] . 'smart_error.log');
         }  
         // Print this message
         if(strstr($this->config['message_handle'], 'SHOW'))
