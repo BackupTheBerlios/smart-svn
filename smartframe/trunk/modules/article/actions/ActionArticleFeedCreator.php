@@ -114,8 +114,8 @@ class ActionArticleFeedCreator extends SmartAction
     
     private function checkCache( & $data )
     {
-        $this->rssFile = SMART_BASE_DIR . 'data/article/rss/node'.$data['id_node'].'articles.xml';
-        $data['rssfile'] = 'data/article/rss/node'.$data['id_node'].'articles.xml';
+        $this->rssFile = SMART_BASE_DIR . 'data/article/rss/'.$data['id'].'.xml';
+        $data['rssfile'] = 'data/article/rss/'.$data['id'].'.xml';
 
         // check expire time
         if( file_exists($this->rssFile)  )
