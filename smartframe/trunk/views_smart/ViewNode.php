@@ -250,7 +250,7 @@ class ViewNode extends SmartView
         $this->model->action('article','feedCreator',
                array('format'       => 'rss',
                      'output'       => 'save',
-                     'id_node'      => (int)$this->tplVar['node']['id_node'],
+                     'id'           => 'node'.(int)$this->tplVar['node']['id_node'],
                      'items'        => & $this->tplVar['nodeArticles'],
                      'rssfile'      => & $this->tplVar['node']['rssfile'],
                      'expire'       => 3600,
