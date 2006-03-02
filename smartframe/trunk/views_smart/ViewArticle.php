@@ -130,7 +130,7 @@ class ViewArticle extends SmartView
             
             $this->tplVar['showComments'] = TRUE;
             
-            // Do we show comments but not the add comment form
+            // Do we show comments but not the add comment form?
             // Means: Visitors can no more add comments
             //
             if($this->tplVar['article']['close_comment'] == 0)
@@ -157,8 +157,12 @@ class ViewArticle extends SmartView
                                      'fields'     => array('id_comment','pubdate',
                                                            'body','id_user',
                                                            'author','email','url') )); 
-                                                           
-            $this->addHtmlToComments();
+            
+            // add html code to comments (ex.: nl2br)
+            foreach($this->tplVar['articleComments'] as $comment)
+            {
+                $this->addHtmlToComments( $comment['body'] );
+            }
         }
     }
 
@@ -323,7 +327,7 @@ class ViewArticle extends SmartView
             $this->tplVar['commentPreview']['author'] = $this->strip( $_POST['cauthor'] );
             $this->tplVar['commentPreview']['url']    = $this->strip( $_POST['curl'] );
             $this->tplVar['commentPreview']['email']  = $this->strip( $_POST['cemail'] );
-            $this->tplVar['commentPreview']['body']   = nl2br($this->strip( $_POST['cbody'] ));
+            $this->tplVar['commentPreview']['body']   = $this->addHtmlToComments($this->strip( $_POST['cbody'] ));
             $this->resetFormData();
             return TRUE;
         }
@@ -428,12 +432,11 @@ class ViewArticle extends SmartView
      * Transform raw comments body to html
      *
      */
-    private function addHtmlToComments()
+    private function addHtmlToComments( &$body )
     {
-        foreach($this->tplVar['articleComments'] as & $comment)
-        {
-            $comment['body'] = nl2br( $comment['body'] );
-        }
+        $body = nl2br( $body );
+        $body = preg_replace("/\[url=(\W?)(.*?)(\W?)\](.*?)\[\/url\]/", '<a href="$2">$4</a>', $body);
+        return $body;
     }
 }
 

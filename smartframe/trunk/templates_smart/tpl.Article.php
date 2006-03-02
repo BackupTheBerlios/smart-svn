@@ -183,10 +183,10 @@
                           <div style="font-size:14; color:#FF0000; font-weight: bold;"><?php echo $tpl['cmessage']; ?></div>
                       <?php endif; ?>                      
                         <form name="comment" accept-charset="<?php echo $tpl['charset']; ?>" method="post" action="<?php echo SMART_CONTROLLER; ?>?id_article=<?php echo $tpl['article']['id_article']; ?>#commentform">
-                         <table width="500" border="0" cellspacing="2" cellpadding="2">
+                         <table width="100%" border="0" cellspacing="2" cellpadding="2">
                            <tr>
                              <td width="120" align="left" valign="top" class="filelink"><strong>Author: </strong></td>
-                             <td width="380" align="left" valign="top" class="filelink">
+                             <td width="480" align="left" valign="top" class="filelink">
                                <input name="cauthor" type="text" value="<?php echo $tpl['cauthor']; ?>" size="50" maxlength="255">
                              </td>
                            </tr>
@@ -205,7 +205,7 @@
                            <tr>
                              <td align="left" valign="top" class="filelink"><strong>Comment: </strong></td>
                              <td align="left" valign="top" class="filelink">
-                               <textarea name="cbody" cols="50" rows="15" id="cbody"><?php echo $tpl['cbody']; ?></textarea>
+                               <textarea name="cbody" cols="60" rows="15" id="cbody"><?php echo $tpl['cbody']; ?></textarea>
                              </td>
                            </tr>
                            <tr>
@@ -214,7 +214,8 @@
                                <div><input type="text" name="captcha_turing_key" value="" maxlength="5" size="10">
                                <input type="hidden" name="captcha_public_key" value="<?php echo $tpl['public_key']; ?>" maxlength="5" size="40">
                                </div>
-                               <img src="<?php echo $tpl['captcha_pic']; ?>" border="1">
+                               <img src="<?php echo $tpl['captcha_pic']; ?>" border="1"><br><br>
+                               To include links:<br>&nbsp;&nbsp;[url=http://www.yahoo.com]Yahoo[/url]<br>&nbsp;&nbsp;[url=mailto:test@yahoo.com]Email[/url]
                              </td>
                            </tr>
                            <tr>
