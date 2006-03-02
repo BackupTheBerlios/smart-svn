@@ -220,13 +220,37 @@
                            <tr>
                            
                              <td align="left" valign="top" class="filelink" colspan="2">
-                               <input name="addComment" type="submit" id="addComment" value="add comment">
-         
+                              <?php if(isset($tpl['showCommentPreview'])): ?>
+                                 <input name="addComment" type="submit" id="addComment" value="add comment">  &nbsp;&nbsp;&nbsp;&nbsp; <input name="previewComment" type="submit" id="previewComment" value="preview comment">
+                              <?php else: ?>
+                                  <input name="addComment" type="submit" id="addComment" value="add comment">  &nbsp;&nbsp;&nbsp;&nbsp; <input name="previewComment" type="submit" id="previewComment" value="preview comment">
+                              <?php endif; ?>
                              </td>
                            </tr>
                          </table>
 
-                      <?php endif; ?>                           
+                      <?php endif; ?>   
+                      
+                      <?php if(isset($tpl['showCommentPreview'])): ?>
+                      <a name="preview"></a>
+                      <div class="downloads"><h2>Article comment preview: </h2></div>
+                         <table width="500" border="0" cellspacing="2" cellpadding="2">
+                           <tr>
+                             <td width="10" align="left" valign="top" class="filelink">-</td>
+                             <td width="490" align="left" valign="top" class="filelink">
+                                Posted by <a href="mailto:<?php echo $tpl['commentPreview']['email']; ?>"><?php echo $tpl['commentPreview']['author']; ?></a> / 
+                                <?php if(!empty($tpl['commentPreview']['url'])): ?>
+                                  / <a href="<?php echo $tpl['commentPreview']['url']; ?>">url</a>
+                                <?php  endif; ?>
+                             </td>
+                           </tr>
+                           <tr>
+                             <td align="left" valign="top" class="filedesc">&nbsp;</td>
+                             <td align="left" valign="top" class="filedesc"><?php echo $tpl['commentPreview']['body']; ?></td>
+                           </tr>
+                         </table>
+                         <hr />
+                      <?php endif; ?>  
                       
                     </td>
                  </tr>

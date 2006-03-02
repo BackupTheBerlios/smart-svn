@@ -108,7 +108,7 @@ class ViewArticle extends SmartView
                                        'fields'      => array('id_link','url','title','description') )); 
         }
         
-        // Should we show and allow article comments and add a comment form
+        // Should we show and allow article comments and show the comment form
         //
         // $this->config['article']['use_comment'] == 1 
         // --------------------------------------------
@@ -143,7 +143,7 @@ class ViewArticle extends SmartView
                                              'configPath'  => &$this->config['config_path']));                
 
                 // add comment
-                if(isset($_POST['addComment']))
+                if(isset($_POST['addComment']) || isset($_POST['previewComment']))
                 {
                     $this->addComment();
                 }
@@ -308,11 +308,25 @@ class ViewArticle extends SmartView
             $this->resetFormData();
             return TRUE;
         }
-        
+
         if( empty($_POST['author']) )
         {
             $_POST['author'] = 'annonymous';
         }  
+        
+        // assign template vars for comment preview
+        //
+        if( isset($_POST['previewComment']) )
+        {
+            $this->tplVar['showCommentPreview'] = TRUE;
+            
+            $this->tplVar['commentPreview']['author'] = $this->strip( $_POST['cauthor'] );
+            $this->tplVar['commentPreview']['url']    = $this->strip( $_POST['curl'] );
+            $this->tplVar['commentPreview']['email']  = $this->strip( $_POST['cemail'] );
+            $this->tplVar['commentPreview']['body']   = nl2br($this->strip( $_POST['cbody'] ));
+            $this->resetFormData();
+            return TRUE;
+        }
         
         if(!empty($_POST['cbody']))
         {
@@ -324,7 +338,7 @@ class ViewArticle extends SmartView
                                            'body'       => (string) $this->strip( $_POST['cbody'] )) ));
 
 
-            // Send emails if a new comment was added?
+            // Send emails if a new comment was made?
             // $this->sendEmails();
 
             // comment needs to be validate
