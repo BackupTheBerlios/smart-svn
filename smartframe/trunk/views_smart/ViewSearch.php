@@ -120,25 +120,23 @@ class ViewSearch extends SmartView
      */    
     private function initVars()
     {
-        if( isset($_POST['search']) )
+        if( isset($_REQUEST['search']) )
         {
-            $this->searchString = SmartCommonUtil::stripSlashes((string)$_POST['search']);
-            $this->pagerUrlSearchString = urlencode(SmartCommonUtil::stripSlashes((string)$_POST['search']));
-        }
-        elseif( isset($_GET['search']) )
-        {
-            $this->searchString = urldecode(SmartCommonUtil::stripSlashes((string)$_GET['search']));
-            $this->pagerUrlSearchString = SmartCommonUtil::stripSlashes((string)$_GET['search']);
-        }        
+            $this->searchString = SmartCommonUtil::stripSlashes((string)$_REQUEST['search']);
+            $this->pagerUrlSearchString = urlencode(SmartCommonUtil::stripSlashes((string)$_REQUEST['search']));
+        }     
         else
         {
             $this->searchString = '';
             $this->pagerUrlSearchString = '';
         }
         
+        // strip bad code
+        $this->searchString = $this->model->action( 'common', 'safeHtml', $this->searchString );
+        
         // assign template variable with search string
-        $this->tplVar['search']     = htmlspecialchars($this->searchString, ENT_COMPAT, $this->config['charset'] );
-        $this->tplVar['formsearch'] = htmlspecialchars($this->searchString, ENT_COMPAT, $this->config['charset'] );
+        $this->tplVar['search']     = $this->searchString;
+        $this->tplVar['formsearch'] = $this->searchString;
         
         // template array variables
         $this->tplVar['articles'] = array();

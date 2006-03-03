@@ -380,12 +380,12 @@ class ViewArticle extends SmartView
         }    
     }
     /**
-     * strip html tags shlashes
+     * strip bad code
      *
      */     
     private function strip( & $str )
     {
-          return strip_tags(SmartCommonUtil::stripSlashes( $str ));     
+        return $this->model->action( 'common', 'safeHtml', $str );   
     }
     /**
      * fill form fields with old data
