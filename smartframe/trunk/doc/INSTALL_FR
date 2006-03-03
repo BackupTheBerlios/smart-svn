@@ -9,17 +9,20 @@ Créez une base de donnée MySql 4.1.
 Verifiez si les scripts php ont le droit d'écrirent dans les
 répertoires suivants:
 
-    * /cache
-    * /cache/smartyCompiled
-    * /config
-    * /data
-    * /data/article
-    * /data/common
-    * /data/common/captcha
-    * /data/misc
-    * /data/navigation
-    * /data/user
-    * /logs
+ # /cache
+ # /cache/smartyCompiled
+ # /config
+ # /data
+ # /data/article
+ # /data/article/rss
+ # /data/common
+ # /data/common/captcha
+ # /data/common/rss_cache
+ # /data/common/tinymce_cache
+ # /data/misc
+ # /data/navigation
+ # /data/user
+ # /logs
 
 Pointez votre navigateur sur le fichier "admin.php" qui se trouve
 dans le répertoire principal. Vous devez voire une page setup.

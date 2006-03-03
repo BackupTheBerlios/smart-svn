@@ -1,8 +1,5 @@
-Smart3 0.2a - Readme
+Smart3 0.2.6b - Readme
 --------------------
-
-This is the first release of Smart3 (former Smart) project.
-It is still alpha an you should use it only for testing purpose.
 
 The core framework require php5.
 The delivered modules require MySql 4.1

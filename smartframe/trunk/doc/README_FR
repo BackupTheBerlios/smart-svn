@@ -1,8 +1,6 @@
-Smart3 0.2a - Readme
+Smart3 0.2.6b - Readme
 --------------------
 
-Le projet se trouve toujours dans la phase alpha. Ce qui veut
-dire de ne pas l'utiliser dans un environnement de production.
 
 Smart3 a besoin de php5.
 Les modules ont besoin de MySql 4.1
