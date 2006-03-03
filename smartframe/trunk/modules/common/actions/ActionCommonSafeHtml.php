@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /**
- * Test action (simple example)
+ * ActionCommonSafeHtml
  *
  */
 
@@ -20,7 +20,7 @@
 class ActionCommonSafeHtml extends SmartAction
 {
     /**
-     * Perform on the action call
+     * strip bad code from string
      *
      * @param mixed $data Data passed to this action
      */
@@ -30,22 +30,11 @@ class ActionCommonSafeHtml extends SmartAction
         {
             define('XML_HTMLSAX3', SMART_BASE_DIR . 'modules/common/includes/safehtml/');
             include_once(SMART_BASE_DIR . 'modules/common/includes/safehtml/safehtml.php');
-            $this->model->safehtml = new safehtml();
         }
         
-        
-        // Here we assign a variable with some content
-        // The action caller has to evaluate its content
-        //
+        $this->model->safehtml = new safehtml();
         return $this->model->safehtml->parse( $data);
-    }
-    
-    /**
-     */
-    public function validate( $data = FALSE )
-    {
-        return TRUE;
-    }    
+    }  
 }
 
 ?>
