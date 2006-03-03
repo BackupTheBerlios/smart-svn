@@ -84,8 +84,6 @@ class ViewArticleAjax extends SmartAjaxView
     public function search( $searchObject ) 
     {
         $searchResult = array();     
-        
-        $searchObject->search = $this->strip( $searchObject->search );
 
         // search articles                                                   
         $this->model->action('article','search',
@@ -118,15 +116,6 @@ class ViewArticleAjax extends SmartAjaxView
         
         return $searchResult;
     }     
-
-    /**
-     * strip bad code
-     *
-     */     
-    private function strip( $str )
-    {
-        return $this->model->action( 'common', 'safeHtml', strip_tags( $str ) );   
-    }
     
     /**
      * authentication
