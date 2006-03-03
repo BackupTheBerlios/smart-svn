@@ -93,7 +93,7 @@ class ViewUserLogin extends SmartView
      */     
     private function strip( $str )
     {
-        return $this->model->action( 'common', 'safeHtml', $str );   
+        return $this->model->action( 'common', 'safeHtml', strip_tags( $str ) );   
     }
 }
 
