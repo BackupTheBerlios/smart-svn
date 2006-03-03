@@ -327,7 +327,7 @@ class ViewArticle extends SmartView
             $this->tplVar['commentPreview']['author'] = $this->strip( $_POST['cauthor'] );
             $this->tplVar['commentPreview']['url']    = $this->strip( $_POST['curl'] );
             $this->tplVar['commentPreview']['email']  = $this->strip( $_POST['cemail'] );
-            $this->tplVar['commentPreview']['body']   = $this->strip( $this->addHtmlToComments( $_POST['cbody'] ) );
+            $this->tplVar['commentPreview']['body']   = $this->addHtmlToComments( $this->strip( $_POST['cbody'] ) );
             $this->resetFormData();
             return TRUE;
         }
@@ -385,7 +385,7 @@ class ViewArticle extends SmartView
      */     
     private function strip( $str )
     {
-        return $this->model->action( 'common', 'safeHtml', $str );   
+        return $this->model->action( 'common', 'safeHtml', strip_tags( $str ) );   
     }
     /**
      * fill form fields with old data
