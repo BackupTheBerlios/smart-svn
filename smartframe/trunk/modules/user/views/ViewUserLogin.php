@@ -56,8 +56,8 @@ class ViewUserLogin extends SmartView
             // validate captcha turing/public keys
             if (FALSE == $this->model->action( 'common',
                                                'captchaValidate',
-                                               array('turing_key'  => (string)$_POST['captcha_turing_key'],
-                                                     'public_key'  => (string)$_POST['captcha_public_key'],
+                                               array('turing_key'  => (string)$this->strip($_POST['captcha_turing_key']),
+                                                     'public_key'  => (string)$this->strip($_POST['captcha_public_key']),
                                                      'configPath'  => (string)$this->config['config_path'])))
             {
                 $this->_reset_form_data();
@@ -67,8 +67,8 @@ class ViewUserLogin extends SmartView
             // verify user and password. If those dosent match
             // reload the login page
             $login = $this->model->action( 'user','checkLogin',
-                                           array('login'  => (string)$_POST['login_name'],
-                                                 'passwd' => (string)$_POST['password']));
+                                           array('login'  => (string)$this->strip($_POST['login_name']),
+                                                 'passwd' => (string)$this->strip($_POST['password'])));
             
             // If login was successfull reload the admin section
             if($login == TRUE)
@@ -84,8 +84,17 @@ class ViewUserLogin extends SmartView
     
     private function _reset_form_data()
     {
-        $this->tplVar['login_name'] = htmlentities(strip_tags(SmartCommonUtil::stripSlashes($_POST['login_name'])));     
-    }      
+        $this->tplVar['login_name'] = htmlentities($this->strip(SmartCommonUtil::stripSlashes($_POST['login_name'])));     
+    }   
+    
+    /**
+     * strip bad code
+     *
+     */     
+    private function strip( $str )
+    {
+        return $this->model->action( 'common', 'safeHtml', $str );   
+    }
 }
 
 ?>
