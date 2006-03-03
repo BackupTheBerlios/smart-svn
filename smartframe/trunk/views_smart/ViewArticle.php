@@ -159,9 +159,9 @@ class ViewArticle extends SmartView
                                                            'author','email','url') )); 
             
             // add html code to comments (ex.: nl2br)
-            foreach($this->tplVar['articleComments'] as $comment)
+            foreach($this->tplVar['articleComments'] as & $comment)
             {
-                $this->addHtmlToComments( $comment['body'] );
+                $comment['body'] = $this->addHtmlToComments( $comment['body'] );
             }
         }
     }
@@ -327,7 +327,7 @@ class ViewArticle extends SmartView
             $this->tplVar['commentPreview']['author'] = $this->strip( $_POST['cauthor'] );
             $this->tplVar['commentPreview']['url']    = $this->strip( $_POST['curl'] );
             $this->tplVar['commentPreview']['email']  = $this->strip( $_POST['cemail'] );
-            $this->tplVar['commentPreview']['body']   = $this->addHtmlToComments($this->strip( $_POST['cbody'] ));
+            $this->tplVar['commentPreview']['body']   = $this->strip( $this->addHtmlToComments( $_POST['cbody'] ) );
             $this->resetFormData();
             return TRUE;
         }
@@ -383,7 +383,7 @@ class ViewArticle extends SmartView
      * strip bad code
      *
      */     
-    private function strip( & $str )
+    private function strip( $str )
     {
         return $this->model->action( 'common', 'safeHtml', $str );   
     }
@@ -432,7 +432,7 @@ class ViewArticle extends SmartView
      * Transform raw comments body to html
      *
      */
-    private function addHtmlToComments( &$body )
+    private function addHtmlToComments( $body )
     {
         $body = nl2br( $body );
         $body = preg_replace("/\[url=(\W?)(.*?)(\W?)\](.*?)\[\/url\]/", '<a href="$2">$4</a>', $body);
