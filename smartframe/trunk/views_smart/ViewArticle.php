@@ -157,7 +157,7 @@ class ViewArticle extends SmartView
                                      'fields'     => array('id_comment','pubdate',
                                                            'body','id_user',
                                                            'author','email','url') )); 
-            
+          
             // add html code to comments (ex.: nl2br)
             foreach($this->tplVar['articleComments'] as & $comment)
             {
@@ -429,13 +429,13 @@ class ViewArticle extends SmartView
     }    
 
     /**
-     * Transform raw comments body to html
+     * Parse comments for phpBB code
      *
      */
     private function addHtmlToComments( $body )
     {
-        $body = nl2br( $body );
-        $body = preg_replace("/\[url=(\W?)(.*?)(\W?)\](.*?)\[\/url\]/", '<a href="$2">$4</a>', $body);
+        $this->model->action('article', 'phpBBParseComment', 
+                             array('content' => & $body) );
         return $body;
     }
 }
