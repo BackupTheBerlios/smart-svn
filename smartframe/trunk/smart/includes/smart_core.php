@@ -192,7 +192,7 @@ $SmartConfig['disable_cache'] = 0;
 ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'smart/includes/PEAR' . PATH_SEPARATOR . ini_get('include_path') );
 
 // set include path to the Zend Framework
-ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'smart/includes/ZendFramework' . PATH_SEPARATOR . ini_get('include_path') );
+ini_set( 'include_path', '.' . PATH_SEPARATOR . SMART_BASE_DIR . 'smart/includes/ZendFramework/library' . PATH_SEPARATOR . ini_get('include_path') );
 
 #so smart object
 include_once( SMART_BASE_DIR . 'smart/includes/SmartObject.php' );
