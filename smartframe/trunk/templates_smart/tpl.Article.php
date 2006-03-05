@@ -214,8 +214,9 @@
                                <div><input type="text" name="captcha_turing_key" value="" maxlength="5" size="10">
                                <input type="hidden" name="captcha_public_key" value="<?php echo $tpl['public_key']; ?>" maxlength="5" size="40">
                                </div>
-                               <img src="<?php echo $tpl['captcha_pic']; ?>" border="1"><br><br>
-                               To include links:<br>&nbsp;&nbsp;[url=http://www.yahoo.com]Yahoo[/url]<br>&nbsp;&nbsp;[url=mailto:test@yahoo.com]Email[/url]
+                               <img src="<?php echo $tpl['captcha_pic']; ?>" border="1"><br><div align="right">
+                               <strong>You can format comment text with phpBB code:</strong><br>&nbsp;&nbsp;[url=http://www.yahoo.com]Yahoo[/url]<br>&nbsp;&nbsp;[email=mailto:test@yahoo.com]Email[/email]<br>
+                               <a href="http://www.phpbb.com/support/guide/#section4_2_5" target="_blank">See full phpBB code doc</a></div>
                              </td>
                            </tr>
                            <tr>
