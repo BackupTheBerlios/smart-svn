@@ -69,6 +69,7 @@ class ActionCommonSetup extends SmartAction
             
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_config (
                  `charset`             varchar(50) NOT NULL default '',
+                 `smart_version_num`   varchar(50) NOT NULL default '',
                  `site_url`            varchar(255) NOT NULL default '',
                  `templates_folder`    varchar(255) NOT NULL default '',
                  `views_folder`        varchar(255) NOT NULL default '',
@@ -102,7 +103,7 @@ class ActionCommonSetup extends SmartAction
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                 VALUES
-                 ('common','', 0,'0.2',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
+                 ('common','', 0,'0.4',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);            
 
         return TRUE;

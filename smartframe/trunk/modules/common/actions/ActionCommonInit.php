@@ -177,7 +177,7 @@ class ActionCommonInit extends SmartAction
      */    
     private function checkSmartVersion()
     {
-        if(0 != version_compare($this->config['smart_version_num'], $this->config['smart_version']))
+        if(0 != version_compare($this->config['common']['smart_version_num'], $this->config['smart_version']))
         {
             $this->model->broadcast('smartCoreNewVersion',
                                  array('new_version' => (string)$this->config['smart_version']));           
