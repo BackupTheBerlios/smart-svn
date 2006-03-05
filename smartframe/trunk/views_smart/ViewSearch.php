@@ -132,7 +132,7 @@ class ViewSearch extends SmartView
         }
         
         // strip bad code
-        $this->searchString = $this->model->action( 'common', 'safeHtml', $this->searchString );
+        $this->searchString = $this->model->action( 'common', 'safeHtml', strip_tags($this->searchString) );
         
         // assign template variable with search string
         $this->tplVar['search']     = $this->searchString;
