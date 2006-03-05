@@ -61,6 +61,7 @@ class ActionArticleGetArticles extends SmartAction
                                          'format'       => 'Int',
                                          'logo'         => 'String',
                                          'media_folder' => 'String',
+                                         'num_comments' => 'Int',
                                          'allow_comment' => 'Int',
                                          'close_comment' => 'Int');
 
@@ -74,15 +75,28 @@ class ActionArticleGetArticles extends SmartAction
     {
         $comma = '';
         $_fields = '';
+        $get_num_comments = FALSE;
+
+        // we need Id_article field
+        if(!in_array('id_article', $data['fields'] ))
+        {
+            $data['fields'][] = 'id_article';
+        }
+        
         foreach ($data['fields'] as $f)
         {
+            if($f == 'num_comments')
+            {
+                $get_num_comments = TRUE;
+                continue;
+            }
             $_fields .= $comma.'aa.`'.$f.'`';
             $comma = ',';
         }
         
         if(isset($data['status']))
         {
-            $sql_where = "aa.`status`{$data['status'][0]}{$data['status'][1]}";
+            $sql_where = " AND aa.`status`{$data['status'][0]}{$data['status'][1]}";
         }
         else
         {
@@ -218,6 +232,10 @@ class ActionArticleGetArticles extends SmartAction
         
         while($row = $rs->fetchAssoc())
         {
+            if($get_num_comments == TRUE)
+            {
+                $row['num_comments'] = $this->getNumComments( (int)$row['id_article'] );
+            }
             $data['result'][] = $row;
         } 
     } 
@@ -462,7 +480,24 @@ class ActionArticleGetArticles extends SmartAction
         }
         
         return TRUE;
-    }    
+    }  
+    
+    private function getNumComments( $id_article )
+    {
+        $sql = "
+            SELECT {$this->sqlCache}
+                count(`id_comment`) AS `num_rows` 
+            FROM
+                {$this->config['dbTablePrefix']}article_comment
+            WHERE
+                `id_article`={$id_article}";
+
+        $rs = $this->model->dba->query($sql);
+        
+        $row = $rs->fetchAssoc();
+        
+        return $row['num_rows'];
+    }
 }
 
 ?>
