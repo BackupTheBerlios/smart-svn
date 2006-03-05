@@ -101,7 +101,7 @@ class ViewLogin extends SmartView
      */     
     private function resetFormData()
     {
-        $this->tplVar['login'] = htmlentities(strip_tags(SmartCommonUtil::stripSlashes($_POST['login'])));     
+        $this->tplVar['login'] = $this->model->action( 'common', 'safeHtml', strip_tags(SmartCommonUtil::stripSlashes($_POST['login'])) );  
     }     
 }
 
