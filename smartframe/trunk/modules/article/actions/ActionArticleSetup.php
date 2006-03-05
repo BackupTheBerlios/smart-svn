@@ -148,7 +148,7 @@ class ActionArticleSetup extends SmartAction
                  `default_order`     varchar(10) NOT NULL default '',
                  `default_ordertype` varchar(4) NOT NULL default '',
                  `default_comment_status` tinyint(1) NOT NULL default 1,
-                 `use_comment`       tinyint(1) NOT NULL default 0,
+                 `use_comment`       tinyint(1) NOT NULL default 1,
                  `use_article_view`  tinyint(1) NOT NULL default 0,
                  `use_users`         tinyint(1) NOT NULL default 0,
                  `use_keywords`      tinyint(1) NOT NULL default 1,
@@ -206,7 +206,7 @@ class ActionArticleSetup extends SmartAction
                    ('article',
                     'Article Management',
                     3,
-                    '0.3',
+                    '0.4',
                     1,
                     40,
                     'DATE: 28.12.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
