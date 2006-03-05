@@ -60,13 +60,6 @@
               <a href="?lang=de">deutsche version</a>
           <?php endif; ?>         
           </td>
-                  <td align="center" valign="middle" class="font12">
-          <?php if($tpl['lang']=='fr'): ?>
-              version fran&ccedil;aise
-          <?php else: ?>
-              <a href="?lang=fr">version fran&ccedil;aise</a>
-          <?php endif; ?>         
-          </td>
                 </tr>
               </table><hr>
               
