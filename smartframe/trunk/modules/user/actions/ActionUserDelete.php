@@ -65,10 +65,6 @@ class ActionUserDelete extends SmartAction
             // delete user data media folder
             SmartCommonUtil::deleteDirTree( SMART_BASE_DIR.'data/user/'.$row['media_folder'] );
         }
-        else
-        {
-            trigger_error("User media folder string is empty! \nFILE: ".__FILE__, E_USER_WARNING);
-        }
         
         $sql = "DELETE FROM {$this->config['dbTablePrefix']}user_user
                   WHERE
