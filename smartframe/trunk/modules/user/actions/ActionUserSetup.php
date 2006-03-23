@@ -34,6 +34,7 @@ class ActionUserSetup extends SmartAction
                    `passwd`       char(32) NOT NULL,
                    `role`         tinyint(3) unsigned NOT NULL default 10,
                    `status`       tinyint(1) NOT NULL default 1,
+                   `user_gmt`     tinyint(2) NOT NULL default 1,
                    `name`         varchar(255) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `lastname`     varchar(255) CHARACTER SET {$data['config']['db']['dbcharset']} NOT NULL default '',
                    `email`        varchar(255) NOT NULL default '',

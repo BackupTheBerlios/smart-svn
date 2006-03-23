@@ -20,7 +20,7 @@ class ActionUserInit extends SmartAction
     /**
      * User Module Version
      */
-    const MOD_VERSION = '0.1';    
+    const MOD_VERSION = '0.2';    
     
     /**
      * Run init process of this module
