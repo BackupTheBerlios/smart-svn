@@ -36,7 +36,7 @@ class ActionCommonInit extends SmartAction
     /**
      * Common Module Version
      */
-    const MOD_VERSION = '0.4';    
+    const MOD_VERSION = '0.5';    
     
     /**
      * Run init process of this module

@@ -75,6 +75,8 @@ class ActionCommonSetup extends SmartAction
                  `views_folder`        varchar(255) NOT NULL default '',
                  `disable_cache`       tinyint(1) NOT NULL default 1,
                  `textarea_rows`       tinyint(2) NOT NULL default 25,
+                 `server_gmt`          tinyint(2) NOT NULL default 1,
+                 `default_gmt`         tinyint(2) NOT NULL default 1,
                  `max_lock_time`       int(11) NOT NULL default 7200,
                  `session_maxlifetime` int(11) NOT NULL default 7200,
                  `rejected_files`      text NOT NULL default '') 
