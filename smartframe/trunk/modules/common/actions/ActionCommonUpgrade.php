@@ -102,14 +102,21 @@ class ActionCommonUpgrade extends SmartAction
      */
     private function upgrade_0_4_to_0_5()
     {
+        $server_timezone = (int)(date("Z") / 3600);
+        
+        if( ($server_timezone < -12 ) || ($server_timezone > -12 ) )
+        {
+            $server_timezone = 1;
+        }
+        
         $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
-                ADD `server_gmt` tinyint(2) NOT NULL default 1 
+                ADD `server_gmt` tinyint(2) NOT NULL default {$server_timezone} 
                 AFTER `textarea_rows`";
                
         $this->model->dba->query($sql);
         
         $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
-                ADD `default_gmt` tinyint(2) NOT NULL default 1 
+                ADD `default_gmt` tinyint(2) NOT NULL default {$server_timezone}  
                 AFTER `textarea_rows`";
                
         $this->model->dba->query($sql);
