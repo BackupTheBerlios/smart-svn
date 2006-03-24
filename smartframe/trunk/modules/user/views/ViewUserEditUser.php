@@ -70,6 +70,7 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['name']        = '';
         $this->tplVar['user']['lastname']    = '';  
         $this->tplVar['user']['description'] = '';   
+        $this->tplVar['user']['user_gmt']    = 1;  
         $this->tplVar['user']['role']        = 0;  
         $this->tplVar['user']['thumb']       = array();
         $this->tplVar['user']['file']        = array();
@@ -94,6 +95,7 @@ class ViewUserEditUser extends SmartView
                                                       'status',
                                                       'role',
                                                       'description',
+                                                      'user_gmt',
                                                       'format',
                                                       'logo',
                                                       'media_folder')) );
@@ -310,9 +312,17 @@ class ViewUserEditUser extends SmartView
         $_data = array( 'error'     => & $this->tplVar['error'],
                         'id_user'   => (int)$_REQUEST['id_user'],
                         'fields' => array('email'    => SmartCommonUtil::stripSlashes((string)$_POST['email']),
-                                        'name'     => SmartCommonUtil::stripSlashes((string)$_POST['name']),
-                                        'lastname' => SmartCommonUtil::stripSlashes((string)$_POST['lastname']),
-                                        'description' => SmartCommonUtil::stripSlashes((string)$_POST['description'])));
+                                          'name'     => SmartCommonUtil::stripSlashes((string)$_POST['name']),
+                                          'lastname' => SmartCommonUtil::stripSlashes((string)$_POST['lastname']),
+                                          'description' => SmartCommonUtil::stripSlashes((string)$_POST['description']) ));
+
+        if( isset($_POST['user_gmt']) )
+        {
+            if( ($_POST['user_gmt'] >= -12) &&  ($_POST['user_gmt'] <= 12) )
+            {
+                $_data['fields']['user_gmt'] = (int)$_POST['user_gmt'];
+            }        
+        }
 
         // if a logged user modify its own account data disable status and role settings
         if($this->viewVar['loggedUserId'] != $_REQUEST['id_user'])
@@ -533,6 +543,7 @@ class ViewUserEditUser extends SmartView
         $this->tplVar['user']['login']    = SmartCommonUtil::stripSlashes((string)$_POST['login']);
         $this->tplVar['user']['passwd']   = SmartCommonUtil::stripSlashes((string)$_POST['passwd']); 
         $this->tplVar['user']['status']   = (int)$_POST['status']; 
+        $this->tplVar['user']['user_gmt'] = (int)$_POST['user_gmt']; 
         $this->tplVar['format']   = (int)$_POST['format'];
     } 
 

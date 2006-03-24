@@ -198,7 +198,7 @@ function MM_swapImage() { //v3.0
     <td width="79%" align="left" valign="top">    <table width="100%" border="0" cellspacing="3" cellpadding="3">
       <?php if(count($tpl['error'])>0): ?>
       <tr>
-        <td width="25%" align="left" valign="top" class="itemerror" colspan="2">
+        <td align="left" valign="top" class="itemerror" colspan="2">
     <?php foreach($tpl['error'] as $err): ?>
        <?php echo $err; ?><br />
     <?php endforeach; ?>
@@ -207,8 +207,8 @@ function MM_swapImage() { //v3.0
       <?php endif; ?>
     <?php if($tpl['showButton']==TRUE): ?>
       <tr>
-        <td align="left" valign="top" class="font10bold">Status:</td>
-        <td align="left" valign="top" class="font10bold">Role</td>
+        <td width="45%" align="left" valign="top" class="font10bold">Status:</td>
+        <td width="55%" align="left" valign="top" class="font10bold">Role</td>
       </tr>
       <tr>
         <td align="left" valign="top" class="font10bold"><select name="status">
@@ -244,20 +244,30 @@ function MM_swapImage() { //v3.0
    
       <tr>
         <td height="28" align="left" valign="top" class="font10bold">Email</td>
-        <td align="left" valign="top" class="font10bold">&nbsp;</td>
+        <td align="left" valign="top" class="font10bold">Default time zone relative to Greenwich (GMT)</td>
       </tr>
       <tr>
         <td align="left" valign="top"><input name="email" type="text" id="passwd" size="30" maxlength="255" value="<?php echo $tpl['user']['email']; ?>">
 * </td>
+        <td align="left" valign="top">
+        <select name="user_gmt" size="1" id="user_gmt" class="treeselectbox">
+        <?php for($gmt=12; $gmt>=-12; $gmt--): ?>
+          <option value="<?php echo $gmt; ?>" <?php if($tpl['user']['user_gmt'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
+        <?php endfor; ?>
+        </select>
+		</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold">&nbsp;</td>
         <td rowspan="2" align="right" valign="bottom"><input name="updatethisuser" type="hidden" value="1">
           <input name="updateuser" type="submit" value="Submit">
           <?php if($tpl['showButton']==TRUE): ?>
-               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-               <input type="button" name="Submit" value="delete" onclick="deluser(this.form, 'Delete this user?');">
-          <?php endif; ?>
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <input type="button" name="Submit" value="cancel" onclick="cancel_edit(this.form);"></td>
-      </tr> 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="button" name="Submit" value="delete" onClick="deluser(this.form, 'Delete this user?');">
+<?php endif; ?>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="button" name="Submit" value="cancel" onClick="cancel_edit(this.form);"></td>
+      </tr>
       <tr>
         <td align="left" valign="top" class="font10bold">Description</td>
         </tr>

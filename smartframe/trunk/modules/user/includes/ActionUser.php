@@ -34,6 +34,7 @@ class ActionUser extends SmartAction
                             'lastname'  => 'String',
                             'email'     => 'String',
                             'description'  => 'String',
+                            'user_gmt'     => 'Int',
                             'format'       => 'Int',
                             'logo'         => 'String',
                             'media_folder' => 'String');
