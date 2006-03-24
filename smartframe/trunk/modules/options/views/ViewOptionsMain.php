@@ -93,6 +93,7 @@ class ViewOptionsMain extends SmartView
         $this->tplVar['defaultGMT']           = $this->config['default_gmt'];
 
         $this->tplVar['disableCache']         = $this->config['disable_cache'];
+        $this->tplVar['serverTimezone']       = (int)(date("Z") / 3600);
     } 
     
     /**
