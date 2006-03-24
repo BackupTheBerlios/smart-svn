@@ -24,6 +24,8 @@ class ActionOptionsUpdateConfigOptions extends SmartAction
                             'max_lock_time'       => 'Int',
                             'session_maxlifetime' => 'Int',
                             'textarea_rows'       => 'Int',
+                            'server_gmt'          => 'Int',
+                            'default_gmt'         => 'Int',
                             'rejected_files'      => 'String');
     /**
      * update common config values

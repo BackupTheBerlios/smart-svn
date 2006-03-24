@@ -89,6 +89,30 @@
       <tr>
         <td align="left" valign="top"><input name="textarea_rows" type="text" id="textarea_rows" value="<?php echo $tpl['textareaRows']; ?>" size="2" maxlength="3"></td>
       </tr>   
+      <tr>
+        <td align="left" valign="top" class="font10bold">Server time zone relative to Greenwich (GMT)</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">
+        <select name="server_gmt" size="1" id="server_gmt" class="treeselectbox">
+        <?php for($gmt=12; $gmt>=-12; $gmt--): ?>
+          <option value="<?php echo $gmt; ?>" <?php if($tpl['serverGMT'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
+        <?php endfor; ?>
+        </select>
+        </td>
+      </tr> 
+      <tr>
+        <td align="left" valign="top" class="font10bold">Default time zone relative to Greenwich (GMT)</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top">
+        <select name="default_gmt" size="1" id="server_gmt" class="treeselectbox">
+        <?php for($gmt=12; $gmt>=-12; $gmt--): ?>
+          <option value="<?php echo $gmt; ?>" <?php if($tpl['defaultGMT'] == $gmt) echo 'selected="selected"'; ?>><?php echo $gmt; ?></option>
+        <?php endfor; ?>
+        </select>
+        </td>
+      </tr> 
     </table></td>
     <td width="26%" align="left" valign="top" class="font10bold"><input type="submit" name="updateOptions" value="update"></td>
   </tr>

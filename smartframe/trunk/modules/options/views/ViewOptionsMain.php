@@ -89,6 +89,8 @@ class ViewOptionsMain extends SmartView
         $this->tplVar['maxLockTime']          = $this->config['max_lock_time'];
         $this->tplVar['sessionMaxlifetime']   = $this->config['session_maxlifetime'];
         $this->tplVar['textareaRows']         = $this->config['textarea_rows'];
+        $this->tplVar['serverGMT']            = $this->config['server_gmt'];
+        $this->tplVar['defaultGMT']           = $this->config['default_gmt'];
 
         $this->tplVar['disableCache']         = $this->config['disable_cache'];
     } 
@@ -178,6 +180,24 @@ class ViewOptionsMain extends SmartView
                 $this->config['textarea_rows'] = (string)$_POST['textarea_rows'];
             }
        }  
+
+       if( isset($_POST['server_gmt']) )
+       {
+            if( ($_POST['server_gmt'] >= -12) &&  ($_POST['server_gmt'] <= 12) )
+            {
+                $this->fields['server_gmt'] = (int)$_POST['server_gmt'];
+                $this->config['server_gmt'] = (int)$_POST['server_gmt'];
+            }
+       }  
+       
+       if( isset($_POST['default_gmt']) )
+       {
+            if( ($_POST['default_gmt'] >= -12) &&  ($_POST['default_gmt'] <= 12) )
+            {
+                $this->fields['default_gmt'] = (int)$_POST['default_gmt'];
+                $this->config['default_gmt'] = (int)$_POST['default_gmt'];
+            }
+       }        
 
        if(isset($_POST['session_maxlifetime']) && (strlen($_POST['session_maxlifetime']) <= 11))
        {
