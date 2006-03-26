@@ -147,6 +147,7 @@ class ViewCommonIndex extends SmartView
         // the prependFilterChain() function check the permission
         $this->viewVar['loggedUserId']   = $this->model->session->get('loggedUserId');
         $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');
+        $this->viewVar['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
     }
  
     /**
