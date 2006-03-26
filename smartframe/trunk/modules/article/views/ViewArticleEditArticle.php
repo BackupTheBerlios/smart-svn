@@ -364,6 +364,16 @@ class ViewArticleEditArticle extends SmartView
     {
         if(isset($_POST[$_date.'_year']))
         {
+            // convert date from user timezone to gmt+0
+            $this->model->action('common', 'gmtConverter',
+                           array('action'   => 'dateToGmt',
+                                 'timezone' => $this->viewVar['loggedUserGmt'],
+                                 'date'     => array('year'   => &$_POST[$_date.'_year'],
+                                                     'month'  => &$_POST[$_date.'_month'],
+                                                     'day'    => &$_POST[$_date.'_day'],
+                                                     'hour'   => &$_POST[$_date.'_hour'],
+                                                     'minute' => &$_POST[$_date.'_minute']) )); 
+                                                     
             return $_POST[$_date.'_year'].'-'.$_POST[$_date.'_month'].'-'.$_POST[$_date.'_day'].' '.$_POST[$_date.'_hour'].':'.$_POST[$_date.'_minute'].':00';
         }
         return '';
@@ -394,12 +404,22 @@ class ViewArticleEditArticle extends SmartView
      *
      */      
     private function assignTemplateDates()  
-    {
+    {                   
         if( isset($this->tplVar['article']['pubdate']) )
         {
             if( preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/",
                            $this->tplVar['article']['pubdate'], $d) )
             {
+                // convert gmt date to user timezone
+                $this->model->action('common', 'gmtConverter',
+                               array('action'   => 'gmtToDate',
+                                     'timezone' => $this->viewVar['loggedUserGmt'],
+                                     'date'     => array('year'   => &$d[1],
+                                                         'month'  => &$d[2],
+                                                         'day'    => &$d[3],
+                                                         'hour'   => &$d[4],
+                                                         'minute' => &$d[5]) ));        
+                      
                 $this->tplVar['article']['pubdate'] = array();
                 $this->tplVar['article']['pubdate']['year']   = $d[1]; 
                 $this->tplVar['article']['pubdate']['month']  = $d[2];
@@ -413,6 +433,16 @@ class ViewArticleEditArticle extends SmartView
             if( preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/",
                            $this->tplVar['article']['articledate'], $d2) )
             {
+                // convert gmt date to user timezone
+                $this->model->action('common', 'gmtConverter',
+                               array('action'   => 'gmtToDate',
+                                     'timezone' => $this->viewVar['loggedUserGmt'],
+                                     'date'     => array('year'   => &$d[1],
+                                                         'month'  => &$d[2],
+                                                         'day'    => &$d[3],
+                                                         'hour'   => &$d[4],
+                                                         'minute' => &$d[5]) ));  
+                                                         
                 $this->tplVar['article']['articledate'] = array();
                 $this->tplVar['article']['articledate']['year']   = $d2[1]; 
                 $this->tplVar['article']['articledate']['month']  = $d2[2];
@@ -426,6 +456,16 @@ class ViewArticleEditArticle extends SmartView
             if( preg_match("/^([0-9]{4})-([0-9]{2})-([0-9]{2}) ([0-9]{2}):([0-9]{2})/",
                            $this->tplVar['article']['changedate'], $d3) )
             {
+                // convert gmt date to user timezone
+                $this->model->action('common', 'gmtConverter',
+                               array('action'   => 'gmtToDate',
+                                     'timezone' => $this->viewVar['loggedUserGmt'],
+                                     'date'     => array('year'   => &$d[1],
+                                                         'month'  => &$d[2],
+                                                         'day'    => &$d[3],
+                                                         'hour'   => &$d[4],
+                                                         'minute' => &$d[5]) ));  
+                                                         
                 $this->tplVar['article']['changedate'] = array();
                 $this->tplVar['article']['changedate']['year']   = $d3[1]; 
                 $this->tplVar['article']['changedate']['month']  = $d3[2];
