@@ -12,6 +12,18 @@
 /**
  * ActionCommonGmtConverter
  *
+ * USAGE:
+        $this->model->action('common', 'gmtConverter',
+                             array('action'   => string,  // 'gmtToDate' or 'dateToGmt'
+                                   'timezone' => int,     // -12 to 12
+                                   'date'     => & $_date // 1. &(string) eg. 2006-11-03 16:34:10
+                                                          // 2. (array)  eg. array('year'   => &(string),
+                                                          //                       'month'  => &(string),
+                                                          //                       'day'    => &(string),
+                                                          //                       'hour'   => &(string),
+                                                          //                       'minute' => &(string)                             
+                                   ));
+ *
  */
 
 class ActionCommonGmtConverter extends SmartAction
@@ -23,6 +35,13 @@ class ActionCommonGmtConverter extends SmartAction
      */
     public function perform( $data = FALSE )
     {
+        // if date is from type string eg. 20005-12-05 20:34:45
+        if(is_string($data['date']))
+        {
+            $this->gmtToUserGmt( $data );
+            return;
+        }
+        
         $timezone = 3600 * $data['timezone'];
         
         $timestamp = $this->_Mktime( $data['date']['year'], 
@@ -49,14 +68,39 @@ class ActionCommonGmtConverter extends SmartAction
         {
             throw new SmartModelException("var 'action' isnt defined");
         }
+        if(!is_string($data['action']))
+        {
+            throw new SmartModelException("var 'action' isnt from type string");
+        }
         if(($data['action'] != "gmtToDate") && ($data['action'] != "dateToGmt"))
         {
-            throw new SmartModelException("var 'action' has wrong value: 'gmtToDate' or 'dateToGmt'");
-        }    
+            throw new SmartModelException("var 'action' has wrong value: 'gmtToDate' or 'dateToGmt'. Value: " . $data['action']);
+        }  
+        
+        if(!isset($data['timezone']))
+        {
+            throw new SmartModelException("'timezone' isnt defined");
+        }
+        if(!is_int($data['timezone']))
+        {
+            throw new SmartModelException("'timezone' isnt from type int");
+        }
+        if( ($data['timezone'] < -12) || ($data['timezone'] > 12) )
+        {
+            throw new SmartModelException("'timezone' value must be from -12 to +12. Value: " . $data['timezone']);
+        }
+        
         if(!isset($data['date']))
         {
             throw new SmartModelException("array 'date' isnt defined");
         }
+        
+        // proceed to the perform methode
+        if(is_string($data['date']))
+        {
+            return TRUE;
+        }
+        
         if(!is_array($data['date']))
         {
             throw new SmartModelException("var 'date' isnt from type array");
@@ -115,9 +159,9 @@ class ActionCommonGmtConverter extends SmartAction
         $this->_Date( $data, $timestamp, $timezone, "sub" );
     }
     
-    private function _Mktime( $year, $month, $day, $hour, $minute )
+    private function _Mktime( $year, $month, $day, $hour, $minute, $second = '0' )
     {
-        return mktime( $hour, $minute, "0", $month, $day, $year );
+        return mktime( $hour, $minute, $second, $month, $day, $year );
     }
     
     private function _Date( & $data, $timestamp, $timezone, $cal )
@@ -136,6 +180,29 @@ class ActionCommonGmtConverter extends SmartAction
         $data['day']    = date( "d", $timestamp );
         $data['hour']   = date( "H", $timestamp );
         $data['minute'] = date( "i", $timestamp );
+    }
+    
+    /**
+     * convert date string from gmt to defined gmt
+     *
+     * @param mixed $data
+     */    
+    private function gmtToUserGmt( & $data )
+    {
+        if(preg_match("/([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})/", $data['date'], $tmp))
+        {
+            // convert date from user timezone to gmt+0
+            $this->model->action('common', 'gmtConverter',
+                           array('action'   => $data['action'],
+                                 'timezone' => $data['timezone'],
+                                 'date'     => array('year'   => &$tmp[1],
+                                                     'month'  => &$tmp[2],
+                                                     'day'    => &$tmp[3],
+                                                     'hour'   => &$tmp[4],
+                                                     'minute' => &$tmp[5]) )); 
+                                                     
+            $data['date'] = $tmp[1].'-'.$tmp[2].'-'.$tmp[3].' '.$tmp[4].':'.$tmp[5].':'.$tmp[6];
+        }
     }
 }
 
