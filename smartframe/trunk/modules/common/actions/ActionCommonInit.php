@@ -87,12 +87,6 @@ class ActionCommonInit extends SmartAction
         
         // check for module upgrade
         $this->checkModuleVersion();   
-  
-        // set base url, except if the cli controller is used
-        if($this->config['controller_type'] != 'cli')
-        {
-            $this->model->baseUrlLocation = $this->base_location();
-        }
        
         // set session handler
         $this->model->sessionHandler = new SmartSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
@@ -105,6 +99,16 @@ class ActionCommonInit extends SmartAction
 
         // init and start session
         $this->startSession();
+
+        // set base url and logged user vars, except if the cli controller is used
+        if($this->config['controller_type'] != 'cli')
+        {
+            $this->model->baseUrlLocation = $this->base_location();
+            
+            $this->model->config['loggedUserId']   = $this->model->session->get('loggedUserId');
+            $this->model->config['loggedUserRole'] = $this->model->session->get('loggedUserRole');
+            $this->model->config['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
+        }
 
         // enable zlib output compression
         if($this->config['output_compression'] == TRUE)
