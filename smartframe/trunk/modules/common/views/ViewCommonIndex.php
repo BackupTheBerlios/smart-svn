@@ -144,20 +144,12 @@ class ViewCommonIndex extends SmartView
     public function auth()
     {
         // if both variables contain NULL, means that the user isnt authenticated.
-        // the prependFilterChain() function check the permission
-        $this->viewVar['loggedUserId']   = $this->model->session->get('loggedUserId');
-        $this->viewVar['loggedUserRole'] = $this->model->session->get('loggedUserRole');
-        $this->viewVar['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
-    }
- 
-    /**
-     * Execute Prepended filter chain
-     *
-     */
-    public function prependFilterChain()
-    {
+        // 
+        $this->viewVar['loggedUserId']   = $this->model->config['loggedUserId'];
+        $this->viewVar['loggedUserRole'] = $this->model->config['loggedUserRole'];
+        
         $this->checkPermission();
-    } 
+    }
 
     /**
      * Check permission to access the admin section
@@ -166,7 +158,7 @@ class ViewCommonIndex extends SmartView
     private function checkPermission()
     {
         // if login user id dosent exists set login target
-        if($this->viewVar['loggedUserId'] === NULL)
+        if($this->model->config['loggedUserId'] === NULL)
         {
             $this->setLoginTarget();
         }
@@ -178,8 +170,8 @@ class ViewCommonIndex extends SmartView
         //
         // Webuser (100) hasnt access to the admin section
         //
-        if(($this->viewVar['loggedUserRole'] === NULL) || 
-           ($this->viewVar['loggedUserRole'] > 40))
+        if(($this->model->config['loggedUserRole'] === NULL) || 
+           ($this->model->config['loggedUserRole'] > 40))
         {
             $this->setLoginTarget();
         }
@@ -187,7 +179,7 @@ class ViewCommonIndex extends SmartView
         {
             // set template variable
             $this->tplVar['isUserLogged'] = TRUE;
-            $this->tplVar['userRole'] = $this->viewVar['loggedUserRole'];
+            $this->tplVar['userRole'] = $this->model->config['loggedUserRole'];
         }    
     }
 
