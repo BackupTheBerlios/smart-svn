@@ -36,7 +36,7 @@ class ActionCommonInit extends SmartAction
     /**
      * Common Module Version
      */
-    const MOD_VERSION = '0.5';    
+    const MOD_VERSION = '0.6';    
     
     /**
      * Run init process of this module
@@ -105,9 +105,9 @@ class ActionCommonInit extends SmartAction
         {
             $this->model->baseUrlLocation = $this->base_location();
             
-            $this->model->config['loggedUserId']   = $this->model->session->get('loggedUserId');
-            $this->model->config['loggedUserRole'] = $this->model->session->get('loggedUserRole');
-            $this->model->config['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
+            $this->config['loggedUserId']   = $this->model->session->get('loggedUserId');
+            $this->config['loggedUserRole'] = $this->model->session->get('loggedUserRole');
+            $this->config['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
         }
 
         // enable zlib output compression
