@@ -4,6 +4,15 @@ Smart3 Framework Change.log
 0.2.7b
 ------
 - update to TinyMce 2.0.5.1
+- update to PEAR XML_RPC 1.4.6
+- update to PEAR HTML_AJAX 0.4
+- added timezone features in modules:
+  All time strings are stored in database
+  in GMT+0. To get work this correctly you
+  have to set:
+  - server timezone in option module
+  - default timezone in option module
+  - user timezone in user module
 
 0.2.6b
 ------
