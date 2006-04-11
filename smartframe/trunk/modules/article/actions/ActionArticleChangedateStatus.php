@@ -25,7 +25,9 @@ class ActionArticleChangedateStatus extends SmartAction
      * @param array $data
      */
     function perform( $data = FALSE )
-    {        
+    {
+        $now = date("Y-m-d H:i:s", time() - $this->config['server_gmt'] * 3600);
+        
         // get articles from where to change its status
         $sql = "
             SELECT
@@ -33,7 +35,7 @@ class ActionArticleChangedateStatus extends SmartAction
             FROM
                 {$this->config['dbTablePrefix']}article_changedate
             WHERE
-                `changedate`<=NOW()";
+                `changedate`<='{$now}'";
         
         $rs = $this->model->dba->query($sql);
         

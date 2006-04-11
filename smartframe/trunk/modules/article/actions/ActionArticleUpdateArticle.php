@@ -78,10 +78,19 @@ class ActionArticleUpdateArticle extends SmartAction
             {
                 continue;
             }
+            elseif(($key == 'pubdate') || ($key == 'articledate'))
+            {
+                $this->dateToGmt( $val, $this->model->config['loggedUserGmt'] );
+            }
+            
             $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
             $comma = ",";
         }
         
+        // create modifydate
+        $modifydate = date("Y-m-d H:i:s", time() - $this->config['server_gmt'] * 3600);
+        $fields .= ",`modifydate`='{$modifydate}'";
+
         $sql = "
             UPDATE {$this->config['dbTablePrefix']}article_article
                 SET
@@ -102,6 +111,8 @@ class ActionArticleUpdateArticle extends SmartAction
             }
             else
             {
+                $this->dateToGmt( $data['fields']['changedate'], $this->model->config['loggedUserGmt'] );
+                
                 // update article changed status
                 $sql = "REPLACE INTO {$this->config['dbTablePrefix']}article_changedate
                            SET `id_article` = {$data['id_article']},
@@ -210,6 +221,15 @@ class ActionArticleUpdateArticle extends SmartAction
             }
         }          
         return TRUE;
+    }
+    
+    private function dateToGmt( & $_date, $timezone )
+    {
+        // convert date from gmt+0 to user timezone 
+        $this->model->action('common', 'gmtConverter',
+                             array('action'   => 'dateToGmt',
+                                   'timezone' => (int)$timezone,
+                                   'date'     => & $_date ));
     }
 }
 

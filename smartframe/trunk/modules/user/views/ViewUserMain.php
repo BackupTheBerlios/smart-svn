@@ -43,7 +43,7 @@ class ViewUserMain extends SmartView
                              array('result'         => & $this->tplVar['users'],
                                    'translate_role' => TRUE,
                                    'or_id_user'     => (int)$this->viewVar['loggedUserId'],
-                                   'role'           => array('>',$this->viewVar['loggedUserRole']),
+                                   'role'           => array('>',$this->config['loggedUserRole']),
                                    'fields' => array('id_user','status',
                                                      'login','role',
                                                      'name','lastname')));  

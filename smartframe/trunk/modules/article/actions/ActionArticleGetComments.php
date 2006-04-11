@@ -158,6 +158,12 @@ class ActionArticleGetComments extends SmartAction
         
         while($row = $rs->fetchAssoc())
         {
+            // adjust gmt+0 date to user date
+            if(isset($row['pubdate']))
+            {
+                $this->gmtToUserGmt( $row['pubdate'] );
+            }
+            
             $data['result'][] = $row;
         } 
     } 
@@ -319,8 +325,44 @@ class ActionArticleGetComments extends SmartAction
             }
         }
         
+        if(isset($data['timezone']))
+        {
+            if(!is_int($data['timezone']))
+            {
+                    throw new SmartModelException('"timezone" isnt from type int'); 
+            }
+            
+            $this->timezone = $data['timezone'];
+        }
+        
         return TRUE;
-    }    
+    }  
+    
+    private function gmtToUserGmt( & $_date )
+    {
+        if(isset($this->timezone))
+        {
+            $timezone = $this->timezone;
+        }
+        elseif(isset($this->model->config['loggedUserGmt']))
+        {
+            $timezone = $this->model->config['loggedUserGmt'];
+        }
+        elseif($this->model->config['default_gmt'])
+        {
+            $timezone = $this->model->config['default_gmt'];
+        }
+        else
+        {
+            throw new SmartModelException('No timezone defined'); 
+        }
+        
+        // convert date from gmt+0 to user timezone 
+        $this->model->action('common', 'gmtConverter',
+                             array('action'   => 'gmtToDate',
+                                   'timezone' => (int)$timezone,
+                                   'date'     => & $_date ));
+    }
 }
 
 ?>

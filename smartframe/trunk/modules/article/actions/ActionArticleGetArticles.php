@@ -236,6 +236,20 @@ class ActionArticleGetArticles extends SmartAction
             {
                 $row['num_comments'] = $this->getNumComments( (int)$row['id_article'] );
             }
+            
+            if(isset($row['pubdate']))
+            {
+                $this->gmtToUserGmt( $row['pubdate'] );
+            }
+            elseif(isset($row['modifydate']))
+            {
+                $this->gmtToUserGmt( $row['modifydate'] );
+            }
+            elseif(isset($row['articledate']))
+            {
+                $this->gmtToUserGmt( $row['articledate'] );
+            }
+            
             $data['result'][] = $row;
         } 
     } 
@@ -479,6 +493,16 @@ class ActionArticleGetArticles extends SmartAction
             }
         }
         
+        if(isset($data['timezone']))
+        {
+            if(!is_int($data['timezone']))
+            {
+                    throw new SmartModelException('"timezone" isnt from type int'); 
+            }
+            
+            $this->timezone = $data['timezone'];
+        }
+        
         return TRUE;
     }  
     
@@ -497,6 +521,32 @@ class ActionArticleGetArticles extends SmartAction
         $row = $rs->fetchAssoc();
         
         return $row['num_rows'];
+    }
+    
+    private function gmtToUserGmt( & $_date )
+    {
+        if(isset($this->timezone))
+        {
+            $timezone = $this->timezone;
+        }
+        elseif(isset($this->model->config['loggedUserGmt']))
+        {
+            $timezone = $this->model->config['loggedUserGmt'];
+        }
+        elseif($this->model->config['default_gmt'])
+        {
+            $timezone = $this->model->config['default_gmt'];
+        }
+        else
+        {
+            throw new SmartModelException('No timezone defined'); 
+        }
+        
+        // convert date from gmt+0 to user timezone 
+        $this->model->action('common', 'gmtConverter',
+                             array('action'   => 'gmtToDate',
+                                   'timezone' => (int)$timezone,
+                                   'date'     => & $_date ));
     }
 }
 

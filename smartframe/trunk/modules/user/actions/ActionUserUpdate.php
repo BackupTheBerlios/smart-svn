@@ -36,7 +36,7 @@ class ActionUserUpdate extends ActionUser
         $fields = "";
         
         foreach($data['fields'] as $key => $val)
-        {
+        {            
             $fields .= $comma."`".$key."`='".$this->model->dba->escape($val)."'";
             $comma   = ",";
         }
@@ -48,7 +48,7 @@ class ActionUserUpdate extends ActionUser
                    `id_user`={$data['id_user']}";
 
         $this->model->dba->query($sql);     
-        
+
         return TRUE;
     }
     
