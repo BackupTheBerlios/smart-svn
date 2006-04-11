@@ -241,11 +241,11 @@ class ActionArticleGetArticles extends SmartAction
             {
                 $this->gmtToUserGmt( $row['pubdate'] );
             }
-            elseif(isset($row['modifydate']))
+            if(isset($row['modifydate']))
             {
                 $this->gmtToUserGmt( $row['modifydate'] );
             }
-            elseif(isset($row['articledate']))
+            if(isset($row['articledate']))
             {
                 $this->gmtToUserGmt( $row['articledate'] );
             }

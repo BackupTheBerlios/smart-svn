@@ -123,11 +123,11 @@ class ActionArticleGetArticle extends SmartAction
         {
             $this->gmtToUserGmt( $data['result']['pubdate'] );
         }
-        elseif(isset($data['result']['modifydate']))
+        if(isset($data['result']['modifydate']))
         {
             $this->gmtToUserGmt( $data['result']['modifydate'] );
         }
-        elseif(isset($data['result']['articledate']))
+        if(isset($data['result']['articledate']))
         {
             $this->gmtToUserGmt( $data['result']['articledate'] );
         }
