@@ -13,9 +13,9 @@
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: Dependency2.php,v 1.46 2005/09/22 01:49:26 cellog Exp $
+ * @version    CVS: $Id: Dependency2.php,v 1.50 2006/01/06 04:47:36 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -35,9 +35,9 @@ require_once 'PEAR/Validate.php';
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.2
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -85,11 +85,18 @@ class PEAR_Dependency2
                               $state = PEAR_VALIDATE_INSTALLING)
     {
         $this->_config = &$config;
-        $this->_registry = &$config->getRegistry();
         if (!class_exists('PEAR_DependencyDB')) {
             require_once 'PEAR/DependencyDB.php';
         }
+        if (isset($installoptions['packagingroot'])) {
+            // make sure depdb is in the right location
+            $config->setInstallRoot($installoptions['packagingroot']);
+        }
+        $this->_registry = &$config->getRegistry();
         $this->_dependencydb = &PEAR_DependencyDB::singleton($config);
+        if (isset($installoptions['packagingroot'])) {
+            $config->setInstallRoot(false);
+        }
         $this->_options = $installoptions;
         $this->_state = $state;
         if (!class_exists('OS_Guess')) {
@@ -518,7 +525,7 @@ class PEAR_Dependency2
      */
     function getPEARVersion()
     {
-        return '1.4.2';
+        return '1.4.9';
     }
 
     function validatePearinstallerDependency($dep)
@@ -816,7 +823,8 @@ class PEAR_Dependency2
                         }
                     }
                 }
-                if (!isset($this->_options['nodeps']) && !isset($this->_options['force'])) {
+                if (!isset($this->_options['nodeps']) && !isset($this->_options['force']) &&
+                      !isset($this->_options['loose'])) {
                     return $this->raiseError('%s dependency package "' . $depname .
                         '" ' . $installed . ' version ' . $version . 
                         ' is not the recommended version ' . $dep['recommended'] .
@@ -996,7 +1004,20 @@ class PEAR_Dependency2
         return true;
     }
 
-    function validatePackage($pkg, &$dl)
+    /**
+     * validate a downloaded package against installed packages
+     * 
+     * As of PEAR 1.4.3, this will only validate
+     *
+     * @param array|PEAR_Downloader_Package|PEAR_PackageFile_v1|PEAR_PackageFile_v2
+     *              $pkg package identifier (either
+     *                   array('package' => blah, 'channel' => blah) or an array with
+     *                   index 'info' referencing an object)
+     * @param PEAR_Downloader $dl
+     * @param array $params full list of packages to install
+     * @return true|PEAR_Error
+     */
+    function validatePackage($pkg, &$dl, $params = array())
     {
         if (is_array($pkg) && isset($pkg['info'])) {
             $deps = $this->_dependencydb->getDependentPackageDependencies($pkg['info']);
@@ -1017,6 +1038,18 @@ class PEAR_Dependency2
             PEAR::pushErrorHandling(PEAR_ERROR_RETURN);
             foreach ($deps as $channel => $info) {
                 foreach ($info as $package => $ds) {
+                    foreach ($params as $packd) {
+                        if (strtolower($packd->getPackage()) == strtolower($package) &&
+                              $packd->getChannel() == $channel) {
+                            $dl->log(3, 'skipping installed package check of "' .
+                                        $this->_registry->parsedPackageNameToString(
+                                            array('channel' => $channel, 'package' => $package),
+                                            true) .
+                                        '", version "' . $packd->getVersion() . '" will be ' .
+                                        'downloaded and installed');
+                            continue 2; // jump to next package
+                        }
+                    }
                     foreach ($ds as $d) {
                         $checker = &new PEAR_Dependency2($this->_config, $this->_options,
                             array('channel' => $channel, 'package' => $package), $this->_state);

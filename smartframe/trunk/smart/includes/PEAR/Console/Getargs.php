@@ -16,7 +16,7 @@
 // | Author: Bertrand Mansion <bmansion@mamasam.com>                      |
 // +----------------------------------------------------------------------+
 //
-// $Id: Getargs.php,v 1.17 2005/04/08 07:11:37 wenz Exp $
+// $Id: Getargs.php,v 1.18 2005/12/04 16:43:14 wenz Exp $
 
 require_once 'PEAR.php';
 
@@ -285,7 +285,12 @@ class Console_Getargs
             // Get the optional, required and "paramter" names for this config.
             list($optional, $required, $params) = Console_Getargs::getOptionalRequired($config);
             // Start with the file name.
-            $helpHeader = 'Usage: '. basename($_SERVER['SCRIPT_NAME']) . ' ';
+            if (isset($_SERVER['SCRIPT_NAME'])) {
+                $filename = basename($_SERVER['SCRIPT_NAME']);
+            } else {
+                $filename = $argv[0];
+            }
+            $helpHeader = 'Usage: '. $filename . ' ';
             // Add the optional arguments and required arguments.
             $helpHeader.= $optional . ' ' . $required . ' ';
             // Add any parameters that are needed.
@@ -415,14 +420,16 @@ class Console_Getargs
         foreach ($config as $long => $def) {
             
             // We only really care about the first option name.
-            $long = reset(explode('|', $long));
+            $long = explode('|', $long);
+            $long = reset($long);
             
             // Treat the "parameters" specially.
             if ($long == CONSOLE_GETARGS_PARAMS) {
                 continue;
             }
             // We only really care about the first option name.
-            $def['short'] = reset(explode('|', $def['short']));
+            $def['short'] = explode('|', $def['short']);
+            $def['short'] = reset($def['short']);
             
             if (!isset($def['min']) || $def['min'] == 0 || isset($def['default'])) {
                 // This argument is optional.

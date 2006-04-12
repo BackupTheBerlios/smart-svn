@@ -13,9 +13,9 @@
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: v2.php,v 1.114 2005/09/27 04:12:53 cellog Exp $
+ * @version    CVS: $Id: v2.php,v 1.129.2.1 2006/03/23 04:07:51 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -27,9 +27,9 @@ require_once 'PEAR/ErrorStack.php';
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.2
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -126,6 +126,11 @@ class PEAR_PackageFile_v2
      * @access private
      */
     var $_incomplete = true;
+
+    /**
+     * @var PEAR_PackageFile_v2_Validator
+     */
+    var $_v2Validator;
 
     /**
      * The constructor merely sets up the private error stack
@@ -310,7 +315,8 @@ class PEAR_PackageFile_v2
             $this->_differentSummary($pf1->getSummary());
             $pass = false;
         }
-        if (trim($pf1->getDescription()) != $this->getDescription()) {
+        if (preg_replace('/\s+/', '', $pf1->getDescription()) !=
+              preg_replace('/\s+/', '', $this->getDescription())) {
             $this->_differentDescription($pf1->getDescription());
             $pass = false;
         }
@@ -318,7 +324,8 @@ class PEAR_PackageFile_v2
             $this->_differentState($pf1->getState());
             $pass = false;
         }
-        if (!strstr(trim($this->getNotes()), trim($pf1->getNotes()))) {
+        if (!strstr(preg_replace('/\s+/', '', $this->getNotes()),
+              preg_replace('/\s+/', '', $pf1->getNotes()))) {
             $this->_differentNotes($pf1->getNotes());
             $pass = false;
         }
@@ -464,6 +471,14 @@ class PEAR_PackageFile_v2
     function setRawState($state)
     {
         $this->_packageInfo['stability']['release'] = $state;
+    }
+
+    /**
+     * WARNING - do not use this function unless you know what you're doing
+     */
+    function setRawCompatible($compatible)
+    {
+        $this->_packageInfo['compatible'] = $compatible;
     }
 
     /**
@@ -648,12 +663,17 @@ class PEAR_PackageFile_v2
             if (isset($this->_packageInfo['contents']['dir']['attribs']['baseinstalldir'])) {
                 if (isset($this->_packageInfo['contents']['dir']['file'][0])) {
                     foreach ($this->_packageInfo['contents']['dir']['file'] as $i => $file) {
+                        if (isset($file['attribs']['baseinstalldir'])) {
+                            continue;
+                        }
                         $this->_packageInfo['contents']['dir']['file'][$i]['attribs']['baseinstalldir']
                             = $this->_packageInfo['contents']['dir']['attribs']['baseinstalldir'];
                     }
                 } else {
-                    $this->_packageInfo['contents']['dir']['file']['attribs']['baseinstalldir']
-                        = $this->_packageInfo['contents']['dir']['attribs']['baseinstalldir'];
+                    if (!isset($this->_packageInfo['contents']['dir']['file']['attribs']['baseinstalldir'])) {
+                       $this->_packageInfo['contents']['dir']['file']['attribs']['baseinstalldir']
+                            = $this->_packageInfo['contents']['dir']['attribs']['baseinstalldir'];
+                    }
                 }
             }
         }
@@ -695,7 +715,7 @@ class PEAR_PackageFile_v2
             foreach ($dir['file'] as $file) {
                 $attrs = $file['attribs'];
                 $name = $attrs['name'];
-                if ($baseinstall) {
+                if ($baseinstall && !isset($attrs['baseinstalldir'])) {
                     $attrs['baseinstalldir'] = $baseinstall;
                 }
                 $attrs['name'] = empty($path) ? $name : $path . '/' . $name;
@@ -715,7 +735,7 @@ class PEAR_PackageFile_v2
 
     function setLogger(&$logger)
     {
-        if ($logger && (!is_object($logger) || !method_exists($logger, 'log'))) {
+        if (!is_object($logger) || !method_exists($logger, 'log')) {
             return PEAR::raiseError('Logger must be compatible with PEAR_Common::log');
         }
         $this->_logger = &$logger;
@@ -817,8 +837,14 @@ class PEAR_PackageFile_v2
     function packageInfo($field)
     {
         $arr = $this->getArray(true);
-        if ($field == 'apiversion') {
+        if ($field == 'state') {
+            return $arr['stability']['release'];
+        }
+        if ($field == 'api-version') {
             return $arr['version']['api'];
+        }
+        if ($field == 'api-state') {
+            return $arr['stability']['api'];
         }
         if (isset($arr['old'][$field])) {
             if (!is_string($arr['old'][$field])) {
@@ -893,7 +919,7 @@ class PEAR_PackageFile_v2
 
     function getMaintainers($raw = false)
     {
-        if (!$this->_isValid && !$this->validate()) {
+        if (!isset($this->_packageInfo['lead'])) {
             return false;
         }
         if ($raw) {
@@ -1632,6 +1658,7 @@ class PEAR_PackageFile_v2
                             if (!isset($dep['min']) &&
                                   !isset($dep['max'])) {
                                 $s['rel'] = 'has';
+                                $s['optional'] = $optional;
                             } elseif (isset($dep['min']) &&
                                   isset($dep['max'])) {
                                 $s['rel'] = 'ge';
@@ -1650,14 +1677,24 @@ class PEAR_PackageFile_v2
                                 $s1['optional'] = $optional;
                                 $ret[] = $s1;
                             } elseif (isset($dep['min'])) {
-                                $s['rel'] = 'ge';
+                                if (isset($dep['exclude']) &&
+                                      $dep['exclude'] == $dep['min']) {
+                                    $s['rel'] = 'gt';
+                                } else {
+                                    $s['rel'] = 'ge';
+                                }
                                 $s['version'] = $dep['min'];
                                 $s['optional'] = $optional;
                                 if ($dtype != 'php') {
                                     $s['name'] = $dep['name'];
                                 }
                             } elseif (isset($dep['max'])) {
-                                $s['rel'] = 'le';
+                                if (isset($dep['exclude']) &&
+                                      $dep['exclude'] == $dep['max']) {
+                                    $s['rel'] = 'lt';
+                                } else {
+                                    $s['rel'] = 'le';
+                                }
                                 $s['version'] = $dep['max'];
                                 $s['optional'] = $optional;
                                 if ($dtype != 'php') {
@@ -1821,7 +1858,11 @@ class PEAR_PackageFile_v2
 
     function analyzeSourceCode($file, $string = false)
     {
-        if (!isset($this->_v2Validator)) {
+        if (!isset($this->_v2Validator) ||
+              !is_a($this->_v2Validator, 'PEAR_PackageFile_v2_Validator')) {
+            if (!class_exists('PEAR_PackageFile_v2_Validator')) {
+                require_once 'PEAR/PackageFile/v2/Validator.php';
+            }
             $this->_v2Validator = new PEAR_PackageFile_v2_Validator;
         }
         return $this->_v2Validator->analyzeSourceCode($file, $string);
@@ -1832,7 +1873,8 @@ class PEAR_PackageFile_v2
         if (!isset($this->_packageInfo) || !is_array($this->_packageInfo)) {
             return false;
         }
-        if (!isset($this->_v2Validator)) {
+        if (!isset($this->_v2Validator) ||
+              !is_a($this->_v2Validator, 'PEAR_PackageFile_v2_Validator')) {
             if (!class_exists('PEAR_PackageFile_v2_Validator')) {
                 require_once 'PEAR/PackageFile/v2/Validator.php';
             }

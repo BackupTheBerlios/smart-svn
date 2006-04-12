@@ -13,9 +13,9 @@
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    CVS: $Id: v1.php,v 1.63 2005/10/03 03:20:12 cellog Exp $
+ * @version    CVS: $Id: v1.php,v 1.69 2006/03/02 18:14:13 cellog Exp $
  * @link       http://pear.php.net/package/PEAR
  * @since      File available since Release 1.4.0a1
  */
@@ -279,9 +279,9 @@ define('PEAR_PACKAGEFILE_ERROR_INVALID_FILENAME', 52);
  * @category   pear
  * @package    PEAR
  * @author     Greg Beaver <cellog@php.net>
- * @copyright  1997-2005 The PHP Group
+ * @copyright  1997-2006 The PHP Group
  * @license    http://www.php.net/license/3_0.txt  PHP License 3.0
- * @version    Release: 1.4.2
+ * @version    Release: 1.4.9
  * @link       http://pear.php.net/package/PEAR
  * @since      Class available since Release 1.4.0a1
  */
@@ -1039,7 +1039,7 @@ class PEAR_PackageFile_v1
                 PEAR_PACKAGEFILE_ERROR_CHANNELVAL =>
                     'Channel validator error: field "%field%" - %reason%',
                 PEAR_PACKAGEFILE_ERROR_PHP5 =>
-                    'Error, PHP5 token encountered, analysis should be in PHP5',
+                    'Error, PHP5 token encountered in %file%, analysis should be in PHP5',
                 PEAR_PACKAGEFILE_ERROR_FILE_NOTFOUND =>
                     'File "%file%" in package.xml does not exist',
                 PEAR_PACKAGEFILE_ERROR_NON_ISO_CHARS =>
@@ -1192,7 +1192,7 @@ class PEAR_PackageFile_v1
                     $this->_validateError(PEAR_PACKAGEFILE_ERROR_INVALID_FILEROLE,
                         array('file' => $file, 'role' => $fa['role'], 'roles' => PEAR_Common::getFileRoles()));
                 }
-                if ($file{0} == '.') {
+                if ($file{0} == '.' && $file{1} == '/') {
                     $this->_validateError(PEAR_PACKAGEFILE_ERROR_INVALID_FILENAME,
                         array('file' => $file));
                 }
@@ -1200,6 +1200,10 @@ class PEAR_PackageFile_v1
         }
         if (isset($this->_registry) && $this->_isValid) {
             $chan = $this->_registry->getChannel('pear.php.net');
+            if (PEAR::isError($chan)) {
+                $this->_validateError(PEAR_PACKAGEFILE_ERROR_CHANNELVAL, $chan->getMessage());
+                return $this->_isValid = 0;
+            }
             $validator = $chan->getValidationObject();
             $validator->setPackageFile($this);
             $validator->validate($state);
@@ -1401,6 +1405,7 @@ class PEAR_PackageFile_v1
                     continue;
                 } else {
                     $inquote = false;
+                    continue;
                 }
             }
             switch ($token) {
@@ -1452,9 +1457,10 @@ class PEAR_PackageFile_v1
                     if (version_compare(zend_version(), '2.0', '<')) {
                         if (in_array(strtolower($data),
                             array('public', 'private', 'protected', 'abstract',
-                                  'interface', 'implements', 'clone', 'throw') 
+                                  'interface', 'implements', 'throw') 
                                  )) {
-                            $this->_validateWarning(PEAR_PACKAGEFILE_ERROR_PHP5);
+                            $this->_validateWarning(PEAR_PACKAGEFILE_ERROR_PHP5,
+                                array($file));
                         }
                     }
                     if ($look_for == T_CLASS) {
