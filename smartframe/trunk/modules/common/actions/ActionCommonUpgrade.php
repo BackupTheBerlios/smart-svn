@@ -121,9 +121,15 @@ class ActionCommonUpgrade extends SmartAction
                
         $this->model->dba->query($sql);
         
+        $sql = "ALTER TABLE {$this->config['dbTablePrefix']}common_config
+                ADD `css_folder` varchar(255) NOT NULL default '{$this->config['smart_version']}' 
+                AFTER `templates_folder`";
+               
+        $this->model->dba->query($sql);
+        
         $this->config['smart_version_num'] = '0.5';
     }
-    
+
     /**
      * Validate data passed to this action
      */

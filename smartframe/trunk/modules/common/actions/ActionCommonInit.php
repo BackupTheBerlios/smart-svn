@@ -36,7 +36,7 @@ class ActionCommonInit extends SmartAction
     /**
      * Common Module Version
      */
-    const MOD_VERSION = '0.6';    
+    const MOD_VERSION = '0.5';    
     
     /**
      * Run init process of this module
@@ -90,24 +90,35 @@ class ActionCommonInit extends SmartAction
        
         // set session handler
         $this->model->sessionHandler = new SmartSessionHandler( $this->model->dba, $this->config['dbTablePrefix'] );
-              
+
         // load global config variables of the common module   
         $this->loadConfig(); 
 
-        // check for smart core framework version upgrade
-        $this->checkSmartVersion();
-
         // init and start session
         $this->startSession();
+              
+        // check for smart core framework version upgrade
+        $this->checkSmartVersion();
 
         // set base url and logged user vars, except if the cli controller is used
         if($this->config['controller_type'] != 'cli')
         {
             $this->model->baseUrlLocation = $this->base_location();
             
-            $this->config['loggedUserId']   = $this->model->session->get('loggedUserId');
-            $this->config['loggedUserRole'] = $this->model->session->get('loggedUserRole');
-            $this->config['loggedUserGmt']  = $this->model->session->get('loggedUserGmt');
+            $this->config['loggedUserId']     = $this->model->session->get('loggedUserId');
+            $this->config['loggedUserRole']   = $this->model->session->get('loggedUserRole');
+            $this->config['loggedUserGmt']    = $this->model->session->get('loggedUserGmt');
+
+            // if session var for public templates and css folders are defined
+            // overwrite default ones
+            if(  NULL != ($tplFolder = $this->model->session->get('templates_folder')) )
+            {
+                $this->config['templates_folder'] = $tplFolder;
+            }
+            if(  NULL != ($cssFolder = $this->model->session->get('css_folder')) )
+            {
+                $this->config['css_folder'] = $cssFolder;
+            }  
         }
 
         // enable zlib output compression

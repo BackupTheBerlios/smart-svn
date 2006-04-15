@@ -79,6 +79,7 @@ class ActionCommonSetup extends SmartAction
                  `smart_version_num`   varchar(50) NOT NULL default '',
                  `site_url`            varchar(255) NOT NULL default '',
                  `templates_folder`    varchar(255) NOT NULL default '',
+                 `css_folder`          varchar(255) NOT NULL default '',
                  `views_folder`        varchar(255) NOT NULL default '',
                  `disable_cache`       tinyint(1) NOT NULL default 1,
                  `textarea_rows`       tinyint(2) NOT NULL default 25,
@@ -91,9 +92,9 @@ class ActionCommonSetup extends SmartAction
         $this->model->dba->query($sql);
 
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_config
-                 (`charset`,`templates_folder`, `views_folder`,`rejected_files`)
+                 (`charset`, `templates_folder`, `css_folder`, `views_folder`,`rejected_files`)
                 VALUES
-                 ('{$data['charset']}','{$this->model->config['default_template_folder']}','{$this->model->config['default_view_folder']}','.php,.php3,.php4,.php5,.phps,.pl,.py')";
+                 ('{$data['charset']}','{$this->model->config['default_template_folder']}','{$this->model->config['default_css_folder']}','{$this->model->config['default_view_folder']}','.php,.php3,.php4,.php5,.phps,.pl,.py')";
         $this->model->dba->query($sql);
 
         $sql = "CREATE TABLE IF NOT EXISTS {$data['config']['db']['dbTablePrefix']}common_module (
@@ -112,7 +113,7 @@ class ActionCommonSetup extends SmartAction
         $sql = "INSERT INTO {$data['config']['db']['dbTablePrefix']}common_module
                  (`name`, `alias`, `rank`, `version`, `visibility`, `perm`, `release`)
                 VALUES
-                 ('common','', 0,'0.4',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
+                 ('common','', 0,'0.5',0,10,'DATE: 6.5.2005 AUTHOR: Armand Turpel <framework@smart3.org>')";
         $this->model->dba->query($sql);            
 
         return TRUE;
