@@ -19,6 +19,7 @@ class ActionOptionsUpdateConfigOptions extends SmartAction
     protected $tblFields_config = 
                       array('site_url'            => 'String',
                             'templates_folder'    => 'String',
+                            'css_folder'          => 'String',
                             'views_folder'        => 'String',
                             'disable_cache'       => 'Int',
                             'max_lock_time'       => 'Int',

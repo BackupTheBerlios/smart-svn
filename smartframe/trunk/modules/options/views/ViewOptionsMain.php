@@ -82,9 +82,11 @@ class ViewOptionsMain extends SmartView
     {
         $this->tplVar['siteUrl']              = $this->config['site_url'];
         $this->tplVar['publicTplFolder']      = $this->config['templates_folder'];
+        $this->tplVar['publicCssFolder']      = $this->config['css_folder'];
         $this->tplVar['publicViewFolder']     = $this->config['views_folder'];
         $this->tplVar['allPublicViewFolders'] = $this->getPublicFolders( 'views_' );
         $this->tplVar['allPublicTplFolders']  = $this->getPublicFolders( 'templates_' );
+        $this->tplVar['allPublicCssFolders']  = $this->getPublicFolders( 'css_' );
         $this->tplVar['rejectedFiles']        = $this->config['rejected_files'];
         $this->tplVar['maxLockTime']          = $this->config['max_lock_time'];
         $this->tplVar['sessionMaxlifetime']   = $this->config['session_maxlifetime'];
@@ -97,7 +99,7 @@ class ViewOptionsMain extends SmartView
     } 
     
     /**
-     * Get all public views/templates folders
+     * Get all public views/templates/css folders
      */
     private function getPublicFolders( $folder_prefix )
     {
@@ -147,10 +149,17 @@ class ViewOptionsMain extends SmartView
             $this->fields['site_url'] = (string)$_POST['site_url'];
             $this->config['site_url'] = (string)$_POST['site_url'];
         }  
+        
         if(isset($_POST['templates_folder']))
         {
             $this->fields['templates_folder'] = (string)$_POST['templates_folder'];
             $this->config['templates_folder'] = (string)$_POST['templates_folder'];
+        }  
+
+        if(isset($_POST['css_folder']))
+        {
+            $this->fields['css_folder'] = (string)$_POST['css_folder'];
+            $this->config['css_folder'] = (string)$_POST['css_folder'];
         }  
 
         if(isset($_POST['views_folder']) && !empty($_POST['views_folder']))

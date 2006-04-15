@@ -6,7 +6,8 @@
     <td colspan="2" align="left" valign="top" class="moduleheader2">global options</td>
     </tr>
   <tr>
-    <td width="74%" align="left" valign="top">      <table width="100%" border="0" cellspacing="2" cellpadding="2">
+    <td width="74%" align="left" valign="top">      
+     <table width="100%" border="0" cellspacing="2" cellpadding="2">
       <tr>
         <td align="left" valign="top" class="font10bold">Site Url</td>
       </tr>
@@ -24,6 +25,21 @@
        <input name="templates_folder" type="radio" value=""<?php if($tpl['publicTplFolder']==$_tpl) echo " checked"; ?>> /<br /><br />    
     <?php else: ?>
        <input name="templates_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($tpl['publicTplFolder']==$_tpl) echo " checked"; ?>> 
+       <?php echo $_tpl; ?><br /><br />
+    <?php endif; ?>
+    <?php endforeach; ?>
+    </td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10bold">Public css folders</td>
+      </tr>
+      <tr>
+        <td align="left" valign="top" class="font10">
+    <?php foreach($tpl['allPublicCssFolders'] as $_tpl): ?>
+    <?php if(empty($_tpl)): ?>
+       <input name="css_folder" type="radio" value=""<?php if($tpl['publicCssFolder']==$_tpl) echo " checked"; ?>> /<br /><br />    
+    <?php else: ?>
+       <input name="css_folder" type="radio" value="<?php echo $_tpl; ?>"<?php if($tpl['publicCssFolder']==$_tpl) echo " checked"; ?>> 
        <?php echo $_tpl; ?><br /><br />
     <?php endif; ?>
     <?php endforeach; ?>
