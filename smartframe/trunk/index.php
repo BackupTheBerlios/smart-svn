@@ -1,7 +1,7 @@
 <?php
 // ----------------------------------------------------------------------
 // Smart3 PHP Framework
-// Copyright (c) 2004, 2005, 2005
+// Copyright (c) 2004, 2005, 2006
 // by Armand Turpel < framework@smart3.org >
 // http://www.smart3.org/
 // ----------------------------------------------------------------------
@@ -10,7 +10,7 @@
 // ----------------------------------------------------------------------
 
 /*
- * The Front Controller
+ * The Front Controller for html web applications
  *
  */
 
@@ -23,7 +23,7 @@ if(!defined( 'SMART_CONTROLLER' ))
 }
 
 /*
- * Relative path to SMART. Example: 'test/'
+ * Relative path to SMART3. Example: 'test/'
  */
 if(!defined( 'SMART_RELATIVE_PATH' ))
 {
@@ -50,6 +50,16 @@ if(!defined( 'SMART_TPL_FOLDER' ))
 }
 */
 
+/*
+ * Force to use the css folder, independed of the sys config settings.
+ */
+/*
+if(!defined( 'SMART_CSS_FOLDER' ))
+{
+   define('SMART_CSS_FOLDER', 'css_default/'); 
+}
+*/
+
 /* #################################################### */
 /* ######### Dont change any thing below !!! ########## */
 /* #################################################### */
@@ -62,12 +72,13 @@ if(!defined( 'SMART_SECURE_INCLUDE' ))
     define('SMART_SECURE_INCLUDE', 1);
 }
 
-// Define the absolute path to SMART
+// Define the absolute path to SMART3
 //
 define('SMART_BASE_DIR', dirname(__FILE__) . '/');
 
 // Include the system core file. use this for debuging
 include( SMART_BASE_DIR . 'smart/includes/smart_core.php' );
+
 // Include the system core file. use this for production in order to the previous include
 // include( SMART_BASE_DIR . 'smart/includes/smart_all_in_one.php' );
 

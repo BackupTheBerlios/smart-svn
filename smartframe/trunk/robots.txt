@@ -7,6 +7,7 @@ Disallow: /logs
 Disallow: /modules
 Disallow: /smart
 Disallow: /templates
+Disallow: /css
 Disallow: /views
 Disallow: /admin.php
 Disallow: /cli.php
