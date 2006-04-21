@@ -50,16 +50,6 @@ if(!defined( 'SMART_TPL_FOLDER' ))
 }
 */
 
-/*
- * Force to use the css folder, independed of the sys config settings.
- */
-/*
-if(!defined( 'SMART_CSS_FOLDER' ))
-{
-   define('SMART_CSS_FOLDER', 'css_default/'); 
-}
-*/
-
 /* #################################################### */
 /* ######### Dont change any thing below !!! ########## */
 /* #################################################### */
