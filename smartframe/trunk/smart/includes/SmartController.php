@@ -86,20 +86,18 @@ class SmartController extends SmartObject
 
             // A "common" base module must be present
             //
-            $mod_common = SMART_BASE_DIR . 'modules/' . $this->config['base_module'];
-
-            if(file_exists( $mod_common ))
+            if( $this->config['base_module'] != '' )
             {
-                // get this module folder
-                $this->model->init( $this->config['base_module'] );
-            }
-            else
-            {
-                throw new SmartInitException("The module '{$mod_common}'  must be installed!");
+                $mod_common = SMART_BASE_DIR . 'modules/' . $this->config['base_module'];
+  
+                if( @is_dir( $mod_common ) )
+                {
+                    $this->model->init( $this->config['base_module'] );
+                }
             }
 
             // check if a module was declared, which should play the last role in a broadcast action event
-            if( isset($this->config['last_module']) )
+            if( $this->config['last_module'] != '' )
             {
                 $last_module = $this->config['last_module'];
             }
@@ -140,10 +138,6 @@ class SmartController extends SmartObject
                 if ( @is_dir( $mod_init ) )
                 {
                     $this->model->init( $last_module );
-                }
-                else
-                {
-                    throw new SmartInitException("The 'last' module folder '{$mod_init}' is missing!");
                 }
             }                         
         } 

@@ -19,7 +19,7 @@
  */
 if (!defined( 'SMART_SECURE_INCLUDE' ))
 {
-    die('no permission on smart_core.php');
+    exit;
 }
 
 // Start output buffering
@@ -173,7 +173,7 @@ if (@file_exists(SMART_BASE_DIR . 'config/my_config.php'))
 }
 
 /**
- * Module name from which retrive a view name.
+ * array of module names from which retrive a view name.
  * The name of the class that is associated with a view
  */
 $SmartConfig['view_map']  = array();
