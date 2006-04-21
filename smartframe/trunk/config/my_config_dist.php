@@ -39,17 +39,22 @@ $SmartConfig['admin_web_controller'] = 'admin.php';
 $SmartConfig['public_web_controller'] = 'index.php';
 
 /**
- * The common module name. This module is required!
+ * The common module name.
  */
 $SmartConfig['base_module'] = 'common';
 
 /**
- * The default module name. This module is required!
+ * The module name which is receives the last message in an broadcast action!
+ */
+$SmartConfig['last_module'] = '';
+
+/**
+ * The default module name.
  */
 $SmartConfig['default_module'] = 'default';
 
 /**
- * The setup module name. This module is required!
+ * The setup module name. 
  */
 $SmartConfig['setup_module'] = 'setup';
 
