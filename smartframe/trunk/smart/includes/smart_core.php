@@ -60,6 +60,11 @@ $SmartConfig['cache_path'] = SMART_BASE_DIR . 'cache/';
 $SmartConfig['base_module'] = 'common';
 
 /**
+ * The module name which is receives the last message in an broadcast action!
+ */
+$SmartConfig['last_module'] = 'user';
+
+/**
  * The default module name. This module is required!
  */
 $SmartConfig['default_module'] = 'default';
